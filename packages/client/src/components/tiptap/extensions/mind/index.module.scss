@@ -1,0 +1,115 @@
+.wrap {
+  position: relative;
+  max-width: 100%;
+  margin: 12px 0;
+  line-height: 0;
+  overflow: visible;
+  outline: none;
+
+  .jsmindWrap {
+    position: absolute;
+    left: 50%;
+    bottom: 0px;
+    z-index: 200;
+    max-width: 100%;
+    transform: translate(-50%, 0);
+    opacity: 0;
+    padding-bottom: 10px;
+
+    .jsmindInnerWrap {
+      padding: 6px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      border: 1px solid var(--semi-color-border);
+      background-color: var(--semi-color-bg-2);
+    }
+  }
+
+  .renderWrap {
+    position: relative;
+    min-height: 50px;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--semi-color-border);
+    outline: none;
+
+    > input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10000;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+    }
+
+    .mindHandlerWrap {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1000;
+      padding: 4px 8px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      border: 1px solid var(--semi-color-border);
+      background-color: var(--semi-color-bg-2);
+      opacity: 0;
+    }
+  }
+
+  &:hover {
+    .jsmindWrap {
+      opacity: 1;
+    }
+
+    .renderWrap {
+      .mindHandlerWrap {
+        opacity: 1;
+      }
+    }
+  }
+
+  .handlerWrap {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-top: 1px solid var(--semi-color-border);
+  }
+
+  :global {
+    jmnodes {
+      jmnode {
+        outline: 2px solid transparent;
+        color: var(--semi-color-text-1);
+        background-color: var(--semi-color-fill-2);
+        box-shadow: none;
+
+        &:first-of-type {
+          color: #fff;
+          background-color: var(--semi-color-link);
+        }
+
+        &.selected {
+          outline: 2px solid var(--semi-color-link);
+        }
+
+        input {
+          width: 100px !important;
+          height: 100%;
+          border: 0;
+          outline: none;
+          background-color: #fff;
+        }
+      }
+
+      jmexpander {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 12px;
+        height: 12px;
+        border-color: var(--semi-color-border);
+      }
+    }
+  }
+}

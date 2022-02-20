@@ -1,0 +1,33 @@
+.wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--semi-color-nav-bg);
+
+  .headerWrap {
+    position: sticky;
+  }
+
+  .contentWrap {
+    padding: 24px 24px 48px;
+    flex: 1;
+    overflow: auto;
+
+    .editorWrap {
+      padding-bottom: 24px;
+
+      &.isStandardWidth {
+        width: 96%;
+        max-width: 750px;
+        margin: 0 auto;
+        overflow: auto;
+      }
+
+      &.isFullWidth {
+        width: 100%;
+        margin: 0 auto;
+        overflow: auto;
+      }
+    }
+  }
+}

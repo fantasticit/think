@@ -1,0 +1,200 @@
+@import "~@douyinfe/semi-ui/dist/css/semi.min.css";
+@import "./var.scss";
+@import "./extension.scss";
+@import "./prosemirror.scss";
+@import "./github.scss";
+@import "./github-dark.scss";
+@import "./jsmind.scss";
+@import "./katex.scss";
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* Set core body defaults */
+body {
+  height: 100vh;
+  height: var(--app-height);
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+
+  > div#__next {
+    height: 100%;
+  }
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  display: inline-block;
+  max-width: 100%;
+  // display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 750px;
+  }
+}
+
+.Resizer {
+  background: var(--semi-color-border);
+  opacity: 0.2;
+  z-index: 1;
+  box-sizing: border-box;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+
+.Resizer:hover {
+  -webkit-transition: all 2s ease;
+  transition: all 2s ease;
+}
+
+.Resizer.horizontal {
+  height: 1px;
+  margin: -5px 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  cursor: row-resize;
+  width: 100%;
+}
+
+.Resizer.horizontal:hover {
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.Resizer.vertical {
+  width: 1px;
+  margin: 0 -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  cursor: col-resize;
+}
+
+.Resizer.vertical:hover {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.Resizer.disabled {
+  cursor: not-allowed;
+}
+.Resizer.disabled:hover {
+  border-color: transparent;
+}
+
+.semi-navigation-sub-title-selected {
+  background-color: var(--semi-color-primary-light-default);
+  color: var(--semi-color-text-0);
+}
+
+.react-resizable {
+  position: relative;
+}
+
+.react-resizable-handle {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 56px;
+  height: 8px;
+  background-color: #d9d9d9;
+  border-radius: 4px;
+  position: absolute;
+  margin-left: -28px;
+}
+
+.react-resizable-handle-n,
+.react-resizable-handle-s {
+  cursor: ns-resize;
+}

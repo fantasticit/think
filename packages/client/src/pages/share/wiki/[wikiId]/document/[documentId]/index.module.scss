@@ -1,0 +1,31 @@
+.rightWrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .form {
+    margin: 0 auto;
+    width: 400px;
+    padding: 48px 0;
+  }
+
+  .content {
+    flex: 1;
+    overflow: hidden;
+    background-color: var(--semi-color-bg-0);
+
+    > div {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .editorWrap {
+      height: 100%;
+      overflow: auto;
+
+      .fullscrren {
+        font-size: 1.5em;
+      }
+    }
+  }
+}

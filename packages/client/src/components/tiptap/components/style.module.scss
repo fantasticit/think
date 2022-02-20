@@ -1,0 +1,35 @@
+.colorWrap {
+  display: flex;
+  flex-wrap: wrap;
+  width: 240px;
+  padding: 8px;
+
+  .colorItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+
+    &:nth-of-type(n + 8) {
+      margin-top: 4px;
+    }
+
+    > span {
+      display: block;
+      width: 28px;
+      height: 28px;
+      border-radius: 2px;
+      border: 1px solid var(--semi-color-border);
+    }
+  }
+}
+
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}

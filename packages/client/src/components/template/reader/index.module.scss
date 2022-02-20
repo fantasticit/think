@@ -1,0 +1,33 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+
+  .contentWrap {
+    flex: 1;
+    overflow: hidden;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .editorWrap {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+}
+
+.isStandardWidth {
+  width: 96%;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.isFullWidth {
+  width: 100%;
+  margin: 0 auto;
+}

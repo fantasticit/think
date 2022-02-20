@@ -1,0 +1,35 @@
+.wrap {
+  margin-top: -16px;
+  height: 100%;
+
+  .headerWrap {
+    position: sticky;
+  }
+
+  .contentWrap {
+    height: 100%;
+    padding: 24px 0;
+    overflow: hidden;
+
+    .editorWrap {
+      padding-bottom: 24px;
+      overflow: auto;
+
+      &.isStandardWidth {
+        width: 96%;
+        max-width: 750px;
+        margin: 0 auto;
+      }
+
+      &.isFullWidth {
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+
+    .commentWrap {
+      padding: 16px 0;
+      border-top: 1px solid var(--semi-color-border);
+    }
+  }
+}

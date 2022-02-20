@@ -1,0 +1,43 @@
+.commentsWrap {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--semi-color-border);
+
+  .paginationWrap {
+    display: flex;
+    justify-content: center;
+    padding: 16px 0;
+  }
+}
+
+.editorOuterWrap {
+  padding-top: 24px;
+  display: flex;
+
+  .rightWrap {
+    flex: 1;
+    margin-left: 16px;
+    overflow: auto;
+
+    .placeholderWrap {
+      padding: 12px 16px;
+      border: 1px solid var(--semi-color-border);
+      border-radius: var(--semi-border-radius-small);
+    }
+
+    .editorWrap {
+      padding: 12px 16px;
+      border: 1px solid var(--semi-color-border);
+      border-radius: var(--semi-border-radius-small);
+
+      .innerWrap {
+        max-height: 240px;
+        padding: 16px 0;
+        overflow: auto;
+      }
+    }
+
+    .btnWrap {
+      margin-top: 16px;
+    }
+  }
+}

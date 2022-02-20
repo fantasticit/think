@@ -1,0 +1,52 @@
+.resizable {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  max-width: 100%;
+
+  .resizer {
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 9999;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #4286f4;
+    opacity: 0;
+  }
+
+  .resizer.topLeft {
+    left: -5px;
+    top: -5px;
+    cursor: nwse-resize;
+  }
+
+  .resizer.topRight {
+    right: -5px;
+    top: -5px;
+    cursor: nesw-resize;
+  }
+
+  .resizer.bottomLeft {
+    left: -5px;
+    bottom: -5px;
+    cursor: nesw-resize;
+  }
+
+  .resizer.bottomRight {
+    right: -5px;
+    bottom: -5px;
+    cursor: nwse-resize;
+  }
+
+  &.isActive {
+    border: 1px solid #4286f4;
+
+    .resizer {
+      opacity: 1;
+    }
+  }
+}

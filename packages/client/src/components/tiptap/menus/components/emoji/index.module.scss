@@ -1,0 +1,30 @@
+.wrap {
+  height: 300px;
+  padding: 14px;
+  overflow: auto;
+}
+
+.sectionWrap {
+}
+
+.listWrap {
+  display: flex;
+  flex-wrap: wrap;
+
+  list-style: none;
+
+  width: 320px;
+  padding: 0;
+  margin: 0;
+
+  > li {
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    cursor: pointer;
+  }
+}

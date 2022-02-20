@@ -1,0 +1,47 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--semi-color-nav-bg);
+
+  > div {
+    :global {
+      .Pane2 {
+        height: 100%;
+        overflow: auto;
+      }
+    }
+  }
+
+  .leftWrap {
+    position: relative;
+    border-right: 1px solid var(--semi-color-border);
+
+    .leftContentWrap {
+      height: 100%;
+    }
+
+    .collapseBtn {
+      position: absolute;
+      z-index: 100;
+      top: 1rem;
+      right: 0;
+      transform: translate(50%);
+      opacity: 0;
+
+      &.isCollapsed {
+        opacity: 1;
+      }
+    }
+
+    &:hover {
+      .collapseBtn {
+        opacity: 1;
+      }
+    }
+  }
+
+  .rightWrap {
+    height: 100%;
+  }
+}

@@ -1,0 +1,36 @@
+.wrap {
+  display: flex;
+  padding: 9px 0px 9px 0;
+
+  + .wrap {
+    margin-top: 16px;
+  }
+
+  .rightWrap {
+    flex: 1;
+    margin-left: 16px;
+    overflow: auto;
+
+    > main {
+      margin: 10px 0;
+      color: var(--semi-color-text-0);
+    }
+
+    > footer {
+      //   height: 0;
+      //   transition: all ease-in-out 0.3s;
+
+      span {
+        cursor: pointer;
+      }
+    }
+  }
+
+  //   &:hover {
+  //     .rightWrap {
+  //       > footer {
+  //         height: 40px;
+  //       }
+  //     }
+  //   }
+}

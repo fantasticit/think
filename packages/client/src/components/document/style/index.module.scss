@@ -1,0 +1,17 @@
+.wrap {
+  padding: 16px;
+
+  .item {
+    :global {
+      .semi-slider {
+        padding: 0 4px;
+      }
+
+      .semi-slider-handle {
+        width: 12px;
+        height: 12px;
+        margin-top: 10px;
+      }
+    }
+  }
+}
