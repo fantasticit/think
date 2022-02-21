@@ -121,7 +121,7 @@ export class TemplateService {
    */
   async useTemplate(user: OutUser, templateId) {
     const data = await this.templateRepo.findOne(templateId);
-    if (user.id !== data.createUserId) {
+    if (user.id !== data.createUserId && !data.isPublic) {
       throw new HttpException(
         '您不是模板创建者，无法编辑',
         HttpStatus.FORBIDDEN,
