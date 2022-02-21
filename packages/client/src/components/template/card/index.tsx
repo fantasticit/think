@@ -14,6 +14,7 @@ import {
 import { IconEdit, IconUser, IconPlus } from "@douyinfe/semi-icons";
 import { IconDocument } from "components/icons/IconDocument";
 import { TemplateReader } from "components/template/reader";
+import { useUser } from "data/user";
 import styles from "./index.module.scss";
 import { useToggle } from "hooks/useToggle";
 
@@ -34,6 +35,7 @@ export const TemplateCard: React.FC<IProps> = ({
   onOpenPreview,
   onClosePreview,
 }) => {
+  const { user } = useUser();
   const [visible, toggleVisible] = useToggle(false);
 
   const gotoEdit = useCallback(() => {
@@ -63,16 +65,18 @@ export const TemplateCard: React.FC<IProps> = ({
         <header>
           <IconDocument />
           <div className={styles.rightWrap}>
-            <Space>
-              <Tooltip key="edit" content="编辑" position="bottom">
-                <Button
-                  type="tertiary"
-                  theme="borderless"
-                  icon={<IconEdit />}
-                  onClick={gotoEdit}
-                />
-              </Tooltip>
-            </Space>
+            {template.createUser && user && template.createUser.id === user.id && (
+              <Space>
+                <Tooltip key="edit" content="编辑模板" position="bottom">
+                  <Button
+                    type="tertiary"
+                    theme="borderless"
+                    icon={<IconEdit />}
+                    onClick={gotoEdit}
+                  />
+                </Tooltip>
+              </Space>
+            )}
           </div>
         </header>
         <main>
