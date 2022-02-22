@@ -630,7 +630,7 @@ export class DocumentService {
       userId: user.id,
     });
 
-    if (!authority || !authority.editable) {
+    if (!authority || !authority.readable) {
       throw new HttpException(
         '您无权查看该文档下的子文档',
         HttpStatus.FORBIDDEN,
@@ -685,8 +685,6 @@ export class DocumentService {
     documentId?: string;
   }) {
     const { wikiId, documentId } = data;
-
-    console.log('share');
 
     const document = documentId
       ? await this.documentRepo.findOne(documentId)
