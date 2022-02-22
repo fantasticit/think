@@ -10,6 +10,7 @@ const nextConfig = semi({
   env: {
     SERVER_API_URL: config.apiUrl,
     COLLABORATION_API_URL: config.collaborationUrl,
+    ENABLE_ALIYUN_OSS: config?.oss?.aliyun?.accessKeyId,
   },
   webpack: (config, { dev, isServer }) => {
     config.resolve.plugins.push(new TsconfigPathsPlugin());
