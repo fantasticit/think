@@ -16,4 +16,5 @@ tsconfig.tsbuildinfo
 *error.log
 *debug.log
 
+packages/config/yaml/dev.yaml
 packages/config/yaml/prod.yaml
