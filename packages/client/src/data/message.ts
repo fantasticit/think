@@ -13,7 +13,7 @@ export const useAllMessages = () => {
     data: Array<IMessage>;
     total: number;
   }>(`/message/all?page=${page}`, (url) => HttpClient.get(url), {
-    // refreshInterval: 200,
+    refreshInterval: 200,
   });
   const loading = !data && !error;
 
@@ -36,7 +36,7 @@ export const useReadMessages = () => {
     data: Array<IMessage>;
     total: number;
   }>(`/message/read?page=${page}`, (url) => HttpClient.get(url), {
-    // refreshInterval: 200,
+    refreshInterval: 200,
   });
   const loading = !data && !error;
 
@@ -59,7 +59,7 @@ export const useUnreadMessages = () => {
     data: Array<IMessage>;
     total: number;
   }>(`/message/unread?page=${page}`, (url) => HttpClient.get(url), {
-    // refreshInterval: 200,
+    refreshInterval: 200,
   });
   const loading = !data && !error;
 
