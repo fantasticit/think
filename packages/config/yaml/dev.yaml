@@ -15,7 +15,7 @@ db:
     host: "127.0.0.1"
     username: "root"
     password: "root"
-    database: "think7"
+    database: "think"
     port: 3306
     charset: "utf8mb4"
     timezone: "+08:00"
