@@ -17,14 +17,14 @@ const Title = Node.create({
   parseHTML() {
     return [
       {
-        tag: "div[class=title]",
+        tag: "h1[class=title]",
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
-      "div",
+      "h1",
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
       0,
     ];
@@ -32,7 +32,7 @@ const Title = Node.create({
 });
 
 const TitledDocument = Document.extend({
-  content: "title block*",
+  content: "title block+",
 });
 
 export { Document, Title, TitledDocument };
