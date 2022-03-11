@@ -16,7 +16,7 @@ import {
   BackTop,
 } from "@douyinfe/semi-ui";
 import { IconChevronLeft, IconArticle } from "@douyinfe/semi-icons";
-import { IUser, ITemplate } from "@think/domains";
+import { ILoginUser, ITemplate } from "@think/domains";
 import { Theme } from "components/theme";
 import {
   DEFAULT_EXTENSION,
@@ -36,7 +36,7 @@ import styles from "./index.module.scss";
 const { Text } = Typography;
 
 interface IProps {
-  user: IUser;
+  user: ILoginUser;
   data: ITemplate;
   loading: boolean;
   error: Error | null;

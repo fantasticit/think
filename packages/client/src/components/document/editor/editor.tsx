@@ -2,7 +2,7 @@ import React, { useMemo, useEffect } from "react";
 import cls from "classnames";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { Layout, Nav, BackTop, Toast } from "@douyinfe/semi-ui";
-import { IUser, IAuthority } from "@think/domains";
+import { ILoginUser, IAuthority } from "@think/domains";
 import { useToggle } from "hooks/useToggle";
 import {
   DEFAULT_EXTENSION,
@@ -21,7 +21,7 @@ import styles from "./index.module.scss";
 const { Header, Content } = Layout;
 
 interface IProps {
-  user: IUser;
+  user: ILoginUser;
   documentId: string;
   authority: IAuthority;
   className: string;
