@@ -100,12 +100,12 @@ export const useWikiHomeDoc = (wikiId) => {
  * @param workspaceId
  * @returns
  */
-export const useWikiTocs = (wikiId, documentId = null) => {
+export const useWikiTocs = (wikiId) => {
   const { data, error, mutate } = useSWR<
     Array<IDocument & { createUser: IUser }>
   >(
-    `/wiki/tocs/${wikiId}/documentId/${documentId}`,
-    wikiId ? () => HttpClient.get(`/wiki/tocs/${wikiId}`) : null
+    `/wiki/tocs/${wikiId}`,
+    (url) => HttpClient.get(url)
   );
   const loading = !data && !error;
 

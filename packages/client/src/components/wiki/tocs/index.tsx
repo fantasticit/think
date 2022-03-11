@@ -41,7 +41,7 @@ export const WikiTocs: React.FC<IProps> = ({
     data: tocs,
     loading: tocsLoading,
     error: tocsError,
-  } = useWikiTocs(wikiId, documentId);
+  } = useWikiTocs(wikiId);
   const [parentIds, setParentIds] = useState<Array<string>>([]);
 
   useEffect(() => {

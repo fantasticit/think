@@ -89,7 +89,6 @@ export const Tree = ({
               ellipsis={{
                 showTooltip: { opts: { content: label, position: "right" } },
               }}
-              style={{ color: "inherit" }}
             >
               {label}
             </Typography.Text>
