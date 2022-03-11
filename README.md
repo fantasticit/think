@@ -44,6 +44,7 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 
 ```bash
 docker image pull mysql:5.7
+# m1 的 mac 可以用：docker image pull --platform linux/x86_64 mysql:5.7
 docker run -d --restart=always --name think -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7
 ```
 
