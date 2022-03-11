@@ -24,7 +24,8 @@ importers:
       '@douyinfe/semi-ui': ^2.3.1
       '@hocuspocus/provider': ^1.0.0-alpha.29
       '@think/config': workspace:^1.0.0
-      '@think/share': workspace:^1.0.0
+      '@think/constants': workspace:^1.0.0
+      '@think/domains': workspace:^1.0.0
       '@tiptap/core': ^2.0.0-beta.171
       '@tiptap/extension-blockquote': ^2.0.0-beta.26
       '@tiptap/extension-bold': ^2.0.0-beta.25
@@ -91,7 +92,8 @@ importers:
       '@douyinfe/semi-ui': 2.3.1_b3482aaf5744fc7c2aeb7941b0e0a78f
       '@hocuspocus/provider': 1.0.0-alpha.29
       '@think/config': link:../config
-      '@think/share': link:../share
+      '@think/constants': link:../constants
+      '@think/domains': link:../domains
       '@tiptap/core': 2.0.0-beta.171
       '@tiptap/extension-blockquote': 2.0.0-beta.26_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-bold': 2.0.0-beta.25_@tiptap+core@2.0.0-beta.171
@@ -160,6 +162,18 @@ importers:
     dependencies:
       js-yaml: 4.1.0
 
+  packages/constants:
+    specifiers:
+      typescript: ^4.5.5
+    devDependencies:
+      typescript: 4.5.5
+
+  packages/domains:
+    specifiers:
+      typescript: ^4.5.5
+    devDependencies:
+      typescript: 4.5.5
+
   packages/server:
     specifiers:
       '@hocuspocus/server': ^1.0.0-alpha.91
@@ -175,7 +189,8 @@ importers:
       '@nestjs/testing': ^8.0.0
       '@nestjs/typeorm': ^8.0.3
       '@think/config': workspace:^1.0.0
-      '@think/share': workspace:^1.0.0
+      '@think/constants': workspace:^1.0.0
+      '@think/domains': workspace:^1.0.0
       '@types/express': ^4.17.13
       '@types/jest': 27.0.2
       '@types/node': ^16.0.0
@@ -226,7 +241,8 @@ importers:
       '@nestjs/platform-express': 8.2.6_732a54a2558f64827b8cc4f9baac4f1f
       '@nestjs/typeorm': 8.0.3_7d295ee70f5e60cc7bb984ed65836a4c
       '@think/config': link:../config
-      '@think/share': link:../share
+      '@think/constants': link:../constants
+      '@think/domains': link:../domains
       ali-oss: 6.16.0
       bcryptjs: 2.4.3
       class-transformer: 0.5.1
@@ -270,9 +286,6 @@ importers:
       ts-node: 10.4.0_06de4b00c69b73d094e2c5b522a6ad57
       tsconfig-paths: 3.12.0
       typescript: 4.5.5
-
-  packages/share:
-    specifiers: {}
 
 packages:
 

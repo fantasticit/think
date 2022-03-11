@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Space, Typography, Avatar, Skeleton } from "@douyinfe/semi-ui";
-import { IWiki } from "@think/share";
+import { IWiki } from "@think/domains";
 import { LocaleTime } from "components/locale-time";
 import { IconDocument } from "components/icons/IconDocument";
 import { WikiStar } from "components/wiki/star";

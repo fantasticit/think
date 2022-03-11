@@ -157,7 +157,7 @@
 
   ul[data-type="taskList"] {
     list-style: none;
-    padding: 0 0 0 8px;
+    padding: 0;
 
     p {
       margin: 0;
@@ -165,15 +165,25 @@
 
     li {
       display: flex;
+      align-items: center;
 
       > label {
         flex: 0 0 auto;
         user-select: none;
+        transform: translateY(2px);
       }
 
       > div {
         flex: 1 1 auto;
         padding-left: 0.5rem;
+      }
+
+      &[data-checked="true"] {
+        color: var(--semi-color-text-2);
+
+        > div {
+          text-decoration: line-through;
+        }
       }
     }
   }

@@ -85,6 +85,14 @@ export class DocumentController {
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get('search')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtGuard)
+  async search(@Request() req, @Query('keyword') keyword) {
+    return await this.documentService.search(req.user, keyword);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('user/:id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)

@@ -10,7 +10,11 @@ import {
 } from "@douyinfe/semi-ui";
 import { Checkbox } from "@douyinfe/semi-ui";
 import { IconClose } from "@douyinfe/semi-icons";
-import { WIKI_STATUS_LIST, isPublicDocument, isPublicWiki } from "@think/share";
+import {
+  WIKI_STATUS_LIST,
+  isPublicDocument,
+  isPublicWiki,
+} from "@think/domains";
 import { useWikiDetail, useWikiTocs } from "data/wiki";
 import { buildUrl } from "helpers/url";
 import { flattenTree2Array } from "components/wiki/tocs/utils";

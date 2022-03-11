@@ -1,7 +1,8 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { Button, Modal, Input, Typography, Toast } from "@douyinfe/semi-ui";
 import { IconLink } from "@douyinfe/semi-icons";
-import { isPublicDocument, getDocumentShareURL } from "@think/share";
+import { isPublicDocument } from "@think/domains";
+import { getDocumentShareURL } from "helpers/url";
 import { ShareIllustration } from "illustrations/share";
 import { DataRender } from "components/data-render";
 import { useToggle } from "hooks/useToggle";

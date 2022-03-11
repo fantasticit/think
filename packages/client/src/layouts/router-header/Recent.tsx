@@ -60,7 +60,12 @@ export const Recent = () => {
                                       >
                                         {doc.title}
                                       </Text>
+
                                       <Text size="small" type="tertiary">
+                                        创建者：
+                                        {doc.createUser &&
+                                          doc.createUser.name}{" "}
+                                        •{" "}
                                         <LocaleTime
                                           date={doc.updatedAt}
                                           timeago

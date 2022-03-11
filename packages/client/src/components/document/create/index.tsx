@@ -65,7 +65,7 @@ export const DocumentCreator: React.FC<IProps> = ({
       okButtonProps={{ loading }}
       style={{
         maxWidth: "96vw",
-        width: "calc(100vh - 120px)",
+        width: "calc(80vw - 120px)",
       }}
       bodyStyle={{
         maxHeight: "calc(90vh - 120px)",

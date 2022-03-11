@@ -11,9 +11,8 @@ import {
   WikiStatus,
   WikiUserRole,
   DocumentStatus,
-  Pagination,
-  CollectType,
-} from '@think/share';
+  IPagination,
+} from '@think/domains';
 import { WikiEntity } from '@entities/wiki.entity';
 import { WikiUserEntity } from '@entities/wiki-user.entity';
 import { UserService } from '@services/user.service';
@@ -325,7 +324,7 @@ export class WikiService {
    * @param pagination
    * @returns
    */
-  async getAllWikis(user: OutUser, pagination: Pagination) {
+  async getAllWikis(user: OutUser, pagination: IPagination) {
     const { page = 1, pageSize = 12 } = pagination;
     const query = await this.wikiUserRepo
       .createQueryBuilder('WikiUser')
@@ -353,7 +352,7 @@ export class WikiService {
    * @param pagination
    * @returns
    */
-  async getOwnWikis(user: OutUser, pagination: Pagination) {
+  async getOwnWikis(user: OutUser, pagination: IPagination) {
     const { page = 1, pageSize = 12 } = pagination;
     const query = await this.wikiRepo
       .createQueryBuilder('wiki')
@@ -379,7 +378,7 @@ export class WikiService {
    * @param pagination
    * @returns
    */
-  async getJoinWikis(user: OutUser, pagination: Pagination) {
+  async getJoinWikis(user: OutUser, pagination: IPagination) {
     const { page = 1, pageSize = 12 } = pagination;
     const query = await this.wikiUserRepo
       .createQueryBuilder('WikiUser')
@@ -622,7 +621,7 @@ export class WikiService {
   public async orderWikiTocs(
     user: OutUser,
     wikiId: string,
-    relations: Array<{ id: string; parentDocumentId?: string }>,
+    relations: Array<{ id: string; parentDocumentId?: string; index: number }>,
   ) {
     return await this.documentService.orderWikiTocs(user, wikiId, relations);
   }

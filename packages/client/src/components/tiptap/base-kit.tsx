@@ -102,7 +102,7 @@ export const BaseExtension = [
   TableCell,
   TableHeader,
   Toc,
-  TrailingNode,
+  // TrailingNode,
   Attachment,
   Katex,
   DocumentReference,

@@ -1,5 +1,5 @@
 import { IsOptional } from 'class-validator';
-import { WikiStatus } from '@think/share';
+import { WikiStatus } from '@think/domains';
 
 export class ShareWikiDto {
   // 目标状态：公开或私有

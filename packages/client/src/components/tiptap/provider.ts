@@ -1,5 +1,5 @@
 import { HocuspocusProvider } from "@hocuspocus/provider";
-import { IUser } from "@think/share";
+import { IUser } from "@think/domains";
 
 const PROVIDER_POOL_READER = new Map();
 const PROVIDER_POOL_EDITOR = new Map();

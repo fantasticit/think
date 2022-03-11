@@ -16,7 +16,7 @@ import {
   BackTop,
 } from "@douyinfe/semi-ui";
 import { IconChevronLeft, IconArticle } from "@douyinfe/semi-icons";
-import { IUser, ITemplate } from "@think/share";
+import { IUser, ITemplate } from "@think/domains";
 import { Theme } from "components/theme";
 import {
   DEFAULT_EXTENSION,

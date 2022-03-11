@@ -1,3 +1,4 @@
+import type { IDocument } from "@think/domains";
 import { useCallback } from "react";
 import Router from "next/router";
 import Link from "next/link";
@@ -10,7 +11,6 @@ import {
   Skeleton,
 } from "@douyinfe/semi-ui";
 import { IconEdit, IconUser } from "@douyinfe/semi-icons";
-import { IDocument } from "@think/share";
 import { LocaleTime } from "components/locale-time";
 import { IconDocument } from "components/icons/IconDocument";
 import { DocumentShare } from "components/document/share";

@@ -4,7 +4,7 @@ import { IconEdit, IconDelete } from "@douyinfe/semi-icons";
 import { useWikiUsers } from "data/wiki";
 import { DataRender } from "components/data-render";
 import { LocaleTime } from "components/locale-time";
-import { renderWikiUserRole } from "@think/share";
+import { renderWikiUserRole } from "@think/domains";
 import { useToggle } from "hooks/useToggle";
 import { Placeholder } from "./placeholder";
 import { AddUser } from "./add";

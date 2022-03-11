@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { DocumentStatus } from '@think/share';
+import { DocumentStatus } from '@think/domains';
 
 @Entity('document')
 export class DocumentEntity {
@@ -48,6 +48,9 @@ export class DocumentEntity {
 
   @Column({ type: 'bigint', default: 0, comment: '文档访问量' })
   public views: number;
+
+  @Column({ type: 'bigint', default: 0, comment: '文档索引顺序' })
+  public index: number;
 
   @CreateDateColumn({
     type: 'timestamp',

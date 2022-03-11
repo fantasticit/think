@@ -1,4 +1,4 @@
-import type { IUser, IDocument } from "@think/share";
+import type { IUser, IDocument } from "@think/domains";
 import useSWR from "swr";
 import { useState, useCallback, useEffect } from "react";
 import { useAsyncLoading } from "hooks/useAsyncLoading";

@@ -15,7 +15,7 @@ db:
     host: "127.0.0.1"
     username: "root"
     password: "root"
-    database: "think"
+    database: "think7"
     port: 3306
     charset: "utf8mb4"
     timezone: "+08:00"
@@ -24,11 +24,11 @@ db:
 # oss 文件存储服务
 oss:
   aliyun:
-    accessKeyId: ""
-    accessKeySecret: ""
-    bucket: ""
+    accessKeyId: "LTAI4Fc65yMwx2LR23PZwUed"
+    accessKeySecret: "I0EBFxRTWLyVk674raeYgC8h1tvSqG"
+    bucket: "wipi"
     https: true
-    region: ""
+    region: "oss-cn-shanghai"
 
 # jwt 配置
 jwt:

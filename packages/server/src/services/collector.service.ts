@@ -1,7 +1,7 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CollectType } from '@think/share';
+import { CollectType } from '@think/domains';
 import { OutUser, UserService } from '@services/user.service';
 import { WikiService } from '@services/wiki.service';
 import { DocumentService } from '@services/document.service';
@@ -49,8 +49,14 @@ export class CollectorService {
     const res = await this.wikiService.findByIds(
       records.map((record) => record.targetId),
     );
+    const withCreateUserRes = await Promise.all(
+      res.map(async (wiki) => {
+        const createUser = await this.userService.findById(wiki.createUserId);
+        return { createUser, ...wiki };
+      }),
+    );
 
-    return res;
+    return withCreateUserRes;
   }
 
   async getDocuments(user: OutUser) {
@@ -58,8 +64,16 @@ export class CollectorService {
       userId: user.id,
       type: CollectType.document,
     });
-    return await this.documentService.findByIds(
+    const res = await this.documentService.findByIds(
       records.map((record) => record.targetId),
     );
+    const withCreateUserRes = await Promise.all(
+      res.map(async (doc) => {
+        const createUser = await this.userService.findById(doc.createUserId);
+        return { createUser, ...doc };
+      }),
+    );
+
+    return withCreateUserRes;
   }
 }

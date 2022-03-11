@@ -1,4 +1,10 @@
-import { CollectType, IDocument, IUser, IWiki, IWikiUser } from "@think/share";
+import {
+  CollectType,
+  IDocument,
+  IUser,
+  IWiki,
+  IWikiUser,
+} from "@think/domains";
 import useSWR from "swr";
 import { HttpClient } from "services/HttpClient";
 

@@ -5,7 +5,7 @@ import {
   Inject,
   forwardRef,
 } from '@nestjs/common';
-import { DocumentStatus } from '@think/share';
+import { DocumentStatus } from '@think/domains';
 import { getConfig } from '@think/config';
 import * as Y from 'yjs';
 import { TiptapTransformer } from '@hocuspocus/transformer';

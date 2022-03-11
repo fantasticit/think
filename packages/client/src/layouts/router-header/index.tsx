@@ -7,6 +7,7 @@ import { WikiOrDocumentCreator } from "components/wiki-or-document-creator";
 import { LogoImage, LogoText } from "components/logo";
 import { Theme } from "components/theme";
 import { Message } from "components/message";
+import { Search } from "components/search";
 import { useWindowSize } from "hooks/useWindowSize";
 import { Recent } from "./Recent";
 import { Wiki } from "./Wiki";
@@ -81,6 +82,7 @@ export const RouterHeader: React.FC = () => {
         footer={
           <Space>
             <WikiOrDocumentCreator />
+            <Search />
             <Message />
             <Theme />
             <User />

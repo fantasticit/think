@@ -1,7 +1,7 @@
 import React from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { Layout } from "@douyinfe/semi-ui";
-import { IDocument } from "@think/share";
+import { IDocument } from "@think/domains";
 import { DEFAULT_EXTENSION, DocumentWithTitle } from "components/tiptap";
 import { safeJSONParse } from "helpers/json";
 

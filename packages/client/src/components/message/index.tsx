@@ -167,6 +167,9 @@ export const Message = () => {
       ),
 
       duration: 3,
+      onHookClose() {
+        readMessage(msg.id);
+      },
     });
   }, [unreadMsgs]);
 

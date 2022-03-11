@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { Layout } from "@douyinfe/semi-ui";
-import { IUser } from "@think/share";
+import { IUser } from "@think/domains";
 import { useToggle } from "hooks/useToggle";
 import {
   DEFAULT_EXTENSION,

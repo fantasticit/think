@@ -15,7 +15,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { JwtGuard } from '@guard/jwt.guard';
-import { Pagination } from '@think/share';
+import { IPagination } from '@think/domains';
 import { WikiService } from '@services/wiki.service';
 import { WikiUserDto } from '@dtos/wiki-user.dto';
 import { CreateWikiDto } from '@dtos/create-wiki.dto';
@@ -38,7 +38,7 @@ export class WikiController {
   @Get('list/all')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getAllWikis(@Request() req, @Query() pagination: Pagination) {
+  async getAllWikis(@Request() req, @Query() pagination: IPagination) {
     return await this.wikiService.getAllWikis(req.user, pagination);
   }
 
@@ -46,7 +46,7 @@ export class WikiController {
   @Get('list/own')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getOwnWikis(@Request() req, @Query() pagination: Pagination) {
+  async getOwnWikis(@Request() req, @Query() pagination: IPagination) {
     return await this.wikiService.getOwnWikis(req.user, pagination);
   }
 
@@ -54,7 +54,7 @@ export class WikiController {
   @Get('list/join')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getJoinWikis(@Request() req, @Query() pagination: Pagination) {
+  async getJoinWikis(@Request() req, @Query() pagination: IPagination) {
     return await this.wikiService.getJoinWikis(req.user, pagination);
   }
 

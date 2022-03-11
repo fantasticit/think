@@ -5,7 +5,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { WikiStatus, DEFAULT_WIKI_AVATAR } from '@think/share';
+import { WikiStatus } from '@think/domains';
+import { DEFAULT_WIKI_AVATAR } from '@think/constants';
 
 @Entity('wiki')
 export class WikiEntity {

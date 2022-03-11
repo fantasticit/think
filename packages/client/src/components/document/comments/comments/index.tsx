@@ -1,5 +1,5 @@
 import React from "react";
-import type { IComment } from "@think/share";
+import type { IComment } from "@think/domains";
 import { CommentItem } from "./Item";
 
 interface IProps {

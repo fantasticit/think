@@ -9,6 +9,7 @@ interface IProps {
 }
 
 interface IDataNode {
+  index: number;
   key: string;
   id: string;
   parentDocumentId?: string;
@@ -20,15 +21,18 @@ const { Title, Text } = Typography;
 const extractRelation = (treeData: Array<IDataNode>) => {
   const res = [];
   const data = [...treeData] as IDataNode[];
+  let index = 0;
 
   while (data.length) {
     const node = data.shift();
     res.push({
+      index,
       id: node.id,
       parentDocumentId: node.parentDocumentId,
     });
+    index++;
     if (node.children && node.children.length) {
-      data.push(...node.children.map((sub) => ({ ...sub })));
+      data.push(...node.children.map((sub, j) => ({ ...sub, index: j })));
     }
   }
 

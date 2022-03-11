@@ -1,11 +1,9 @@
+import type { IUser, ILoginUser } from "@think/domains";
 import useSWR from "swr";
 import { useCallback, useEffect } from "react";
 import Router, { useRouter } from "next/router";
-import { IUser } from "@think/share";
 import { HttpClient } from "services/HttpClient";
 import { getStorage, setStorage } from "helpers/storage";
-
-export type ILoginUser = Pick<IUser, "name" | "password">;
 
 export const useUser = () => {
   const router = useRouter();
@@ -20,7 +18,7 @@ export const useUser = () => {
 
   const login = useCallback((data) => {
     HttpClient.post<IUser>("/user/login", data).then((res) => {
-      const user = res as unknown as IUser;
+      const user = res as unknown as ILoginUser;
       mutate(user);
       setStorage("user", JSON.stringify(user));
       user.token && setStorage("token", user.token);

@@ -8,7 +8,7 @@ import {
   Select,
   Banner,
 } from "@douyinfe/semi-ui";
-import { WIKI_USER_ROLES, WikiUserRole } from "@think/share";
+import { WIKI_USER_ROLES, WikiUserRole } from "@think/domains";
 import { IWikiUserOpeateData } from "data/wiki";
 
 interface IProps {

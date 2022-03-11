@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { WikiUserRole } from '@think/share';
+import { WikiUserRole } from '@think/domains';
 
 export class WikiUserDto {
   @IsString()

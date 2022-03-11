@@ -1,6 +1,6 @@
 import { Space, Typography, Avatar } from "@douyinfe/semi-ui";
 import { IconUser } from "@douyinfe/semi-icons";
-import { IDocument } from "@think/share";
+import { IDocument } from "@think/domains";
 import { LocaleTime } from "components/locale-time";
 
 const { Text } = Typography;

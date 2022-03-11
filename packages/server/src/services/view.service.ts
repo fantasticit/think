@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ViewEntity } from '@entities/view.entity';
 import { parseUserAgent } from '@helpers/ua.helper';
-import { Pagination } from '@think/share';
+import { IPagination } from '@think/domains';
 
 @Injectable()
 export class ViewService {
@@ -35,7 +35,7 @@ export class ViewService {
     return total;
   }
 
-  async getDocumentViews(documentId, pagination: Pagination) {
+  async getDocumentViews(documentId, pagination: IPagination) {
     let { page = 1, pageSize = 12 } = pagination;
     if (page <= 0) {
       page = 1;

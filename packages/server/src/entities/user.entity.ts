@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcryptjs';
-import { UserRole, UserStatus } from '@think/share';
+import { UserRole, UserStatus } from '@think/domains';
 
 @Entity('user')
 export class UserEntity {

@@ -9,11 +9,8 @@ import { findParents } from "components/wiki/tocs/utils";
 import { IconDocument, IconSetting, IconOverview } from "components/icons";
 import { DocumentCreator } from "components/document/create";
 import { DataRender } from "components/data-render";
-import { TreeMenu } from "./menu";
 import { NavItem } from "./NavItem";
-
 import { Tree } from "./tree";
-
 import styles from "./index.module.scss";
 
 interface IProps {

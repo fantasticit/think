@@ -8,7 +8,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { instanceToPlain } from 'class-transformer';
-import { DocumentStatus, WikiUserRole } from '@think/share';
+import { DocumentStatus, IDocument, WikiUserRole } from '@think/domains';
 import { DocumentAuthorityEntity } from '@entities/document-authority.entity';
 import { DocumentEntity } from '@entities/document.entity';
 import { OutUser, UserService } from '@services/user.service';
@@ -764,6 +764,7 @@ export class DocumentService {
     const documents = await this.documentRepo.findByIds(ids, {
       order: { createdAt: 'ASC' },
     });
+    documents.sort((a, b) => a.index - b.index);
     documents.forEach((doc) => {
       delete doc.state;
     });
@@ -796,17 +797,18 @@ export class DocumentService {
   public async orderWikiTocs(
     user: OutUser,
     wikiId: string,
-    relations: Array<{ id: string; parentDocumentId?: string }>,
+    relations: Array<{ id: string; parentDocumentId?: string; index: number }>,
   ) {
     await this.wikiService.getWikiDetail(user, wikiId);
     await Promise.all(
       relations.map(async (relation) => {
-        const { id, parentDocumentId } = relation;
+        const { id, parentDocumentId, index } = relation;
         const doc = await this.documentRepo.findOne(id);
 
         if (doc) {
           const newData = await this.documentRepo.merge(doc, {
             parentDocumentId,
+            index,
           });
           await this.documentRepo.save(newData);
         }
@@ -834,6 +836,8 @@ export class DocumentService {
         order: { createdAt: 'ASC' },
       },
     );
+
+    documents.sort((a, b) => a.index - b.index);
 
     const docs = documents
       .filter((doc) => !doc.isWikiHome)
@@ -900,6 +904,7 @@ export class DocumentService {
       .andWhere('document.isWikiHome=:isWikiHome')
       .setParameter('createUserId', user.id)
       .setParameter('isWikiHome', 0);
+
     query.orderBy('document.updatedAt', 'DESC');
     query.take(10);
     const documents = await query.getMany();
@@ -909,10 +914,50 @@ export class DocumentService {
     const res = await Promise.all(
       docs.map(async (doc) => {
         const views = await this.viewService.getDocumentTotalViews(doc.id);
-        return { ...doc, views };
+        return { ...doc, views } as IDocument & { views: number };
       }),
     );
 
-    return res;
+    const withCreateUserRes = await Promise.all(
+      res.map(async (doc) => {
+        const createUser = await this.userService.findById(doc.createUserId);
+        return { createUser, ...doc };
+      }),
+    );
+
+    return withCreateUserRes;
+  }
+
+  /**
+   * 关键词搜索文档
+   * @param keyword
+   */
+  async search(user, keyword) {
+    const res = await this.documentRepo
+      .createQueryBuilder('document')
+      .where('document.title LIKE :keyword')
+      .setParameter('keyword', `%${keyword}%`)
+      .getMany();
+
+    const ret = await Promise.all(
+      res.map(async (doc) => {
+        const auth = await this.documentAuthorityRepo.findOne({
+          documentId: doc.id,
+          userId: user.id,
+        });
+        return auth && auth.readable ? doc : null;
+      }),
+    );
+
+    const data = ret.filter(Boolean);
+
+    const withCreateUserRes = await Promise.all(
+      data.map(async (doc) => {
+        const createUser = await this.userService.findById(doc.createUserId);
+        return { createUser, ...doc };
+      }),
+    );
+
+    return withCreateUserRes;
   }
 }

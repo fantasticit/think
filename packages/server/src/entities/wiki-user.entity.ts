@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { WikiUserRole, WikiUserStatus } from '@think/share';
+import { WikiUserRole, WikiUserStatus } from '@think/domains';
 
 @Entity('wiki_user')
 export class WikiUserEntity {

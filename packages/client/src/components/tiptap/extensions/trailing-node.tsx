@@ -20,7 +20,7 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
   addOptions() {
     return {
       node: "paragraph",
-      notAfter: ["title", "paragraph"],
+      notAfter: ["paragraph"],
     };
   },
 

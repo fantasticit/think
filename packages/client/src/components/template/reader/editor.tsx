@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import cls from "classnames";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { Layout, Spin, Typography } from "@douyinfe/semi-ui";
-import { IUser, ITemplate } from "@think/share";
+import { IUser, ITemplate } from "@think/domains";
 import { DEFAULT_EXTENSION, DocumentWithTitle } from "components/tiptap";
 import { DataRender } from "components/data-render";
 import { useDocumentStyle } from "hooks/useDocumentStyle";

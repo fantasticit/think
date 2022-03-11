@@ -2,7 +2,7 @@ import React, { useMemo, useEffect } from "react";
 import cls from "classnames";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { Layout, Nav, BackTop, Toast } from "@douyinfe/semi-ui";
-import { IUser, IAuthority } from "@think/share";
+import { IUser, IAuthority } from "@think/domains";
 import { useToggle } from "hooks/useToggle";
 import {
   DEFAULT_EXTENSION,

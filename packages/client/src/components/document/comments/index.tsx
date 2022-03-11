@@ -9,7 +9,6 @@ import {
   Pagination,
 } from "@douyinfe/semi-ui";
 import { useToggle } from "hooks/useToggle";
-import { useClickOutside } from "hooks/use-click-outside";
 import { DEFAULT_EXTENSION, Document, CommentMenuBar } from "components/tiptap";
 import { DataRender } from "components/data-render";
 import { useUser } from "data/user";
@@ -39,10 +38,6 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
   const $container = useRef<HTMLDivElement>();
   const [replyComment, setReplyComment] = useState(null);
   const [editComment, setEditComment] = useState(null);
-
-  useClickOutside($container, {
-    out: () => isEdit && toggleIsEdit(false),
-  });
 
   const editor = useEditor({
     editable: true,

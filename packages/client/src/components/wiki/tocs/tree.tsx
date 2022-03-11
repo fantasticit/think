@@ -65,7 +65,14 @@ const AddDocument = () => {
   );
 };
 
-export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId }) => {
+export const Tree = ({
+  data,
+  docAsLink,
+  getDocLink,
+  parentIds,
+  activeId,
+  isShareMode = false,
+}) => {
   const [expandedKeys, setExpandedKeys] = useState(parentIds);
 
   const renderBtn = useCallback(
@@ -88,10 +95,10 @@ export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId }) => {
             </Typography.Text>
           </a>
         </Link>
-        {renderBtn(item)}
+        {isShareMode ? null : renderBtn(item)}
       </div>
     ),
-    []
+    [isShareMode]
   );
 
   useEffect(() => {

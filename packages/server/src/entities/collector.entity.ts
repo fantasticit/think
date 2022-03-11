@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CollectType } from '@think/share';
+import { CollectType } from '@think/domains';
 
 @Entity('collector')
 export class CollectorEntity {

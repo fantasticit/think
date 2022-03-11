@@ -1,5 +1,5 @@
 import React from "react";
-import type { IComment, IUser } from "@think/share";
+import type { IComment, IUser } from "@think/domains";
 import {
   Avatar,
   Typography,

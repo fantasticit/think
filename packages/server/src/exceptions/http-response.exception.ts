@@ -26,6 +26,5 @@ export class HttpResponseExceptionFilter implements ExceptionFilter {
     response.status(status);
     response.header('Content-Type', 'application/json; charset=utf-8');
     response.send(errorResponse);
-    console.error(url, errorResponse);
   }
 }

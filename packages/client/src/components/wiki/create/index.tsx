@@ -1,4 +1,4 @@
-import type { IWiki } from "@think/share";
+import type { IWiki } from "@think/domains";
 import { Dispatch, SetStateAction, useRef } from "react";
 import Router from "next/router";
 import { Form, Modal } from "@douyinfe/semi-ui";

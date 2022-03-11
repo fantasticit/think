@@ -1,0 +1,61 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.IWikiService = void 0;
+class IWikiService {
+    constructor() {
+        this.createLoading = false;
+        this.createError = null;
+        this.allWikis = [];
+        this.allWikisTotal = 0;
+        this.getAllWikisLoading = false;
+        this.getAllWikisError = null;
+        this.joinWikis = [];
+        this.joinWikisTotal = 0;
+        this.getJoinWikisLoading = false;
+        this.getJoinWikisError = null;
+        this.ownWikis = [];
+        this.ownWikisTotal = 0;
+        this.getOwnWikisLoading = false;
+        this.getOwnWikisError = null;
+        this.wikisDetail = new Map();
+        this.getWikiLoading = false;
+        this.getWikiError = null;
+        this.updateWikiLoading = false;
+        this.updateWikiError = null;
+        this.deleteWikiLoading = false;
+        this.deleteWikiError = null;
+        this.wikisHomeDocument = new Map();
+        this.getWikisHomeDocumentLoading = false;
+        this.getWikisHomeDocumentError = null;
+        this.wikiUsers = new Map();
+        this.getWikiUsersLoading = false;
+        this.getWikiUsersError = null;
+        this.addWikiUserLoading = false;
+        this.addWikiUserError = null;
+        this.updateWikiUserLoading = false;
+        this.updateWikiUserError = null;
+        this.deleteWikiUserLoading = false;
+        this.deleteWikiUserError = null;
+        this.wikisDocuments = new Map();
+        this.getWikisDocumentsLoading = false;
+        this.getWikisDocumentsError = null;
+        this.wikisTocs = new Map();
+        this.getWikisTocsLoading = false;
+        this.getWikisTocsError = null;
+        this.updateWikisTocsLoading = false;
+        this.updateWikisTocsError = null;
+        this.shareWikiLoading = false;
+        this.shareWikiError = null;
+        this.publicWikisHomeDocuments = new Map();
+        this.getPublictWikisHomeDocumentLoading = false;
+        this.getPublicWikisHomeDocumentError = null;
+        this.publicWikisTocs = new Map();
+        this.getPublicWikisTocsLoading = false;
+        this.getPublicWikisTocsError = null;
+        this.publicWikisDetail = new Map();
+        this.getPublicWikiLoading = false;
+        this.getPublicWikiError = null;
+    }
+}
+exports.IWikiService = IWikiService;
+//# sourceMappingURL=IWikiService.js.map

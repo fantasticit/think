@@ -10,7 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { instanceToPlain } from 'class-transformer';
-import { CollectType, UserRole, UserStatus } from '@think/share';
+import { CollectType, UserRole, UserStatus } from '@think/domains';
 import { MessageService } from '@services/message.service';
 import { CollectorService } from '@services/collector.service';
 import { WikiService } from '@services/wiki.service';

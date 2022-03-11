@@ -1,4 +1,4 @@
-import type { ITemplate } from "@think/share";
+import type { ITemplate } from "@think/domains";
 import { useState } from "react";
 import useSWR from "swr";
 import { HttpClient } from "services/HttpClient";

@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { CollectType } from '@think/share';
+import { CollectType } from '@think/domains';
 
 export class CollectDto {
   @IsString({ message: '收藏目标Id类型错误（正确类型为：String）' })

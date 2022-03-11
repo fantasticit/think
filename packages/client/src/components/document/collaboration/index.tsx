@@ -133,11 +133,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({
       <AvatarGroup maxCount={5} size="extra-small">
         {collaborationUsers.map((user) => {
           return (
-            <Tooltip
-              key={user.id}
-              content={`${user.name}-${user.clientId}`}
-              position="bottom"
-            >
+            <Tooltip key={user.id} content={`${user.name}`} position="bottom">
               <Avatar src={user.avatar} size="extra-small">
                 {user.name && user.name.charAt(0)}
               </Avatar>

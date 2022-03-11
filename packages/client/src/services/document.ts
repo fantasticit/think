@@ -1,4 +1,4 @@
-import { IDocument } from "@think/share";
+import { IDocument } from "@think/domains";
 import { HttpClient } from "./HttpClient";
 
 /**
@@ -21,4 +21,13 @@ export const getPublicDocumentDetail = (
   data: Partial<Pick<IDocument, "sharePassword">>
 ): Promise<IDocument> => {
   return HttpClient.post("/document/public/detail/" + id, data);
+};
+
+/**
+ * 搜索文档
+ * @param keyword
+ * @returns
+ */
+export const searchDocument = (keyword: string): Promise<IDocument[]> => {
+  return HttpClient.get("/document/search", { params: { keyword } });
 };

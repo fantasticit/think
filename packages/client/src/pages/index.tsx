@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import type { IDocument } from "@think/share";
+import type { IDocument } from "@think/domains";
 import Link from "next/link";
 import React from "react";
 import { Typography, Button, Table, Spin, List } from "@douyinfe/semi-ui";
@@ -99,7 +99,7 @@ const RecentDocs = () => {
 
 const Page: NextPage = () => {
   const [visible, toggleVisible] = useToggle(false);
-  const { data: staredWikis, loading, error, refresh } = useStaredWikis();
+  const { data: staredWikis, loading, error } = useStaredWikis();
 
   return (
     <SingleColumnLayout>
@@ -110,9 +110,7 @@ const Page: NextPage = () => {
             快捷访问
           </Title>
           <>
-            <Button onClick={toggleVisible} type="tertiary">
-              创建知识库
-            </Button>
+            <Button onClick={toggleVisible}>创建知识库</Button>
             <WikiCreator visible={visible} toggleVisible={toggleVisible} />
           </>
         </div>

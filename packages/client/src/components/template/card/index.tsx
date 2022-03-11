@@ -1,4 +1,4 @@
-import type { ITemplate } from "@think/share";
+import type { ITemplate } from "@think/domains";
 import { useCallback } from "react";
 import cls from "classnames";
 import Router from "next/router";

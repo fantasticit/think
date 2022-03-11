@@ -8,7 +8,7 @@ import { Seo } from "components/seo";
 import { findParents } from "components/wiki/tocs/utils";
 import { LogoImage, LogoText } from "components/logo";
 import { DataRender } from "components/data-render";
-import { TreeMenu } from "./menu";
+import { Tree } from "./tree";
 import { NavItem } from "./NavItem";
 import styles from "./index.module.scss";
 
@@ -135,13 +135,13 @@ export const WikiPublicTocs: React.FC<IProps> = ({
           }
           error={tocsError}
           normalContent={() => (
-            <TreeMenu
+            <Tree
               data={tocs || []}
               docAsLink={docAsLink}
               getDocLink={getDocLink}
               parentIds={parentIds}
               activeId={documentId}
-              isShareMode={true}
+              isShareMode
             />
           )}
         />
