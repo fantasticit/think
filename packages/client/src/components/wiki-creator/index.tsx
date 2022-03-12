@@ -3,7 +3,7 @@ import { Button } from '@douyinfe/semi-ui';
 import { useToggle } from 'hooks/useToggle';
 import { WikiCreator as WikiCreatorForm } from 'components/wiki/create';
 
-export const WikiCreator = ({ children }) => {
+export const WikiCreator: React.FC = ({ children }) => {
   const [visible, toggleVisible] = useToggle(false);
 
   return (
