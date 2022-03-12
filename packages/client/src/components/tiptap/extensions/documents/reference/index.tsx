@@ -1,23 +1,12 @@
-import {
-  Node,
-  Command,
-  mergeAttributes,
-  textInputRule,
-  textblockTypeInputRule,
-  wrappingInputRule,
-} from '@tiptap/core';
+import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { NodeViewWrapper, NodeViewContent, ReactNodeViewRenderer } from '@tiptap/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Space, Select, Popover, Tag, Input, Typography } from '@douyinfe/semi-ui';
+import { Select } from '@douyinfe/semi-ui';
 import { useWikiTocs } from 'data/wiki';
-import { useDocumentDetail } from 'data/document';
 import { DataRender } from 'components/data-render';
-import { Empty } from 'components/empty';
 import { IconDocument } from 'components/icons';
 import styles from './index.module.scss';
-
-const { Text } = Typography;
 
 declare module '@tiptap/core' {
   interface Commands {
@@ -92,34 +81,36 @@ const Render = ({ editor, node, updateAttributes }) => {
   const { wikiId, documentId, title } = node.attrs;
   const { data: tocs, loading, error } = useWikiTocs(isShare ? null : wikiIdFromUrl);
 
+  const selectDoc = (str) => {
+    const [wikiId, documentId, title] = str.split('/');
+    updateAttributes({ wikiId, documentId, title });
+  };
+
   return (
     <NodeViewWrapper as="div" className={styles.wrap}>
       <div>
         {isEditable && (
-          <Select
-            placeholder="请选择文档"
-            defaultValue={JSON.stringify({
-              wikiId,
-              documentId,
-              title,
-            })}
-            onChange={(v) => updateAttributes(JSON.parse(v as string))}
-          >
-            {(tocs || []).map((toc) => (
-              <Select.Option
-                key={toc.id}
-                value={JSON.stringify({
-                  wikiId: toc.wikiId,
-                  documentId: toc.id,
-                  title: toc.title,
-                })}
+          <DataRender
+            loading={loading}
+            error={error}
+            normalContent={() => (
+              <Select
+                placeholder="请选择文档"
+                onChange={(v) => selectDoc(v)}
+                {...(wikiId && documentId ? { value: `${wikiId}/${documentId}/${title}` } : {})}
               >
-                {toc.title}
-              </Select.Option>
-            ))}
-          </Select>
+                {(tocs || []).map((toc) => (
+                  <Select.Option
+                    label={`${toc.id}/${toc.title}`}
+                    value={`${toc.wikiId}/${toc.id}/${toc.title}`}
+                  >
+                    {toc.title}
+                  </Select.Option>
+                ))}
+              </Select>
+            )}
+          />
         )}
-
         <Link
           key={documentId}
           href={{
@@ -129,44 +120,10 @@ const Render = ({ editor, node, updateAttributes }) => {
         >
           <a className={styles.itemWrap} target="_blank">
             <IconDocument />
-            <span>{title}</span>
+            <span>{title || '请选择文档'}</span>
           </a>
         </Link>
       </div>
-      {/* <div>
-        <Text type="tertiary">子文档</Text>
-        <DataRender
-          loading={loading}
-          error={error}
-          normalContent={() => {
-            if (!documents || !documents.length) {
-              return <Empty message="暂无子文档" />;
-            }
-            return (
-              <div>
-                {documents.map((doc) => {
-                  return (
-                    <Link
-                      key={doc.id}
-                      href={{
-                        pathname: `${
-                          !isShare ? "" : "/share"
-                        }/wiki/[wikiId]/document/[documentId]`,
-                        query: { wikiId: doc.wikiId, documentId: doc.id },
-                      }}
-                    >
-                      <a className={styles.itemWrap} target="_blank">
-                        <IconDocument />
-                        <span>{doc.title}</span>
-                      </a>
-                    </Link>
-                  );
-                })}
-              </div>
-            );
-          }}
-        />
-      </div> */}
       <NodeViewContent></NodeViewContent>
     </NodeViewWrapper>
   );

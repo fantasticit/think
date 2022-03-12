@@ -95,7 +95,7 @@ export const useWikiHomeDoc = (wikiId) => {
 export const useWikiTocs = (wikiId) => {
   const { data, error, mutate } = useSWR<Array<IDocument & { createUser: IUser }>>(
     `/wiki/tocs/${wikiId}`,
-    (url) => HttpClient.get(url)
+    (url) => (wikiId ? HttpClient.get(url) : null)
   );
   const loading = !data && !error;
 
