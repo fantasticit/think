@@ -1,11 +1,11 @@
-@import "~@douyinfe/semi-ui/dist/css/semi.min.css";
-@import "./var.scss";
-@import "./extension.scss";
-@import "./prosemirror.scss";
-@import "./github.scss";
-@import "./github-dark.scss";
-@import "./jsmind.scss";
-@import "./katex.scss";
+@import '~@douyinfe/semi-ui/dist/css/semi.min.css';
+@import './var.scss';
+@import './extension.scss';
+@import './prosemirror.scss';
+@import './github.scss';
+@import './github-dark.scss';
+@import './jsmind.scss';
+@import './katex.scss';
 
 /* Box sizing rules */
 *,
@@ -29,8 +29,8 @@ dd {
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role="list"],
-ol[role="list"] {
+ul[role='list'],
+ol[role='list'] {
   list-style: none;
 }
 
