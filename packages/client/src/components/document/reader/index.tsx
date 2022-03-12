@@ -21,6 +21,7 @@ import { DocumentCollaboration } from 'components/document/collaboration';
 import { DocumentStyle } from 'components/document/style';
 import { CommentEditor } from 'components/document/comments';
 import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { useWindowSize } from 'hooks/useWindowSize';
 import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
 import { DocumentSkeleton } from 'components/tiptap';
@@ -37,6 +38,7 @@ interface IProps {
 
 export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   if (!documentId) return null;
+  const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
@@ -73,7 +75,11 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                 />
               }
               normalContent={() => (
-                <Text strong ellipsis={{ showTooltip: true }} style={{ width: 120 }}>
+                <Text
+                  strong
+                  ellipsis={{ showTooltip: true }}
+                  style={{ width: ~~(windowWidth / 4) }}
+                >
                   {document.title}
                 </Text>
               )}

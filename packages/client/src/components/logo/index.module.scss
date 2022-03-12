@@ -14,3 +14,9 @@
     margin-left: 4px;
   }
 }
+
+@media (max-width: 830px) {
+  .wrap {
+    display: none !important;
+  }
+}

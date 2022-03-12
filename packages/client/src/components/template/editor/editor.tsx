@@ -30,6 +30,7 @@ import { DataRender } from 'components/data-render';
 import { User } from 'components/user';
 import { DocumentStyle } from 'components/document/style';
 import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { useWindowSize } from 'hooks/useWindowSize';
 import { safeJSONParse } from 'helpers/json';
 import styles from './index.module.scss';
 
@@ -53,7 +54,7 @@ export const Editor: React.FC<IProps> = ({
   deleteTemplate,
 }) => {
   if (!user) return null;
-
+  const { width: windowWidth } = useWindowSize();
   const provider = useMemo(() => {
     return getProvider({
       targetId: data.id,
@@ -116,7 +117,11 @@ export const Editor: React.FC<IProps> = ({
                       style={{ marginRight: 16 }}
                     />
                   </Tooltip>
-                  <Text strong ellipsis={{ showTooltip: true }} style={{ width: 120 }}>
+                  <Text
+                    strong
+                    ellipsis={{ showTooltip: true }}
+                    style={{ width: ~~(windowWidth / 4) }}
+                  >
                     {data.title}
                   </Text>
                 </>

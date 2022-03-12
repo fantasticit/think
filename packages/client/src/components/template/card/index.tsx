@@ -72,7 +72,14 @@ export const TemplateCard: React.FC<IProps> = ({
           </div>
         </header>
         <main>
-          <div style={{ marginBottom: 12 }}>
+          <div
+            style={{
+              marginBottom: 12,
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+            }}
+          >
             <Text strong>{template.title}</Text>
           </div>
           <div>

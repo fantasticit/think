@@ -14,6 +14,7 @@ import {
 import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
 import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
+import { useWindowSize } from 'hooks/useWindowSize';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
 import { DataRender } from 'components/data-render';
@@ -34,7 +35,7 @@ interface IProps {
 
 export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   if (!documentId) return null;
-
+  const { width: windowWith } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
@@ -70,7 +71,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
           />
         }
         normalContent={() => (
-          <Text ellipsis={{ showTooltip: true }} style={{ width: 120 }}>
+          <Text ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWith / 4) }}>
             {document.title}
           </Text>
         )}

@@ -49,7 +49,14 @@ export const DocumentCard: React.FC<{ document: IDocument }> = ({ document }) =>
             </div>
           </header>
           <main>
-            <div style={{ marginBottom: 12 }}>
+            <div
+              style={{
+                marginBottom: 12,
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+              }}
+            >
               <Text strong>{document.title}</Text>
             </div>
             <div>

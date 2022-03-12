@@ -20,6 +20,7 @@ import { DocumentStyle } from 'components/document/style';
 import { User } from 'components/user';
 import { Theme } from 'components/theme';
 import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { useWindowSize } from 'hooks/useWindowSize';
 import { usePublicDocument } from 'data/document';
 import { DocumentSkeleton } from 'components/tiptap';
 import { DocumentContent } from '../content';
@@ -38,7 +39,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
   if (!documentId) return null;
 
   const { data, loading, error, query } = usePublicDocument(documentId);
-
+  const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
@@ -105,7 +106,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
               />
             }
             normalContent={() => (
-              <Text strong ellipsis={{ showTooltip: true }} style={{ width: 120 }}>
+              <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
                 {data.title}
               </Text>
             )}

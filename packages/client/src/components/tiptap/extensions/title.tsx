@@ -17,18 +17,18 @@ const Title = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'h1[class=title]',
+        tag: 'div[class=title]',
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['h1', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
 });
 
 const TitledDocument = Document.extend({
-  content: 'title block+',
+  content: 'title block*',
 });
 
 export { Document, Title, TitledDocument };
