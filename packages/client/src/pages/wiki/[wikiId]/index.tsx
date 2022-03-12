@@ -1,9 +1,9 @@
-import { NextPage } from "next";
-import { DoubleColumnLayout } from "layouts/double-column";
-import { useWikiHomeDoc } from "data/wiki";
-import { DataRender } from "components/data-render";
-import { WikiTocs } from "components/wiki/tocs";
-import { DocumentReader } from "components/document/reader";
+import { NextPage } from 'next';
+import { DoubleColumnLayout } from 'layouts/double-column';
+import { useWikiHomeDoc } from 'data/wiki';
+import { DataRender } from 'components/data-render';
+import { WikiTocs } from 'components/wiki/tocs';
+import { DocumentReader } from 'components/document/reader';
 
 interface IProps {
   wikiId: string;
@@ -19,9 +19,7 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
         <DataRender
           loading={loading}
           error={error}
-          normalContent={() => (
-            <DocumentReader key={doc.id} documentId={doc.id} />
-          )}
+          normalContent={() => <DocumentReader key={doc.id} documentId={doc.id} />}
         />
       }
     ></DoubleColumnLayout>

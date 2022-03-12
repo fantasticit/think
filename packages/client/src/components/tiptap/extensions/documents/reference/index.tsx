@@ -5,32 +5,21 @@ import {
   textInputRule,
   textblockTypeInputRule,
   wrappingInputRule,
-} from "@tiptap/core";
-import {
-  NodeViewWrapper,
-  NodeViewContent,
-  ReactNodeViewRenderer,
-} from "@tiptap/react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import {
-  Space,
-  Select,
-  Popover,
-  Tag,
-  Input,
-  Typography,
-} from "@douyinfe/semi-ui";
-import { useWikiTocs } from "data/wiki";
-import { useDocumentDetail } from "data/document";
-import { DataRender } from "components/data-render";
-import { Empty } from "components/empty";
-import { IconDocument } from "components/icons";
-import styles from "./index.module.scss";
+} from '@tiptap/core';
+import { NodeViewWrapper, NodeViewContent, ReactNodeViewRenderer } from '@tiptap/react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { Space, Select, Popover, Tag, Input, Typography } from '@douyinfe/semi-ui';
+import { useWikiTocs } from 'data/wiki';
+import { useDocumentDetail } from 'data/document';
+import { DataRender } from 'components/data-render';
+import { Empty } from 'components/empty';
+import { IconDocument } from 'components/icons';
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
   interface Commands {
     documentReference: {
       setDocumentReference: () => Command;
@@ -41,36 +30,33 @@ declare module "@tiptap/core" {
 export const DocumentReferenceInputRegex = /^documentReference\$$/;
 
 const DocumentReferenceExtension = Node.create({
-  name: "documentReference",
-  group: "block",
+  name: 'documentReference',
+  group: 'block',
   defining: true,
   draggable: true,
 
   addAttributes() {
     return {
       wikiId: {
-        default: "",
+        default: '',
       },
       documentId: {
-        default: "",
+        default: '',
       },
       title: {
-        default: "",
+        default: '',
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: "div[data-type=documentReference]" }];
+    return [{ tag: 'div[data-type=documentReference]' }];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
-      "div",
-      mergeAttributes(
-        (this.options && this.options.HTMLAttributes) || {},
-        HTMLAttributes
-      ),
+      'div',
+      mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes),
     ];
   },
 
@@ -101,14 +87,10 @@ const DocumentReferenceExtension = Node.create({
 const Render = ({ editor, node, updateAttributes }) => {
   const { pathname, query } = useRouter();
   const wikiIdFromUrl = query?.wikiId;
-  const isShare = pathname.includes("share");
+  const isShare = pathname.includes('share');
   const isEditable = editor.isEditable;
   const { wikiId, documentId, title } = node.attrs;
-  const {
-    data: tocs,
-    loading,
-    error,
-  } = useWikiTocs(isShare ? null : wikiIdFromUrl);
+  const { data: tocs, loading, error } = useWikiTocs(isShare ? null : wikiIdFromUrl);
 
   return (
     <NodeViewWrapper as="div" className={styles.wrap}>
@@ -141,9 +123,7 @@ const Render = ({ editor, node, updateAttributes }) => {
         <Link
           key={documentId}
           href={{
-            pathname: `${
-              !isShare ? "" : "/share"
-            }/wiki/[wikiId]/document/[documentId]`,
+            pathname: `${!isShare ? '' : '/share'}/wiki/[wikiId]/document/[documentId]`,
             query: { wikiId, documentId },
           }}
         >

@@ -1,16 +1,10 @@
-import React from "react";
-import type { IComment, IUser } from "@think/domains";
-import {
-  Avatar,
-  Typography,
-  Space,
-  Popconfirm,
-  Skeleton,
-} from "@douyinfe/semi-ui";
-import { IconUser } from "@douyinfe/semi-icons";
-import { LocaleTime } from "components/locale-time";
-import { useUser } from "data/user";
-import styles from "./index.module.scss";
+import React from 'react';
+import type { IComment, IUser } from '@think/domains';
+import { Avatar, Typography, Space, Popconfirm, Skeleton } from '@douyinfe/semi-ui';
+import { IconUser } from '@douyinfe/semi-icons';
+import { LocaleTime } from 'components/locale-time';
+import { useUser } from 'data/user';
+import styles from './index.module.scss';
 
 interface IProps {
   comment: IComment;
@@ -52,27 +46,15 @@ export const CommentItem: React.FC<IProps> = ({
         </main>
         <footer>
           <Space>
-            <Text
-              type="secondary"
-              size="small"
-              onClick={() => replyComment(comment)}
-            >
+            <Text type="secondary" size="small" onClick={() => replyComment(comment)}>
               回复
             </Text>
             {user && user.id === comment.createUserId && (
-              <Text
-                type="secondary"
-                size="small"
-                onClick={() => editComment(comment)}
-              >
+              <Text type="secondary" size="small" onClick={() => editComment(comment)}>
                 编辑
               </Text>
             )}
-            <Popconfirm
-              showArrow
-              title="确认删除该评论？"
-              onConfirm={() => deleteComment(comment)}
-            >
+            <Popconfirm showArrow title="确认删除该评论？" onConfirm={() => deleteComment(comment)}>
               <Text type="secondary" size="small">
                 删除
               </Text>
@@ -96,7 +78,7 @@ export const CommentItemPlaceholder = () => {
         </header>
         <main>
           <div>
-            <Skeleton.Paragraph style={{ width: "100%" }} rows={3} />
+            <Skeleton.Paragraph style={{ width: '100%' }} rows={3} />
           </div>
         </main>
       </div>

@@ -40,7 +40,7 @@ export class DocumentController {
     return await this.documentService.getDocumentDetail(
       req.user,
       documentId,
-      req.headers['user-agent'],
+      req.headers['user-agent']
     );
   }
 
@@ -48,11 +48,7 @@ export class DocumentController {
   @Post('update/:id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async updateDocument(
-    @Request() req,
-    @Param('id') documentId,
-    @Body() dto: UpdateDocumentDto,
-  ) {
+  async updateDocument(@Request() req, @Param('id') documentId, @Body() dto: UpdateDocumentDto) {
     return await this.documentService.updateDocument(req.user, documentId, dto);
   }
 
@@ -76,11 +72,7 @@ export class DocumentController {
   @Post('share/:id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async shareDocument(
-    @Request() req,
-    @Param('id') documentId,
-    @Body() dto: ShareDocumentDto,
-  ) {
+  async shareDocument(@Request() req, @Param('id') documentId, @Body() dto: ShareDocumentDto) {
     return await this.documentService.shareDocument(req.user, documentId, dto);
   }
 
@@ -130,12 +122,12 @@ export class DocumentController {
   async getShareDocumentDetail(
     @Request() req,
     @Param('id') documentId,
-    @Body() dto: ShareDocumentDto,
+    @Body() dto: ShareDocumentDto
   ) {
     return await this.documentService.getPublicDocumentDetail(
       documentId,
       dto,
-      req.headers['user-agent'],
+      req.headers['user-agent']
     );
   }
 

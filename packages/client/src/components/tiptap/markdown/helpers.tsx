@@ -4,11 +4,11 @@ const uniq = (arr: string[]) => [...new Set(arr)];
 function isString(value) {
   const type = typeof value;
   return (
-    type === "string" ||
-    (type === "object" &&
+    type === 'string' ||
+    (type === 'object' &&
       value != null &&
       !Array.isArray(value) &&
-      Object.prototype.toString.call(value) == "[object String]")
+      Object.prototype.toString.call(value) == '[object String]')
   );
 }
 
@@ -18,8 +18,8 @@ const defaultAttrs = {
 };
 
 const ignoreAttrs = {
-  dd: ["isTerm"],
-  dt: ["isTerm"],
+  dd: ['isTerm'],
+  dt: ['isTerm'],
 };
 
 const tableMap = new WeakMap();
@@ -52,7 +52,7 @@ function containsOnlyText(node) {
 function containsParagraphWithOnlyText(cell) {
   if (cell.childCount === 1) {
     const child = cell.child(0);
-    if (child.type.name === "paragraph") {
+    if (child.type.name === 'paragraph') {
       return containsOnlyText(child);
     }
   }
@@ -64,12 +64,12 @@ function getRowsAndCells(table) {
   const cells = [];
   const rows = [];
   table.descendants((n) => {
-    if (n.type.name === "tableCell" || n.type.name === "tableHeader") {
+    if (n.type.name === 'tableCell' || n.type.name === 'tableHeader') {
       cells.push(n);
       return false;
     }
 
-    if (n.type.name === "tableRow") {
+    if (n.type.name === 'tableRow') {
       rows.push(n);
     }
 
@@ -93,9 +93,7 @@ export function shouldRenderHTMLTable(table) {
   const maxColspan = Math.max(...cells.map((cell) => cell.attrs.colspan));
   const maxRowspan = Math.max(...cells.map((cell) => cell.attrs.rowspan));
 
-  const rowChildren = rows.map((row) =>
-    uniq(getChildren(row).map((cell) => cell.type.name))
-  );
+  const rowChildren = rows.map((row) => uniq(getChildren(row).map((cell) => cell.type.name)));
   const cellTypeInFirstRow = rowChildren[0];
   const cellTypesInOtherRows = uniq(rowChildren.slice(1).map(([type]) => type));
 
@@ -103,9 +101,9 @@ export function shouldRenderHTMLTable(table) {
   if (
     !(
       cellTypeInFirstRow.length === 1 &&
-      cellTypeInFirstRow[0] === "tableHeader" &&
+      cellTypeInFirstRow[0] === 'tableHeader' &&
       cellTypesInOtherRows.length === 1 &&
-      cellTypesInOtherRows[0] === "tableCell"
+      cellTypesInOtherRows[0] === 'tableCell'
     )
   ) {
     return true;
@@ -114,7 +112,7 @@ export function shouldRenderHTMLTable(table) {
   if (cellChildCount === 1 && maxColspan === 1 && maxRowspan === 1) {
     // if all rows contain only one paragraph each and no rowspan/colspan, render markdown table
     const children = uniq(cells.map((cell) => cell.child(0).type.name));
-    if (children.length === 1 && children[0] === "paragraph") {
+    if (children.length === 1 && children[0] === 'paragraph') {
       return false;
     }
   }
@@ -122,13 +120,13 @@ export function shouldRenderHTMLTable(table) {
   return true;
 }
 
-function htmlEncode(str = "") {
+function htmlEncode(str = '') {
   return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/'/g, "&#39;")
-    .replace(/"/g, "&#34;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/'/g, '&#39;')
+    .replace(/"/g, '&#34;');
 }
 
 export function openTag(tagName, attrs) {
@@ -136,15 +134,12 @@ export function openTag(tagName, attrs) {
 
   str += Object.entries(attrs || {})
     .map(([key, value]) => {
-      if (
-        (ignoreAttrs[tagName] || []).includes(key) ||
-        defaultAttrs[tagName]?.[key] === value
-      )
-        return "";
+      if ((ignoreAttrs[tagName] || []).includes(key) || defaultAttrs[tagName]?.[key] === value)
+        return '';
 
       return ` ${key}="${htmlEncode(value?.toString())}"`;
     })
-    .join("");
+    .join('');
 
   return `${str}>`;
 }
@@ -168,7 +163,7 @@ function setIsInBlockTable(table, value) {
   rows.forEach((row) => tableMap.set(row, value));
   cells.forEach((cell) => {
     tableMap.set(cell, value);
-    if (cell.childCount && cell.child(0).type.name === "paragraph")
+    if (cell.childCount && cell.child(0).type.name === 'paragraph')
       tableMap.set(cell.child(0), value);
   });
 }
@@ -197,17 +192,15 @@ function renderTagClose(state, tagName, insertNewline = true) {
 function renderTableHeaderRowAsMarkdown(state, node, cellWidths) {
   state.flushClose(1);
 
-  state.write("|");
+  state.write('|');
   node.forEach((cell, _, i) => {
-    if (i) state.write("|");
+    if (i) state.write('|');
 
-    state.write(cell.attrs.align === "center" ? ":" : "-");
-    state.write(state.repeat("-", cellWidths[i]));
-    state.write(
-      cell.attrs.align === "center" || cell.attrs.align === "right" ? ":" : "-"
-    );
+    state.write(cell.attrs.align === 'center' ? ':' : '-');
+    state.write(state.repeat('-', cellWidths[i]));
+    state.write(cell.attrs.align === 'center' || cell.attrs.align === 'right' ? ':' : '-');
   });
-  state.write("|");
+  state.write('|');
 
   state.closeBlock(node);
 }
@@ -217,15 +210,15 @@ function renderTableRowAsMarkdown(state, node, isHeaderRow = false) {
 
   state.flushClose(1);
 
-  state.write("| ");
+  state.write('| ');
   node.forEach((cell, _, i) => {
-    if (i) state.write(" | ");
+    if (i) state.write(' | ');
 
     const { length } = state.out;
     state.render(cell, node, i);
     cellWidths.push(state.out.length - length);
   });
-  state.write(" |");
+  state.write(' |');
 
   state.closeBlock(node);
 
@@ -233,10 +226,10 @@ function renderTableRowAsMarkdown(state, node, isHeaderRow = false) {
 }
 
 function renderTableRowAsHTML(state, node) {
-  renderTagOpen(state, "tr");
+  renderTagOpen(state, 'tr');
 
   node.forEach((cell, _, i) => {
-    const tag = cell.type.name === "tableHeader" ? "th" : "td";
+    const tag = cell.type.name === 'tableHeader' ? 'th' : 'td';
 
     renderTagOpen(state, tag, cell.attrs);
 
@@ -251,7 +244,7 @@ function renderTableRowAsHTML(state, node) {
     renderTagClose(state, tag);
   });
 
-  renderTagClose(state, "tr");
+  renderTagClose(state, 'tr');
 }
 
 export function renderContent(state, node, forceRenderInline) {
@@ -266,8 +259,7 @@ export function renderContent(state, node, forceRenderInline) {
       state.flushClose();
     }
   } else {
-    const renderInline =
-      forceRenderInline || containsParagraphWithOnlyText(node);
+    const renderInline = forceRenderInline || containsParagraphWithOnlyText(node);
     if (!renderInline) {
       state.closeBlock(node);
       state.flushClose();
@@ -279,18 +271,14 @@ export function renderContent(state, node, forceRenderInline) {
   }
 }
 
-export function renderHTMLNode(
-  tagName,
-  forceRenderInline = false,
-  needNewLine = false
-) {
+export function renderHTMLNode(tagName, forceRenderInline = false, needNewLine = false) {
   return (state, node) => {
     renderTagOpen(state, tagName, node.attrs);
     renderContent(state, node, forceRenderInline);
     renderTagClose(state, tagName, false);
     if (needNewLine) {
       state.ensureNewLine();
-      state.write("<br />");
+      state.write('<br />');
       state.ensureNewLine();
     }
   };
@@ -300,12 +288,12 @@ export function renderOrderedList(state, node) {
   const { parens } = node.attrs;
   const start = node.attrs.start || 1;
   const maxW = String(start + node.childCount - 1).length;
-  const space = state.repeat(" ", maxW + 2);
-  const delimiter = parens ? ")" : ".";
+  const space = state.repeat(' ', maxW + 2);
+  const delimiter = parens ? ')' : '.';
 
   state.renderList(node, space, (i) => {
     const nStr = String(start + i);
-    return `${state.repeat(" ", maxW - nStr.length) + nStr}${delimiter} `;
+    return `${state.repeat(' ', maxW - nStr.length) + nStr}${delimiter} `;
   });
 }
 
@@ -321,22 +309,18 @@ export function renderTableRow(state, node) {
   if (isInBlockTable(node)) {
     renderTableRowAsHTML(state, node);
   } else {
-    renderTableRowAsMarkdown(
-      state,
-      node,
-      node.child(0).type.name === "tableHeader"
-    );
+    renderTableRowAsMarkdown(state, node, node.child(0).type.name === 'tableHeader');
   }
 }
 
 export function renderTable(state, node) {
   setIsInBlockTable(node, shouldRenderHTMLTable(node));
 
-  if (isInBlockTable(node)) renderTagOpen(state, "table");
+  if (isInBlockTable(node)) renderTagOpen(state, 'table');
 
   state.renderContent(node);
 
-  if (isInBlockTable(node)) renderTagClose(state, "table");
+  if (isInBlockTable(node)) renderTagClose(state, 'table');
 
   // ensure at least one blank line after any table
   state.closeBlock(node);
@@ -346,7 +330,7 @@ export function renderTable(state, node) {
 }
 
 export function renderHardBreak(state, node, parent, index) {
-  const br = isInTable(parent) ? "<br>" : "\\\n";
+  const br = isInTable(parent) ? '<br>' : '\\\n';
 
   for (let i = index + 1; i < parent.childCount; i += 1) {
     if (parent.child(i).type !== node.type) {
@@ -360,13 +344,9 @@ export function renderImage(state, node) {
   const { alt, canonicalSrc, src, title } = node.attrs;
 
   if (isString(src) || isString(canonicalSrc)) {
-    const quotedTitle = title ? ` ${state.quote(title)}` : "";
+    const quotedTitle = title ? ` ${state.quote(title)}` : '';
 
-    state.write(
-      `![${state.esc(alt || "")}](${state.esc(
-        canonicalSrc || src
-      )}${quotedTitle})`
-    );
+    state.write(`![${state.esc(alt || '')}](${state.esc(canonicalSrc || src)}${quotedTitle})`);
   }
 }
 

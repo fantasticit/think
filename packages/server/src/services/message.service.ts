@@ -8,7 +8,7 @@ import { MessageEntity } from '@entities/message.entity';
 export class MessageService {
   constructor(
     @InjectRepository(MessageEntity)
-    private readonly messageRepo: Repository<MessageEntity>,
+    private readonly messageRepo: Repository<MessageEntity>
   ) {}
 
   /**

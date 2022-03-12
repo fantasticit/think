@@ -1,24 +1,20 @@
-import { Node, mergeAttributes } from "@tiptap/core";
-import {
-  NodeViewWrapper,
-  NodeViewContent,
-  ReactNodeViewRenderer,
-} from "@tiptap/react";
-import { Input } from "@douyinfe/semi-ui";
-import { Resizeable } from "components/resizeable";
-import styles from "./index.module.scss";
+import { Node, mergeAttributes } from '@tiptap/core';
+import { NodeViewWrapper, NodeViewContent, ReactNodeViewRenderer } from '@tiptap/react';
+import { Input } from '@douyinfe/semi-ui';
+import { Resizeable } from 'components/resizeable';
+import styles from './index.module.scss';
 
 const IframeNode = Node.create({
-  name: "external-iframe",
-  content: "",
-  marks: "",
-  group: "block",
+  name: 'external-iframe',
+  content: '',
+  marks: '',
+  group: 'block',
   draggable: true,
 
   addOptions() {
     return {
       HTMLAttributes: {
-        "data-type": "external-iframe",
+        'data-type': 'external-iframe',
       },
     };
   },
@@ -26,7 +22,7 @@ const IframeNode = Node.create({
   addAttributes() {
     return {
       width: {
-        default: "100%",
+        default: '100%',
       },
       height: {
         default: 54,
@@ -46,10 +42,7 @@ const IframeNode = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      "iframe",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-    ];
+    return ['iframe', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
   // @ts-ignore
@@ -91,17 +84,14 @@ const Render = ({ editor, node, updateAttributes }) => {
       {isEditable && (
         <div className={styles.handlerWrap}>
           <Input
-            placeholder={"输入外链地址"}
+            placeholder={'输入外链地址'}
             value={url}
             onChange={(url) => updateAttributes({ url })}
           ></Input>
         </div>
       )}
       {url && (
-        <div
-          className={styles.innerWrap}
-          style={{ pointerEvents: !isEditable ? "auto" : "none" }}
-        >
+        <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
           <iframe src={url}></iframe>
         </div>
       )}
@@ -119,7 +109,7 @@ const Render = ({ editor, node, updateAttributes }) => {
           {content}
         </Resizeable>
       ) : (
-        <div style={{ width, height, maxWidth: "100%" }}>{content}</div>
+        <div style={{ width, height, maxWidth: '100%' }}>{content}</div>
       )}
     </NodeViewWrapper>
   );

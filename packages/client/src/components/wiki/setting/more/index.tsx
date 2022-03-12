@@ -1,5 +1,5 @@
-import { Button, Banner, Typography } from "@douyinfe/semi-ui";
-import { WorkspaceDeletor } from "components/wiki/delete";
+import { Button, Banner, Typography } from '@douyinfe/semi-ui';
+import { WorkspaceDeletor } from 'components/wiki/delete';
 
 interface IProps {
   wikiId: string;
@@ -14,9 +14,7 @@ export const More: React.FC<IProps> = ({ wikiId }) => {
         fullMode={false}
         type="danger"
         closeIcon={null}
-        description={
-          <Paragraph>删除知识库及内部所有文档，不可恢复！</Paragraph>
-        }
+        description={<Paragraph>删除知识库及内部所有文档，不可恢复！</Paragraph>}
         style={{ marginBottom: 16 }}
       />
       <WorkspaceDeletor wikiId={wikiId}>

@@ -1,9 +1,9 @@
-import { Extension } from "@tiptap/core";
-import { Plugin } from "prosemirror-state";
-import findColors from "../utils/find-colors";
+import { Extension } from '@tiptap/core';
+import { Plugin } from 'prosemirror-state';
+import findColors from '../utils/find-colors';
 
 export const ColorHighlighter = Extension.create({
-  name: "colorHighlighter",
+  name: 'colorHighlighter',
 
   addProseMirrorPlugins() {
     return [
@@ -13,9 +13,7 @@ export const ColorHighlighter = Extension.create({
             return findColors(doc);
           },
           apply(transaction, oldState) {
-            return transaction.docChanged
-              ? findColors(transaction.doc)
-              : oldState;
+            return transaction.docChanged ? findColors(transaction.doc) : oldState;
           },
         },
         props: {

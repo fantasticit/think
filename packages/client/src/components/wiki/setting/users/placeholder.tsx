@@ -1,25 +1,25 @@
-import { Table, Skeleton } from "@douyinfe/semi-ui";
+import { Table, Skeleton } from '@douyinfe/semi-ui';
 
 const columns = [
   {
-    title: "用户名",
-    dataIndex: "userName",
-    key: "userName",
+    title: '用户名',
+    dataIndex: 'userName',
+    key: 'userName',
   },
   {
-    title: "成员角色",
-    dataIndex: "userRole",
-    key: "userRole",
+    title: '成员角色',
+    dataIndex: 'userRole',
+    key: 'userRole',
   },
   {
-    title: "加入时间",
-    dataIndex: "createdAt",
-    key: "createdAt",
+    title: '加入时间',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
   },
   {
-    title: "操作",
-    dataIndex: "actions",
-    key: "actions",
+    title: '操作',
+    dataIndex: 'actions',
+    key: 'actions',
   },
 ];
 
@@ -35,7 +35,7 @@ export const Placeholder = () => {
       placeholder={
         <Table
           size="small"
-          style={{ margin: "24px 0" }}
+          style={{ margin: '24px 0' }}
           columns={columns}
           dataSource={PLACEHOLDER_DATA}
           pagination={false}

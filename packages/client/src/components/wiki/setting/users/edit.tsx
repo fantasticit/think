@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from "react";
-import { Modal, Button, Select, Banner } from "@douyinfe/semi-ui";
-import { WIKI_USER_ROLES, WikiUserRole } from "@think/domains";
+import React, { useCallback, useState } from 'react';
+import { Modal, Button, Select, Banner } from '@douyinfe/semi-ui';
+import { WIKI_USER_ROLES, WikiUserRole } from '@think/domains';
 
 interface IProps {
   visible: boolean;
@@ -8,11 +8,7 @@ interface IProps {
   onOk: (arg: WikiUserRole) => any;
 }
 
-export const EditUser: React.FC<IProps> = ({
-  visible,
-  toggleVisible,
-  onOk,
-}) => {
+export const EditUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => {
   const [userRole, setUserRole] = useState(WikiUserRole.normal);
   const handleOk = useCallback(() => {
     onOk(userRole).then(() => {
@@ -23,12 +19,12 @@ export const EditUser: React.FC<IProps> = ({
 
   return (
     <Modal
-      title={"修改角色"}
+      title={'修改角色'}
       visible={visible}
       onOk={handleOk}
       onCancel={() => toggleVisible(false)}
       maskClosable={false}
-      style={{ maxWidth: "96vw" }}
+      style={{ maxWidth: '96vw' }}
       footer={null}
     >
       <div style={{ marginTop: 16 }}>
@@ -39,25 +35,12 @@ export const EditUser: React.FC<IProps> = ({
             description="请谨慎操作管理员权限！"
           />
         ) : null}
-        <Select
-          value={userRole}
-          onChange={setUserRole}
-          style={{ width: "100%" }}
-        >
+        <Select value={userRole} onChange={setUserRole} style={{ width: '100%' }}>
           {WIKI_USER_ROLES.map((wikiStatus) => {
-            return (
-              <Select.Option value={wikiStatus.value}>
-                {wikiStatus.label}
-              </Select.Option>
-            );
+            return <Select.Option value={wikiStatus.value}>{wikiStatus.label}</Select.Option>;
           })}
         </Select>
-        <Button
-          theme="solid"
-          block
-          style={{ margin: "24px 0" }}
-          onClick={handleOk}
-        >
+        <Button theme="solid" block style={{ margin: '24px 0' }} onClick={handleOk}>
           提交修改
         </Button>
       </div>

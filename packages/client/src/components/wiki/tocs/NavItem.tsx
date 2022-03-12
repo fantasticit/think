@@ -1,8 +1,8 @@
-import type { UrlObject } from "url";
-import cls from "classnames";
-import React from "react";
-import Link from "next/link";
-import styles from "./index.module.scss";
+import type { UrlObject } from 'url';
+import cls from 'classnames';
+import React from 'react';
+import Link from 'next/link';
+import styles from './index.module.scss';
 
 interface IProps {
   icon: React.ReactNode;
@@ -24,9 +24,7 @@ export const NavItem: React.FC<IProps> = ({
   isActive = false,
   hoverable = true,
 }) => {
-  const right = rightNode ? (
-    <span className={styles.rightWrap}>{rightNode}</span>
-  ) : null;
+  const right = rightNode ? <span className={styles.rightWrap}>{rightNode}</span> : null;
   const content = (
     <>
       <span className={styles.icon}>{icon}</span>

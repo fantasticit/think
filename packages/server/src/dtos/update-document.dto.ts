@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  MaxLength,
-  MinLength,
-  IsOptional,
-} from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength, MinLength, IsOptional } from 'class-validator';
 
 export class UpdateDocumentDto {
   @IsString({ message: '文档名称类型错误（正确类型为：String）' })

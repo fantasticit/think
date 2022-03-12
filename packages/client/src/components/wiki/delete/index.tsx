@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
-import Router from "next/router";
-import { Typography, Space, Modal } from "@douyinfe/semi-ui";
-import { IconDelete } from "@douyinfe/semi-icons";
-import { useOwnWikis } from "data/wiki";
+import React, { useCallback } from 'react';
+import Router from 'next/router';
+import { Typography, Space, Modal } from '@douyinfe/semi-ui';
+import { IconDelete } from '@douyinfe/semi-icons';
+import { useOwnWikis } from 'data/wiki';
 
 interface IProps {
   wikiId: string;
@@ -11,16 +11,12 @@ interface IProps {
 
 const { Text } = Typography;
 
-export const WorkspaceDeletor: React.FC<IProps> = ({
-  wikiId,
-  onDelete,
-  children,
-}) => {
+export const WorkspaceDeletor: React.FC<IProps> = ({ wikiId, onDelete, children }) => {
   const { deletWiki } = useOwnWikis();
 
   const deleteAction = useCallback(() => {
     Modal.error({
-      title: "确定删除吗？",
+      title: '确定删除吗？',
       content: <Text>删除后不可恢复！</Text>,
       onOk: () => {
         deletWiki(wikiId).then(() => {
@@ -32,9 +28,9 @@ export const WorkspaceDeletor: React.FC<IProps> = ({
         });
       },
       okButtonProps: {
-        type: "danger",
+        type: 'danger',
       },
-      style: { maxWidth: "96vw" },
+      style: { maxWidth: '96vw' },
     });
   }, [wikiId, deletWiki, onDelete]);
 

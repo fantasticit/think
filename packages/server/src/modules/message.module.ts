@@ -6,10 +6,7 @@ import { MessageService } from '@services/message.service';
 import { MessageController } from '@controllers/message.controller';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([MessageEntity]),
-    forwardRef(() => UserModule),
-  ],
+  imports: [TypeOrmModule.forFeature([MessageEntity]), forwardRef(() => UserModule)],
   providers: [MessageService],
   exports: [MessageService],
   controllers: [MessageController],

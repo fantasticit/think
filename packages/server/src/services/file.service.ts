@@ -18,10 +18,7 @@ export class FileService {
    */
   async uploadFile(file) {
     const { originalname, mimetype, size, buffer } = file;
-    const filename = `/${dateFormat(
-      new Date(),
-      'yyyy-MM-dd',
-    )}/${uniqueid()}/${originalname}`;
+    const filename = `/${dateFormat(new Date(), 'yyyy-MM-dd')}/${uniqueid()}/${originalname}`;
     const url = await this.ossClient.putFile(filename, buffer);
     return url;
   }

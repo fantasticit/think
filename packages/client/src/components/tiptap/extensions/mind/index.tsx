@@ -1,39 +1,35 @@
-import { Node, mergeAttributes } from "@tiptap/core";
-import {
-  NodeViewWrapper,
-  NodeViewContent,
-  ReactNodeViewRenderer,
-} from "@tiptap/react";
-import { useCallback, useEffect, useRef } from "react";
-import { Button } from "@douyinfe/semi-ui";
-import { IconMinus, IconPlus } from "@douyinfe/semi-icons";
-import { Resizeable } from "components/resizeable";
-import deepEqual from "deep-equal";
+import { Node, mergeAttributes } from '@tiptap/core';
+import { NodeViewWrapper, NodeViewContent, ReactNodeViewRenderer } from '@tiptap/react';
+import { useCallback, useEffect, useRef } from 'react';
+import { Button } from '@douyinfe/semi-ui';
+import { IconMinus, IconPlus } from '@douyinfe/semi-icons';
+import { Resizeable } from 'components/resizeable';
+import deepEqual from 'deep-equal';
 // @ts-ignore
-import jsMind from "./jsmind.jsx";
-import styles from "./index.module.scss";
+import jsMind from './jsmind.jsx';
+import styles from './index.module.scss';
 
 const DEFAULT_MIND_DATA = {
   meta: {
-    name: "jsMind",
-    author: "think",
-    version: "0.2",
+    name: 'jsMind',
+    author: 'think',
+    version: '0.2',
   },
-  format: "node_tree",
-  data: { id: "root", topic: "中心节点", children: [] },
+  format: 'node_tree',
+  data: { id: 'root', topic: '中心节点', children: [] },
 };
 
 const MindNode = Node.create({
-  name: "jsmind",
-  content: "",
-  marks: "",
-  group: "block",
+  name: 'jsmind',
+  content: '',
+  marks: '',
+  group: 'block',
   draggable: true,
 
   addOptions() {
     return {
       HTMLAttributes: {
-        "data-type": "jsmind",
+        'data-type': 'jsmind',
       },
     };
   },
@@ -41,7 +37,7 @@ const MindNode = Node.create({
   addAttributes() {
     return {
       width: {
-        default: "100%",
+        default: '100%',
       },
       height: {
         default: 240,
@@ -61,10 +57,7 @@ const MindNode = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      "div",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-    ];
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
   // @ts-ignore
@@ -149,7 +142,7 @@ const Render = ({ editor, node, updateAttributes }) => {
           hmargin: 100,
           vmargin: 50,
           line_width: window.devicePixelRatio,
-          line_color: "#e5e9ef",
+          line_color: '#e5e9ef',
         },
       };
       const jm = new jsMind(options);
@@ -185,7 +178,7 @@ const Render = ({ editor, node, updateAttributes }) => {
       ref={$container}
       className={styles.renderWrap}
       tabIndex={0}
-      style={{ width: "100%", height: "100%" }}
+      style={{ width: '100%', height: '100%' }}
     >
       {!isEditable && (
         <div className={styles.mindHandlerWrap}>
@@ -216,9 +209,7 @@ const Render = ({ editor, node, updateAttributes }) => {
             {content}
           </Resizeable>
         ) : (
-          <div style={{ display: "inline-block", width, height }}>
-            {content}
-          </div>
+          <div style={{ display: 'inline-block', width, height }}>{content}</div>
         )}
       </NodeViewContent>
     </NodeViewWrapper>

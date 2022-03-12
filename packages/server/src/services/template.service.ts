@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  Inject,
-  forwardRef,
-} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { instanceToPlain } from 'class-transformer';
 import { Repository } from 'typeorm';
@@ -19,7 +13,7 @@ export class TemplateService {
     @InjectRepository(TemplateEntity)
     private readonly templateRepo: Repository<TemplateEntity>,
     @Inject(forwardRef(() => UserService))
-    private readonly userService: UserService,
+    private readonly userService: UserService
   ) {}
 
   /**
@@ -71,10 +65,7 @@ export class TemplateService {
     const template = await this.templateRepo.findOne(id);
 
     if (user.id !== template.createUserId && !template.isPublic) {
-      throw new HttpException(
-        '您不是模板创建者，无法编辑',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您不是模板创建者，无法编辑', HttpStatus.FORBIDDEN);
     }
 
     const createUser = await this.userService.findById(template.createUserId);
@@ -92,10 +83,7 @@ export class TemplateService {
     const old = await this.templateRepo.findOne(id);
 
     if (user.id !== old.createUserId) {
-      throw new HttpException(
-        '您不是模板创建者，无法编辑',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您不是模板创建者，无法编辑', HttpStatus.FORBIDDEN);
     }
 
     const newData = await this.templateRepo.merge(old, dto);
@@ -105,10 +93,7 @@ export class TemplateService {
   async deleteTemplate(user, id) {
     const data = await this.templateRepo.findOne(id);
     if (user.id !== data.createUserId) {
-      throw new HttpException(
-        '您不是模板创建者，无法删除',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您不是模板创建者，无法删除', HttpStatus.FORBIDDEN);
     }
     return this.templateRepo.remove(data);
   }
@@ -122,10 +107,7 @@ export class TemplateService {
   async useTemplate(user: OutUser, templateId) {
     const data = await this.templateRepo.findOne(templateId);
     if (user.id !== data.createUserId && !data.isPublic) {
-      throw new HttpException(
-        '您不是模板创建者，无法编辑',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您不是模板创建者，无法编辑', HttpStatus.FORBIDDEN);
     }
     const newData = await this.templateRepo.merge(data, {
       usageAmount: data.usageAmount + 1,
@@ -152,13 +134,11 @@ export class TemplateService {
 
     await Promise.all(
       data.map(async (template) => {
-        const createUser = await this.userService.findById(
-          template.createUserId,
-        );
+        const createUser = await this.userService.findById(template.createUserId);
         // @ts-ignore
         template.createUser = createUser;
         return template;
-      }),
+      })
     );
 
     return { data, total: count };
@@ -182,13 +162,11 @@ export class TemplateService {
 
     await Promise.all(
       data.map(async (template) => {
-        const createUser = await this.userService.findById(
-          template.createUserId,
-        );
+        const createUser = await this.userService.findById(template.createUserId);
         // @ts-ignore
         template.createUser = createUser;
         return template;
-      }),
+      })
     );
 
     return { data, total: count };

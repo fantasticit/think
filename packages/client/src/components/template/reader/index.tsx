@@ -1,10 +1,10 @@
-import React from "react";
-import { Spin } from "@douyinfe/semi-ui";
-import { useUser } from "data/user";
-import { Seo } from "components/seo";
-import { DataRender } from "components/data-render";
-import { useTemplate } from "data/template";
-import { Editor } from "./editor";
+import React from 'react';
+import { Spin } from '@douyinfe/semi-ui';
+import { useUser } from 'data/user';
+import { Seo } from 'components/seo';
+import { DataRender } from 'components/data-render';
+import { useTemplate } from 'data/template';
+import { Editor } from './editor';
 
 interface IProps {
   templateId: string;

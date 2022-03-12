@@ -1,9 +1,9 @@
-import React, { useMemo, useEffect } from "react";
-import cls from "classnames";
-import { useEditor, EditorContent } from "@tiptap/react";
-import { Layout, Nav, BackTop, Toast } from "@douyinfe/semi-ui";
-import { ILoginUser, IAuthority } from "@think/domains";
-import { useToggle } from "hooks/useToggle";
+import React, { useMemo, useEffect } from 'react';
+import cls from 'classnames';
+import { useEditor, EditorContent } from '@tiptap/react';
+import { Layout, Nav, BackTop, Toast } from '@douyinfe/semi-ui';
+import { ILoginUser, IAuthority } from '@think/domains';
+import { useToggle } from 'hooks/useToggle';
 import {
   DEFAULT_EXTENSION,
   DocumentWithTitle,
@@ -13,10 +13,10 @@ import {
   destoryProvider,
   MenuBar,
   Toc,
-} from "components/tiptap";
-import { DataRender } from "components/data-render";
-import { joinUser } from "components/document/collaboration";
-import styles from "./index.module.scss";
+} from 'components/tiptap';
+import { DataRender } from 'components/data-render';
+import { joinUser } from 'components/document/collaboration';
+import styles from './index.module.scss';
 
 const { Header, Content } = Layout;
 
@@ -28,22 +28,16 @@ interface IProps {
   style: React.CSSProperties;
 }
 
-export const Editor: React.FC<IProps> = ({
-  user,
-  documentId,
-  authority,
-  className,
-  style,
-}) => {
+export const Editor: React.FC<IProps> = ({ user, documentId, authority, className, style }) => {
   if (!user) return null;
 
   const provider = useMemo(() => {
     return getProvider({
       targetId: documentId,
       token: user.token,
-      cacheType: "EDITOR",
+      cacheType: 'EDITOR',
       user,
-      docType: "document",
+      docType: 'document',
       events: {
         onAwarenessUpdate({ states }) {
           joinUser({ states });
@@ -63,16 +57,16 @@ export const Editor: React.FC<IProps> = ({
   const [loading, toggleLoading] = useToggle(true);
 
   useEffect(() => {
-    provider.on("synced", () => {
+    provider.on('synced', () => {
       toggleLoading(false);
     });
 
-    provider.on("status", async ({ status }) => {
-      console.log("status", status);
+    provider.on('status', async ({ status }) => {
+      console.log('status', status);
     });
 
     return () => {
-      destoryProvider(provider, "EDITOR");
+      destoryProvider(provider, 'EDITOR');
     };
   }, []);
 
@@ -92,11 +86,7 @@ export const Editor: React.FC<IProps> = ({
               <div className={cls(styles.contentWrap, className)}>
                 <EditorContent editor={editor} />
               </div>
-              <BackTop
-                target={() =>
-                  document.querySelector("#js-template-editor-container")
-                }
-              />
+              <BackTop target={() => document.querySelector('#js-template-editor-container')} />
             </main>
           </div>
         );

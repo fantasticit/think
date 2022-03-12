@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Banner, Tree, Button, Toast, Typography } from "@douyinfe/semi-ui";
-import { DataRender } from "components/data-render";
-import { useWikiTocs } from "data/wiki";
-import styles from "./index.module.scss";
+import React, { useEffect, useState } from 'react';
+import { Banner, Tree, Button, Toast, Typography } from '@douyinfe/semi-ui';
+import { DataRender } from 'components/data-render';
+import { useWikiTocs } from 'data/wiki';
+import styles from './index.module.scss';
 
 interface IProps {
   wikiId: string;
@@ -59,9 +59,8 @@ export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
     const { dropToGap, node, dragNode } = info;
     const dropKey = node.key;
     const dragKey = dragNode.key;
-    const dropPos = node.pos.split("-");
-    const dropPosition =
-      info.dropPosition - Number(dropPos[dropPos.length - 1]);
+    const dropPos = node.pos.split('-');
+    const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
 
     const data = [...treeData];
     const loop = (data, key, callback) => {
@@ -110,7 +109,7 @@ export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
     const data = extractRelation(treeData);
     updateTocs(data).then(() => {
       setChanged(false);
-      Toast.success("目录已更新");
+      Toast.success('目录已更新');
     });
   };
 
@@ -130,9 +129,7 @@ export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
           loading={tocsLoading}
           error={tocsError}
           normalContent={() => {
-            return (
-              <Tree treeData={treeData} draggable onDrop={onDrop} expandAll />
-            );
+            return <Tree treeData={treeData} draggable onDrop={onDrop} expandAll />;
           }}
         />
       </div>

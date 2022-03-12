@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  NestInterceptor,
-  CallHandler,
-  ExecutionContext,
-} from '@nestjs/common';
+import { Injectable, NestInterceptor, CallHandler, ExecutionContext } from '@nestjs/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -12,13 +7,8 @@ interface Response<T> {
 }
 
 @Injectable()
-export class HttpResponseTransformInterceptor<T>
-  implements NestInterceptor<T, Response<T>>
-{
-  intercept(
-    context: ExecutionContext,
-    next: CallHandler<T>,
-  ): Observable<Response<T>> {
+export class HttpResponseTransformInterceptor<T> implements NestInterceptor<T, Response<T>> {
+  intercept(context: ExecutionContext, next: CallHandler<T>): Observable<Response<T>> {
     return next.handle().pipe(
       map((data) => {
         const ctx = context.switchToHttp();
@@ -34,7 +24,7 @@ export class HttpResponseTransformInterceptor<T>
         };
         // console.info(url, res);
         return res;
-      }),
+      })
     );
   }
 }

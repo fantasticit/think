@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useCallback } from "react";
-import Link from "next/link";
-import { Tree as SemiTree, Button, Typography } from "@douyinfe/semi-ui";
-import { IconMore, IconPlus } from "@douyinfe/semi-icons";
-import { useToggle } from "hooks/useToggle";
-import { DocumentActions } from "components/document/actions";
-import { DocumentCreator as DocumenCreatorForm } from "components/document/create";
-import { EventEmitter } from "helpers/event-emitter";
-import styles from "./index.module.scss";
+import React, { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
+import { Tree as SemiTree, Button, Typography } from '@douyinfe/semi-ui';
+import { IconMore, IconPlus } from '@douyinfe/semi-icons';
+import { useToggle } from 'hooks/useToggle';
+import { DocumentActions } from 'components/document/actions';
+import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
+import { EventEmitter } from 'helpers/event-emitter';
+import styles from './index.module.scss';
 
 const em = new EventEmitter();
 
@@ -27,7 +27,7 @@ const Actions = ({ node }) => {
       <Button
         onClick={(e) => {
           e.stopPropagation();
-          em.emit("plus", node);
+          em.emit('plus', node);
         }}
         type="tertiary"
         theme="borderless"
@@ -44,7 +44,7 @@ const AddDocument = () => {
   const [visible, toggleVisible] = useToggle(false);
 
   useEffect(() => {
-    em.on("plus", (node) => {
+    em.on('plus', (node) => {
       setWikiId(node.wikiId);
       setDocumentId(node.id);
       toggleVisible(true);
@@ -65,20 +65,10 @@ const AddDocument = () => {
   );
 };
 
-export const Tree = ({
-  data,
-  docAsLink,
-  getDocLink,
-  parentIds,
-  activeId,
-  isShareMode = false,
-}) => {
+export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId, isShareMode = false }) => {
   const [expandedKeys, setExpandedKeys] = useState(parentIds);
 
-  const renderBtn = useCallback(
-    (node) => <Actions key={node.id} node={node} />,
-    []
-  );
+  const renderBtn = useCallback((node) => <Actions key={node.id} node={node} />, []);
 
   const renderLabel = useCallback(
     (label, item) => (
@@ -87,7 +77,7 @@ export const Tree = ({
           <a className={styles.left}>
             <Typography.Text
               ellipsis={{
-                showTooltip: { opts: { content: label, position: "right" } },
+                showTooltip: { opts: { content: label, position: 'right' } },
               }}
             >
               {label}

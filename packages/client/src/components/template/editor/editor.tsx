@@ -1,7 +1,7 @@
-import React, { useMemo, useCallback, useState, useEffect } from "react";
-import Router from "next/router";
-import cls from "classnames";
-import { useEditor, EditorContent } from "@tiptap/react";
+import React, { useMemo, useCallback, useState, useEffect } from 'react';
+import Router from 'next/router';
+import cls from 'classnames';
+import { useEditor, EditorContent } from '@tiptap/react';
 import {
   Button,
   Nav,
@@ -14,10 +14,10 @@ import {
   Popover,
   Popconfirm,
   BackTop,
-} from "@douyinfe/semi-ui";
-import { IconChevronLeft, IconArticle } from "@douyinfe/semi-icons";
-import { ILoginUser, ITemplate } from "@think/domains";
-import { Theme } from "components/theme";
+} from '@douyinfe/semi-ui';
+import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
+import { ILoginUser, ITemplate } from '@think/domains';
+import { Theme } from 'components/theme';
 import {
   DEFAULT_EXTENSION,
   DocumentWithTitle,
@@ -25,13 +25,13 @@ import {
   getProvider,
   MenuBar,
   Toc,
-} from "components/tiptap";
-import { DataRender } from "components/data-render";
-import { User } from "components/user";
-import { DocumentStyle } from "components/document/style";
-import { useDocumentStyle } from "hooks/useDocumentStyle";
-import { safeJSONParse } from "helpers/json";
-import styles from "./index.module.scss";
+} from 'components/tiptap';
+import { DataRender } from 'components/data-render';
+import { User } from 'components/user';
+import { DocumentStyle } from 'components/document/style';
+import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { safeJSONParse } from 'helpers/json';
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 
@@ -58,27 +58,21 @@ export const Editor: React.FC<IProps> = ({
     return getProvider({
       targetId: data.id,
       token: user.token,
-      cacheType: "READER",
+      cacheType: 'READER',
       user,
-      docType: "template",
+      docType: 'template',
     });
   }, [data, user.token]);
   const editor = useEditor({
     editable: true,
-    extensions: [
-      ...DEFAULT_EXTENSION,
-      DocumentWithTitle,
-      getCollaborationExtension(provider),
-    ],
+    extensions: [...DEFAULT_EXTENSION, DocumentWithTitle, getCollaborationExtension(provider)],
     content: safeJSONParse(data && data.content),
   });
 
   const [isPublic, setPublic] = useState(false);
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
-    return width === "standardWidth"
-      ? styles.isStandardWidth
-      : styles.isFullWidth;
+    return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
 
   const goback = useCallback(() => {
@@ -100,7 +94,7 @@ export const Editor: React.FC<IProps> = ({
     <div className={styles.wrap}>
       <header>
         <Nav
-          style={{ overflow: "auto" }}
+          style={{ overflow: 'auto' }}
           mode="horizontal"
           header={
             <DataRender
@@ -109,9 +103,7 @@ export const Editor: React.FC<IProps> = ({
               loadingContent={
                 <Skeleton
                   active
-                  placeholder={
-                    <Skeleton.Title style={{ width: 80, marginBottom: 8 }} />
-                  }
+                  placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />}
                   loading={true}
                 />
               }
@@ -124,11 +116,7 @@ export const Editor: React.FC<IProps> = ({
                       style={{ marginRight: 16 }}
                     />
                   </Tooltip>
-                  <Text
-                    strong
-                    ellipsis={{ showTooltip: true }}
-                    style={{ width: 120 }}
-                  >
+                  <Text strong ellipsis={{ showTooltip: true }} style={{ width: 120 }}>
                     {data.title}
                   </Text>
                 </>
@@ -137,25 +125,11 @@ export const Editor: React.FC<IProps> = ({
           }
           footer={
             <Space>
-              <Popover
-                key="style"
-                zIndex={1061}
-                position="bottomLeft"
-                content={<DocumentStyle />}
-              >
-                <Button
-                  icon={<IconArticle />}
-                  theme="borderless"
-                  type="tertiary"
-                />
+              <Popover key="style" zIndex={1061} position="bottomLeft" content={<DocumentStyle />}>
+                <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
               </Popover>
-              <Tooltip
-                position="bottom"
-                content={isPublic ? "公开模板" : "个人模板"}
-              >
-                <Switch
-                  onChange={(v) => updateTemplate({ isPublic: v })}
-                ></Switch>
+              <Tooltip position="bottom" content={isPublic ? '公开模板' : '个人模板'}>
+                <Switch onChange={(v) => updateTemplate({ isPublic: v })}></Switch>
               </Tooltip>
               <Popconfirm
                 title="删除模板"
@@ -194,11 +168,7 @@ export const Editor: React.FC<IProps> = ({
                   >
                     <EditorContent editor={editor} />
                   </div>
-                  <BackTop
-                    target={() =>
-                      document.querySelector("#js-template-editor-container")
-                    }
-                  />
+                  <BackTop target={() => document.querySelector('#js-template-editor-container')} />
                 </main>
               </div>
             );

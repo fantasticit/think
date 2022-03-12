@@ -1,7 +1,7 @@
-import React from "react";
-import { RadioGroup, Radio, Typography, Slider } from "@douyinfe/semi-ui";
-import { useDocumentStyle } from "hooks/useDocumentStyle";
-import styles from "./index.module.scss";
+import React from 'react';
+import { RadioGroup, Radio, Typography, Slider } from '@douyinfe/semi-ui';
+import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 
@@ -12,7 +12,7 @@ export const DocumentStyle = () => {
     <div className={styles.wrap}>
       <div className={styles.item}>
         <Text>正文大小</Text>
-        <Text style={{ fontSize: "0.8em" }}> {fontSize}px</Text>
+        <Text style={{ fontSize: '0.8em' }}> {fontSize}px</Text>
         <Slider
           min={12}
           max={24}
@@ -29,10 +29,10 @@ export const DocumentStyle = () => {
             type="button"
             value={width}
             onChange={(e) => setWidth(e.target.value)}
-            style={{ marginTop: "0.5em" }}
+            style={{ marginTop: '0.5em' }}
           >
-            <Radio value={"standardWidth"}>标宽模式</Radio>
-            <Radio value={"fullWidth"}>超宽模式</Radio>
+            <Radio value={'standardWidth'}>标宽模式</Radio>
+            <Radio value={'fullWidth'}>超宽模式</Radio>
           </RadioGroup>
         </div>
       </div>

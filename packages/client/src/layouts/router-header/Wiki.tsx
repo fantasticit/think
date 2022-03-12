@@ -1,25 +1,20 @@
-import React from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { Avatar, Typography, Space, Dropdown } from "@douyinfe/semi-ui";
-import { IconChevronDown } from "@douyinfe/semi-icons";
-import { useStaredWikis, useWikiDetail } from "data/wiki";
-import { Empty } from "components/empty";
-import { DataRender } from "components/data-render";
-import { WikiStar } from "components/wiki/star";
-import { Placeholder } from "./Placeholder";
-import styles from "./index.module.scss";
+import React from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { Avatar, Typography, Space, Dropdown } from '@douyinfe/semi-ui';
+import { IconChevronDown } from '@douyinfe/semi-icons';
+import { useStaredWikis, useWikiDetail } from 'data/wiki';
+import { Empty } from 'components/empty';
+import { DataRender } from 'components/data-render';
+import { WikiStar } from 'components/wiki/star';
+import { Placeholder } from './Placeholder';
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 
 export const Wiki = () => {
   const { query } = useRouter();
-  const {
-    data: starWikis,
-    loading,
-    error,
-    refresh: refreshStarWikis,
-  } = useStaredWikis();
+  const { data: starWikis, loading, error, refresh: refreshStarWikis } = useStaredWikis();
   const { data: currentWiki } = useWikiDetail(query.wikiId);
 
   return (
@@ -43,7 +38,7 @@ export const Wiki = () => {
               <div className={styles.itemWrap}>
                 <Link
                   href={{
-                    pathname: "/wiki/[wikiId]",
+                    pathname: '/wiki/[wikiId]',
                     query: {
                       wikiId: currentWiki.id,
                     },
@@ -65,19 +60,13 @@ export const Wiki = () => {
                         {currentWiki.name.charAt(0)}
                       </Avatar>
                       <div>
-                        <Text
-                          ellipsis={{ showTooltip: true }}
-                          style={{ width: 180 }}
-                        >
+                        <Text ellipsis={{ showTooltip: true }} style={{ width: 180 }}>
                           {currentWiki.name}
                         </Text>
                       </div>
                     </div>
                     <div className={styles.rightWrap}>
-                      <WikiStar
-                        wikiId={currentWiki.id}
-                        onChange={refreshStarWikis}
-                      />
+                      <WikiStar wikiId={currentWiki.id} onChange={refreshStarWikis} />
                     </div>
                   </a>
                 </Link>
@@ -102,7 +91,7 @@ export const Wiki = () => {
                         <div className={styles.itemWrap}>
                           <Link
                             href={{
-                              pathname: "/wiki/[wikiId]",
+                              pathname: '/wiki/[wikiId]',
                               query: {
                                 wikiId: wiki.id,
                               },
@@ -124,19 +113,13 @@ export const Wiki = () => {
                                   {wiki.name.charAt(0)}
                                 </Avatar>
                                 <div>
-                                  <Text
-                                    ellipsis={{ showTooltip: true }}
-                                    style={{ width: 180 }}
-                                  >
+                                  <Text ellipsis={{ showTooltip: true }} style={{ width: 180 }}>
                                     {wiki.name}
                                   </Text>
                                 </div>
                               </div>
                               <div className={styles.rightWrap}>
-                                <WikiStar
-                                  wikiId={wiki.id}
-                                  onChange={refreshStarWikis}
-                                />
+                                <WikiStar wikiId={wiki.id} onChange={refreshStarWikis} />
                               </div>
                             </a>
                           </Link>
@@ -154,10 +137,10 @@ export const Wiki = () => {
           <div className={styles.itemWrap}>
             <Link
               href={{
-                pathname: "/wiki",
+                pathname: '/wiki',
               }}
             >
-              <a className={styles.item} style={{ padding: "12px 16px" }}>
+              <a className={styles.item} style={{ padding: '12px 16px' }}>
                 <Text>查看所有知识库</Text>
               </a>
             </Link>

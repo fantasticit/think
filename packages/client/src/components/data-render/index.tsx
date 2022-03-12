@@ -1,5 +1,5 @@
-import React from "react";
-import { Empty, Spin, Typography } from "@douyinfe/semi-ui";
+import React from 'react';
+import { Empty, Spin, Typography } from '@douyinfe/semi-ui';
 
 type RenderProps = React.ReactNode | (() => React.ReactNode);
 
@@ -18,11 +18,10 @@ const defaultLoading = () => {
 };
 
 const defaultRenderError = (error) => {
-  return <Text>{(error && error.message) || "未知错误"}</Text>;
+  return <Text>{(error && error.message) || '未知错误'}</Text>;
 };
 
-const runRender = (fn, ...args) =>
-  typeof fn === "function" ? fn.apply(null, args) : fn;
+const runRender = (fn, ...args) => (typeof fn === 'function' ? fn.apply(null, args) : fn);
 
 export const DataRender: React.FC<IProps> = ({
   loading,

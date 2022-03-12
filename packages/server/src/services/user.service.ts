@@ -1,10 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  HttpException,
-  HttpStatus,
-  forwardRef,
-} from '@nestjs/common';
+import { Inject, Injectable, HttpException, HttpStatus, forwardRef } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -37,7 +31,7 @@ export class UserService {
     @Inject(forwardRef(() => CollectorService))
     private readonly collectorService: CollectorService,
     @Inject(forwardRef(() => WikiService))
-    private readonly wikiService: WikiService,
+    private readonly wikiService: WikiService
   ) {
     this.createSuperAdmin();
   }
@@ -135,10 +129,7 @@ export class UserService {
     const { name, password } = user;
     const existUser = await this.userRepo.findOne({ where: { name } });
 
-    if (
-      !existUser ||
-      !(await UserEntity.comparePassword(password, existUser.password))
-    ) {
+    if (!existUser || !(await UserEntity.comparePassword(password, existUser.password))) {
       throw new HttpException('用户名或密码错误', HttpStatus.BAD_REQUEST);
     }
 

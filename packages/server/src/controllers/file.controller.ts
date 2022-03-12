@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Post,
-  UseInterceptors,
-  UploadedFile,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '@guard/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileService } from '@services/file.service';
@@ -23,7 +17,7 @@ export class FileController {
       limits: {
         fieldSize: 50 * 1024 * 1024,
       },
-    }),
+    })
   )
   @UseGuards(JwtGuard)
   uploadFile(@UploadedFile() file) {

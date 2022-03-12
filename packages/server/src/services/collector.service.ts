@@ -18,7 +18,7 @@ export class CollectorService {
     @Inject(forwardRef(() => WikiService))
     private readonly wikiService: WikiService,
     @Inject(forwardRef(() => DocumentService))
-    private readonly documentService: DocumentService,
+    private readonly documentService: DocumentService
   ) {}
 
   async toggleStar(user: OutUser, dto: CollectDto) {
@@ -46,14 +46,12 @@ export class CollectorService {
       userId: user.id,
       type: CollectType.wiki,
     });
-    const res = await this.wikiService.findByIds(
-      records.map((record) => record.targetId),
-    );
+    const res = await this.wikiService.findByIds(records.map((record) => record.targetId));
     const withCreateUserRes = await Promise.all(
       res.map(async (wiki) => {
         const createUser = await this.userService.findById(wiki.createUserId);
         return { createUser, ...wiki };
-      }),
+      })
     );
 
     return withCreateUserRes;
@@ -64,14 +62,12 @@ export class CollectorService {
       userId: user.id,
       type: CollectType.document,
     });
-    const res = await this.documentService.findByIds(
-      records.map((record) => record.targetId),
-    );
+    const res = await this.documentService.findByIds(records.map((record) => record.targetId));
     const withCreateUserRes = await Promise.all(
       res.map(async (doc) => {
         const createUser = await this.userService.findById(doc.createUserId);
         return { createUser, ...doc };
-      }),
+      })
     );
 
     return withCreateUserRes;

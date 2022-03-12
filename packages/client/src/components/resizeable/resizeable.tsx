@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
-import { useClickOutside } from "hooks/use-click-outside";
-import interact from "interactjs";
-import styles from "./style.module.scss";
+import React, { useRef, useEffect } from 'react';
+import { useClickOutside } from 'hooks/use-click-outside';
+import interact from 'interactjs';
+import styles from './style.module.scss';
 
 interface IProps {
   width: number;
@@ -12,12 +12,7 @@ interface IProps {
 const MIN_WIDTH = 50;
 const MIN_HEIGHT = 50;
 
-export const Resizeable: React.FC<IProps> = ({
-  width,
-  height,
-  onChange,
-  children,
-}) => {
+export const Resizeable: React.FC<IProps> = ({ width, height, onChange, children }) => {
   const $container = useRef<HTMLDivElement>(null);
   const $topLeft = useRef<HTMLDivElement>(null);
   const $topRight = useRef<HTMLDivElement>(null);
@@ -67,24 +62,24 @@ export const Resizeable: React.FC<IProps> = ({
       style={{ width, height }}
     >
       <span
-        className={styles.resizer + " " + styles.topLeft}
+        className={styles.resizer + ' ' + styles.topLeft}
         ref={$topLeft}
-        data-type={"topLeft"}
+        data-type={'topLeft'}
       ></span>
       <span
-        className={styles.resizer + " " + styles.topRight}
+        className={styles.resizer + ' ' + styles.topRight}
         ref={$topRight}
-        data-type={"topRight"}
+        data-type={'topRight'}
       ></span>
       <span
-        className={styles.resizer + " " + styles.bottomLeft}
+        className={styles.resizer + ' ' + styles.bottomLeft}
         ref={$bottomLeft}
-        data-type={"bottomLeft"}
+        data-type={'bottomLeft'}
       ></span>
       <span
-        className={styles.resizer + " " + styles.bottomRight}
+        className={styles.resizer + ' ' + styles.bottomRight}
         ref={$bottomRight}
-        data-type={"bottomRight"}
+        data-type={'bottomRight'}
       ></span>
       {children}
     </div>

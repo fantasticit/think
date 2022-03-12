@@ -1,11 +1,11 @@
-import { Extension } from "@tiptap/core";
-import "@tiptap/extension-text-style";
+import { Extension } from '@tiptap/core';
+import '@tiptap/extension-text-style';
 
 export type ColorOptions = {
   types: string[];
 };
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     backgroundColor: {
       /**
@@ -21,11 +21,11 @@ declare module "@tiptap/core" {
 }
 
 export const BackgroundColor = Extension.create<ColorOptions>({
-  name: "backgroundColor",
+  name: 'backgroundColor',
 
   addOptions() {
     return {
-      types: ["textStyle"],
+      types: ['textStyle'],
     };
   },
 
@@ -36,8 +36,7 @@ export const BackgroundColor = Extension.create<ColorOptions>({
         attributes: {
           backgroundColor: {
             default: null,
-            parseHTML: (element) =>
-              element.style.backgroundColor.replace(/['"]+/g, ""),
+            parseHTML: (element) => element.style.backgroundColor.replace(/['"]+/g, ''),
             renderHTML: (attributes) => {
               if (!attributes.backgroundColor) {
                 return {};
@@ -58,13 +57,13 @@ export const BackgroundColor = Extension.create<ColorOptions>({
       setBackgroundColor:
         (color) =>
         ({ chain }) => {
-          return chain().setMark("textStyle", { backgroundColor: color }).run();
+          return chain().setMark('textStyle', { backgroundColor: color }).run();
         },
       unsetBackgroundColor:
         () =>
         ({ chain }) => {
           return chain()
-            .setMark("textStyle", { backgroundColor: null })
+            .setMark('textStyle', { backgroundColor: null })
             .removeEmptyTextStyle()
             .run();
         },

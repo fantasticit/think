@@ -1,7 +1,7 @@
-import { NextPage } from "next";
-import { PublicDoubleColumnLayout } from "layouts/public-double-column";
-import { WikiPublicTocs } from "components/wiki/tocs/public";
-import { DocumentPublicReader } from "components/document/reader/public";
+import { NextPage } from 'next';
+import { PublicDoubleColumnLayout } from 'layouts/public-double-column';
+import { WikiPublicTocs } from 'components/wiki/tocs/public';
+import { DocumentPublicReader } from 'components/document/reader/public';
 
 interface IProps {
   wikiId: string;
@@ -11,20 +11,8 @@ interface IProps {
 const Page: NextPage<IProps> = ({ wikiId, documentId }) => {
   return (
     <PublicDoubleColumnLayout
-      leftNode={
-        <WikiPublicTocs
-          pageTitle="概览"
-          wikiId={wikiId}
-          documentId={documentId}
-        />
-      }
-      rightNode={
-        <DocumentPublicReader
-          key={documentId}
-          documentId={documentId}
-          hideLogo
-        />
-      }
+      leftNode={<WikiPublicTocs pageTitle="概览" wikiId={wikiId} documentId={documentId} />}
+      rightNode={<DocumentPublicReader key={documentId} documentId={documentId} hideLogo />}
     ></PublicDoubleColumnLayout>
   );
 };

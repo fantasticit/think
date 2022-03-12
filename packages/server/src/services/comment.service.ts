@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  Inject,
-  forwardRef,
-} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OutUser, UserService } from '@services/user.service';
@@ -22,7 +16,7 @@ export class CommentService {
     @Inject(forwardRef(() => MessageService))
     private readonly messageService: MessageService,
     private readonly userService: UserService,
-    private readonly documentService: DocumentService,
+    private readonly documentService: DocumentService
   ) {}
 
   /**
@@ -52,10 +46,7 @@ export class CommentService {
   async create(user: OutUser, userAgent: string, dto: CommentDto) {
     const { documentId, html, replyUserId } = dto;
 
-    const docAuth = await this.documentService.getDocumentAuthority(
-      documentId,
-      user.id,
-    );
+    const docAuth = await this.documentService.getDocumentAuthority(documentId, user.id);
 
     if (!docAuth) {
       throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
@@ -81,10 +72,7 @@ export class CommentService {
     const ret = await this.commentRepo.save(res);
 
     const doc = await this.documentService.findById(documentId);
-    const wikiUsersAuth = await this.documentService.getDocUsers(
-      user,
-      documentId,
-    );
+    const wikiUsersAuth = await this.documentService.getDocUsers(user, documentId);
 
     await Promise.all(
       wikiUsersAuth.map(async (userAuth) => {
@@ -93,7 +81,7 @@ export class CommentService {
           message: `文档「${doc.title}」收到新评论，快去看看！`,
           url: `/wiki/${doc.wikiId}/document/${doc.id}`,
         });
-      }),
+      })
     );
 
     return ret;
@@ -128,9 +116,7 @@ export class CommentService {
 
     const getCreateUser = async (comment) => {
       try {
-        const createUser = await this.userService.findById(
-          comment.createUserId,
-        );
+        const createUser = await this.userService.findById(comment.createUserId);
         comment.createUser = createUser;
       } catch (e) {
         comment.createUser = null;
@@ -141,15 +127,13 @@ export class CommentService {
       for (const item of data) {
         getCreateUser(item);
 
-        const subComments = await subQuery
-          .setParameter('parentCommentId', item.id)
-          .getMany();
+        const subComments = await subQuery.setParameter('parentCommentId', item.id).getMany();
 
         await Promise.all(
           subComments.map(async (sub) => {
             await getCreateUser(sub);
             return sub;
-          }),
+          })
         );
 
         await getChildren(subComments);
@@ -172,19 +156,13 @@ export class CommentService {
     const old = await this.commentRepo.findOne(dto.id);
 
     if (user.id !== old.createUserId) {
-      throw new HttpException(
-        '您不是评论创建者，无法编辑',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您不是评论创建者，无法编辑', HttpStatus.FORBIDDEN);
     }
 
     const newData = await this.commentRepo.merge(old, { html: dto.html });
 
     const doc = await this.documentService.findById(old.documentId);
-    const wikiUsersAuth = await this.documentService.getDocUsers(
-      user,
-      old.documentId,
-    );
+    const wikiUsersAuth = await this.documentService.getDocUsers(user, old.documentId);
 
     await Promise.all(
       wikiUsersAuth.map(async (userAuth) => {
@@ -193,7 +171,7 @@ export class CommentService {
           message: `文档「${doc.title}」的评论已更新，快去看看！`,
           url: `/wiki/${doc.wikiId}/document/${doc.id}`,
         });
-      }),
+      })
     );
 
     return this.commentRepo.save(newData);
@@ -202,16 +180,10 @@ export class CommentService {
   async deleteComment(user, id) {
     const data = await this.commentRepo.findOne(id);
     if (user.id !== data.createUserId) {
-      throw new HttpException(
-        '您不是评论创建者，无法删除',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您不是评论创建者，无法删除', HttpStatus.FORBIDDEN);
     }
     const doc = await this.documentService.findById(data.documentId);
-    const wikiUsersAuth = await this.documentService.getDocUsers(
-      user,
-      data.documentId,
-    );
+    const wikiUsersAuth = await this.documentService.getDocUsers(user, data.documentId);
 
     await Promise.all(
       wikiUsersAuth.map(async (userAuth) => {
@@ -220,7 +192,7 @@ export class CommentService {
           message: `文档「${doc.title}」的评论已被删除，快去看看`,
           url: `/wiki/${doc.wikiId}/document/${doc.id}`,
         });
-      }),
+      })
     );
     return this.commentRepo.remove(data);
   }

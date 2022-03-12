@@ -1,5 +1,5 @@
-import { Decoration, DecorationSet } from "prosemirror-view";
-import { Node } from "prosemirror-model";
+import { Decoration, DecorationSet } from 'prosemirror-view';
+import { Node } from 'prosemirror-model';
 
 export default function (doc: Node): DecorationSet {
   const hexColor = /(#[0-9a-f]{3,6})\b/gi;
@@ -16,7 +16,7 @@ export default function (doc: Node): DecorationSet {
       const from = position + index;
       const to = from + color.length;
       const decoration = Decoration.inline(from, to, {
-        class: "color",
+        class: 'color',
         style: `--color: ${color}`,
       });
 

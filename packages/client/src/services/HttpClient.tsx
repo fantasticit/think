@@ -1,18 +1,18 @@
-import axios from "axios";
-import { Toast } from "@douyinfe/semi-ui";
-import Router from "next/router";
+import axios from 'axios';
+import { Toast } from '@douyinfe/semi-ui';
+import Router from 'next/router';
 
 export const HttpClient = axios.create({
   baseURL: process.env.SERVER_API_URL,
   timeout: 60000,
 });
 
-const isBrowser = typeof window !== "undefined";
+const isBrowser = typeof window !== 'undefined';
 
 HttpClient.interceptors.request.use(
   (config) => {
     if (isBrowser) {
-      const token = window.localStorage.getItem("token");
+      const token = window.localStorage.getItem('token');
       if (config && config.headers && token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -20,13 +20,13 @@ HttpClient.interceptors.request.use(
     return config;
   },
   () => {
-    throw new Error("发起请求出错");
+    throw new Error('发起请求出错');
   }
 );
 
 HttpClient.interceptors.response.use(
   (data) => {
-    if (data.status && +data.status === 200 && data.data.status === "error") {
+    if (data.status && +data.status === 200 && data.data.status === 'error') {
       isBrowser && Toast.error(data.data.message);
       return null;
     }
@@ -48,10 +48,7 @@ HttpClient.interceptors.response.use(
         case 404:
           isBrowser &&
             Toast.error(
-              (err.response &&
-                err.response.data &&
-                err.response.data.message) ||
-                "服务器异常"
+              (err.response && err.response.data && err.response.data.message) || '服务器异常'
             );
           break;
         case 401:
@@ -63,10 +60,7 @@ HttpClient.interceptors.response.use(
         default:
           isBrowser &&
             Toast.error(
-              (err.response &&
-                err.response.data &&
-                err.response.data.message) ||
-                "未知错误!"
+              (err.response && err.response.data && err.response.data.message) || '未知错误!'
             );
       }
       return Promise.reject({

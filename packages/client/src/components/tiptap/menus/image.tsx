@@ -1,29 +1,27 @@
-import { Space, Button, Tooltip } from "@douyinfe/semi-ui";
+import { Space, Button, Tooltip } from '@douyinfe/semi-ui';
 import {
   IconAlignLeft,
   IconAlignCenter,
   IconAlignRight,
   IconUpload,
   IconDelete,
-} from "@douyinfe/semi-icons";
-import { Upload } from "components/upload";
-import { BubbleMenu } from "../components/bubble-menu";
-import { Divider } from "../components/divider";
-import { Image } from "../extensions/image";
+} from '@douyinfe/semi-icons';
+import { Upload } from 'components/upload';
+import { BubbleMenu } from '../components/bubble-menu';
+import { Divider } from '../components/divider';
+import { Image } from '../extensions/image';
 
 export const ImageBubbleMenu = ({ editor }) => {
   return (
     <BubbleMenu
-      className={"bubble-menu"}
+      className={'bubble-menu'}
       editor={editor}
       pluginKey="image-bubble-menu"
       shouldShow={() => editor.isActive(Image.name)}
       tippyOptions={{
         maxWidth: 456,
       }}
-      matchRenderContainer={(node) =>
-        node && node.id === "js-resizeable-container"
-      }
+      matchRenderContainer={(node) => node && node.id === 'js-resizeable-container'}
     >
       <Space>
         <Tooltip content="左对齐" zIndex={10000}>
@@ -32,7 +30,7 @@ export const ImageBubbleMenu = ({ editor }) => {
               editor
                 .chain()
                 .updateAttributes(Image.name, {
-                  textAlign: "left",
+                  textAlign: 'left',
                 })
                 .setNodeSelection(editor.state.selection.from)
                 .focus()
@@ -50,7 +48,7 @@ export const ImageBubbleMenu = ({ editor }) => {
               editor
                 .chain()
                 .updateAttributes(Image.name, {
-                  textAlign: "center",
+                  textAlign: 'center',
                 })
                 .setNodeSelection(editor.state.selection.from)
                 .focus()
@@ -68,7 +66,7 @@ export const ImageBubbleMenu = ({ editor }) => {
               editor
                 .chain()
                 .updateAttributes(Image.name, {
-                  textAlign: "right",
+                  textAlign: 'right',
                 })
                 .setNodeSelection(editor.state.selection.from)
                 .focus()
@@ -88,7 +86,7 @@ export const ImageBubbleMenu = ({ editor }) => {
               .chain()
               .updateAttributes(Image.name, {
                 src: url,
-                alt: "filename",
+                alt: 'filename',
               })
               .setNodeSelection(editor.state.selection.from)
               .focus()
@@ -97,12 +95,7 @@ export const ImageBubbleMenu = ({ editor }) => {
         >
           {() => (
             <Tooltip content="上传图片" zIndex={10000}>
-              <Button
-                size="small"
-                type="tertiary"
-                theme="borderless"
-                icon={<IconUpload />}
-              />
+              <Button size="small" type="tertiary" theme="borderless" icon={<IconUpload />} />
             </Tooltip>
           )}
         </Upload>

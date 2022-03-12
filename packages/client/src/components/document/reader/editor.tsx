@@ -1,8 +1,8 @@
-import React, { useMemo, useEffect } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
-import { Layout } from "@douyinfe/semi-ui";
-import { ILoginUser } from "@think/domains";
-import { useToggle } from "hooks/useToggle";
+import React, { useMemo, useEffect } from 'react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import { Layout } from '@douyinfe/semi-ui';
+import { ILoginUser } from '@think/domains';
+import { useToggle } from 'hooks/useToggle';
 import {
   DEFAULT_EXTENSION,
   DocumentWithTitle,
@@ -10,10 +10,10 @@ import {
   getCollaborationCursorExtension,
   getProvider,
   destoryProvider,
-} from "components/tiptap";
-import { DataRender } from "components/data-render";
-import { joinUser } from "components/document/collaboration";
-import styles from "./index.module.scss";
+} from 'components/tiptap';
+import { DataRender } from 'components/data-render';
+import { joinUser } from 'components/document/collaboration';
+import styles from './index.module.scss';
 
 const { Content } = Layout;
 
@@ -29,9 +29,9 @@ export const Editor: React.FC<IProps> = ({ user, documentId }) => {
     return getProvider({
       targetId: documentId,
       token: user.token,
-      cacheType: "READER",
+      cacheType: 'READER',
       user,
-      docType: "document",
+      docType: 'document',
       events: {
         onAwarenessUpdate({ states }) {
           joinUser({ states });
@@ -51,12 +51,12 @@ export const Editor: React.FC<IProps> = ({ user, documentId }) => {
   const [loading, toggleLoading] = useToggle(true);
 
   useEffect(() => {
-    provider.on("synced", () => {
+    provider.on('synced', () => {
       toggleLoading(false);
     });
 
     return () => {
-      destoryProvider(provider, "READER");
+      destoryProvider(provider, 'READER');
     };
   }, []);
 

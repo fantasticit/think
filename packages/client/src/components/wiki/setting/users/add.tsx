@@ -1,15 +1,7 @@
-import React, { useCallback, useState } from "react";
-import {
-  Modal,
-  Typography,
-  Button,
-  Input,
-  Space,
-  Select,
-  Banner,
-} from "@douyinfe/semi-ui";
-import { WIKI_USER_ROLES, WikiUserRole } from "@think/domains";
-import { IWikiUserOpeateData } from "data/wiki";
+import React, { useCallback, useState } from 'react';
+import { Modal, Typography, Button, Input, Space, Select, Banner } from '@douyinfe/semi-ui';
+import { WIKI_USER_ROLES, WikiUserRole } from '@think/domains';
+import { IWikiUserOpeateData } from 'data/wiki';
 
 interface IProps {
   visible: boolean;
@@ -21,24 +13,24 @@ const { Paragraph } = Typography;
 
 export const AddUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => {
   const [userRole, setUserRole] = useState(WikiUserRole.normal);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState('');
   const handleOk = useCallback(() => {
     onOk({ userName, userRole } as unknown as IWikiUserOpeateData).then(() => {
       setUserRole(WikiUserRole.normal);
-      setUserName("");
+      setUserName('');
       toggleVisible(false);
     });
   }, [onOk, userName, userRole]);
 
   return (
     <Modal
-      title={"添加成员"}
-      okText={"邀请对方"}
+      title={'添加成员'}
+      okText={'邀请对方'}
       visible={visible}
       onOk={handleOk}
       onCancel={() => toggleVisible(false)}
       maskClosable={false}
-      style={{ maxWidth: "96vw" }}
+      style={{ maxWidth: '96vw' }}
       footer={null}
     >
       <div style={{ marginTop: 16 }}>
@@ -50,17 +42,9 @@ export const AddUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => {
           />
         ) : null}
         <Space>
-          <Select
-            value={userRole}
-            onChange={setUserRole}
-            style={{ width: 120 }}
-          >
+          <Select value={userRole} onChange={setUserRole} style={{ width: 120 }}>
             {WIKI_USER_ROLES.map((wikiStatus) => {
-              return (
-                <Select.Option value={wikiStatus.value}>
-                  {wikiStatus.label}
-                </Select.Option>
-              );
+              return <Select.Option value={wikiStatus.value}>{wikiStatus.label}</Select.Option>;
             })}
           </Select>
           <Input
@@ -74,7 +58,7 @@ export const AddUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => {
         <Button
           theme="solid"
           block
-          style={{ margin: "24px 0" }}
+          style={{ margin: '24px 0' }}
           onClick={handleOk}
           disabled={!userName}
         >

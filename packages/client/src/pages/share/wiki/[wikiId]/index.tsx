@@ -1,20 +1,16 @@
-import { NextPage } from "next";
-import { PublicDoubleColumnLayout } from "layouts/public-double-column";
-import { usePublicWikiHomeDoc } from "data/wiki";
-import { DataRender } from "components/data-render";
-import { WikiPublicTocs } from "components/wiki/tocs/public";
-import { DocumentPublicReader } from "components/document/reader/public";
+import { NextPage } from 'next';
+import { PublicDoubleColumnLayout } from 'layouts/public-double-column';
+import { usePublicWikiHomeDoc } from 'data/wiki';
+import { DataRender } from 'components/data-render';
+import { WikiPublicTocs } from 'components/wiki/tocs/public';
+import { DocumentPublicReader } from 'components/document/reader/public';
 
 interface IProps {
   wikiId: string;
 }
 
 const Page: NextPage<IProps> = ({ wikiId }) => {
-  const {
-    data: doc,
-    loading: homeDocLoading,
-    error: homeDocError,
-  } = usePublicWikiHomeDoc(wikiId);
+  const { data: doc, loading: homeDocLoading, error: homeDocError } = usePublicWikiHomeDoc(wikiId);
 
   return (
     <PublicDoubleColumnLayout
@@ -24,9 +20,7 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
           loading={homeDocLoading}
           error={homeDocError}
           normalContent={() => {
-            return (
-              <DocumentPublicReader key={doc.id} documentId={doc.id} hideLogo />
-            );
+            return <DocumentPublicReader key={doc.id} documentId={doc.id} hideLogo />;
           }}
         />
       }

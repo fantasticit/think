@@ -1,5 +1,5 @@
-import { NextPage } from "next";
-import { DocumentPublicReader } from "components/document/reader/public";
+import { NextPage } from 'next';
+import { DocumentPublicReader } from 'components/document/reader/public';
 
 interface IProps {
   documentId: string;

@@ -78,11 +78,7 @@ export class WikiController {
   @Patch('update/:id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async updateWiki(
-    @Request() req,
-    @Param('id') wikiId,
-    @Body() dto: UpdateWikiDto,
-  ) {
+  async updateWiki(@Request() req, @Param('id') wikiId, @Body() dto: UpdateWikiDto) {
     return await this.wikiService.updateWiki(req.user, wikiId, dto);
   }
 
@@ -106,11 +102,7 @@ export class WikiController {
   @Post('user/:id/add')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async addWikiUser(
-    @Request() req,
-    @Param('id') wikiId,
-    @Body() dto: WikiUserDto,
-  ) {
+  async addWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: WikiUserDto) {
     return await this.wikiService.addWikiUser(req.user, wikiId, dto);
   }
 
@@ -118,11 +110,7 @@ export class WikiController {
   @Post('user/:id/update')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async updateWikiUser(
-    @Request() req,
-    @Param('id') wikiId,
-    @Body() dto: WikiUserDto,
-  ) {
+  async updateWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: WikiUserDto) {
     return await this.wikiService.updateWikiUser(req.user, wikiId, dto);
   }
 
@@ -130,11 +118,7 @@ export class WikiController {
   @Post('user/:id/delete')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async deleteWikiUser(
-    @Request() req,
-    @Param('id') wikiId,
-    @Body() dto: WikiUserDto,
-  ) {
+  async deleteWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: WikiUserDto) {
     return await this.wikiService.deleteWikiUser(req.user, wikiId, dto);
   }
 
@@ -142,11 +126,7 @@ export class WikiController {
   @Post('share/:id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async toggleWorkspaceStatus(
-    @Request() req,
-    @Param('id') wikiId,
-    @Body() dto: ShareWikiDto,
-  ) {
+  async toggleWorkspaceStatus(@Request() req, @Param('id') wikiId, @Body() dto: ShareWikiDto) {
     return await this.wikiService.shareWiki(req.user, wikiId, dto);
   }
 
@@ -178,10 +158,7 @@ export class WikiController {
   @Get('public/homedoc/:id')
   @HttpCode(HttpStatus.OK)
   async getWikiPublicHomeDocument(@Request() req, @Param('id') wikiId) {
-    return await this.wikiService.getWikiPublicHomeDocument(
-      wikiId,
-      req.headers['user-agent'],
-    );
+    return await this.wikiService.getWikiPublicHomeDocument(wikiId, req.headers['user-agent']);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

@@ -1,13 +1,13 @@
-import React, { useMemo } from "react";
-import cls from "classnames";
-import { useEditor, EditorContent } from "@tiptap/react";
-import { Layout, Spin, Typography } from "@douyinfe/semi-ui";
-import { IUser, ITemplate } from "@think/domains";
-import { DEFAULT_EXTENSION, DocumentWithTitle } from "components/tiptap";
-import { DataRender } from "components/data-render";
-import { useDocumentStyle } from "hooks/useDocumentStyle";
-import { safeJSONParse } from "helpers/json";
-import styles from "./index.module.scss";
+import React, { useMemo } from 'react';
+import cls from 'classnames';
+import { useEditor, EditorContent } from '@tiptap/react';
+import { Layout, Spin, Typography } from '@douyinfe/semi-ui';
+import { IUser, ITemplate } from '@think/domains';
+import { DEFAULT_EXTENSION, DocumentWithTitle } from 'components/tiptap';
+import { DataRender } from 'components/data-render';
+import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { safeJSONParse } from 'helpers/json';
+import styles from './index.module.scss';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -27,7 +27,7 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error }) => {
 
   if (json && json.content) {
     json = {
-      type: "doc",
+      type: 'doc',
       content: json.content.slice(1),
     };
   }
@@ -40,9 +40,7 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error }) => {
 
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
-    return width === "standardWidth"
-      ? styles.isStandardWidth
-      : styles.isFullWidth;
+    return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
 
   return (

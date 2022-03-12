@@ -1,19 +1,16 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { Button, Modal, Input, Typography, Toast } from "@douyinfe/semi-ui";
-import { IconLink } from "@douyinfe/semi-icons";
-import { isPublicDocument } from "@think/domains";
-import { getDocumentShareURL } from "helpers/url";
-import { ShareIllustration } from "illustrations/share";
-import { DataRender } from "components/data-render";
-import { useToggle } from "hooks/useToggle";
-import { useDocumentDetail } from "data/document";
+import React, { useMemo, useState, useEffect } from 'react';
+import { Button, Modal, Input, Typography, Toast } from '@douyinfe/semi-ui';
+import { IconLink } from '@douyinfe/semi-icons';
+import { isPublicDocument } from '@think/domains';
+import { getDocumentShareURL } from 'helpers/url';
+import { ShareIllustration } from 'illustrations/share';
+import { DataRender } from 'components/data-render';
+import { useToggle } from 'hooks/useToggle';
+import { useDocumentDetail } from 'data/document';
 
 interface IProps {
   documentId: string;
-  render?: (arg: {
-    isPublic: boolean;
-    toggleVisible: (arg: boolean) => void;
-  }) => React.ReactNode;
+  render?: (arg: { isPublic: boolean; toggleVisible: (arg: boolean) => void }) => React.ReactNode;
 }
 
 const { Text } = Typography;
@@ -21,18 +18,12 @@ const { Text } = Typography;
 export const DocumentShare: React.FC<IProps> = ({ documentId, render }) => {
   const [visible, toggleVisible] = useToggle(false);
   const { data, loading, error, toggleStatus } = useDocumentDetail(documentId);
-  const [sharePassword, setSharePassword] = useState("");
-  const isPublic = useMemo(
-    () => data && isPublicDocument(data.document.status),
-    [data]
-  );
-  const shareUrl = useMemo(
-    () => data && getDocumentShareURL(data.document.id),
-    [data]
-  );
+  const [sharePassword, setSharePassword] = useState('');
+  const isPublic = useMemo(() => data && isPublicDocument(data.document.status), [data]);
+  const shareUrl = useMemo(() => data && getDocumentShareURL(data.document.id), [data]);
 
   const handleOk = () => {
-    toggleStatus({ sharePassword: isPublic ? "" : sharePassword });
+    toggleStatus({ sharePassword: isPublic ? '' : sharePassword });
   };
 
   useEffect(() => {
@@ -46,18 +37,18 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, render }) => {
         render({ isPublic, toggleVisible })
       ) : (
         <Button type="primary" theme="light" onClick={toggleVisible}>
-          {isPublic ? "分享中" : "分享"}
+          {isPublic ? '分享中' : '分享'}
         </Button>
       )}
 
       <Modal
-        title={isPublic ? "关闭分享" : "开启分享"}
-        okText={isPublic ? "关闭分享" : "开启分享"}
+        title={isPublic ? '关闭分享' : '开启分享'}
+        okText={isPublic ? '关闭分享' : '开启分享'}
         visible={visible}
         onOk={handleOk}
         onCancel={() => toggleVisible(false)}
         maskClosable={false}
-        style={{ maxWidth: "96vw" }}
+        style={{ maxWidth: '96vw' }}
       >
         <DataRender
           loading={loading}
@@ -65,7 +56,7 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, render }) => {
           normalContent={() => {
             return (
               <div>
-                <div style={{ textAlign: "center" }}>
+                <div style={{ textAlign: 'center' }}>
                   <ShareIllustration />
                 </div>
                 {isPublic ? (
@@ -73,7 +64,7 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, render }) => {
                     ellipsis
                     icon={<IconLink />}
                     copyable={{
-                      onCopy: () => Toast.success({ content: "复制文本成功" }),
+                      onCopy: () => Toast.success({ content: '复制文本成功' }),
                     }}
                     style={{
                       width: 320,
@@ -93,8 +84,8 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, render }) => {
                 <div style={{ marginTop: 16 }}>
                   <Text type="tertiary">
                     {isPublic
-                      ? "分享开启后，该页面包含的所有内容均可访问，请谨慎开启"
-                      : "  分享关闭后，其他人将不能继续访问该页面"}
+                      ? '分享开启后，该页面包含的所有内容均可访问，请谨慎开启'
+                      : '  分享关闭后，其他人将不能继续访问该页面'}
                   </Text>
                 </div>
               </div>

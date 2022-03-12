@@ -1,10 +1,10 @@
-import Link from "next/link";
-import { Space, Typography, Avatar, Skeleton } from "@douyinfe/semi-ui";
-import { IWiki } from "@think/domains";
-import { LocaleTime } from "components/locale-time";
-import { IconDocument } from "components/icons/IconDocument";
-import { WikiStar } from "components/wiki/star";
-import styles from "./index.module.scss";
+import Link from 'next/link';
+import { Space, Typography, Avatar, Skeleton } from '@douyinfe/semi-ui';
+import { IWiki } from '@think/domains';
+import { LocaleTime } from 'components/locale-time';
+import { IconDocument } from 'components/icons/IconDocument';
+import { WikiStar } from 'components/wiki/star';
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 
@@ -60,7 +60,7 @@ export const WikiPinCardPlaceholder = () => {
         </main>
         <footer>
           <Text type="tertiary" size="small">
-            <div style={{ display: "flex" }}>
+            <div style={{ display: 'flex' }}>
               更新时间：
               <Skeleton.Paragraph rows={1} style={{ width: 100 }} />
             </div>

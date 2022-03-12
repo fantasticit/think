@@ -1,9 +1,9 @@
-import React from "react";
-import { Dropdown, Typography, Avatar, Button } from "@douyinfe/semi-ui";
-import { IconSpin } from "@douyinfe/semi-icons";
-import { useUser } from "data/user";
-import { useToggle } from "hooks/useToggle";
-import { UserSetting } from "./setting";
+import React from 'react';
+import { Dropdown, Typography, Avatar, Button } from '@douyinfe/semi-ui';
+import { IconSpin } from '@douyinfe/semi-icons';
+import { useUser } from 'data/user';
+import { useToggle } from 'hooks/useToggle';
+import { UserSetting } from './setting';
 
 const { Text } = Typography;
 
@@ -11,8 +11,7 @@ export const User: React.FC = () => {
   const { user, loading, error, gotoLogin, logout } = useUser();
   const [visible, toggleVisible] = useToggle(false);
 
-  if (loading)
-    return <Button icon={<IconSpin />} theme="borderless" type="tertiary" />;
+  if (loading) return <Button icon={<IconSpin />} theme="borderless" type="tertiary" />;
 
   if (error || !user) {
     return (

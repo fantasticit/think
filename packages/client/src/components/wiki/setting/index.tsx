@@ -1,10 +1,10 @@
-import React from "react";
-import { Tabs, TabPane } from "@douyinfe/semi-ui";
-import { useWikiDetail } from "data/wiki";
-import { Base } from "./base";
-import { Users } from "./users";
-import { WorkspaceDocs } from "./documents";
-import { More } from "./more";
+import React from 'react';
+import { Tabs, TabPane } from '@douyinfe/semi-ui';
+import { useWikiDetail } from 'data/wiki';
+import { Base } from './base';
+import { Users } from './users';
+import { WorkspaceDocs } from './documents';
+import { More } from './more';
 
 interface IProps {
   wikiId: string;

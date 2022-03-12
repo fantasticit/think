@@ -1,7 +1,7 @@
-import React from "react";
-import { Tooltip, Button } from "@douyinfe/semi-ui";
-import { IconStar } from "@douyinfe/semi-icons";
-import { useWikiStar } from "data/wiki";
+import React from 'react';
+import { Tooltip, Button } from '@douyinfe/semi-ui';
+import { IconStar } from '@douyinfe/semi-icons';
+import { useWikiStar } from 'data/wiki';
 
 interface IProps {
   wikiId: string;
@@ -15,7 +15,7 @@ interface IProps {
 
 export const WikiStar: React.FC<IProps> = ({ wikiId, render, onChange }) => {
   const { data, toggleStar } = useWikiStar(wikiId);
-  const text = data ? "取消收藏" : "收藏知识库";
+  const text = data ? '取消收藏' : '收藏知识库';
 
   return (
     <>
@@ -27,9 +27,7 @@ export const WikiStar: React.FC<IProps> = ({ wikiId, render, onChange }) => {
             icon={<IconStar />}
             theme="borderless"
             style={{
-              color: data
-                ? "rgba(var(--semi-amber-4), 1)"
-                : "rgba(var(--semi-grey-3), 1)",
+              color: data ? 'rgba(var(--semi-amber-4), 1)' : 'rgba(var(--semi-grey-3), 1)',
             }}
             onClick={(e) => {
               e.stopPropagation();

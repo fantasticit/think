@@ -1,18 +1,12 @@
-import {
-  CollectType,
-  IDocument,
-  IUser,
-  IWiki,
-  IWikiUser,
-} from "@think/domains";
-import useSWR from "swr";
-import { HttpClient } from "services/HttpClient";
+import { CollectType, IDocument, IUser, IWiki, IWikiUser } from '@think/domains';
+import useSWR from 'swr';
+import { HttpClient } from 'services/HttpClient';
 
-export type ICreateWiki = Pick<IWiki, "name" | "description">;
+export type ICreateWiki = Pick<IWiki, 'name' | 'description'>;
 export type IUpdateWiki = Partial<IWiki>;
 export type IWikiUserOpeateData = {
-  userName: Pick<IUser, "name">;
-  userRole: Pick<IWikiUser, "userRole">;
+  userName: Pick<IUser, 'name'>;
+  userRole: Pick<IWikiUser, 'userRole'>;
 };
 
 /**
@@ -20,9 +14,8 @@ export type IWikiUserOpeateData = {
  * @returns
  */
 export const useAllWikis = () => {
-  const { data, error } = useSWR<{ data: IWiki[]; total: number }>(
-    "/wiki/list/all",
-    (url) => HttpClient.get(url)
+  const { data, error } = useSWR<{ data: IWiki[]; total: number }>('/wiki/list/all', (url) =>
+    HttpClient.get(url)
   );
 
   const loading = !data && !error;
@@ -37,9 +30,8 @@ export const useAllWikis = () => {
  * @returns
  */
 export const useJoinWikis = () => {
-  const { data, error } = useSWR<{ data: IWiki[]; total: number }>(
-    "/wiki/list/join",
-    (url) => HttpClient.get(url)
+  const { data, error } = useSWR<{ data: IWiki[]; total: number }>('/wiki/list/join', (url) =>
+    HttpClient.get(url)
   );
 
   const loading = !data && !error;
@@ -55,12 +47,12 @@ export const useJoinWikis = () => {
  */
 export const useOwnWikis = () => {
   const { data, error, mutate } = useSWR<{ data: IWiki[]; total: number }>(
-    "/wiki/list/own",
+    '/wiki/list/own',
     (url) => HttpClient.get(url)
   );
 
   const createWiki = async (data: ICreateWiki) => {
-    const res = await HttpClient.post<IWiki>("/wiki/create", data);
+    const res = await HttpClient.post<IWiki>('/wiki/create', data);
     mutate();
     return res;
   };
@@ -71,7 +63,7 @@ export const useOwnWikis = () => {
    * @returns
    */
   const deletWiki = async (id) => {
-    const res = await HttpClient.delete<IWiki>("/wiki/delete/" + id);
+    const res = await HttpClient.delete<IWiki>('/wiki/delete/' + id);
     mutate();
     return res;
   };
@@ -88,7 +80,7 @@ export const useOwnWikis = () => {
  * @returns
  */
 export const useWikiHomeDoc = (wikiId) => {
-  const { data, error } = useSWR<IDocument>("/wiki/homedoc/" + wikiId, (url) =>
+  const { data, error } = useSWR<IDocument>('/wiki/homedoc/' + wikiId, (url) =>
     HttpClient.get(url)
   );
   const loading = !data && !error;
@@ -101,17 +93,13 @@ export const useWikiHomeDoc = (wikiId) => {
  * @returns
  */
 export const useWikiTocs = (wikiId) => {
-  const { data, error, mutate } = useSWR<
-    Array<IDocument & { createUser: IUser }>
-  >(
+  const { data, error, mutate } = useSWR<Array<IDocument & { createUser: IUser }>>(
     `/wiki/tocs/${wikiId}`,
     (url) => HttpClient.get(url)
   );
   const loading = !data && !error;
 
-  const update = async (
-    relations: Array<{ id: string; parentDocumentId: string }>
-  ) => {
+  const update = async (relations: Array<{ id: string; parentDocumentId: string }>) => {
     const res = await HttpClient.post(`/wiki/tocs/${wikiId}/update`, relations);
     mutate();
     return res;
@@ -126,9 +114,10 @@ export const useWikiTocs = (wikiId) => {
  * @returns
  */
 export const useWikiDocs = (wikiId) => {
-  const { data, error, mutate } = useSWR<
-    Array<IDocument & { createUser: IUser }>
-  >(`/wiki/docs/${wikiId}`, (url) => HttpClient.get(url));
+  const { data, error, mutate } = useSWR<Array<IDocument & { createUser: IUser }>>(
+    `/wiki/docs/${wikiId}`,
+    (url) => HttpClient.get(url)
+  );
   const loading = !data && !error;
   return { data, loading, error, refresh: mutate };
 };
@@ -139,9 +128,8 @@ export const useWikiDocs = (wikiId) => {
  * @returns
  */
 export const useWikiDetail = (wikiId) => {
-  const { data, error, mutate } = useSWR<IWiki>(
-    wikiId ? `/wiki/detail/${wikiId}` : null,
-    (url) => HttpClient.get(url)
+  const { data, error, mutate } = useSWR<IWiki>(wikiId ? `/wiki/detail/${wikiId}` : null, (url) =>
+    HttpClient.get(url)
   );
   const loading = !data && !error;
 
@@ -151,7 +139,7 @@ export const useWikiDetail = (wikiId) => {
    * @returns
    */
   const update = async (data: IUpdateWiki) => {
-    const res = await HttpClient.patch("/wiki/update/" + wikiId, data);
+    const res = await HttpClient.patch('/wiki/update/' + wikiId, data);
     mutate();
     return res;
   };
@@ -162,7 +150,7 @@ export const useWikiDetail = (wikiId) => {
    * @returns
    */
   const toggleStatus = async (data) => {
-    const res = await HttpClient.post("/wiki/share/" + wikiId, data);
+    const res = await HttpClient.post('/wiki/share/' + wikiId, data);
     mutate();
     return res;
   };
@@ -176,9 +164,8 @@ export const useWikiDetail = (wikiId) => {
  * @returns
  */
 export const useWikiUsers = (wikiId) => {
-  const { data, error, mutate } = useSWR<IWikiUser[]>(
-    "/wiki/user/" + wikiId,
-    (url) => HttpClient.get(url)
+  const { data, error, mutate } = useSWR<IWikiUser[]>('/wiki/user/' + wikiId, (url) =>
+    HttpClient.get(url)
   );
   const loading = !data && !error;
 
@@ -217,17 +204,15 @@ export const useWikiUsers = (wikiId) => {
  * @returns
  */
 export const useWikiStar = (wikiId) => {
-  const { data, error, mutate } = useSWR<boolean>(
-    `/collector/check/${wikiId}`,
-    () =>
-      HttpClient.post(`/collector/check`, {
-        type: CollectType.wiki,
-        targetId: wikiId,
-      })
+  const { data, error, mutate } = useSWR<boolean>(`/collector/check/${wikiId}`, () =>
+    HttpClient.post(`/collector/check`, {
+      type: CollectType.wiki,
+      targetId: wikiId,
+    })
   );
 
   const toggleStar = async () => {
-    await HttpClient.post("/collector/toggle/", {
+    await HttpClient.post('/collector/toggle/', {
       type: CollectType.wiki,
       targetId: wikiId,
     });
@@ -243,7 +228,7 @@ export const useWikiStar = (wikiId) => {
  */
 export const useStaredWikis = () => {
   const { data, error, mutate } = useSWR<IWiki[]>(
-    "/collector/wikis",
+    '/collector/wikis',
     (url) => HttpClient.post(url),
     { revalidateOnFocus: true }
   );
@@ -257,9 +242,8 @@ export const useStaredWikis = () => {
  * @returns
  */
 export const usePublicWikiHomeDoc = (wikiId) => {
-  const { data, error } = useSWR<IDocument>(
-    "/wiki/public/homedoc/" + wikiId,
-    (url) => HttpClient.get(url)
+  const { data, error } = useSWR<IDocument>('/wiki/public/homedoc/' + wikiId, (url) =>
+    HttpClient.get(url)
   );
   const loading = !data && !error;
   return { data, error, loading };
@@ -285,9 +269,8 @@ export const usePublicWikiDetail = (wikiId) => {
  * @returns
  */
 export const usePublicWikiTocs = (wikiId) => {
-  const { data, error, mutate } = useSWR<Array<IDocument>>(
-    `/wiki/public/tocs/${wikiId}`,
-    (url) => HttpClient.post(url)
+  const { data, error, mutate } = useSWR<Array<IDocument>>(`/wiki/public/tocs/${wikiId}`, (url) =>
+    HttpClient.post(url)
   );
   const loading = !data && !error;
 

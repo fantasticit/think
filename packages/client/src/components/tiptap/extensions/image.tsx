@@ -1,12 +1,8 @@
-import { Plugin } from "prosemirror-state";
-import { Image as TImage } from "@tiptap/extension-image";
-import {
-  NodeViewWrapper,
-  NodeViewContent,
-  ReactNodeViewRenderer,
-} from "@tiptap/react";
-import { Resizeable } from "components/resizeable";
-import { uploadFile } from "services/file";
+import { Plugin } from 'prosemirror-state';
+import { Image as TImage } from '@tiptap/extension-image';
+import { NodeViewWrapper, NodeViewContent, ReactNodeViewRenderer } from '@tiptap/react';
+import { Resizeable } from 'components/resizeable';
+import { uploadFile } from 'services/file';
 
 const Render = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
@@ -16,25 +12,16 @@ const Render = ({ editor, node, updateAttributes }) => {
     updateAttributes({ height: size.height, width: size.width });
   };
 
-  const content = src && (
-    <img src={src} alt={title} style={{ width: "100%", height: "100%" }} />
-  );
+  const content = src && <img src={src} alt={title} style={{ width: '100%', height: '100%' }} />;
 
   return (
-    <NodeViewWrapper
-      as="div"
-      style={{ textAlign, fontSize: 0, maxWidth: "100%" }}
-    >
+    <NodeViewWrapper as="div" style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
       {isEditable ? (
         <Resizeable width={width} height={height} onChange={onResize}>
           {content}
         </Resizeable>
       ) : (
-        <div
-          style={{ display: "inline-block", width, height, maxWidth: "100%" }}
-        >
-          {content}
-        </div>
+        <div style={{ display: 'inline-block', width, height, maxWidth: '100%' }}>{content}</div>
       )}
     </NodeViewWrapper>
   );
@@ -54,10 +41,10 @@ export const Image = TImage.extend({
         default: null,
       },
       width: {
-        default: "auto",
+        default: 'auto',
       },
       height: {
-        default: "auto",
+        default: 'auto',
       },
     };
   },

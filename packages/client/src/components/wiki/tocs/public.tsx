@@ -1,16 +1,16 @@
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import { Avatar, Typography, Skeleton, Space } from "@douyinfe/semi-ui";
-import { IconPlus } from "@douyinfe/semi-icons";
-import { IconOverview } from "components/icons";
-import { usePublicWikiDetail, usePublicWikiTocs } from "data/wiki";
-import { Seo } from "components/seo";
-import { findParents } from "components/wiki/tocs/utils";
-import { LogoImage, LogoText } from "components/logo";
-import { DataRender } from "components/data-render";
-import { Tree } from "./tree";
-import { NavItem } from "./NavItem";
-import styles from "./index.module.scss";
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { Avatar, Typography, Skeleton, Space } from '@douyinfe/semi-ui';
+import { IconPlus } from '@douyinfe/semi-icons';
+import { IconOverview } from 'components/icons';
+import { usePublicWikiDetail, usePublicWikiTocs } from 'data/wiki';
+import { Seo } from 'components/seo';
+import { findParents } from 'components/wiki/tocs/utils';
+import { LogoImage, LogoText } from 'components/logo';
+import { DataRender } from 'components/data-render';
+import { Tree } from './tree';
+import { NavItem } from './NavItem';
+import styles from './index.module.scss';
 
 interface IProps {
   wikiId: string;
@@ -26,20 +26,12 @@ export const WikiPublicTocs: React.FC<IProps> = ({
   pageTitle,
   wikiId,
   documentId = null,
-  docAsLink = "/share/wiki/[wikiId]/document/[documentId]",
+  docAsLink = '/share/wiki/[wikiId]/document/[documentId]',
   getDocLink = (documentId) => `/share/wiki/${wikiId}/document/${documentId}`,
 }) => {
   const { pathname } = useRouter();
-  const {
-    data: wiki,
-    loading: wikiLoading,
-    error: wikiError,
-  } = usePublicWikiDetail(wikiId);
-  const {
-    data: tocs,
-    loading: tocsLoading,
-    error: tocsError,
-  } = usePublicWikiTocs(wikiId);
+  const { data: wiki, loading: wikiLoading, error: wikiError } = usePublicWikiDetail(wikiId);
+  const { data: tocs, loading: tocsLoading, error: tocsError } = usePublicWikiTocs(wikiId);
   const [parentIds, setParentIds] = useState<Array<string>>([]);
 
   useEffect(() => {
@@ -79,7 +71,7 @@ export const WikiPublicTocs: React.FC<IProps> = ({
         error={wikiError}
         normalContent={() => (
           <>
-            <Seo title={wiki.name + " - " + pageTitle} />
+            <Seo title={wiki.name + ' - ' + pageTitle} />
             <NavItem
               icon={
                 <Avatar
@@ -105,12 +97,12 @@ export const WikiPublicTocs: React.FC<IProps> = ({
 
       <NavItem
         icon={<IconOverview />}
-        text={"概述"}
+        text={'概述'}
         href={{
           pathname: `/share/wiki/[wikiId]`,
           query: { wikiId },
         }}
-        isActive={pathname === "/share/wiki/[wikiId]"}
+        isActive={pathname === '/share/wiki/[wikiId]'}
       />
 
       <div className={styles.treeWrap} style={{ marginTop: 12 }}>

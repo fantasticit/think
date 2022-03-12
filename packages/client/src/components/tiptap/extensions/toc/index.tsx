@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
-import { Command, Node, mergeAttributes } from "@tiptap/core";
-import { ReactNodeViewRenderer } from "@tiptap/react";
+import { useState, useEffect, useCallback } from 'react';
+import { Command, Node, mergeAttributes } from '@tiptap/core';
+import { ReactNodeViewRenderer } from '@tiptap/react';
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
   interface Commands {
     tableOfContents: {
       setToc: () => Command;
@@ -18,7 +18,7 @@ const Component = ({ editor }) => {
     const transaction = editor.state.tr;
 
     editor.state.doc.descendants((node, pos) => {
-      if (node.type.name === "heading") {
+      if (node.type.name === 'heading') {
         const id = `heading-${headings.length + 1}`;
 
         if (node.attrs.id !== id) {
@@ -36,8 +36,8 @@ const Component = ({ editor }) => {
       }
     });
 
-    transaction.setMeta("addToHistory", false);
-    transaction.setMeta("preventUpdate", true);
+    transaction.setMeta('addToHistory', false);
+    transaction.setMeta('preventUpdate', true);
 
     editor.view.dispatch(transaction);
 
@@ -51,10 +51,10 @@ const Component = ({ editor }) => {
       return null;
     }
 
-    editor.on("update", handleUpdate);
+    editor.on('update', handleUpdate);
 
     return () => {
-      editor.off("update", handleUpdate);
+      editor.off('update', handleUpdate);
     };
   }, [editor]);
 
@@ -62,22 +62,22 @@ const Component = ({ editor }) => {
 };
 
 export const Toc = Node.create({
-  name: "tableOfContents",
+  name: 'tableOfContents',
 
-  group: "block",
+  group: 'block',
 
   atom: true,
 
   parseHTML() {
     return [
       {
-        tag: "toc",
+        tag: 'toc',
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ["toc", mergeAttributes(HTMLAttributes)];
+    return ['toc', mergeAttributes(HTMLAttributes)];
   },
 
   addNodeView() {
@@ -87,7 +87,7 @@ export const Toc = Node.create({
   addGlobalAttributes() {
     return [
       {
-        types: ["heading"],
+        types: ['heading'],
         attributes: {
           id: {
             default: null,

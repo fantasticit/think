@@ -1,11 +1,11 @@
-import { Plugin, EditorState } from "prosemirror-state";
-import { Extension } from "@tiptap/core";
+import { Plugin, EditorState } from 'prosemirror-state';
+import { Extension } from '@tiptap/core';
 // @ts-ignore
-import { lowlight } from "lowlight";
-import { uploadFile } from "services/file";
-import { Attachment } from "./attachment";
-import { Image } from "./image";
-import { markdownSerializer } from "../markdown";
+import { lowlight } from 'lowlight';
+import { uploadFile } from 'services/file';
+import { Attachment } from './attachment';
+import { Image } from './image';
+import { markdownSerializer } from '../markdown';
 
 const isMarkActive =
   (type) =>
@@ -40,7 +40,7 @@ const LANGUAGES = lowlight.listLanguages().reduce((a, language) => {
 }, {});
 
 export const acceptedMimes = {
-  image: ["image/jpeg", "image/png", "image/gif", "image/jpg"],
+  image: ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'],
 };
 
 function isMarkdown(text: string): boolean {
@@ -85,9 +85,9 @@ export const Paste = Extension.create({
             if (!event.clipboardData) return false;
 
             const file = event.clipboardData.files[0];
-            const text = event.clipboardData.getData("text/plain");
-            const html = event.clipboardData.getData("text/html");
-            const vscode = event.clipboardData.getData("vscode-editor-data");
+            const text = event.clipboardData.getData('text/plain');
+            const html = event.clipboardData.getData('text/html');
+            const vscode = event.clipboardData.getData('vscode-editor-data');
 
             if (file) {
               event.preventDefault();
@@ -134,11 +134,7 @@ export const Paste = Extension.create({
             // }
 
             // 处理 markdown
-            if (
-              isMarkdown(text) ||
-              html.length === 0 ||
-              pasteCodeLanguage === "markdown"
-            ) {
+            if (isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
               event.preventDefault();
               const paste = markdownSerializer.deserialize({
                 schema: view.props.state.schema,
@@ -184,12 +180,9 @@ export const Paste = Extension.create({
             });
           },
           clipboardTextSerializer: (slice) => {
-            const doc = this.editor.schema.topNodeType.createAndFill(
-              undefined,
-              slice.content
-            );
+            const doc = this.editor.schema.topNodeType.createAndFill(undefined, slice.content);
             if (!doc) {
-              return "";
+              return '';
             }
             const content = markdownSerializer.serialize({
               schema: this.editor.schema,

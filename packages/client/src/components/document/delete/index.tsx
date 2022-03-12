@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
-import Router from "next/router";
-import { Typography, Space, Modal } from "@douyinfe/semi-ui";
-import { IconDelete } from "@douyinfe/semi-icons";
-import { useDeleteDocument } from "data/document";
+import React, { useCallback } from 'react';
+import Router from 'next/router';
+import { Typography, Space, Modal } from '@douyinfe/semi-ui';
+import { IconDelete } from '@douyinfe/semi-icons';
+import { useDeleteDocument } from 'data/document';
 
 interface IProps {
   wikiId: string;
@@ -12,16 +12,12 @@ interface IProps {
 
 const { Text } = Typography;
 
-export const DocumentDeletor: React.FC<IProps> = ({
-  wikiId,
-  documentId,
-  onDelete,
-}) => {
+export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, onDelete }) => {
   const { deleteDocument: api, loading } = useDeleteDocument(documentId);
 
   const deleteAction = useCallback(() => {
     Modal.error({
-      title: "确定删除吗？",
+      title: '确定删除吗？',
       content: <Text>文档删除后不可恢复！</Text>,
       onOk: () => {
         api().then(() => {
@@ -32,8 +28,8 @@ export const DocumentDeletor: React.FC<IProps> = ({
               });
         });
       },
-      okButtonProps: { loading, type: "danger" },
-      style: { maxWidth: "96vw" },
+      okButtonProps: { loading, type: 'danger' },
+      style: { maxWidth: '96vw' },
     });
   }, [wikiId, documentId, api, loading, onDelete]);
 

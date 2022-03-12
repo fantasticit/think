@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { Table, Popconfirm, Button } from "@douyinfe/semi-ui";
-import { IconEdit, IconDelete } from "@douyinfe/semi-icons";
-import { useWikiUsers } from "data/wiki";
-import { DataRender } from "components/data-render";
-import { LocaleTime } from "components/locale-time";
-import { getWikiUserRoleText } from "@think/domains";
-import { useToggle } from "hooks/useToggle";
-import { Placeholder } from "./placeholder";
-import { AddUser } from "./add";
-import { EditUser } from "./edit";
+import React, { useState } from 'react';
+import { Table, Popconfirm, Button } from '@douyinfe/semi-ui';
+import { IconEdit, IconDelete } from '@douyinfe/semi-icons';
+import { useWikiUsers } from 'data/wiki';
+import { DataRender } from 'components/data-render';
+import { LocaleTime } from 'components/locale-time';
+import { getWikiUserRoleText } from '@think/domains';
+import { useToggle } from 'hooks/useToggle';
+import { Placeholder } from './placeholder';
+import { AddUser } from './add';
+import { EditUser } from './edit';
 
 interface IProps {
   wikiId: string;
@@ -20,14 +20,7 @@ export const Users: React.FC<IProps> = ({ wikiId }) => {
   const [visible, toggleVisible] = useToggle(false);
   const [editVisible, toggleEditVisible] = useToggle(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const {
-    data: users,
-    loading,
-    error,
-    addUser,
-    updateUser,
-    deleteUser,
-  } = useWikiUsers(wikiId);
+  const { data: users, loading, error, addUser, updateUser, deleteUser } = useWikiUsers(wikiId);
 
   const editUser = (user) => {
     setCurrentUser(user);
@@ -47,16 +40,11 @@ export const Users: React.FC<IProps> = ({ wikiId }) => {
         error={error}
         loadingContent={<Placeholder />}
         normalContent={() => (
-          <div style={{ margin: "24px 0" }}>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <div style={{ margin: '24px 0' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button onClick={toggleVisible}>添加用户</Button>
             </div>
-            <Table
-              style={{ margin: "16px 0" }}
-              dataSource={users}
-              size="small"
-              pagination
-            >
+            <Table style={{ margin: '16px 0' }} dataSource={users} size="small" pagination>
               <Column title="用户名" dataIndex="userName" key="userName" />
               <Column
                 title="成员角色"
@@ -90,11 +78,7 @@ export const Users: React.FC<IProps> = ({ wikiId }) => {
                       title="确认删除该成员？"
                       onConfirm={() => deleteUser(data)}
                     >
-                      <Button
-                        type="tertiary"
-                        theme="borderless"
-                        icon={<IconDelete />}
-                      />
+                      <Button type="tertiary" theme="borderless" icon={<IconDelete />} />
                     </Popconfirm>
                   </>
                 )}
@@ -104,11 +88,7 @@ export const Users: React.FC<IProps> = ({ wikiId }) => {
         )}
       />
       <AddUser visible={visible} toggleVisible={toggleVisible} onOk={addUser} />
-      <EditUser
-        visible={editVisible}
-        toggleVisible={toggleEditVisible}
-        onOk={handleEdit}
-      />
+      <EditUser visible={editVisible} toggleVisible={toggleEditVisible} onOk={handleEdit} />
     </>
   );
 };

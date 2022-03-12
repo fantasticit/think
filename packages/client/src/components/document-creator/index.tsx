@@ -1,17 +1,14 @@
-import React from "react";
-import { Button } from "@douyinfe/semi-ui";
-import { useToggle } from "hooks/useToggle";
-import { useQuery } from "hooks/useQuery";
-import { DocumentCreator as DocumenCreatorForm } from "components/document/create";
+import React from 'react';
+import { Button } from '@douyinfe/semi-ui';
+import { useToggle } from 'hooks/useToggle';
+import { useQuery } from 'hooks/useQuery';
+import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
 
 interface IProps {
   onCreateDocument?: () => void;
 }
 
-export const DocumentCreator: React.FC<IProps> = ({
-  onCreateDocument,
-  children,
-}) => {
+export const DocumentCreator: React.FC<IProps> = ({ onCreateDocument, children }) => {
   const { wikiId, docId } = useQuery<{ wikiId?: string; docId?: string }>();
   const [visible, toggleVisible] = useToggle(false);
 

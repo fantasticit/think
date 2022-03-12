@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   Transfer,
   Button,
@@ -7,18 +7,14 @@ import {
   RadioGroup,
   Radio,
   Toast,
-} from "@douyinfe/semi-ui";
-import { Checkbox } from "@douyinfe/semi-ui";
-import { IconClose } from "@douyinfe/semi-icons";
-import {
-  WIKI_STATUS_LIST,
-  isPublicDocument,
-  isPublicWiki,
-} from "@think/domains";
-import { useWikiDetail, useWikiTocs } from "data/wiki";
-import { buildUrl } from "helpers/url";
-import { flattenTree2Array } from "components/wiki/tocs/utils";
-import styles from "./index.module.scss";
+  Checkbox,
+} from '@douyinfe/semi-ui';
+import { IconClose } from '@douyinfe/semi-icons';
+import { WIKI_STATUS_LIST, isPublicDocument, isPublicWiki } from '@think/domains';
+import { useWikiDetail, useWikiTocs } from 'data/wiki';
+import { buildUrl } from 'helpers/url';
+import { flattenTree2Array } from 'components/wiki/tocs/utils';
+import styles from './index.module.scss';
 
 const { Text, Title } = Typography;
 
@@ -38,16 +34,11 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
     d.value = d.id;
     return d;
   });
-  const [nextStatus, setNextStatus] = useState("");
-  const isPublic = useMemo(
-    () => workspace && isPublicWiki(workspace.status),
-    [workspace]
-  );
+  const [nextStatus, setNextStatus] = useState('');
+  const isPublic = useMemo(() => workspace && isPublicWiki(workspace.status), [workspace]);
   const [publicDocumentIds, setPublicDocumentIds] = useState([]); // 公开的
   const privateDocumentIds = useMemo(() => {
-    return documents
-      .filter((doc) => !publicDocumentIds.includes(doc.id))
-      .map((doc) => doc.id);
+    return documents.filter((doc) => !publicDocumentIds.includes(doc.id)).map((doc) => doc.id);
   }, [tocs, publicDocumentIds]);
 
   const submit = () => {
@@ -56,7 +47,7 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
       const ret = res as unknown as any & {
         documentOperateMessage?: string;
       };
-      Toast.success(ret.documentOperateMessage || "操作成功");
+      Toast.success(ret.documentOperateMessage || '操作成功');
     });
   };
 
@@ -97,9 +88,7 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
 
   useEffect(() => {
     if (!documents.length) return;
-    const activeIds = documents
-      .filter((doc) => isPublicDocument(doc.status))
-      .map((doc) => doc.id);
+    const activeIds = documents.filter((doc) => isPublicDocument(doc.status)).map((doc) => doc.id);
     setPublicDocumentIds(activeIds);
   }, [tocs]);
 
@@ -113,9 +102,7 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
           icon={null}
           style={{ marginTop: 16 }}
           title={
-            <div
-              style={{ fontWeight: 600, fontSize: "14px", lineHeight: "20px" }}
-            >
+            <div style={{ fontWeight: 600, fontSize: '14px', lineHeight: '20px' }}>
               当前知识库已经公开
             </div>
           }
@@ -126,7 +113,7 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
                 <Text
                   link={{
                     href: buildUrl(`/share/wiki/${wikiId}`),
-                    target: "_blank",
+                    target: '_blank',
                   }}
                   copyable={{
                     content: buildUrl(`/share/wiki/${wikiId}`),
@@ -155,24 +142,17 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
       </div>
       <div className={styles.transferWrap}>
         <Transfer
-          style={{ width: "100%", marginTop: 16 }}
+          style={{ width: '100%', marginTop: 16 }}
           dataSource={documents}
           filter={customFilter}
           value={publicDocumentIds}
           renderSelectedItem={renderSelectedItem}
           renderSourceItem={renderSourceItem}
-          inputProps={{ placeholder: "搜索文档" }}
-          onChange={(_, values) =>
-            setPublicDocumentIds(values.map((v) => v.id))
-          }
+          inputProps={{ placeholder: '搜索文档' }}
+          onChange={(_, values) => setPublicDocumentIds(values.map((v) => v.id))}
         />
       </div>
-      <Button
-        style={{ marginTop: 16 }}
-        type="primary"
-        theme="solid"
-        onClick={submit}
-      >
+      <Button style={{ marginTop: 16 }} type="primary" theme="solid" onClick={submit}>
         保存
       </Button>
     </div>

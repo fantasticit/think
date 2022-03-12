@@ -1,10 +1,10 @@
-import { Command, Extension } from "@tiptap/core";
-import { sinkListItem, liftListItem } from "prosemirror-schema-list";
-import { TextSelection, AllSelection, Transaction } from "prosemirror-state";
-import { clamp } from "../utils/shared";
-import { isListActive } from "../utils/active";
-import { getNodeType } from "../utils/type";
-import { isListNode } from "../utils/node";
+import { Command, Extension } from '@tiptap/core';
+import { sinkListItem, liftListItem } from 'prosemirror-schema-list';
+import { TextSelection, AllSelection, Transaction } from 'prosemirror-state';
+import { clamp } from '../utils/shared';
+import { isListActive } from '../utils/active';
+import { getNodeType } from '../utils/type';
+import { isListNode } from '../utils/node';
 
 type IndentOptions = {
   types: string[];
@@ -12,7 +12,7 @@ type IndentOptions = {
   defaultIndentLevel: number;
 };
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
   interface Commands {
     indent: {
       indent: () => Command;
@@ -28,11 +28,7 @@ export enum IndentProps {
   less = -30,
 }
 
-function setNodeIndentMarkup(
-  tr: Transaction,
-  pos: number,
-  delta: number
-): Transaction {
+function setNodeIndentMarkup(tr: Transaction, pos: number, delta: number): Transaction {
   if (!tr.doc) return tr;
 
   const node = tr.doc.nodeAt(pos);
@@ -58,9 +54,7 @@ function updateIndentLevel(tr: Transaction, delta: number): Transaction {
 
   if (!doc || !selection) return tr;
 
-  if (
-    !(selection instanceof TextSelection || selection instanceof AllSelection)
-  ) {
+  if (!(selection instanceof TextSelection || selection instanceof AllSelection)) {
     return tr;
   }
 
@@ -69,7 +63,7 @@ function updateIndentLevel(tr: Transaction, delta: number): Transaction {
   doc.nodesBetween(from, to, (node, pos) => {
     const nodeType = node.type;
 
-    if (nodeType.name === "paragraph" || nodeType.name === "heading") {
+    if (nodeType.name === 'paragraph' || nodeType.name === 'heading') {
       tr = setNodeIndentMarkup(tr, pos, delta);
       return false;
     }
@@ -83,11 +77,11 @@ function updateIndentLevel(tr: Transaction, delta: number): Transaction {
 }
 
 export const Indent = Extension.create<IndentOptions>({
-  name: "indent",
+  name: 'indent',
 
   addOptions() {
     return {
-      types: ["heading", "paragraph"],
+      types: ['heading', 'paragraph'],
       indentLevels: [0, 30, 60, 90, 120, 150, 180, 210],
       defaultIndentLevel: 0,
     };
@@ -104,8 +98,7 @@ export const Indent = Extension.create<IndentOptions>({
               style: `margin-left: ${attributes.indent}px!important;`,
             }),
             parseHTML: (element) =>
-              parseInt(element.style.marginLeft) ||
-              this.options.defaultIndentLevel,
+              parseInt(element.style.marginLeft) || this.options.defaultIndentLevel,
           },
         },
       },
@@ -118,9 +111,7 @@ export const Indent = Extension.create<IndentOptions>({
         () =>
         ({ tr, state, dispatch }) => {
           if (isListActive(this.editor)) {
-            const name = this.editor.can().liftListItem("taskItem")
-              ? "taskItem"
-              : "listItem";
+            const name = this.editor.can().liftListItem('taskItem') ? 'taskItem' : 'listItem';
             const type = getNodeType(name, state.schema);
             return sinkListItem(type)(state, dispatch);
           }
@@ -140,9 +131,7 @@ export const Indent = Extension.create<IndentOptions>({
         () =>
         ({ tr, state, dispatch }) => {
           if (isListActive(this.editor)) {
-            const name = this.editor.can().liftListItem("taskItem")
-              ? "taskItem"
-              : "listItem";
+            const name = this.editor.can().liftListItem('taskItem') ? 'taskItem' : 'listItem';
             const type = getNodeType(name, state.schema);
             return liftListItem(type)(state, dispatch);
           }
@@ -164,10 +153,10 @@ export const Indent = Extension.create<IndentOptions>({
   // @ts-ignore
   addKeyboardShortcuts() {
     return {
-      Tab: () => {
+      'Tab': () => {
         return this.editor.commands.indent();
       },
-      "Shift-Tab": () => {
+      'Shift-Tab': () => {
         return this.editor.commands.outdent();
       },
     };

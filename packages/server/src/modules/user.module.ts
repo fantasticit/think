@@ -1,10 +1,4 @@
-import {
-  Module,
-  Injectable,
-  UnauthorizedException,
-  Inject,
-  forwardRef,
-} from '@nestjs/common';
+import { Module, Injectable, UnauthorizedException, Inject, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule, PassportStrategy } from '@nestjs/passport';
@@ -28,7 +22,7 @@ const jwtConfig = config.jwt as {
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(forwardRef(() => UserService))
-    private readonly userService: UserService,
+    private readonly userService: UserService
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

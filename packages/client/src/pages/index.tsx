@@ -1,20 +1,20 @@
-import type { NextPage } from "next";
-import type { IDocument } from "@think/domains";
-import Link from "next/link";
-import React from "react";
-import { Typography, Button, Table, Spin, List } from "@douyinfe/semi-ui";
-import { useToggle } from "hooks/useToggle";
-import { Seo } from "components/seo";
-import { DataRender } from "components/data-render";
-import { SingleColumnLayout } from "layouts/single-column";
-import { WikiCreator } from "components/wiki/create";
-import { LocaleTime } from "components/locale-time";
-import { DocumentActions } from "components/document/actions";
-import { useStaredWikis } from "data/wiki";
-import { useRecentDocuments } from "data/document";
-import { WikiPinCardPlaceholder, WikiPinCard } from "components/wiki/pin-card";
-import { Empty } from "components/empty";
-import styles from "./index.module.scss";
+import type { NextPage } from 'next';
+import type { IDocument } from '@think/domains';
+import Link from 'next/link';
+import React from 'react';
+import { Typography, Button, Table, Spin, List } from '@douyinfe/semi-ui';
+import { useToggle } from 'hooks/useToggle';
+import { Seo } from 'components/seo';
+import { DataRender } from 'components/data-render';
+import { SingleColumnLayout } from 'layouts/single-column';
+import { WikiCreator } from 'components/wiki/create';
+import { LocaleTime } from 'components/locale-time';
+import { DocumentActions } from 'components/document/actions';
+import { useStaredWikis } from 'data/wiki';
+import { useRecentDocuments } from 'data/document';
+import { WikiPinCardPlaceholder, WikiPinCard } from 'components/wiki/pin-card';
+import { Empty } from 'components/empty';
+import styles from './index.module.scss';
 
 const { Title } = Typography;
 const { Column } = Table;
@@ -33,7 +33,7 @@ const RecentDocs = () => {
 
   return (
     <>
-      <Title heading={3} style={{ margin: "24px 0 0" }}>
+      <Title heading={3} style={{ margin: '24px 0 0' }}>
         最近访问
       </Title>
       <DataRender
@@ -56,12 +56,10 @@ const RecentDocs = () => {
                 render={(_, document: IDocument) => {
                   return (
                     <Link
-                      href={"/wiki/[wikiId]/document/[docId]"}
+                      href={'/wiki/[wikiId]/document/[docId]'}
                       as={`/wiki/${document.wikiId}/document/${document.id}`}
                     >
-                      <a style={{ color: "inherit", textDecoration: "none" }}>
-                        {document.title}
-                      </a>
+                      <a style={{ color: 'inherit', textDecoration: 'none' }}>{document.title}</a>
                     </Link>
                   );
                 }}
@@ -106,7 +104,7 @@ const Page: NextPage = () => {
       <Seo title="主页" />
       <div className="container">
         <div className={styles.titleWrap}>
-          <Title heading={3} style={{ margin: "8px 0" }}>
+          <Title heading={3} style={{ margin: '8px 0' }}>
             快捷访问
           </Title>
           <>

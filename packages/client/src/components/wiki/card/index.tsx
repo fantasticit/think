@@ -1,11 +1,11 @@
-import Link from "next/link";
-import { Space, Typography, Avatar, Skeleton } from "@douyinfe/semi-ui";
-import { IconUser } from "@douyinfe/semi-icons";
-import { IWiki } from "@think/domains";
-import { LocaleTime } from "components/locale-time";
-import { IconDocument } from "components/icons/IconDocument";
-import { WikiStar } from "components/wiki/star";
-import styles from "./index.module.scss";
+import Link from 'next/link';
+import { Space, Typography, Avatar, Skeleton } from '@douyinfe/semi-ui';
+import { IconUser } from '@douyinfe/semi-icons';
+import { IWiki } from '@think/domains';
+import { LocaleTime } from 'components/locale-time';
+import { IconDocument } from 'components/icons/IconDocument';
+import { WikiStar } from 'components/wiki/star';
+import styles from './index.module.scss';
 
 const { Text, Paragraph } = Typography;
 
@@ -42,10 +42,7 @@ export const WikiCard: React.FC<{ wiki: IWiki }> = ({ wiki }) => {
             <div>
               <Text type="tertiary" size="small">
                 <Space>
-                  <Avatar
-                    size="extra-extra-small"
-                    src={wiki.createUser && wiki.createUser.avatar}
-                  >
+                  <Avatar size="extra-extra-small" src={wiki.createUser && wiki.createUser.avatar}>
                     <IconUser />
                   </Avatar>
                   创建者：
@@ -91,7 +88,7 @@ export const WikiCardPlaceholder = () => {
         </main>
         <footer>
           <Text type="tertiary" size="small">
-            <div style={{ display: "flex" }}>
+            <div style={{ display: 'flex' }}>
               更新时间：
               <Skeleton.Paragraph rows={1} style={{ width: 100 }} />
             </div>

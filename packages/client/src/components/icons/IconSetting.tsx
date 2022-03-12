@@ -1,9 +1,7 @@
-import React from "react";
-import { Icon } from "@douyinfe/semi-ui";
+import React from 'react';
+import { Icon } from '@douyinfe/semi-ui';
 
-export const IconSetting: React.FC<{ style?: React.CSSProperties }> = ({
-  style = {},
-}) => {
+export const IconSetting: React.FC<{ style?: React.CSSProperties }> = ({ style = {} }) => {
   return (
     <Icon
       style={style}

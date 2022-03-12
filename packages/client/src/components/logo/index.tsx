@@ -1,12 +1,12 @@
-import Link from "next/link";
-import { Typography } from "@douyinfe/semi-ui";
-import styles from "./index.module.scss";
+import Link from 'next/link';
+import { Typography } from '@douyinfe/semi-ui';
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 
 export const LogoImage = () => {
   return (
-    <Link href={"/"} as={"/"}>
+    <Link href={'/'} as={'/'}>
       <a style={{ width: 36, height: 36 }}>
         <svg
           viewBox="0 0 1024 1024"
@@ -39,7 +39,7 @@ export const LogoImage = () => {
 
 export const LogoText = () => {
   return (
-    <Link href={"/"} as={"/"}>
+    <Link href={'/'} as={'/'}>
       <a className={styles.wrap}>
         <Text>云策文档</Text>
       </a>

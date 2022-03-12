@@ -1,5 +1,5 @@
-import Router from "next/router";
-import React, { useCallback, useMemo } from "react";
+import Router from 'next/router';
+import React, { useCallback, useMemo } from 'react';
 import {
   Layout,
   Nav,
@@ -10,20 +10,20 @@ import {
   Tooltip,
   Spin,
   Popover,
-} from "@douyinfe/semi-ui";
-import { IconChevronLeft, IconArticle } from "@douyinfe/semi-icons";
-import { useUser } from "data/user";
-import { useDocumentDetail } from "data/document";
-import { Seo } from "components/seo";
-import { Theme } from "components/theme";
-import { DataRender } from "components/data-render";
-import { DocumentShare } from "components/document/share";
-import { DocumentStar } from "components/document/star";
-import { DocumentCollaboration } from "components/document/collaboration";
-import { DocumentStyle } from "components/document/style";
-import { useDocumentStyle } from "hooks/useDocumentStyle";
-import { Editor } from "./editor";
-import styles from "./index.module.scss";
+} from '@douyinfe/semi-ui';
+import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
+import { useUser } from 'data/user';
+import { useDocumentDetail } from 'data/document';
+import { Seo } from 'components/seo';
+import { Theme } from 'components/theme';
+import { DataRender } from 'components/data-render';
+import { DocumentShare } from 'components/document/share';
+import { DocumentStar } from 'components/document/star';
+import { DocumentCollaboration } from 'components/document/collaboration';
+import { DocumentStyle } from 'components/document/style';
+import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { Editor } from './editor';
+import styles from './index.module.scss';
 
 const { Header, Content } = Layout;
 const { Text } = Typography;
@@ -37,9 +37,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
 
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
-    return width === "standardWidth"
-      ? styles.isStandardWidth
-      : styles.isFullWidth;
+    return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
 
   const { user } = useUser();
@@ -59,11 +57,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   const DocumentTitle = (
     <>
       <Tooltip content="返回" position="bottom">
-        <Button
-          onClick={goback}
-          icon={<IconChevronLeft />}
-          style={{ marginRight: 16 }}
-        />
+        <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
       </Tooltip>
       <DataRender
         loading={docAuthLoading}
@@ -71,9 +65,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         loadingContent={
           <Skeleton
             active
-            placeholder={
-              <Skeleton.Title style={{ width: 80, marginBottom: 8 }} />
-            }
+            placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />}
             loading={true}
           />
         }
@@ -104,17 +96,8 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
               )}
               <DocumentShare key="share" documentId={documentId} />
               <DocumentStar key="star" documentId={documentId} />
-              <Popover
-                key="style"
-                zIndex={1061}
-                position="bottomLeft"
-                content={<DocumentStyle />}
-              >
-                <Button
-                  icon={<IconArticle />}
-                  theme="borderless"
-                  type="tertiary"
-                />
+              <Popover key="style" zIndex={1061} position="bottomLeft" content={<DocumentStyle />}>
+                <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
               </Popover>
               <Theme />
             </Space>

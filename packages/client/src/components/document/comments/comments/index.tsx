@@ -1,6 +1,6 @@
-import React from "react";
-import type { IComment } from "@think/domains";
-import { CommentItem } from "./Item";
+import React from 'react';
+import type { IComment } from '@think/domains';
+import { CommentItem } from './Item';
 
 interface IProps {
   comments: Array<IComment>;
@@ -11,18 +11,9 @@ interface IProps {
 
 const PADDING_LEFT = 32;
 
-const CommentInner = ({
-  data,
-  depth,
-  replyComment,
-  editComment,
-  deleteComment,
-}) => {
+const CommentInner = ({ data, depth, replyComment, editComment, deleteComment }) => {
   return (
-    <div
-      key={"comment" + depth}
-      style={{ paddingLeft: depth > 0 ? PADDING_LEFT : 0 }}
-    >
+    <div key={'comment' + depth} style={{ paddingLeft: depth > 0 ? PADDING_LEFT : 0 }}>
       {(data || []).map((item) => {
         const hasChildren = item.children && item.children.length;
         return (
@@ -36,7 +27,7 @@ const CommentInner = ({
             ></CommentItem>
             {hasChildren ? (
               <CommentInner
-                key={"comment-inner" + depth}
+                key={'comment-inner' + depth}
                 data={item.children}
                 depth={depth + 1}
                 replyComment={replyComment}
@@ -59,7 +50,7 @@ export const Comments: React.FC<IProps> = ({
 }) => {
   return (
     <CommentInner
-      key={"root-menu"}
+      key={'root-menu'}
       data={comments}
       depth={0}
       replyComment={replyComment}

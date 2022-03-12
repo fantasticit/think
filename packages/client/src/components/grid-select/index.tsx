@@ -1,1 +1,1 @@
-export * from "./grid-select";
+export * from './grid-select';

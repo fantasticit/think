@@ -1,10 +1,10 @@
-import React from "react";
-import cls from "classnames";
-import { Layout as SemiLayout, Button } from "@douyinfe/semi-ui";
-import { IconChevronLeft, IconChevronRight } from "@douyinfe/semi-icons";
-import SplitPane from "react-split-pane";
-import { useDragableWidth, MIN_WIDTH, MAX_WIDTH } from "hooks/useDragableWidth";
-import styles from "./index.module.scss";
+import React from 'react';
+import cls from 'classnames';
+import { Layout as SemiLayout, Button } from '@douyinfe/semi-ui';
+import { IconChevronLeft, IconChevronRight } from '@douyinfe/semi-icons';
+import SplitPane from 'react-split-pane';
+import { useDragableWidth, MIN_WIDTH, MAX_WIDTH } from 'hooks/useDragableWidth';
+import styles from './index.module.scss';
 
 const { Sider, Content } = SemiLayout;
 
@@ -13,32 +13,17 @@ interface IProps {
   rightNode: React.ReactNode;
 }
 
-export const PublicDoubleColumnLayout: React.FC<IProps> = ({
-  leftNode,
-  rightNode,
-}) => {
-  const { width, isCollapsed, updateWidth, toggleCollapsed } =
-    useDragableWidth();
+export const PublicDoubleColumnLayout: React.FC<IProps> = ({ leftNode, rightNode }) => {
+  const { width, isCollapsed, updateWidth, toggleCollapsed } = useDragableWidth();
 
   return (
     <SemiLayout className={styles.wrap}>
-      <SplitPane
-        minSize={MIN_WIDTH}
-        maxSize={MAX_WIDTH}
-        size={width}
-        onChange={updateWidth}
-      >
-        <Sider
-          style={{ width: "100%", height: "100%" }}
-          className={styles.leftWrap}
-        >
+      <SplitPane minSize={MIN_WIDTH} maxSize={MAX_WIDTH} size={width} onChange={updateWidth}>
+        <Sider style={{ width: '100%', height: '100%' }} className={styles.leftWrap}>
           <Button
             size="small"
             icon={isCollapsed ? <IconChevronRight /> : <IconChevronLeft />}
-            className={cls(
-              styles.collapseBtn,
-              isCollapsed && styles.isCollapsed
-            )}
+            className={cls(styles.collapseBtn, isCollapsed && styles.isCollapsed)}
             onClick={toggleCollapsed}
           />
           <div

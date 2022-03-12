@@ -1,12 +1,12 @@
-import React, { useState, useMemo } from "react";
-import { List, Pagination } from "@douyinfe/semi-ui";
-import { DataRender } from "components/data-render";
+import React, { useState, useMemo } from 'react';
+import { List, Pagination } from '@douyinfe/semi-ui';
+import { DataRender } from 'components/data-render';
 import {
   IProps as ITemplateCardProps,
   TemplateCardPlaceholder,
   TemplateCard,
-} from "components/template/card";
-import { Empty } from "components/empty";
+} from 'components/template/card';
+import { Empty } from 'components/empty';
 
 const grid = {
   gutter: 16,
@@ -17,7 +17,7 @@ const grid = {
   xl: 8,
 };
 
-interface IProps extends Omit<ITemplateCardProps, "template"> {
+interface IProps extends Omit<ITemplateCardProps, 'template'> {
   // TODO: 修复类型
   hook: any;
   firstListItem?: React.ReactNode;
@@ -81,15 +81,15 @@ export const TemplateList: React.FC<IProps> = ({
                 </List.Item>
               );
             }}
-            emptyContent={<Empty message={"暂无模板"} />}
+            emptyContent={<Empty message={'暂无模板'} />}
           ></List>
           {data.data.length > pageSize ? (
             <Pagination
               size="small"
               style={{
-                width: "100%",
-                flexBasis: "100%",
-                justifyContent: "center",
+                width: '100%',
+                flexBasis: '100%',
+                justifyContent: 'center',
               }}
               pageSize={pageSize}
               total={data.data.length}

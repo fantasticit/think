@@ -1,11 +1,9 @@
-import React from "react";
-import { Button } from "@douyinfe/semi-ui";
-import { useToggle } from "hooks/useToggle";
-import { WikiCreator as WikiCreatorForm } from "components/wiki/create";
+import React from 'react';
+import { Button } from '@douyinfe/semi-ui';
+import { useToggle } from 'hooks/useToggle';
+import { WikiCreator as WikiCreatorForm } from 'components/wiki/create';
 
-interface IProps {}
-
-export const WikiCreator: React.FC<IProps> = ({ children }) => {
+export const WikiCreator = ({ children }) => {
   const [visible, toggleVisible] = useToggle(false);
 
   return (

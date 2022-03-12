@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useRef, useState, useEffect } from "react";
-import { Avatar, Form, Modal, Space } from "@douyinfe/semi-ui";
-import { FormApi } from "@douyinfe/semi-ui/lib/es/form";
-import { Upload } from "components/upload";
-import { useUser } from "data/user";
+import { Dispatch, SetStateAction, useRef, useState, useEffect } from 'react';
+import { Avatar, Form, Modal, Space } from '@douyinfe/semi-ui';
+import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+import { Upload } from 'components/upload';
+import { useUser } from 'data/user';
 
 interface IProps {
   visible: boolean;
@@ -12,10 +12,10 @@ interface IProps {
 export const UserSetting: React.FC<IProps> = ({ visible, toggleVisible }) => {
   const $form = useRef<FormApi>();
   const { user, loading, updateUser } = useUser();
-  const [currentAvatar, setCurrentAvatar] = useState("");
+  const [currentAvatar, setCurrentAvatar] = useState('');
 
   const setAvatar = (url) => {
-    $form.current.setValue("avatar", url);
+    $form.current.setValue('avatar', url);
     setCurrentAvatar(url);
   };
 
@@ -44,7 +44,7 @@ export const UserSetting: React.FC<IProps> = ({ visible, toggleVisible }) => {
       visible={visible}
       onOk={handleOk}
       onCancel={handleCancel}
-      style={{ maxWidth: "96vw" }}
+      style={{ maxWidth: '96vw' }}
       okButtonProps={{ loading }}
     >
       <Form
@@ -61,14 +61,14 @@ export const UserSetting: React.FC<IProps> = ({ visible, toggleVisible }) => {
         <Form.Input
           label="账户"
           field="name"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           disabled
           placeholder="请输入账户名称"
         ></Form.Input>
         <Form.Input
           label="邮箱"
           field="email"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           placeholder="请输入账户邮箱"
         ></Form.Input>
       </Form>

@@ -38,10 +38,7 @@ const List: React.FC<{ data: IDocument[] }> = ({ data }) => {
                   <div className={styles.leftWrap}>
                     <IconDocumentFill style={{ marginRight: 12 }} />
                     <div>
-                      <Text
-                        ellipsis={{ showTooltip: true }}
-                        style={{ width: 180 }}
-                      >
+                      <Text ellipsis={{ showTooltip: true }} style={{ width: 180 }}>
                         {doc.title}
                       </Text>
 
@@ -100,12 +97,7 @@ export const Search = () => {
 
   return (
     <>
-      <Button
-        type="tertiary"
-        theme="borderless"
-        icon={<IconSearch />}
-        onClick={toggleVisible}
-      />
+      <Button type="tertiary" theme="borderless" icon={<IconSearch />} onClick={toggleVisible} />
       <Modal
         visible={visible}
         title="文档搜索"
@@ -126,12 +118,7 @@ export const Search = () => {
                 setKeyword(val);
               }}
               onEnterPress={search}
-              suffix={
-                <SemiIconSearch
-                  onClick={search}
-                  style={{ cursor: 'pointer' }}
-                />
-              }
+              suffix={<SemiIconSearch onClick={search} style={{ cursor: 'pointer' }} />}
               showClear
             />
           </div>

@@ -1,5 +1,5 @@
-import { NextPage } from "next";
-import { DocumentEditor } from "components/document/editor";
+import { NextPage } from 'next';
+import { DocumentEditor } from 'components/document/editor';
 
 interface IProps {
   wikiId: string;

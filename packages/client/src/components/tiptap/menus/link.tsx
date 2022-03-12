@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react";
-import { Space, Button, Tooltip, Input } from "@douyinfe/semi-ui";
-import {
-  IconExternalOpen,
-  IconUnlink,
-  IconTickCircle,
-} from "@douyinfe/semi-icons";
-import { BubbleMenu } from "../components/bubble-menu";
-import { Link } from "../extensions/link";
+import { useEffect, useState } from 'react';
+import { Space, Button, Tooltip, Input } from '@douyinfe/semi-ui';
+import { IconExternalOpen, IconUnlink, IconTickCircle } from '@douyinfe/semi-icons';
+import { BubbleMenu } from '../components/bubble-menu';
+import { Link } from '../extensions/link';
 
 export const LinkBubbleMenu = ({ editor }) => {
   const attrs = editor.getAttributes(Link.name);
   const { href, target } = attrs;
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
 
   useEffect(() => {
     setUrl(href);
@@ -19,7 +15,7 @@ export const LinkBubbleMenu = ({ editor }) => {
 
   return (
     <BubbleMenu
-      className={"bubble-menu"}
+      className={'bubble-menu'}
       editor={editor}
       pluginKey="link-bubble-menu"
       shouldShow={() => editor.isActive(Link.name)}
@@ -29,7 +25,7 @@ export const LinkBubbleMenu = ({ editor }) => {
         <Input
           value={url}
           onChange={(v) => setUrl(v)}
-          placeholder={"输入链接"}
+          placeholder={'输入链接'}
           onEnterPress={(e) => {
             // @ts-ignore
             const url = e.target.value;

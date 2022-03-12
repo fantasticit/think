@@ -1,8 +1,7 @@
-import React, { useMemo } from "react";
-import { useState, useCallback } from "react";
-import { Typography } from "@douyinfe/semi-ui";
-import { debounce } from "helpers/debounce";
-import { GridCell } from "./grid-cell";
+import React, { useMemo, useState, useCallback } from 'react';
+import { Typography } from '@douyinfe/semi-ui';
+import { debounce } from 'helpers/debounce';
+import { GridCell } from './grid-cell';
 
 const { Text } = Typography;
 
@@ -28,12 +27,12 @@ type CoordsType = {
 
 const getBaseStyles = (cols, cellSize) => ({
   grid: {
-    position: "relative",
-    display: "grid",
-    color: "#444",
-    margin: "8px 0",
-    gridGap: "4px 6px",
-    gridTemplateColumns: Array(cols).fill(`${cellSize}px`).join(" "),
+    position: 'relative',
+    display: 'grid',
+    color: '#444',
+    margin: '8px 0',
+    gridGap: '4px 6px',
+    gridTemplateColumns: Array(cols).fill(`${cellSize}px`).join(' '),
   },
 });
 
@@ -88,8 +87,8 @@ export const GridSelect = ({
         const isCellDisabled = disabled;
         cells.push(
           <GridCell
-            id={x + "-" + y}
-            key={x + "-" + y}
+            id={x + '-' + y}
+            key={x + '-' + y}
             onClick={() => onClick({ x, y, isCellDisabled })}
             onMouseEnter={onHover.bind(null, { x, y, isCellDisabled })}
             active={isActive}
@@ -115,10 +114,7 @@ export const GridSelect = ({
     onHover,
   ]);
 
-  const baseStyles = useMemo(
-    () => getBaseStyles(cols, cellSize),
-    [cols, cellSize]
-  );
+  const baseStyles = useMemo(() => getBaseStyles(cols, cellSize), [cols, cellSize]);
 
   return (
     <div>
@@ -133,10 +129,8 @@ export const GridSelect = ({
       >
         {cells}
       </div>
-      <footer style={{ textAlign: "center" }}>
-        <Text>
-          {hoverCell ? `${hoverCell.y + 1} x ${hoverCell.x + 1}` : null}
-        </Text>
+      <footer style={{ textAlign: 'center' }}>
+        <Text>{hoverCell ? `${hoverCell.y + 1} x ${hoverCell.x + 1}` : null}</Text>
       </footer>
     </div>
   );

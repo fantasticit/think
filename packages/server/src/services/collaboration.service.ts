@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  Inject,
-  forwardRef,
-} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
 import { DocumentStatus } from '@think/domains';
 import { getConfig } from '@think/config';
 import * as Y from 'yjs';
@@ -39,7 +33,7 @@ export class CollaborationService {
     @Inject(forwardRef(() => DocumentService))
     private readonly documentService: DocumentService,
     @Inject(forwardRef(() => TemplateService))
-    private readonly templateService: TemplateService,
+    private readonly templateService: TemplateService
   ) {
     this.initServer();
   }
@@ -78,16 +72,10 @@ export class CollaborationService {
       onChange: this.onChange.bind(this),
     });
     this.server = server;
-    this.server.listen(
-      lodash.get(getConfig(), 'server.collaborationPort', 5003),
-    );
+    this.server.listen(lodash.get(getConfig(), 'server.collaborationPort', 5003));
   }
 
-  async onAuthenticate({
-    connection,
-    token,
-    requestParameters,
-  }: onAuthenticatePayload) {
+  async onAuthenticate({ connection, token, requestParameters }: onAuthenticatePayload) {
     const targetId = requestParameters.get('targetId');
     const docType = requestParameters.get('docType');
 
@@ -106,16 +94,10 @@ export class CollaborationService {
           const user = await this.userService.decodeToken(token);
 
           if (!user || !user.id) {
-            throw new HttpException(
-              '您无权查看此文档',
-              HttpStatus.UNAUTHORIZED,
-            );
+            throw new HttpException('您无权查看此文档', HttpStatus.UNAUTHORIZED);
           }
 
-          const authority = await this.documentService.getDocumentAuthority(
-            documentId,
-            user.id,
-          );
+          const authority = await this.documentService.getDocumentAuthority(documentId, user.id);
 
           if (!authority.readable) {
             throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
@@ -211,10 +193,7 @@ export class CollaborationService {
     this.debounce(`onStoreDocument-${targetId}`, () => {
       this.onStoreDocument(updateHandler, data).catch((error) => {
         if (error?.message) {
-          throw new HttpException(
-            error?.message,
-            HttpStatus.SERVICE_UNAVAILABLE,
-          );
+          throw new HttpException(error?.message, HttpStatus.SERVICE_UNAVAILABLE);
         }
       });
     });

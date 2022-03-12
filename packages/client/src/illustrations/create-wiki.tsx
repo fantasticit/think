@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const CreateWikiIllustration = () => {
   return (
@@ -308,13 +308,7 @@ export const CreateWikiIllustration = () => {
         transform="translate(-154 -199.62501)"
         fill="#cbcbcb"
       />
-      <rect
-        x="392.29724"
-        y="19.74997"
-        width="2"
-        height="303.03809"
-        fill="#cbcbcb"
-      />
+      <rect x="392.29724" y="19.74997" width="2" height="303.03809" fill="#cbcbcb" />
     </svg>
   );
 };

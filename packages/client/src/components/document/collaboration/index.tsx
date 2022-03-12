@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Modal,
@@ -14,14 +14,14 @@ import {
   Popconfirm,
   AvatarGroup,
   Avatar,
-} from "@douyinfe/semi-ui";
-import { IconUserAdd, IconDelete } from "@douyinfe/semi-icons";
-import { useUser } from "data/user";
-import { EventEmitter } from "helpers/event-emitter";
-import { useToggle } from "hooks/useToggle";
-import { useCollaborationDocument } from "data/document";
-import { DataRender } from "components/data-render";
-import { DocumentLinkCopyer } from "components/document/link";
+} from '@douyinfe/semi-ui';
+import { IconUserAdd, IconDelete } from '@douyinfe/semi-icons';
+import { useUser } from 'data/user';
+import { EventEmitter } from 'helpers/event-emitter';
+import { useToggle } from 'hooks/useToggle';
+import { useCollaborationDocument } from 'data/document';
+import { DataRender } from 'components/data-render';
+import { DocumentLinkCopyer } from 'components/document/link';
 
 interface IProps {
   wikiId: string;
@@ -32,48 +32,38 @@ const { Paragraph } = Typography;
 const { Column } = Table;
 
 const CollaborationEventEmitter = new EventEmitter();
-const KEY = "JOIN_USER";
+const KEY = 'JOIN_USER';
 
 export const joinUser = (users) => {
   CollaborationEventEmitter.emit(KEY, users);
 };
 
-const renderChecked =
-  (onChange, authKey: "readable" | "editable") => (checked, docAuth) => {
-    const handle = (evt) => {
-      const data = {
-        ...docAuth.auth,
-        userName: docAuth.user.name,
-      };
-      data[authKey] = evt.target.checked;
-      onChange(data);
+const renderChecked = (onChange, authKey: 'readable' | 'editable') => (checked, docAuth) => {
+  const handle = (evt) => {
+    const data = {
+      ...docAuth.auth,
+      userName: docAuth.user.name,
     };
-
-    return (
-      <Checkbox
-        style={{ display: "inline-block" }}
-        checked={checked}
-        onChange={handle}
-      />
-    );
+    data[authKey] = evt.target.checked;
+    onChange(data);
   };
 
-export const DocumentCollaboration: React.FC<IProps> = ({
-  wikiId,
-  documentId,
-}) => {
+  return <Checkbox style={{ display: 'inline-block' }} checked={checked} onChange={handle} />;
+};
+
+export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) => {
   const { user: currentUser } = useUser();
   const [visible, toggleVisible] = useToggle(false);
   const { users, loading, error, addUser, updateUser, deleteUser } =
     useCollaborationDocument(documentId);
-  const [inviteUser, setInviteUser] = useState("");
+  const [inviteUser, setInviteUser] = useState('');
 
   const [collaborationUsers, setCollaborationUsers] = useState([]);
 
   const handleOk = () => {
     addUser(inviteUser).then(() => {
-      Toast.success("添加成功");
-      setInviteUser("");
+      Toast.success('添加成功');
+      setInviteUser('');
     });
   };
 
@@ -95,9 +85,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({
       if (
         collaborationUsers.length === newCollaborationUsers.length &&
         newCollaborationUsers.every((newUser) => {
-          return collaborationUsers.find(
-            (existUser) => existUser.id === newUser.id
-          );
+          return collaborationUsers.find((existUser) => existUser.id === newUser.id);
         })
       ) {
         return;
@@ -120,11 +108,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({
   if (error)
     return (
       <Tooltip content="邀请他人协作" position="bottom">
-        <Button
-          theme="borderless"
-          type="tertiary"
-          icon={<IconUserAdd />}
-        ></Button>
+        <Button theme="borderless" type="tertiary" icon={<IconUserAdd />}></Button>
       </Tooltip>
     );
 
@@ -150,13 +134,13 @@ export const DocumentCollaboration: React.FC<IProps> = ({
         ></Button>
       </Tooltip>
       <Modal
-        title={"文档协作"}
-        okText={"邀请对方"}
+        title={'文档协作'}
+        okText={'邀请对方'}
         visible={visible}
         onOk={handleOk}
         onCancel={() => toggleVisible(false)}
         maskClosable={false}
-        style={{ maxWidth: "96vw" }}
+        style={{ maxWidth: '96vw' }}
         footer={null}
       >
         <Tabs type="line">
@@ -169,14 +153,14 @@ export const DocumentCollaboration: React.FC<IProps> = ({
               ></Input>
               <Paragraph style={{ marginTop: 16 }}>
                 邀请成功后，请将该链接发送给对方。
-                <span style={{ verticalAlign: "middle" }}>
+                <span style={{ verticalAlign: 'middle' }}>
                   <DocumentLinkCopyer wikiId={wikiId} documentId={documentId} />
                 </span>
               </Paragraph>
               <Button
                 theme="solid"
                 block
-                style={{ margin: "24px 0" }}
+                style={{ margin: '24px 0' }}
                 disabled={!inviteUser}
                 onClick={handleOk}
               >
@@ -190,25 +174,20 @@ export const DocumentCollaboration: React.FC<IProps> = ({
               error={error}
               loadingContent={<Spin />}
               normalContent={() => (
-                <Table
-                  style={{ margin: "24px 0" }}
-                  dataSource={users}
-                  size="small"
-                  pagination
-                >
+                <Table style={{ margin: '24px 0' }} dataSource={users} size="small" pagination>
                   <Column title="用户名" dataIndex="user.name" key="name" />
                   <Column
                     title="是否可读"
                     dataIndex="auth.readable"
                     key="readable"
-                    render={renderChecked(updateUser, "readable")}
+                    render={renderChecked(updateUser, 'readable')}
                     align="center"
                   />
                   <Column
                     title="是否可编辑"
                     dataIndex="auth.editable"
                     key="editable"
-                    render={renderChecked(updateUser, "editable")}
+                    render={renderChecked(updateUser, 'editable')}
                     align="center"
                   />
                   <Column
@@ -221,11 +200,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({
                         title="确认删除该成员？"
                         onConfirm={() => handleDelete(document)}
                       >
-                        <Button
-                          type="tertiary"
-                          theme="borderless"
-                          icon={<IconDelete />}
-                        />
+                        <Button type="tertiary" theme="borderless" icon={<IconDelete />} />
                       </Popconfirm>
                     )}
                   />

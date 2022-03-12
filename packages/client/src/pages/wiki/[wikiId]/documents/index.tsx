@@ -1,19 +1,16 @@
-import { NextPage } from "next";
-import Router, { useRouter } from "next/router";
-import React, { useCallback } from "react";
-import { Typography, List, Tabs, TabPane, Tree } from "@douyinfe/semi-ui";
-import { CreateDocumentIllustration } from "illustrations/create-document";
-import { DoubleColumnLayout } from "layouts/double-column";
-import { DataRender } from "components/data-render";
-import { WikiTocs } from "components/wiki/tocs";
-import { WikiTocsManager } from "components/wiki/tocs/manager";
-import { useWikiDocs } from "data/wiki";
-import {
-  DocumentCardPlaceholder,
-  DocumentCard,
-} from "components/document/card";
-import { Empty } from "components/empty";
-import { DocumentCreator } from "components/document-creator";
+import { NextPage } from 'next';
+import Router, { useRouter } from 'next/router';
+import React, { useCallback } from 'react';
+import { Typography, List, Tabs, TabPane, Tree } from '@douyinfe/semi-ui';
+import { CreateDocumentIllustration } from 'illustrations/create-document';
+import { DoubleColumnLayout } from 'layouts/double-column';
+import { DataRender } from 'components/data-render';
+import { WikiTocs } from 'components/wiki/tocs';
+import { WikiTocsManager } from 'components/wiki/tocs/manager';
+import { useWikiDocs } from 'data/wiki';
+import { DocumentCardPlaceholder, DocumentCard } from 'components/document/card';
+import { Empty } from 'components/empty';
+import { DocumentCreator } from 'components/document-creator';
 
 interface IProps {
   wikiId: string;
@@ -58,10 +55,7 @@ const AllDocs = ({ wikiId }) => {
             </List.Item>
           )}
           emptyContent={
-            <Empty
-              illustration={<CreateDocumentIllustration />}
-              message={<DocumentCreator />}
-            />
+            <Empty illustration={<CreateDocumentIllustration />} message={<DocumentCreator />} />
           }
         />
       )}
@@ -71,7 +65,7 @@ const AllDocs = ({ wikiId }) => {
 
 const Page: NextPage<IProps> = ({ wikiId }) => {
   const { query = {} } = useRouter();
-  const { tab = "documents" } = query as {
+  const { tab = 'documents' } = query as {
     tab?: string;
   };
 

@@ -1,13 +1,9 @@
-import { Node, Command, mergeAttributes } from "@tiptap/core";
-import {
-  NodeViewWrapper,
-  NodeViewContent,
-  ReactNodeViewRenderer,
-} from "@tiptap/react";
-import { Banner as SemiBanner } from "@douyinfe/semi-ui";
-import styles from "./index.module.scss";
+import { Node, Command, mergeAttributes } from '@tiptap/core';
+import { NodeViewWrapper, NodeViewContent, ReactNodeViewRenderer } from '@tiptap/react';
+import { Banner as SemiBanner } from '@douyinfe/semi-ui';
+import styles from './index.module.scss';
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
   interface Commands {
     banner: {
       setBanner: () => Command;
@@ -16,34 +12,31 @@ declare module "@tiptap/core" {
 }
 
 const BannerExtension = Node.create({
-  name: "banner",
-  content: "block*",
-  group: "block",
+  name: 'banner',
+  content: 'block*',
+  group: 'block',
   defining: true,
   draggable: true,
 
   addAttributes() {
     return {
       type: {
-        default: "info",
+        default: 'info',
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: "div" }];
+    return [{ tag: 'div' }];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
-      "div",
-      { class: "banner" },
+      'div',
+      { class: 'banner' },
       [
-        "div",
-        mergeAttributes(
-          (this.options && this.options.HTMLAttributes) || {},
-          HTMLAttributes
-        ),
+        'div',
+        mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes),
         0,
       ],
     ];

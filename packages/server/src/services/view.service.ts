@@ -9,7 +9,7 @@ import { IPagination } from '@think/domains';
 export class ViewService {
   constructor(
     @InjectRepository(ViewEntity)
-    private readonly viewRepo: Repository<ViewEntity>,
+    private readonly viewRepo: Repository<ViewEntity>
   ) {}
 
   /**

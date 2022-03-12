@@ -1,36 +1,36 @@
-import type { IUser, ILoginUser } from "@think/domains";
-import useSWR from "swr";
-import { useCallback, useEffect } from "react";
-import Router, { useRouter } from "next/router";
-import { HttpClient } from "services/HttpClient";
-import { getStorage, setStorage } from "helpers/storage";
+import type { IUser, ILoginUser } from '@think/domains';
+import useSWR from 'swr';
+import { useCallback, useEffect } from 'react';
+import Router, { useRouter } from 'next/router';
+import { HttpClient } from 'services/HttpClient';
+import { getStorage, setStorage } from 'helpers/storage';
 
 export const useUser = () => {
   const router = useRouter();
-  const { data, error, mutate } = useSWR("user", getStorage);
+  const { data, error, mutate } = useSWR('user', getStorage);
 
   const logout = useCallback(() => {
-    window.localStorage.removeItem("user");
-    window.localStorage.removeItem("token");
+    window.localStorage.removeItem('user');
+    window.localStorage.removeItem('token');
     mutate(null);
-    Router.replace("/login");
+    Router.replace('/login');
   }, []);
 
   const login = useCallback((data) => {
-    HttpClient.post<IUser>("/user/login", data).then((res) => {
+    HttpClient.post<IUser>('/user/login', data).then((res) => {
       const user = res as unknown as ILoginUser;
       mutate(user);
-      setStorage("user", JSON.stringify(user));
-      user.token && setStorage("token", user.token);
-      const next = router.query?.redirect || "/";
+      setStorage('user', JSON.stringify(user));
+      user.token && setStorage('token', user.token);
+      const next = router.query?.redirect || '/';
       Router.replace(next as string);
     });
   }, []);
 
-  const updateUser = async (patch: Pick<IUser, "email" | "avatar">) => {
-    const res = await HttpClient.patch("/user/update", patch);
+  const updateUser = async (patch: Pick<IUser, 'email' | 'avatar'>) => {
+    const res = await HttpClient.patch('/user/update', patch);
     const ret = { ...data, ...res } as unknown as IUser;
-    setStorage("user", JSON.stringify(ret));
+    setStorage('user', JSON.stringify(ret));
     mutate(ret);
   };
 

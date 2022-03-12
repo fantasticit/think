@@ -1,24 +1,20 @@
-import { Node, mergeAttributes } from "@tiptap/core";
+import { Node, mergeAttributes } from '@tiptap/core';
 
 export const Div = Node.create({
-  name: "div",
+  name: 'div',
   addOptions() {
     return {
       HTMLAttributes: {},
     };
   },
-  content: "block*",
-  group: "block",
+  content: 'block*',
+  group: 'block',
   defining: true,
   parseHTML() {
-    return [{ tag: "div" }];
+    return [{ tag: 'div' }];
   },
   renderHTML({ HTMLAttributes }) {
-    return [
-      "div",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
-    ];
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
   //  @ts-ignore
   addCommands() {
@@ -26,17 +22,17 @@ export const Div = Node.create({
       setDiv:
         (attributes) =>
         ({ commands }) => {
-          return commands.wrapIn("div", attributes);
+          return commands.wrapIn('div', attributes);
         },
       toggleDiv:
         (attributes) =>
         ({ commands }) => {
-          return commands.toggleWrap("div", attributes);
+          return commands.toggleWrap('div', attributes);
         },
       unsetDiv:
         (attributes) =>
         ({ commands }) => {
-          return commands.lift("div");
+          return commands.lift('div');
         },
     };
   },

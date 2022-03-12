@@ -1,22 +1,14 @@
-import type { ITemplate } from "@think/domains";
-import { useCallback } from "react";
-import cls from "classnames";
-import Router from "next/router";
-import {
-  Button,
-  Space,
-  Typography,
-  Tooltip,
-  Avatar,
-  Skeleton,
-  Modal,
-} from "@douyinfe/semi-ui";
-import { IconEdit, IconUser, IconPlus } from "@douyinfe/semi-icons";
-import { IconDocument } from "components/icons/IconDocument";
-import { TemplateReader } from "components/template/reader";
-import { useUser } from "data/user";
-import styles from "./index.module.scss";
-import { useToggle } from "hooks/useToggle";
+import type { ITemplate } from '@think/domains';
+import { useCallback } from 'react';
+import cls from 'classnames';
+import Router from 'next/router';
+import { Button, Space, Typography, Tooltip, Avatar, Skeleton, Modal } from '@douyinfe/semi-ui';
+import { IconEdit, IconUser, IconPlus } from '@douyinfe/semi-icons';
+import { IconDocument } from 'components/icons/IconDocument';
+import { TemplateReader } from 'components/template/reader';
+import { useUser } from 'data/user';
+import styles from './index.module.scss';
+import { useToggle } from 'hooks/useToggle';
 
 const { Text } = Typography;
 
@@ -31,7 +23,7 @@ export interface IProps {
 export const TemplateCard: React.FC<IProps> = ({
   template,
   onClick,
-  getClassNames = (id) => "",
+  getClassNames = (id) => '',
   onOpenPreview,
   onClosePreview,
 }) => {
@@ -46,10 +38,10 @@ export const TemplateCard: React.FC<IProps> = ({
     <>
       <Modal
         title="模板预览"
-        width={"calc(100vh - 120px)"}
-        height={"calc(100vh - 120px)"}
+        width={'calc(100vh - 120px)'}
+        height={'calc(100vh - 120px)'}
         bodyStyle={{
-          overflow: "auto",
+          overflow: 'auto',
         }}
         visible={visible}
         onCancel={() => {
@@ -100,7 +92,7 @@ export const TemplateCard: React.FC<IProps> = ({
         </main>
         <footer>
           <Text type="tertiary" size="small">
-            <div style={{ display: "flex" }}>
+            <div style={{ display: 'flex' }}>
               已使用
               {template.usageAmount}次
             </div>
@@ -118,11 +110,7 @@ export const TemplateCard: React.FC<IProps> = ({
             预览
           </Button>
           {onClick && (
-            <Button
-              type="primary"
-              theme="solid"
-              onClick={() => onClick && onClick(template.id)}
-            >
+            <Button type="primary" theme="solid" onClick={() => onClick && onClick(template.id)}>
               使用
             </Button>
           )}
@@ -156,7 +144,7 @@ export const TemplateCardPlaceholder = () => {
       </main>
       <footer>
         <Text type="tertiary" size="small">
-          <div style={{ display: "flex" }}>
+          <div style={{ display: 'flex' }}>
             更新时间：
             <Skeleton.Paragraph rows={1} style={{ width: 100 }} />
           </div>
@@ -166,36 +154,33 @@ export const TemplateCardPlaceholder = () => {
   );
 };
 
-export const TemplateCardEmpty = ({
-  getClassNames = () => "",
-  onClick = () => {},
-}) => {
+export const TemplateCardEmpty = ({ getClassNames = () => '', onClick = () => {} }) => {
   return (
     <div className={cls(styles.cardWrap, getClassNames())} onClick={onClick}>
       <div
         style={{
           height: 131,
-          position: "relative",
+          position: 'relative',
         }}
       >
         <div
           style={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
             transform: `translate(-50%, -50%)`,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
           }}
         >
-          <Text link style={{ textAlign: "center" }}>
+          <Text link style={{ textAlign: 'center' }}>
             <IconPlus
               style={{
                 width: 36,
                 height: 36,
                 fontSize: 36,
-                margin: "0 auto 12px",
+                margin: '0 auto 12px',
               }}
             />
           </Text>

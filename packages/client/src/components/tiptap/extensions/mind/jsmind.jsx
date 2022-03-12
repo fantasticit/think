@@ -1,9 +1,9 @@
-import ReactDOM from "react-dom";
-import { Space, Button, Tooltip } from "@douyinfe/semi-ui";
-import { IconPlus, IconDelete } from "@douyinfe/semi-icons";
-import { IconZoomOut, IconZoomIn } from "components/icons";
-import { Divider } from "../../components/divider";
-import styles from "./index.module.scss";
+import ReactDOM from 'react-dom';
+import { Space, Button, Tooltip } from '@douyinfe/semi-ui';
+import { IconPlus, IconDelete } from '@douyinfe/semi-icons';
+import { IconZoomOut, IconZoomIn } from 'components/icons';
+import { Divider } from '../../components/divider';
+import styles from './index.module.scss';
 
 /*
  * Released under BSD License
@@ -14,19 +14,19 @@ import styles from "./index.module.scss";
  */
 
 (function ($w) {
-  "use strict";
+  'use strict';
   // set 'jsMind' as the library name.
   // __name__ should be a const value, Never try to change it easily.
-  var __name__ = "jsMind";
+  var __name__ = 'jsMind';
   // library version
-  var __version__ = "0.4.6";
+  var __version__ = '0.4.6';
   // author
-  var __author__ = "hizzgdev@163.com";
+  var __author__ = 'hizzgdev@163.com';
 
   // an noop function define
   var _noop = function () {};
   var logger =
-    typeof console === "undefined"
+    typeof console === 'undefined'
       ? {
           log: _noop,
           debug: _noop,
@@ -37,9 +37,9 @@ import styles from "./index.module.scss";
       : console;
 
   // check global variables
-  if (typeof module === "undefined" || !module.exports) {
-    if (typeof $w[__name__] != "undefined") {
-      logger.log(__name__ + " has been already exist.");
+  if (typeof module === 'undefined' || !module.exports) {
+    if (typeof $w[__name__] != 'undefined') {
+      logger.log(__name__ + ' has been already exist.');
       return;
     }
   }
@@ -66,30 +66,30 @@ import styles from "./index.module.scss";
   var $i = function (el) {
     return (
       !!el &&
-      typeof el === "object" &&
+      typeof el === 'object' &&
       el.nodeType === 1 &&
-      typeof el.style === "object" &&
-      typeof el.ownerDocument === "object"
+      typeof el.style === 'object' &&
+      typeof el.ownerDocument === 'object'
     );
   };
-  if (typeof String.prototype.startsWith != "function") {
+  if (typeof String.prototype.startsWith != 'function') {
     String.prototype.startsWith = function (p) {
       return this.slice(0, p.length) === p;
     };
   }
 
   var DEFAULT_OPTIONS = {
-    container: "", // id of the container
+    container: '', // id of the container
     editable: false, // you can change it in your options
     theme: null,
-    mode: "full", // full or side
+    mode: 'full', // full or side
     support_html: true,
 
     view: {
       hmargin: 100,
       vmargin: 50,
       line_width: 2,
-      line_color: "#555",
+      line_color: '#555',
     },
     layout: {
       hspace: 30,
@@ -128,7 +128,7 @@ import styles from "./index.module.scss";
     jm.util.json.merge(opts, options);
 
     if (!opts.container) {
-      logger.error("the options.container should not be null or empty.");
+      logger.error('the options.container should not be null or empty.');
       return;
     }
     this.options = opts;
@@ -142,25 +142,16 @@ import styles from "./index.module.scss";
   jm.direction = { left: -1, center: 0, right: 1 };
   jm.event_type = { show: 1, resize: 2, edit: 3, select: 4 };
 
-  jm.node = function (
-    sId,
-    iIndex,
-    sTopic,
-    oData,
-    bIsRoot,
-    oParent,
-    eDirection,
-    bExpanded
-  ) {
+  jm.node = function (sId, iIndex, sTopic, oData, bIsRoot, oParent, eDirection, bExpanded) {
     if (!sId) {
-      logger.error("invalid nodeid");
+      logger.error('invalid nodeid');
       return;
     }
-    if (typeof iIndex != "number") {
-      logger.error("invalid node index");
+    if (typeof iIndex != 'number') {
+      logger.error('invalid node index');
       return;
     }
-    if (typeof bExpanded === "undefined") {
+    if (typeof bExpanded === 'undefined') {
       bExpanded = true;
     }
     this.id = sId;
@@ -246,7 +237,7 @@ import styles from "./index.module.scss";
       if (nodeid in this.nodes) {
         return this.nodes[nodeid];
       } else {
-        logger.warn("the node[id=" + nodeid + "] can not be found");
+        logger.warn('the node[id=' + nodeid + '] can not be found');
         return null;
       }
     },
@@ -256,36 +247,18 @@ import styles from "./index.module.scss";
         this.root = new jm.node(nodeid, 0, topic, data, true);
         this._put_node(this.root);
       } else {
-        logger.error("root node is already exist");
+        logger.error('root node is already exist');
       }
     },
 
-    add_node: function (
-      parent_node,
-      nodeid,
-      topic,
-      data,
-      idx,
-      direction,
-      expanded
-    ) {
+    add_node: function (parent_node, nodeid, topic, data, idx, direction, expanded) {
       if (!jm.util.is_node(parent_node)) {
         var the_parent_node = this.get_node(parent_node);
         if (!the_parent_node) {
-          logger.error(
-            "the parent_node[id=" + parent_node + "] can not be found."
-          );
+          logger.error('the parent_node[id=' + parent_node + '] can not be found.');
           return null;
         } else {
-          return this.add_node(
-            the_parent_node,
-            nodeid,
-            topic,
-            data,
-            idx,
-            direction,
-            expanded
-          );
+          return this.add_node(the_parent_node, nodeid, topic, data, idx, direction, expanded);
         }
       }
       var nodeindex = idx || -1;
@@ -303,24 +276,11 @@ import styles from "./index.module.scss";
               r++;
             }
           }
-          d =
-            children_len > 1 && r > 0 ? jm.direction.left : jm.direction.right;
+          d = children_len > 1 && r > 0 ? jm.direction.left : jm.direction.right;
         } else {
-          d =
-            direction != jm.direction.left
-              ? jm.direction.right
-              : jm.direction.left;
+          d = direction != jm.direction.left ? jm.direction.right : jm.direction.left;
         }
-        node = new jm.node(
-          nodeid,
-          nodeindex,
-          topic,
-          data,
-          false,
-          parent_node,
-          d,
-          expanded
-        );
+        node = new jm.node(nodeid, nodeindex, topic, data, false, parent_node, d, expanded);
       } else {
         node = new jm.node(
           nodeid,
@@ -337,9 +297,7 @@ import styles from "./index.module.scss";
         parent_node.children.push(node);
         this._reindex(parent_node);
       } else {
-        logger.error(
-          "fail, the nodeid '" + node.id + "' has been already exist."
-        );
+        logger.error("fail, the nodeid '" + node.id + "' has been already exist.");
         node = null;
       }
       return node;
@@ -349,9 +307,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node_before)) {
         var the_node_before = this.get_node(node_before);
         if (!the_node_before) {
-          logger.error(
-            "the node_before[id=" + node_before + "] can not be found."
-          );
+          logger.error('the node_before[id=' + node_before + '] can not be found.');
           return null;
         } else {
           return this.insert_node_before(the_node_before, nodeid, topic, data);
@@ -365,7 +321,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return null;
         } else {
           return this.get_node_before(the_node);
@@ -386,9 +342,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node_after)) {
         var the_node_after = this.get_node(node_before);
         if (!the_node_after) {
-          logger.error(
-            "the node_after[id=" + node_after + "] can not be found."
-          );
+          logger.error('the node_after[id=' + node_after + '] can not be found.');
           return null;
         } else {
           return this.insert_node_after(the_node_after, nodeid, topic, data);
@@ -402,7 +356,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return null;
         } else {
           return this.get_node_after(the_node);
@@ -424,7 +378,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return null;
         } else {
           return this.move_node(the_node, beforeid, parentid, direction);
@@ -437,7 +391,7 @@ import styles from "./index.module.scss";
     },
 
     _flow_node_direction: function (node, direction) {
-      if (typeof direction === "undefined") {
+      if (typeof direction === 'undefined') {
         direction = node.direction;
       } else {
         node.direction = direction;
@@ -450,14 +404,14 @@ import styles from "./index.module.scss";
 
     _move_node_internal: function (node, beforeid) {
       if (!!node && !!beforeid) {
-        if (beforeid == "_last_") {
+        if (beforeid == '_last_') {
           node.index = -1;
           this._reindex(node.parent);
-        } else if (beforeid == "_first_") {
+        } else if (beforeid == '_first_') {
           node.index = 0;
           this._reindex(node.parent);
         } else {
-          var node_before = !!beforeid ? this.get_node(beforeid) : null;
+          var node_before = beforeid ? this.get_node(beforeid) : null;
           if (
             node_before != null &&
             node_before.parent != null &&
@@ -506,18 +460,18 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return false;
         } else {
           return this.remove_node(the_node);
         }
       }
       if (!node) {
-        logger.error("fail, the node can not be found");
+        logger.error('fail, the node can not be found');
         return false;
       }
       if (node.isroot) {
-        logger.error("fail, can not remove root node");
+        logger.error('fail, can not remove root node');
         return false;
       }
       if (this.selected != null && this.selected.id == node.id) {
@@ -580,8 +534,8 @@ import styles from "./index.module.scss";
           author: __author__,
           version: __version__,
         },
-        format: "node_tree",
-        data: { id: "root", topic: "jsMind Example" },
+        format: 'node_tree',
+        data: { id: 'root', topic: 'jsMind Example' },
       },
       get_mind: function (source) {
         var df = jm.format.node_tree;
@@ -600,7 +554,7 @@ import styles from "./index.module.scss";
           author: mind.author,
           version: mind.version,
         };
-        json.format = "node_tree";
+        json.format = 'node_tree';
         json.data = df._buildnode(mind.root);
         return json;
       },
@@ -609,7 +563,7 @@ import styles from "./index.module.scss";
         var df = jm.format.node_tree;
         var data = df._extract_data(node_root);
         mind.set_root(node_root.id, node_root.topic, data);
-        if ("children" in node_root) {
+        if ('children' in node_root) {
           var children = node_root.children;
           for (var i = 0; i < children.length; i++) {
             df._extract_subnode(mind, mind.root, children[i]);
@@ -620,13 +574,7 @@ import styles from "./index.module.scss";
       _extract_data: function (node_json) {
         var data = {};
         for (var k in node_json) {
-          if (
-            k == "id" ||
-            k == "topic" ||
-            k == "children" ||
-            k == "direction" ||
-            k == "expanded"
-          ) {
+          if (k == 'id' || k == 'topic' || k == 'children' || k == 'direction' || k == 'expanded') {
             continue;
           }
           data[k] = node_json[k];
@@ -639,10 +587,7 @@ import styles from "./index.module.scss";
         var data = df._extract_data(node_json);
         var d = null;
         if (node_parent.isroot) {
-          d =
-            node_json.direction == "left"
-              ? jm.direction.left
-              : jm.direction.right;
+          d = node_json.direction == 'left' ? jm.direction.left : jm.direction.right;
         }
         var node = mind.add_node(
           node_parent,
@@ -653,7 +598,7 @@ import styles from "./index.module.scss";
           d,
           node_json.expanded
         );
-        if ("children" in node_json) {
+        if ('children' in node_json) {
           var children = node_json.children;
           for (var i = 0; i < children.length; i++) {
             df._extract_subnode(mind, node, children[i]);
@@ -672,7 +617,7 @@ import styles from "./index.module.scss";
           expanded: node.expanded,
         };
         if (!!node.parent && node.parent.isroot) {
-          o.direction = node.direction == jm.direction.left ? "left" : "right";
+          o.direction = node.direction == jm.direction.left ? 'left' : 'right';
         }
         if (node.data != null) {
           var node_data = node.data;
@@ -698,8 +643,8 @@ import styles from "./index.module.scss";
           author: __author__,
           version: __version__,
         },
-        format: "node_array",
-        data: [{ id: "root", topic: "jsMind Example", isroot: true }],
+        format: 'node_array',
+        data: [{ id: 'root', topic: 'jsMind Example', isroot: true }],
       },
 
       get_mind: function (source) {
@@ -720,7 +665,7 @@ import styles from "./index.module.scss";
           author: mind.author,
           version: mind.version,
         };
-        json.format = "node_array";
+        json.format = 'node_array';
         json.data = [];
         df._array(mind, json.data);
         return json;
@@ -732,10 +677,10 @@ import styles from "./index.module.scss";
         // reverse array for improving looping performance
         narray.reverse();
         var root_id = df._extract_root(mind, narray);
-        if (!!root_id) {
+        if (root_id) {
           df._extract_subnode(mind, root_id, narray);
         } else {
-          logger.error("root node can not be found");
+          logger.error('root node can not be found');
         }
       },
 
@@ -743,7 +688,7 @@ import styles from "./index.module.scss";
         var df = jm.format.node_array;
         var i = node_array.length;
         while (i--) {
-          if ("isroot" in node_array[i] && node_array[i].isroot) {
+          if ('isroot' in node_array[i] && node_array[i].isroot) {
             var root_json = node_array[i];
             var data = df._extract_data(root_json);
             mind.set_root(root_json.id, root_json.topic, data);
@@ -766,11 +711,8 @@ import styles from "./index.module.scss";
             data = df._extract_data(node_json);
             var d = null;
             var node_direction = node_json.direction;
-            if (!!node_direction) {
-              d =
-                node_direction == "left"
-                  ? jm.direction.left
-                  : jm.direction.right;
+            if (node_direction) {
+              d = node_direction == 'left' ? jm.direction.left : jm.direction.right;
             }
             mind.add_node(
               parentid,
@@ -783,11 +725,7 @@ import styles from "./index.module.scss";
             );
             node_array.splice(i, 1);
             extract_count++;
-            var sub_extract_count = df._extract_subnode(
-              mind,
-              node_json.id,
-              node_array
-            );
+            var sub_extract_count = df._extract_subnode(mind, node_json.id, node_array);
             if (sub_extract_count > 0) {
               // reset loop index after extract subordinate node
               i = node_array.length;
@@ -802,12 +740,12 @@ import styles from "./index.module.scss";
         var data = {};
         for (var k in node_json) {
           if (
-            k == "id" ||
-            k == "topic" ||
-            k == "parentid" ||
-            k == "isroot" ||
-            k == "direction" ||
-            k == "expanded"
+            k == 'id' ||
+            k == 'topic' ||
+            k == 'parentid' ||
+            k == 'isroot' ||
+            k == 'direction' ||
+            k == 'expanded'
           ) {
             continue;
           }
@@ -831,14 +769,14 @@ import styles from "./index.module.scss";
           topic: node.topic,
           expanded: node.expanded,
         };
-        if (!!node.parent) {
+        if (node.parent) {
           o.parentid = node.parent.id;
         }
         if (node.isroot) {
           o.isroot = true;
         }
         if (!!node.parent && node.parent.isroot) {
-          o.direction = node.direction == jm.direction.left ? "left" : "right";
+          o.direction = node.direction == jm.direction.left ? 'left' : 'right';
         }
         if (node.data != null) {
           var node_data = node.data;
@@ -861,7 +799,7 @@ import styles from "./index.module.scss";
           author: __author__,
           version: __version__,
         },
-        format: "freemind",
+        format: 'freemind',
         data: '<map version="1.0.1"><node ID="root" TEXT="freemind Example"/></map>',
       },
       get_mind: function (source) {
@@ -885,12 +823,12 @@ import styles from "./index.module.scss";
           author: mind.author,
           version: mind.version,
         };
-        json.format = "freemind";
+        json.format = 'freemind';
         var xmllines = [];
         xmllines.push('<map version="1.0.1">');
         df._buildmap(mind.root, xmllines);
-        xmllines.push("</map>");
-        json.data = xmllines.join(" ");
+        xmllines.push('</map>');
+        json.data = xmllines.join(' ');
         return json;
       },
 
@@ -898,10 +836,10 @@ import styles from "./index.module.scss";
         var xml_doc = null;
         if (window.DOMParser) {
           var parser = new DOMParser();
-          xml_doc = parser.parseFromString(xml, "text/xml");
+          xml_doc = parser.parseFromString(xml, 'text/xml');
         } else {
           // Internet Explorer
-          xml_doc = new ActiveXObject("Microsoft.XMLDOM");
+          xml_doc = new ActiveXObject('Microsoft.XMLDOM');
           xml_doc.async = false;
           xml_doc.loadXML(xml);
         }
@@ -915,17 +853,17 @@ import styles from "./index.module.scss";
         var n = null;
         for (var i = 0; i < nodes.length; i++) {
           n = nodes[i];
-          if (n.nodeType == 1 && n.tagName == "map") {
+          if (n.nodeType == 1 && n.tagName == 'map') {
             node = n;
             break;
           }
         }
-        if (!!node) {
+        if (node) {
           var ns = node.childNodes;
           node = null;
           for (var i = 0; i < ns.length; i++) {
             n = ns[i];
-            if (n.nodeType == 1 && n.tagName == "node") {
+            if (n.nodeType == 1 && n.tagName == 'node') {
               node = n;
               break;
             }
@@ -936,8 +874,8 @@ import styles from "./index.module.scss";
 
       _load_node: function (mind, parent_id, xml_node) {
         var df = jm.format.freemind;
-        var node_id = xml_node.getAttribute("ID");
-        var node_topic = xml_node.getAttribute("TEXT");
+        var node_id = xml_node.getAttribute('ID');
+        var node_topic = xml_node.getAttribute('TEXT');
         // look for richcontent
         if (node_topic == null) {
           var topic_children = xml_node.childNodes;
@@ -945,28 +883,23 @@ import styles from "./index.module.scss";
           for (var i = 0; i < topic_children.length; i++) {
             topic_child = topic_children[i];
             //logger.debug(topic_child.tagName);
-            if (
-              topic_child.nodeType == 1 &&
-              topic_child.tagName === "richcontent"
-            ) {
+            if (topic_child.nodeType == 1 && topic_child.tagName === 'richcontent') {
               node_topic = topic_child.textContent;
               break;
             }
           }
         }
         var node_data = df._load_attributes(xml_node);
-        var node_expanded =
-          "expanded" in node_data ? node_data.expanded == "true" : true;
+        var node_expanded = 'expanded' in node_data ? node_data.expanded == 'true' : true;
         delete node_data.expanded;
 
-        var node_position = xml_node.getAttribute("POSITION");
+        var node_position = xml_node.getAttribute('POSITION');
         var node_direction = null;
-        if (!!node_position) {
-          node_direction =
-            node_position == "left" ? jm.direction.left : jm.direction.right;
+        if (node_position) {
+          node_direction = node_position == 'left' ? jm.direction.left : jm.direction.right;
         }
         //logger.debug(node_position +':'+ node_direction);
-        if (!!parent_id) {
+        if (parent_id) {
           mind.add_node(
             parent_id,
             node_id,
@@ -983,7 +916,7 @@ import styles from "./index.module.scss";
         var child = null;
         for (var i = 0; i < children.length; i++) {
           child = children[i];
-          if (child.nodeType == 1 && child.tagName == "node") {
+          if (child.nodeType == 1 && child.tagName == 'node') {
             df._load_node(mind, node_id, child);
           }
         }
@@ -995,8 +928,8 @@ import styles from "./index.module.scss";
         var attr_data = {};
         for (var i = 0; i < children.length; i++) {
           attr = children[i];
-          if (attr.nodeType == 1 && attr.tagName === "attribute") {
-            attr_data[attr.getAttribute("NAME")] = attr.getAttribute("VALUE");
+          if (attr.nodeType == 1 && attr.tagName === 'attribute') {
+            attr_data[attr.getAttribute('NAME')] = attr.getAttribute('VALUE');
           }
         }
         return attr_data;
@@ -1006,27 +939,23 @@ import styles from "./index.module.scss";
         var df = jm.format.freemind;
         var pos = null;
         if (!!node.parent && node.parent.isroot) {
-          pos = node.direction === jm.direction.left ? "left" : "right";
+          pos = node.direction === jm.direction.left ? 'left' : 'right';
         }
-        xmllines.push("<node");
+        xmllines.push('<node');
         xmllines.push('ID="' + node.id + '"');
-        if (!!pos) {
+        if (pos) {
           xmllines.push('POSITION="' + pos + '"');
         }
         xmllines.push('TEXT="' + node.topic + '">');
 
         // store expanded status as an attribute
-        xmllines.push(
-          '<attribute NAME="expanded" VALUE="' + node.expanded + '"/>'
-        );
+        xmllines.push('<attribute NAME="expanded" VALUE="' + node.expanded + '"/>');
 
         // for attributes
         var node_data = node.data;
         if (node_data != null) {
           for (var k in node_data) {
-            xmllines.push(
-              '<attribute NAME="' + k + '" VALUE="' + node_data[k] + '"/>'
-            );
+            xmllines.push('<attribute NAME="' + k + '" VALUE="' + node_data[k] + '"/>');
           }
         }
 
@@ -1036,7 +965,7 @@ import styles from "./index.module.scss";
           df._buildmap(children[i], xmllines);
         }
 
-        xmllines.push("</node>");
+        xmllines.push('</node>');
       },
     },
   };
@@ -1054,7 +983,7 @@ import styles from "./index.module.scss";
           xhr = new XMLHttpRequest();
         } else {
           try {
-            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            xhr = new ActiveXObject('Microsoft.XMLHTTP');
           } catch (e) {}
         }
         return xhr;
@@ -1067,10 +996,10 @@ import styles from "./index.module.scss";
         var p = null;
         var tmp_param = [];
         for (var k in param) {
-          tmp_param.push(a._eurl(k) + "=" + a._eurl(param[k]));
+          tmp_param.push(a._eurl(k) + '=' + a._eurl(param[k]));
         }
         if (tmp_param.length > 0) {
-          p = tmp_param.join("&");
+          p = tmp_param.join('&');
         }
         var xhr = a._xhr();
         if (!xhr) {
@@ -1079,7 +1008,7 @@ import styles from "./index.module.scss";
         xhr.onreadystatechange = function () {
           if (xhr.readyState == 4) {
             if (xhr.status == 200 || xhr.status == 0) {
-              if (typeof callback === "function") {
+              if (typeof callback === 'function') {
                 var data = jm.util.json.string2json(xhr.responseText);
                 if (data != null) {
                   callback(data);
@@ -1088,42 +1017,39 @@ import styles from "./index.module.scss";
                 }
               }
             } else {
-              if (typeof fail_callback === "function") {
+              if (typeof fail_callback === 'function') {
                 fail_callback(xhr);
               } else {
-                logger.error("xhr request failed.", xhr);
+                logger.error('xhr request failed.', xhr);
               }
             }
           }
         };
-        method = method || "GET";
+        method = method || 'GET';
         xhr.open(method, url, true);
-        xhr.setRequestHeader("If-Modified-Since", "0");
-        if (method == "POST") {
-          xhr.setRequestHeader(
-            "Content-Type",
-            "application/x-www-form-urlencoded;charset=utf-8"
-          );
+        xhr.setRequestHeader('If-Modified-Since', '0');
+        if (method == 'POST') {
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
           xhr.send(p);
         } else {
           xhr.send();
         }
       },
       get: function (url, callback) {
-        return jm.util.ajax.request(url, {}, "GET", callback);
+        return jm.util.ajax.request(url, {}, 'GET', callback);
       },
       post: function (url, param, callback) {
-        return jm.util.ajax.request(url, param, "POST", callback);
+        return jm.util.ajax.request(url, param, 'POST', callback);
       },
     },
 
     dom: {
       //target,eventType,handler
       add_event: function (t, e, h) {
-        if (!!t.addEventListener) {
+        if (t.addEventListener) {
           t.addEventListener(e, h, true);
         } else {
-          t.attachEvent("on" + e, h);
+          t.attachEvent('on' + e, h);
         }
       },
     },
@@ -1150,7 +1076,7 @@ import styles from "./index.module.scss";
       read: function (file_data, fn_callback) {
         var reader = new FileReader();
         reader.onload = function () {
-          if (typeof fn_callback === "function") {
+          if (typeof fn_callback === 'function') {
             fn_callback(this.result, file_data.name);
           }
         };
@@ -1159,14 +1085,11 @@ import styles from "./index.module.scss";
 
       save: function (file_data, type, name) {
         var blob;
-        if (typeof $w.Blob === "function") {
+        if (typeof $w.Blob === 'function') {
           blob = new Blob([file_data], { type: type });
         } else {
           var BlobBuilder =
-            $w.BlobBuilder ||
-            $w.MozBlobBuilder ||
-            $w.WebKitBlobBuilder ||
-            $w.MSBlobBuilder;
+            $w.BlobBuilder || $w.MozBlobBuilder || $w.WebKitBlobBuilder || $w.MSBlobBuilder;
           var bb = new BlobBuilder();
           bb.append(file_data);
           blob = bb.getBlob(type);
@@ -1176,14 +1099,14 @@ import styles from "./index.module.scss";
         } else {
           var URL = $w.URL || $w.webkitURL;
           var bloburl = URL.createObjectURL(blob);
-          var anchor = $c("a");
-          if ("download" in anchor) {
-            anchor.style.visibility = "hidden";
+          var anchor = $c('a');
+          if ('download' in anchor) {
+            anchor.style.visibility = 'hidden';
             anchor.href = bloburl;
             anchor.download = name;
             $d.body.appendChild(anchor);
-            var evt = $d.createEvent("MouseEvents");
-            evt.initEvent("click", true, true);
+            var evt = $d.createEvent('MouseEvents');
+            evt.initEvent('click', true, true);
             anchor.dispatchEvent(evt);
             $d.body.removeChild(anchor);
           } else {
@@ -1195,25 +1118,25 @@ import styles from "./index.module.scss";
 
     json: {
       json2string: function (json) {
-        if (!!JSON) {
+        if (JSON) {
           try {
             var json_str = JSON.stringify(json);
             return json_str;
           } catch (e) {
             logger.warn(e);
-            logger.warn("can not convert to string");
+            logger.warn('can not convert to string');
             return null;
           }
         }
       },
       string2json: function (json_str) {
-        if (!!JSON) {
+        if (JSON) {
           try {
             var json = JSON.parse(json_str);
             return json;
           } catch (e) {
             logger.warn(e);
-            logger.warn("can not parse to json");
+            logger.warn('can not parse to json');
             return null;
           }
         }
@@ -1222,9 +1145,8 @@ import styles from "./index.module.scss";
         for (var o in a) {
           if (o in b) {
             if (
-              typeof b[o] === "object" &&
-              Object.prototype.toString.call(b[o]).toLowerCase() ==
-                "[object object]" &&
+              typeof b[o] === 'object' &&
+              Object.prototype.toString.call(b[o]).toLowerCase() == '[object object]' &&
               !b[o].length
             ) {
               jm.util.json.merge(b[o], a[o]);
@@ -1241,10 +1163,10 @@ import styles from "./index.module.scss";
 
     uuid: {
       newid: function () {
-        return (
-          new Date().getTime().toString(16) +
-          Math.random().toString(16).substr(2)
-        ).substr(2, 16);
+        return (new Date().getTime().toString(16) + Math.random().toString(16).substr(2)).substr(
+          2,
+          16
+        );
       },
     },
 
@@ -1253,7 +1175,7 @@ import styles from "./index.module.scss";
         if (!s) {
           return true;
         }
-        return s.replace(/\s*/, "").length == 0;
+        return s.replace(/\s*/, '').length == 0;
       },
     },
   };
@@ -1308,17 +1230,13 @@ import styles from "./index.module.scss";
     // call enable_event_handle('dblclick')
     // options are 'mousedown', 'click', 'dblclick'
     enable_event_handle: function (event_handle) {
-      this.options.default_event_handle[
-        "enable_" + event_handle + "_handle"
-      ] = true;
+      this.options.default_event_handle['enable_' + event_handle + '_handle'] = true;
     },
 
     // call disable_event_handle('dblclick')
     // options are 'mousedown', 'click', 'dblclick'
     disable_event_handle: function (event_handle) {
-      this.options.default_event_handle[
-        "enable_" + event_handle + "_handle"
-      ] = false;
+      this.options.default_event_handle['enable_' + event_handle + '_handle'] = false;
     },
 
     get_editable: function () {
@@ -1327,25 +1245,25 @@ import styles from "./index.module.scss";
 
     set_theme: function (theme) {
       var theme_old = this.options.theme;
-      this.options.theme = !!theme ? theme : null;
+      this.options.theme = theme ? theme : null;
       if (theme_old != this.options.theme) {
         this.view.reset_theme();
         this.view.reset_custom_style();
       }
     },
     _event_bind: function () {
-      this.view.add_event(this, "mousedown", this.mousedown_handle);
-      this.view.add_event(this, "click", this.click_handle);
-      this.view.add_event(this, "dblclick", this.dblclick_handle);
+      this.view.add_event(this, 'mousedown', this.mousedown_handle);
+      this.view.add_event(this, 'click', this.click_handle);
+      this.view.add_event(this, 'dblclick', this.dblclick_handle);
     },
 
     mousedown_handle: function (e) {
-      if (!this.options.default_event_handle["enable_mousedown_handle"]) {
+      if (!this.options.default_event_handle['enable_mousedown_handle']) {
         return;
       }
       var element = e.target || event.srcElement;
       var nodeid = this.view.get_binded_nodeid(element);
-      if (!!nodeid) {
+      if (nodeid) {
         this.select_node(nodeid);
       } else {
         this.select_clear();
@@ -1353,27 +1271,27 @@ import styles from "./index.module.scss";
     },
 
     click_handle: function (e) {
-      if (!this.options.default_event_handle["enable_click_handle"]) {
+      if (!this.options.default_event_handle['enable_click_handle']) {
         return;
       }
       var element = e.target || event.srcElement;
       var isexpander = this.view.is_expander(element);
       if (isexpander) {
         var nodeid = this.view.get_binded_nodeid(element);
-        if (!!nodeid) {
+        if (nodeid) {
           this.toggle_node(nodeid);
         }
       }
     },
 
     dblclick_handle: function (e) {
-      if (!this.options.default_event_handle["enable_dblclick_handle"]) {
+      if (!this.options.default_event_handle['enable_dblclick_handle']) {
         return;
       }
       if (this.get_editable()) {
         var element = e.target || event.srcElement;
         var nodeid = this.view.get_binded_nodeid(element);
-        if (!!nodeid) {
+        if (nodeid) {
           this.begin_edit(nodeid);
         }
       }
@@ -1383,7 +1301,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return false;
         } else {
           return this.begin_edit(the_node);
@@ -1392,7 +1310,7 @@ import styles from "./index.module.scss";
       if (this.get_editable()) {
         this.view.edit_node_begin(node);
       } else {
-        logger.error("fail, this mind map is not editable.");
+        logger.error('fail, this mind map is not editable.');
         return;
       }
     },
@@ -1405,7 +1323,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return;
         } else {
           return this.toggle_node(the_node);
@@ -1424,7 +1342,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return;
         } else {
           return this.expand_node(the_node);
@@ -1443,7 +1361,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return;
         } else {
           return this.collapse_node(the_node);
@@ -1484,20 +1402,20 @@ import styles from "./index.module.scss";
 
       this.mind = this.data.load(m);
       if (!this.mind) {
-        logger.error("data.load error");
+        logger.error('data.load error');
         return;
       } else {
-        logger.debug("data.load ok");
+        logger.debug('data.load ok');
       }
 
       this.view.load();
-      logger.debug("view.load ok");
+      logger.debug('view.load ok');
 
       this.layout.layout();
-      logger.debug("layout.layout ok");
+      logger.debug('layout.layout ok');
 
       this.view.show(true);
-      logger.debug("view.show ok");
+      logger.debug('view.show ok');
 
       this.invoke_event_handle(jm.event_type.show, { data: [mind] });
     },
@@ -1516,7 +1434,7 @@ import styles from "./index.module.scss";
     },
 
     get_data: function (data_format) {
-      var df = data_format || "node_tree";
+      var df = data_format || 'node_tree';
       return this.data.get_data(df);
     },
 
@@ -1531,49 +1449,42 @@ import styles from "./index.module.scss";
     add_node: function (parent_node, nodeid, topic, data) {
       if (this.get_editable()) {
         var node = this.mind.add_node(parent_node, nodeid, topic, data);
-        if (!!node) {
+        if (node) {
           this.view.add_node(node);
           this.layout.layout();
           this.view.show(false);
           this.view.reset_node_custom_style(node);
           this.expand_node(parent_node);
           this.invoke_event_handle(jm.event_type.edit, {
-            evt: "add_node",
+            evt: 'add_node',
             data: [parent_node.id, nodeid, topic, data],
             node: nodeid,
           });
         }
         return node;
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return null;
       }
     },
 
     insert_node_before: function (node_before, nodeid, topic, data) {
       if (this.get_editable()) {
-        var beforeid = jm.util.is_node(node_before)
-          ? node_before.id
-          : node_before;
-        var node = this.mind.insert_node_before(
-          node_before,
-          nodeid,
-          topic,
-          data
-        );
-        if (!!node) {
+        var beforeid = jm.util.is_node(node_before) ? node_before.id : node_before;
+        var node = this.mind.insert_node_before(node_before, nodeid, topic, data);
+        if (node) {
           this.view.add_node(node);
           this.layout.layout();
           this.view.show(false);
           this.invoke_event_handle(jm.event_type.edit, {
-            evt: "insert_node_before",
+            evt: 'insert_node_before',
             data: [beforeid, nodeid, topic, data],
             node: nodeid,
           });
         }
         return node;
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return null;
       }
     },
@@ -1582,19 +1493,19 @@ import styles from "./index.module.scss";
       if (this.get_editable()) {
         var afterid = jm.util.is_node(node_after) ? node_after.id : node_after;
         var node = this.mind.insert_node_after(node_after, nodeid, topic, data);
-        if (!!node) {
+        if (node) {
           this.view.add_node(node);
           this.layout.layout();
           this.view.show(false);
           this.invoke_event_handle(jm.event_type.edit, {
-            evt: "insert_node_after",
+            evt: 'insert_node_after',
             data: [afterid, nodeid, topic, data],
             node: nodeid,
           });
         }
         return node;
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return null;
       }
     },
@@ -1603,7 +1514,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return false;
         } else {
           return this.remove_node(the_node);
@@ -1611,7 +1522,7 @@ import styles from "./index.module.scss";
       }
       if (this.get_editable()) {
         if (node.isroot) {
-          logger.error("fail, can not remove root node");
+          logger.error('fail, can not remove root node');
           return false;
         }
         var nodeid = node.id;
@@ -1624,13 +1535,13 @@ import styles from "./index.module.scss";
         this.view.show(false);
         this.view.restore_location(parent_node);
         this.invoke_event_handle(jm.event_type.edit, {
-          evt: "remove_node",
+          evt: 'remove_node',
           data: [nodeid],
           node: parentid,
         });
         return true;
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return false;
       }
     },
@@ -1638,13 +1549,13 @@ import styles from "./index.module.scss";
     update_node: function (nodeid, topic) {
       if (this.get_editable()) {
         if (jm.util.text.is_empty(topic)) {
-          logger.warn("fail, topic can not be empty");
+          logger.warn('fail, topic can not be empty');
           return;
         }
         var node = this.get_node(nodeid);
-        if (!!node) {
+        if (node) {
           if (node.topic === topic) {
-            logger.info("nothing changed");
+            logger.info('nothing changed');
             this.view.update_node(node);
             return;
           }
@@ -1653,13 +1564,13 @@ import styles from "./index.module.scss";
           this.layout.layout();
           this.view.show(false);
           this.invoke_event_handle(jm.event_type.edit, {
-            evt: "update_node",
+            evt: 'update_node',
             data: [nodeid, topic],
             node: nodeid,
           });
         }
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return;
       }
     },
@@ -1667,18 +1578,18 @@ import styles from "./index.module.scss";
     move_node: function (nodeid, beforeid, parentid, direction) {
       if (this.get_editable()) {
         var node = this.mind.move_node(nodeid, beforeid, parentid, direction);
-        if (!!node) {
+        if (node) {
           this.view.update_node(node);
           this.layout.layout();
           this.view.show(false);
           this.invoke_event_handle(jm.event_type.edit, {
-            evt: "move_node",
+            evt: 'move_node',
             data: [nodeid, beforeid, parentid, direction],
             node: nodeid,
           });
         }
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return;
       }
     },
@@ -1687,7 +1598,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return;
         } else {
           return this.select_node(the_node);
@@ -1701,7 +1612,7 @@ import styles from "./index.module.scss";
     },
 
     get_selected_node: function () {
-      if (!!this.mind) {
+      if (this.mind) {
         return this.mind.selected;
       } else {
         return null;
@@ -1709,7 +1620,7 @@ import styles from "./index.module.scss";
     },
 
     select_clear: function () {
-      if (!!this.mind) {
+      if (this.mind) {
         this.mind.selected = null;
         this.view.select_clear();
       }
@@ -1723,7 +1634,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return;
         } else {
           return this.find_node_before(the_node);
@@ -1756,7 +1667,7 @@ import styles from "./index.module.scss";
       if (!jm.util.is_node(node)) {
         var the_node = this.get_node(node);
         if (!the_node) {
-          logger.error("the node[id=" + node + "] can not be found.");
+          logger.error('the node[id=' + node + '] can not be found.');
           return;
         } else {
           return this.find_node_after(the_node);
@@ -1791,17 +1702,17 @@ import styles from "./index.module.scss";
     set_node_color: function (nodeid, bgcolor, fgcolor) {
       if (this.get_editable()) {
         var node = this.mind.get_node(nodeid);
-        if (!!node) {
-          if (!!bgcolor) {
-            node.data["background-color"] = bgcolor;
+        if (node) {
+          if (bgcolor) {
+            node.data['background-color'] = bgcolor;
           }
-          if (!!fgcolor) {
-            node.data["foreground-color"] = fgcolor;
+          if (fgcolor) {
+            node.data['foreground-color'] = fgcolor;
           }
           this.view.reset_node_custom_style(node);
         }
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return null;
       }
     },
@@ -1809,15 +1720,15 @@ import styles from "./index.module.scss";
     set_node_font_style: function (nodeid, size, weight, style) {
       if (this.get_editable()) {
         var node = this.mind.get_node(nodeid);
-        if (!!node) {
-          if (!!size) {
-            node.data["font-size"] = size;
+        if (node) {
+          if (size) {
+            node.data['font-size'] = size;
           }
-          if (!!weight) {
-            node.data["font-weight"] = weight;
+          if (weight) {
+            node.data['font-weight'] = weight;
           }
-          if (!!style) {
-            node.data["font-style"] = style;
+          if (style) {
+            node.data['font-style'] = style;
           }
           this.view.reset_node_custom_style(node);
           this.view.update_node(node);
@@ -1825,32 +1736,26 @@ import styles from "./index.module.scss";
           this.view.show(false);
         }
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return null;
       }
     },
 
-    set_node_background_image: function (
-      nodeid,
-      image,
-      width,
-      height,
-      rotation
-    ) {
+    set_node_background_image: function (nodeid, image, width, height, rotation) {
       if (this.get_editable()) {
         var node = this.mind.get_node(nodeid);
-        if (!!node) {
-          if (!!image) {
-            node.data["background-image"] = image;
+        if (node) {
+          if (image) {
+            node.data['background-image'] = image;
           }
-          if (!!width) {
-            node.data["width"] = width;
+          if (width) {
+            node.data['width'] = width;
           }
-          if (!!height) {
-            node.data["height"] = height;
+          if (height) {
+            node.data['height'] = height;
           }
-          if (!!rotation) {
-            node.data["background-rotation"] = rotation;
+          if (rotation) {
+            node.data['background-rotation'] = rotation;
           }
           this.view.reset_node_custom_style(node);
           this.view.update_node(node);
@@ -1858,7 +1763,7 @@ import styles from "./index.module.scss";
           this.view.show(false);
         }
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return null;
       }
     },
@@ -1866,21 +1771,19 @@ import styles from "./index.module.scss";
     set_node_background_rotation: function (nodeid, rotation) {
       if (this.get_editable()) {
         var node = this.mind.get_node(nodeid);
-        if (!!node) {
-          if (!node.data["background-image"]) {
-            logger.error(
-              "fail, only can change rotation angle of node with background image"
-            );
+        if (node) {
+          if (!node.data['background-image']) {
+            logger.error('fail, only can change rotation angle of node with background image');
             return null;
           }
-          node.data["background-rotation"] = rotation;
+          node.data['background-rotation'] = rotation;
           this.view.reset_node_custom_style(node);
           this.view.update_node(node);
           this.layout.layout();
           this.view.show(false);
         }
       } else {
-        logger.error("fail, this mind map is not editable");
+        logger.error('fail, this mind map is not editable');
         return null;
       }
     },
@@ -1891,7 +1794,7 @@ import styles from "./index.module.scss";
 
     // callback(type ,data)
     add_event_listener: function (callback) {
-      if (typeof callback === "function") {
+      if (typeof callback === 'function') {
         this.event_handles.push(callback);
       }
     },
@@ -1919,48 +1822,48 @@ import styles from "./index.module.scss";
 
   jm.data_provider.prototype = {
     init: function () {
-      logger.debug("data.init");
+      logger.debug('data.init');
     },
 
     reset: function () {
-      logger.debug("data.reset");
+      logger.debug('data.reset');
     },
 
     load: function (mind_data) {
       var df = null;
       var mind = null;
-      if (typeof mind_data === "object") {
-        if (!!mind_data.format) {
+      if (typeof mind_data === 'object') {
+        if (mind_data.format) {
           df = mind_data.format;
         } else {
-          df = "node_tree";
+          df = 'node_tree';
         }
       } else {
-        df = "freemind";
+        df = 'freemind';
       }
 
-      if (df == "node_array") {
+      if (df == 'node_array') {
         mind = jm.format.node_array.get_mind(mind_data);
-      } else if (df == "node_tree") {
+      } else if (df == 'node_tree') {
         mind = jm.format.node_tree.get_mind(mind_data);
-      } else if (df == "freemind") {
+      } else if (df == 'freemind') {
         mind = jm.format.freemind.get_mind(mind_data);
       } else {
-        logger.warn("unsupported format");
+        logger.warn('unsupported format');
       }
       return mind;
     },
 
     get_data: function (data_format) {
       var data = null;
-      if (data_format == "node_array") {
+      if (data_format == 'node_array') {
         data = jm.format.node_array.get_data(this.jm.mind);
-      } else if (data_format == "node_tree") {
+      } else if (data_format == 'node_tree') {
         data = jm.format.node_tree.get_data(this.jm.mind);
-      } else if (data_format == "freemind") {
+      } else if (data_format == 'freemind') {
         data = jm.format.freemind.get_data(this.jm.mind);
       } else {
-        logger.error("unsupported " + data_format + " format");
+        logger.error('unsupported ' + data_format + ' format');
       }
       return data;
     },
@@ -1971,7 +1874,7 @@ import styles from "./index.module.scss";
   jm.layout_provider = function (jm, options) {
     this.opts = options;
     this.jm = jm;
-    this.isside = this.opts.mode == "side";
+    this.isside = this.opts.mode == 'side';
     this.bounds = null;
 
     this.cache_valid = false;
@@ -1979,14 +1882,14 @@ import styles from "./index.module.scss";
 
   jm.layout_provider.prototype = {
     init: function () {
-      logger.debug("layout.init");
+      logger.debug('layout.init');
     },
     reset: function () {
-      logger.debug("layout.reset");
+      logger.debug('layout.reset');
       this.bounds = { n: 0, s: 0, w: 0, e: 0 };
     },
     layout: function () {
-      logger.debug("layout.layout");
+      logger.debug('layout.layout');
       this.layout_direction();
       this.layout_offset();
     },
@@ -1999,7 +1902,7 @@ import styles from "./index.module.scss";
       var node = this.jm.mind.root;
       // logger.debug(node);
       var layout_data = null;
-      if ("layout" in node._data) {
+      if ('layout' in node._data) {
         layout_data = node._data.layout;
       } else {
         layout_data = {};
@@ -2040,7 +1943,7 @@ import styles from "./index.module.scss";
 
     _layout_direction_side: function (node, direction, side_index) {
       var layout_data = null;
-      if ("layout" in node._data) {
+      if ('layout' in node._data) {
         layout_data = node._data.layout;
       } else {
         layout_data = {};
@@ -2079,16 +1982,12 @@ import styles from "./index.module.scss";
       layout_data.left_nodes = left_nodes;
       layout_data.right_nodes = right_nodes;
       layout_data.outer_height_left = this._layout_offset_subnodes(left_nodes);
-      layout_data.outer_height_right =
-        this._layout_offset_subnodes(right_nodes);
+      layout_data.outer_height_right = this._layout_offset_subnodes(right_nodes);
       this.bounds.e = node._data.view.width / 2;
       this.bounds.w = 0 - this.bounds.e;
       //logger.debug(this.bounds.w);
       this.bounds.n = 0;
-      this.bounds.s = Math.max(
-        layout_data.outer_height_left,
-        layout_data.outer_height_right
-      );
+      this.bounds.s = Math.max(layout_data.outer_height_left, layout_data.outer_height_right);
     },
 
     // layout both the x and y axis
@@ -2184,7 +2083,7 @@ import styles from "./index.module.scss";
     get_node_offset: function (node) {
       var layout_data = node._data.layout;
       var offset_cache = null;
-      if ("_offset_" in layout_data && this.cache_valid) {
+      if ('_offset_' in layout_data && this.cache_valid) {
         offset_cache = layout_data._offset_;
       } else {
         offset_cache = { x: -1, y: -1 };
@@ -2209,8 +2108,7 @@ import styles from "./index.module.scss";
       var offset_p = this.get_node_offset(node);
       //logger.debug(offset_p);
       var p = {};
-      p.x =
-        offset_p.x + (view_data.width * (node._data.layout.direction - 1)) / 2;
+      p.x = offset_p.x + (view_data.width * (node._data.layout.direction - 1)) / 2;
       p.y = offset_p.y - view_data.height / 2;
       //logger.debug(p);
       return p;
@@ -2224,7 +2122,7 @@ import styles from "./index.module.scss";
     get_node_point_out: function (node) {
       var layout_data = node._data.layout;
       var pout_cache = null;
-      if ("_pout_" in layout_data && this.cache_valid) {
+      if ('_pout_' in layout_data && this.cache_valid) {
         pout_cache = layout_data._pout_;
       } else {
         pout_cache = { x: -1, y: -1 };
@@ -2238,8 +2136,7 @@ import styles from "./index.module.scss";
           var view_data = node._data.view;
           var offset_p = this.get_node_offset(node);
           pout_cache.x =
-            offset_p.x +
-            (view_data.width + this.opts.pspace) * node._data.layout.direction;
+            offset_p.x + (view_data.width + this.opts.pspace) * node._data.layout.direction;
           pout_cache.y = offset_p.y;
           //logger.debug('pout');
           //logger.debug(pout_cache);
@@ -2366,20 +2263,24 @@ import styles from "./index.module.scss";
 
     part_layout: function (node) {
       var root = this.jm.mind.root;
-      if (!!root) {
+      if (root) {
         var root_layout_data = root._data.layout;
         if (node.isroot) {
-          root_layout_data.outer_height_right =
-            this._layout_offset_subnodes_height(root_layout_data.right_nodes);
-          root_layout_data.outer_height_left =
-            this._layout_offset_subnodes_height(root_layout_data.left_nodes);
+          root_layout_data.outer_height_right = this._layout_offset_subnodes_height(
+            root_layout_data.right_nodes
+          );
+          root_layout_data.outer_height_left = this._layout_offset_subnodes_height(
+            root_layout_data.left_nodes
+          );
         } else {
           if (node._data.layout.direction == jm.direction.right) {
-            root_layout_data.outer_height_right =
-              this._layout_offset_subnodes_height(root_layout_data.right_nodes);
+            root_layout_data.outer_height_right = this._layout_offset_subnodes_height(
+              root_layout_data.right_nodes
+            );
           } else {
-            root_layout_data.outer_height_left =
-              this._layout_offset_subnodes_height(root_layout_data.left_nodes);
+            root_layout_data.outer_height_left = this._layout_offset_subnodes_height(
+              root_layout_data.left_nodes
+            );
           }
         }
         this.bounds.s = Math.max(
@@ -2388,7 +2289,7 @@ import styles from "./index.module.scss";
         );
         this.cache_valid = false;
       } else {
-        logger.warn("can not found root node");
+        logger.warn('can not found root node');
       }
     },
 
@@ -2416,7 +2317,7 @@ import styles from "./index.module.scss";
 
     is_visible: function (node) {
       var layout_data = node._data.layout;
-      if ("visible" in layout_data && !layout_data.visible) {
+      if ('visible' in layout_data && !layout_data.visible) {
         return false;
       } else {
         return true;
@@ -2444,26 +2345,24 @@ import styles from "./index.module.scss";
 
   jm.view_provider.prototype = {
     init: function () {
-      logger.debug("view.init");
+      logger.debug('view.init');
 
-      this.container = $i(this.opts.container)
-        ? this.opts.container
-        : $g(this.opts.container);
+      this.container = $i(this.opts.container) ? this.opts.container : $g(this.opts.container);
       if (!this.container) {
-        logger.error("the options.view.container was not be found in dom");
+        logger.error('the options.view.container was not be found in dom');
         return;
       }
-      this.e_panel = $c("div");
-      this.e_canvas = $c("canvas");
-      this.e_nodes = $c("jmnodes");
-      this.e_editor = $c("input");
+      this.e_panel = $c('div');
+      this.e_canvas = $c('canvas');
+      this.e_nodes = $c('jmnodes');
+      this.e_editor = $c('input');
 
-      this.e_panel.className = "jsmind-inner";
+      this.e_panel.className = 'jsmind-inner';
       this.e_panel.appendChild(this.e_canvas);
       this.e_panel.appendChild(this.e_nodes);
 
-      this.e_editor.className = "jsmind-editor";
-      this.e_editor.type = "text";
+      this.e_editor.className = 'jsmind-editor';
+      this.e_editor.type = 'text';
 
       this.actualZoom = 1;
       this.zoomStep = 0.1;
@@ -2471,14 +2370,14 @@ import styles from "./index.module.scss";
       this.maxZoom = 2;
 
       var v = this;
-      jm.util.dom.add_event(this.e_editor, "keydown", function (e) {
+      jm.util.dom.add_event(this.e_editor, 'keydown', function (e) {
         var evt = e || event;
         if (evt.keyCode == 13) {
           v.edit_node_end();
           evt.stopPropagation();
         }
       });
-      jm.util.dom.add_event(this.e_editor, "blur", function (e) {
+      jm.util.dom.add_event(this.e_editor, 'blur', function (e) {
         v.edit_node_end();
       });
 
@@ -2499,22 +2398,22 @@ import styles from "./index.module.scss";
         return null;
       }
       var tagName = element.tagName.toLowerCase();
-      if (tagName == "jmnodes" || tagName == "body" || tagName == "html") {
+      if (tagName == 'jmnodes' || tagName == 'body' || tagName == 'html') {
         return null;
       }
-      if (tagName == "jmnode" || tagName == "jmexpander") {
-        return element.getAttribute("nodeid");
+      if (tagName == 'jmnode' || tagName == 'jmexpander') {
+        return element.getAttribute('nodeid');
       } else {
         return this.get_binded_nodeid(element.parentElement);
       }
     },
 
     is_expander: function (element) {
-      return element.tagName.toLowerCase() == "jmexpander";
+      return element.tagName.toLowerCase() == 'jmexpander';
     },
 
     reset: function () {
-      logger.debug("view.reset");
+      logger.debug('view.reset');
       this.selected_node = null;
       this.clear_lines();
       this.clear_nodes();
@@ -2523,10 +2422,10 @@ import styles from "./index.module.scss";
 
     reset_theme: function () {
       var theme_name = this.jm.options.theme;
-      if (!!theme_name) {
-        this.e_nodes.className = "theme-" + theme_name;
+      if (theme_name) {
+        this.e_nodes.className = 'theme-' + theme_name;
       } else {
-        this.e_nodes.className = "";
+        this.e_nodes.className = '';
       }
     },
 
@@ -2538,7 +2437,7 @@ import styles from "./index.module.scss";
     },
 
     load: function () {
-      logger.debug("view.load");
+      logger.debug('view.load');
       this.init_nodes();
     },
 
@@ -2559,7 +2458,7 @@ import styles from "./index.module.scss";
     },
 
     init_canvas: function () {
-      var ctx = this.e_canvas.getContext("2d");
+      var ctx = this.e_canvas.getContext('2d');
       this.canvas_ctx = ctx;
       const self = this;
       this.createToolsDOMNode();
@@ -2571,7 +2470,7 @@ import styles from "./index.module.scss";
         return;
       }
 
-      const div = document.createElement("div");
+      const div = document.createElement('div');
       div.className = styles.jsmindWrap;
       ReactDOM.render(
         <div className={styles.jsmindInnerWrap}>
@@ -2610,9 +2509,9 @@ import styles from "./index.module.scss";
                   const selectedNode = _jm.get_selected_node();
                   if (!selectedNode) return;
                   const nodeid = jm.util.uuid.newid();
-                  const topic = "输入文字";
+                  const topic = '输入文字';
                   const node = _jm.add_node(selectedNode, nodeid, topic);
-                  if (!!node) {
+                  if (node) {
                     _jm.select_node(nodeid);
                     _jm.begin_edit(nodeid);
                   }
@@ -2643,18 +2542,18 @@ import styles from "./index.module.scss";
     },
 
     createAddHandlerDOMNode: function () {
-      const span = document.createElement("div");
-      span.innerText = "+";
+      const span = document.createElement('div');
+      span.innerText = '+';
       span.style.cssText = `position:absolute;display: none;`;
       ReactDOM.render(<Button size="small" icon={<IconPlus />} />, span);
-      this.container.querySelector("jmnodes").appendChild(span);
+      this.container.querySelector('jmnodes').appendChild(span);
       this._add_handler_dom_node = span;
       span.onclick = () => {
         var selected_node = this.selected_node || null;
-        if (!!selected_node) {
+        if (selected_node) {
           var nodeid = jm.util.uuid.newid();
-          var node = this.jm.add_node(selected_node, nodeid, "输入文字");
-          if (!!node) {
+          var node = this.jm.add_node(selected_node, nodeid, '输入文字');
+          if (node) {
             this.jm.select_node(nodeid);
             this.jm.begin_edit(nodeid);
           }
@@ -2674,10 +2573,8 @@ import styles from "./index.module.scss";
       if (!node) return;
 
       const direction = node.direction;
-      el.style.display = "block";
-      el.style.top = `${
-        node._data.view.abs_y + node._data.view.height / 2 - 12
-      }px`;
+      el.style.display = 'block';
+      el.style.top = `${node._data.view.abs_y + node._data.view.height / 2 - 12}px`;
       el.style.left =
         direction === -1
           ? `${node._data.view.abs_x - 34}px`
@@ -2686,7 +2583,7 @@ import styles from "./index.module.scss";
 
     hideAddHandlerDOMNode: function () {
       const el = this._add_handler_dom_node;
-      el.style.display = "none";
+      el.style.display = 'none';
     },
 
     init_nodes_size: function (node) {
@@ -2714,33 +2611,33 @@ import styles from "./index.module.scss";
 
     create_node_element: function (node, parent_node) {
       var view_data = null;
-      if ("view" in node._data) {
+      if ('view' in node._data) {
         view_data = node._data.view;
       } else {
         view_data = {};
         node._data.view = view_data;
       }
 
-      var d = $c("jmnode");
+      var d = $c('jmnode');
       if (node.isroot) {
-        d.className = "root";
+        d.className = 'root';
       } else {
-        var d_e = $c("jmexpander");
-        $t(d_e, "-");
-        d_e.setAttribute("nodeid", node.id);
-        d_e.style.visibility = "hidden";
+        var d_e = $c('jmexpander');
+        $t(d_e, '-');
+        d_e.setAttribute('nodeid', node.id);
+        d_e.style.visibility = 'hidden';
         parent_node.appendChild(d_e);
         view_data.expander = d_e;
       }
-      if (!!node.topic) {
+      if (node.topic) {
         if (this.opts.support_html) {
           $h(d, node.topic);
         } else {
           $t(d, node.topic);
         }
       }
-      d.setAttribute("nodeid", node.id);
-      d.style.visibility = "hidden";
+      d.setAttribute('nodeid', node.id);
+      d.style.visibility = 'hidden';
       this._reset_node_custom_style(d, node.data);
 
       parent_node.appendChild(d);
@@ -2773,7 +2670,7 @@ import styles from "./index.module.scss";
     update_node: function (node) {
       var view_data = node._data.view;
       var element = view_data.element;
-      if (!!node.topic) {
+      if (node.topic) {
         if (this.opts.support_html) {
           $h(element, node.topic);
         } else {
@@ -2785,17 +2682,14 @@ import styles from "./index.module.scss";
     },
 
     select_node: function (node) {
-      if (!!this.selected_node) {
+      if (this.selected_node) {
         this.selected_node._data.view.element.className =
-          this.selected_node._data.view.element.className.replace(
-            /\s*selected\b/i,
-            ""
-          );
+          this.selected_node._data.view.element.className.replace(/\s*selected\b/i, '');
         this.reset_node_custom_style(this.selected_node);
       }
-      if (!!node) {
+      if (node) {
         this.selected_node = node;
-        node._data.view.element.className += " selected";
+        node._data.view.element.className += ' selected';
         this.clear_node_custom_style(node);
         this.showAddHandlerDOMNode(node);
       }
@@ -2829,10 +2723,10 @@ import styles from "./index.module.scss";
       this.e_editor.value = topic;
       this.e_editor.style.width =
         element.clientWidth -
-        parseInt(ncs.getPropertyValue("padding-left")) -
-        parseInt(ncs.getPropertyValue("padding-right")) +
-        "px";
-      element.innerHTML = "";
+        parseInt(ncs.getPropertyValue('padding-left')) -
+        parseInt(ncs.getPropertyValue('padding-right')) +
+        'px';
+      element.innerHTML = '';
       element.appendChild(this.e_editor);
       element.style.zIndex = 5;
       this.e_editor.focus();
@@ -2846,7 +2740,7 @@ import styles from "./index.module.scss";
         var view_data = node._data.view;
         var element = view_data.element;
         var topic = this.e_editor.value;
-        element.style.zIndex = "auto";
+        element.style.zIndex = 'auto';
         element.removeChild(this.e_editor);
         if (jm.util.text.is_empty(topic) || node.topic === topic) {
           if (this.opts.support_html) {
@@ -2871,8 +2765,8 @@ import styles from "./index.module.scss";
     resize: function () {
       this.e_canvas.width = 1;
       this.e_canvas.height = 1;
-      this.e_nodes.style.width = "1px";
-      this.e_nodes.style.height = "1px";
+      this.e_nodes.style.width = '1px';
+      this.e_nodes.style.height = '1px';
 
       this.expand_size();
       this._show();
@@ -2881,8 +2775,8 @@ import styles from "./index.module.scss";
     _show: function () {
       this.e_canvas.width = this.size.w;
       this.e_canvas.height = this.size.h;
-      this.e_nodes.style.width = this.size.w + "px";
-      this.e_nodes.style.height = this.size.h + "px";
+      this.e_nodes.style.width = this.size.w + 'px';
+      this.e_nodes.style.height = this.size.h + 'px';
       this.show_nodes();
       this.show_lines();
       //this.layout.cache_valid = true;
@@ -2903,7 +2797,7 @@ import styles from "./index.module.scss";
       }
       this.actualZoom = zoom;
       for (var i = 0; i < this.e_panel.children.length; i++) {
-        this.e_panel.children[i].style.transform = "scale(" + zoom + ")";
+        this.e_panel.children[i].style.transform = 'scale(' + zoom + ')';
       }
       this.show(true);
       return true;
@@ -2923,10 +2817,10 @@ import styles from "./index.module.scss";
     },
 
     show: function (keep_center) {
-      logger.debug("view.show");
+      logger.debug('view.show');
       this.expand_size();
       this._show();
-      if (!!keep_center) {
+      if (keep_center) {
         this._center_root();
       }
     },
@@ -2946,10 +2840,8 @@ import styles from "./index.module.scss";
 
     restore_location: function (node) {
       var vd = node._data.view;
-      this.e_panel.scrollLeft =
-        parseInt(vd.element.style.left) - vd._saved_location.x;
-      this.e_panel.scrollTop =
-        parseInt(vd.element.style.top) - vd._saved_location.y;
+      this.e_panel.scrollLeft = parseInt(vd.element.style.left) - vd._saved_location.x;
+      this.e_panel.scrollTop = parseInt(vd.element.style.top) - vd._saved_location.y;
     },
 
     clear_nodes: function () {
@@ -2964,7 +2856,7 @@ import styles from "./index.module.scss";
         node._data.view.element = null;
         node._data.view.expander = null;
       }
-      this.e_nodes.innerHTML = "";
+      this.e_nodes.innerHTML = '';
     },
 
     show_nodes: function () {
@@ -2974,7 +2866,7 @@ import styles from "./index.module.scss";
       var expander = null;
       var p = null;
       var p_expander = null;
-      var expander_text = "-";
+      var expander_text = '-';
       var view_data = null;
       var _offset = this.get_view_offset();
       for (var nodeid in nodes) {
@@ -2983,31 +2875,31 @@ import styles from "./index.module.scss";
         node_element = view_data.element;
         expander = view_data.expander;
         if (!this.layout.is_visible(node)) {
-          node_element.style.display = "none";
-          expander.style.display = "none";
+          node_element.style.display = 'none';
+          expander.style.display = 'none';
           continue;
         }
         this.reset_node_custom_style(node);
         p = this.layout.get_node_point(node);
         view_data.abs_x = _offset.x + p.x;
         view_data.abs_y = _offset.y + p.y;
-        node_element.style.left = _offset.x + p.x + "px";
-        node_element.style.top = _offset.y + p.y + "px";
-        node_element.style.display = "";
-        node_element.style.visibility = "visible";
+        node_element.style.left = _offset.x + p.x + 'px';
+        node_element.style.top = _offset.y + p.y + 'px';
+        node_element.style.display = '';
+        node_element.style.visibility = 'visible';
         if (!node.isroot && node.children.length > 0) {
-          expander_text = node.expanded ? "-" : "+";
+          expander_text = node.expanded ? '-' : '+';
           p_expander = this.layout.get_expander_point(node);
-          expander.style.left = _offset.x + p_expander.x + "px";
-          expander.style.top = _offset.y + p_expander.y + "px";
-          expander.style.display = "";
-          expander.style.visibility = "visible";
+          expander.style.left = _offset.x + p_expander.x + 'px';
+          expander.style.top = _offset.y + p_expander.y + 'px';
+          expander.style.display = '';
+          expander.style.visibility = 'visible';
           $t(expander, expander_text);
         }
         // hide expander while all children have been removed
         if (!node.isroot && node.children.length == 0) {
-          expander.style.display = "none";
-          expander.style.visibility = "hidden";
+          expander.style.display = 'none';
+          expander.style.visibility = 'hidden';
         }
       }
     },
@@ -3017,72 +2909,60 @@ import styles from "./index.module.scss";
     },
 
     _reset_node_custom_style: function (node_element, node_data) {
-      if ("background-color" in node_data) {
-        node_element.style.backgroundColor = node_data["background-color"];
+      if ('background-color' in node_data) {
+        node_element.style.backgroundColor = node_data['background-color'];
       }
-      if ("foreground-color" in node_data) {
-        node_element.style.color = node_data["foreground-color"];
+      if ('foreground-color' in node_data) {
+        node_element.style.color = node_data['foreground-color'];
       }
-      if ("width" in node_data) {
-        node_element.style.width = node_data["width"] + "px";
+      if ('width' in node_data) {
+        node_element.style.width = node_data['width'] + 'px';
       }
-      if ("height" in node_data) {
-        node_element.style.height = node_data["height"] + "px";
+      if ('height' in node_data) {
+        node_element.style.height = node_data['height'] + 'px';
       }
-      if ("font-size" in node_data) {
-        node_element.style.fontSize = node_data["font-size"] + "px";
+      if ('font-size' in node_data) {
+        node_element.style.fontSize = node_data['font-size'] + 'px';
       }
-      if ("font-weight" in node_data) {
-        node_element.style.fontWeight = node_data["font-weight"];
+      if ('font-weight' in node_data) {
+        node_element.style.fontWeight = node_data['font-weight'];
       }
-      if ("font-style" in node_data) {
-        node_element.style.fontStyle = node_data["font-style"];
+      if ('font-style' in node_data) {
+        node_element.style.fontStyle = node_data['font-style'];
       }
-      if ("background-image" in node_data) {
-        var backgroundImage = node_data["background-image"];
-        if (
-          backgroundImage.startsWith("data") &&
-          node_data["width"] &&
-          node_data["height"]
-        ) {
+      if ('background-image' in node_data) {
+        var backgroundImage = node_data['background-image'];
+        if (backgroundImage.startsWith('data') && node_data['width'] && node_data['height']) {
           var img = new Image();
 
           img.onload = function () {
-            var c = $c("canvas");
+            var c = $c('canvas');
             c.width = node_element.clientWidth;
             c.height = node_element.clientHeight;
             var img = this;
             if (c.getContext) {
-              var ctx = c.getContext("2d");
-              ctx.drawImage(
-                img,
-                2,
-                2,
-                node_element.clientWidth,
-                node_element.clientHeight
-              );
+              var ctx = c.getContext('2d');
+              ctx.drawImage(img, 2, 2, node_element.clientWidth, node_element.clientHeight);
               var scaledImageData = c.toDataURL();
-              node_element.style.backgroundImage =
-                "url(" + scaledImageData + ")";
+              node_element.style.backgroundImage = 'url(' + scaledImageData + ')';
             }
           };
           img.src = backgroundImage;
         } else {
-          node_element.style.backgroundImage = "url(" + backgroundImage + ")";
+          node_element.style.backgroundImage = 'url(' + backgroundImage + ')';
         }
-        node_element.style.backgroundSize = "99%";
+        node_element.style.backgroundSize = '99%';
 
-        if ("background-rotation" in node_data) {
-          node_element.style.transform =
-            "rotate(" + node_data["background-rotation"] + "deg)";
+        if ('background-rotation' in node_data) {
+          node_element.style.transform = 'rotate(' + node_data['background-rotation'] + 'deg)';
         }
       }
     },
 
     clear_node_custom_style: function (node) {
       var node_element = node._data.view.element;
-      node_element.style.backgroundColor = "";
-      node_element.style.color = "";
+      node_element.style.backgroundColor = '';
+      node_element.style.color = '';
     },
 
     clear_lines: function (canvas_ctx) {
@@ -3099,10 +2979,10 @@ import styles from "./index.module.scss";
       var _offset = this.get_view_offset();
       for (var nodeid in nodes) {
         node = nodes[nodeid];
-        if (!!node.isroot) {
+        if (node.isroot) {
           continue;
         }
-        if ("visible" in node._data.layout && !node._data.layout.visible) {
+        if ('visible' in node._data.layout && !node._data.layout.visible) {
           continue;
         }
         pin = this.layout.get_node_point_in(node);
@@ -3115,7 +2995,7 @@ import styles from "./index.module.scss";
       var ctx = canvas_ctx || this.canvas_ctx;
       ctx.strokeStyle = this.opts.line_color;
       ctx.lineWidth = this.opts.line_width;
-      ctx.lineCap = "round";
+      ctx.lineCap = 'round';
 
       jm.util.canvas.bezierto(
         ctx,
@@ -3138,17 +3018,17 @@ import styles from "./index.module.scss";
 
   jm.shortcut_provider.prototype = {
     init: function () {
-      jm.util.dom.add_event($d, "keydown", this.handler.bind(this));
+      jm.util.dom.add_event($d, 'keydown', this.handler.bind(this));
 
-      this.handles["addchild"] = this.handle_addchild;
-      this.handles["addbrother"] = this.handle_addbrother;
-      this.handles["editnode"] = this.handle_editnode;
-      this.handles["delnode"] = this.handle_delnode;
-      this.handles["toggle"] = this.handle_toggle;
-      this.handles["up"] = this.handle_up;
-      this.handles["down"] = this.handle_down;
-      this.handles["left"] = this.handle_left;
-      this.handles["right"] = this.handle_right;
+      this.handles['addchild'] = this.handle_addchild;
+      this.handles['addbrother'] = this.handle_addbrother;
+      this.handles['editnode'] = this.handle_editnode;
+      this.handles['delnode'] = this.handle_delnode;
+      this.handles['toggle'] = this.handle_toggle;
+      this.handles['up'] = this.handle_up;
+      this.handles['down'] = this.handle_down;
+      this.handles['left'] = this.handle_left;
+      this.handles['right'] = this.handle_right;
 
       for (var handle in this.mapping) {
         if (!!this.mapping[handle] && handle in this.handles) {
@@ -3187,10 +3067,10 @@ import styles from "./index.module.scss";
 
     handle_addchild: function (_jm, e) {
       var selected_node = _jm.get_selected_node();
-      if (!!selected_node) {
+      if (selected_node) {
         var nodeid = jm.util.uuid.newid();
-        var node = _jm.add_node(selected_node, nodeid, "输入文字");
-        if (!!node) {
+        var node = _jm.add_node(selected_node, nodeid, '输入文字');
+        if (node) {
           _jm.select_node(nodeid);
           _jm.begin_edit(nodeid);
         }
@@ -3200,8 +3080,8 @@ import styles from "./index.module.scss";
       var selected_node = _jm.get_selected_node();
       if (!!selected_node && !selected_node.isroot) {
         var nodeid = jm.util.uuid.newid();
-        var node = _jm.insert_node_after(selected_node, nodeid, "输入文字");
-        if (!!node) {
+        var node = _jm.insert_node_after(selected_node, nodeid, '输入文字');
+        if (node) {
           _jm.select_node(nodeid);
           _jm.begin_edit(nodeid);
         }
@@ -3209,7 +3089,7 @@ import styles from "./index.module.scss";
     },
     handle_editnode: function (_jm, e) {
       var selected_node = _jm.get_selected_node();
-      if (!!selected_node) {
+      if (selected_node) {
         _jm.begin_edit(selected_node);
       }
     },
@@ -3224,7 +3104,7 @@ import styles from "./index.module.scss";
     handle_toggle: function (_jm, e) {
       var evt = e || event;
       var selected_node = _jm.get_selected_node();
-      if (!!selected_node) {
+      if (selected_node) {
         _jm.toggle_node(selected_node.id);
         evt.stopPropagation();
         evt.preventDefault();
@@ -3233,7 +3113,7 @@ import styles from "./index.module.scss";
     handle_up: function (_jm, e) {
       var evt = e || event;
       var selected_node = _jm.get_selected_node();
-      if (!!selected_node) {
+      if (selected_node) {
         var up_node = _jm.find_node_before(selected_node);
         if (!up_node) {
           var np = _jm.find_node_before(selected_node.parent);
@@ -3241,7 +3121,7 @@ import styles from "./index.module.scss";
             up_node = np.children[np.children.length - 1];
           }
         }
-        if (!!up_node) {
+        if (up_node) {
           _jm.select_node(up_node);
         }
         evt.stopPropagation();
@@ -3252,7 +3132,7 @@ import styles from "./index.module.scss";
     handle_down: function (_jm, e) {
       var evt = e || event;
       var selected_node = _jm.get_selected_node();
-      if (!!selected_node) {
+      if (selected_node) {
         var down_node = _jm.find_node_after(selected_node);
         if (!down_node) {
           var np = _jm.find_node_after(selected_node.parent);
@@ -3260,7 +3140,7 @@ import styles from "./index.module.scss";
             down_node = np.children[0];
           }
         }
-        if (!!down_node) {
+        if (down_node) {
           _jm.select_node(down_node);
         }
         evt.stopPropagation();
@@ -3278,7 +3158,7 @@ import styles from "./index.module.scss";
       var evt = e || event;
       var selected_node = _jm.get_selected_node();
       var node = null;
-      if (!!selected_node) {
+      if (selected_node) {
         if (selected_node.isroot) {
           var c = selected_node.children;
           var children = [];
@@ -3297,7 +3177,7 @@ import styles from "./index.module.scss";
         } else {
           node = selected_node.parent;
         }
-        if (!!node) {
+        if (node) {
           _jm.select_node(node);
         }
         evt.stopPropagation();
@@ -3331,7 +3211,7 @@ import styles from "./index.module.scss";
     var fn_init = null;
     for (var i = 0; i < l; i++) {
       fn_init = jm.plugins[i].init;
-      if (typeof fn_init === "function") {
+      if (typeof fn_init === 'function') {
         fn_init(sender);
       }
     }
@@ -3345,13 +3225,13 @@ import styles from "./index.module.scss";
   };
 
   // export jsmind
-  if (typeof module !== "undefined" && typeof exports === "object") {
+  if (typeof module !== 'undefined' && typeof exports === 'object') {
     module.exports = jm;
-  } else if (typeof define === "function" && (define.amd || define.cmd)) {
+  } else if (typeof define === 'function' && (define.amd || define.cmd)) {
     define(function () {
       return jm;
     });
   } else {
     $w[__name__] = jm;
   }
-})(typeof window !== "undefined" ? window : global);
+})(typeof window !== 'undefined' ? window : global);

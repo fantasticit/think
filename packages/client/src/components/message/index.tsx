@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
+import React, { useEffect } from 'react';
+import Link from 'next/link';
 import {
   Typography,
   Dropdown,
@@ -9,18 +9,14 @@ import {
   TabPane,
   Pagination,
   Notification,
-} from "@douyinfe/semi-ui";
-import { IconMessage } from "components/icons/IconMessage";
-import {
-  useAllMessages,
-  useReadMessages,
-  useUnreadMessages,
-} from "data/message";
-import { EmptyBoxIllustration } from "illustrations/empty-box";
-import { DataRender } from "components/data-render";
-import { Empty } from "components/empty";
-import { Placeholder } from "./Placeholder";
-import styles from "./index.module.scss";
+} from '@douyinfe/semi-ui';
+import { IconMessage } from 'components/icons/IconMessage';
+import { useAllMessages, useReadMessages, useUnreadMessages } from 'data/message';
+import { EmptyBoxIllustration } from 'illustrations/empty-box';
+import { DataRender } from 'components/data-render';
+import { Empty } from 'components/empty';
+import { Placeholder } from './Placeholder';
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 const PAGE_SIZE = 6;
@@ -49,7 +45,7 @@ const MessagesRender = ({
         return (
           <div
             className={styles.itemsWrap}
-            style={{ margin: "8px -16px" }}
+            style={{ margin: '8px -16px' }}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -59,10 +55,7 @@ const MessagesRender = ({
               <>
                 {messages.map((msg) => {
                   return (
-                    <div
-                      className={styles.itemWrap}
-                      onClick={() => handleRead(msg.id)}
-                    >
+                    <div className={styles.itemWrap} onClick={() => handleRead(msg.id)}>
                       <Link href={msg.url}>
                         <a className={styles.item}>
                           <div className={styles.leftWrap}>
@@ -89,17 +82,14 @@ const MessagesRender = ({
                       total={total}
                       currentPage={page}
                       pageSize={PAGE_SIZE}
-                      style={{ textAlign: "center" }}
+                      style={{ textAlign: 'center' }}
                       onPageChange={onPageChange}
                     />
                   </div>
                 )}
               </>
             ) : (
-              <Empty
-                illustration={<EmptyBoxIllustration />}
-                message="暂无消息"
-              />
+              <Empty illustration={<EmptyBoxIllustration />} message="暂无消息" />
             )}
           </div>
         );
@@ -146,7 +136,7 @@ export const Message = () => {
     const msg = unreadMsgs.data[0];
 
     Notification.info({
-      title: "消息通知",
+      title: '消息通知',
       content: (
         <Link href={msg.url}>
           <a className={styles.item}>
@@ -178,17 +168,13 @@ export const Message = () => {
       position="bottomRight"
       trigger="click"
       content={
-        <div style={{ width: 300, padding: "16px 16px 0" }}>
+        <div style={{ width: 300, padding: '16px 16px 0' }}>
           <Tabs
             type="line"
             size="small"
             tabBarExtraContent={
               unreadMsgs && unreadMsgs.total > 0 ? (
-                <Text
-                  type="quaternary"
-                  onClick={clearAll}
-                  style={{ cursor: "pointer" }}
-                >
+                <Text type="quaternary" onClick={clearAll} style={{ cursor: 'pointer' }}>
                   全部已读
                 </Text>
               ) : null

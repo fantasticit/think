@@ -1,5 +1,5 @@
 export function getStorage(key) {
-  if (typeof window === "undefined") throw new Error();
+  if (typeof window === 'undefined') throw new Error();
 
   const value = localStorage.getItem(key);
   if (!value) return undefined;
@@ -11,5 +11,5 @@ export function getStorage(key) {
 }
 
 export const setStorage = (key, value) => {
-  window.localStorage.setItem(key, "" + value);
+  window.localStorage.setItem(key, '' + value);
 };

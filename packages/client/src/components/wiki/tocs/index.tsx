@@ -1,17 +1,17 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Avatar, Button, Typography, Skeleton } from "@douyinfe/semi-ui";
-import { IconPlus } from "@douyinfe/semi-icons";
-import { useWikiDetail, useWikiTocs } from "data/wiki";
-import { useToggle } from "hooks/useToggle";
-import { Seo } from "components/seo";
-import { findParents } from "components/wiki/tocs/utils";
-import { IconDocument, IconSetting, IconOverview } from "components/icons";
-import { DocumentCreator } from "components/document/create";
-import { DataRender } from "components/data-render";
-import { NavItem } from "./NavItem";
-import { Tree } from "./tree";
-import styles from "./index.module.scss";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { Avatar, Button, Typography, Skeleton } from '@douyinfe/semi-ui';
+import { IconPlus } from '@douyinfe/semi-icons';
+import { useWikiDetail, useWikiTocs } from 'data/wiki';
+import { useToggle } from 'hooks/useToggle';
+import { Seo } from 'components/seo';
+import { findParents } from 'components/wiki/tocs/utils';
+import { IconDocument, IconSetting, IconOverview } from 'components/icons';
+import { DocumentCreator } from 'components/document/create';
+import { DataRender } from 'components/data-render';
+import { NavItem } from './NavItem';
+import { Tree } from './tree';
+import styles from './index.module.scss';
 
 interface IProps {
   wikiId: string;
@@ -27,21 +27,13 @@ export const WikiTocs: React.FC<IProps> = ({
   pageTitle,
   wikiId,
   documentId = null,
-  docAsLink = "/wiki/[wikiId]/document/[documentId]",
+  docAsLink = '/wiki/[wikiId]/document/[documentId]',
   getDocLink = (documentId) => `/wiki/${wikiId}/document/${documentId}`,
 }) => {
   const { pathname } = useRouter();
   const [visible, toggleVisible] = useToggle(false);
-  const {
-    data: wiki,
-    loading: wikiLoading,
-    error: wikiError,
-  } = useWikiDetail(wikiId);
-  const {
-    data: tocs,
-    loading: tocsLoading,
-    error: tocsError,
-  } = useWikiTocs(wikiId);
+  const { data: wiki, loading: wikiLoading, error: wikiError } = useWikiDetail(wikiId);
+  const { data: tocs, loading: tocsLoading, error: tocsError } = useWikiTocs(wikiId);
   const [parentIds, setParentIds] = useState<Array<string>>([]);
 
   useEffect(() => {
@@ -73,7 +65,7 @@ export const WikiTocs: React.FC<IProps> = ({
         error={wikiError}
         normalContent={() => (
           <>
-            <Seo title={wiki.name + " - " + pageTitle} />
+            <Seo title={wiki.name + ' - ' + pageTitle} />
             <NavItem
               icon={
                 <Avatar
@@ -99,22 +91,22 @@ export const WikiTocs: React.FC<IProps> = ({
 
       <NavItem
         icon={<IconOverview />}
-        text={"概述"}
+        text={'概述'}
         href={{
           pathname: `/wiki/[wikiId]`,
           query: { wikiId },
         }}
-        isActive={pathname === "/wiki/[wikiId]"}
+        isActive={pathname === '/wiki/[wikiId]'}
       />
 
       <NavItem
         icon={<IconSetting />}
-        text={"设置"}
+        text={'设置'}
         href={{
           pathname: `/wiki/[wikiId]/setting`,
-          query: { tab: "base", wikiId },
+          query: { tab: 'base', wikiId },
         }}
-        isActive={pathname === "/wiki/[wikiId]/setting"}
+        isActive={pathname === '/wiki/[wikiId]/setting'}
       />
 
       <DataRender
@@ -140,27 +132,23 @@ export const WikiTocs: React.FC<IProps> = ({
         normalContent={() => (
           <NavItem
             icon={<IconDocument />}
-            text={"文档管理"}
+            text={'文档管理'}
             href={{
               pathname: `/wiki/[wikiId]/documents`,
               query: { wikiId },
             }}
-            isActive={pathname === "/wiki/[wikiId]/documents"}
+            isActive={pathname === '/wiki/[wikiId]/documents'}
             rightNode={
               <>
                 <Button
-                  style={{ fontSize: "1em" }}
+                  style={{ fontSize: '1em' }}
                   theme="borderless"
                   type="tertiary"
-                  icon={<IconPlus style={{ fontSize: "1em" }} />}
+                  icon={<IconPlus style={{ fontSize: '1em' }} />}
                   size="small"
                   onClick={toggleVisible}
                 />
-                <DocumentCreator
-                  wikiId={wiki.id}
-                  visible={visible}
-                  toggleVisible={toggleVisible}
-                />
+                <DocumentCreator wikiId={wiki.id} visible={visible} toggleVisible={toggleVisible} />
               </>
             }
           />

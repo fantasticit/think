@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  Inject,
-  forwardRef,
-} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { instanceToPlain } from 'class-transformer';
@@ -40,24 +34,21 @@ const DOCUMENT_PLACEHOLDERS = [
     }),
     state: Buffer.from(
       new Uint8Array([
-        3, 3, 221, 238, 169, 254, 11, 0, 40, 0, 150, 148, 219, 254, 3, 88, 6,
-        105, 110, 100, 101, 110, 116, 1, 125, 0, 7, 0, 215, 168, 212, 201, 8, 1,
-        6, 4, 0, 221, 238, 169, 254, 11, 1, 15, 230, 156, 170, 229, 145, 189,
-        229, 144, 141, 230, 150, 135, 230, 161, 163, 2, 215, 168, 212, 201, 8,
-        0, 0, 1, 71, 150, 148, 219, 254, 3, 0, 3, 5, 116, 105, 116, 108, 101,
-        15, 150, 148, 219, 254, 3, 0, 1, 1, 7, 100, 101, 102, 97, 117, 108, 116,
-        1, 0, 23, 129, 150, 148, 219, 254, 3, 0, 1, 0, 63, 199, 150, 148, 219,
-        254, 3, 0, 150, 148, 219, 254, 3, 24, 3, 9, 112, 97, 114, 97, 103, 114,
-        97, 112, 104, 40, 0, 150, 148, 219, 254, 3, 88, 9, 116, 101, 120, 116,
-        65, 108, 105, 103, 110, 1, 119, 4, 108, 101, 102, 116, 1, 0, 150, 148,
-        219, 254, 3, 88, 1, 0, 7, 71, 150, 148, 219, 254, 3, 90, 6, 1, 0, 150,
-        148, 219, 254, 3, 98, 6, 132, 150, 148, 219, 254, 3, 104, 6, 229, 156,
-        168, 230, 173, 164, 129, 150, 148, 219, 254, 3, 106, 7, 132, 150, 148,
-        219, 254, 3, 113, 6, 231, 188, 150, 232, 190, 145, 129, 150, 148, 219,
-        254, 3, 115, 32, 132, 150, 148, 219, 254, 3, 147, 1, 9, 230, 173, 163,
-        230, 150, 135, 46, 46, 46, 2, 150, 148, 219, 254, 3, 5, 0, 88, 90, 8,
-        99, 6, 107, 7, 116, 32, 215, 168, 212, 201, 8, 1, 0, 1,
-      ]),
+        3, 3, 221, 238, 169, 254, 11, 0, 40, 0, 150, 148, 219, 254, 3, 88, 6, 105, 110, 100, 101,
+        110, 116, 1, 125, 0, 7, 0, 215, 168, 212, 201, 8, 1, 6, 4, 0, 221, 238, 169, 254, 11, 1, 15,
+        230, 156, 170, 229, 145, 189, 229, 144, 141, 230, 150, 135, 230, 161, 163, 2, 215, 168, 212,
+        201, 8, 0, 0, 1, 71, 150, 148, 219, 254, 3, 0, 3, 5, 116, 105, 116, 108, 101, 15, 150, 148,
+        219, 254, 3, 0, 1, 1, 7, 100, 101, 102, 97, 117, 108, 116, 1, 0, 23, 129, 150, 148, 219,
+        254, 3, 0, 1, 0, 63, 199, 150, 148, 219, 254, 3, 0, 150, 148, 219, 254, 3, 24, 3, 9, 112,
+        97, 114, 97, 103, 114, 97, 112, 104, 40, 0, 150, 148, 219, 254, 3, 88, 9, 116, 101, 120,
+        116, 65, 108, 105, 103, 110, 1, 119, 4, 108, 101, 102, 116, 1, 0, 150, 148, 219, 254, 3, 88,
+        1, 0, 7, 71, 150, 148, 219, 254, 3, 90, 6, 1, 0, 150, 148, 219, 254, 3, 98, 6, 132, 150,
+        148, 219, 254, 3, 104, 6, 229, 156, 168, 230, 173, 164, 129, 150, 148, 219, 254, 3, 106, 7,
+        132, 150, 148, 219, 254, 3, 113, 6, 231, 188, 150, 232, 190, 145, 129, 150, 148, 219, 254,
+        3, 115, 32, 132, 150, 148, 219, 254, 3, 147, 1, 9, 230, 173, 163, 230, 150, 135, 46, 46, 46,
+        2, 150, 148, 219, 254, 3, 5, 0, 88, 90, 8, 99, 6, 107, 7, 116, 32, 215, 168, 212, 201, 8, 1,
+        0, 1,
+      ])
     ),
   },
 ];
@@ -80,12 +71,12 @@ export class DocumentService {
     @Inject(forwardRef(() => TemplateService))
     private readonly templateService: TemplateService,
     @Inject(forwardRef(() => ViewService))
-    private readonly viewService: ViewService,
+    private readonly viewService: ViewService
   ) {
     this.collaborationService = new CollaborationService(
       this.userService,
       this,
-      this.templateService,
+      this.templateService
     );
   }
 
@@ -146,10 +137,7 @@ export class DocumentService {
     const isTargetUserCreator = targetUserId === doc.createUserId;
 
     if (!isCurrentUserCreator) {
-      throw new HttpException(
-        '您不是文档创建者，无权操作',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您不是文档创建者，无权操作', HttpStatus.FORBIDDEN);
     }
 
     const targetUser = await this.userService.findOne(targetUserId);
@@ -183,10 +171,7 @@ export class DocumentService {
         readable: isTargetUserCreator ? true : editable ? true : readable,
         editable: isTargetUserCreator ? true : editable,
       };
-      const res = await this.documentAuthorityRepo.merge(
-        targetDocAuth,
-        newData,
-      );
+      const res = await this.documentAuthorityRepo.merge(targetDocAuth, newData);
       const ret = await this.documentAuthorityRepo.save(res);
 
       await this.messageService.notify(targetUser, {
@@ -238,10 +223,7 @@ export class DocumentService {
    * @param dto
    * @returns
    */
-  async updateDocUser(
-    user: OutUser,
-    dto: DocAuthDto,
-  ): Promise<DocumentAuthorityEntity> {
+  async updateDocUser(user: OutUser, dto: DocAuthDto): Promise<DocumentAuthorityEntity> {
     const targetUser = await this.userService.findOne({ name: dto.userName });
     return this.operateDocumentAuth({
       currentUserId: user.id,
@@ -314,7 +296,7 @@ export class DocumentService {
       data.map(async (auth) => {
         const user = await this.userService.findById(auth.userId);
         return { auth, user };
-      }),
+      })
     );
   }
 
@@ -325,11 +307,7 @@ export class DocumentService {
    * @param isWikiHome 知识库首页文档
    * @returns
    */
-  public async createDocument(
-    user: OutUser,
-    dto: CreateDocumentDto,
-    isWikiHome = false,
-  ) {
+  public async createDocument(user: OutUser, dto: CreateDocumentDto, isWikiHome = false) {
     await this.wikiService.getWikiUserDetail({
       wikiId: dto.wikiId,
       userId: user.id,
@@ -366,7 +344,7 @@ export class DocumentService {
     // 知识库成员权限继承
     const wikiUsers = await this.wikiService.getWikiUsers(
       { userId: user.id, wikiId: dto.wikiId },
-      true,
+      true
     );
 
     await Promise.all([
@@ -401,7 +379,7 @@ export class DocumentService {
     await Promise.all(
       docs.map((doc) => {
         return this.deleteDocument(user, doc.id);
-      }),
+      })
     );
   }
 
@@ -415,16 +393,10 @@ export class DocumentService {
       throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
     }
     if (document.createUserId !== user.id) {
-      throw new HttpException(
-        '您不是该文档的创建者，无法删除',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您不是该文档的创建者，无法删除', HttpStatus.FORBIDDEN);
     }
     if (document.isWikiHome) {
-      throw new HttpException(
-        '该文档作为知识库首页使用，无法删除',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('该文档作为知识库首页使用，无法删除', HttpStatus.FORBIDDEN);
     }
     const children = await this.documentRepo.find({
       parentDocumentId: document.id,
@@ -438,7 +410,7 @@ export class DocumentService {
             parentDocumentId,
           });
           await this.documentRepo.save(res);
-        }),
+        })
       );
     }
     const auths = await this.documentAuthorityRepo.find({ documentId });
@@ -453,11 +425,7 @@ export class DocumentService {
    * @param dto
    * @returns
    */
-  public async updateDocument(
-    user: OutUser,
-    documentId: string,
-    dto: UpdateDocumentDto,
-  ) {
+  public async updateDocument(user: OutUser, documentId: string, dto: UpdateDocumentDto) {
     const document = await this.documentRepo.findOne(documentId);
     if (!document) {
       throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
@@ -537,12 +505,7 @@ export class DocumentService {
    * 分享（或关闭分享）文档
    * @param id
    */
-  async shareDocument(
-    user: OutUser,
-    documentId,
-    dto: ShareDocumentDto,
-    nextStatus = null,
-  ) {
+  async shareDocument(user: OutUser, documentId, dto: ShareDocumentDto, nextStatus = null) {
     const document = await this.documentRepo.findOne(documentId);
     if (!document) {
       throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
@@ -611,7 +574,7 @@ export class DocumentService {
     data: {
       wikiId: string;
       documentId?: string;
-    },
+    }
   ) {
     const { wikiId, documentId } = data;
 
@@ -631,10 +594,7 @@ export class DocumentService {
     });
 
     if (!authority || !authority.readable) {
-      throw new HttpException(
-        '您无权查看该文档下的子文档',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您无权查看该文档下的子文档', HttpStatus.FORBIDDEN);
     }
 
     if (document.isWikiHome) {
@@ -654,7 +614,7 @@ export class DocumentService {
       unSortDocuments.map((d) => d.id),
       {
         order: { createdAt: 'ASC' },
-      },
+      }
     );
 
     documents.forEach((doc) => {
@@ -674,16 +634,13 @@ export class DocumentService {
       docs.map(async (doc) => {
         const createUser = await this.userService.findById(doc.createUserId);
         return { ...doc, createUser };
-      }),
+      })
     );
 
     return docsWithCreateUser;
   }
 
-  async getShareChildrenDocuments(data: {
-    wikiId: string;
-    documentId?: string;
-  }) {
+  async getShareChildrenDocuments(data: { wikiId: string; documentId?: string }) {
     const { wikiId, documentId } = data;
 
     const document = documentId
@@ -720,7 +677,7 @@ export class DocumentService {
       unSortDocuments.map((d) => d.id),
       {
         order: { createdAt: 'ASC' },
-      },
+      }
     );
 
     documents.forEach((doc) => {
@@ -740,7 +697,7 @@ export class DocumentService {
       docs.map(async (doc) => {
         const createUser = await this.userService.findById(doc.createUserId);
         return { ...doc, createUser };
-      }),
+      })
     );
 
     return docsWithCreateUser;
@@ -782,7 +739,7 @@ export class DocumentService {
       docs.map(async (doc) => {
         const createUser = await this.userService.findById(doc.createUserId);
         return { ...doc, createUser };
-      }),
+      })
     );
 
     return array2tree(docsWithCreateUser);
@@ -797,7 +754,7 @@ export class DocumentService {
   public async orderWikiTocs(
     user: OutUser,
     wikiId: string,
-    relations: Array<{ id: string; parentDocumentId?: string; index: number }>,
+    relations: Array<{ id: string; parentDocumentId?: string; index: number }>
   ) {
     await this.wikiService.getWikiDetail(user, wikiId);
     await Promise.all(
@@ -812,7 +769,7 @@ export class DocumentService {
           });
           await this.documentRepo.save(newData);
         }
-      }),
+      })
     );
   }
 
@@ -834,7 +791,7 @@ export class DocumentService {
       unSortDocuments.map((d) => d.id),
       {
         order: { createdAt: 'ASC' },
-      },
+      }
     );
 
     documents.sort((a, b) => a.index - b.index);
@@ -885,7 +842,7 @@ export class DocumentService {
       docs.map(async (doc) => {
         const createUser = await this.userService.findById(doc.createUserId);
         return { ...doc, createUser };
-      }),
+      })
     );
 
     return docsWithCreateUser;
@@ -915,14 +872,14 @@ export class DocumentService {
       docs.map(async (doc) => {
         const views = await this.viewService.getDocumentTotalViews(doc.id);
         return { ...doc, views } as IDocument & { views: number };
-      }),
+      })
     );
 
     const withCreateUserRes = await Promise.all(
       res.map(async (doc) => {
         const createUser = await this.userService.findById(doc.createUserId);
         return { createUser, ...doc };
-      }),
+      })
     );
 
     return withCreateUserRes;
@@ -946,7 +903,7 @@ export class DocumentService {
           userId: user.id,
         });
         return auth && auth.readable ? doc : null;
-      }),
+      })
     );
 
     const data = ret.filter(Boolean);
@@ -955,7 +912,7 @@ export class DocumentService {
       data.map(async (doc) => {
         const createUser = await this.userService.findById(doc.createUserId);
         return { createUser, ...doc };
-      }),
+      })
     );
 
     return withCreateUserRes;

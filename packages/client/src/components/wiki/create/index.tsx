@@ -1,9 +1,9 @@
-import type { IWiki } from "@think/domains";
-import { Dispatch, SetStateAction, useRef } from "react";
-import Router from "next/router";
-import { Form, Modal } from "@douyinfe/semi-ui";
-import { FormApi } from "@douyinfe/semi-ui/lib/es/form";
-import { ICreateWiki, useOwnWikis } from "data/wiki";
+import type { IWiki } from '@think/domains';
+import { Dispatch, SetStateAction, useRef } from 'react';
+import Router from 'next/router';
+import { Form, Modal } from '@douyinfe/semi-ui';
+import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+import { ICreateWiki, useOwnWikis } from 'data/wiki';
 
 interface IProps {
   visible: boolean;
@@ -34,28 +34,28 @@ export const WikiCreator: React.FC<IProps> = ({ visible, toggleVisible }) => {
       visible={visible}
       onOk={handleOk}
       onCancel={handleCancel}
-      style={{ maxWidth: "96vw" }}
+      style={{ maxWidth: '96vw' }}
     >
       <Form
-        initValues={{ name: "", description: "" }}
+        initValues={{ name: '', description: '' }}
         getFormApi={(formApi) => ($form.current = formApi)}
       >
         <Form.Input
           noLabel
           autofocus
           field="name"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           placeholder="请输入知识库名称"
           maxLength={20}
-          rules={[{ required: true, message: "请输入知识库名称" }]}
+          rules={[{ required: true, message: '请输入知识库名称' }]}
         ></Form.Input>
         <Form.TextArea
           noLabel
           field="description"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           placeholder="请输入知识库简介"
           autosize
-          rules={[{ message: "请输入知识库简介" }]}
+          rules={[{ message: '请输入知识库简介' }]}
         ></Form.TextArea>
       </Form>
     </Modal>

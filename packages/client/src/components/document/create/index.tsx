@@ -1,18 +1,12 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import Router from "next/router";
-import { Modal, Tabs, TabPane, Checkbox } from "@douyinfe/semi-ui";
-import { useCreateDocument } from "data/document";
-import { usePublicTemplates, useOwnTemplates } from "data/template";
-import { TemplateList } from "components/template/list";
-import { TemplateCardEmpty } from "components/template/card";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import Router from 'next/router';
+import { Modal, Tabs, TabPane, Checkbox } from '@douyinfe/semi-ui';
+import { useCreateDocument } from 'data/document';
+import { usePublicTemplates, useOwnTemplates } from 'data/template';
+import { TemplateList } from 'components/template/list';
+import { TemplateCardEmpty } from 'components/template/card';
 
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 
 interface IProps {
   wikiId: string;
@@ -31,7 +25,7 @@ export const DocumentCreator: React.FC<IProps> = ({
 }) => {
   const { loading, create } = useCreateDocument();
   const [createChildDoc, setCreateChildDoc] = useState(false);
-  const [templateId, setTemplateId] = useState("");
+  const [templateId, setTemplateId] = useState('');
 
   const handleOk = () => {
     const data = {
@@ -42,7 +36,7 @@ export const DocumentCreator: React.FC<IProps> = ({
     create(data).then((res) => {
       toggleVisible(false);
       onCreate && onCreate();
-      setTemplateId("");
+      setTemplateId('');
       Router.push({
         pathname: `/wiki/${wikiId}/document/${res.id}/edit`,
       });
@@ -64,12 +58,12 @@ export const DocumentCreator: React.FC<IProps> = ({
       onCancel={handleCancel}
       okButtonProps={{ loading }}
       style={{
-        maxWidth: "96vw",
-        width: "calc(80vw - 120px)",
+        maxWidth: '96vw',
+        width: 'calc(80vw - 120px)',
       }}
       bodyStyle={{
-        maxHeight: "calc(90vh - 120px)",
-        overflow: "auto",
+        maxHeight: 'calc(90vh - 120px)',
+        overflow: 'auto',
       }}
       key={wikiId}
     >
@@ -94,7 +88,7 @@ export const DocumentCreator: React.FC<IProps> = ({
             firstListItem={
               <TemplateCardEmpty
                 getClassNames={() => !templateId && styles.isActive}
-                onClick={() => setTemplateId("")}
+                onClick={() => setTemplateId('')}
               />
             }
           />
@@ -107,7 +101,7 @@ export const DocumentCreator: React.FC<IProps> = ({
             firstListItem={
               <TemplateCardEmpty
                 getClassNames={() => !templateId && styles.isActive}
-                onClick={() => setTemplateId("")}
+                onClick={() => setTemplateId('')}
               />
             }
           />

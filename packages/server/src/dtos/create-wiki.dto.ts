@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateWikiDto {
   @IsString({ message: '知识库名称类型错误（正确类型为：String）' })

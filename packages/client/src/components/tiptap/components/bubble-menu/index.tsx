@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { BubbleMenuPlugin, BubbleMenuPluginProps } from "./bubble-menu-plugin";
+import React, { useEffect, useState } from 'react';
+import { BubbleMenuPlugin, BubbleMenuPluginProps } from './bubble-menu-plugin';
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
-export type BubbleMenuProps = Omit<
-  Optional<BubbleMenuPluginProps, "pluginKey">,
-  "element"
-> & {
+export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'> & {
   className?: string;
 };
 
@@ -23,7 +20,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = (props) => {
     }
 
     const {
-      pluginKey = "bubbleMenu",
+      pluginKey = 'bubbleMenu',
       editor,
       tippyOptions = {},
       shouldShow = null,
@@ -46,11 +43,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = (props) => {
   }, [props.editor, element]);
 
   return (
-    <div
-      ref={setElement}
-      className={props.className}
-      style={{ visibility: "hidden" }}
-    >
+    <div ref={setElement} className={props.className} style={{ visibility: 'hidden' }}>
       {props.children}
     </div>
   );

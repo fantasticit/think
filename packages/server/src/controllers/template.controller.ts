@@ -32,10 +32,7 @@ export class TemplateController {
   @Post('update')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async updateTemplat(
-    @Request() req,
-    @Body() dto: TemplateDto & { id: string },
-  ) {
+  async updateTemplat(@Request() req, @Body() dto: TemplateDto & { id: string }) {
     return await this.templateService.updateTemplate(req.user, dto.id, dto);
   }
 

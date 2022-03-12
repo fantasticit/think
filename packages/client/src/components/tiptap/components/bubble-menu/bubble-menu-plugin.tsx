@@ -1,12 +1,7 @@
-import {
-  Editor,
-  posToDOMRect,
-  isTextSelection,
-  isNodeSelection,
-} from "@tiptap/core";
-import { EditorState, Plugin, PluginKey } from "prosemirror-state";
-import { EditorView } from "prosemirror-view";
-import tippy, { Instance, Props } from "tippy.js";
+import { Editor, posToDOMRect, isTextSelection, isNodeSelection } from '@tiptap/core';
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import tippy, { Instance, Props } from 'tippy.js';
 
 export interface BubbleMenuPluginProps {
   pluginKey: PluginKey | string;
@@ -46,9 +41,9 @@ export class BubbleMenuView {
 
   public renderContainerSelector?: string;
 
-  public matchRenderContainer?: BubbleMenuPluginProps["matchRenderContainer"];
+  public matchRenderContainer?: BubbleMenuPluginProps['matchRenderContainer'];
 
-  public shouldShow: Exclude<BubbleMenuPluginProps["shouldShow"], null> = ({
+  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
     view,
     state,
     from,
@@ -60,8 +55,7 @@ export class BubbleMenuView {
     // Sometime check for `empty` is not enough.
     // Doubleclick an empty paragraph returns a node size of 2.
     // So we check also for an empty text size.
-    const isEmptyTextBlock =
-      !doc.textBetween(from, to).length && isTextSelection(state.selection);
+    const isEmptyTextBlock = !doc.textBetween(from, to).length && isTextSelection(state.selection);
 
     if (!view.hasFocus() || empty || isEmptyTextBlock) {
       return false;
@@ -89,16 +83,16 @@ export class BubbleMenuView {
       this.shouldShow = shouldShow;
     }
 
-    this.element.addEventListener("mousedown", this.mousedownHandler, {
+    this.element.addEventListener('mousedown', this.mousedownHandler, {
       capture: true,
     });
-    this.view.dom.addEventListener("dragstart", this.dragstartHandler);
-    this.editor.on("focus", this.focusHandler);
-    this.editor.on("blur", this.blurHandler);
+    this.view.dom.addEventListener('dragstart', this.dragstartHandler);
+    this.editor.on('focus', this.focusHandler);
+    this.editor.on('blur', this.blurHandler);
     this.tippyOptions = tippyOptions;
     // Detaches menu content from its current parent
     this.element.remove();
-    this.element.style.visibility = "visible";
+    this.element.style.visibility = 'visible';
   }
 
   mousedownHandler = () => {
@@ -121,10 +115,7 @@ export class BubbleMenuView {
       return;
     }
 
-    if (
-      event?.relatedTarget &&
-      this.element.parentNode?.contains(event.relatedTarget as Node)
-    ) {
+    if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
       return;
     }
 
@@ -144,28 +135,24 @@ export class BubbleMenuView {
       getReferenceClientRect: null,
       content: this.element,
       interactive: true,
-      trigger: "manual",
-      placement: "top",
-      hideOnClick: "toggle",
+      trigger: 'manual',
+      placement: 'top',
+      hideOnClick: 'toggle',
       ...this.tippyOptions,
     });
 
     // maybe we have to hide tippy on its own blur event as well
     if (this.tippy.popper.firstChild) {
-      (this.tippy.popper.firstChild as HTMLElement).addEventListener(
-        "blur",
-        (event) => {
-          this.blurHandler({ event });
-        }
-      );
+      (this.tippy.popper.firstChild as HTMLElement).addEventListener('blur', (event) => {
+        this.blurHandler({ event });
+      });
     }
   }
 
   update(view: EditorView, oldState?: EditorState) {
     const { state, composing } = view;
     const { doc, selection } = state;
-    const isSame =
-      oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection);
+    const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection);
 
     if (composing || isSame) {
       return;
@@ -242,21 +229,19 @@ export class BubbleMenuView {
 
   destroy() {
     this.tippy?.destroy();
-    this.element.removeEventListener("mousedown", this.mousedownHandler, {
+    this.element.removeEventListener('mousedown', this.mousedownHandler, {
       capture: true,
     });
-    this.view.dom.removeEventListener("dragstart", this.dragstartHandler);
-    this.editor.off("focus", this.focusHandler);
-    this.editor.off("blur", this.blurHandler);
+    this.view.dom.removeEventListener('dragstart', this.dragstartHandler);
+    this.editor.off('focus', this.focusHandler);
+    this.editor.off('blur', this.blurHandler);
   }
 }
 
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
     key:
-      typeof options.pluginKey === "string"
-        ? new PluginKey(options.pluginKey)
-        : options.pluginKey,
+      typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
     view: (view) => new BubbleMenuView({ view, ...options }),
   });
 };

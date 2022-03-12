@@ -1,18 +1,15 @@
-import type { NextPage } from "next";
-import React from "react";
-import { Typography, List } from "@douyinfe/semi-ui";
-import { Seo } from "components/seo";
-import { DataRender } from "components/data-render";
-import { SingleColumnLayout } from "layouts/single-column";
-import { useStaredWikis } from "data/wiki";
-import { useStaredDocuments } from "data/document";
-import { WikiCardPlaceholder, WikiCard } from "components/wiki/card";
-import {
-  DocumentCardPlaceholder,
-  DocumentCard,
-} from "components/document/card";
-import { Empty } from "components/empty";
-import styles from "./index.module.scss";
+import type { NextPage } from 'next';
+import React from 'react';
+import { Typography, List } from '@douyinfe/semi-ui';
+import { Seo } from 'components/seo';
+import { DataRender } from 'components/data-render';
+import { SingleColumnLayout } from 'layouts/single-column';
+import { useStaredWikis } from 'data/wiki';
+import { useStaredDocuments } from 'data/document';
+import { WikiCardPlaceholder, WikiCard } from 'components/wiki/card';
+import { DocumentCardPlaceholder, DocumentCard } from 'components/document/card';
+import { Empty } from 'components/empty';
+import styles from './index.module.scss';
 
 const { Title } = Typography;
 
@@ -52,7 +49,7 @@ const StarDocs = () => {
               <DocumentCard document={doc} />
             </List.Item>
           )}
-          emptyContent={<Empty message={"收藏的文档会出现在此处"} />}
+          emptyContent={<Empty message={'收藏的文档会出现在此处'} />}
         />
       )}
     />
@@ -86,7 +83,7 @@ const StarWikis = () => {
               <WikiCard wiki={wiki} />
             </List.Item>
           )}
-          emptyContent={<Empty message={"收藏的知识库会出现在此处"} />}
+          emptyContent={<Empty message={'收藏的知识库会出现在此处'} />}
         />
       )}
     />
@@ -99,14 +96,14 @@ const Page: NextPage = () => {
       <Seo title="主页" />
       <div className="container">
         <div className={styles.titleWrap}>
-          <Title heading={3} style={{ margin: "8px 0" }}>
+          <Title heading={3} style={{ margin: '8px 0' }}>
             知识库
           </Title>
         </div>
         <StarWikis />
 
         <div className={styles.titleWrap}>
-          <Title heading={3} style={{ margin: "8px 0" }}>
+          <Title heading={3} style={{ margin: '8px 0' }}>
             文档
           </Title>
         </div>

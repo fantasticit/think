@@ -1,8 +1,8 @@
-import React from "react";
-import { Upload as SemiUpload, Button, Toast } from "@douyinfe/semi-ui";
-import { IconUpload } from "@douyinfe/semi-icons";
-import { useAsyncLoading } from "hooks/useAsyncLoading";
-import { uploadFile } from "services/file";
+import React from 'react';
+import { Upload as SemiUpload, Button, Toast } from '@douyinfe/semi-ui';
+import { IconUpload } from '@douyinfe/semi-icons';
+import { useAsyncLoading } from 'hooks/useAsyncLoading';
+import { uploadFile } from 'services/file';
 
 interface IProps {
   onOK: (arg: string, fileName: string) => void;
@@ -11,17 +11,12 @@ interface IProps {
   children?: (loading: boolean) => React.ReactNode;
 }
 
-export const Upload: React.FC<IProps> = ({
-  onOK,
-  accept,
-  style = {},
-  children,
-}) => {
+export const Upload: React.FC<IProps> = ({ onOK, accept, style = {}, children }) => {
   const [uploadFileWithLoading, loading] = useAsyncLoading(uploadFile);
 
   const beforeUpload = ({ file }) => {
     uploadFileWithLoading(file.fileInstance).then((res: string) => {
-      Toast.success("上传成功");
+      Toast.success('上传成功');
       onOK && onOK(res, file.name);
     });
     return false;
@@ -33,7 +28,7 @@ export const Upload: React.FC<IProps> = ({
       previewFile={() => null}
       fileList={[]}
       style={style}
-      action={""}
+      action={''}
       accept={accept}
     >
       {(children && children(loading)) || (

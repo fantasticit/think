@@ -1,16 +1,12 @@
-import React, { useRef } from "react";
-import {
-  ReactNodeViewRenderer,
-  NodeViewWrapper,
-  NodeViewContent,
-} from "@tiptap/react";
-import { Button, Select, Tooltip } from "@douyinfe/semi-ui";
-import { IconCopy } from "@douyinfe/semi-icons";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import React, { useRef } from 'react';
+import { ReactNodeViewRenderer, NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { Button, Select, Tooltip } from '@douyinfe/semi-ui';
+import { IconCopy } from '@douyinfe/semi-icons';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 // @ts-ignore
-import { lowlight } from "lowlight";
-import { copy } from "helpers/copy";
-import styles from "./index.module.scss";
+import { lowlight } from 'lowlight';
+import { copy } from 'helpers/copy';
+import styles from './index.module.scss';
 
 const Render = ({
   editor,
@@ -29,7 +25,7 @@ const Render = ({
         {isEditable && (
           <Select
             size="small"
-            defaultValue={defaultLanguage || "null"}
+            defaultValue={defaultLanguage || 'null'}
             onChange={(value) => updateAttributes({ language: value })}
             className={styles.selectorWrap}
           >

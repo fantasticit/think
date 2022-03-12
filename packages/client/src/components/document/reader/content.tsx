@@ -1,9 +1,9 @@
-import React from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
-import { Layout } from "@douyinfe/semi-ui";
-import { IDocument } from "@think/domains";
-import { DEFAULT_EXTENSION, DocumentWithTitle } from "components/tiptap";
-import { safeJSONParse } from "helpers/json";
+import React from 'react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import { Layout } from '@douyinfe/semi-ui';
+import { IDocument } from '@think/domains';
+import { DEFAULT_EXTENSION, DocumentWithTitle } from 'components/tiptap';
+import { safeJSONParse } from 'helpers/json';
 
 interface IProps {
   document: IDocument;
@@ -15,7 +15,7 @@ export const DocumentContent: React.FC<IProps> = ({ document }) => {
 
   if (json && json.content) {
     json = {
-      type: "doc",
+      type: 'doc',
       content: json.content.slice(1),
     };
   }

@@ -1,14 +1,14 @@
-import type { NextPage } from "next";
-import React from "react";
-import { Typography, Tabs, TabPane, List } from "@douyinfe/semi-ui";
-import { SingleColumnLayout } from "layouts/single-column";
-import { useAllWikis, useOwnWikis, useJoinWikis } from "data/wiki";
-import { CreateWikiIllustration } from "illustrations/create-wiki";
-import { Empty } from "components/empty";
-import { Seo } from "components/seo";
-import { DataRender } from "components/data-render";
-import { WikiCardPlaceholder, WikiCard } from "components/wiki/card";
-import { WikiCreator } from "components/wiki-creator";
+import type { NextPage } from 'next';
+import React from 'react';
+import { Typography, Tabs, TabPane, List } from '@douyinfe/semi-ui';
+import { SingleColumnLayout } from 'layouts/single-column';
+import { useAllWikis, useOwnWikis, useJoinWikis } from 'data/wiki';
+import { CreateWikiIllustration } from 'illustrations/create-wiki';
+import { Empty } from 'components/empty';
+import { Seo } from 'components/seo';
+import { DataRender } from 'components/data-render';
+import { WikiCardPlaceholder, WikiCard } from 'components/wiki/card';
+import { WikiCreator } from 'components/wiki-creator';
 
 const grid = {
   gutter: 16,
@@ -49,10 +49,7 @@ const Workspaces = ({ hook }) => {
             </List.Item>
           )}
           emptyContent={
-            <Empty
-              illustration={<CreateWikiIllustration />}
-              message={<WikiCreator />}
-            />
+            <Empty illustration={<CreateWikiIllustration />} message={<WikiCreator />} />
           }
         />
       )}

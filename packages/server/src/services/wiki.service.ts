@@ -1,18 +1,7 @@
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  Inject,
-  forwardRef,
-} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {
-  WikiStatus,
-  WikiUserRole,
-  DocumentStatus,
-  IPagination,
-} from '@think/domains';
+import { WikiStatus, WikiUserRole, DocumentStatus, IPagination } from '@think/domains';
 import { WikiEntity } from '@entities/wiki.entity';
 import { WikiUserEntity } from '@entities/wiki-user.entity';
 import { UserService } from '@services/user.service';
@@ -39,7 +28,7 @@ export class WikiService {
     @Inject(forwardRef(() => DocumentService))
     private readonly documentService: DocumentService,
     @Inject(forwardRef(() => UserService))
-    private readonly userService: UserService,
+    private readonly userService: UserService
   ) {}
 
   /**
@@ -58,12 +47,7 @@ export class WikiService {
    * @param param0
    * @returns
    */
-  async operateWikiUser({
-    wikiId,
-    currentUserId,
-    targetUserId,
-    targetUserRole,
-  }) {
+  async operateWikiUser({ wikiId, currentUserId, targetUserId, targetUserRole }) {
     const wiki = await this.wikiRepo.findOne(wikiId);
 
     // 1. 检查知识库
@@ -99,9 +83,7 @@ export class WikiService {
           throw new HttpException('您无权限进行该操作', HttpStatus.FORBIDDEN);
         }
       }
-      const userRole = isTargetUserCreator
-        ? WikiUserRole.admin
-        : targetUserRole;
+      const userRole = isTargetUserCreator ? WikiUserRole.admin : targetUserRole;
       const newData = {
         ...targetWikiUser,
         userRole,
@@ -143,11 +125,7 @@ export class WikiService {
    * @param dto
    * @returns
    */
-  async addWikiUser(
-    user: OutUser,
-    wikiId,
-    dto: WikiUserDto,
-  ): Promise<WikiUserEntity> {
+  async addWikiUser(user: OutUser, wikiId, dto: WikiUserDto): Promise<WikiUserEntity> {
     const targetUser = await this.userService.findOne({ name: dto.userName });
 
     if (!targetUser) {
@@ -177,11 +155,7 @@ export class WikiService {
    * @param dto
    * @returns
    */
-  async updateWikiUser(
-    user: OutUser,
-    wikiId,
-    dto: WikiUserDto,
-  ): Promise<WikiUserEntity> {
+  async updateWikiUser(user: OutUser, wikiId, dto: WikiUserDto): Promise<WikiUserEntity> {
     const targetUser = await this.userService.findOne({ name: dto.userName });
 
     if (!targetUser) {
@@ -313,7 +287,7 @@ export class WikiService {
         parentDocumentId: null,
         title: wiki.name,
       },
-      true,
+      true
     );
     return wiki;
   }
@@ -340,7 +314,7 @@ export class WikiService {
       data.map(async (wiki) => {
         const createUser = await this.userService.findById(wiki.createUserId);
         return { ...wiki, createUser };
-      }),
+      })
     );
 
     return { data: ret, total };
@@ -366,7 +340,7 @@ export class WikiService {
       data.map(async (wiki) => {
         const createUser = await this.userService.findById(wiki.createUserId);
         return { ...wiki, createUser };
-      }),
+      })
     );
 
     return { data: ret, total };
@@ -395,7 +369,7 @@ export class WikiService {
       data.map(async (wiki) => {
         const createUser = await this.userService.findById(wiki.createUserId);
         return { ...wiki, createUser };
-      }),
+      })
     );
 
     return { data: ret, total };
@@ -492,10 +466,7 @@ export class WikiService {
     });
 
     if (workspaceUser.userRole !== WikiUserRole.admin) {
-      throw new HttpException(
-        '您没有权限更新该知识库信息',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您没有权限更新该知识库信息', HttpStatus.FORBIDDEN);
     }
 
     const oldData = await this.wikiRepo.findOne(wikiId);
@@ -523,17 +494,11 @@ export class WikiService {
     }
     const wiki = await this.wikiRepo.findOne(wikiId);
     if (user.id !== wiki.createUserId) {
-      throw new HttpException(
-        '您不是创建者，无法删除该知识库',
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException('您不是创建者，无法删除该知识库', HttpStatus.FORBIDDEN);
     }
     await this.documentService.deleteWikiDocuments(user, wikiId);
     const users = await this.wikiUserRepo.find({ wikiId });
-    await Promise.all([
-      this.wikiRepo.remove(wiki),
-      this.wikiUserRepo.remove(users),
-    ]);
+    await Promise.all([this.wikiRepo.remove(wiki), this.wikiUserRepo.remove(users)]);
     return wiki;
   }
 
@@ -567,13 +532,8 @@ export class WikiService {
         try {
           await Promise.all(
             docIds.map((docId) =>
-              this.documentService.shareDocument(
-                user,
-                docId,
-                { sharePassword: '' },
-                nextStatus,
-              ),
-            ),
+              this.documentService.shareDocument(user, docId, { sharePassword: '' }, nextStatus)
+            )
           );
         } catch (err) {
           operateDocumentError = true;
@@ -621,7 +581,7 @@ export class WikiService {
   public async orderWikiTocs(
     user: OutUser,
     wikiId: string,
-    relations: Array<{ id: string; parentDocumentId?: string; index: number }>,
+    relations: Array<{ id: string; parentDocumentId?: string; index: number }>
   ) {
     return await this.documentService.orderWikiTocs(user, wikiId, relations);
   }

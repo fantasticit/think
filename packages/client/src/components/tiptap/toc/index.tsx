@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Anchor } from "@douyinfe/semi-ui";
-import styles from "./style.module.scss";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Anchor } from '@douyinfe/semi-ui';
+import styles from './style.module.scss';
 
 export const Toc = ({ editor, getContainer }) => {
   const [items, setItems] = useState([]);
@@ -11,7 +11,7 @@ export const Toc = ({ editor, getContainer }) => {
     const headings = [];
 
     editor.state.doc.descendants((node, pos) => {
-      if (node.type.name === "heading") {
+      if (node.type.name === 'heading') {
         const id = `heading-${headings.length + 1}`;
 
         headings.push({
@@ -32,20 +32,20 @@ export const Toc = ({ editor, getContainer }) => {
       return null;
     }
 
-    editor.on("update", handleUpdate);
+    editor.on('update', handleUpdate);
 
     return () => {
-      editor.off("update", handleUpdate);
+      editor.off('update', handleUpdate);
     };
   }, [editor]);
 
   return (
-    <Anchor railTheme={"tertiary"} getContainer={getContainer}>
+    <Anchor railTheme={'tertiary'} getContainer={getContainer}>
       {items.map((item, index) => (
         <Anchor.Link
           href={`#${item.id}`}
           title={item.text}
-          style={{ paddingLeft: (item.level - 1) * 1 + "rem" }}
+          style={{ paddingLeft: (item.level - 1) * 1 + 'rem' }}
         />
       ))}
     </Anchor>

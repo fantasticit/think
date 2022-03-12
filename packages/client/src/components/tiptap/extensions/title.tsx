@@ -1,15 +1,15 @@
-import { Node, mergeAttributes } from "@tiptap/core";
-import Document from "@tiptap/extension-document";
+import { Node, mergeAttributes } from '@tiptap/core';
+import Document from '@tiptap/extension-document';
 
 const Title = Node.create({
-  name: "title",
-  group: "block",
-  content: "text*",
+  name: 'title',
+  group: 'block',
+  content: 'text*',
 
   addOptions() {
     return {
       HTMLAttributes: {
-        class: "title",
+        class: 'title',
       },
     };
   },
@@ -17,22 +17,18 @@ const Title = Node.create({
   parseHTML() {
     return [
       {
-        tag: "h1[class=title]",
+        tag: 'h1[class=title]',
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      "h1",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
-    ];
+    return ['h1', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
 });
 
 const TitledDocument = Document.extend({
-  content: "title block+",
+  content: 'title block+',
 });
 
 export { Document, Title, TitledDocument };

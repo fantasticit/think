@@ -6,7 +6,6 @@
     "prebuild": "rimraf .next",
     "build": "next build",
     "start": "cross-env NODE_ENV=production next start -p 5002",
-    "lint": "next lint",
     "pm2": "pm2 start npm --name @think/client -- start"
   },
   "dependencies": {
@@ -74,8 +73,6 @@
   "devDependencies": {
     "@types/node": "17.0.13",
     "@types/react": "17.0.38",
-    "eslint": "8.8.0",
-    "eslint-config-next": "12.0.10",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "typescript": "4.5.5"
   }

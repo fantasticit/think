@@ -1,1 +1,1 @@
-export * from "./resizeable";
+export * from './resizeable';

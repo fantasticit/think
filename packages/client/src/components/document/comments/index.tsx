@@ -1,21 +1,14 @@
-import React, { useRef, useState } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
-import {
-  Avatar,
-  Button,
-  Space,
-  Typography,
-  Banner,
-  Pagination,
-} from "@douyinfe/semi-ui";
-import { useToggle } from "hooks/useToggle";
-import { DEFAULT_EXTENSION, Document, CommentMenuBar } from "components/tiptap";
-import { DataRender } from "components/data-render";
-import { useUser } from "data/user";
-import { useComments } from "data/comment";
-import { Comments } from "./comments";
-import { CommentItemPlaceholder } from "./comments/Item";
-import styles from "./index.module.scss";
+import React, { useRef, useState } from 'react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import { Avatar, Button, Space, Typography, Banner, Pagination } from '@douyinfe/semi-ui';
+import { useToggle } from 'hooks/useToggle';
+import { DEFAULT_EXTENSION, Document, CommentMenuBar } from 'components/tiptap';
+import { DataRender } from 'components/data-render';
+import { useUser } from 'data/user';
+import { useComments } from 'data/comment';
+import { Comments } from './comments';
+import { CommentItemPlaceholder } from './comments/Item';
+import styles from './index.module.scss';
 
 interface IProps {
   documentId: string;
@@ -140,9 +133,7 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
           title={<Text>回复评论： {replyComment.createUser.name}</Text>}
           description={
             <Paragraph ellipsis={{ rows: 2 }}>
-              <div
-                dangerouslySetInnerHTML={{ __html: replyComment.html }}
-              ></div>
+              <div dangerouslySetInnerHTML={{ __html: replyComment.html }}></div>
             </Paragraph>
           }
           onClose={handleClose}
@@ -176,7 +167,7 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
           {isEdit ? (
             <>
               <div className={styles.editorWrap}>
-                <div style={{ width: "100%", overflow: "auto" }}>
+                <div style={{ width: '100%', overflow: 'auto' }}>
                   <CommentMenuBar editor={editor} />
                 </div>
                 <div className={styles.innerWrap}>
@@ -188,11 +179,7 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
                   <Button theme="solid" type="primary" onClick={save}>
                     保存
                   </Button>
-                  <Button
-                    theme="borderless"
-                    type="tertiary"
-                    onClick={handleClose}
-                  >
+                  <Button theme="borderless" type="tertiary" onClick={handleClose}>
                     取消
                   </Button>
                 </Space>

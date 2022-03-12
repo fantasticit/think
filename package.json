@@ -20,11 +20,7 @@
     "pm2": "concurrently \"pnpm:pm2:*\"",
     "pm2:server": "pnpm run --dir packages/server pm2",
     "pm2:client": "pnpm run --dir packages/client pm2",
-    "lint": "eslint . -c ./.eslintrc.js --fix --quiet 'packages/**/*.{ts,tsx,js,jsx}'",
-    "format": "npm run format:md && npm run format:json && npm run format:source",
-    "format:md": "prettier --parser markdown --write './**/*.md'",
-    "format:json": "prettier --parser json --write './**/*.json'",
-    "format:source": "prettier --write './**/*.{js,ts}'"
+    "format": "prettier --write --parser typescript \"packages/**/*.ts?(x)\""
   },
   "dependencies": {
     "concurrently": "^7.0.0",
@@ -36,6 +32,17 @@
     "node": ">=16.5.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.11.0",
+    "eslint-config-next": "12.0.10",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.1.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.3",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "^2.3.2",
     "typescript": "^4.5.5"
   }

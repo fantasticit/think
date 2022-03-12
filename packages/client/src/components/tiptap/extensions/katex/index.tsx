@@ -1,21 +1,12 @@
-import {
-  Node,
-  Command,
-  mergeAttributes,
-  wrappingInputRule,
-} from "@tiptap/core";
-import {
-  NodeViewWrapper,
-  NodeViewContent,
-  ReactNodeViewRenderer,
-} from "@tiptap/react";
-import { Popover, TextArea, Typography, Space } from "@douyinfe/semi-ui";
-import { IconHelpCircle } from "@douyinfe/semi-icons";
-import katex from "katex";
-import styles from "./index.module.scss";
-import { useMemo } from "react";
+import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core';
+import { NodeViewWrapper, NodeViewContent, ReactNodeViewRenderer } from '@tiptap/react';
+import { Popover, TextArea, Typography, Space } from '@douyinfe/semi-ui';
+import { IconHelpCircle } from '@douyinfe/semi-icons';
+import katex from 'katex';
+import styles from './index.module.scss';
+import { useMemo } from 'react';
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
   interface Commands {
     katex: {
       setKatex: () => Command;
@@ -28,30 +19,27 @@ const { Text } = Typography;
 export const KatexInputRegex = /^\$\$(.+)?\$$/;
 
 const KatexExtension = Node.create({
-  name: "katex",
-  group: "block",
+  name: 'katex',
+  group: 'block',
   defining: true,
   draggable: true,
 
   addAttributes() {
     return {
       text: {
-        default: "",
+        default: '',
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: "div[data-type=katex]" }];
+    return [{ tag: 'div[data-type=katex]' }];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
-      "div",
-      mergeAttributes(
-        (this.options && this.options.HTMLAttributes) || {},
-        HTMLAttributes
-      ),
+      'div',
+      mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes),
     ];
   },
 
@@ -94,10 +82,7 @@ const Render = ({ editor, node, updateAttributes }) => {
   }, [text]);
 
   const content = text ? (
-    <span
-      contentEditable={false}
-      dangerouslySetInnerHTML={{ __html: formatText }}
-    ></span>
+    <span contentEditable={false} dangerouslySetInnerHTML={{ __html: formatText }}></span>
   ) : (
     <span contentEditable={false}>请输入公式</span>
   );
@@ -118,10 +103,7 @@ const Render = ({ editor, node, updateAttributes }) => {
                 onChange={(v) => updateAttributes({ text: v })}
                 style={{ marginBottom: 8 }}
               />
-              <Text
-                type="tertiary"
-                link={{ href: "https://katex.org/", target: "_blank" }}
-              >
+              <Text type="tertiary" link={{ href: 'https://katex.org/', target: '_blank' }}>
                 <Space>
                   <IconHelpCircle />
                   查看帮助文档

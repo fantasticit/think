@@ -1,11 +1,11 @@
-import { Node, nodeInputRule, mergeAttributes } from "@tiptap/core";
-import { TextSelection } from "prosemirror-state";
+import { Node, nodeInputRule, mergeAttributes } from '@tiptap/core';
+import { TextSelection } from 'prosemirror-state';
 
 export interface HorizontalRuleOptions {
   HTMLAttributes: Record<string, any>;
 }
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     horizontalRule: {
       /**
@@ -17,26 +17,23 @@ declare module "@tiptap/core" {
 }
 
 export const HorizontalRule = Node.create<HorizontalRuleOptions>({
-  name: "horizontalRule",
-  group: "block",
+  name: 'horizontalRule',
+  group: 'block',
 
   addOptions() {
     return {
       HTMLAttributes: {
-        class: "hr-line",
+        class: 'hr-line',
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: "div[class=hr-line]" }];
+    return [{ tag: 'div[class=hr-line]' }];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      "div",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-    ];
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
   addCommands() {
@@ -57,8 +54,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
                     tr.setSelection(TextSelection.create(tr.doc, $to.pos));
                   } else {
                     // add node after horizontal rule if it’s the end of the document
-                    const node =
-                      $to.parent.type.contentMatch.defaultType?.create();
+                    const node = $to.parent.type.contentMatch.defaultType?.create();
 
                     if (node) {
                       tr.insert(posAfter, node);

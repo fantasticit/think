@@ -1,4 +1,4 @@
-import { Space, Button, Tooltip } from "@douyinfe/semi-ui";
+import { Space, Button, Tooltip } from '@douyinfe/semi-ui';
 import {
   IconAddColumnBefore,
   IconAddColumnAfter,
@@ -9,16 +9,16 @@ import {
   IconMergeCell,
   IconSplitCell,
   IconDeleteTable,
-} from "components/icons";
-import { Upload } from "components/upload";
-import { BubbleMenu } from "../components/bubble-menu";
-import { Divider } from "../components/divider";
-import { Table, TableCell } from "../extensions/table";
+} from 'components/icons';
+import { Upload } from 'components/upload';
+import { BubbleMenu } from '../components/bubble-menu';
+import { Divider } from '../components/divider';
+import { Table, TableCell } from '../extensions/table';
 
 export const TableBubbleMenu = ({ editor }) => {
   return (
     <BubbleMenu
-      className={"bubble-menu"}
+      className={'bubble-menu'}
       editor={editor}
       pluginKey="table-bubble-menu"
       shouldShow={() => editor.isActive(Table.name)}
@@ -26,7 +26,7 @@ export const TableBubbleMenu = ({ editor }) => {
         maxWidth: 456,
       }}
       matchRenderContainer={(node: HTMLElement) =>
-        node.classList && node.classList.contains("tableWrapper")
+        node.classList && node.classList.contains('tableWrapper')
       }
     >
       <Space>

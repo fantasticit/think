@@ -1,27 +1,18 @@
-import type { IDocument } from "@think/domains";
-import { useCallback } from "react";
-import Router from "next/router";
-import Link from "next/link";
-import {
-  Button,
-  Space,
-  Typography,
-  Tooltip,
-  Avatar,
-  Skeleton,
-} from "@douyinfe/semi-ui";
-import { IconEdit, IconUser } from "@douyinfe/semi-icons";
-import { LocaleTime } from "components/locale-time";
-import { IconDocument } from "components/icons/IconDocument";
-import { DocumentShare } from "components/document/share";
-import { DocumentStar } from "components/document/star";
-import styles from "./index.module.scss";
+import type { IDocument } from '@think/domains';
+import { useCallback } from 'react';
+import Router from 'next/router';
+import Link from 'next/link';
+import { Button, Space, Typography, Tooltip, Avatar, Skeleton } from '@douyinfe/semi-ui';
+import { IconEdit, IconUser } from '@douyinfe/semi-icons';
+import { LocaleTime } from 'components/locale-time';
+import { IconDocument } from 'components/icons/IconDocument';
+import { DocumentShare } from 'components/document/share';
+import { DocumentStar } from 'components/document/star';
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 
-export const DocumentCard: React.FC<{ document: IDocument }> = ({
-  document,
-}) => {
+export const DocumentCard: React.FC<{ document: IDocument }> = ({ document }) => {
   const gotoEdit = useCallback(() => {
     Router.push(`/wiki/${document.wikiId}/document/${document.id}/edit`);
   }, [document]);
@@ -112,7 +103,7 @@ export const DocumentCardPlaceholder = () => {
       </main>
       <footer>
         <Text type="tertiary" size="small">
-          <div style={{ display: "flex" }}>
+          <div style={{ display: 'flex' }}>
             更新时间：
             <Skeleton.Paragraph rows={1} style={{ width: 100 }} />
           </div>

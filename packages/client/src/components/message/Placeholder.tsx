@@ -1,4 +1,4 @@
-import { Skeleton } from "@douyinfe/semi-ui";
+import { Skeleton } from '@douyinfe/semi-ui';
 
 export const Placeholder = () => {
   return (
@@ -6,9 +6,7 @@ export const Placeholder = () => {
       placeholder={
         <>
           {Array.from({ length: 6 }).fill(
-            <Skeleton.Title
-              style={{ width: "100%", marginBottom: 12, marginTop: 12 }}
-            />
+            <Skeleton.Title style={{ width: '100%', marginBottom: 12, marginTop: 12 }} />
           )}
         </>
       }

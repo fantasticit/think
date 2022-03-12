@@ -1,15 +1,15 @@
-import React from "react";
-import Link from "next/link";
-import { Typography, Space, Dropdown, Tabs, TabPane } from "@douyinfe/semi-ui";
-import { IconChevronDown } from "@douyinfe/semi-icons";
-import { useRecentDocuments } from "data/document";
-import { Empty } from "components/empty";
-import { DataRender } from "components/data-render";
-import { LocaleTime } from "components/locale-time";
-import { DocumentStar } from "components/document/star";
-import { IconDocumentFill } from "components/icons/IconDocumentFill";
-import { Placeholder } from "./Placeholder";
-import styles from "./index.module.scss";
+import React from 'react';
+import Link from 'next/link';
+import { Typography, Space, Dropdown, Tabs, TabPane } from '@douyinfe/semi-ui';
+import { IconChevronDown } from '@douyinfe/semi-icons';
+import { useRecentDocuments } from 'data/document';
+import { Empty } from 'components/empty';
+import { DataRender } from 'components/data-render';
+import { LocaleTime } from 'components/locale-time';
+import { DocumentStar } from 'components/document/star';
+import { IconDocumentFill } from 'components/icons/IconDocumentFill';
+import { Placeholder } from './Placeholder';
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 
@@ -21,7 +21,7 @@ export const Recent = () => {
       trigger="click"
       spacing={16}
       content={
-        <div style={{ width: 300, padding: "16px 16px 0" }}>
+        <div style={{ width: 300, padding: '16px 16px 0' }}>
           <Tabs type="line" size="small">
             <TabPane tab="文档" itemKey="docs">
               <DataRender
@@ -30,18 +30,14 @@ export const Recent = () => {
                 error={error}
                 normalContent={() => {
                   return (
-                    <div
-                      className={styles.itemsWrap}
-                      style={{ margin: "0 -16px" }}
-                    >
+                    <div className={styles.itemsWrap} style={{ margin: '0 -16px' }}>
                       {recentDocs.length ? (
                         recentDocs.map((doc) => {
                           return (
                             <div className={styles.itemWrap}>
                               <Link
                                 href={{
-                                  pathname:
-                                    "/wiki/[wikiId]/document/[documentId]",
+                                  pathname: '/wiki/[wikiId]/document/[documentId]',
                                   query: {
                                     wikiId: doc.wikiId,
                                     documentId: doc.id,
@@ -50,26 +46,16 @@ export const Recent = () => {
                               >
                                 <a className={styles.item}>
                                   <div className={styles.leftWrap}>
-                                    <IconDocumentFill
-                                      style={{ marginRight: 12 }}
-                                    />
+                                    <IconDocumentFill style={{ marginRight: 12 }} />
                                     <div>
-                                      <Text
-                                        ellipsis={{ showTooltip: true }}
-                                        style={{ width: 180 }}
-                                      >
+                                      <Text ellipsis={{ showTooltip: true }} style={{ width: 180 }}>
                                         {doc.title}
                                       </Text>
 
                                       <Text size="small" type="tertiary">
                                         创建者：
-                                        {doc.createUser &&
-                                          doc.createUser.name}{" "}
-                                        •{" "}
-                                        <LocaleTime
-                                          date={doc.updatedAt}
-                                          timeago
-                                        />
+                                        {doc.createUser && doc.createUser.name} •{' '}
+                                        <LocaleTime date={doc.updatedAt} timeago />
                                       </Text>
                                     </div>
                                   </div>

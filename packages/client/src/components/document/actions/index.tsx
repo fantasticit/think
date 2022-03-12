@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
-import { Dropdown, Button, Typography, Space } from "@douyinfe/semi-ui";
-import { IconMore, IconStar, IconPlus } from "@douyinfe/semi-icons";
-import { DocumentLinkCopyer } from "components/document/link";
-import { DocumentDeletor } from "components/document/delete";
-import { DocumentCreator } from "components/document/create";
-import { DocumentStar } from "components/document/star";
-import { useToggle } from "hooks/useToggle";
+import React, { useCallback } from 'react';
+import { Dropdown, Button, Typography, Space } from '@douyinfe/semi-ui';
+import { IconMore, IconStar, IconPlus } from '@douyinfe/semi-icons';
+import { DocumentLinkCopyer } from 'components/document/link';
+import { DocumentDeletor } from 'components/document/delete';
+import { DocumentCreator } from 'components/document/create';
+import { DocumentStar } from 'components/document/star';
+import { useToggle } from 'hooks/useToggle';
 
 interface IProps {
   wikiId: string;
@@ -65,8 +65,8 @@ export const DocumentActions: React.FC<IProps> = ({
                       <IconStar
                         style={{
                           color: star
-                            ? "rgba(var(--semi-amber-4), 1)"
-                            : "rgba(var(--semi-grey-3), 1)",
+                            ? 'rgba(var(--semi-amber-4), 1)'
+                            : 'rgba(var(--semi-grey-3), 1)',
                         }}
                       />
                       {text}
@@ -80,22 +80,13 @@ export const DocumentActions: React.FC<IProps> = ({
             </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={prevent}>
-              <DocumentDeletor
-                wikiId={wikiId}
-                documentId={documentId}
-                onDelete={onDelete}
-              />
+              <DocumentDeletor wikiId={wikiId} documentId={documentId} onDelete={onDelete} />
             </Dropdown.Item>
           </Dropdown.Menu>
         }
       >
         {children || (
-          <Button
-            onClick={prevent}
-            icon={<IconMore />}
-            theme="borderless"
-            type="tertiary"
-          />
+          <Button onClick={prevent} icon={<IconMore />} theme="borderless" type="tertiary" />
         )}
       </Dropdown>
       {showCreateDocument && (
