@@ -1,7 +1,7 @@
-import type { ITemplate } from "@think/domains";
-import { useState } from "react";
-import useSWR from "swr";
-import { HttpClient } from "services/HttpClient";
+import type { ITemplate } from '@think/domains';
+import { useState } from 'react';
+import useSWR from 'swr';
+import { HttpClient } from 'services/HttpClient';
 
 export const usePublicTemplates = () => {
   const [page, setPage] = useState(1);

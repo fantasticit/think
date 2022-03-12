@@ -1,5 +1,5 @@
-import { IDocument } from "@think/domains";
-import { HttpClient } from "./HttpClient";
+import { IDocument } from '@think/domains';
+import { HttpClient } from './HttpClient';
 
 /**
  * 更新文档阅读量
@@ -7,7 +7,7 @@ import { HttpClient } from "./HttpClient";
  * @returns
  */
 export const updateDocumentViews = (id: string) => {
-  return HttpClient.get("/document/views/" + id);
+  return HttpClient.get('/document/views/' + id);
 };
 
 /**
@@ -18,9 +18,9 @@ export const updateDocumentViews = (id: string) => {
  */
 export const getPublicDocumentDetail = (
   id: string,
-  data: Partial<Pick<IDocument, "sharePassword">>
+  data: Partial<Pick<IDocument, 'sharePassword'>>
 ): Promise<IDocument> => {
-  return HttpClient.post("/document/public/detail/" + id, data);
+  return HttpClient.post('/document/public/detail/' + id, data);
 };
 
 /**
@@ -29,5 +29,5 @@ export const getPublicDocumentDetail = (
  * @returns
  */
 export const searchDocument = (keyword: string): Promise<IDocument[]> => {
-  return HttpClient.get("/document/search", { params: { keyword } });
+  return HttpClient.get('/document/search', { params: { keyword } });
 };

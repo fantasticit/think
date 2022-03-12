@@ -1,9 +1,9 @@
-import { useEffect, useRef } from "react";
-import useSWR from "swr";
-import { useWindowSize } from "hooks/useWindowSize";
-import { setStorage, getStorage } from "helpers/storage";
+import { useEffect, useRef } from 'react';
+import useSWR from 'swr';
+import { useWindowSize } from 'hooks/useWindowSize';
+import { setStorage, getStorage } from 'helpers/storage';
 
-const key = "dragable-menu-width";
+const key = 'dragable-menu-width';
 export const MIN_WIDTH = 240;
 export const MAX_WIDTH = 600;
 
@@ -22,7 +22,7 @@ export const useDragableWidth = () => {
   };
 
   const toggleCollapsed = (collapsed = null) => {
-    const isBool = typeof collapsed === "boolean";
+    const isBool = typeof collapsed === 'boolean';
     const nextCollapsed = isBool ? collapsed : !isCollapsed;
     let nextWidth = nextCollapsed ? COLLAPSED_WIDTH : MIN_WIDTH;
     setStorage(key, nextWidth);

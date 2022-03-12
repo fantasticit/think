@@ -1,5 +1,5 @@
-import { HocuspocusProvider } from "@hocuspocus/provider";
-import { IUser } from "@think/domains";
+import { HocuspocusProvider } from '@hocuspocus/provider';
+import { IUser } from '@think/domains';
 
 const PROVIDER_POOL_READER = new Map();
 const PROVIDER_POOL_EDITOR = new Map();
@@ -7,22 +7,21 @@ const PROVIDER_POOL_EDITOR = new Map();
 export const getProvider = ({
   targetId,
   token,
-  cacheType = "READER",
+  cacheType = 'READER',
   user,
-  docType = "document",
+  docType = 'document',
   events = {},
 }: {
   targetId: string;
   token: string;
-  cacheType: "READER" | "EDITOR";
+  cacheType: 'READER' | 'EDITOR';
   user: IUser;
-  docType: "document" | "template";
+  docType: 'document' | 'template';
   events?: {
     onAwarenessUpdate?: (states: any) => void;
   };
 }) => {
-  const pool =
-    cacheType === "READER" ? PROVIDER_POOL_READER : PROVIDER_POOL_EDITOR;
+  const pool = cacheType === 'READER' ? PROVIDER_POOL_READER : PROVIDER_POOL_EDITOR;
 
   if (!pool.has(targetId)) {
     const provider = new HocuspocusProvider({
@@ -43,12 +42,8 @@ export const getProvider = ({
   return pool.get(targetId);
 };
 
-export const destoryProvider = (
-  provider,
-  cacheType: "READER" | "EDITOR" = "READER"
-) => {
-  const pool =
-    cacheType === "READER" ? PROVIDER_POOL_READER : PROVIDER_POOL_EDITOR;
+export const destoryProvider = (provider, cacheType: 'READER' | 'EDITOR' = 'READER') => {
+  const pool = cacheType === 'READER' ? PROVIDER_POOL_READER : PROVIDER_POOL_EDITOR;
 
   pool.delete(provider.configuration.name);
   provider.document.destroy();

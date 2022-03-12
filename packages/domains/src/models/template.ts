@@ -1,11 +1,11 @@
-import { IUser } from "./user";
+import { IUser } from './user';
 
 /**
  * 文档模板数据定义
  */
 export interface ITemplate {
   id: string;
-  createUserId: IUser["id"];
+  createUserId: IUser['id'];
   createUser: IUser;
   title: string;
   content: string;

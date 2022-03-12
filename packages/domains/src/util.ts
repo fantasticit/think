@@ -1,10 +1,4 @@
-import {
-  WikiStatus,
-  WikiUserRole,
-  DocumentStatus,
-  IWiki,
-  IDocument,
-} from "./models";
+import { WikiStatus, WikiUserRole, DocumentStatus, IWiki, IDocument } from './models';
 
 /**
  * 知识库状态列表数据
@@ -12,11 +6,11 @@ import {
 export const WIKI_STATUS_LIST = [
   {
     value: WikiStatus.private,
-    label: "私有",
+    label: '私有',
   },
   {
     value: WikiStatus.public,
-    label: "公开",
+    label: '公开',
   },
 ];
 
@@ -25,12 +19,12 @@ export const WIKI_STATUS_LIST = [
  */
 export const WIKI_USER_ROLES = [
   {
-    value: "admin",
-    label: "管理员",
+    value: 'admin',
+    label: '管理员',
   },
   {
-    value: "normal",
-    label: "成员",
+    value: 'normal',
+    label: '成员',
   },
 ];
 
@@ -40,11 +34,11 @@ export const WIKI_USER_ROLES = [
 export const DOCUMENT_STATUS = [
   {
     value: DocumentStatus.private,
-    label: "私有",
+    label: '私有',
   },
   {
     value: DocumentStatus.public,
-    label: "公开",
+    label: '公开',
   },
 ];
 
@@ -62,8 +56,7 @@ export const getWikiStatusText = (wiki: IWiki): string => {
  * @param currentStatus wiki 实例数据的 status 字段
  * @returns
  */
-export const isPublicWiki = (currentStatus: IWiki["status"]) =>
-  currentStatus === WikiStatus.public;
+export const isPublicWiki = (currentStatus: IWiki['status']) => currentStatus === WikiStatus.public;
 
 /**
  * 获取知识库成员角色对应文本
@@ -79,5 +72,5 @@ export const getWikiUserRoleText = (role: WikiUserRole) => {
  * @param currentStatus document 实例数据的 status 字段
  * @returns
  */
-export const isPublicDocument = (currentStatus: IDocument["status"]) =>
+export const isPublicDocument = (currentStatus: IDocument['status']) =>
   currentStatus === DocumentStatus.public;

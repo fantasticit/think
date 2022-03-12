@@ -1,12 +1,12 @@
-import { IUser } from "./user";
-import { IWiki } from "./wiki";
+import { IUser } from './user';
+import { IWiki } from './wiki';
 
 /**
  * 文档状态枚举
  */
 export enum DocumentStatus {
-  private = "private",
-  public = "public",
+  private = 'private',
+  public = 'public',
 }
 
 /**
@@ -14,11 +14,11 @@ export enum DocumentStatus {
  */
 export interface IDocument {
   id: string;
-  wikiId: IWiki["id"];
+  wikiId: IWiki['id'];
   isWikiHome: boolean;
-  createUserId: IUser["id"];
+  createUserId: IUser['id'];
   createUser: IUser;
-  parentDocumentId?: IDocument["id"];
+  parentDocumentId?: IDocument['id'];
   title: string;
   content: string;
   status: DocumentStatus;
@@ -34,8 +34,8 @@ export interface IDocument {
  */
 export interface IAuthority {
   id: string;
-  documentId: IDocument["id"];
-  userId: IUser["id"];
+  documentId: IDocument['id'];
+  userId: IUser['id'];
   readable: boolean;
   editable: boolean;
 }

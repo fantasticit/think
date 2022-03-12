@@ -19,7 +19,12 @@
     "start:client": "pnpm run --dir packages/client start",
     "pm2": "concurrently \"pnpm:pm2:*\"",
     "pm2:server": "pnpm run --dir packages/server pm2",
-    "pm2:client": "pnpm run --dir packages/client pm2"
+    "pm2:client": "pnpm run --dir packages/client pm2",
+    "lint": "eslint . -c ./.eslintrc.js --fix --quiet 'packages/**/*.{ts,tsx,js,jsx}'",
+    "format": "npm run format:md && npm run format:json && npm run format:source",
+    "format:md": "prettier --parser markdown --write './**/*.md'",
+    "format:json": "prettier --parser json --write './**/*.json'",
+    "format:source": "prettier --write './**/*.{js,ts}'"
   },
   "dependencies": {
     "concurrently": "^7.0.0",
@@ -31,6 +36,7 @@
     "node": ">=16.5.0"
   },
   "devDependencies": {
+    "prettier": "^2.3.2",
     "typescript": "^4.5.5"
   }
 }

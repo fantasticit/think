@@ -14,10 +14,7 @@
   "scripts": {
     "build": "tsc --declaration"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
+  "files": ["lib", "src"],
   "devDependencies": {
     "typescript": "^4.5.5"
   }

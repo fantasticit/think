@@ -1,14 +1,11 @@
-import type { IComment } from "@think/domains";
-import { useState } from "react";
-import useSWR from "swr";
-import { HttpClient } from "services/HttpClient";
+import type { IComment } from '@think/domains';
+import { useState } from 'react';
+import useSWR from 'swr';
+import { HttpClient } from 'services/HttpClient';
 
-export type CreateCommentDto = Pick<
-  IComment,
-  "parentCommentId" | "html" | "replyUserId"
->;
+export type CreateCommentDto = Pick<IComment, 'parentCommentId' | 'html' | 'replyUserId'>;
 
-export type UpdateCommentDto = Pick<IComment, "id" | "html">;
+export type UpdateCommentDto = Pick<IComment, 'id' | 'html'>;
 
 /**
  * 文档评论
@@ -20,9 +17,7 @@ export const useComments = (documentId) => {
   const { data, error, mutate } = useSWR<{
     data: Array<IComment>;
     total: number;
-  }>(`/comment/document/${documentId}?page=${page}`, (url) =>
-    HttpClient.get(url)
-  );
+  }>(`/comment/document/${documentId}?page=${page}`, (url) => HttpClient.get(url));
   const loading = !data && !error;
 
   const addComment = async (data: CreateCommentDto) => {

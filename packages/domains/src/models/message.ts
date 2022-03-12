@@ -1,11 +1,11 @@
-import { IUser } from "./user";
+import { IUser } from './user';
 
 /**
  * 消息数据定义
  */
 export interface IMessage {
   id: string;
-  userId: IUser["id"];
+  userId: IUser['id'];
   title: string;
   message: string;
   url: string;

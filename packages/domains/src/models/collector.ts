@@ -1,4 +1,4 @@
 export enum CollectType {
-  document = "document",
-  wiki = "wiki",
+  document = 'document',
+  wiki = 'wiki',
 }

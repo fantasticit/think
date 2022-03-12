@@ -1,7 +1,7 @@
-import type { IMessage } from "@think/domains";
-import { useState } from "react";
-import useSWR from "swr";
-import { HttpClient } from "services/HttpClient";
+import type { IMessage } from '@think/domains';
+import { useState } from 'react';
+import useSWR from 'swr';
+import { HttpClient } from 'services/HttpClient';
 
 /**
  * 所有消息

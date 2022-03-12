@@ -1,28 +1,28 @@
-import { IUser } from "./user";
+import { IUser } from './user';
 
 /**
  * 知识库状态枚举
  */
 export enum WikiStatus {
-  private = "private",
-  public = "public",
+  private = 'private',
+  public = 'public',
 }
 
 /**
  * 知识库成员状态枚举
  */
 export enum WikiUserStatus {
-  applying = "applying",
-  inviting = "inviting",
-  normal = "normal",
+  applying = 'applying',
+  inviting = 'inviting',
+  normal = 'normal',
 }
 
 /**
  * 知识库成员角色枚举
  */
 export enum WikiUserRole {
-  normal = "normal",
-  admin = "admin",
+  normal = 'normal',
+  admin = 'admin',
 }
 
 /**
@@ -33,7 +33,7 @@ export interface IWiki {
   name: string;
   avatar: string;
   description: string;
-  createUserId: IUser["id"];
+  createUserId: IUser['id'];
   createUser: IUser;
   status: WikiStatus;
   createdAt: Date;

@@ -7,6 +7,7 @@ importers:
       concurrently: ^7.0.0
       cross-env: ^7.0.3
       fs-extra: ^10.0.0
+      prettier: ^2.3.2
       rimraf: ^3.0.2
       typescript: ^4.5.5
     dependencies:
@@ -15,6 +16,7 @@ importers:
       fs-extra: 10.0.0
       rimraf: 3.0.2
     devDependencies:
+      prettier: 2.5.1
       typescript: 4.5.5
 
   packages/client:

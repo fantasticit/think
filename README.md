@@ -89,40 +89,40 @@ pnpm run dev
 ```yaml
 # 开发环境配置
 server:
-  prefix: "/api"
+  prefix: '/api'
   port: 5001
   collaborationPort: 5003
 
 client:
-  assetPrefix: "/"
-  apiUrl: "http://localhost:5001/api"
-  collaborationUrl: "ws://localhost:5003"
+  assetPrefix: '/'
+  apiUrl: 'http://localhost:5001/api'
+  collaborationUrl: 'ws://localhost:5003'
 
 # 数据库配置
 db:
   mysql:
-    host: "127.0.0.1"
-    username: "root"
-    password: "root"
-    database: "think"
+    host: '127.0.0.1'
+    username: 'root'
+    password: 'root'
+    database: 'think'
     port: 3306
-    charset: "utf8mb4"
-    timezone: "+08:00"
+    charset: 'utf8mb4'
+    timezone: '+08:00'
     synchronize: true
 
 # oss 文件存储服务
 oss:
   aliyun:
-    accessKeyId: ""
-    accessKeySecret: ""
-    bucket: ""
+    accessKeyId: ''
+    accessKeySecret: ''
+    bucket: ''
     https: true
-    region: ""
+    region: ''
 
 # jwt 配置
 jwt:
-  secretkey: "zA_Think+KNOWLEDGE+WIKI+DOCUMENTS@2022"
-  expiresIn: "6h"
+  secretkey: 'zA_Think+KNOWLEDGE+WIKI+DOCUMENTS@2022'
+  expiresIn: '6h'
 ```
 
 ### 项目部署

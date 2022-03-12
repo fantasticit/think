@@ -1,9 +1,9 @@
-import type { IUser, IDocument } from "@think/domains";
-import useSWR from "swr";
-import { useState, useCallback, useEffect } from "react";
-import { useAsyncLoading } from "hooks/useAsyncLoading";
-import { HttpClient } from "services/HttpClient";
-import { getPublicDocumentDetail } from "services/document";
+import type { IUser, IDocument } from '@think/domains';
+import useSWR from 'swr';
+import { useState, useCallback, useEffect } from 'react';
+import { useAsyncLoading } from 'hooks/useAsyncLoading';
+import { HttpClient } from 'services/HttpClient';
+import { getPublicDocumentDetail } from 'services/document';
 
 interface IAuthority {
   id: string;
@@ -13,20 +13,18 @@ interface IAuthority {
   editable: boolean;
 }
 
-type ICreateDocument = Partial<Pick<IDocument, "wikiId" | "parentDocumentId">>;
+type ICreateDocument = Partial<Pick<IDocument, 'wikiId' | 'parentDocumentId'>>;
 type IDocumentWithAuth = { document: IDocument; authority: IAuthority };
-type IUpdateDocument = Partial<Pick<IDocument, "title" | "content">>;
+type IUpdateDocument = Partial<Pick<IDocument, 'title' | 'content'>>;
 
 /**
  * 创建文档
  * @returns
  */
 export const useCreateDocument = () => {
-  const [create, loading] = useAsyncLoading(
-    (data: ICreateDocument): Promise<IDocument> => {
-      return HttpClient.post("/document/create", data);
-    }
-  );
+  const [create, loading] = useAsyncLoading((data: ICreateDocument): Promise<IDocument> => {
+    return HttpClient.post('/document/create', data);
+  });
   return { create, loading };
 };
 
@@ -36,7 +34,7 @@ export const useCreateDocument = () => {
  * @returns
  */
 export const updateDocumentViews = (id: string) => {
-  return HttpClient.get("/document/views/" + id);
+  return HttpClient.get('/document/views/' + id);
 };
 
 /**
@@ -46,7 +44,7 @@ export const updateDocumentViews = (id: string) => {
  */
 export const useDeleteDocument = (id) => {
   const [deleteDocument, loading] = useAsyncLoading((): Promise<IDocument> => {
-    return HttpClient.delete("/document/delete/" + id);
+    return HttpClient.delete('/document/delete/' + id);
   });
   return { deleteDocument, loading };
 };
@@ -64,15 +62,13 @@ export const useDocumentDetail = (documentId, options = null) => {
   );
   const loading = !data && !error;
   const update = async (data: IUpdateDocument) => {
-    const res = await HttpClient.post("/document/update/" + documentId, data);
+    const res = await HttpClient.post('/document/update/' + documentId, data);
     mutate();
     return res;
   };
 
-  const toggleStatus = async (
-    data: Partial<Pick<IDocument, "sharePassword">>
-  ) => {
-    const ret = await HttpClient.post("/document/share/" + documentId, data);
+  const toggleStatus = async (data: Partial<Pick<IDocument, 'sharePassword'>>) => {
+    const ret = await HttpClient.post('/document/share/' + documentId, data);
     mutate();
     return ret;
   };
@@ -85,9 +81,8 @@ export const useDocumentDetail = (documentId, options = null) => {
  * @returns
  */
 export const useRecentDocuments = () => {
-  const { data, error, mutate } = useSWR<IDocument[]>(
-    "/document/recent",
-    (url) => HttpClient.get(url)
+  const { data, error, mutate } = useSWR<IDocument[]>('/document/recent', (url) =>
+    HttpClient.get(url)
   );
   const loading = !data && !error;
   return { data, error, loading, refresh: mutate };
@@ -99,18 +94,16 @@ export const useRecentDocuments = () => {
  * @returns
  */
 export const useDocumentStar = (documentId) => {
-  const { data, error, mutate } = useSWR<boolean>(
-    `/collector/check/${documentId}`,
-    () =>
-      HttpClient.post(`/collector/check`, {
-        type: "document",
-        targetId: documentId,
-      })
+  const { data, error, mutate } = useSWR<boolean>(`/collector/check/${documentId}`, () =>
+    HttpClient.post(`/collector/check`, {
+      type: 'document',
+      targetId: documentId,
+    })
   );
 
   const toggleStar = async () => {
-    await HttpClient.post("/collector/toggle/", {
-      type: "document",
+    await HttpClient.post('/collector/toggle/', {
+      type: 'document',
       targetId: documentId,
     });
     mutate();
@@ -124,9 +117,8 @@ export const useDocumentStar = (documentId) => {
  * @returns
  */
 export const useStaredDocuments = () => {
-  const { data, error, mutate } = useSWR<IDocument[]>(
-    "/collector/documents",
-    (url) => HttpClient.post(url)
+  const { data, error, mutate } = useSWR<IDocument[]>('/collector/documents', (url) =>
+    HttpClient.post(url)
   );
   const loading = !data && !error;
 
@@ -141,13 +133,11 @@ export const useStaredDocuments = () => {
 export const usePublicDocument = (documentId: string) => {
   const [fetch] = useAsyncLoading(getPublicDocumentDetail);
   const [document, setDocument] = useState<IDocument | null>(null);
-  const [error, setError] = useState<(Error & { statusCode?: number }) | null>(
-    null
-  );
+  const [error, setError] = useState<(Error & { statusCode?: number }) | null>(null);
   const loading = !document && !error;
 
   const queryData = useCallback(
-    (sharePassword = "") => {
+    (sharePassword = '') => {
       fetch(documentId, { sharePassword })
         .then((doc) => {
           setDocument(doc);
@@ -221,16 +211,10 @@ export const useCollaborationDocument = (documentId) => {
  * @param isShare 访问路径
  * @returns
  */
-export const useChildrenDocument = ({
-  wikiId,
-  documentId,
-  isShare = false,
-}) => {
+export const useChildrenDocument = ({ wikiId, documentId, isShare = false }) => {
   const { data, error, mutate } = useSWR<Array<IDocument>>(
-    isShare ? "/document/public/children" : `/document/children`,
-    wikiId || documentId
-      ? (url) => HttpClient.post(url, { wikiId, documentId, isShare })
-      : null,
+    isShare ? '/document/public/children' : `/document/children`,
+    wikiId || documentId ? (url) => HttpClient.post(url, { wikiId, documentId, isShare }) : null,
     { shouldRetryOnError: false }
   );
   const loading = !data && !error;

@@ -1,6 +1,6 @@
-const semi = require("@douyinfe/semi-next").default({});
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-const { getConfig } = require("@think/config");
+const semi = require('@douyinfe/semi-next').default({});
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const { getConfig } = require('@think/config');
 const config = getConfig().client;
 
 /** @type {import('next').NextConfig} */
