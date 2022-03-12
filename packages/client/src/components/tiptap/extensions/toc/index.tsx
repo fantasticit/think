@@ -63,9 +63,7 @@ const Component = ({ editor }) => {
 
 export const Toc = Node.create({
   name: 'tableOfContents',
-
   group: 'block',
-
   atom: true,
 
   parseHTML() {

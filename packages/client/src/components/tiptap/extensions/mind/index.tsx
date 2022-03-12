@@ -25,6 +25,7 @@ const MindNode = Node.create({
   marks: '',
   group: 'block',
   draggable: true,
+  atom: true,
 
   addOptions() {
     return {

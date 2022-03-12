@@ -16,6 +16,7 @@ const StatusExtension = Node.create({
   content: 'text*',
   group: 'inline',
   inline: true,
+  atom: true,
 
   addAttributes() {
     return {

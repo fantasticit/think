@@ -32,6 +32,7 @@ export const Attachment = Node.create({
   name: 'attachment',
   group: 'block',
   draggable: true,
+  atom: true,
 
   addOptions() {
     return {

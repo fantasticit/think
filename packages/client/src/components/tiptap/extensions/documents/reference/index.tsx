@@ -23,6 +23,7 @@ const DocumentReferenceExtension = Node.create({
   group: 'block',
   defining: true,
   draggable: true,
+  atom: true,
 
   addAttributes() {
     return {
