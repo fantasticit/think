@@ -9,9 +9,17 @@ import { findParents } from 'components/wiki/tocs/utils';
 import { IconDocument, IconSetting, IconOverview } from 'components/icons';
 import { DocumentCreator } from 'components/document/create';
 import { DataRender } from 'components/data-render';
+import { EventEmitter } from 'helpers/event-emitter';
 import { NavItem } from './NavItem';
 import { Tree } from './tree';
 import styles from './index.module.scss';
+
+const em = new EventEmitter();
+const EVENT_KEY = 'REFRESH_TOCS';
+
+export const triggerRefreshTocs = () => {
+  em.emit(EVENT_KEY);
+};
 
 interface IProps {
   wikiId: string;
@@ -33,7 +41,7 @@ export const WikiTocs: React.FC<IProps> = ({
   const { pathname } = useRouter();
   const [visible, toggleVisible] = useToggle(false);
   const { data: wiki, loading: wikiLoading, error: wikiError } = useWikiDetail(wikiId);
-  const { data: tocs, loading: tocsLoading, error: tocsError } = useWikiTocs(wikiId);
+  const { data: tocs, loading: tocsLoading, error: tocsError, refresh } = useWikiTocs(wikiId);
   const [parentIds, setParentIds] = useState<Array<string>>([]);
 
   useEffect(() => {
@@ -41,6 +49,16 @@ export const WikiTocs: React.FC<IProps> = ({
     const parentIds = findParents(tocs, documentId);
     setParentIds(parentIds);
   }, [tocs, documentId]);
+
+  useEffect(() => {
+    em.on(EVENT_KEY, () => {
+      refresh();
+    });
+
+    return () => {
+      em.destroy();
+    };
+  }, []);
 
   return (
     <div className={styles.wrap}>
