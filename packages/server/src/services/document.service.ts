@@ -313,11 +313,16 @@ export class DocumentService {
       userId: user.id,
     });
 
+    const query = this.documentRepo.createQueryBuilder('documemt');
+    query.select('MAX(documemt.index)', 'maxIndex');
+    const { maxIndex } = await query.getRawOne();
+
     const data = {
       ...dto,
       createUserId: user.id,
       isWikiHome,
       title: '未命名文档',
+      index: maxIndex + 1,
       // content: '',
       // state: Buffer.from(new Uint8Array()),
       ...DOCUMENT_PLACEHOLDERS[0],
@@ -710,6 +715,7 @@ export class DocumentService {
    * @returns
    */
   public async getWikiTocs(user: OutUser, wikiId: string) {
+    const ONE_DAY_TIME = 24 * 60 * 60 * 1000;
     await this.wikiService.getWikiDetail(user, wikiId);
     // @ts-ignore
     const records = await this.documentAuthorityRepo.find({
@@ -722,6 +728,7 @@ export class DocumentService {
       order: { createdAt: 'ASC' },
     });
     documents.sort((a, b) => a.index - b.index);
+
     documents.forEach((doc) => {
       delete doc.state;
     });
