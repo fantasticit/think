@@ -1,4 +1,5 @@
-import { Space, Button, Tooltip } from '@douyinfe/semi-ui';
+import React, { useEffect, useState } from 'react';
+import { Space, Button, Tooltip, InputNumber, Typography } from '@douyinfe/semi-ui';
 import {
   IconAlignLeft,
   IconAlignCenter,
@@ -10,8 +11,21 @@ import { Upload } from 'components/upload';
 import { BubbleMenu } from '../components/bubble-menu';
 import { Divider } from '../components/divider';
 import { Image } from '../extensions/image';
+import { getImageOriginSize } from '../utils/image';
+
+const { Text } = Typography;
 
 export const ImageBubbleMenu = ({ editor }) => {
+  const attrs = editor.getAttributes(Image.name);
+  const { width: currentWidth, height: currentHeight } = attrs;
+  const [width, setWidth] = useState(currentWidth);
+  const [height, setHeight] = useState(currentHeight);
+
+  useEffect(() => {
+    setWidth(parseInt(currentWidth));
+    setHeight(parseInt(currentHeight));
+  }, [currentWidth, currentHeight]);
+
   return (
     <BubbleMenu
       className={'bubble-menu'}
@@ -79,14 +93,54 @@ export const ImageBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
         <Divider />
+        <Text>宽</Text>
+        <InputNumber
+          size="small"
+          hideButtons
+          value={width}
+          style={{ width: 60 }}
+          onEnterPress={(e) => {
+            const value = (e.target as HTMLInputElement).value;
+            editor
+              .chain()
+              .updateAttributes(Image.name, {
+                width: value,
+              })
+              .setNodeSelection(editor.state.selection.from)
+              .focus()
+              .run();
+          }}
+        />
+        <Text>高</Text>
+        <InputNumber
+          size="small"
+          hideButtons
+          value={height}
+          style={{ width: 60 }}
+          onEnterPress={(e) => {
+            const value = (e.target as HTMLInputElement).value;
+            editor
+              .chain()
+              .updateAttributes(Image.name, {
+                height: value,
+              })
+              .setNodeSelection(editor.state.selection.from)
+              .focus()
+              .run();
+          }}
+        />
+        <Divider />
         <Upload
           accept="image/*"
-          onOK={(url) => {
+          onOK={async (url, fileName) => {
+            const { width, height } = await getImageOriginSize(url);
             editor
               .chain()
               .updateAttributes(Image.name, {
                 src: url,
-                alt: 'filename',
+                alt: fileName,
+                width,
+                height,
               })
               .setNodeSelection(editor.state.selection.from)
               .focus()

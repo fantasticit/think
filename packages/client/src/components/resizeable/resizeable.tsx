@@ -54,6 +54,13 @@ export const Resizeable: React.FC<IProps> = ({ width, height, onChange, children
     });
   }, []);
 
+  useEffect(() => {
+    Object.assign($container.current.style, {
+      width: `${width}px`,
+      height: `${height}px`,
+    });
+  }, [width, height]);
+
   return (
     <div
       id="js-resizeable-container"

@@ -16,6 +16,7 @@ import {
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
 import { isTitleActive } from '../utils/active';
+import { getImageOriginSize } from '../utils/image';
 
 export const MediaInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
   if (!editor) {
@@ -65,7 +66,11 @@ export const MediaInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
             <IconImage />
             <Upload
               accept="image/*"
-              onOK={(url) => editor.chain().focus().setImage({ src: url }).run()}
+              onOK={async (url, fileName) => {
+                const { width, height } = await getImageOriginSize(url);
+                console.log('upload', width, height);
+                editor.chain().focus().setImage({ src: url, alt: fileName, width, height }).run();
+              }}
             >
               {() => '图片'}
             </Upload>

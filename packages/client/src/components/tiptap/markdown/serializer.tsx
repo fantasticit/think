@@ -132,6 +132,11 @@ const defaultSerializerConfig = {
       state.write(`documentChildren$`);
       state.closeBlock(node);
     },
+    [Mind.name]: (state, node) => {
+      state.ensureNewLine();
+      state.write(`mind$`);
+      state.closeBlock(node);
+    },
     // [DescriptionList.name]: renderHTMLNode("dl", true),
     // [DescriptionItem.name]: (state, node, parent, index) => {
     //   if (index === 1) state.ensureNewLine();

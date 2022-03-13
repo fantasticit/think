@@ -1,8 +1,6 @@
-import { Plugin } from 'prosemirror-state';
 import { Image as TImage } from '@tiptap/extension-image';
-import { NodeViewWrapper, NodeViewContent, ReactNodeViewRenderer } from '@tiptap/react';
+import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
 import { Resizeable } from 'components/resizeable';
-import { uploadFile } from 'services/file';
 
 const Render = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
@@ -12,7 +10,7 @@ const Render = ({ editor, node, updateAttributes }) => {
     updateAttributes({ height: size.height, width: size.width });
   };
 
-  const content = src && <img src={src} alt={title} style={{ width: '100%', height: '100%' }} />;
+  const content = src && <img src={src} alt={alt} width={width} height={height} />;
 
   return (
     <NodeViewWrapper as="div" style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
