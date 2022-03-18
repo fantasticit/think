@@ -62,7 +62,9 @@ const Page: NextPage = () => {
     <SingleColumnLayout>
       <Seo title="知识库" />
       <div className="container">
-        <Title heading={3}>知识库</Title>
+        <Title heading={3} style={{ margin: '8px 0' }}>
+          知识库
+        </Title>
         <Tabs type="button" style={{ marginTop: 24 }}>
           <TabPane tab="全部" itemKey="all">
             <Workspaces hook={useAllWikis} />

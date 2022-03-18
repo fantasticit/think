@@ -28,9 +28,11 @@ const Page: NextPage = () => {
     <SingleColumnLayout>
       <Seo title="发现" />
       <div className="container">
-        <Title heading={3} style={{ marginBottom: 24 }}>
-          发现
-        </Title>
+        <div style={{ marginBottom: 24 }}>
+          <Title heading={3} style={{ margin: '8px 0' }}>
+            发现
+          </Title>
+        </div>
         <DataRender
           loading={loading}
           loadingContent={() => (

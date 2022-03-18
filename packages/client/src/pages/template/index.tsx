@@ -36,7 +36,7 @@ const Page: NextPage = () => {
       <div className="container">
         <div className={styles.titleWrap}>
           <Title heading={3} style={{ margin: '8px 0' }}>
-            快捷访问
+            模板
           </Title>
           <Button onClick={handleAdd}>新建模板</Button>
         </div>
