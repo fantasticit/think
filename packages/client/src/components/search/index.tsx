@@ -106,6 +106,9 @@ export const Search = () => {
         style={{
           maxWidth: '96vw',
         }}
+        bodyStyle={{
+          height: '68vh',
+        }}
       >
         <div style={{ paddingBottom: 24 }}>
           <div>
@@ -122,7 +125,7 @@ export const Search = () => {
               showClear
             />
           </div>
-          <div style={{ maxHeight: '70vh', overflow: 'auto' }}>
+          <div style={{ height: 'calc(68vh - 40px)', paddingBottom: 36, overflow: 'auto' }}>
             <DataRender
               loading={loading}
               loadingContent={
