@@ -9,11 +9,19 @@ import styles from './index.module.scss';
 
 const { Text, Paragraph } = Typography;
 
-export const WikiCard: React.FC<{ wiki: IWiki }> = ({ wiki }) => {
+export const WikiCard: React.FC<{ wiki: IWiki; shareMode?: boolean }> = ({
+  wiki,
+  shareMode = false,
+}) => {
   return (
     <div className={styles.cardWrap}>
-      <Link href={{ pathname: `/wiki/[wikiId]`, query: { wikiId: wiki.id } }}>
-        <a>
+      <Link
+        href={{
+          pathname: `${shareMode ? '/share' : ''}/wiki/[wikiId]`,
+          query: { wikiId: wiki.id },
+        }}
+      >
+        <a target={shareMode ? '_blank' : '_self'}>
           <header>
             <Avatar
               shape="square"

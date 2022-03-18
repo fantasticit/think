@@ -174,4 +174,11 @@ export class WikiController {
   async getPublicWorkspaceDetail(@Param('id') wikiId) {
     return await this.wikiService.getPublicWikiDetail(wikiId);
   }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('public/wikis')
+  @HttpCode(HttpStatus.OK)
+  async getAllPublicWikis(@Query() pagination: IPagination) {
+    return await this.wikiService.getAllPublicWikis(pagination);
+  }
 }

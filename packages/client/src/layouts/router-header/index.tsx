@@ -78,6 +78,19 @@ export const RouterHeader: React.FC = () => {
               });
             },
           },
+          {
+            itemKey: '/find',
+            text: (
+              <Link href="/find">
+                <a>发现</a>
+              </Link>
+            ),
+            onClick: () => {
+              Router.push({
+                pathname: `/find`,
+              });
+            },
+          },
         ]}
         footer={
           <Space>

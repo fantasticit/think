@@ -604,4 +604,32 @@ export class WikiService {
   async getPublicWikiTocs(wikiId) {
     return await this.documentService.getPublicWikiTocs(wikiId);
   }
+
+  /**
+   * 获取当前用户所有知识库
+   * @param user
+   * @param pagination
+   * @returns
+   */
+  async getAllPublicWikis(pagination: IPagination) {
+    const { page = 1, pageSize = 12 } = pagination;
+    const query = await this.wikiRepo
+      .createQueryBuilder('wiki')
+      .where('wiki.status=:status')
+      .setParameter('status', WikiStatus.public);
+
+    query.skip((+page - 1) * +pageSize);
+    query.take(+pageSize);
+
+    const [wikis, total] = await query.getManyAndCount();
+
+    const ret = await Promise.all(
+      wikis.map(async (wiki) => {
+        const createUser = await this.userService.findById(wiki.createUserId);
+        return { ...wiki, createUser };
+      })
+    );
+
+    return { data: ret, total };
+  }
 }

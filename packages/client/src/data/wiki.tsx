@@ -1,5 +1,6 @@
 import { CollectType, IDocument, IUser, IWiki, IWikiUser } from '@think/domains';
 import useSWR from 'swr';
+import { useState } from 'react';
 import { HttpClient } from 'services/HttpClient';
 
 export type ICreateWiki = Pick<IWiki, 'name' | 'description'>;
@@ -275,4 +276,25 @@ export const usePublicWikiTocs = (wikiId) => {
   const loading = !data && !error;
 
   return { data, loading, error, refresh: mutate };
+};
+
+/**
+ * 文档评论
+ * @param documentId
+ * @returns
+ */
+export const useAllPublicWikis = () => {
+  const [page, setPage] = useState(1);
+  const { data, error, mutate } = useSWR<{
+    data: Array<IWiki>;
+    total: number;
+  }>(`/wiki/public/wikis?page=${page}`, (url) => HttpClient.get(url));
+  const loading = !data && !error;
+
+  return {
+    data,
+    loading,
+    error,
+    setPage,
+  };
 };
