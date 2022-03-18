@@ -18,6 +18,7 @@ const grid = {
 };
 
 const { Title } = Typography;
+const PAGESIZE = 12;
 
 const Page: NextPage = () => {
   const { data, loading, error, setPage } = useAllPublicWikis();
@@ -59,9 +60,11 @@ const Page: NextPage = () => {
                 )}
                 emptyContent={<Empty message={'暂无数据'} />}
               />
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Pagination total={data.total} pageSize={12} onPageChange={setPage} />
-              </div>
+              {data.total > PAGESIZE && (
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Pagination total={data.total} pageSize={PAGESIZE} onPageChange={setPage} />
+                </div>
+              )}
             </>
           )}
         />
