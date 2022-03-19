@@ -23,8 +23,6 @@ const PAGESIZE = 12;
 const Page: NextPage = () => {
   const { data, loading, error, setPage } = useAllPublicWikis();
 
-  console.log(data);
-
   return (
     <SingleColumnLayout>
       <Seo title="发现" />
