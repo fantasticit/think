@@ -24,7 +24,6 @@ import {
   getCollaborationExtension,
   getProvider,
   MenuBar,
-  Toc,
 } from 'components/tiptap';
 import { DataRender } from 'components/data-render';
 import { User } from 'components/user';
