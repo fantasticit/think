@@ -15,8 +15,8 @@ import {
   IconMath,
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
-import { isTitleActive } from '../utils/active';
-import { getImageOriginSize } from '../utils/image';
+import { isTitleActive } from './utils/active';
+import { getImageOriginSize } from './utils/image';
 
 export const MediaInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
   if (!editor) {

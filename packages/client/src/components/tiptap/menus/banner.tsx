@@ -6,10 +6,10 @@ import {
   IconClear,
   IconInfoCircle,
 } from '@douyinfe/semi-icons';
-import { BubbleMenu } from '../components/bubble-menu';
+import { BubbleMenu } from './components/bubble-menu';
 import { Divider } from '../components/divider';
 import { Banner } from '../extensions/banner';
-import { deleteNode } from '../utils/delete';
+import { deleteNode } from './utils/delete';
 
 export const BannerBubbleMenu = ({ editor }) => {
   return (

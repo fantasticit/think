@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
 import { IconFont, IconMark } from '@douyinfe/semi-icons';
-import { isTitleActive } from '../utils/active';
-import { Color } from '../components/color';
+import { isTitleActive } from './utils/active';
+import { Color } from './components/color';
 
 export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
   const { color, backgroundColor } = editor.getAttributes('textStyle');

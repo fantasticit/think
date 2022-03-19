@@ -1,7 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core';
-import Document from '@tiptap/extension-document';
 
-const Title = Node.create({
+export const Title = Node.create({
   name: 'title',
   group: 'block',
   content: 'text*',
@@ -26,9 +25,3 @@ const Title = Node.create({
     return ['h1', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
 });
-
-const TitledDocument = Document.extend({
-  content: 'title block+',
-});
-
-export { Document, Title, TitledDocument };

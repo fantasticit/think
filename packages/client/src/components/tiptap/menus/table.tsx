@@ -10,10 +10,8 @@ import {
   IconSplitCell,
   IconDeleteTable,
 } from 'components/icons';
-import { Upload } from 'components/upload';
-import { BubbleMenu } from '../components/bubble-menu';
-import { Divider } from '../components/divider';
-import { Table, TableCell } from '../extensions/table';
+import { BubbleMenu } from './components/bubble-menu';
+import { Table } from '../extensions/table';
 
 export const TableBubbleMenu = ({ editor }) => {
   return (

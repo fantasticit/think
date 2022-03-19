@@ -10,8 +10,8 @@ import { Iframe } from '../extensions/iframe';
 import { Mind } from '../extensions/mind';
 import { Table } from '../extensions/table';
 import { Katex } from '../extensions/katex';
-import { DocumentReference } from '../extensions/documents/reference';
-import { DocumentChildren } from '../extensions/documents/children';
+import { DocumentReference } from '../extensions/documentReference';
+import { DocumentChildren } from '../extensions/documentChildren';
 import { BaseMenu } from './base-menu';
 
 const OTHER_BUBBLE_MENU_TYPES = [

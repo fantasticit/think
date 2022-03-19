@@ -12,7 +12,6 @@ import {
   getProvider,
   destoryProvider,
   MenuBar,
-  Toc,
 } from 'components/tiptap';
 import { DataRender } from 'components/data-render';
 import { joinUser } from 'components/document/collaboration';

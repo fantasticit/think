@@ -8,10 +8,10 @@ import {
   IconDelete,
 } from '@douyinfe/semi-icons';
 import { Upload } from 'components/upload';
-import { BubbleMenu } from '../components/bubble-menu';
+import { BubbleMenu } from './components/bubble-menu';
 import { Divider } from '../components/divider';
 import { Image } from '../extensions/image';
-import { getImageOriginSize } from '../utils/image';
+import { getImageOriginSize } from './utils/image';
 
 const { Text } = Typography;
 

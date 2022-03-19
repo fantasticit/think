@@ -1,0 +1,77 @@
+import { Node, nodeInputRule, mergeAttributes } from '@tiptap/core';
+import { TextSelection } from 'prosemirror-state';
+
+export interface HorizontalRuleOptions {
+  HTMLAttributes: Record<string, any>;
+}
+
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    horizontalRule: {
+      setHorizontalRule: () => ReturnType;
+    };
+  }
+}
+
+export const HorizontalRule = Node.create<HorizontalRuleOptions>({
+  name: 'horizontalRule',
+  group: 'block',
+
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        class: 'hr-line',
+      },
+    };
+  },
+
+  parseHTML() {
+    return [{ tag: 'div[class=hr-line]' }];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
+  },
+
+  addCommands() {
+    return {
+      setHorizontalRule:
+        () =>
+        ({ chain }) => {
+          return chain()
+            .insertContent({ type: this.name })
+            .command(({ tr, dispatch }) => {
+              if (dispatch) {
+                const { $to } = tr.selection;
+                const posAfter = $to.end();
+
+                if ($to.nodeAfter) {
+                  tr.setSelection(TextSelection.create(tr.doc, $to.pos));
+                } else {
+                  const node = $to.parent.type.contentMatch.defaultType?.create();
+
+                  if (node) {
+                    tr.insert(posAfter, node);
+                    tr.setSelection(TextSelection.create(tr.doc, posAfter));
+                  }
+                }
+
+                tr.scrollIntoView();
+              }
+
+              return true;
+            })
+            .run();
+        },
+    };
+  },
+
+  addInputRules() {
+    return [
+      nodeInputRule({
+        find: /^(?:---|—-|___\s|\*\*\*\s)$/,
+        type: this.type,
+      }),
+    ];
+  },
+});
