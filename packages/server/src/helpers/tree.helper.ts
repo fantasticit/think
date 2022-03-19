@@ -16,6 +16,7 @@ export function array2tree(list) {
         list[map[node.parentDocumentId]].children.push(node);
       } else {
         node.parentDocumentId = null; // 该节点的父节点无法访问
+        roots.push(node);
       }
     } else {
       roots.push(node);

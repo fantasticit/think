@@ -816,7 +816,7 @@ export class DocumentService {
       delete doc.state;
     });
 
-    return array2tree(docs.map((doc) => instanceToPlain(doc)));
+    return array2tree(docs);
   }
 
   /**
