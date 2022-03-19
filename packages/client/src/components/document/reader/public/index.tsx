@@ -131,7 +131,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
                   style={{ fontSize }}
                   id="js-share-document-editor-container"
                 >
-                  <Title>{data.title}</Title>
+                  <Title style={{ fontSize: '2.4em' }}>{data.title}</Title>
                   <div style={{ margin: '24px 0' }}>
                     <CreateUser document={data} />
                   </div>
