@@ -22,6 +22,7 @@ import { HorizontalRule } from './extensions/horizontalRule';
 import { HTMLMarks } from './extensions/htmlMarks';
 import { Iframe } from './extensions/iframe';
 import { Image } from './extensions/image';
+import { Indent } from './extensions/indent';
 import { Italic } from './extensions/italic';
 import { Katex } from './extensions/katex';
 import { Link } from './extensions/link';
@@ -72,6 +73,7 @@ export const BaseKit = [
   ...HTMLMarks,
   Iframe,
   Image,
+  Indent,
   Italic,
   Katex,
   Link,

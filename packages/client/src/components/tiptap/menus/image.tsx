@@ -11,7 +11,7 @@ import { Upload } from 'components/upload';
 import { BubbleMenu } from './components/bubble-menu';
 import { Divider } from '../components/divider';
 import { Image } from '../extensions/image';
-import { getImageOriginSize } from './utils/image';
+import { getImageOriginSize } from '../services/image';
 
 const { Text } = Typography;
 

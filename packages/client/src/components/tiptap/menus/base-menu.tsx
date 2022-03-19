@@ -7,7 +7,7 @@ import {
   IconUnderline,
   IconCode,
 } from '@douyinfe/semi-icons';
-import { isTitleActive } from './utils/active';
+import { isTitleActive } from '../services/active';
 import { ColorMenu } from './color';
 
 export const BaseMenu: React.FC<{ editor: any }> = ({ editor }) => {

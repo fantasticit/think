@@ -6,7 +6,7 @@ import {
   IconAlignRight,
   IconAlignJustify,
 } from '@douyinfe/semi-icons';
-import { isTitleActive } from './utils/active';
+import { isTitleActive } from '../services/active';
 
 export const AlignMenu = ({ editor }) => {
   const current = (() => {

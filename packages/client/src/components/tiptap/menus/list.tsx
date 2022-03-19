@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
 import { IconList, IconOrderedList, IconIndentLeft, IconIndentRight } from '@douyinfe/semi-icons';
 import { IconTask } from 'components/icons';
-import { isTitleActive } from './utils/active';
+import { isTitleActive } from '../services/active';
 
 export const ListMenu: React.FC<{ editor: any }> = ({ editor }) => {
   if (!editor) {

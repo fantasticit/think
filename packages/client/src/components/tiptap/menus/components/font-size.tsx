@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Select } from '@douyinfe/semi-ui';
-import { isTitleActive } from '../utils/active';
+import { isTitleActive } from '../../services/active';
 
 export const FONT_SIZES = [12, 13, 14, 15, 16, 19, 22, 24, 29, 32, 40, 48];
 

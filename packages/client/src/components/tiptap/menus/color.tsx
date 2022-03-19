@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
 import { IconFont, IconMark } from '@douyinfe/semi-icons';
-import { isTitleActive } from './utils/active';
+import { isTitleActive } from '../services/active';
 import { Color } from './components/color';
 
 export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {

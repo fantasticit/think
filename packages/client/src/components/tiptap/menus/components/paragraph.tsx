@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Select } from '@douyinfe/semi-ui';
-import { isTitleActive } from '../utils/active';
+import { isTitleActive } from '../../services/active';
 
 const getCurrentCaretTitle = (editor) => {
   if (editor.isActive('heading', { level: 1 })) return 1;

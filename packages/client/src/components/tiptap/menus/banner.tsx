@@ -9,7 +9,7 @@ import {
 import { BubbleMenu } from './components/bubble-menu';
 import { Divider } from '../components/divider';
 import { Banner } from '../extensions/banner';
-import { deleteNode } from './utils/delete';
+import { deleteNode } from '../services//delete';
 
 export const BannerBubbleMenu = ({ editor }) => {
   return (

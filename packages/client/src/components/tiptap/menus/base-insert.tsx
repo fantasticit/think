@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
 import { IconQuote, IconCheckboxIndeterminate, IconLink } from '@douyinfe/semi-icons';
-import { isTitleActive } from './utils/active';
+import { isTitleActive } from '../services/active';
 import { Emoji } from './components/emoji';
 
 export const BaseInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
