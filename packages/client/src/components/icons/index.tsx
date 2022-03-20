@@ -34,3 +34,4 @@ export * from './IconSplitCell';
 export * from './IconAttachment';
 export * from './IconMath';
 export * from './IconSearch';
+export * from './IconSearchReplace';

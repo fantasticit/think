@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom';
-import { Space, Button, Tooltip } from '@douyinfe/semi-ui';
+import { Space, Button } from '@douyinfe/semi-ui';
 import { IconPlus, IconDelete } from '@douyinfe/semi-icons';
 import { IconZoomOut, IconZoomIn } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 import { Divider } from '../divider';
 import styles from './index.module.scss';
 

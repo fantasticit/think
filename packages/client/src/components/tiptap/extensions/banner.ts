@@ -1,6 +1,7 @@
-import { Node, Command, mergeAttributes } from '@tiptap/core';
+import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { BannerWrapper } from '../components/banner';
+import { typesAvailable } from '../services/markdown/markdownBanner';
 
 declare module '@tiptap/core' {
   interface Commands {
@@ -12,33 +13,53 @@ declare module '@tiptap/core' {
 
 export const Banner = Node.create({
   name: 'banner',
-  content: 'block*',
+  content: 'paragraph+',
   group: 'block',
   defining: true,
-  draggable: true,
+
+  addOptions() {
+    return {
+      types: typesAvailable,
+      HTMLAttributes: {
+        class: 'banner',
+      },
+    };
+  },
 
   addAttributes() {
     return {
       type: {
         default: 'info',
+        rendered: false,
+        parseHTML: (element) => element.getAttribute('data-banner'),
+        renderHTML: (attributes) => {
+          return {
+            'data-banner': attributes.type,
+            'class': `banner banner-${attributes.type}`,
+          };
+        },
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: 'div' }];
+    return [
+      {
+        tag: 'div',
+      },
+    ];
   },
 
-  renderHTML({ HTMLAttributes }) {
-    return [
-      'div',
-      { class: 'banner' },
-      [
-        'div',
-        mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes),
-        0,
-      ],
-    ];
+  renderHTML({ node, HTMLAttributes }) {
+    const { class: classy } = this.options.HTMLAttributes;
+
+    const attributes = {
+      ...this.options.HTMLAttributes,
+      'data-callout': node.attrs.type,
+      'class': `${classy} ${classy}-${node.attrs.type}`,
+    };
+
+    return ['div', mergeAttributes(attributes, HTMLAttributes), 0];
   },
 
   // @ts-ignore
@@ -55,6 +76,18 @@ export const Banner = Node.create({
           }
         },
     };
+  },
+
+  addInputRules() {
+    return [
+      wrappingInputRule({
+        find: /^:::([\dA-Za-z]*) $/,
+        type: this.type,
+        getAttributes: (match) => {
+          return { type: match[1] };
+        },
+      }),
+    ];
   },
 
   addNodeView() {

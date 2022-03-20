@@ -1,7 +1,7 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { Layout } from '@douyinfe/semi-ui';
-import { ILoginUser } from '@think/domains';
+import { IDocument, ILoginUser } from '@think/domains';
 import { useToggle } from 'hooks/useToggle';
 import {
   DEFAULT_EXTENSION,
@@ -13,6 +13,7 @@ import {
 } from 'components/tiptap';
 import { DataRender } from 'components/data-render';
 import { joinUser } from 'components/document/collaboration';
+import { CreateUser } from './user';
 import styles from './index.module.scss';
 
 const { Content } = Layout;
@@ -20,11 +21,13 @@ const { Content } = Layout;
 interface IProps {
   user: ILoginUser;
   documentId: string;
+  document: IDocument;
 }
 
-export const Editor: React.FC<IProps> = ({ user, documentId }) => {
+export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
   if (!user) return null;
 
+  const $ref = useRef();
   const provider = useMemo(() => {
     return getProvider({
       targetId: documentId,
@@ -68,7 +71,15 @@ export const Editor: React.FC<IProps> = ({ user, documentId }) => {
         return (
           <>
             <Content className={styles.editorWrap}>
-              <EditorContent editor={editor} />
+              <div id="js-reader-container">
+                <EditorContent editor={editor} />
+              </div>
+              <CreateUser
+                document={document}
+                container={() =>
+                  window.document.querySelector('#js-reader-container .ProseMirror .title')
+                }
+              />
             </Content>
           </>
         );

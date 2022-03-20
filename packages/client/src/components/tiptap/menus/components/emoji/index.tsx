@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
-import { Popover, Button, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { Popover, Button, Typography } from '@douyinfe/semi-ui';
+import { Tooltip } from 'components/tooltip';
 import { IconEmoji } from 'components/icons';
 import { EXPRESSIONES, GESTURES } from './constants';
 import styles from './index.module.scss';
@@ -52,7 +53,7 @@ export const Emoji = ({ editor }) => {
       }
     >
       <span>
-        <Tooltip zIndex={10000} content="插入表情">
+        <Tooltip content="插入表情">
           <Button theme={'borderless'} type="tertiary" icon={<IconEmoji />} />
         </Tooltip>
       </span>

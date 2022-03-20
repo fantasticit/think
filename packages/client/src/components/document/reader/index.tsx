@@ -122,10 +122,12 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
               return (
                 <>
                   <Seo title={document.title} />
-                  <Editor key={document.id} user={user} documentId={document.id} />
-                  <div style={{ marginBottom: 24 }}>
-                    <CreateUser document={document} />
-                  </div>
+                  <Editor
+                    key={document.id}
+                    user={user}
+                    documentId={document.id}
+                    document={document}
+                  />
                   <div className={styles.commentWrap}>
                     <CommentEditor documentId={document.id} />
                   </div>

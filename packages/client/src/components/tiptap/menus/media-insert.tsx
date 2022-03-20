@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Tooltip, Dropdown, Popover } from '@douyinfe/semi-ui';
+import { Button, Dropdown, Popover } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
+import { Tooltip } from 'components/tooltip';
 import { Upload } from 'components/upload';
 import {
   IconDocument,
@@ -15,7 +16,7 @@ import {
   IconMath,
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
-import { isTitleActive } from '../services/active';
+import { isTitleActive } from '../services/isActive';
 import { getImageOriginSize } from '../services/image';
 
 export const MediaInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
@@ -117,7 +118,7 @@ export const MediaInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
       }
     >
       <div>
-        <Tooltip content="插入" zIndex={10000}>
+        <Tooltip content="插入">
           <Button
             type="tertiary"
             theme="borderless"

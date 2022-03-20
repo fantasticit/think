@@ -1,8 +1,10 @@
 import React from 'react';
-import { Button, Tooltip } from '@douyinfe/semi-ui';
+import { Button } from '@douyinfe/semi-ui';
 import { IconQuote, IconCheckboxIndeterminate, IconLink } from '@douyinfe/semi-icons';
-import { isTitleActive } from '../services/active';
+import { Tooltip } from 'components/tooltip';
+import { isTitleActive } from '../services/isActive';
 import { Emoji } from './components/emoji';
+import { Search } from './search';
 
 export const BaseInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
   if (!editor) {
@@ -13,7 +15,7 @@ export const BaseInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
     <>
       <Emoji editor={editor} />
 
-      <Tooltip zIndex={10000} content="插入链接">
+      <Tooltip content="插入链接">
         <Button
           theme={editor.isActive('link') ? 'light' : 'borderless'}
           type="tertiary"
@@ -23,7 +25,7 @@ export const BaseInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="插入引用">
+      <Tooltip content="插入引用">
         <Button
           theme={editor.isActive('blockquote') ? 'light' : 'borderless'}
           type="tertiary"
@@ -34,7 +36,7 @@ export const BaseInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="插入分割线">
+      <Tooltip content="插入分割线">
         <Button
           theme={'borderless'}
           type="tertiary"
@@ -43,6 +45,8 @@ export const BaseInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
           disabled={isTitleActive(editor)}
         />
       </Tooltip>
+
+      <Search editor={editor} />
     </>
   );
 };

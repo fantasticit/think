@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Tooltip } from '@douyinfe/semi-ui';
+import { Button } from '@douyinfe/semi-ui';
 import {
   IconBold,
   IconItalic,
@@ -7,7 +7,8 @@ import {
   IconUnderline,
   IconCode,
 } from '@douyinfe/semi-icons';
-import { isTitleActive } from '../services/active';
+import { Tooltip } from 'components/tooltip';
+import { isTitleActive } from '../services/isActive';
 import { ColorMenu } from './color';
 
 export const BaseMenu: React.FC<{ editor: any }> = ({ editor }) => {
@@ -17,7 +18,7 @@ export const BaseMenu: React.FC<{ editor: any }> = ({ editor }) => {
 
   return (
     <>
-      <Tooltip zIndex={10000} content="粗体">
+      <Tooltip content="粗体">
         <Button
           theme={editor.isActive('bold') ? 'light' : 'borderless'}
           type="tertiary"
@@ -27,7 +28,7 @@ export const BaseMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="斜体">
+      <Tooltip content="斜体">
         <Button
           theme={editor.isActive('italic') ? 'light' : 'borderless'}
           type="tertiary"
@@ -37,7 +38,7 @@ export const BaseMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="下划线">
+      <Tooltip content="下划线">
         <Button
           theme={editor.isActive('underline') ? 'light' : 'borderless'}
           type="tertiary"
@@ -47,7 +48,7 @@ export const BaseMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="删除线">
+      <Tooltip content="删除线">
         <Button
           theme={editor.isActive('strike') ? 'light' : 'borderless'}
           type="tertiary"
@@ -57,7 +58,7 @@ export const BaseMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="行内代码">
+      <Tooltip content="行内代码">
         <Button
           theme={editor.isActive('code') ? 'light' : 'borderless'}
           type="tertiary"

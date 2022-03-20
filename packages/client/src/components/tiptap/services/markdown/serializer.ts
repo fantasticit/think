@@ -4,41 +4,41 @@ import {
   MarkdownSerializer as ProseMirrorMarkdownSerializer,
   defaultMarkdownSerializer,
 } from 'prosemirror-markdown';
-import { marked } from './marked';
-import { Attachment } from '../extensions/attachment';
-import { Banner } from '../extensions/banner';
-import { Blockquote } from '../extensions/blockquote';
-import { Bold } from '../extensions/bold';
-import { BulletList } from '../extensions/bulletList';
-import { Code } from '../extensions/code';
-import { CodeBlock } from '../extensions/codeBlock';
-import { DocumentChildren } from '../extensions/documentChildren';
-import { DocumentReference } from '../extensions/documentReference';
-import { FootnoteDefinition } from '../extensions/footnoteDefinition';
-import { FootnoteReference } from '../extensions/footnoteReference';
-import { FootnotesSection } from '../extensions/footnotesSection';
-import { HardBreak } from '../extensions/hardBreak';
-import { Heading } from '../extensions/heading';
-import { HorizontalRule } from '../extensions/horizontalRule';
-import { HTMLMarks } from '../extensions/htmlMarks';
-import { Iframe } from '../extensions/iframe';
-import { Image } from '../extensions/image';
-import { Italic } from '../extensions/italic';
-import { Katex } from '../extensions/katex';
-import { Link } from '../extensions/link';
-import { ListItem } from '../extensions/listItem';
-import { Mind } from '../extensions/mind';
-import { OrderedList } from '../extensions/orderedList';
-import { Paragraph } from '../extensions/paragraph';
-import { Strike } from '../extensions/strike';
-import { Table } from '../extensions/table';
-import { TableCell } from '../extensions/tableCell';
-import { TableHeader } from '../extensions/tableHeader';
-import { TableRow } from '../extensions/tableRow';
-import { Text } from '../extensions/text';
-import { TaskItem } from '../extensions/taskItem';
-import { TaskList } from '../extensions/taskList';
-import { Title } from '../extensions/title';
+import { markdown } from '.';
+import { Attachment } from '../../extensions/attachment';
+import { Banner } from '../../extensions/banner';
+import { Blockquote } from '../../extensions/blockquote';
+import { Bold } from '../../extensions/bold';
+import { BulletList } from '../../extensions/bulletList';
+import { Code } from '../../extensions/code';
+import { CodeBlock } from '../../extensions/codeBlock';
+import { DocumentChildren } from '../../extensions/documentChildren';
+import { DocumentReference } from '../../extensions/documentReference';
+import { FootnoteDefinition } from '../../extensions/footnoteDefinition';
+import { FootnoteReference } from '../../extensions/footnoteReference';
+import { FootnotesSection } from '../../extensions/footnotesSection';
+import { HardBreak } from '../../extensions/hardBreak';
+import { Heading } from '../../extensions/heading';
+import { HorizontalRule } from '../../extensions/horizontalRule';
+import { HTMLMarks } from '../../extensions/htmlMarks';
+import { Iframe } from '../../extensions/iframe';
+import { Image } from '../../extensions/image';
+import { Italic } from '../../extensions/italic';
+import { Katex } from '../../extensions/katex';
+import { Link } from '../../extensions/link';
+import { ListItem } from '../../extensions/listItem';
+import { Mind } from '../../extensions/mind';
+import { OrderedList } from '../../extensions/orderedList';
+import { Paragraph } from '../../extensions/paragraph';
+import { Strike } from '../../extensions/strike';
+import { Table } from '../../extensions/table';
+import { TableCell } from '../../extensions/tableCell';
+import { TableHeader } from '../../extensions/tableHeader';
+import { TableRow } from '../../extensions/tableRow';
+import { Text } from '../../extensions/text';
+import { TaskItem } from '../../extensions/taskItem';
+import { TaskList } from '../../extensions/taskList';
+import { Title } from '../../extensions/title';
 import {
   isPlainURL,
   renderHardBreak,
@@ -96,8 +96,11 @@ const defaultSerializerConfig = {
       state.closeBlock(node);
     },
     [Banner.name]: (state, node) => {
+      state.write(`:::${node.attrs.type || 'info'}\n`);
       state.ensureNewLine();
-      state.write(`banner$`);
+      state.renderContent(node);
+      state.ensureNewLine();
+      state.write(':::');
       state.closeBlock(node);
     },
     [Blockquote.name]: (state, node) => {
@@ -151,8 +154,10 @@ const defaultSerializerConfig = {
     },
     [ListItem.name]: defaultMarkdownSerializer.nodes.list_item,
     [Mind.name]: (state, node) => {
+      state.write(`$mind\n`);
       state.ensureNewLine();
-      state.write(`mind$`);
+      state.renderContent(node);
+      state.ensureNewLine();
       state.closeBlock(node);
     },
     [OrderedList.name]: renderOrderedList,
@@ -166,16 +171,22 @@ const defaultSerializerConfig = {
       state.renderContent(node);
     },
     [TaskList.name]: (state, node) => {
-      if (node.attrs.numeric) renderOrderedList(state, node);
-      else defaultMarkdownSerializer.nodes.bullet_list(state, node);
+      state.renderList(node, '  ', () => (node.attrs.bullet || '*') + ' ');
     },
     [Text.name]: defaultMarkdownSerializer.nodes.text,
-    [Title.name]: renderHTMLNode('h1', true, true, { class: 'title' }),
+    [Title.name]: (state, node) => {
+      if (!node.textContent) return;
+
+      state.write(`# `);
+      state.text(node.textContent, false);
+      state.ensureNewLine();
+      state.closeBlock(node);
+    },
   },
 };
 
 const renderMarkdown = (rawMarkdown) => {
-  return sanitize(marked.render(rawMarkdown), {});
+  return sanitize(markdown.render(rawMarkdown), {});
 };
 
 const createMarkdownSerializer = () => ({

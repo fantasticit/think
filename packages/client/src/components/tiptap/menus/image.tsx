@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space, Button, Tooltip, InputNumber, Typography } from '@douyinfe/semi-ui';
+import { Space, Button, InputNumber, Typography } from '@douyinfe/semi-ui';
 import {
   IconAlignLeft,
   IconAlignCenter,
@@ -7,6 +7,7 @@ import {
   IconUpload,
   IconDelete,
 } from '@douyinfe/semi-icons';
+import { Tooltip } from 'components/tooltip';
 import { Upload } from 'components/upload';
 import { BubbleMenu } from './components/bubble-menu';
 import { Divider } from '../components/divider';
@@ -38,7 +39,7 @@ export const ImageBubbleMenu = ({ editor }) => {
       matchRenderContainer={(node) => node && node.id === 'js-resizeable-container'}
     >
       <Space>
-        <Tooltip content="左对齐" zIndex={10000}>
+        <Tooltip content="左对齐">
           <Button
             onClick={() => {
               editor
@@ -56,7 +57,7 @@ export const ImageBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
-        <Tooltip content="居中" zIndex={10000}>
+        <Tooltip content="居中">
           <Button
             onClick={() => {
               editor
@@ -74,7 +75,7 @@ export const ImageBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
-        <Tooltip content="右对齐" zIndex={10000}>
+        <Tooltip content="右对齐">
           <Button
             onClick={() => {
               editor
@@ -148,12 +149,12 @@ export const ImageBubbleMenu = ({ editor }) => {
           }}
         >
           {() => (
-            <Tooltip content="上传图片" zIndex={10000}>
+            <Tooltip content="上传图片">
               <Button size="small" type="tertiary" theme="borderless" icon={<IconUpload />} />
             </Tooltip>
           )}
         </Upload>
-        <Tooltip content="删除" zIndex={10000}>
+        <Tooltip content="删除" hideOnClick>
           <Button
             size="small"
             type="tertiary"

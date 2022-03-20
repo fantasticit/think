@@ -1,4 +1,4 @@
-import { Space, Button, Tooltip } from '@douyinfe/semi-ui';
+import { Space, Button } from '@douyinfe/semi-ui';
 import {
   IconAddColumnBefore,
   IconAddColumnAfter,
@@ -10,6 +10,7 @@ import {
   IconSplitCell,
   IconDeleteTable,
 } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 import { BubbleMenu } from './components/bubble-menu';
 import { Table } from '../extensions/table';
 
@@ -28,7 +29,7 @@ export const TableBubbleMenu = ({ editor }) => {
       }
     >
       <Space>
-        <Tooltip content="向前插入一列" zIndex={10000}>
+        <Tooltip content="向前插入一列">
           <Button
             onClick={() => editor.chain().focus().addColumnBefore().run()}
             icon={<IconAddColumnBefore />}
@@ -38,7 +39,7 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
-        <Tooltip content="向后插入一列" zIndex={10000}>
+        <Tooltip content="向后插入一列">
           <Button
             onClick={() => editor.chain().focus().addColumnAfter().run()}
             icon={<IconAddColumnAfter />}
@@ -47,7 +48,7 @@ export const TableBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
-        <Tooltip content="删除当前列" zIndex={10000}>
+        <Tooltip content="删除当前列">
           <Button
             onClick={() => editor.chain().focus().deleteColumn().run()}
             icon={<IconDeleteColumn />}
@@ -57,7 +58,7 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
-        <Tooltip content="向前插入一行" zIndex={10000}>
+        <Tooltip content="向前插入一行">
           <Button
             onClick={() => editor.chain().focus().addRowBefore().run()}
             icon={<IconAddRowBefore />}
@@ -67,7 +68,7 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
-        <Tooltip content="向后插入一行" zIndex={10000}>
+        <Tooltip content="向后插入一行">
           <Button
             onClick={() => editor.chain().focus().addRowAfter().run()}
             icon={<IconAddRowAfter />}
@@ -77,7 +78,7 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
-        <Tooltip content="删除当前行" zIndex={10000}>
+        <Tooltip content="删除当前行">
           <Button
             onClick={() => editor.chain().focus().deleteRow().run()}
             icon={<IconDeleteRow />}
@@ -87,7 +88,7 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
-        <Tooltip content="合并单元格" zIndex={10000}>
+        <Tooltip content="合并单元格">
           <Button
             size="small"
             type="tertiary"
@@ -97,7 +98,7 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
-        <Tooltip content="分离单元格" zIndex={10000}>
+        <Tooltip content="分离单元格">
           <Button
             size="small"
             type="tertiary"
@@ -107,7 +108,7 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
-        <Tooltip content="删除表格" zIndex={10000}>
+        <Tooltip content="删除表格" hideOnClick>
           <Button
             size="small"
             type="tertiary"

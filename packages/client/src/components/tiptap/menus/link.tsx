@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Space, Button, Tooltip, Input } from '@douyinfe/semi-ui';
+import { Space, Button, Input } from '@douyinfe/semi-ui';
 import { IconExternalOpen, IconUnlink, IconTickCircle } from '@douyinfe/semi-icons';
+import { Tooltip } from 'components/tooltip';
 import { BubbleMenu } from './components/bubble-menu';
 import { Link } from '../extensions/link';
 
@@ -32,7 +33,7 @@ export const LinkBubbleMenu = ({ editor }) => {
             setUrl(url);
           }}
         />
-        <Tooltip content="设置链接" zIndex={10000}>
+        <Tooltip content="设置链接">
           <Button
             size="small"
             type="tertiary"
@@ -50,7 +51,7 @@ export const LinkBubbleMenu = ({ editor }) => {
             }}
           />
         </Tooltip>
-        <Tooltip content="去除链接" zIndex={10000}>
+        <Tooltip content="去除链接">
           <Button
             onClick={() => {
               editor.chain().unsetLink().run();
@@ -61,7 +62,7 @@ export const LinkBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
-        <Tooltip content="访问链接" zIndex={10000}>
+        <Tooltip content="访问链接">
           <Button
             size="small"
             type="tertiary"

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Tooltip } from '@douyinfe/semi-ui';
+import { Button } from '@douyinfe/semi-ui';
 import { IconList, IconOrderedList, IconIndentLeft, IconIndentRight } from '@douyinfe/semi-icons';
+import { Tooltip } from 'components/tooltip';
 import { IconTask } from 'components/icons';
-import { isTitleActive } from '../services/active';
+import { isTitleActive } from '../services/isActive';
 
 export const ListMenu: React.FC<{ editor: any }> = ({ editor }) => {
   if (!editor) {
@@ -11,7 +12,7 @@ export const ListMenu: React.FC<{ editor: any }> = ({ editor }) => {
 
   return (
     <>
-      <Tooltip zIndex={10000} content="无序列表">
+      <Tooltip content="无序列表">
         <Button
           theme={editor.isActive('bulletList') ? 'light' : 'borderless'}
           type="tertiary"
@@ -21,7 +22,7 @@ export const ListMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="有序列表">
+      <Tooltip content="有序列表">
         <Button
           theme={editor.isActive('orderedList') ? 'light' : 'borderless'}
           type="tertiary"
@@ -31,7 +32,7 @@ export const ListMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="任务列表">
+      <Tooltip content="任务列表">
         <Button
           theme={editor.isActive('taskList') ? 'light' : 'borderless'}
           type="tertiary"
@@ -41,7 +42,7 @@ export const ListMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="增加缩进">
+      <Tooltip content="增加缩进">
         <Button
           onClick={() => {
             editor.chain().focus().indent().run();
@@ -53,7 +54,7 @@ export const ListMenu: React.FC<{ editor: any }> = ({ editor }) => {
         />
       </Tooltip>
 
-      <Tooltip zIndex={10000} content="减少缩进">
+      <Tooltip content="减少缩进">
         <Button
           onClick={() => {
             editor.chain().focus().outdent().run();

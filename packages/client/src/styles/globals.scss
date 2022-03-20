@@ -198,3 +198,18 @@ a {
 .react-resizable-handle-s {
   cursor: ns-resize;
 }
+
+.react-tooltip {
+  font-size: 14px;
+  line-height: 20px;
+  background-color: rgba(var(--semi-grey-7), 1) !important;
+  color: var(--semi-color-bg-0) !important;
+  border-radius: var(--semi-border-radius-medium) !important;
+  padding: 6px 8px !important;
+  z-index: 10000 !important;
+  white-space: nowrap;
+
+  &::after {
+    border-top-color: rgba(var(--semi-grey-7), 1) !important;
+  }
+}

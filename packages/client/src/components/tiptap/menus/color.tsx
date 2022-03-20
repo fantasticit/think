@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Tooltip } from '@douyinfe/semi-ui';
+import { Button } from '@douyinfe/semi-ui';
 import { IconFont, IconMark } from '@douyinfe/semi-icons';
-import { isTitleActive } from '../services/active';
+import { Tooltip } from 'components/tooltip';
+import { isTitleActive } from '../services/isActive';
 import { Color } from './components/color';
 
 export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
@@ -19,7 +20,7 @@ export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
         }}
         disabled={isTitleActive(editor)}
       >
-        <Tooltip zIndex={10000} content="文本色">
+        <Tooltip content="文本色">
           <Button
             theme={editor.isActive('textStyle') ? 'light' : 'borderless'}
             type={'tertiary'}
@@ -51,7 +52,7 @@ export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
         }}
         disabled={isTitleActive(editor)}
       >
-        <Tooltip zIndex={10000} content="背景色">
+        <Tooltip content="背景色">
           <Button
             theme={editor.isActive('textStyle') ? 'light' : 'borderless'}
             type={'tertiary'}

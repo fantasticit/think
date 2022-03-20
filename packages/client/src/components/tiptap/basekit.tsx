@@ -11,6 +11,7 @@ import { ColorHighlighter } from './extensions/colorHighlighter';
 import { DocumentChildren } from './extensions/documentChildren';
 import { DocumentReference } from './extensions/documentReference';
 import { Dropcursor } from './extensions/dropCursor';
+import { Emoji } from './extensions/emoji';
 import { FontSize } from './extensions/fontSize';
 import { FootnoteDefinition } from './extensions/footnoteDefinition';
 import { FootnoteReference } from './extensions/footnoteReference';
@@ -33,6 +34,7 @@ import { Paragraph } from './extensions/paragraph';
 import { PasteFile } from './extensions/pasteFile';
 import { PasteMarkdown } from './extensions/pasteMarkdown';
 import { Placeholder } from './extensions/placeholder';
+import { SearchNReplace } from './extensions/search';
 import { Status } from './extensions/status';
 import { Strike } from './extensions/strike';
 import { Table } from './extensions/table';
@@ -62,6 +64,7 @@ export const BaseKit = [
   DocumentChildren,
   DocumentReference,
   Dropcursor,
+  Emoji,
   FontSize,
   FootnoteDefinition,
   FootnoteReference,
@@ -83,15 +86,8 @@ export const BaseKit = [
   Paragraph,
   PasteFile,
   PasteMarkdown,
-  Placeholder.configure({
-    placeholder: ({ node }) => {
-      if (node.type.name === 'title') {
-        return '请输入标题';
-      }
-      return '请输入内容';
-    },
-    showOnlyWhenEditable: true,
-  }),
+  Placeholder,
+  SearchNReplace,
   Status,
   Strike,
   Table,
@@ -99,9 +95,7 @@ export const BaseKit = [
   TableHeader,
   TableRow,
   Text,
-  TextAlign.configure({
-    types: ['heading', 'paragraph', 'image'],
-  }),
+  TextAlign,
   TextStyle,
   TaskItem,
   TaskList,

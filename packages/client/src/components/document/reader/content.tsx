@@ -13,12 +13,12 @@ export const DocumentContent: React.FC<IProps> = ({ document }) => {
   const c = safeJSONParse(document.content);
   let json = c.default || c;
 
-  if (json && json.content) {
-    json = {
-      type: 'doc',
-      content: json.content.slice(1),
-    };
-  }
+  // if (json && json.content) {
+  //   json = {
+  //     type: 'doc',
+  //     content: json.content.slice(1),
+  //   };
+  // }
 
   const editor = useEditor({
     editable: false,

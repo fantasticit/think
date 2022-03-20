@@ -1,10 +1,7 @@
 import React, { useRef } from 'react';
-import { ReactNodeViewRenderer, NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Button, Select, Tooltip } from '@douyinfe/semi-ui';
 import { IconCopy } from '@douyinfe/semi-icons';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-// @ts-ignore
-import { lowlight } from 'lowlight';
 import { copy } from 'helpers/copy';
 import styles from './index.module.scss';
 

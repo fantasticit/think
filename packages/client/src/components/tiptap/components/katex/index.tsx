@@ -21,7 +21,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
   const content = text ? (
     <span contentEditable={false} dangerouslySetInnerHTML={{ __html: formatText }}></span>
   ) : (
-    <span contentEditable={false}>请输入公式</span>
+    <span contentEditable={false}>点击输入公式</span>
   );
 
   return (
@@ -32,7 +32,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
           content={
             <div style={{ width: 320 }}>
               <TextArea
-                autofocus
+                autoFocus
                 placeholder="输入公式"
                 autosize
                 rows={3}

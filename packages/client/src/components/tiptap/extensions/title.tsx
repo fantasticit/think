@@ -2,8 +2,12 @@ import { Node, mergeAttributes } from '@tiptap/core';
 
 export const Title = Node.create({
   name: 'title',
-  group: 'block',
-  content: 'text*',
+  content: 'inline*',
+  selectable: true,
+  defining: true,
+  inline: false,
+  group: 'basic',
+  allowGapCursor: true,
 
   addOptions() {
     return {

@@ -1,5 +1,6 @@
 import { BulletList as BuiltInBulletList } from '@tiptap/extension-bullet-list';
-import { getMarkdownSource } from '../services/markdownSourceMap';
+import { getMarkdownSource } from '../services/markdown/markdownSourceMap';
+import { listInputRule } from '../services/listInputRule';
 
 export const BulletList = BuiltInBulletList.extend({
   addAttributes() {
@@ -15,5 +16,9 @@ export const BulletList = BuiltInBulletList.extend({
         },
       },
     };
+  },
+
+  addInputRules() {
+    return [listInputRule(/^\s*([-+*])\s([^\s[])$/, this.type)];
   },
 });

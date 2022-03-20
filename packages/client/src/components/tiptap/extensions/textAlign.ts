@@ -1,3 +1,5 @@
-import TextAlign from '@tiptap/extension-text-align';
+import BuiltInTextAlign from '@tiptap/extension-text-align';
 
-export { TextAlign };
+export const TextAlign = BuiltInTextAlign.configure({
+  types: ['heading', 'paragraph', 'image'],
+});

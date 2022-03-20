@@ -1,15 +1,26 @@
+import { createPortal } from 'react-dom';
 import { Space, Typography, Avatar } from '@douyinfe/semi-ui';
 import { IconUser } from '@douyinfe/semi-icons';
 import { IDocument } from '@think/domains';
 import { LocaleTime } from 'components/locale-time';
 
-const { Text } = Typography;
-
-export const CreateUser: React.FC<{ document: IDocument }> = ({ document }) => {
+export const CreateUser: React.FC<{ document: IDocument; container: () => HTMLElement }> = ({
+  document,
+  container = null,
+}) => {
   if (!document.createUser) return null;
 
-  return (
-    <Text type="tertiary" size="small">
+  const content = (
+    <div
+      style={{
+        borderTop: '1px solid var(--semi-color-border)',
+        marginTop: 24,
+        padding: '16px 0',
+        fontSize: 13,
+        fontWeight: 'normal',
+        color: 'var(--semi-color-text-0)',
+      }}
+    >
       <Space>
         <Avatar size="extra-extra-small" src={document.createUser && document.createUser.avatar}>
           <IconUser />
@@ -27,6 +38,11 @@ export const CreateUser: React.FC<{ document: IDocument }> = ({ document }) => {
           </p>
         </div>
       </Space>
-    </Text>
+    </div>
   );
+
+  const el = container && container();
+
+  if (!el) return content;
+  return createPortal(content, el);
 };

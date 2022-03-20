@@ -131,11 +131,15 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
                   style={{ fontSize }}
                   id="js-share-document-editor-container"
                 >
-                  <Title style={{ fontSize: '2.4em' }}>{data.title}</Title>
-                  <div style={{ margin: '24px 0' }}>
-                    <CreateUser document={data} />
-                  </div>
                   <DocumentContent document={data} />
+                  <CreateUser
+                    document={data}
+                    container={() =>
+                      window.document.querySelector(
+                        '#js-share-document-editor-container .ProseMirror .title'
+                      )
+                    }
+                  />
                 </div>
                 <BackTop
                   target={() =>

@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { MindWrapper } from '../components/mind';
 
@@ -80,5 +80,17 @@ export const Mind = Node.create({
 
   addNodeView() {
     return ReactNodeViewRenderer(MindWrapper);
+  },
+
+  addInputRules() {
+    return [
+      nodeInputRule({
+        find: /^\$mind $/,
+        type: this.type,
+        getAttributes: (match) => {
+          return { type: match[1] };
+        },
+      }),
+    ];
   },
 });

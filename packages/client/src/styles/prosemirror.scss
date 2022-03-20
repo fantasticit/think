@@ -41,7 +41,7 @@
   .is-empty::before {
     content: attr(data-placeholder);
     float: left;
-    color: #ced4da;
+    color: #aaa;
     pointer-events: none;
     height: 0;
   }
@@ -99,6 +99,7 @@
     font-weight: bold;
     color: var(--semi-color-text-0);
     margin: 10px 0 22px;
+    border-bottom: 1px solid var(--semi-color-border);
   }
 
   h1 {
@@ -274,6 +275,14 @@
       top: 0;
       width: 4px;
     }
+  }
+
+  .search-result {
+    background: rgb(255, 217, 0);
+  }
+
+  .search-result-current {
+    background: rgb(255, 0, 0);
   }
 }
 

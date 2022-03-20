@@ -6,6 +6,7 @@ import { Link } from '../extensions/link';
 import { Attachment } from '../extensions/attachment';
 import { Image } from '../extensions/image';
 import { Banner } from '../extensions/banner';
+import { HorizontalRule } from '../extensions/horizontalRule';
 import { Iframe } from '../extensions/iframe';
 import { Mind } from '../extensions/mind';
 import { Table } from '../extensions/table';
@@ -26,6 +27,7 @@ const OTHER_BUBBLE_MENU_TYPES = [
   DocumentReference.name,
   DocumentChildren.name,
   Katex.name,
+  HorizontalRule.name,
 ];
 
 export const BaseBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {

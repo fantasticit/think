@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { color, text } = node.attrs;
-  const content = <Tag color={color}>{text || '设置状态'}</Tag>;
+  const content = <Tag color={color}>{text || '点击设置状态'}</Tag>;
 
   return (
     <NodeViewWrapper as="span" className={styles.wrap}>

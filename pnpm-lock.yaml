@@ -85,6 +85,7 @@ importers:
       '@tiptap/extension-text-style': ^2.0.0-beta.23
       '@tiptap/extension-underline': ^2.0.0-beta.23
       '@tiptap/react': ^2.0.0-beta.107
+      '@tiptap/suggestion': ^2.0.0-beta.90
       '@traptitech/markdown-it-katex': ^3.5.0
       '@types/node': 17.0.13
       '@types/react': 17.0.38
@@ -98,6 +99,8 @@ importers:
       lowlight: ^2.5.0
       markdown-it: ^12.3.2
       markdown-it-anchor: ^8.4.1
+      markdown-it-container: ^3.0.0
+      markdown-it-emoji: ^2.0.0
       markdown-it-footnote: ^3.0.3
       markdown-it-sub: ^1.0.0
       markdown-it-sup: ^1.0.0
@@ -105,11 +108,13 @@ importers:
       marked: ^4.0.12
       next: 12.0.10
       prosemirror-markdown: ^1.7.0
+      prosemirror-utils: ^0.9.6
       prosemirror-view: ^1.23.6
       react: 17.0.2
       react-dom: 17.0.2
       react-helmet: ^6.1.0
       react-split-pane: ^0.1.92
+      scroll-into-view-if-needed: ^2.2.29
       swr: ^1.2.0
       tippy.js: ^6.3.7
       tsconfig-paths-webpack-plugin: ^3.5.2
@@ -157,6 +162,7 @@ importers:
       '@tiptap/extension-text-style': 2.0.0-beta.23_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-underline': 2.0.0-beta.23_@tiptap+core@2.0.0-beta.171
       '@tiptap/react': 2.0.0-beta.107_a3fcdb91535fe17b69dfabaa94f3bb3d
+      '@tiptap/suggestion': 2.0.0-beta.90_@tiptap+core@2.0.0-beta.171
       '@traptitech/markdown-it-katex': 3.5.0
       axios: 0.25.0
       classnames: 2.3.1
@@ -168,6 +174,8 @@ importers:
       lowlight: 2.5.0
       markdown-it: 12.3.2
       markdown-it-anchor: 8.4.1_markdown-it@12.3.2
+      markdown-it-container: 3.0.0
+      markdown-it-emoji: 2.0.0
       markdown-it-footnote: 3.0.3
       markdown-it-sub: 1.0.0
       markdown-it-sup: 1.0.0
@@ -175,11 +183,13 @@ importers:
       marked: 4.0.12
       next: 12.0.10_react-dom@17.0.2+react@17.0.2
       prosemirror-markdown: 1.7.0
+      prosemirror-utils: 0.9.6
       prosemirror-view: 1.23.6
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-helmet: 6.1.0_react@17.0.2
       react-split-pane: 0.1.92_react-dom@17.0.2+react@17.0.2
+      scroll-into-view-if-needed: 2.2.29
       swr: 1.2.0_react@17.0.2
       tippy.js: 6.3.7
     devDependencies:
@@ -792,7 +802,7 @@ packages:
       date-fns-tz: 1.2.2_date-fns@2.28.0
       lodash: 4.17.21
       memoize-one: 5.2.1
-      scroll-into-view-if-needed: 2.2.28
+      scroll-into-view-if-needed: 2.2.29
     dev: false
 
   /@douyinfe/semi-icons/2.3.1_react@17.0.2:
@@ -860,7 +870,7 @@ packages:
       react-sortable-hoc: 1.11.0_react-dom@17.0.2+react@17.0.2
       react-window: 1.8.6_react-dom@17.0.2+react@17.0.2
       resize-observer-polyfill: 1.5.1
-      scroll-into-view-if-needed: 2.2.28
+      scroll-into-view-if-needed: 2.2.29
       utility-types: 3.10.0
     dev: false
 
@@ -1912,6 +1922,17 @@ packages:
       prosemirror-view: 1.23.6
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /@tiptap/suggestion/2.0.0-beta.90_@tiptap+core@2.0.0-beta.171:
+    resolution: {integrity: sha512-L5PPYRatY/75uJJRQx2o/Ce+gzcOkmd81TwLjio9sADV3bRf4DO4WYcQy0AtGe6uNSz78DTL0SUVw4204VjoBw==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+    dependencies:
+      '@tiptap/core': 2.0.0-beta.171
+      prosemirror-model: 1.16.1
+      prosemirror-state: 1.3.4
+      prosemirror-view: 1.23.6
     dev: false
 
   /@tootallnate/once/1.1.2:
@@ -5958,6 +5979,14 @@ packages:
       markdown-it: 12.3.2
     dev: false
 
+  /markdown-it-container/3.0.0:
+    resolution: {integrity: sha512-y6oKTq4BB9OQuY/KLfk/O3ysFhB3IMYoIWhGJEidXt1NQFocFK2sA2t0NYZAMyMShAGL6x5OPIbrmXPIqaN9rw==}
+    dev: false
+
+  /markdown-it-emoji/2.0.0:
+    resolution: {integrity: sha512-39j7/9vP/CPCKbEI44oV8yoPJTpvfeReTn/COgRhSpNrjWF3PfP/JUxxB0hxV6ynOY8KH8Y8aX9NMDdo6z+6YQ==}
+    dev: false
+
   /markdown-it-footnote/3.0.3:
     resolution: {integrity: sha512-YZMSuCGVZAjzKMn+xqIco9d1cLGxbELHZ9do/TSYVzraooV8ypsppKNmUJ0fVH5ljkCInQAtFpm8Rb3eXSrt5w==}
     dev: false
@@ -6811,6 +6840,14 @@ packages:
       prosemirror-model: 1.16.1
     dev: false
 
+  /prosemirror-utils/0.9.6:
+    resolution: {integrity: sha512-UC+j9hQQ1POYfMc5p7UFxBTptRiGPR7Kkmbl3jVvU8VgQbkI89tR/GK+3QYC8n+VvBZrtAoCrJItNhWSxX3slA==}
+    peerDependencies:
+      prosemirror-model: ^1.0.0
+      prosemirror-state: ^1.0.1
+      prosemirror-tables: ^0.9.1
+    dev: false
+
   /prosemirror-view/1.23.6:
     resolution: {integrity: sha512-B4DAzriNpI/AVoW0Lu6SVfX00jZZQxOVwdBQEjWlRbCdT9V0pvk4GQJ3JTFaib+b6BcPdRZ3MjWXz2xvV1rblA==}
     dependencies:
@@ -7274,8 +7311,8 @@ packages:
       ajv: 6.12.6
       ajv-keywords: 3.5.2_ajv@6.12.6
 
-  /scroll-into-view-if-needed/2.2.28:
-    resolution: {integrity: sha512-8LuxJSuFVc92+0AdNv4QOxRL4Abeo1DgLnGNkn1XlaujPH/3cCFz3QI60r2VNu4obJJROzgnIUw5TKQkZvZI1w==}
+  /scroll-into-view-if-needed/2.2.29:
+    resolution: {integrity: sha512-hxpAR6AN+Gh53AdAimHM6C8oTN1ppwVZITihix+WqalywBeFcQ6LdQP5ABNl26nX8GTEL7VT+b8lKpdqq65wXg==}
     dependencies:
       compute-scroll-into-view: 1.0.17
     dev: false

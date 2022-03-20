@@ -1,6 +1,7 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
-import { Button, Tooltip } from '@douyinfe/semi-ui';
+import { Button } from '@douyinfe/semi-ui';
 import { IconDownload } from '@douyinfe/semi-icons';
+import { Tooltip } from 'components/tooltip';
 import { download } from '../../services/download';
 import styles from './index.module.scss';
 
@@ -12,7 +13,7 @@ export const AttachmentWrapper = ({ node }) => {
       <div className={styles.wrap}>
         <span>{name}</span>
         <span>
-          <Tooltip zIndex={10000} content="下载">
+          <Tooltip content="下载">
             <Button
               theme={'borderless'}
               type="tertiary"

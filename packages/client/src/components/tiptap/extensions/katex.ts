@@ -1,4 +1,4 @@
-import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core';
+import { Node, Command, mergeAttributes, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { KatexWrapper } from '../components/katex';
 
@@ -55,7 +55,7 @@ export const Katex = Node.create({
 
   addInputRules() {
     return [
-      wrappingInputRule({
+      nodeInputRule({
         find: KatexInputRegex,
         type: this.type,
         getAttributes: (match) => {

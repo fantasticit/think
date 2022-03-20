@@ -1,4 +1,3 @@
-// @ts-ignore
 const uniq = (arr: string[]) => [...new Set(arr)];
 
 function isString(value) {
