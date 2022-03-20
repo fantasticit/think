@@ -10,7 +10,11 @@ import splitMixedLists from './markedownSplitMixedList';
 import markdownUnderline from './markdownUnderline';
 import markdownBanner from './markdownBanner';
 
-export const markdown = markdownit('commonmark', { html: false, breaks: false })
+export const markdown = markdownit({
+  html: true,
+  linkify: true,
+  typographer: true,
+})
   .enable('strikethrough')
   .use(sub)
   .use(sup)

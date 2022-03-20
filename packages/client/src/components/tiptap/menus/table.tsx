@@ -11,13 +11,13 @@ import {
   IconDeleteTable,
 } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from './components/bubble-menu';
+import { BubbleMenu } from './components/bubbleMenu';
 import { Table } from '../extensions/table';
 
 export const TableBubbleMenu = ({ editor }) => {
   return (
     <BubbleMenu
-      className={'bubble-menu'}
+      className={'bubble-menu table-bubble-menu'}
       editor={editor}
       pluginKey="table-bubble-menu"
       shouldShow={() => editor.isActive(Table.name)}

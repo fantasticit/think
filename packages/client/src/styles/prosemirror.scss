@@ -110,7 +110,6 @@
     border-bottom: 1px solid var(--semi-color-border);
   }
 
-  h1,
   h2,
   h3,
   h4,
@@ -131,6 +130,16 @@
 
   h1:not(.title):before {
     content: 'H1';
+
+    &::before {
+      display: inline-block;
+      font-family: var(--tiptap-font-family-mono);
+      color: var(--tiptap-color-text-secondly);
+      font-size: 13px;
+      line-height: 0;
+      margin-left: -24px;
+      width: 24px;
+    }
   }
 
   h2::before {
@@ -284,16 +293,13 @@
 
   .tableWrapper {
     width: 100%;
-    overflow: auto;
-    padding: 1em 0 0 1em;
+    margin: 1em 0;
   }
 
   table {
     border-collapse: collapse;
     table-layout: fixed;
     width: 100%;
-    margin: 14px 0;
-    overflow: visible;
 
     td,
     th {
@@ -305,6 +311,7 @@
       padding: 3px 5px;
       position: relative;
       vertical-align: top;
+      overflow: visible;
 
       > * {
         margin-bottom: 0;

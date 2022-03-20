@@ -7,7 +7,7 @@ import {
   IconInfoCircle,
 } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from './components/bubble-menu';
+import { BubbleMenu } from './components/bubbleMenu';
 import { Divider } from '../components/divider';
 import { Banner } from '../extensions/banner';
 import { deleteNode } from '../services/deleteNode';

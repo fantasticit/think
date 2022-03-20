@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Space, Button, Input } from '@douyinfe/semi-ui';
 import { IconExternalOpen, IconUnlink, IconTickCircle } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from './components/bubble-menu';
+import { BubbleMenu } from './components/bubbleMenu';
 import { Link } from '../extensions/link';
 
 export const LinkBubbleMenu = ({ editor }) => {

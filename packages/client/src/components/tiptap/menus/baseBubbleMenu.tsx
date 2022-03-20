@@ -13,7 +13,7 @@ import { Table } from '../extensions/table';
 import { Katex } from '../extensions/katex';
 import { DocumentReference } from '../extensions/documentReference';
 import { DocumentChildren } from '../extensions/documentChildren';
-import { BaseMenu } from './base-menu';
+import { BaseMenu } from './baseMenu';
 
 const OTHER_BUBBLE_MENU_TYPES = [
   Title.name,

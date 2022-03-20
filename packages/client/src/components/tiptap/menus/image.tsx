@@ -9,7 +9,7 @@ import {
 } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { Upload } from 'components/upload';
-import { BubbleMenu } from './components/bubble-menu';
+import { BubbleMenu } from './components/bubbleMenu';
 import { Divider } from '../components/divider';
 import { Image } from '../extensions/image';
 import { getImageOriginSize } from '../services/image';

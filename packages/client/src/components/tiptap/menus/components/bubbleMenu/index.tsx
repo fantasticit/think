@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BubbleMenuPlugin, BubbleMenuPluginProps } from './bubble-menu-plugin';
+import { BubbleMenuPlugin, BubbleMenuPluginProps } from './bubbleMenuPlugin';
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
