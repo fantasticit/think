@@ -1,6 +1,7 @@
-import { Node } from '@tiptap/core';
+import { Node, findParentNode } from '@tiptap/core';
 import { ReactRenderer } from '@tiptap/react';
-import { PluginKey } from 'prosemirror-state';
+import { Plugin, PluginKey } from 'prosemirror-state';
+import { Decoration, DecorationSet } from 'prosemirror-view';
 import Suggestion from '@tiptap/suggestion';
 import tippy from 'tippy.js';
 import { EmojiList } from '../components/emojiList';
@@ -41,10 +42,47 @@ export const Emoji = Node.create({
   },
 
   addProseMirrorPlugins() {
+    const { editor } = this;
+
     return [
       Suggestion({
         editor: this.editor,
         ...this.options.suggestion,
+      }),
+
+      new Plugin({
+        key: new PluginKey('emojiPlaceholder'),
+        props: {
+          decorations: (state) => {
+            if (!editor.isEditable) return;
+
+            const parent = findParentNode((node) => node.type.name === 'paragraph')(
+              state.selection
+            );
+            if (!parent) {
+              return;
+            }
+
+            const decorations: Decoration[] = [];
+            const isEmpty = parent && parent.node.content.size === 0;
+            const isSlash = parent && parent.node.textContent === ':';
+            const isTopLevel = state.selection.$from.depth === 1;
+
+            if (isTopLevel) {
+              if (isSlash) {
+                decorations.push(
+                  Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
+                    'class': 'placeholder',
+                    'data-placeholder': `  继续输入进行过滤`,
+                  })
+                );
+              }
+
+              return DecorationSet.create(state.doc, decorations);
+            }
+            return null;
+          },
+        },
       }),
     ];
   },
@@ -56,9 +94,13 @@ export const Emoji = Node.create({
     render: () => {
       let component;
       let popup;
+      let isEditable;
 
       return {
         onStart: (props) => {
+          isEditable = props.editor.isEditable;
+          if (!isEditable) return;
+
           component = new ReactRenderer(EmojiList, {
             props,
             editor: props.editor,
@@ -76,6 +118,8 @@ export const Emoji = Node.create({
         },
 
         onUpdate(props) {
+          if (!isEditable) return;
+
           component.updateProps(props);
           popup[0].setProps({
             getReferenceClientRect: props.clientRect,
@@ -83,6 +127,8 @@ export const Emoji = Node.create({
         },
 
         onKeyDown(props) {
+          if (!isEditable) return;
+
           if (props.event.key === 'Escape') {
             popup[0].hide();
             return true;
@@ -91,6 +137,8 @@ export const Emoji = Node.create({
         },
 
         onExit() {
+          if (!isEditable) return;
+
           popup[0].destroy();
           component.destroy();
         },

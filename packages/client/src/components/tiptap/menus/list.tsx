@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@douyinfe/semi-ui';
-import { IconList, IconOrderedList, IconIndentLeft, IconIndentRight } from '@douyinfe/semi-icons';
+import { IconIndentLeft, IconIndentRight } from '@douyinfe/semi-icons';
+import { IconOrderedList, IconList } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
 import { IconTask } from 'components/icons';
 import { isTitleActive } from '../services/isActive';

@@ -1,0 +1,39 @@
+.items {
+  width: 160px;
+  max-height: 50vh;
+  overflow: auto;
+  padding: 0.2rem;
+  position: relative;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--semi-color-text-0);
+  border-radius: var(--semi-border-radius-medium);
+  background-color: var(--semi-color-bg-0);
+  border: 1px solid var(--semi-color-border);
+}
+
+.item {
+  display: block;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border-radius: 0.4rem;
+  border: 1px solid transparent;
+  padding: 0.2rem 0.4rem;
+  color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--semi-color-info);
+  }
+
+  &.is-selected {
+    border-color: var(--semi-color-info);
+  }
+
+  img {
+    width: 1em;
+    height: 1em;
+  }
+}

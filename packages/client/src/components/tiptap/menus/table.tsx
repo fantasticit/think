@@ -48,7 +48,7 @@ export const TableBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
-        <Tooltip content="删除当前列">
+        <Tooltip content="删除当前列" hideOnClick>
           <Button
             onClick={() => editor.chain().focus().deleteColumn().run()}
             icon={<IconDeleteColumn />}
@@ -78,7 +78,7 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
-        <Tooltip content="删除当前行">
+        <Tooltip content="删除当前行" hideOnClick>
           <Button
             onClick={() => editor.chain().focus().deleteRow().run()}
             icon={<IconDeleteRow />}

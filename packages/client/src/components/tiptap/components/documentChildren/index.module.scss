@@ -3,6 +3,19 @@
   padding-top: 12px;
   border-top: 1px solid var(--semi-color-border);
 
+  &.isEditable {
+    &:hover {
+      outline: 1px solid var(--semi-color-link);
+    }
+
+    .itemWrap {
+      &:hover {
+        color: var(--semi-color-text-1);
+        border-color: var(--semi-color-border);
+      }
+    }
+  }
+
   .itemWrap {
     display: flex;
     align-items: center;

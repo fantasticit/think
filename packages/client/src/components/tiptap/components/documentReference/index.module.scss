@@ -1,6 +1,19 @@
 .wrap {
   margin: 8px 0;
 
+  &.isEditable {
+    &:hover {
+      outline: 1px solid var(--semi-color-link);
+    }
+
+    .itemWrap {
+      &:hover {
+        color: var(--semi-color-text-1);
+        border-color: var(--semi-color-border);
+      }
+    }
+  }
+
   .itemWrap {
     display: flex;
     align-items: center;

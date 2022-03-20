@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@douyinfe/semi-ui';
-import { IconQuote, IconCheckboxIndeterminate, IconLink } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
+import { IconQuote, IconLink, IconHorizontalRule } from 'components/icons';
 import { isTitleActive } from '../services/isActive';
 import { Emoji } from './components/emoji';
 import { Search } from './search';
@@ -40,7 +40,7 @@ export const BaseInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
         <Button
           theme={'borderless'}
           type="tertiary"
-          icon={<IconCheckboxIndeterminate />}
+          icon={<IconHorizontalRule />}
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
           disabled={isTitleActive(editor)}
         />

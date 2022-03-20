@@ -108,6 +108,7 @@ importers:
       marked: ^4.0.12
       next: 12.0.10
       prosemirror-markdown: ^1.7.0
+      prosemirror-tables: ^1.1.1
       prosemirror-utils: ^0.9.6
       prosemirror-view: ^1.23.6
       react: 17.0.2
@@ -183,7 +184,8 @@ importers:
       marked: 4.0.12
       next: 12.0.10_react-dom@17.0.2+react@17.0.2
       prosemirror-markdown: 1.7.0
-      prosemirror-utils: 0.9.6
+      prosemirror-tables: 1.1.1
+      prosemirror-utils: 0.9.6_prosemirror-tables@1.1.1
       prosemirror-view: 1.23.6
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -6840,12 +6842,14 @@ packages:
       prosemirror-model: 1.16.1
     dev: false
 
-  /prosemirror-utils/0.9.6:
+  /prosemirror-utils/0.9.6_prosemirror-tables@1.1.1:
     resolution: {integrity: sha512-UC+j9hQQ1POYfMc5p7UFxBTptRiGPR7Kkmbl3jVvU8VgQbkI89tR/GK+3QYC8n+VvBZrtAoCrJItNhWSxX3slA==}
     peerDependencies:
       prosemirror-model: ^1.0.0
       prosemirror-state: ^1.0.1
       prosemirror-tables: ^0.9.1
+    dependencies:
+      prosemirror-tables: 1.1.1
     dev: false
 
   /prosemirror-view/1.23.6:

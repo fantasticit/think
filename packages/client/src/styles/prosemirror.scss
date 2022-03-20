@@ -50,6 +50,14 @@
     transform: translate(10px, 10px);
   }
 
+  .placeholder::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #aaa;
+    pointer-events: none;
+    height: 0;
+  }
+
   .hr-line {
     width: 100%;
     height: 2px;
@@ -100,6 +108,49 @@
     color: var(--semi-color-text-0);
     margin: 10px 0 22px;
     border-bottom: 1px solid var(--semi-color-border);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    cursor: text;
+
+    &::before {
+      display: inline-block;
+      font-family: var(--tiptap-font-family-mono);
+      color: var(--tiptap-color-text-secondly);
+      font-size: 13px;
+      line-height: 0;
+      margin-left: -24px;
+      width: 24px;
+    }
+  }
+
+  h1:not(.title):before {
+    content: 'H1';
+  }
+
+  h2::before {
+    content: 'H2';
+  }
+
+  h3::before {
+    content: 'H3';
+  }
+
+  h4::before {
+    content: 'H4';
+  }
+
+  h5::before {
+    content: 'H5';
+  }
+
+  h6::before {
+    content: 'H6';
   }
 
   h1 {
@@ -234,18 +285,21 @@
   .tableWrapper {
     width: 100%;
     overflow: auto;
+    padding: 1em 0 0 1em;
   }
 
   table {
     border-collapse: collapse;
-    margin: 14px 0;
-    overflow: hidden;
     table-layout: fixed;
     width: 100%;
+    margin: 14px 0;
+    overflow: visible;
 
     td,
     th {
-      border: 1px solid var(--semi-color-border);
+      border-width: 1px;
+      border-style: solid;
+      border-color: var(--semi-color-fill-2);
       box-sizing: border-box;
       min-width: 1em;
       padding: 3px 5px;
@@ -263,7 +317,76 @@
     }
 
     .selectedCell {
-      background: var(--semi-color-fill-0);
+      border-style: double;
+      border-color: var(--semi-color-info);
+      background: var(--semi-color-info-light-hover);
+    }
+
+    .grip-column {
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 0.7em;
+        left: 0;
+        top: -1em;
+        margin-bottom: 3px;
+        cursor: pointer;
+        background: #ced4da;
+      }
+
+      &:hover::after {
+        background: var(--semi-color-info);
+      }
+
+      &.selected::after {
+        background: var(--semi-color-info);
+      }
+    }
+    .grip-row {
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: 0.7em;
+        top: 0;
+        left: -1em;
+        margin-right: 3px;
+        cursor: pointer;
+        background: #ced4da;
+      }
+
+      &:hover::after {
+        background: var(--semi-color-info);
+      }
+
+      &.selected::after {
+        background: var(--semi-color-info);
+      }
+    }
+    .grip-table {
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 0.8em;
+        height: 0.8em;
+        top: -1em;
+        left: -1em;
+        border-radius: 50%;
+        cursor: pointer;
+        background: #ced4da;
+      }
+
+      &:hover::after {
+        background: var(--semi-color-info);
+      }
+
+      &.selected::after {
+        background: var(--semi-color-info);
+      }
     }
 
     .column-resize-handle {

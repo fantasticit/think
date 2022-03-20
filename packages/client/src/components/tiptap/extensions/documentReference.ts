@@ -15,9 +15,9 @@ export const DocumentReferenceInputRegex = /^documentReference\$$/;
 export const DocumentReference = Node.create({
   name: 'documentReference',
   group: 'block',
-  defining: true,
   draggable: true,
   atom: true,
+  selectable: true,
 
   addAttributes() {
     return {

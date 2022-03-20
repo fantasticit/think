@@ -35,3 +35,7 @@ export * from './IconAttachment';
 export * from './IconMath';
 export * from './IconSearch';
 export * from './IconSearchReplace';
+export * from './IconQuote';
+export * from './IconHorizontalRule';
+export * from './IconOrderedList';
+export * from './IconList';

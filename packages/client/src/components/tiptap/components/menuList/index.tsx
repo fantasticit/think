@@ -1,14 +1,16 @@
+import { Editor } from '@tiptap/core';
 import React, { useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import cls from 'classnames';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import styles from './index.module.scss';
 
 interface IProps {
-  items: Array<{ name: string; emoji: string; fallbackImage?: string }>;
+  editor: Editor;
+  items: Array<{ label: React.ReactNode | ((editor: Editor) => React.ReactNode) }>;
   command: any;
 }
 
-export const EmojiList: React.FC<IProps> = forwardRef((props, ref) => {
+export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
   const $container = useRef<HTMLDivElement>();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -71,7 +73,7 @@ export const EmojiList: React.FC<IProps> = forwardRef((props, ref) => {
               key={index}
               onClick={() => selectItem(index)}
             >
-              {item.fallbackImage ? <img src={item.fallbackImage} /> : item.emoji}:{item.name}:
+              {typeof item.label === 'function' ? item.label(props.editor) : item.label}
             </button>
           ))
         ) : (

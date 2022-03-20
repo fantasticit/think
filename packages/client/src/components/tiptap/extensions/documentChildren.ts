@@ -15,8 +15,8 @@ export const DocumentChildrenInputRegex = /^documentChildren\$$/;
 export const DocumentChildren = Node.create({
   name: 'documentChildren',
   group: 'block',
-  defining: true,
   draggable: true,
+  selectable: true,
   atom: true,
 
   addAttributes() {

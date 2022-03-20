@@ -1,6 +1,7 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import cls from 'classnames';
 import { Typography } from '@douyinfe/semi-ui';
 import { useChildrenDocument } from 'data/document';
 import { DataRender } from 'components/data-render';
@@ -10,7 +11,8 @@ import styles from './index.module.scss';
 
 const { Text } = Typography;
 
-export const DocumentChildrenWrapper = () => {
+export const DocumentChildrenWrapper = ({ editor }) => {
+  const isEditable = editor.isEditable;
   const { pathname, query } = useRouter();
   const wikiId = query?.wikiId;
   const documentId = query?.documentId;
@@ -18,7 +20,7 @@ export const DocumentChildrenWrapper = () => {
   const { data: documents, loading, error } = useChildrenDocument({ wikiId, documentId, isShare });
 
   return (
-    <NodeViewWrapper as="div" className={styles.wrap}>
+    <NodeViewWrapper as="div" className={cls(styles.wrap, isEditable && styles.isEditable)}>
       <div>
         <div>
           <Text type="tertiary">子文档</Text>

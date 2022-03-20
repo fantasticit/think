@@ -1,6 +1,7 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import cls from 'classnames';
 import { Select } from '@douyinfe/semi-ui';
 import { useWikiTocs } from 'data/wiki';
 import { DataRender } from 'components/data-render';
@@ -21,7 +22,7 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
   };
 
   return (
-    <NodeViewWrapper as="div" className={styles.wrap}>
+    <NodeViewWrapper as="div" className={cls(styles.wrap, isEditable && styles.isEditable)}>
       <div>
         {isEditable && (
           <DataRender
