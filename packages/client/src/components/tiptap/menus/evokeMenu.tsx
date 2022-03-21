@@ -1,0 +1,221 @@
+import { Editor } from '@tiptap/core';
+import { Space } from '@douyinfe/semi-ui';
+import { IconList, IconOrderedList } from '@douyinfe/semi-icons';
+import {
+  IconLink,
+  IconQuote,
+  IconHorizontalRule,
+  IconTask,
+  IconDocument,
+  IconMind,
+  IconTable,
+  IconImage,
+  IconCodeBlock,
+  IconStatus,
+  IconInfo,
+  IconAttachment,
+  IconMath,
+} from 'components/icons';
+
+export const EVOKE_MENU_ITEMS = [
+  {
+    key: '标题1',
+    label: '标题1',
+    command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+  },
+  {
+    key: '标题1',
+    label: '标题2',
+    command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+  },
+  {
+    key: '标题1',
+    label: '标题3',
+    command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+  },
+  {
+    key: '标题1',
+    label: '标题4',
+    command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 4 }).run(),
+  },
+  {
+    key: '标题1',
+    label: '标题5',
+    command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 5 }).run(),
+  },
+  {
+    key: '标题1',
+    label: '标题6',
+    command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 6 }).run(),
+  },
+  {
+    key: '无序列表',
+    label: (
+      <Space>
+        <IconList />
+        无序列表
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().toggleBulletList().run(),
+  },
+  {
+    key: '有序列表',
+    label: (
+      <Space>
+        <IconOrderedList />
+        有序列表
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().toggleOrderedList().run(),
+  },
+  {
+    key: '任务列表',
+    label: (
+      <Space>
+        <IconTask />
+        任务列表
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().toggleTaskList().run(),
+  },
+  {
+    key: '链接',
+    label: (
+      <Space>
+        <IconLink />
+        链接
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().toggleLink({ href: '' }).run(),
+  },
+  {
+    key: '引用',
+    label: (
+      <Space>
+        <IconQuote />
+        引用
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().toggleBlockquote().run(),
+  },
+  {
+    key: '分割线',
+    label: (
+      <Space>
+        <IconHorizontalRule />
+        分割线
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setHorizontalRule().run(),
+  },
+  {
+    key: '表格',
+    label: (
+      <Space>
+        <IconTable />
+        表格
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
+  },
+  {
+    key: '代码块',
+    label: (
+      <Space>
+        <IconCodeBlock />
+        代码块
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().toggleCodeBlock().run(),
+  },
+  {
+    key: '图片',
+    label: () => (
+      <Space>
+        <IconImage />
+        图片
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setEmptyImage().run(),
+  },
+  {
+    key: '附件',
+    label: () => (
+      <Space>
+        <IconAttachment />
+        附件
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setAttachment().run(),
+  },
+  {
+    key: '外链',
+    label: (
+      <Space>
+        <IconLink />
+        外链
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setIframe({ url: '' }).run(),
+  },
+  {
+    key: '思维导图',
+    label: (
+      <Space>
+        <IconMind />
+        思维导图
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setMind().run(),
+  },
+  {
+    key: '数学公式',
+    label: (
+      <Space>
+        <IconMath />
+        数学公式
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setKatex().run(),
+  },
+  {
+    key: '状态',
+    label: (
+      <Space>
+        <IconStatus />
+        状态
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setStatus().run(),
+  },
+  {
+    key: '信息框',
+    label: (
+      <Space>
+        <IconInfo />
+        信息框
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setBanner({ type: 'info' }).run(),
+  },
+  {
+    key: '文档',
+    label: (
+      <Space>
+        <IconDocument />
+        文档
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setDocumentReference().run(),
+  },
+  {
+    key: '子文档',
+    label: (
+      <Space>
+        <IconDocument />
+        子文档
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setDocumentChildren().run(),
+  },
+];

@@ -2,6 +2,7 @@ import { Extension } from '@tiptap/core';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
 import { Node as ProsemirrorNode } from 'prosemirror-model';
+import scrollIntoView from 'scroll-into-view-if-needed';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -193,7 +194,7 @@ const gotoSearchResult = ({ view, tr, searchResults, searchResultCurrentClass, g
     setTimeout(() => {
       const el = window.document.querySelector(`.${searchResultCurrentClass}`);
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        scrollIntoView(el, { behavior: 'smooth', scrollMode: 'if-needed' });
       }
     }, 0);
 
@@ -207,15 +208,17 @@ const gotoSearchResult = ({ view, tr, searchResults, searchResultCurrentClass, g
 export const SearchNReplace = Extension.create<SearchOptions>({
   name: 'search',
 
-  defaultOptions: {
-    searchTerm: '',
-    replaceTerm: '',
-    results: [],
-    currentIndex: 0,
-    searchResultClass: 'search-result',
-    searchResultCurrentClass: 'search-result-current',
-    caseSensitive: false,
-    disableRegex: false,
+  addOptions() {
+    return {
+      searchTerm: '',
+      replaceTerm: '',
+      results: [],
+      currentIndex: 0,
+      searchResultClass: 'search-result',
+      searchResultCurrentClass: 'search-result-current',
+      caseSensitive: false,
+      disableRegex: false,
+    };
   },
 
   addCommands() {

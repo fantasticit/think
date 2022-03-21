@@ -1,11 +1,11 @@
-import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core';
+import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentReferenceWrapper } from '../components/documentReference';
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     documentReference: {
-      setDocumentReference: () => Command;
+      setDocumentReference: () => ReturnType;
     };
   }
 }
@@ -38,10 +38,7 @@ export const DocumentReference = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      'div',
-      mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes),
-    ];
+    return ['div', mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes)];
   },
 
   // @ts-ignore

@@ -12,6 +12,14 @@ const DEFAULT_MIND_DATA = {
   data: { id: 'root', topic: '中心节点', children: [] },
 };
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    mind: {
+      setMind: (attrs?: unknown) => ReturnType;
+    };
+  }
+}
+
 export const Mind = Node.create({
   name: 'jsmind',
   content: '',
@@ -57,9 +65,10 @@ export const Mind = Node.create({
   // @ts-ignore
   addCommands() {
     return {
-      insertMind:
+      setMind:
         (options) =>
         ({ tr, commands, chain, editor }) => {
+          // @ts-ignore
           if (tr.selection?.node?.type?.name == this.name) {
             return commands.updateAttributes(this.name, options);
           }

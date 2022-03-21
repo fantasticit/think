@@ -13,7 +13,6 @@ import {
   selectRow,
   selectTable,
 } from '../services/table';
-import { elementInViewport } from '../services/dom';
 import { FloatMenuView } from '../views/floatMenuView';
 
 export const TableCell = BuiltInTableCell.extend({
@@ -27,27 +26,27 @@ export const TableCell = BuiltInTableCell.extend({
         view: () =>
           new FloatMenuView({
             editor: this.editor,
+            tippyOptions: {
+              zIndex: 10000,
+              offset: [-28, 0],
+            },
             shouldShow: ({ editor }, floatMenuView) => {
               if (!editor.isEditable) {
                 return false;
               }
+              if (isTableSelected(editor.state.selection)) {
+                return false;
+              }
               const cells = getCellsInColumn(0)(editor.state.selection);
               if (selectedRowIndex > -1) {
+                // 获取当前行的第一个单元格的位置
                 const rowCells = getCellsInRow(selectedRowIndex)(editor.state.selection);
                 if (rowCells && rowCells[0]) {
                   const node = editor.view.nodeDOM(rowCells[0].pos) as HTMLElement;
                   if (node) {
                     const el = node.querySelector('a.grip-row') as HTMLElement;
                     if (el) {
-                      console.log({ el });
                       floatMenuView.parentNode = el;
-                      // const intersectionObserver = new IntersectionObserver(function (entries) {
-                      //   console.log('ob');
-                      //   if (entries[0].intersectionRatio <= 0) {
-                      //     floatMenuView.hide();
-                      //   }
-                      // });
-                      // intersectionObserver.observe(el);
                     }
                   }
                 }

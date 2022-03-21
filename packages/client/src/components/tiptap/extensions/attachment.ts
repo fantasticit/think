@@ -2,6 +2,14 @@ import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { AttachmentWrapper } from '../components/attachment';
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    attachment: {
+      setAttachment: (attrs?: unknown) => ReturnType;
+    };
+  }
+}
+
 export const Attachment = Node.create({
   name: 'attachment',
   group: 'block',
@@ -26,10 +34,25 @@ export const Attachment = Node.create({
 
   addAttributes() {
     return {
-      name: {
+      fileName: {
+        default: null,
+      },
+      fileSize: {
+        default: null,
+      },
+      fileType: {
+        default: null,
+      },
+      fileExt: {
         default: null,
       },
       url: {
+        default: null,
+      },
+      autoTrigger: {
+        default: false,
+      },
+      error: {
         default: null,
       },
     };
@@ -38,7 +61,7 @@ export const Attachment = Node.create({
   addCommands() {
     return {
       setAttachment:
-        (attrs) =>
+        (attrs = {}) =>
         ({ chain }) => {
           return chain().insertContent({ type: this.name, attrs }).run();
         },

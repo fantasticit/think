@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Space, Button, InputNumber, Typography } from '@douyinfe/semi-ui';
-import {
-  IconAlignLeft,
-  IconAlignCenter,
-  IconAlignRight,
-  IconUpload,
-  IconDelete,
-} from '@douyinfe/semi-icons';
+import { IconAlignLeft, IconAlignCenter, IconAlignRight, IconUpload, IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { Upload } from 'components/upload';
 import { BubbleMenu } from './components/bubbleMenu';
@@ -27,12 +21,14 @@ export const ImageBubbleMenu = ({ editor }) => {
     setHeight(parseInt(currentHeight));
   }, [currentWidth, currentHeight]);
 
+  console.log(attrs);
+
   return (
     <BubbleMenu
       className={'bubble-menu'}
       editor={editor}
       pluginKey="image-bubble-menu"
-      shouldShow={() => editor.isActive(Image.name)}
+      shouldShow={() => editor.isActive(Image.name) && !!attrs.src}
       tippyOptions={{
         maxWidth: 456,
       }}

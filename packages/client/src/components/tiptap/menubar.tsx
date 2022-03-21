@@ -22,7 +22,7 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
   }
 
   return (
-    <>
+    <div>
       <Space spacing={2}>
         <MediaInsertMenu editor={editor} />
 
@@ -77,7 +77,7 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
       <LinkBubbleMenu editor={editor} />
       <BannerBubbleMenu editor={editor} />
       <TableBubbleMenu editor={editor} />
-    </>
+    </div>
   );
 };
 

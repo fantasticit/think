@@ -2,6 +2,14 @@ import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { IframeWrapper } from '../components/iframe';
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    iframe: {
+      setIframe: (attrs) => ReturnType;
+    };
+  }
+}
+
 export const Iframe = Node.create({
   name: 'external-iframe',
   content: '',
@@ -47,14 +55,15 @@ export const Iframe = Node.create({
   // @ts-ignore
   addCommands() {
     return {
-      insertIframe:
+      setIframe:
         (options) =>
         ({ tr, commands, chain, editor }) => {
+          // @ts-ignore
           if (tr.selection?.node?.type?.name == this.name) {
             return commands.updateAttributes(this.name, options);
           }
 
-          const { url } = options || {};
+          const { url } = options || { url: '' };
           const { selection } = editor.state;
           const pos = selection.$head;
 

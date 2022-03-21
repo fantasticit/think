@@ -7,6 +7,14 @@ import tippy from 'tippy.js';
 import { EmojiList } from '../components/emojiList';
 import { emojiSearch, emojisToName } from '../components/emojiList/emojis';
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    emoji: {
+      setEmoji: (emoji: { name: string; emoji: string }) => ReturnType;
+    };
+  }
+}
+
 export const EmojiPluginKey = new PluginKey('emoji');
 export { emojisToName };
 export const Emoji = Node.create({
@@ -30,10 +38,9 @@ export const Emoji = Node.create({
     };
   },
 
-  // @ts-ignore
   addCommands() {
     return {
-      emoji:
+      setEmoji:
         (emojiObject) =>
         ({ commands }) => {
           return commands.insertContent(emojiObject.emoji + ' ');
@@ -56,9 +63,7 @@ export const Emoji = Node.create({
           decorations: (state) => {
             if (!editor.isEditable) return;
 
-            const parent = findParentNode((node) => node.type.name === 'paragraph')(
-              state.selection
-            );
+            const parent = findParentNode((node) => node.type.name === 'paragraph')(state.selection);
             if (!parent) {
               return;
             }

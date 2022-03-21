@@ -1,11 +1,11 @@
-import { Node, Command, mergeAttributes } from '@tiptap/core';
+import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { StatusWrapper } from '../components/status';
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     status: {
-      setStatus: () => Command;
+      setStatus: () => ReturnType;
     };
   }
 }
@@ -33,10 +33,7 @@ export const Status = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      'span',
-      mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes),
-    ];
+    return ['span', mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes)];
   },
 
   // @ts-ignore

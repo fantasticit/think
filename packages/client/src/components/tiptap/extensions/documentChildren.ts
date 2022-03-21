@@ -1,11 +1,11 @@
-import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core';
+import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentChildrenWrapper } from '../components/documentChildren';
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     documentChildren: {
-      setDocumentChildren: () => Command;
+      setDocumentChildren: () => ReturnType;
     };
   }
 }
@@ -35,10 +35,7 @@ export const DocumentChildren = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      'div',
-      mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes),
-    ];
+    return ['div', mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes)];
   },
 
   // @ts-ignore

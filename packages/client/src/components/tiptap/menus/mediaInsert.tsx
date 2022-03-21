@@ -1,8 +1,9 @@
 import React from 'react';
+import { Editor } from '@tiptap/core';
 import { Button, Dropdown, Popover } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { Upload } from 'components/upload';
+import { Upload } from './components/upload';
 import {
   IconDocument,
   IconMind,
@@ -17,9 +18,9 @@ import {
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
 import { isTitleActive } from '../services/isActive';
-import { getImageOriginSize } from '../services/image';
+import { handleFileEvent } from '../services/upload';
 
-export const MediaInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
+export const MediaInsertMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
   if (!editor) {
     return null;
   }
@@ -45,11 +46,7 @@ export const MediaInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
               <div style={{ padding: 0 }}>
                 <GridSelect
                   onSelect={({ rows, cols }) => {
-                    return editor
-                      .chain()
-                      .focus()
-                      .insertTable({ rows, cols, withHeaderRow: true })
-                      .run();
+                    return editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
                   }}
                 />
               </div>
@@ -63,33 +60,20 @@ export const MediaInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
           <Dropdown.Item onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
             <IconCodeBlock /> 代码块
           </Dropdown.Item>
-          <Dropdown.Item>
+
+          <Dropdown.Item onClick={() => editor.chain().focus().setEmptyImage().run()}>
             <IconImage />
-            <Upload
-              accept="image/*"
-              onOK={async (url, fileName) => {
-                const { width, height } = await getImageOriginSize(url);
-                console.log('upload', width, height);
-                editor.chain().focus().setImage({ src: url, alt: fileName, width, height }).run();
-              }}
-            >
-              {() => '图片'}
-            </Upload>
+            图片
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item onClick={() => editor.chain().focus().setAttachment().run()}>
             <IconAttachment />
-            <Upload
-              onOK={(url, name) => {
-                editor.chain().focus().setAttachment({ url, name }).run();
-              }}
-            >
-              {() => '附件'}
-            </Upload>
+            附件
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => editor.chain().focus().insertIframe({ url: '' }).run()}>
+
+          <Dropdown.Item onClick={() => editor.chain().focus().setIframe({ url: '' }).run()}>
             <IconLink /> 外链
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => editor.chain().focus().insertMind().run()}>
+          <Dropdown.Item onClick={() => editor.chain().focus().setMind().run()}>
             <IconMind /> 思维导图
           </Dropdown.Item>
 
@@ -119,12 +103,7 @@ export const MediaInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {
     >
       <div>
         <Tooltip content="插入">
-          <Button
-            type="tertiary"
-            theme="borderless"
-            icon={<IconPlus />}
-            disabled={isTitleActive(editor)}
-          />
+          <Button type="tertiary" theme="borderless" icon={<IconPlus />} disabled={isTitleActive(editor)} />
         </Tooltip>
       </div>
     </Dropdown>

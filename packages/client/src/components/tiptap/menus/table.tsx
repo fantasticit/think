@@ -11,6 +11,7 @@ import {
   IconDeleteTable,
 } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
+import { Divider } from '../components/divider';
 import { BubbleMenu } from './components/bubbleMenu';
 import { Table } from '../extensions/table';
 
@@ -24,9 +25,7 @@ export const TableBubbleMenu = ({ editor }) => {
       tippyOptions={{
         maxWidth: 456,
       }}
-      matchRenderContainer={(node: HTMLElement) =>
-        node.classList && node.classList.contains('tableWrapper')
-      }
+      matchRenderContainer={(node: HTMLElement) => node.classList && node.tagName === 'TABLE'}
     >
       <Space>
         <Tooltip content="向前插入一列">
@@ -58,6 +57,8 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
+        <Divider />
+
         <Tooltip content="向前插入一行">
           <Button
             onClick={() => editor.chain().focus().addRowBefore().run()}
@@ -88,6 +89,8 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
+        <Divider />
+
         <Tooltip content="合并单元格">
           <Button
             size="small"
@@ -107,6 +110,8 @@ export const TableBubbleMenu = ({ editor }) => {
             onClick={() => editor.chain().focus().splitCell().run()}
           />
         </Tooltip>
+
+        <Divider />
 
         <Tooltip content="删除表格" hideOnClick>
           <Button

@@ -35,6 +35,7 @@ export class FloatMenuView {
   private popup: Instance;
   private _update: FloatMenuViewOptions['update'];
   private shouldShow: FloatMenuViewOptions['shouldShow'];
+  private tippyOptions: FloatMenuViewOptions['tippyOptions'];
   private getReferenceClientRect: NonNullable<FloatMenuViewOptions['getReferenceClientRect']> = ({
     editor,
     range,
@@ -47,12 +48,16 @@ export class FloatMenuView {
         return node.getBoundingClientRect();
       }
     }
+    if (this.parentNode) {
+      return this.parentNode.getBoundingClientRect();
+    }
     return posToDOMRect(view, range.from, range.to);
   };
 
   constructor(props: FloatMenuViewOptions) {
     this.editor = props.editor;
     this.shouldShow = props.shouldShow;
+    this.tippyOptions = props.tippyOptions;
     if (props.getReferenceClientRect) {
       this.getReferenceClientRect = props.getReferenceClientRect;
     }
@@ -63,15 +68,25 @@ export class FloatMenuView {
     props.init(this.dom, this.editor);
 
     // popup
-    this.popup = tippy(document.body, {
-      appendTo: () => document.body,
+    this.createPopup();
+  }
+
+  createPopup() {
+    const { element: editorElement } = this.editor.options;
+    const editorIsAttached = !!editorElement.parentElement;
+
+    if (this.popup || !editorIsAttached) {
+      return;
+    }
+
+    this.popup = tippy(editorElement, {
       getReferenceClientRect: null,
       content: this.dom,
       interactive: true,
       trigger: 'manual',
       placement: 'top',
       hideOnClick: 'toggle',
-      ...(props.tippyOptions ?? {}),
+      ...(this.tippyOptions ?? {}),
     });
   }
 
@@ -83,6 +98,8 @@ export class FloatMenuView {
     if (composing || isSame) {
       return;
     }
+
+    this.createPopup();
 
     const { ranges } = selection;
     const from = Math.min(...ranges.map((range) => range.$from.pos));
@@ -118,10 +135,6 @@ export class FloatMenuView {
 
     this.popup.setProps({
       getReferenceClientRect: () => {
-        if (this.parentNode) {
-          return this.parentNode.getBoundingClientRect();
-        }
-
         return this.getReferenceClientRect({
           editor: this.editor,
           oldState,
@@ -137,14 +150,14 @@ export class FloatMenuView {
   }
 
   show() {
-    this.popup.show();
+    this.popup?.show();
   }
 
   hide() {
-    this.popup.hide();
+    this.popup?.hide();
   }
 
   public destroy() {
-    this.popup.destroy();
+    this.popup?.destroy();
   }
 }

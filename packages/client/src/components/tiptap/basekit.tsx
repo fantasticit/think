@@ -29,11 +29,11 @@ import { Italic } from './extensions/italic';
 import { Katex } from './extensions/katex';
 import { Link } from './extensions/link';
 import { ListItem } from './extensions/listItem';
+import { Loading } from './extensions/loading';
 import { Mind } from './extensions/mind';
 import { OrderedList } from './extensions/orderedList';
 import { Paragraph } from './extensions/paragraph';
-import { PasteFile } from './extensions/pasteFile';
-import { PasteMarkdown } from './extensions/pasteMarkdown';
+import { Paste } from './extensions/paste';
 import { Placeholder } from './extensions/placeholder';
 import { SearchNReplace } from './extensions/search';
 import { Status } from './extensions/status';
@@ -83,11 +83,11 @@ export const BaseKit = [
   Katex,
   Link,
   ListItem,
+  Loading,
   Mind,
   OrderedList,
   Paragraph,
-  PasteFile,
-  PasteMarkdown,
+  Paste,
   Placeholder,
   SearchNReplace,
   Status,

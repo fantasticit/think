@@ -18,6 +18,9 @@ export const TableHeader = BuiltInTableHeader.extend({
         view: () =>
           new FloatMenuView({
             editor: this.editor,
+            tippyOptions: {
+              zIndex: 10000,
+            },
             shouldShow: ({ editor }) => {
               if (!editor.isEditable) {
                 return false;
@@ -44,7 +47,7 @@ export const TableHeader = BuiltInTableHeader.extend({
                       }}
                     />
                   </Tooltip>
-                  <Tooltip content="向后插入一列">
+                  <Tooltip content="删除当前列">
                     <Button
                       size="small"
                       theme="borderless"
@@ -55,7 +58,7 @@ export const TableHeader = BuiltInTableHeader.extend({
                       }}
                     />
                   </Tooltip>
-                  <Tooltip content="删除当前列" hideOnClick>
+                  <Tooltip content="向后插入一列" hideOnClick>
                     <Button
                       size="small"
                       theme="borderless"

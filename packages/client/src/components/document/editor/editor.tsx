@@ -6,6 +6,7 @@ import { ILoginUser, IAuthority } from '@think/domains';
 import { useToggle } from 'hooks/useToggle';
 import {
   DEFAULT_EXTENSION,
+  Document,
   DocumentWithTitle,
   getCollaborationExtension,
   getCollaborationCursorExtension,
@@ -44,6 +45,11 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
       },
     });
   }, [documentId, user.token]);
+
+  const noTitleEditor = useEditor({
+    extensions: [...DEFAULT_EXTENSION, Document],
+  });
+
   const editor = useEditor({
     editable: authority && authority.editable,
     extensions: [
@@ -52,6 +58,10 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
       getCollaborationExtension(provider),
       getCollaborationCursorExtension(provider, user),
     ],
+    editorProps: {
+      // @ts-ignore
+      noTitleEditor,
+    },
   });
   const [loading, toggleLoading] = useToggle(true);
 

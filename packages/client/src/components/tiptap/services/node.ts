@@ -1,5 +1,9 @@
 import { Node } from 'prosemirror-model';
 
+export function isTitleNode(node: Node): boolean {
+  return node.type.name === 'title';
+}
+
 export function isBulletListNode(node: Node): boolean {
   return node.type.name === 'bulletList';
 }

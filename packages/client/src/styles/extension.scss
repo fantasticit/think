@@ -8,7 +8,7 @@
   overflow-x: auto;
 
   &.table-bubble-menu {
-    transform: translateY(-1em);
+    transform: translateY(-2em);
   }
 }
 
@@ -18,13 +18,11 @@
   border-radius: 3px;
   box-shadow: var(--box-shadow);
   background-color: var(--semi-color-nav-bg);
-  transform: translateY(-1em);
 
   &.row {
     column-gap: 8px;
     flex-direction: column;
-    transform: translate(-100%, 75%);
-    margin-left: -1.2em;
+    transform: translate(0, 70%);
   }
 }
 

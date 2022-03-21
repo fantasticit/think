@@ -4,9 +4,9 @@ import { BannerWrapper } from '../components/banner';
 import { typesAvailable } from '../services/markdown/markdownBanner';
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     banner: {
-      setBanner: () => Command;
+      setBanner: (attrs) => ReturnType;
     };
   }
 }

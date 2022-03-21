@@ -1,9 +1,6 @@
 import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
 import { sanitize } from 'dompurify';
-import {
-  MarkdownSerializer as ProseMirrorMarkdownSerializer,
-  defaultMarkdownSerializer,
-} from 'prosemirror-markdown';
+import { MarkdownSerializer as ProseMirrorMarkdownSerializer, defaultMarkdownSerializer } from 'prosemirror-markdown';
 import { markdown } from '.';
 import { Attachment } from '../../extensions/attachment';
 import { Banner } from '../../extensions/banner';
