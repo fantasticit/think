@@ -1,24 +1,26 @@
 import { useEffect, useRef } from 'react';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
-import { Button, Typography, Spin } from '@douyinfe/semi-ui';
-import { IconDownload } from '@douyinfe/semi-icons';
+import { Button, Typography, Spin, Collapsible } from '@douyinfe/semi-ui';
+import { IconDownload, IconPlayCircle } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { useToggle } from 'hooks/useToggle';
 import { download } from '../../services/download';
 import { uploadFile } from 'services/file';
-import { normalizeFileSize, extractFileExtension, extractFilename } from '../../services/file';
+import { normalizeFileSize, extractFileExtension, extractFilename, normalizeFileType } from '../../services/file';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
 
-export const AttachmentWrapper = ({ node, updateAttributes }) => {
+export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   const $upload = useRef();
+  const isEditable = editor.isEditable;
   const { autoTrigger, fileName, fileSize, fileExt, fileType, url, error } = node.attrs;
   const [loading, toggleLoading] = useToggle(false);
+  const [visible, toggleVisible] = useToggle(false);
 
   const selectFile = () => {
     // @ts-ignore
-    $upload.current.click();
+    isEditable && $upload.current.click();
   };
 
   const handleFile = async (e) => {
@@ -39,6 +41,8 @@ export const AttachmentWrapper = ({ node, updateAttributes }) => {
       toggleLoading(false);
     }
   };
+
+  const type = normalizeFileType(fileType);
 
   useEffect(() => {
     if (!url && !autoTrigger) {
@@ -68,6 +72,11 @@ export const AttachmentWrapper = ({ node, updateAttributes }) => {
               <Text type="tertiary"> ({normalizeFileSize(fileSize)})</Text>
             </span>
             <span>
+              {type === 'video' || type === 'audio' ? (
+                <Tooltip content="播放">
+                  <Button theme={'borderless'} type="tertiary" icon={<IconPlayCircle />} onClick={toggleVisible} />
+                </Tooltip>
+              ) : null}
               <Tooltip content="下载">
                 <Button
                   theme={'borderless'}
@@ -80,6 +89,13 @@ export const AttachmentWrapper = ({ node, updateAttributes }) => {
           </>
         )}
       </div>
+
+      {url ? (
+        <Collapsible isOpen={visible}>
+          {type === 'video' && <video controls autoPlay src={url}></video>}
+          {type === 'audio' && <audio controls autoPlay src={url}></audio>}
+        </Collapsible>
+      ) : null}
       <NodeViewContent></NodeViewContent>
     </NodeViewWrapper>
   );

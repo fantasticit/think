@@ -2,7 +2,7 @@ import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import cls from 'classnames';
-import { Select } from '@douyinfe/semi-ui';
+import Select from 'react-select';
 import { useWikiTocs } from 'data/wiki';
 import { DataRender } from 'components/data-render';
 import { IconDocument } from 'components/icons';
@@ -16,8 +16,8 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
   const { wikiId, documentId, title } = node.attrs;
   const { data: tocs, loading, error } = useWikiTocs(isShare ? null : wikiIdFromUrl);
 
-  const selectDoc = (str) => {
-    const [wikiId, title, documentId] = str.split('/');
+  const selectDoc = (toc) => {
+    const { wikiId, documentId, title } = toc.value;
     updateAttributes({ wikiId, documentId, title });
   };
 
@@ -30,20 +30,15 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
             error={error}
             normalContent={() => (
               <Select
+                className="react-select"
                 placeholder="请选择文档"
-                onChange={(v) => selectDoc(v)}
-                {...(wikiId && documentId ? { value: `${wikiId}/${title}/${documentId}` } : {})}
-              >
-                {(tocs || []).map((toc) => (
-                  <Select.Option
-                    // FIXME: semi-design 抄 antd，抄的什么玩意！！！
-                    label={`${toc.title}/${toc.id}`}
-                    value={`${toc.wikiId}/${toc.title}/${toc.id}`}
-                  >
-                    {toc.title}
-                  </Select.Option>
-                ))}
-              </Select>
+                value={{ label: title, value: { wikiId, documentId, title } }}
+                onChange={selectDoc}
+                options={tocs.map((toc) => ({
+                  label: toc.title,
+                  value: { title: toc.title, wikiId: toc.wikiId, documentId: toc.id },
+                }))}
+              />
             )}
           />
         )}

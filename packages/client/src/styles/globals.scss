@@ -204,3 +204,12 @@ a {
   flex-direction: column;
   align-items: center;
 }
+
+.react-select {
+  width: 180px;
+  font-size: 0.8em;
+
+  > div {
+    border: 1px solid var(--semi-color-border);
+  }
+}

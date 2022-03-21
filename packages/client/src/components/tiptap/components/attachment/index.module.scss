@@ -6,4 +6,8 @@
   padding: 8px 16px;
   border: 1px solid var(--semi-color-border);
   border-radius: var(--border-radius);
+
+  &:hover {
+    border: 1px solid var(--semi-color-link);
+  }
 }

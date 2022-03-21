@@ -21,7 +21,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
 
   const selectFile = () => {
     // @ts-ignore
-    $upload.current.click();
+    isEditable && $upload.current.click();
   };
 
   const handleFile = async (e) => {

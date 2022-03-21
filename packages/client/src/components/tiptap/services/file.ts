@@ -38,3 +38,15 @@ export const normalizeFileSize = (size) => {
   }
   return (size / 1024 / 1024).toFixed(2) + ' MB';
 };
+
+export const normalizeFileType = (fileType): 'audio' | 'video' | 'file' => {
+  if (fileType.startsWith('audio')) {
+    return 'audio';
+  }
+
+  if (fileType.startsWith('video')) {
+    return 'video';
+  }
+
+  return 'file';
+};

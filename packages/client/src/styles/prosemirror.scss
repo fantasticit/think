@@ -28,8 +28,8 @@
   white-space: break-spaces;
   word-break: break-word;
   word-wrap: break-word;
-  font-family: 'Chinese Quote', 'Segoe UI', Roboto, RobotoNum, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Chinese Quote', 'Segoe UI', Roboto, RobotoNum, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    'Helvetica Neue', Helvetica, Arial, sans-serif;
   letter-spacing: 0.008em;
   line-height: 1.74;
   outline: none !important;
@@ -108,58 +108,6 @@
     color: var(--semi-color-text-0);
     margin: 10px 0 22px;
     border-bottom: 1px solid var(--semi-color-border);
-  }
-
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    cursor: text;
-
-    &::before {
-      display: inline-block;
-      font-family: var(--tiptap-font-family-mono);
-      color: var(--tiptap-color-text-secondly);
-      font-size: 13px;
-      line-height: 0;
-      margin-left: -24px;
-      width: 24px;
-    }
-  }
-
-  h1:not(.title):before {
-    content: 'H1';
-
-    &::before {
-      display: inline-block;
-      font-family: var(--tiptap-font-family-mono);
-      color: var(--tiptap-color-text-secondly);
-      font-size: 13px;
-      line-height: 0;
-      margin-left: -24px;
-      width: 24px;
-    }
-  }
-
-  h2::before {
-    content: 'H2';
-  }
-
-  h3::before {
-    content: 'H3';
-  }
-
-  h4::before {
-    content: 'H4';
-  }
-
-  h5::before {
-    content: 'H5';
-  }
-
-  h6::before {
-    content: 'H6';
   }
 
   h1 {

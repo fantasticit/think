@@ -18,8 +18,6 @@ export const isMarkdown = (text: string): boolean => {
   const listItems = text.match(/^[\d-*].?\s\S+/gm);
   if (listItems && listItems.length > 1) return true;
 
-  //
-
   return false;
 };
 

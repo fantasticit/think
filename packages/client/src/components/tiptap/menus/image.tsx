@@ -21,8 +21,6 @@ export const ImageBubbleMenu = ({ editor }) => {
     setHeight(parseInt(currentHeight));
   }, [currentWidth, currentHeight]);
 
-  console.log(attrs);
-
   return (
     <BubbleMenu
       className={'bubble-menu'}

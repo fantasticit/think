@@ -39,3 +39,6 @@ export * from './IconQuote';
 export * from './IconHorizontalRule';
 export * from './IconOrderedList';
 export * from './IconList';
+export * from './IconHeading1';
+export * from './IconHeading2';
+export * from './IconHeading3';

@@ -2,6 +2,9 @@ import { Editor } from '@tiptap/core';
 import { Space } from '@douyinfe/semi-ui';
 import { IconList, IconOrderedList } from '@douyinfe/semi-icons';
 import {
+  IconHeading1,
+  IconHeading2,
+  IconHeading3,
   IconLink,
   IconQuote,
   IconHorizontalRule,
@@ -20,33 +23,33 @@ import {
 export const EVOKE_MENU_ITEMS = [
   {
     key: '标题1',
-    label: '标题1',
+    label: (
+      <Space>
+        <IconHeading1 />
+        标题1
+      </Space>
+    ),
     command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 1 }).run(),
   },
   {
-    key: '标题1',
-    label: '标题2',
+    key: '标题2',
+    label: (
+      <Space>
+        <IconHeading2 />
+        标题2
+      </Space>
+    ),
     command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 2 }).run(),
   },
   {
     key: '标题1',
-    label: '标题3',
+    label: (
+      <Space>
+        <IconHeading3 />
+        标题3
+      </Space>
+    ),
     command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-  },
-  {
-    key: '标题1',
-    label: '标题4',
-    command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 4 }).run(),
-  },
-  {
-    key: '标题1',
-    label: '标题5',
-    command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 5 }).run(),
-  },
-  {
-    key: '标题1',
-    label: '标题6',
-    command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 6 }).run(),
   },
   {
     key: '无序列表',
