@@ -20,6 +20,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   };
 
   const selectFile = () => {
+    if (!isEditable || error || src) return;
     // @ts-ignore
     isEditable && $upload.current.click();
   };
@@ -38,7 +39,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
       updateAttributes({ ...fileInfo, src });
       toggleLoading(false);
     } catch (error) {
-      updateAttributes({ error: '上传失败：' + (error && error.message) || '未知错误' });
+      updateAttributes({ error: '图片上传失败：' + (error && error.message) || '未知错误' });
       toggleLoading(false);
     }
   };
@@ -52,16 +53,18 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
 
   const content = (() => {
     if (error) {
-      return <Text>{error}</Text>;
+      return (
+        <div className={styles.wrap}>
+          <Text>{error}</Text>
+        </div>
+      );
     }
 
     if (!src) {
       return (
-        <div className={styles.wrap}>
+        <div className={styles.wrap} onClick={selectFile}>
           <Spin spinning={loading}>
-            <Text onClick={selectFile} style={{ cursor: 'pointer' }}>
-              {loading ? '正在上传中' : '请选择图片'}
-            </Text>
+            <Text style={{ cursor: 'pointer' }}>{loading ? '正在上传中' : '请选择图片'}</Text>
             <input ref={$upload} accept="image/*" type="file" hidden onChange={handleFile} />
           </Spin>
         </div>

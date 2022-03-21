@@ -39,7 +39,15 @@ export const normalizeFileSize = (size) => {
   return (size / 1024 / 1024).toFixed(2) + ' MB';
 };
 
-export const normalizeFileType = (fileType): 'audio' | 'video' | 'file' => {
+export type FileType = 'image' | 'audio' | 'video' | 'file';
+
+export const normalizeFileType = (fileType): FileType => {
+  if (!fileType) return 'file';
+
+  if (fileType.startsWith('image')) {
+    return 'image';
+  }
+
   if (fileType.startsWith('audio')) {
     return 'audio';
   }
