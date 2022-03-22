@@ -56,12 +56,7 @@ const AddDocument = () => {
   }, []);
 
   return (
-    <DocumenCreatorForm
-      wikiId={wikiId}
-      parentDocumentId={documentId}
-      visible={visible}
-      toggleVisible={toggleVisible}
-    />
+    <DocumenCreatorForm wikiId={wikiId} parentDocumentId={documentId} visible={visible} toggleVisible={toggleVisible} />
   );
 };
 

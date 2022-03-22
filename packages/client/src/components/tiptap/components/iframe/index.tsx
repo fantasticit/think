@@ -14,11 +14,7 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
     <NodeViewContent as="div" className={styles.wrap}>
       {isEditable && (
         <div className={styles.handlerWrap}>
-          <Input
-            placeholder={'输入外链地址'}
-            value={url}
-            onChange={(url) => updateAttributes({ url })}
-          ></Input>
+          <Input placeholder={'输入外链地址'} value={url} onChange={(url) => updateAttributes({ url })}></Input>
         </div>
       )}
       {url && (

@@ -35,11 +35,7 @@ export const AddUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => {
     >
       <div style={{ marginTop: 16 }}>
         {userRole === WikiUserRole.admin ? (
-          <Banner
-            style={{ marginBottom: 16 }}
-            type="warning"
-            description="请谨慎操作管理员权限！"
-          />
+          <Banner style={{ marginBottom: 16 }} type="warning" description="请谨慎操作管理员权限！" />
         ) : null}
         <Space>
           <Select value={userRole} onChange={setUserRole} style={{ width: 120 }}>
@@ -55,13 +51,7 @@ export const AddUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => {
             style={{ width: 270 }}
           ></Input>
         </Space>
-        <Button
-          theme="solid"
-          block
-          style={{ margin: '24px 0' }}
-          onClick={handleOk}
-          disabled={!userName}
-        >
+        <Button theme="solid" block style={{ margin: '24px 0' }} onClick={handleOk} disabled={!userName}>
           添加成员
         </Button>
       </div>

@@ -1,6 +1,4 @@
-export function getImageOriginSize(
-  src: string
-): Promise<{ width: number | string; height: number | string }> {
+export function getImageOriginSize(src: string): Promise<{ width: number | string; height: number | string }> {
   return new Promise((resolve) => {
     const image = document.createElement('img');
     image.onload = function () {

@@ -1,11 +1,5 @@
 import { Space, Button } from '@douyinfe/semi-ui';
-import {
-  IconDelete,
-  IconTickCircle,
-  IconAlertTriangle,
-  IconClear,
-  IconInfoCircle,
-} from '@douyinfe/semi-icons';
+import { IconDelete, IconTickCircle, IconAlertTriangle, IconClear, IconInfoCircle } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { BubbleMenu } from './components/bubbleMenu';
 import { Divider } from '../components/divider';

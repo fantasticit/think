@@ -5,11 +5,7 @@ import { useDocumentStar } from 'data/document';
 
 interface IProps {
   documentId: string;
-  render?: (arg: {
-    star: boolean;
-    text: string;
-    toggleStar: () => Promise<void>;
-  }) => React.ReactNode;
+  render?: (arg: { star: boolean; text: string; toggleStar: () => Promise<void> }) => React.ReactNode;
 }
 
 const { Text } = Typography;

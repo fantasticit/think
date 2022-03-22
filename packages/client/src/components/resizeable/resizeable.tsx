@@ -62,32 +62,11 @@ export const Resizeable: React.FC<IProps> = ({ width, height, onChange, children
   }, [width, height]);
 
   return (
-    <div
-      id="js-resizeable-container"
-      className={styles.resizable}
-      ref={$container}
-      style={{ width, height }}
-    >
-      <span
-        className={styles.resizer + ' ' + styles.topLeft}
-        ref={$topLeft}
-        data-type={'topLeft'}
-      ></span>
-      <span
-        className={styles.resizer + ' ' + styles.topRight}
-        ref={$topRight}
-        data-type={'topRight'}
-      ></span>
-      <span
-        className={styles.resizer + ' ' + styles.bottomLeft}
-        ref={$bottomLeft}
-        data-type={'bottomLeft'}
-      ></span>
-      <span
-        className={styles.resizer + ' ' + styles.bottomRight}
-        ref={$bottomRight}
-        data-type={'bottomRight'}
-      ></span>
+    <div id="js-resizeable-container" className={styles.resizable} ref={$container} style={{ width, height }}>
+      <span className={styles.resizer + ' ' + styles.topLeft} ref={$topLeft} data-type={'topLeft'}></span>
+      <span className={styles.resizer + ' ' + styles.topRight} ref={$topRight} data-type={'topRight'}></span>
+      <span className={styles.resizer + ' ' + styles.bottomLeft} ref={$bottomLeft} data-type={'bottomLeft'}></span>
+      <span className={styles.resizer + ' ' + styles.bottomRight} ref={$bottomRight} data-type={'bottomRight'}></span>
       {children}
     </div>
   );

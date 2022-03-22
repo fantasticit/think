@@ -1,16 +1,6 @@
 import Router from 'next/router';
 import React, { useCallback, useMemo } from 'react';
-import {
-  Layout,
-  Nav,
-  Skeleton,
-  Typography,
-  Space,
-  Button,
-  Tooltip,
-  Spin,
-  Popover,
-} from '@douyinfe/semi-ui';
+import { Layout, Nav, Skeleton, Typography, Space, Button, Tooltip, Spin, Popover } from '@douyinfe/semi-ui';
 import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
 import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
@@ -42,11 +32,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   }, [width]);
 
   const { user } = useUser();
-  const {
-    data: documentAndAuth,
-    loading: docAuthLoading,
-    error: docAuthError,
-  } = useDocumentDetail(documentId);
+  const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
   const { document, authority } = documentAndAuth || {};
 
   const goback = useCallback(() => {
@@ -64,11 +50,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         loading={docAuthLoading}
         error={docAuthError}
         loadingContent={
-          <Skeleton
-            active
-            placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />}
-            loading={true}
-          />
+          <Skeleton active placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />} loading={true} />
         }
         normalContent={() => (
           <Text ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWith / 4) }}>
@@ -89,11 +71,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
           footer={
             <Space>
               {document && authority.readable && (
-                <DocumentCollaboration
-                  key="collaboration"
-                  wikiId={document.wikiId}
-                  documentId={documentId}
-                />
+                <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
               )}
               <DocumentShare key="share" documentId={documentId} />
               <DocumentStar key="star" documentId={documentId} />

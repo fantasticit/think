@@ -1,11 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  BeforeInsert,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, BeforeInsert } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcryptjs';
 import { UserRole, UserStatus } from '@think/domains';

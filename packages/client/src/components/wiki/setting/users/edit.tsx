@@ -29,11 +29,7 @@ export const EditUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => 
     >
       <div style={{ marginTop: 16 }}>
         {userRole === WikiUserRole.admin ? (
-          <Banner
-            style={{ marginBottom: 16 }}
-            type="warning"
-            description="请谨慎操作管理员权限！"
-          />
+          <Banner style={{ marginBottom: 16 }} type="warning" description="请谨慎操作管理员权限！" />
         ) : null}
         <Select value={userRole} onChange={setUserRole} style={{ width: '100%' }}>
           {WIKI_USER_ROLES.map((wikiStatus) => {

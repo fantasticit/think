@@ -64,9 +64,7 @@ export const DocumentActions: React.FC<IProps> = ({
                     <Space>
                       <IconStar
                         style={{
-                          color: star
-                            ? 'rgba(var(--semi-amber-4), 1)'
-                            : 'rgba(var(--semi-grey-3), 1)',
+                          color: star ? 'rgba(var(--semi-amber-4), 1)' : 'rgba(var(--semi-grey-3), 1)',
                         }}
                       />
                       {text}
@@ -85,9 +83,7 @@ export const DocumentActions: React.FC<IProps> = ({
           </Dropdown.Menu>
         }
       >
-        {children || (
-          <Button onClick={prevent} icon={<IconMore />} theme="borderless" type="tertiary" />
-        )}
+        {children || <Button onClick={prevent} icon={<IconMore />} theme="borderless" type="tertiary" />}
       </Dropdown>
       {showCreateDocument && (
         <DocumentCreator

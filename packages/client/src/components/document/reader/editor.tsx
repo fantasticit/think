@@ -76,9 +76,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
               </div>
               <CreateUser
                 document={document}
-                container={() =>
-                  window.document.querySelector('#js-reader-container .ProseMirror .title')
-                }
+                container={() => window.document.querySelector('#js-reader-container .ProseMirror .title')}
               />
             </Content>
           </>

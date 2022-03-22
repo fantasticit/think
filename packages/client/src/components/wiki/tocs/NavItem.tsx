@@ -16,14 +16,7 @@ interface IProps {
   hoverable?: boolean;
 }
 
-export const NavItem: React.FC<IProps> = ({
-  icon,
-  text,
-  rightNode,
-  href,
-  isActive = false,
-  hoverable = true,
-}) => {
+export const NavItem: React.FC<IProps> = ({ icon, text, rightNode, href, isActive = false, hoverable = true }) => {
   const right = rightNode ? <span className={styles.rightWrap}>{rightNode}</span> : null;
   const content = (
     <>
@@ -34,11 +27,7 @@ export const NavItem: React.FC<IProps> = ({
 
   return (
     <div
-      className={cls(
-        styles.navItemWrap,
-        isActive && styles.isActive,
-        hoverable && styles.hoverable
-      )}
+      className={cls(styles.navItemWrap, isActive && styles.isActive, hoverable && styles.hoverable)}
       style={{ marginTop: 4 }}
     >
       {href ? (

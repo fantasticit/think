@@ -42,13 +42,7 @@ const RecentDocs = () => {
         error={error}
         normalContent={() =>
           data && data.length ? (
-            <Table
-              dataSource={data}
-              loading={loading}
-              pagination={false}
-              size="small"
-              style={{ marginTop: 16 }}
-            >
+            <Table dataSource={data} loading={loading} pagination={false} size="small" style={{ marginTop: 16 }}>
               <Column
                 title="标题"
                 dataIndex="title"

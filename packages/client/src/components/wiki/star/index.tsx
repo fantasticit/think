@@ -5,11 +5,7 @@ import { useWikiStar } from 'data/wiki';
 
 interface IProps {
   wikiId: string;
-  render?: (arg: {
-    star: boolean;
-    text: string;
-    toggleStar: () => Promise<void>;
-  }) => React.ReactNode;
+  render?: (arg: { star: boolean; text: string; toggleStar: () => Promise<void> }) => React.ReactNode;
   onChange?: () => void;
 }
 

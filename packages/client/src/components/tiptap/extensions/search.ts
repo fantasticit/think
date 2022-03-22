@@ -52,10 +52,7 @@ interface TextNodesWithPosition {
 const updateView = (state: EditorState<any>, dispatch: any) => dispatch(state.tr);
 
 const regex = (s: string, disableRegex: boolean, caseSensitive: boolean): RegExp => {
-  return RegExp(
-    disableRegex ? s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') : s,
-    caseSensitive ? 'gu' : 'gui'
-  );
+  return RegExp(disableRegex ? s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') : s, caseSensitive ? 'gu' : 'gui');
 };
 
 function processSearches(
@@ -322,13 +319,8 @@ export const SearchNReplace = Extension.create<SearchOptions>({
           apply(ctx) {
             const { doc, docChanged } = ctx;
 
-            const {
-              searchTerm,
-              searchResultClass,
-              searchResultCurrentClass,
-              disableRegex,
-              caseSensitive,
-            } = extensionThis.options;
+            const { searchTerm, searchResultClass, searchResultCurrentClass, disableRegex, caseSensitive } =
+              extensionThis.options;
 
             if (docChanged || searchTerm) {
               const { decorationsToReturn, results } = processSearches(

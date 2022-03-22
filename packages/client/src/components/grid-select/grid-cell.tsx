@@ -38,16 +38,7 @@ const getMergedStyle = (baseStyles, styles, styleClass) => ({
   ...(styles && styles[styleClass] ? styles[styleClass] : {}),
 });
 
-export const GridCell = ({
-  active,
-  hover,
-  disabled,
-  onClick,
-  onMouseEnter,
-  cellSize,
-  styles,
-  id,
-}: CellProperties) => {
+export const GridCell = ({ active, hover, disabled, onClick, onMouseEnter, cellSize, styles, id }: CellProperties) => {
   const baseStyles = getBaseStyles(cellSize);
   const cellStyles = {
     cell: getMergedStyle(baseStyles, styles, 'cell'),

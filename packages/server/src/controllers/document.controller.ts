@@ -37,11 +37,7 @@ export class DocumentController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
   async getDocumentDetail(@Request() req, @Param('id') documentId) {
-    return await this.documentService.getDocumentDetail(
-      req.user,
-      documentId,
-      req.headers['user-agent']
-    );
+    return await this.documentService.getDocumentDetail(req.user, documentId, req.headers['user-agent']);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
@@ -119,16 +115,8 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('public/detail/:id')
   @HttpCode(HttpStatus.OK)
-  async getShareDocumentDetail(
-    @Request() req,
-    @Param('id') documentId,
-    @Body() dto: ShareDocumentDto
-  ) {
-    return await this.documentService.getPublicDocumentDetail(
-      documentId,
-      dto,
-      req.headers['user-agent']
-    );
+  async getShareDocumentDetail(@Request() req, @Param('id') documentId, @Body() dto: ShareDocumentDto) {
+    return await this.documentService.getPublicDocumentDetail(documentId, dto, req.headers['user-agent']);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

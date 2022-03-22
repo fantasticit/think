@@ -101,18 +101,7 @@ export const GridSelect = ({
       }
     }
     return cells;
-  }, [
-    rows,
-    cols,
-    disabled,
-    activeCell.x,
-    activeCell.y,
-    cellSize,
-    hoverCell,
-    styles,
-    onClick,
-    onHover,
-  ]);
+  }, [rows, cols, disabled, activeCell.x, activeCell.y, cellSize, hoverCell, styles, onClick, onHover]);
 
   const baseStyles = useMemo(() => getBaseStyles(cols, cellSize), [cols, cellSize]);
 

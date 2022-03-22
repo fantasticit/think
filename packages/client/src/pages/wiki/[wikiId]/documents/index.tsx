@@ -54,9 +54,7 @@ const AllDocs = ({ wikiId }) => {
               <DocumentCard document={doc} />
             </List.Item>
           )}
-          emptyContent={
-            <Empty illustration={<CreateDocumentIllustration />} message={<DocumentCreator />} />
-          }
+          emptyContent={<Empty illustration={<CreateDocumentIllustration />} message={<DocumentCreator />} />}
         />
       )}
     />

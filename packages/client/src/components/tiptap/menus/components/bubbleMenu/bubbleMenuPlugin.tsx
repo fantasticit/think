@@ -43,12 +43,7 @@ export class BubbleMenuView {
 
   public matchRenderContainer?: BubbleMenuPluginProps['matchRenderContainer'];
 
-  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
-    view,
-    state,
-    from,
-    to,
-  }) => {
+  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
     const { doc, selection } = state;
     const { empty } = selection;
 
@@ -240,8 +235,7 @@ export class BubbleMenuView {
 
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
-    key:
-      typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
+    key: typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
     view: (view) => new BubbleMenuView({ view, ...options }),
   });
 };

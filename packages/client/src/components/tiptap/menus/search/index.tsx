@@ -7,9 +7,7 @@ import { SearchNReplace } from '../../extensions/search';
 const { Text } = Typography;
 
 export const Search = ({ editor }) => {
-  const searchExtension = editor.extensionManager.extensions.find(
-    (ext) => ext.name === SearchNReplace.name
-  );
+  const searchExtension = editor.extensionManager.extensions.find((ext) => ext.name === SearchNReplace.name);
   const currentIndex = searchExtension ? searchExtension.options.currentIndex : -1;
   const results = searchExtension ? searchExtension.options.results : [];
   const [searchValue, setSearchValue] = useState('');
@@ -58,16 +56,10 @@ export const Search = ({ editor }) => {
               <Button disabled={!results.length} onClick={() => editor.commands.replace()}>
                 替换
               </Button>
-              <Button
-                disabled={!results.length}
-                onClick={() => editor.commands.goToPrevSearchResult()}
-              >
+              <Button disabled={!results.length} onClick={() => editor.commands.goToPrevSearchResult()}>
                 上一个
               </Button>
-              <Button
-                disabled={!results.length}
-                onClick={() => editor.commands.goToNextSearchResult()}
-              >
+              <Button disabled={!results.length} onClick={() => editor.commands.goToNextSearchResult()}>
                 下一个
               </Button>
             </Space>

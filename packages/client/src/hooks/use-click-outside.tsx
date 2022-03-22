@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
 
-export function useClickOutside(
-  ref,
-  handler: { in?: (evt: MouseEvent) => void; out?: (evt: MouseEvent) => void }
-) {
+export function useClickOutside(ref, handler: { in?: (evt: MouseEvent) => void; out?: (evt: MouseEvent) => void }) {
   useEffect(() => {
     const listener = (event) => {
       if (!ref.current || ref.current.contains(event.target)) {

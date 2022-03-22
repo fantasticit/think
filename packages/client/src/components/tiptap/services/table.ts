@@ -21,9 +21,7 @@ export const isRectSelected = (rect: any) => (selection: CellSelection) => {
 };
 
 export const findTable = (selection: Selection) =>
-  findParentNode((node) => node.type.spec.tableRole && node.type.spec.tableRole === 'table')(
-    selection
-  );
+  findParentNode((node) => node.type.spec.tableRole && node.type.spec.tableRole === 'table')(selection);
 
 export const isCellSelection = (selection: any) => {
   return selection instanceof CellSelection;
@@ -141,10 +139,7 @@ export const getCellsInTable = (selection: Selection) => {
   }
 };
 
-export const findParentNodeClosestToPos = (
-  $pos: ResolvedPos,
-  predicate: (node: Node) => boolean
-) => {
+export const findParentNodeClosestToPos = ($pos: ResolvedPos, predicate: (node: Node) => boolean) => {
   for (let i = $pos.depth; i > 0; i--) {
     const node = $pos.node(i);
     if (predicate(node)) {
@@ -159,8 +154,7 @@ export const findParentNodeClosestToPos = (
 };
 
 export const findCellClosestToPos = ($pos: ResolvedPos) => {
-  const predicate = (node: Node) =>
-    node.type.spec.tableRole && /cell/i.test(node.type.spec.tableRole);
+  const predicate = (node: Node) => node.type.spec.tableRole && /cell/i.test(node.type.spec.tableRole);
   return findParentNodeClosestToPos($pos, predicate);
 };
 

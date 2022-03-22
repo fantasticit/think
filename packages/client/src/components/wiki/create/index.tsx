@@ -29,17 +29,8 @@ export const WikiCreator: React.FC<IProps> = ({ visible, toggleVisible }) => {
   };
 
   return (
-    <Modal
-      title="创建知识库"
-      visible={visible}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      style={{ maxWidth: '96vw' }}
-    >
-      <Form
-        initValues={{ name: '', description: '' }}
-        getFormApi={(formApi) => ($form.current = formApi)}
-      >
+    <Modal title="创建知识库" visible={visible} onOk={handleOk} onCancel={handleCancel} style={{ maxWidth: '96vw' }}>
+      <Form initValues={{ name: '', description: '' }} getFormApi={(formApi) => ($form.current = formApi)}>
         <Form.Input
           noLabel
           autofocus

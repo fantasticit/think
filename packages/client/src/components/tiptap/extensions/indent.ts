@@ -97,8 +97,7 @@ export const Indent = Extension.create<IndentOptions>({
             renderHTML: (attributes) => ({
               style: `margin-left: ${attributes.indent}px!important;`,
             }),
-            parseHTML: (element) =>
-              parseInt(element.style.marginLeft) || this.options.defaultIndentLevel,
+            parseHTML: (element) => parseInt(element.style.marginLeft) || this.options.defaultIndentLevel,
           },
         },
       },

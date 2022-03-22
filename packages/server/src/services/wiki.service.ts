@@ -531,9 +531,7 @@ export class WikiService {
       if (docIds && Array.isArray(docIds)) {
         try {
           await Promise.all(
-            docIds.map((docId) =>
-              this.documentService.shareDocument(user, docId, { sharePassword: '' }, nextStatus)
-            )
+            docIds.map((docId) => this.documentService.shareDocument(user, docId, { sharePassword: '' }, nextStatus))
           );
         } catch (err) {
           operateDocumentError = true;
@@ -556,9 +554,7 @@ export class WikiService {
     const ret = await this.wikiRepo.save(newData);
     return {
       ...ret,
-      documentOperateMessage: operateDocumentError
-        ? '知识库操作成功，部分文档可能无编辑权限，未能修改成功'
-        : null,
+      documentOperateMessage: operateDocumentError ? '知识库操作成功，部分文档可能无编辑权限，未能修改成功' : null,
     };
   }
 

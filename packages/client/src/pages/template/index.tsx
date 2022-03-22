@@ -40,12 +40,7 @@ const Page: NextPage = () => {
           </Title>
           <Button onClick={handleAdd}>新建模板</Button>
         </div>
-        <Tabs
-          type="button"
-          style={{ marginTop: 16 }}
-          activeKey={tab}
-          onChange={(tab) => navigate(tab)}
-        >
+        <Tabs type="button" style={{ marginTop: 16 }} activeKey={tab} onChange={(tab) => navigate(tab)}>
           <TabPane tab="公开模板" itemKey="public">
             <TemplateList hook={usePublicTemplates} pageSize={9} />
           </TabPane>

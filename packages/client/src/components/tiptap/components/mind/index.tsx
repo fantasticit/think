@@ -97,12 +97,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   }, [isEditable]);
 
   const content = (
-    <div
-      ref={$container}
-      className={styles.renderWrap}
-      tabIndex={0}
-      style={{ width: '100%', height: '100%' }}
-    >
+    <div ref={$container} className={styles.renderWrap} tabIndex={0} style={{ width: '100%', height: '100%' }}>
       {!isEditable && (
         <div className={styles.mindHandlerWrap}>
           <Button

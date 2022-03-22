@@ -13,10 +13,7 @@ import { CreateUserDto } from '@dtos/create-user.dto';
 import { LoginUserDto } from '@dtos/login-user.dto';
 import { UpdateUserDto } from '@dtos/update-user.dto';
 
-export type OutUser = Omit<
-  UserEntity,
-  'comparePassword' | 'encryptPassword' | 'encrypt' | 'password'
->;
+export type OutUser = Omit<UserEntity, 'comparePassword' | 'encryptPassword' | 'encrypt' | 'password'>;
 
 @Injectable()
 export class UserService {

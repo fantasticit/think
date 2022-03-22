@@ -81,9 +81,7 @@ export const useDocumentDetail = (documentId, options = null) => {
  * @returns
  */
 export const useRecentDocuments = () => {
-  const { data, error, mutate } = useSWR<IDocument[]>('/document/recent', (url) =>
-    HttpClient.get(url)
-  );
+  const { data, error, mutate } = useSWR<IDocument[]>('/document/recent', (url) => HttpClient.get(url));
   const loading = !data && !error;
   return { data, error, loading, refresh: mutate };
 };
@@ -117,9 +115,7 @@ export const useDocumentStar = (documentId) => {
  * @returns
  */
 export const useStaredDocuments = () => {
-  const { data, error, mutate } = useSWR<IDocument[]>('/collector/documents', (url) =>
-    HttpClient.post(url)
-  );
+  const { data, error, mutate } = useSWR<IDocument[]>('/collector/documents', (url) => HttpClient.post(url));
   const loading = !data && !error;
 
   return { data, error, loading, refresh: mutate };

@@ -1,14 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import {
-  Transfer,
-  Button,
-  Banner,
-  Typography,
-  RadioGroup,
-  Radio,
-  Toast,
-  Checkbox,
-} from '@douyinfe/semi-ui';
+import { Transfer, Button, Banner, Typography, RadioGroup, Radio, Toast, Checkbox } from '@douyinfe/semi-ui';
 import { IconClose } from '@douyinfe/semi-icons';
 import { WIKI_STATUS_LIST, isPublicDocument, isPublicWiki } from '@think/domains';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
@@ -23,11 +14,7 @@ interface IProps {
 }
 
 export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
-  const {
-    data: workspace,
-    loading: workspaceLoading,
-    toggleStatus: toggleWorkspaceStatus,
-  } = useWikiDetail(wikiId);
+  const { data: workspace, loading: workspaceLoading, toggleStatus: toggleWorkspaceStatus } = useWikiDetail(wikiId);
   const { data: tocs, loading } = useWikiTocs(wikiId);
   const documents = flattenTree2Array(tocs).map((d) => {
     d.label = d.title;
@@ -101,11 +88,7 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
           bordered
           icon={null}
           style={{ marginTop: 16 }}
-          title={
-            <div style={{ fontWeight: 600, fontSize: '14px', lineHeight: '20px' }}>
-              当前知识库已经公开
-            </div>
-          }
+          title={<div style={{ fontWeight: 600, fontSize: '14px', lineHeight: '20px' }}>当前知识库已经公开</div>}
           description={
             isPublic && (
               <div>
@@ -130,11 +113,7 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
         <Title className={styles.title} heading={6}>
           是否公开知识库？
         </Title>
-        <RadioGroup
-          direction="vertical"
-          value={nextStatus}
-          onChange={(e) => setNextStatus(e.target.value)}
-        >
+        <RadioGroup direction="vertical" value={nextStatus} onChange={(e) => setNextStatus(e.target.value)}>
           {WIKI_STATUS_LIST.map((status) => {
             return <Radio value={status.value}>{status.label}</Radio>;
           })}

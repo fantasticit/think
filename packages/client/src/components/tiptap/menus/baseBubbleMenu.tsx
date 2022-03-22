@@ -41,8 +41,7 @@ export const BaseBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
       className={'bubble-menu'}
       pluginKey="base-bubble-menu"
       shouldShow={() =>
-        !editor.state.selection.empty &&
-        OTHER_BUBBLE_MENU_TYPES.every((type) => !editor.isActive(type))
+        !editor.state.selection.empty && OTHER_BUBBLE_MENU_TYPES.every((type) => !editor.isActive(type))
       }
     >
       <Space>

@@ -42,12 +42,7 @@ const CommentInner = ({ data, depth, replyComment, editComment, deleteComment })
   );
 };
 
-export const Comments: React.FC<IProps> = ({
-  comments,
-  replyComment,
-  editComment,
-  deleteComment,
-}) => {
+export const Comments: React.FC<IProps> = ({ comments, replyComment, editComment, deleteComment }) => {
   return (
     <CommentInner
       key={'root-menu'}

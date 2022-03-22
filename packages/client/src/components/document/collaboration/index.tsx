@@ -54,8 +54,7 @@ const renderChecked = (onChange, authKey: 'readable' | 'editable') => (checked, 
 export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) => {
   const { user: currentUser } = useUser();
   const [visible, toggleVisible] = useToggle(false);
-  const { users, loading, error, addUser, updateUser, deleteUser } =
-    useCollaborationDocument(documentId);
+  const { users, loading, error, addUser, updateUser, deleteUser } = useCollaborationDocument(documentId);
   const [inviteUser, setInviteUser] = useState('');
 
   const [collaborationUsers, setCollaborationUsers] = useState([]);
@@ -126,12 +125,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
         })}
       </AvatarGroup>
       <Tooltip content="邀请他人协作" position="bottom">
-        <Button
-          theme="borderless"
-          type="tertiary"
-          icon={<IconUserAdd />}
-          onClick={toggleVisible}
-        ></Button>
+        <Button theme="borderless" type="tertiary" icon={<IconUserAdd />} onClick={toggleVisible}></Button>
       </Tooltip>
       <Modal
         title={'文档协作'}
@@ -146,24 +140,14 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
         <Tabs type="line">
           <TabPane tab="添加成员" itemKey="add">
             <div style={{ marginTop: 16 }}>
-              <Input
-                placeholder="输入对方用户名"
-                value={inviteUser}
-                onChange={setInviteUser}
-              ></Input>
+              <Input placeholder="输入对方用户名" value={inviteUser} onChange={setInviteUser}></Input>
               <Paragraph style={{ marginTop: 16 }}>
                 邀请成功后，请将该链接发送给对方。
                 <span style={{ verticalAlign: 'middle' }}>
                   <DocumentLinkCopyer wikiId={wikiId} documentId={documentId} />
                 </span>
               </Paragraph>
-              <Button
-                theme="solid"
-                block
-                style={{ margin: '24px 0' }}
-                disabled={!inviteUser}
-                onClick={handleOk}
-              >
+              <Button theme="solid" block style={{ margin: '24px 0' }} disabled={!inviteUser} onClick={handleOk}>
                 添加用户
               </Button>
             </div>
@@ -195,11 +179,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
                     dataIndex="operate"
                     key="operate"
                     render={(_, document) => (
-                      <Popconfirm
-                        showArrow
-                        title="确认删除该成员？"
-                        onConfirm={() => handleDelete(document)}
-                      >
+                      <Popconfirm showArrow title="确认删除该成员？" onConfirm={() => handleDelete(document)}>
                         <Button type="tertiary" theme="borderless" icon={<IconDelete />} />
                       </Popconfirm>
                     )}

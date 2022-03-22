@@ -1,15 +1,6 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import {
-  Typography,
-  Dropdown,
-  Badge,
-  Button,
-  Tabs,
-  TabPane,
-  Pagination,
-  Notification,
-} from '@douyinfe/semi-ui';
+import { Typography, Dropdown, Badge, Button, Tabs, TabPane, Pagination, Notification } from '@douyinfe/semi-ui';
 import { IconMessage } from 'components/icons/IconMessage';
 import { useAllMessages, useReadMessages, useUnreadMessages } from 'data/message';
 import { EmptyBoxIllustration } from 'illustrations/empty-box';
@@ -21,14 +12,7 @@ import styles from './index.module.scss';
 const { Text } = Typography;
 const PAGE_SIZE = 6;
 
-const MessagesRender = ({
-  messageData,
-  loading,
-  error,
-  onClick = null,
-  page = 1,
-  onPageChange = null,
-}) => {
+const MessagesRender = ({ messageData, loading, error, onClick = null, page = 1, onPageChange = null }) => {
   const total = (messageData && messageData.total) || 0;
   const messages = (messageData && messageData.data) || [];
 
@@ -99,13 +83,7 @@ const MessagesRender = ({
 };
 
 export const Message = () => {
-  const {
-    data: allMsgs,
-    loading: allLoading,
-    error: allError,
-    page: allPage,
-    setPage: allSetPage,
-  } = useAllMessages();
+  const { data: allMsgs, loading: allLoading, error: allError, page: allPage, setPage: allSetPage } = useAllMessages();
   const {
     data: readMsgs,
     loading: readLoading,

@@ -65,12 +65,7 @@ export const UserSetting: React.FC<IProps> = ({ visible, toggleVisible }) => {
           disabled
           placeholder="请输入账户名称"
         ></Form.Input>
-        <Form.Input
-          label="邮箱"
-          field="email"
-          style={{ width: '100%' }}
-          placeholder="请输入账户邮箱"
-        ></Form.Input>
+        <Form.Input label="邮箱" field="email" style={{ width: '100%' }} placeholder="请输入账户邮箱"></Form.Input>
       </Form>
     </Modal>
   );

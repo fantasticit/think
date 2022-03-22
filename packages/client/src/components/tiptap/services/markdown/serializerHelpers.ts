@@ -28,11 +28,7 @@ const tableMap = new WeakMap();
 export function isPlainURL(link, parent, index, side) {
   if (link.attrs.title || !/^\w+:/.test(link.attrs.href)) return false;
   const content = parent.child(index + (side < 0 ? -1 : 0));
-  if (
-    !content.isText ||
-    content.text !== link.attrs.href ||
-    content.marks[content.marks.length - 1] !== link
-  )
+  if (!content.isText || content.text !== link.attrs.href || content.marks[content.marks.length - 1] !== link)
     return false;
   if (index === (side < 0 ? 1 : parent.childCount - 1)) return true;
   const next = parent.child(index + (side < 0 ? -2 : 1));
@@ -133,8 +129,7 @@ export function openTag(tagName, attrs) {
 
   str += Object.entries(attrs || {})
     .map(([key, value]) => {
-      if ((ignoreAttrs[tagName] || []).includes(key) || defaultAttrs[tagName]?.[key] === value)
-        return '';
+      if ((ignoreAttrs[tagName] || []).includes(key) || defaultAttrs[tagName]?.[key] === value) return '';
 
       return ` ${key}="${htmlEncode(value?.toString())}"`;
     })
@@ -162,8 +157,7 @@ function setIsInBlockTable(table, value) {
   rows.forEach((row) => tableMap.set(row, value));
   cells.forEach((cell) => {
     tableMap.set(cell, value);
-    if (cell.childCount && cell.child(0).type.name === 'paragraph')
-      tableMap.set(cell.child(0), value);
+    if (cell.childCount && cell.child(0).type.name === 'paragraph') tableMap.set(cell.child(0), value);
   });
 }
 
@@ -270,12 +264,7 @@ export function renderContent(state, node, forceRenderInline) {
   }
 }
 
-export function renderHTMLNode(
-  tagName,
-  forceRenderInline = false,
-  needNewLine = false,
-  attrs = {}
-) {
+export function renderHTMLNode(tagName, forceRenderInline = false, needNewLine = false, attrs = {}) {
   return (state, node) => {
     renderTagOpen(state, tagName, Object.assign({}, node.attrs || {}, attrs));
     renderContent(state, node, forceRenderInline);

@@ -15,12 +15,7 @@ interface IProps {
 
 const { Text } = Typography;
 
-export const CommentItem: React.FC<IProps> = ({
-  comment,
-  replyComment,
-  editComment,
-  deleteComment,
-}) => {
+export const CommentItem: React.FC<IProps> = ({ comment, replyComment, editComment, deleteComment }) => {
   if (!comment) return null;
   const { user } = useUser();
   const { createUser = {} } = comment;

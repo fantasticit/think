@@ -21,9 +21,7 @@ export const WikiOrDocumentCreator: React.FC<IProps> = ({ onCreateDocument, chil
         render={
           <Dropdown.Menu>
             <Dropdown.Item onClick={toggleVisible}>知识库</Dropdown.Item>
-            {wikiId && (
-              <Dropdown.Item onClick={toggleCreateDocumentModalVisible}>文档</Dropdown.Item>
-            )}
+            {wikiId && <Dropdown.Item onClick={toggleCreateDocumentModalVisible}>文档</Dropdown.Item>}
           </Dropdown.Menu>
         }
       >

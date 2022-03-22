@@ -37,12 +37,7 @@ export const DocumentCard: React.FC<{ document: IDocument }> = ({ document }) =>
               <Space>
                 <DocumentShare documentId={document.id} />
                 <Tooltip key="edit" content="编辑" position="bottom">
-                  <Button
-                    type="tertiary"
-                    theme="borderless"
-                    icon={<IconEdit />}
-                    onClick={gotoEdit}
-                  />
+                  <Button type="tertiary" theme="borderless" icon={<IconEdit />} onClick={gotoEdit} />
                 </Tooltip>
                 <DocumentStar documentId={document.id} />
               </Space>
@@ -62,10 +57,7 @@ export const DocumentCard: React.FC<{ document: IDocument }> = ({ document }) =>
             <div>
               <Text type="tertiary" size="small">
                 <Space>
-                  <Avatar
-                    size="extra-extra-small"
-                    src={document.createUser && document.createUser.avatar}
-                  >
+                  <Avatar size="extra-extra-small" src={document.createUser && document.createUser.avatar}>
                     <IconUser />
                   </Avatar>
                   创建者：

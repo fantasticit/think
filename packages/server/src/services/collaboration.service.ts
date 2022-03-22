@@ -3,12 +3,7 @@ import { DocumentStatus } from '@think/domains';
 import { getConfig } from '@think/config';
 import * as Y from 'yjs';
 import { TiptapTransformer } from '@hocuspocus/transformer';
-import {
-  Server,
-  onAuthenticatePayload,
-  onChangePayload,
-  onLoadDocumentPayload,
-} from '@hocuspocus/server';
+import { Server, onAuthenticatePayload, onChangePayload, onLoadDocumentPayload } from '@hocuspocus/server';
 import * as lodash from 'lodash';
 import { OutUser, UserService } from '@services/user.service';
 import { TemplateService } from '@services/template.service';

@@ -67,11 +67,7 @@ export const Base: React.FC<IProps> = ({ wiki, update }) => {
             <div className={styles.placeholderWrapper}>
               {WIKI_AVATARS.map((cover) => {
                 return (
-                  <div
-                    key={cover}
-                    className={styles.coverPlaceholder}
-                    onClick={() => setCover(cover)}
-                  >
+                  <div key={cover} className={styles.coverPlaceholder} onClick={() => setCover(cover)}>
                     <img src={cover} alt="系统默认图片" />
                   </div>
                 );

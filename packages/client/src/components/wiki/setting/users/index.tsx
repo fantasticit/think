@@ -67,17 +67,8 @@ export const Users: React.FC<IProps> = ({ wikiId }) => {
                 align="center"
                 render={(_, data) => (
                   <>
-                    <Button
-                      type="tertiary"
-                      theme="borderless"
-                      icon={<IconEdit />}
-                      onClick={() => editUser(data)}
-                    />
-                    <Popconfirm
-                      showArrow
-                      title="确认删除该成员？"
-                      onConfirm={() => deleteUser(data)}
-                    >
+                    <Button type="tertiary" theme="borderless" icon={<IconEdit />} onClick={() => editUser(data)} />
+                    <Popconfirm showArrow title="确认删除该成员？" onConfirm={() => deleteUser(data)}>
                       <Button type="tertiary" theme="borderless" icon={<IconDelete />} />
                     </Popconfirm>
                   </>

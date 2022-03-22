@@ -1,12 +1,6 @@
 import React from 'react';
 import { Button } from '@douyinfe/semi-ui';
-import {
-  IconBold,
-  IconItalic,
-  IconStrikeThrough,
-  IconUnderline,
-  IconCode,
-} from '@douyinfe/semi-icons';
+import { IconBold, IconItalic, IconStrikeThrough, IconUnderline, IconCode } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { isTitleActive } from '../services/isActive';
 import { ColorMenu } from './color';

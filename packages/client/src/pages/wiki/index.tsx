@@ -48,9 +48,7 @@ const Workspaces = ({ hook }) => {
               <WikiCard wiki={wiki} />
             </List.Item>
           )}
-          emptyContent={
-            <Empty illustration={<CreateWikiIllustration />} message={<WikiCreator />} />
-          }
+          emptyContent={<Empty illustration={<CreateWikiIllustration />} message={<WikiCreator />} />}
         />
       )}
     />

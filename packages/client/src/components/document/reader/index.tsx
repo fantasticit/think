@@ -1,17 +1,7 @@
 import Router from 'next/router';
 import React, { useCallback, useMemo } from 'react';
 import cls from 'classnames';
-import {
-  Layout,
-  Nav,
-  Space,
-  Button,
-  Typography,
-  Skeleton,
-  Tooltip,
-  Popover,
-  BackTop,
-} from '@douyinfe/semi-ui';
+import { Layout, Nav, Space, Button, Typography, Skeleton, Tooltip, Popover, BackTop } from '@douyinfe/semi-ui';
 import { IconEdit, IconArticle } from '@douyinfe/semi-icons';
 import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
@@ -46,11 +36,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
 
   const { user } = useUser();
 
-  const {
-    data: documentAndAuth,
-    loading: docAuthLoading,
-    error: docAuthError,
-  } = useDocumentDetail(documentId);
+  const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
   const { document, authority } = documentAndAuth || {};
 
   const gotoEdit = useCallback(() => {
@@ -75,11 +61,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                 />
               }
               normalContent={() => (
-                <Text
-                  strong
-                  ellipsis={{ showTooltip: true }}
-                  style={{ width: ~~(windowWidth / 4) }}
-                >
+                <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
                   {document.title}
                 </Text>
               )}
@@ -88,11 +70,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
           footer={
             <Space>
               {document && authority.readable && (
-                <DocumentCollaboration
-                  key="collaboration"
-                  wikiId={document.wikiId}
-                  documentId={documentId}
-                />
+                <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
               )}
               {authority && authority.editable && (
                 <Tooltip key="edit" content="编辑" position="bottom">
@@ -122,12 +100,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
               return (
                 <>
                   <Seo title={document.title} />
-                  <Editor
-                    key={document.id}
-                    user={user}
-                    documentId={document.id}
-                    document={document}
-                  />
+                  <Editor key={document.id} user={user} documentId={document.id} document={document} />
                   <div className={styles.commentWrap}>
                     <CommentEditor documentId={document.id} />
                   </div>

@@ -9,10 +9,7 @@ import styles from './index.module.scss';
 
 const { Text, Paragraph } = Typography;
 
-export const WikiCard: React.FC<{ wiki: IWiki; shareMode?: boolean }> = ({
-  wiki,
-  shareMode = false,
-}) => {
+export const WikiCard: React.FC<{ wiki: IWiki; shareMode?: boolean }> = ({ wiki, shareMode = false }) => {
   return (
     <div className={styles.cardWrap}>
       <Link

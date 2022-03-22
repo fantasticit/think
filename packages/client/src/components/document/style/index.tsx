@@ -13,14 +13,7 @@ export const DocumentStyle = () => {
       <div className={styles.item}>
         <Text>正文大小</Text>
         <Text style={{ fontSize: '0.8em' }}> {fontSize}px</Text>
-        <Slider
-          min={12}
-          max={24}
-          step={1}
-          tooltipVisible={false}
-          value={fontSize}
-          onChange={setFontSize}
-        />
+        <Slider min={12} max={24} step={1} tooltipVisible={false} value={fontSize} onChange={setFontSize} />
       </div>
       <div className={styles.item}>
         <Text>页面尺寸</Text>

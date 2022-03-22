@@ -1,11 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { List, Pagination } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
-import {
-  IProps as ITemplateCardProps,
-  TemplateCardPlaceholder,
-  TemplateCard,
-} from 'components/template/card';
+import { IProps as ITemplateCardProps, TemplateCardPlaceholder, TemplateCard } from 'components/template/card';
 import { Empty } from 'components/empty';
 
 const grid = {

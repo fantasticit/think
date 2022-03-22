@@ -40,9 +40,7 @@ export const DocumentChildrenWrapper = ({ editor }) => {
                       <Link
                         key={doc.id}
                         href={{
-                          pathname: `${
-                            !isShare ? '' : '/share'
-                          }/wiki/[wikiId]/document/[documentId]`,
+                          pathname: `${!isShare ? '' : '/share'}/wiki/[wikiId]/document/[documentId]`,
                           query: { wikiId: doc.wikiId, documentId: doc.id },
                         }}
                       >

@@ -40,12 +40,7 @@ const extractRelation = (treeData: Array<IDataNode>) => {
 };
 
 export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
-  const {
-    data: tocs,
-    loading: tocsLoading,
-    error: tocsError,
-    update: updateTocs,
-  } = useWikiTocs(wikiId);
+  const { data: tocs, loading: tocsLoading, error: tocsError, update: updateTocs } = useWikiTocs(wikiId);
 
   const [treeData, setTreeData] = useState([]);
   const [changed, setChanged] = useState(false);

@@ -60,12 +60,7 @@ export const TemplateCard: React.FC<IProps> = ({
             {template.createUser && user && template.createUser.id === user.id && (
               <Space>
                 <Tooltip key="edit" content="编辑模板" position="bottom">
-                  <Button
-                    type="tertiary"
-                    theme="borderless"
-                    icon={<IconEdit />}
-                    onClick={gotoEdit}
-                  />
+                  <Button type="tertiary" theme="borderless" icon={<IconEdit />} onClick={gotoEdit} />
                 </Tooltip>
               </Space>
             )}
@@ -85,10 +80,7 @@ export const TemplateCard: React.FC<IProps> = ({
           <div>
             <Text type="tertiary" size="small">
               <Space>
-                <Avatar
-                  size="extra-extra-small"
-                  src={template.createUser && template.createUser.avatar}
-                >
+                <Avatar size="extra-extra-small" src={template.createUser && template.createUser.avatar}>
                   <IconUser />
                 </Avatar>
                 创建者：

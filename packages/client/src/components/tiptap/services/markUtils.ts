@@ -1,5 +1,4 @@
-export const markInputRegex = (tag) =>
-  new RegExp(`(<(${tag})((?: \\w+=".+?")+)?>([^<]+)</${tag}>)$`, 'gm');
+export const markInputRegex = (tag) => new RegExp(`(<(${tag})((?: \\w+=".+?")+)?>([^<]+)</${tag}>)$`, 'gm');
 
 export const extractMarkAttributesFromMatch = ([, , , attrsString]) => {
   const attrRegex = /(\w+)="(.+?)"/g;

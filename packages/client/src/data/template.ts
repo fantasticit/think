@@ -47,11 +47,9 @@ export const useOwnTemplates = () => {
 };
 
 export const useTemplate = (templateId) => {
-  const { data, error, mutate } = useSWR<ITemplate>(
-    `/template/detail/${templateId}`,
-    (url) => HttpClient.get(url),
-    { revalidateOnMount: true }
-  );
+  const { data, error, mutate } = useSWR<ITemplate>(`/template/detail/${templateId}`, (url) => HttpClient.get(url), {
+    revalidateOnMount: true,
+  });
   const loading = !data && !error;
 
   const updateTemplate = async (data): Promise<ITemplate> => {

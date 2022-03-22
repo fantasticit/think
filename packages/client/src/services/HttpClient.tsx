@@ -46,10 +46,7 @@ HttpClient.interceptors.response.use(
       switch (status) {
         case 504:
         case 404:
-          isBrowser &&
-            Toast.error(
-              (err.response && err.response.data && err.response.data.message) || '服务器异常'
-            );
+          isBrowser && Toast.error((err.response && err.response.data && err.response.data.message) || '服务器异常');
           break;
         case 401:
           if (isBrowser) {
@@ -58,10 +55,7 @@ HttpClient.interceptors.response.use(
           break;
 
         default:
-          isBrowser &&
-            Toast.error(
-              (err.response && err.response.data && err.response.data.message) || '未知错误!'
-            );
+          isBrowser && Toast.error((err.response && err.response.data && err.response.data.message) || '未知错误!');
       }
       return Promise.reject({
         statusCode: err.response.status,

@@ -16,13 +16,7 @@ interface IProps {
   onCreate?: () => void;
 }
 
-export const DocumentCreator: React.FC<IProps> = ({
-  wikiId,
-  parentDocumentId,
-  visible,
-  toggleVisible,
-  onCreate,
-}) => {
+export const DocumentCreator: React.FC<IProps> = ({ wikiId, parentDocumentId, visible, toggleVisible, onCreate }) => {
   const { loading, create } = useCreateDocument();
   const [createChildDoc, setCreateChildDoc] = useState(false);
   const [templateId, setTemplateId] = useState('');
@@ -71,10 +65,7 @@ export const DocumentCreator: React.FC<IProps> = ({
         type="button"
         tabBarExtraContent={
           parentDocumentId && (
-            <Checkbox
-              checked={createChildDoc}
-              onChange={(e) => setCreateChildDoc(e.target.checked)}
-            >
+            <Checkbox checked={createChildDoc} onChange={(e) => setCreateChildDoc(e.target.checked)}>
               为该文档创建子文档
             </Checkbox>
           )

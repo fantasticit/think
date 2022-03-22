@@ -11,22 +11,11 @@ interface IProps {
   position?: Position;
 }
 
-export const Tooltip: React.FC<IProps> = ({
-  content,
-  hideOnClick = false,
-  position = 'top',
-  children,
-}) => {
+export const Tooltip: React.FC<IProps> = ({ content, hideOnClick = false, position = 'top', children }) => {
   const [visible, toggleVisible] = useToggle(false);
 
   return (
-    <SemiTooltip
-      visible={visible}
-      content={content}
-      zIndex={10000}
-      trigger={'custom'}
-      position={position}
-    >
+    <SemiTooltip visible={visible} content={content} zIndex={10000} trigger={'custom'} position={position}>
       <span
         onMouseEnter={() => {
           toggleVisible(true);

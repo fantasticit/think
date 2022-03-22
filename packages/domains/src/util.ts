@@ -72,5 +72,4 @@ export const getWikiUserRoleText = (role: WikiUserRole) => {
  * @param currentStatus document 实例数据的 status 字段
  * @returns
  */
-export const isPublicDocument = (currentStatus: IDocument['status']) =>
-  currentStatus === DocumentStatus.public;
+export const isPublicDocument = (currentStatus: IDocument['status']) => currentStatus === DocumentStatus.public;

@@ -2,13 +2,7 @@ import React from 'react';
 
 export const CreateWikiIllustration = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      data-name="Layer 1"
-      width="200"
-      height="180"
-      viewBox="0 0 892 500.74997"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="200" height="180" viewBox="0 0 892 500.74997">
       <path
         id="b2aec908-dac2-485e-9341-1f8763a52ddc-2673"
         data-name="Path 133"
@@ -238,10 +232,7 @@ export const CreateWikiIllustration = () => {
           fill="#cbcbcb"
         />
       </g>
-      <polygon
-        points="208.552 488.809 220.675 488.808 226.443 442.047 208.55 442.048 208.552 488.809"
-        fill="#a0616a"
-      />
+      <polygon points="208.552 488.809 220.675 488.808 226.443 442.047 208.55 442.048 208.552 488.809" fill="#a0616a" />
       <path
         d="M359.45946,684.47563l23.87519-.001h.001a15.216,15.216,0,0,1,15.21515,15.2149v.49443l-39.09058.00145Z"
         transform="translate(-154 -199.62501)"

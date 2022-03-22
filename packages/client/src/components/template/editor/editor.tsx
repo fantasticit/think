@@ -44,14 +44,7 @@ interface IProps {
   deleteTemplate: () => Promise<void>;
 }
 
-export const Editor: React.FC<IProps> = ({
-  user,
-  data,
-  loading,
-  error,
-  updateTemplate,
-  deleteTemplate,
-}) => {
+export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTemplate, deleteTemplate }) => {
   if (!user) return null;
   const { width: windowWidth } = useWindowSize();
   const provider = useMemo(() => {
@@ -110,17 +103,9 @@ export const Editor: React.FC<IProps> = ({
               normalContent={() => (
                 <>
                   <Tooltip content="返回" position="bottom">
-                    <Button
-                      onClick={goback}
-                      icon={<IconChevronLeft />}
-                      style={{ marginRight: 16 }}
-                    />
+                    <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
                   </Tooltip>
-                  <Text
-                    strong
-                    ellipsis={{ showTooltip: true }}
-                    style={{ width: ~~(windowWidth / 4) }}
-                  >
+                  <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
                     {data.title}
                   </Text>
                 </>
@@ -135,11 +120,7 @@ export const Editor: React.FC<IProps> = ({
               <Tooltip position="bottom" content={isPublic ? '公开模板' : '个人模板'}>
                 <Switch onChange={(v) => updateTemplate({ isPublic: v })}></Switch>
               </Tooltip>
-              <Popconfirm
-                title="删除模板"
-                content="模板删除后不可恢复，谨慎操作！"
-                onConfirm={handleDelte}
-              >
+              <Popconfirm title="删除模板" content="模板删除后不可恢复，谨慎操作！" onConfirm={handleDelte}>
                 <Button type="danger">删除</Button>
               </Popconfirm>
               <Theme />
@@ -166,10 +147,7 @@ export const Editor: React.FC<IProps> = ({
                   </div>
                 </header>
                 <main id="js-template-editor-container">
-                  <div
-                    className={cls(styles.contentWrap, editorWrapClassNames)}
-                    style={{ fontSize }}
-                  >
+                  <div className={cls(styles.contentWrap, editorWrapClassNames)} style={{ fontSize }}>
                     <EditorContent editor={editor} />
                   </div>
                   <BackTop target={() => document.querySelector('#js-template-editor-container')} />
