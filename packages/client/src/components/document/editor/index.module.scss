@@ -26,6 +26,8 @@
   overflow: hidden;
 
   > header {
+    position: relative;
+    z-index: 10001;
     height: 50px;
     padding: 0 24px;
     display: flex;
