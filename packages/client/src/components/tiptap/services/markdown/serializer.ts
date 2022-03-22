@@ -49,6 +49,12 @@ import {
   renderHTMLNode,
 } from './serializerHelpers';
 
+// import * as HTML/ from 'html-to-prosemirror'
+
+import { Renderer } from './src/Renderer';
+
+const renderer = new Renderer();
+
 const defaultSerializerConfig = {
   marks: {
     [Bold.name]: defaultMarkdownSerializer.marks.strong,
@@ -188,14 +194,53 @@ const renderMarkdown = (rawMarkdown) => {
 
 const createMarkdownSerializer = () => ({
   // 将 markdown 字符串转换为 ProseMirror JSONDocument
-  deserialize: ({ schema, content }) => {
+  deserialize: ({ schema, content, hasTitle }) => {
     const html = renderMarkdown(content);
     if (!html) return null;
     const parser = new DOMParser();
     const { body } = parser.parseFromString(html, 'text/html');
     body.append(document.createComment(content));
-    const state = ProseMirrorDOMParser.fromSchema(schema).parse(body);
-    return state;
+    const json = renderer.render(body);
+
+    console.log({ hasTitle, json, body });
+
+    if (!hasTitle) {
+      const firstNode = json.content[0];
+
+      if (firstNode) {
+        if (firstNode.type === 'heading') {
+          firstNode.type = 'title';
+        }
+      }
+    }
+
+    const nodes = json.content;
+
+    const result = { type: 'doc', content: [] };
+
+    for (let i = 0; i < nodes.length; ) {
+      const node = nodes[i];
+
+      if (node.type === 'tableRow') {
+        const nextNode = nodes[i + 1];
+
+        if (nextNode && nextNode.type === 'table') {
+          nextNode.content.unshift(node);
+          result.content.push(nextNode);
+          i += 2;
+        } else {
+          // 出错了！！
+        }
+      } else {
+        result.content.push(node);
+        i += 1;
+      }
+    }
+
+    return result;
+
+    // const state = ProseMirrorDOMParser.fromSchema(schema).parse(body);
+    // return state.toJSON();
   },
 
   // 将 ProseMirror JSONDocument 转换为 markdown 字符串

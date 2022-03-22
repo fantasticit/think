@@ -5,6 +5,7 @@ import { EXTENSION_PRIORITY_HIGHEST } from '../constants';
 import { handleFileEvent } from '../services/upload';
 import { isInCode, LANGUAGES } from '../services/code';
 import { isMarkdown, normalizePastedMarkdown } from '../services/markdown/helpers';
+import { isTitleNode } from '../services/node';
 
 export const Paste = Extension.create({
   name: 'paste',
@@ -63,14 +64,17 @@ export const Paste = Extension.create({
             if (isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
               event.preventDefault();
               // FIXME: 由于 title schema 的存在导致反序列化必有 title 节点存在
-              // const hasTitle = isTitleNode(view.props.state.doc.content.firstChild);
+              const firstNode = view.props.state.doc.content.firstChild;
+              const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
               let schema = view.props.state.schema;
               const doc = markdownSerializer.deserialize({
                 schema,
                 content: normalizePastedMarkdown(text),
+                hasTitle,
               });
+
               // @ts-ignore
-              const transaction = view.state.tr.insert(view.state.selection.head, doc);
+              const transaction = view.state.tr.insert(view.state.selection.head, view.state.schema.nodeFromJSON(doc));
               view.dispatch(transaction);
               return true;
             }
