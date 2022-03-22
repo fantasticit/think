@@ -12,6 +12,8 @@ declare module '@tiptap/core' {
 
 export const Attachment = Node.create({
   name: 'attachment',
+  content: '',
+  marks: '',
   group: 'block',
   draggable: true,
   atom: true,

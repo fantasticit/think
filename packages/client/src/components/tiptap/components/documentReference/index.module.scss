@@ -33,4 +33,16 @@
       margin-left: 8px;
     }
   }
+
+  .empty {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid var(--semi-color-border);
+    margin-top: 12px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--semi-color-text-1);
+    cursor: not-allowed;
+  }
 }

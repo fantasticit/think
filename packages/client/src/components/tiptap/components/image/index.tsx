@@ -1,4 +1,4 @@
-import { NodeViewWrapper } from '@tiptap/react';
+import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Resizeable } from 'components/resizeable';
 import { useEffect, useRef } from 'react';
 import { Typography, Spin } from '@douyinfe/semi-ui';
@@ -87,6 +87,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   return (
     <NodeViewWrapper as="div" style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
       {content}
+      <NodeViewContent />
     </NodeViewWrapper>
   );
 };

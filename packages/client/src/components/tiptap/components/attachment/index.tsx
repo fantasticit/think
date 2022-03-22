@@ -149,5 +149,9 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
     }
   })();
 
-  return <NodeViewWrapper as="div">{content}</NodeViewWrapper>;
+  return (
+    <NodeViewWrapper as="div">
+      {content} <NodeViewContent />
+    </NodeViewWrapper>
+  );
 };

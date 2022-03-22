@@ -47,18 +47,24 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
             )}
           />
         )}
-        <Link
-          key={documentId}
-          href={{
-            pathname: `${!isShare ? '' : '/share'}/wiki/[wikiId]/document/[documentId]`,
-            query: { wikiId, documentId },
-          }}
-        >
-          <a className={styles.itemWrap} target="_blank">
-            <IconDocument />
-            <span>{title || '请选择文档'}</span>
-          </a>
-        </Link>
+        {wikiId && documentId ? (
+          <Link
+            key={documentId}
+            href={{
+              pathname: `${!isShare ? '' : '/share'}/wiki/[wikiId]/document/[documentId]`,
+              query: { wikiId, documentId },
+            }}
+          >
+            <a className={styles.itemWrap} target="_blank">
+              <IconDocument />
+              <span>{title || '请选择文档'}</span>
+            </a>
+          </Link>
+        ) : (
+          <div className={styles.empty}>
+            <span>{'用户未选择文档'}</span>
+          </div>
+        )}
       </div>
       <NodeViewContent></NodeViewContent>
     </NodeViewWrapper>

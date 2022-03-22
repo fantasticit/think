@@ -16,7 +16,12 @@ export const Image = BuiltInImage.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      inline: true,
+      inline: false,
+      content: '',
+      marks: '',
+      group: 'block',
+      draggable: true,
+      atom: true,
     };
   },
   addAttributes() {
