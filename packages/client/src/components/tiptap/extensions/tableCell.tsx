@@ -27,7 +27,7 @@ export const TableCell = BuiltInTableCell.extend({
           new FloatMenuView({
             editor: this.editor,
             tippyOptions: {
-              zIndex: 10000,
+              zIndex: 100,
               offset: [-28, 0],
             },
             shouldShow: ({ editor }, floatMenuView) => {

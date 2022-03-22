@@ -19,7 +19,7 @@ export const TableHeader = BuiltInTableHeader.extend({
           new FloatMenuView({
             editor: this.editor,
             tippyOptions: {
-              zIndex: 10000,
+              zIndex: 100,
             },
             shouldShow: ({ editor }) => {
               if (!editor.isEditable) {

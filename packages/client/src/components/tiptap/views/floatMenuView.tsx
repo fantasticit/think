@@ -47,7 +47,7 @@ export class FloatMenuView {
   constructor(props: FloatMenuViewOptions) {
     this.editor = props.editor;
     this.shouldShow = props.shouldShow;
-    this.tippyOptions = props.tippyOptions;
+    this.tippyOptions = props.tippyOptions || {};
     if (props.getReferenceClientRect) {
       this.getReferenceClientRect = props.getReferenceClientRect;
     }
@@ -76,7 +76,7 @@ export class FloatMenuView {
       trigger: 'manual',
       placement: 'top',
       hideOnClick: 'toggle',
-      ...(this.tippyOptions ?? {}),
+      ...Object.assign({ zIndex: 99 }, this.tippyOptions),
     });
   }
 
