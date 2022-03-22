@@ -38,24 +38,20 @@
     outline: none;
   }
 
-  .is-empty::before {
-    content: attr(data-placeholder);
-    float: left;
-    color: #aaa;
-    pointer-events: none;
-    height: 0;
-  }
+  .is-empty {
+    &.has-focus {
+      &::before {
+        content: attr(data-placeholder);
+        float: left;
+        color: #aaa;
+        pointer-events: none;
+        height: 0;
+      }
+    }
 
-  .is-empty.node-codeBlock::before {
-    transform: translate(10px, 10px);
-  }
-
-  .placeholder::before {
-    content: attr(data-placeholder);
-    float: left;
-    color: #aaa;
-    pointer-events: none;
-    height: 0;
+    &.node-codeBlock::before {
+      transform: translate(10px, 10px);
+    }
   }
 
   .hr-line {
@@ -108,6 +104,14 @@
     color: var(--semi-color-text-0);
     margin: 10px 0 22px;
     border-bottom: 1px solid var(--semi-color-border);
+
+    &.is-empty::before {
+      content: attr(data-placeholder);
+      float: left;
+      color: #aaa;
+      pointer-events: none;
+      height: 0;
+    }
   }
 
   h1 {

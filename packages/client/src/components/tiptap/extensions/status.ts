@@ -12,7 +12,6 @@ declare module '@tiptap/core' {
 
 export const Status = Node.create({
   name: 'status',
-  content: 'text*',
   group: 'inline',
   inline: true,
   atom: true,

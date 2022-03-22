@@ -54,21 +54,22 @@ export const EvokeMenu = Node.create({
             const isEmpty = parent && parent.node.content.size === 0;
             const isSlash = parent && parent.node.textContent === '/';
             const isTopLevel = state.selection.$from.depth === 1;
+            const hasOtherChildren = parent && parent.node.content.childCount > 1;
 
             if (isTopLevel) {
               if (isEmpty) {
                 decorations.push(
                   Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
-                    'class': 'placeholder',
+                    'class': 'is-empty',
                     'data-placeholder': '输入 / 唤起更多',
                   })
                 );
               }
 
-              if (isSlash) {
+              if (isSlash && !hasOtherChildren) {
                 decorations.push(
                   Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
-                    'class': 'placeholder',
+                    'class': 'is-empty',
                     'data-placeholder': `  继续输入进行过滤`,
                   })
                 );

@@ -13,6 +13,7 @@ import { DocumentReference } from './extensions/documentReference';
 import { Dropcursor } from './extensions/dropCursor';
 import { Emoji } from './extensions/emoji';
 import { EvokeMenu } from './extensions/evokeMenu';
+import { Focus } from './extensions/focus';
 import { FontSize } from './extensions/fontSize';
 import { FootnoteDefinition } from './extensions/footnoteDefinition';
 import { FootnoteReference } from './extensions/footnoteReference';
@@ -67,6 +68,7 @@ export const BaseKit = [
   Dropcursor,
   Emoji,
   EvokeMenu,
+  Focus,
   FontSize,
   FootnoteDefinition,
   FootnoteReference,

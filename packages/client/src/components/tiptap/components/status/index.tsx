@@ -15,11 +15,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
           content={
             <>
               <div style={{ marginBottom: 8 }}>
-                <Input
-                  autofocus
-                  placeholder="输入状态"
-                  onChange={(v) => updateAttributes({ text: v })}
-                />
+                <Input autofocus placeholder="输入状态" onChange={(v) => updateAttributes({ text: v })} />
               </div>
               <Space>
                 {['grey', 'red', 'green', 'orange', 'purple', 'teal'].map((color) => {
@@ -44,7 +40,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
       ) : (
         content
       )}
-      <NodeViewContent></NodeViewContent>
+      {/* <NodeViewContent></NodeViewContent> */}
     </NodeViewWrapper>
   );
 };
