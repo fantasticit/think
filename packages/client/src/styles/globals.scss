@@ -204,3 +204,8 @@ a {
   flex-direction: column;
   align-items: center;
 }
+
+// @see https://github.com/react-component/tooltip/issues/18#issuecomment-411476678
+.semi-button-disabled {
+  pointer-events: none;
+}
