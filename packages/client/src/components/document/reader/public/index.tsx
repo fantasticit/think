@@ -10,7 +10,6 @@ import { User } from 'components/user';
 import { Theme } from 'components/theme';
 import { useDocumentStyle } from 'hooks/useDocumentStyle';
 import { useWindowSize } from 'hooks/useWindowSize';
-import { useLazyMount } from 'hooks/useMount';
 import { usePublicDocument } from 'data/document';
 import { DocumentSkeleton } from 'components/tiptap';
 import { DocumentContent } from './content';
@@ -27,7 +26,6 @@ interface IProps {
 export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = true }) => {
   if (!documentId) return null;
 
-  const mounted = useLazyMount();
   const { data, loading, error, query } = usePublicDocument(documentId);
   const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
