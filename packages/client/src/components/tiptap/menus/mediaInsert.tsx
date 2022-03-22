@@ -3,7 +3,6 @@ import { Editor } from '@tiptap/core';
 import { Button, Dropdown, Popover } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { Upload } from './components/upload';
 import {
   IconDocument,
   IconMind,
@@ -18,7 +17,6 @@ import {
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
 import { isTitleActive } from '../services/isActive';
-import { handleFileEvent } from '../services/upload';
 
 export const MediaInsertMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
   if (!editor) {
