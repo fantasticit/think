@@ -5,15 +5,8 @@ import { EditorState } from 'prosemirror-state';
 
 export type FloatMenuViewOptions = {
   editor: Editor;
-  getReferenceClientRect?: (props: {
-    editor: Editor;
-    range: Range;
-    oldState?: EditorState;
-  }) => DOMRect;
-  shouldShow: (
-    props: { editor: Editor; range: Range; oldState?: EditorState },
-    instance: FloatMenuView
-  ) => boolean;
+  getReferenceClientRect?: (props: { editor: Editor; range: Range; oldState?: EditorState }) => DOMRect;
+  shouldShow: (props: { editor: Editor; range: Range; oldState?: EditorState }, instance: FloatMenuView) => boolean;
   init: (dom: HTMLElement, editor: Editor) => void;
   update?: (
     dom: HTMLElement,
@@ -36,20 +29,17 @@ export class FloatMenuView {
   private _update: FloatMenuViewOptions['update'];
   private shouldShow: FloatMenuViewOptions['shouldShow'];
   private tippyOptions: FloatMenuViewOptions['tippyOptions'];
-  private getReferenceClientRect: NonNullable<FloatMenuViewOptions['getReferenceClientRect']> = ({
-    editor,
-    range,
-  }) => {
+  private getReferenceClientRect: NonNullable<FloatMenuViewOptions['getReferenceClientRect']> = ({ editor, range }) => {
     const { view, state } = editor;
+    if (this.parentNode) {
+      return this.parentNode.getBoundingClientRect();
+    }
     if (isNodeSelection(state.selection)) {
       const node = view.nodeDOM(range.from) as HTMLElement;
 
       if (node) {
         return node.getBoundingClientRect();
       }
-    }
-    if (this.parentNode) {
-      return this.parentNode.getBoundingClientRect();
     }
     return posToDOMRect(view, range.from, range.to);
   };
