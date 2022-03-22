@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
-import { markdownSerializer } from '../services/markdown';
+import { markdownSerializer } from '../services/markdown/serializer';
 import { EXTENSION_PRIORITY_HIGHEST } from '../constants';
 import { handleFileEvent } from '../services/upload';
 import { isInCode, LANGUAGES } from '../services/code';
@@ -63,16 +63,14 @@ export const Paste = Extension.create({
             // 处理 markdown
             if (isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
               event.preventDefault();
-              // FIXME: 由于 title schema 的存在导致反序列化必有 title 节点存在
               const firstNode = view.props.state.doc.content.firstChild;
               const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
-              let schema = view.props.state.schema;
-              const doc = markdownSerializer.deserialize({
+              const schema = view.props.state.schema;
+              const doc = markdownSerializer.markdownToProsemirror({
                 schema,
                 content: normalizePastedMarkdown(text),
                 hasTitle,
               });
-
               // @ts-ignore
               const transaction = view.state.tr.insert(view.state.selection.head, view.state.schema.nodeFromJSON(doc));
               view.dispatch(transaction);
@@ -113,7 +111,7 @@ export const Paste = Extension.create({
             if (!doc) {
               return '';
             }
-            const content = markdownSerializer.serialize({
+            const content = markdownSerializer.proseMirrorToMarkdown({
               schema: this.editor.schema,
               content: doc,
             });

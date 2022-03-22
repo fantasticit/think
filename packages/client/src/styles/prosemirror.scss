@@ -54,8 +54,8 @@
     }
   }
 
-  .hr-line {
-    width: 100%;
+  hr {
+    border: 0;
     height: 2px;
     background: var(--semi-color-border);
     margin: 18px 0;

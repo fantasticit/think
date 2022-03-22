@@ -14,16 +14,15 @@ export const useTheme = () => {
   };
 
   useEffect(() => {
-    const body = document.body;
-    if (theme === 'dark') {
-      body.setAttribute('theme-mode', 'dark');
-      return;
-    }
-
-    if (theme === 'light') {
-      body.setAttribute('theme-mode', 'light');
-      return;
-    }
+    // const body = document.body;
+    // if (theme === 'dark') {
+    //   body.setAttribute('theme-mode', 'dark');
+    //   return;
+    // }
+    // if (theme === 'light') {
+    //   body.setAttribute('theme-mode', 'light');
+    //   return;
+    // }
   }, [theme]);
 
   useEffect(() => {

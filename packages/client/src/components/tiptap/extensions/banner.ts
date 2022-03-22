@@ -1,7 +1,7 @@
 import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { BannerWrapper } from '../components/banner';
-import { typesAvailable } from '../services/markdown/markdownBanner';
+import { typesAvailable } from '../services/markdown/markdownToHTML/markdownBanner';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

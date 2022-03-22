@@ -1,7 +1,4 @@
-import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
-import { sanitize } from 'dompurify';
 import { MarkdownSerializer as ProseMirrorMarkdownSerializer, defaultMarkdownSerializer } from 'prosemirror-markdown';
-import { markdown } from '.';
 import { Attachment } from '../../extensions/attachment';
 import { Banner } from '../../extensions/banner';
 import { Blockquote } from '../../extensions/blockquote';
@@ -48,12 +45,8 @@ import {
   renderImage,
   renderHTMLNode,
 } from './serializerHelpers';
-
-// import * as HTML/ from 'html-to-prosemirror'
-
-import { Renderer } from './src/Renderer';
-
-const renderer = new Renderer();
+import { htmlToPromsemirror } from './htmlToProsemirror';
+import { markdownToHTML } from './markdownToHTML';
 
 const defaultSerializerConfig = {
   marks: {
@@ -188,48 +181,41 @@ const defaultSerializerConfig = {
   },
 };
 
-const renderMarkdown = (rawMarkdown) => {
-  return sanitize(markdown.render(rawMarkdown), {});
-};
-
 const createMarkdownSerializer = () => ({
   // 将 markdown 字符串转换为 ProseMirror JSONDocument
-  deserialize: ({ schema, content, hasTitle }) => {
-    const html = renderMarkdown(content);
+  markdownToProsemirror: ({ schema, content, hasTitle }) => {
+    const html = markdownToHTML(content);
     if (!html) return null;
+
     const parser = new DOMParser();
     const { body } = parser.parseFromString(html, 'text/html');
     body.append(document.createComment(content));
-    const json = renderer.render(body);
+    const json = htmlToPromsemirror(body);
 
     console.log({ hasTitle, json, body });
 
+    // 设置标题
     if (!hasTitle) {
       const firstNode = json.content[0];
-
       if (firstNode) {
-        if (firstNode.type === 'heading') {
+        if (firstNode.type === 'heading' || firstNode.type === 'paragraph') {
           firstNode.type = 'title';
         }
       }
     }
 
     const nodes = json.content;
-
     const result = { type: 'doc', content: [] };
 
     for (let i = 0; i < nodes.length; ) {
       const node = nodes[i];
-
+      // 目的：合并成 promirror 需要的 table 格式
       if (node.type === 'tableRow') {
         const nextNode = nodes[i + 1];
-
         if (nextNode && nextNode.type === 'table') {
           nextNode.content.unshift(node);
           result.content.push(nextNode);
           i += 2;
-        } else {
-          // 出错了！！
         }
       } else {
         result.content.push(node);
@@ -238,13 +224,10 @@ const createMarkdownSerializer = () => ({
     }
 
     return result;
-
-    // const state = ProseMirrorDOMParser.fromSchema(schema).parse(body);
-    // return state.toJSON();
   },
 
   // 将 ProseMirror JSONDocument 转换为 markdown 字符串
-  serialize: ({ schema, content }) => {
+  proseMirrorToMarkdown: ({ schema, content }) => {
     const serializer = new ProseMirrorMarkdownSerializer(
       {
         ...defaultSerializerConfig.nodes,

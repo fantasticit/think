@@ -19,18 +19,16 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
 
   addOptions() {
     return {
-      HTMLAttributes: {
-        class: 'hr-line',
-      },
+      HTMLAttributes: {},
     };
   },
 
   parseHTML() {
-    return [{ tag: 'div[class=hr-line]' }];
+    return [{ tag: 'hr' }];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
+    return ['hr', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
   addCommands() {

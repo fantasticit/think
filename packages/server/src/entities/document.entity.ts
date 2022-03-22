@@ -25,7 +25,7 @@ export class DocumentEntity {
   @Column({ type: 'text', comment: '文档内容' })
   public content: string;
 
-  @Column({ type: 'blob', comment: '文档内容' })
+  @Column({ type: 'longblob', comment: '文档内容' })
   public state: Uint8Array;
 
   @Column({

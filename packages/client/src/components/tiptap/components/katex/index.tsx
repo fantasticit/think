@@ -1,5 +1,5 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Popover, TextArea, Typography, Space } from '@douyinfe/semi-ui';
 import { IconHelpCircle } from '@douyinfe/semi-icons';
 import katex from 'katex';
@@ -10,6 +10,9 @@ const { Text } = Typography;
 export const KatexWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { text } = node.attrs;
+
+  console.log(node.attrs);
+
   const formatText = useMemo(() => {
     try {
       return katex.renderToString(`${text}`);
@@ -24,8 +27,12 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
     <span contentEditable={false}>点击输入公式</span>
   );
 
+  // useEffect(() => {
+  //   updateAttributes(node.attrs);
+  // }, []);
+
   return (
-    <NodeViewWrapper as="div" className={styles.wrap} contentEditable={false}>
+    <NodeViewWrapper as="span" className={styles.wrap} contentEditable={false}>
       {isEditable ? (
         <Popover
           showArrow
