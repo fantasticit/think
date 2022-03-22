@@ -121,19 +121,7 @@ export const CommentMenuBar: React.FC<{ editor: any }> = ({ editor }) => {
 
         <Divider />
         <BaseMenu editor={editor} />
-
-        <Divider />
-        <AlignMenu editor={editor} />
-
-        <Divider />
-        <BaseInsertMenu editor={editor} />
       </Space>
-
-      <BaseBubbleMenu editor={editor} />
-      <ImageBubbleMenu editor={editor} />
-      <LinkBubbleMenu editor={editor} />
-      <BannerBubbleMenu editor={editor} />
-      <TableBubbleMenu editor={editor} />
     </>
   );
 };

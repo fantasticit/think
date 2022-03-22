@@ -1,6 +1,7 @@
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import Collaboration from '@tiptap/extension-collaboration';
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
+import History from '@tiptap/extension-history';
 import { getRandomColor } from 'helpers/color';
 import { Document } from './extensions/document';
 import { BaseKit } from './basekit';
@@ -14,7 +15,7 @@ export const DocumentWithTitle = Document.extend({
   content: 'title block+',
 });
 
-export { Document };
+export { Document, History };
 export const DEFAULT_EXTENSION = [...BaseKit];
 
 export const getCollaborationExtension = (provider: HocuspocusProvider) => {
