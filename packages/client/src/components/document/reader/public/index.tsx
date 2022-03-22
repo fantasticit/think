@@ -1,17 +1,6 @@
 import React, { useMemo, useEffect } from 'react';
 import cls from 'classnames';
-import {
-  Layout,
-  Nav,
-  Space,
-  Button,
-  Typography,
-  Skeleton,
-  Input,
-  Popover,
-  Modal,
-  BackTop,
-} from '@douyinfe/semi-ui';
+import { Layout, Nav, Space, Button, Typography, Skeleton, Input, Popover, Modal, BackTop } from '@douyinfe/semi-ui';
 import { IconArticle } from '@douyinfe/semi-icons';
 import { Seo } from 'components/seo';
 import { LogoImage, LogoText } from 'components/logo';
@@ -21,10 +10,10 @@ import { User } from 'components/user';
 import { Theme } from 'components/theme';
 import { useDocumentStyle } from 'hooks/useDocumentStyle';
 import { useWindowSize } from 'hooks/useWindowSize';
+import { useLazyMount } from 'hooks/useMount';
 import { usePublicDocument } from 'data/document';
 import { DocumentSkeleton } from 'components/tiptap';
-import { DocumentContent } from '../content';
-import { CreateUser } from '../user';
+import { DocumentContent } from './content';
 import styles from './index.module.scss';
 
 const { Header, Content } = Layout;
@@ -38,6 +27,7 @@ interface IProps {
 export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = true }) => {
   if (!documentId) return null;
 
+  const mounted = useLazyMount();
   const { data, loading, error, query } = usePublicDocument(documentId);
   const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
@@ -99,11 +89,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
             loading={loading}
             error={error}
             loadingContent={
-              <Skeleton
-                active
-                placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />}
-                loading={true}
-              />
+              <Skeleton active placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />} loading={true} />
             }
             normalContent={() => (
               <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
@@ -131,21 +117,12 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
                   style={{ fontSize }}
                   id="js-share-document-editor-container"
                 >
-                  <DocumentContent document={data} />
-                  <CreateUser
+                  <DocumentContent
                     document={data}
-                    container={() =>
-                      window.document.querySelector(
-                        '#js-share-document-editor-container .ProseMirror .title'
-                      )
-                    }
+                    createUserContainerSelector="#js-share-document-editor-container .ProseMirror .title"
                   />
                 </div>
-                <BackTop
-                  target={() =>
-                    document.querySelector('#js-share-document-editor-container').parentNode
-                  }
-                />
+                <BackTop target={() => document.querySelector('#js-share-document-editor-container').parentNode} />
               </>
             );
           }}

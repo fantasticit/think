@@ -4,12 +4,14 @@ import { Layout } from '@douyinfe/semi-ui';
 import { IDocument } from '@think/domains';
 import { DEFAULT_EXTENSION, DocumentWithTitle } from 'components/tiptap';
 import { safeJSONParse } from 'helpers/json';
+import { CreateUser } from '../user';
 
 interface IProps {
   document: IDocument;
+  createUserContainerSelector: string;
 }
 
-export const DocumentContent: React.FC<IProps> = ({ document }) => {
+export const DocumentContent: React.FC<IProps> = ({ document, createUserContainerSelector }) => {
   const c = safeJSONParse(document.content);
   let json = c.default || c;
 
@@ -28,5 +30,10 @@ export const DocumentContent: React.FC<IProps> = ({ document }) => {
 
   if (!json) return null;
 
-  return <EditorContent editor={editor} />;
+  return (
+    <>
+      <EditorContent editor={editor} />
+      <CreateUser document={document} container={() => window.document.querySelector(createUserContainerSelector)} />
+    </>
+  );
 };
