@@ -26,7 +26,7 @@ export const ImageBubbleMenu = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="image-bubble-menu"
-      shouldShow={() => editor.isActive(Image.name) && !!attrs.src}
+      shouldShow={() => editor.isActive(Image.name) && !!editor.getAttributes(Image.name).src}
       tippyOptions={{
         maxWidth: 456,
       }}
