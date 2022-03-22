@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { Avatar, Button, Space, Typography, Banner, Pagination } from '@douyinfe/semi-ui';
 import { useToggle } from 'hooks/useToggle';
-import { DEFAULT_EXTENSION, Document, CommentMenuBar } from 'components/tiptap';
+import { DEFAULT_EXTENSION, Document, History, CommentMenuBar } from 'components/tiptap';
 import { DataRender } from 'components/data-render';
 import { useUser } from 'data/user';
 import { useComments } from 'data/comment';
@@ -34,7 +34,7 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
 
   const editor = useEditor({
     editable: true,
-    extensions: [...DEFAULT_EXTENSION, Document],
+    extensions: [...DEFAULT_EXTENSION, Document, History],
   });
 
   const openEditor = () => {
@@ -113,11 +113,7 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
                   deleteComment={deleteComment}
                 />
                 <div className={styles.paginationWrap}>
-                  <Pagination
-                    total={commentsData.total}
-                    showTotal
-                    onPageChange={setPage}
-                  ></Pagination>
+                  <Pagination total={commentsData.total} showTotal onPageChange={setPage}></Pagination>
                 </div>
               </div>
             )}
