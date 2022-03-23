@@ -6,7 +6,6 @@ import { ILoginUser, IAuthority } from '@think/domains';
 import { useToggle } from 'hooks/useToggle';
 import {
   DEFAULT_EXTENSION,
-  Document,
   DocumentWithTitle,
   getCollaborationExtension,
   getCollaborationCursorExtension,
@@ -16,6 +15,8 @@ import {
 } from 'components/tiptap';
 import { DataRender } from 'components/data-render';
 import { joinUser } from 'components/document/collaboration';
+import { debounce } from 'helpers/debounce';
+import { changeTitle } from './index';
 import styles from './index.module.scss';
 
 interface IProps {
@@ -44,10 +45,6 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
     });
   }, [documentId, user.token]);
 
-  const noTitleEditor = useEditor({
-    extensions: [...DEFAULT_EXTENSION, Document],
-  });
-
   const editor = useEditor({
     editable: authority && authority.editable,
     extensions: [
@@ -56,10 +53,12 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
       getCollaborationExtension(provider),
       getCollaborationCursorExtension(provider, user),
     ],
-    editorProps: {
-      // @ts-ignore
-      noTitleEditor,
-    },
+    onTransaction: debounce(({ transaction }) => {
+      try {
+        const title = transaction.doc.content.firstChild.content.firstChild.textContent;
+        changeTitle(title);
+      } catch (e) {}
+    }, 200),
   });
   const [loading, toggleLoading] = useToggle(true);
 
@@ -67,8 +66,6 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
     provider.on('synced', () => {
       toggleLoading(false);
     });
-
-    // provid
 
     provider.on('status', async ({ status }) => {
       console.log('status', status);

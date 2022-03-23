@@ -11,6 +11,8 @@ import { HorizontalRule } from '../extensions/horizontalRule';
 import { Iframe } from '../extensions/iframe';
 import { Mind } from '../extensions/mind';
 import { Table } from '../extensions/table';
+import { TaskList } from '../extensions/taskList';
+import { TaskItem } from '../extensions/taskItem';
 import { Katex } from '../extensions/katex';
 import { DocumentReference } from '../extensions/documentReference';
 import { DocumentChildren } from '../extensions/documentChildren';
@@ -26,6 +28,8 @@ const OTHER_BUBBLE_MENU_TYPES = [
   Iframe.name,
   Mind.name,
   Table.name,
+  TaskList.name,
+  TaskItem.name,
   DocumentReference.name,
   DocumentChildren.name,
   Katex.name,

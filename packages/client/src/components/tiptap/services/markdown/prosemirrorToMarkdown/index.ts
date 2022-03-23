@@ -10,7 +10,7 @@ import { DocumentReference } from '../../../extensions/documentReference';
 import { HardBreak } from '../../../extensions/hardBreak';
 import { Heading } from '../../../extensions/heading';
 import { HorizontalRule } from '../../../extensions/horizontalRule';
-import { marks, HTMLMarks } from '../../../extensions/htmlMarks';
+import { marks } from '../../../extensions/htmlMarks';
 import { Iframe } from '../../../extensions/iframe';
 import { Image } from '../../../extensions/image';
 import { Italic } from '../../../extensions/italic';
@@ -29,6 +29,7 @@ import { TableRow } from '../../../extensions/tableRow';
 import { Text } from '../../../extensions/text';
 import { TaskItem } from '../../../extensions/taskItem';
 import { TaskList } from '../../../extensions/taskList';
+import { TextStyle } from '../../../extensions/textStyle';
 import { Title } from '../../../extensions/title';
 import {
   isPlainURL,
@@ -66,6 +67,8 @@ const SerializerConfig = {
       mixable: true,
       expelEnclosingWhitespace: true,
     },
+    // FIXME: 如何导出 style？
+    [TextStyle.name]: { open: '', close: '', mixable: true, expelEnclosingWhitespace: true },
     ...marks.reduce(
       (acc, { name, tag }) => ({
         ...acc,
@@ -151,10 +154,9 @@ const SerializerConfig = {
  */
 export const prosemirrorToMarkdown = ({ content }) => {
   const serializer = new ProseMirrorMarkdownSerializer(SerializerConfig.nodes, SerializerConfig.marks);
-
-  console.log(content);
-
-  return serializer.serialize(content, {
+  const markdown = serializer.serialize(content, {
     tightLists: true,
   });
+
+  return markdown;
 };

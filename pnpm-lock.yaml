@@ -87,7 +87,6 @@ importers:
       '@tiptap/extension-underline': ^2.0.0-beta.23
       '@tiptap/react': ^2.0.0-beta.107
       '@tiptap/suggestion': ^2.0.0-beta.90
-      '@traptitech/markdown-it-katex': ^3.5.0
       '@types/node': 17.0.13
       '@types/react': 17.0.38
       axios: ^0.25.0
@@ -102,11 +101,8 @@ importers:
       markdown-it-anchor: ^8.4.1
       markdown-it-container: ^3.0.0
       markdown-it-emoji: ^2.0.0
-      markdown-it-footnote: ^3.0.3
       markdown-it-sub: ^1.0.0
       markdown-it-sup: ^1.0.0
-      markdown-it-task-lists: ^2.1.1
-      marked: ^4.0.12
       next: 12.0.10
       prosemirror-markdown: ^1.7.0
       prosemirror-tables: ^1.1.1
@@ -166,7 +162,6 @@ importers:
       '@tiptap/extension-underline': 2.0.0-beta.23_@tiptap+core@2.0.0-beta.171
       '@tiptap/react': 2.0.0-beta.107_a3fcdb91535fe17b69dfabaa94f3bb3d
       '@tiptap/suggestion': 2.0.0-beta.90_@tiptap+core@2.0.0-beta.171
-      '@traptitech/markdown-it-katex': 3.5.0
       axios: 0.25.0
       classnames: 2.3.1
       copy-to-clipboard: 3.3.1
@@ -179,11 +174,8 @@ importers:
       markdown-it-anchor: 8.4.1_markdown-it@12.3.2
       markdown-it-container: 3.0.0
       markdown-it-emoji: 2.0.0
-      markdown-it-footnote: 3.0.3
       markdown-it-sub: 1.0.0
       markdown-it-sup: 1.0.0
-      markdown-it-task-lists: 2.1.1
-      marked: 4.0.12
       next: 12.0.10_react-dom@17.0.2+react@17.0.2
       prosemirror-markdown: 1.7.0
       prosemirror-tables: 1.1.1
@@ -1952,12 +1944,6 @@ packages:
   /@tootallnate/once/1.1.2:
     resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
     engines: {node: '>= 6'}
-
-  /@traptitech/markdown-it-katex/3.5.0:
-    resolution: {integrity: sha512-7/GI3ETKJjrZD9+azn7WraDWo0ZQ6grtzR4I36qu7U0vOJMBtC+znX7UghdOScrgGnxqGvgWm07SYnlcCtdCvw==}
-    dependencies:
-      katex: 0.15.2
-    dev: false
 
   /@tsconfig/node10/1.0.8:
     resolution: {integrity: sha512-6XFfSQmMgq0CFLY1MslA/CPUfhIL919M1rMsa5lP2P097N2Wd1sSX0tx1u4olM16fLNhtHZpRhedZJphNJqmZg==}
@@ -6008,20 +5994,12 @@ packages:
     resolution: {integrity: sha512-39j7/9vP/CPCKbEI44oV8yoPJTpvfeReTn/COgRhSpNrjWF3PfP/JUxxB0hxV6ynOY8KH8Y8aX9NMDdo6z+6YQ==}
     dev: false
 
-  /markdown-it-footnote/3.0.3:
-    resolution: {integrity: sha512-YZMSuCGVZAjzKMn+xqIco9d1cLGxbELHZ9do/TSYVzraooV8ypsppKNmUJ0fVH5ljkCInQAtFpm8Rb3eXSrt5w==}
-    dev: false
-
   /markdown-it-sub/1.0.0:
     resolution: {integrity: sha1-N1/WAm6ufdywEkl/ZBEZXqHjr+g=}
     dev: false
 
   /markdown-it-sup/1.0.0:
     resolution: {integrity: sha1-y5yf+RpSVawI8/09YyhuFd8KH8M=}
-    dev: false
-
-  /markdown-it-task-lists/2.1.1:
-    resolution: {integrity: sha512-TxFAc76Jnhb2OUu+n3yz9RMu4CwGfaT788br6HhEDlvWfdeJcLUsxk1Hgw2yJio0OXsxv7pyIPmvECY7bMbluA==}
     dev: false
 
   /markdown-it/12.3.2:
@@ -6033,12 +6011,6 @@ packages:
       linkify-it: 3.0.3
       mdurl: 1.0.1
       uc.micro: 1.0.6
-    dev: false
-
-  /marked/4.0.12:
-    resolution: {integrity: sha512-hgibXWrEDNBWgGiK18j/4lkS6ihTe9sxtV4Q1OQppb/0zzyPSzoFANBa5MfsG/zgsWklmNnhm0XACZOH/0HBiQ==}
-    engines: {node: '>= 12'}
-    hasBin: true
     dev: false
 
   /mdurl/1.0.1:

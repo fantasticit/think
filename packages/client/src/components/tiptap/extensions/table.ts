@@ -40,7 +40,7 @@ export const Table = BuiltInTable.extend({
     if (fixedWidth && totalWidth > 0) {
       HTMLAttributes.style = `width: ${totalWidth}px;`;
     } else if (totalWidth && totalWidth > 0) {
-      HTMLAttributes.style = `min-width: ${totalWidth}px`;
+      HTMLAttributes.style = `min-width: 100%`;
     } else {
       HTMLAttributes.style = null;
     }

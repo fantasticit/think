@@ -11,7 +11,7 @@ const attrs = {
   bdo: ['dir'],
 };
 
-export const HTMLMarks = marks.map(({ name, tag }) =>
+export const HTMLMarks = marks.slice(1).map(({ name, tag }) =>
   Mark.create({
     name,
     tag,

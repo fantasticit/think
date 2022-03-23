@@ -178,11 +178,31 @@
     li {
       display: flex;
       align-items: center;
+      cursor: pointer;
 
-      > label {
-        flex: 0 0 auto;
-        user-select: none;
-        transform: translateY(2px);
+      > span {
+        position: relative;
+        display: block;
+        width: 16px;
+        height: 16px;
+        border: 1px solid var(--semi-color-border);
+        border-radius: 2px;
+        background-color: #fff;
+
+        &::after {
+          content: ' ';
+          position: absolute;
+          left: 4.071429px;
+          top: -0.357143px;
+          width: 6.714286px;
+          height: 12.142857px;
+          border: 2px solid #fff;
+          border-top: 0;
+          border-left: 0;
+          transition: all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6), opacity 0.1s;
+          transform: rotate(45deg) scale(0);
+          opacity: 0;
+        }
       }
 
       > div {
@@ -192,6 +212,15 @@
 
       &[data-checked='true'] {
         color: var(--semi-color-text-2);
+
+        > span {
+          background-color: var(--semi-color-primary);
+
+          &::after {
+            opacity: 1;
+            transform: rotate(45deg) scale(1);
+          }
+        }
 
         > div {
           text-decoration: line-through;

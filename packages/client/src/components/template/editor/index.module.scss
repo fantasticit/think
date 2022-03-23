@@ -9,6 +9,7 @@
     z-index: 110;
     background-color: var(--semi-color-nav-bg);
     height: 60px;
+    user-select: none;
 
     > div {
       overflow: auto;
@@ -39,6 +40,7 @@
     overflow: hidden;
     background-color: var(--semi-color-nav-bg);
     border-bottom: 1px solid var(--semi-color-border);
+    user-select: none;
 
     &.isStandardWidth {
       > div {

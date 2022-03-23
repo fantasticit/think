@@ -78,8 +78,8 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
     CollaborationEventEmitter.on(KEY, ({ states: users }) => {
       const newCollaborationUsers = users
         .filter(Boolean)
-        .map((state) => ({ ...state.user, clientId: state.clientId }))
-        .filter(Boolean);
+        .filter((state) => state.user)
+        .map((state) => ({ ...state.user, clientId: state.clientId }));
 
       if (
         collaborationUsers.length === newCollaborationUsers.length &&

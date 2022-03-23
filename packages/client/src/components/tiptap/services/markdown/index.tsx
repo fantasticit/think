@@ -10,8 +10,6 @@ export const markdownToProsemirror = ({ schema, content, hasTitle }) => {
 
   if (!html) return null;
 
-  console.log(html);
-
   const parser = new DOMParser();
   const { body } = parser.parseFromString(html, 'text/html');
   body.append(document.createComment(content));

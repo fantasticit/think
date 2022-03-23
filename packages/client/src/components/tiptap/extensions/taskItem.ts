@@ -1,8 +1,10 @@
-import { wrappingInputRule, mergeAttributes } from '@tiptap/core';
+import { wrappingInputRule } from '@tiptap/core';
+import { ReactNodeViewRenderer } from '@tiptap/react';
 import { TaskItem as BuiltInTaskItem } from '@tiptap/extension-task-item';
 import { Plugin } from 'prosemirror-state';
 import { findParentNodeClosestToPos } from 'prosemirror-utils';
 import { PARSE_HTML_PRIORITY_HIGHEST } from '../constants';
+import { TaskItemWrapper } from '../components/taskItem';
 
 const CustomTaskItem = BuiltInTaskItem.extend({
   parseHTML() {
@@ -27,35 +29,79 @@ const CustomTaskItem = BuiltInTaskItem.extend({
     ];
   },
 
-  // addProseMirrorPlugins() {
-  //   return [
-  //     new Plugin({
-  //       props: {
-  //         // @ts-ignore
-  //         handleClick: (view, pos, event) => {
-  //           const state = view.state;
-  //           const schema = state.schema;
-
-  //           const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY });
-  //           const position = state.doc.resolve(coordinates.pos);
-  //           const parentList = findParentNodeClosestToPos(position, function (node) {
-  //             return node.type === schema.nodes.taskItem || node.type === schema.nodes.listItem;
-  //           });
-  //           // @ts-ignore
-  //           const isListClicked = event.target.tagName.toLowerCase() === 'li';
-  //           if (!isListClicked || !parentList || parentList.node.type !== schema.nodes.taskItem) {
-  //             return;
-  //           }
-  //           const tr = state.tr;
-  //           tr.setNodeMarkup(parentList.pos, schema.nodes.taskItem, {
-  //             checked: !parentList.node.attrs.checked,
-  //           });
-  //           view.dispatch(tr);
-  //         },
-  //       },
-  //     }),
-  //   ];
+  // addNodeView() {
+  //   return ReactNodeViewRenderer(TaskItemWrapper);
   // },
+
+  addNodeView() {
+    return ({ node, HTMLAttributes, getPos, editor }) => {
+      const listItem = document.createElement('li');
+      const checkboxWrapper = document.createElement('span');
+      const content = document.createElement('div');
+
+      checkboxWrapper.contentEditable = 'false';
+
+      Object.entries(this.options.HTMLAttributes).forEach(([key, value]) => {
+        listItem.setAttribute(key, value);
+      });
+
+      listItem.dataset.checked = node.attrs.checked;
+      listItem.append(checkboxWrapper, content);
+
+      Object.entries(HTMLAttributes).forEach(([key, value]) => {
+        listItem.setAttribute(key, value);
+      });
+
+      return {
+        dom: listItem,
+        contentDOM: content,
+        update: (updatedNode) => {
+          if (updatedNode.type !== this.type) {
+            return false;
+          }
+
+          listItem.dataset.checked = updatedNode.attrs.checked;
+          return true;
+        },
+      };
+    };
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        props: {
+          // @ts-ignore
+          handleClick: (view, pos, event) => {
+            const state = view.state;
+            const schema = state.schema;
+
+            const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY });
+            const position = state.doc.resolve(coordinates.pos);
+            const parentList = findParentNodeClosestToPos(position, function (node) {
+              return node.type === schema.nodes.taskItem || node.type === schema.nodes.listItem;
+            });
+            if (!parentList) {
+              return;
+            }
+            const element = view.nodeDOM(parentList.pos) as HTMLLIElement;
+            if (element.tagName.toLowerCase() !== 'li') return;
+
+            const parentElement = element.parentElement;
+            const type = parentElement && parentElement.getAttribute('data-type');
+            if (!type || type.toLowerCase() !== 'tasklist') return;
+
+            const tr = state.tr;
+            const nextValue = !(element.getAttribute('data-checked') === 'true');
+            tr.setNodeMarkup(parentList.pos, schema.nodes.taskItem, {
+              checked: nextValue,
+            });
+            view.dispatch(tr);
+          },
+        },
+      }),
+    ];
+  },
 });
 
 export const TaskItem = CustomTaskItem.configure({ nested: true });

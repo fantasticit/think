@@ -116,7 +116,8 @@ export const Paste = Extension.create({
             return false;
           },
           clipboardTextSerializer: (slice) => {
-            const doc = this.editor.schema.topNodeType.createAndFill(undefined, slice.content);
+            const doc = slice.content;
+
             if (!doc) {
               return '';
             }

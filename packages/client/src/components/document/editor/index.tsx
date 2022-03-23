@@ -1,6 +1,6 @@
 import Router from 'next/router';
-import React, { useCallback, useMemo } from 'react';
-import { Layout, Nav, Skeleton, Typography, Space, Button, Tooltip, Spin, Popover } from '@douyinfe/semi-ui';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Nav, Skeleton, Typography, Space, Button, Tooltip, Spin, Popover } from '@douyinfe/semi-ui';
 import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
 import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
@@ -13,11 +13,18 @@ import { DocumentStar } from 'components/document/star';
 import { DocumentCollaboration } from 'components/document/collaboration';
 import { DocumentStyle } from 'components/document/style';
 import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { EventEmitter } from 'helpers/event-emitter';
 import { Editor } from './editor';
 import styles from './index.module.scss';
 
-const { Header, Content } = Layout;
 const { Text } = Typography;
+
+const em = new EventEmitter();
+const TITLE_CHANGE_EVENT = 'TITLE_CHANGE_EVENT';
+
+export const changeTitle = (title) => {
+  em.emit(TITLE_CHANGE_EVENT, title);
+};
 
 interface IProps {
   documentId: string;
@@ -30,7 +37,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
-
+  const [title, setTitle] = useState('');
   const { user } = useUser();
   const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
   const { document, authority } = documentAndAuth || {};
@@ -54,12 +61,20 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         }
         normalContent={() => (
           <Text ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWith / 4) }}>
-            {document.title}
+            {title}
           </Text>
         )}
       />
     </>
   );
+
+  useEffect(() => {
+    em.on(TITLE_CHANGE_EVENT, setTitle);
+
+    return () => {
+      em.destroy();
+    };
+  }, []);
 
   return (
     <div className={styles.wrap}>
@@ -91,10 +106,9 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
               <Spin></Spin>
             </div>
           }
-          error={null}
+          error={docAuthError}
           normalContent={() => {
             return (
-              // <div style={{ fontSize }}>
               <>
                 <Seo title={document.title} />
                 <Editor
