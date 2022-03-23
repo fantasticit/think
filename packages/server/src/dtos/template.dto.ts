@@ -8,11 +8,11 @@ export class TemplateDto {
   readonly title: string;
 
   @IsOptional()
-  content: string;
+  content?: string;
 
   @IsOptional()
-  state: Uint8Array;
+  state?: Uint8Array;
 
   @IsOptional()
-  isPublic: boolean;
+  isPublic?: boolean;
 }

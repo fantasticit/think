@@ -21,7 +21,7 @@ export const Paragraph = ({ editor }) => {
     }
   }, []);
 
-  console.log(getCurrentCaretTitle(editor));
+  // console.log(getCurrentCaretTitle(editor));
 
   return (
     <Select

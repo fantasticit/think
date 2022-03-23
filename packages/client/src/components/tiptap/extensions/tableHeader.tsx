@@ -8,7 +8,62 @@ import { Decoration, DecorationSet } from 'prosemirror-view';
 import { getCellsInRow, isColumnSelected, isTableSelected, selectColumn } from '../services/table';
 import { FloatMenuView } from '../views/floatMenuView';
 
+// @flow
+/* eslint-disable no-unused-vars */
+import { mergeAttributes } from '@tiptap/core';
+// import TableHeader from "@tiptap/extension-table-header";
+
 export const TableHeader = BuiltInTableHeader.extend({
+  addAttributes() {
+    return {
+      colspan: {
+        default: 1,
+      },
+      rowspan: {
+        default: 1,
+      },
+      colwidth: {
+        default: null,
+        parseHTML: (element) => {
+          const colwidth = element.getAttribute('colwidth');
+          const value = colwidth ? colwidth.split(',').map((item) => parseInt(item, 10)) : null;
+
+          return value;
+        },
+      },
+      style: {
+        default: null,
+      },
+    };
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    let totalWidth = 0;
+    let fixedWidth = true;
+
+    if (HTMLAttributes.colwidth) {
+      HTMLAttributes.colwidth.forEach((col) => {
+        if (!col) {
+          fixedWidth = false;
+        } else {
+          totalWidth += col;
+        }
+      });
+    } else {
+      fixedWidth = false;
+    }
+
+    if (fixedWidth && totalWidth > 0) {
+      HTMLAttributes.style = `width: ${totalWidth}px;`;
+    } else if (totalWidth && totalWidth > 0) {
+      HTMLAttributes.style = `min-width: ${totalWidth}px`;
+    } else {
+      HTMLAttributes.style = null;
+    }
+
+    return ['th', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+  },
+
   addProseMirrorPlugins() {
     const extensionThis = this;
 
@@ -21,7 +76,7 @@ export const TableHeader = BuiltInTableHeader.extend({
             tippyOptions: {
               zIndex: 100,
             },
-            shouldShow: ({ editor }) => {
+            shouldShow: ({ editor }, floatMenuView) => {
               if (!editor.isEditable) {
                 return false;
               }
@@ -30,6 +85,12 @@ export const TableHeader = BuiltInTableHeader.extend({
                 return false;
               }
               const cells = getCellsInRow(0)(selection);
+
+              if (cells && cells[0]) {
+                const node = editor.view.nodeDOM(cells[0].pos) as HTMLElement;
+                floatMenuView.setConatiner(node.parentElement.parentElement.parentElement.parentElement);
+              }
+
               return !!cells?.some((cell, index) => isColumnSelected(index)(selection));
             },
             init: (dom, editor) => {

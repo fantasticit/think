@@ -1,6 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { StatusWrapper } from '../components/status';
+import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -20,19 +21,33 @@ export const Status = Node.create({
     return {
       color: {
         default: 'grey',
+        parseHTML: getDatasetAttribute('color'),
       },
       text: {
         default: '',
+        parseHTML: getDatasetAttribute('text'),
+      },
+    };
+  },
+
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        class: 'status',
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: 'span[data-type=status]' }];
+    return [
+      {
+        tag: 'div',
+      },
+    ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['span', mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes)];
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
   // @ts-ignore

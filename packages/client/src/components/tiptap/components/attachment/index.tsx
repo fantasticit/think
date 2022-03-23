@@ -49,7 +49,7 @@ const getFileTypeIcon = (type: FileType) => {
 export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   const $upload = useRef();
   const isEditable = editor.isEditable;
-  const { autoTrigger, fileName, fileSize, fileExt, fileType, url, error } = node.attrs;
+  const { hasTrigger, fileName, fileSize, fileExt, fileType, url, error } = node.attrs;
   const [loading, toggleLoading] = useToggle(false);
   const [visible, toggleVisible] = useToggle(false);
 
@@ -81,11 +81,11 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   const type = normalizeFileType(fileType);
 
   useEffect(() => {
-    if (!url && !autoTrigger) {
+    if (!url && !hasTrigger) {
       selectFile();
-      updateAttributes({ autoTrigger: true });
+      updateAttributes({ hasTrigger: true });
     }
-  }, [url, autoTrigger]);
+  }, [url, hasTrigger]);
 
   const content = (() => {
     if (error) {

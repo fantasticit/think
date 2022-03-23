@@ -1,6 +1,7 @@
 import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentChildrenWrapper } from '../components/documentChildren';
+import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -21,23 +22,35 @@ export const DocumentChildren = Node.create({
 
   addAttributes() {
     return {
-      color: {
-        default: 'grey',
-      },
-      text: {
+      wikiId: {
         default: '',
+        parseHTML: getDatasetAttribute('wikiId'),
+      },
+      documentId: {
+        default: '',
+        parseHTML: getDatasetAttribute('documentId'),
+      },
+    };
+  },
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        class: 'documentChildren',
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: 'div[data-type=documentChildren]' }];
+    return [
+      {
+        tag: 'div',
+      },
+    ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes)];
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
-
   // @ts-ignore
   addCommands() {
     return {

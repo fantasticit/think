@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react';
 import cls from 'classnames';
 import { useEditor, EditorContent } from '@tiptap/react';
-import { Layout, Nav, BackTop, Toast } from '@douyinfe/semi-ui';
+import { BackTop } from '@douyinfe/semi-ui';
 import { ILoginUser, IAuthority } from '@think/domains';
 import { useToggle } from 'hooks/useToggle';
 import {
@@ -17,8 +17,6 @@ import {
 import { DataRender } from 'components/data-render';
 import { joinUser } from 'components/document/collaboration';
 import styles from './index.module.scss';
-
-const { Header, Content } = Layout;
 
 interface IProps {
   user: ILoginUser;
@@ -69,6 +67,8 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
     provider.on('synced', () => {
       toggleLoading(false);
     });
+
+    // provid
 
     provider.on('status', async ({ status }) => {
       console.log('status', status);

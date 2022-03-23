@@ -1,6 +1,7 @@
 import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentReferenceWrapper } from '../components/documentReference';
+import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -23,22 +24,37 @@ export const DocumentReference = Node.create({
     return {
       wikiId: {
         default: '',
+        parseHTML: getDatasetAttribute('wikiId'),
       },
       documentId: {
         default: '',
+        parseHTML: getDatasetAttribute('documentId'),
       },
       title: {
         default: '',
+        parseHTML: getDatasetAttribute('title'),
+      },
+    };
+  },
+
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        class: 'documentReference',
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: 'div[data-type=documentReference]' }];
+    return [
+      {
+        tag: 'div',
+      },
+    ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes)];
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
   // @ts-ignore

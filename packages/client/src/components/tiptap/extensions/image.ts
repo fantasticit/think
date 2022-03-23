@@ -51,7 +51,7 @@ export const Image = BuiltInImage.extend({
       height: {
         default: 'auto',
       },
-      autoTrigger: {
+      hasTrigger: {
         default: false,
       },
       error: {

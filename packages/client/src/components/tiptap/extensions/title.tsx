@@ -1,13 +1,23 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 
-export const Title = Node.create({
+export interface TitleOptions {
+  HTMLAttributes: Record<string, any>;
+}
+
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    title: {
+      setTitle: (attributes) => ReturnType;
+      toggleTitle: (attributes) => ReturnType;
+    };
+  }
+}
+
+export const Title = Node.create<TitleOptions>({
   name: 'title',
-  content: 'text*',
-  selectable: true,
+  content: 'inline*',
+  group: 'block',
   defining: true,
-  inline: false,
-  group: 'basic',
-  allowGapCursor: true,
 
   addOptions() {
     return {
@@ -16,16 +26,15 @@ export const Title = Node.create({
       },
     };
   },
-
   parseHTML() {
     return [
       {
-        tag: 'h1[class=title]',
+        tag: 'p[class=title]',
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['h1', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+    return ['p', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
 });

@@ -1,10 +1,14 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
-import { markdownSerializer } from '../services/markdown/serializer';
 import { EXTENSION_PRIORITY_HIGHEST } from '../constants';
 import { handleFileEvent } from '../services/upload';
 import { isInCode, LANGUAGES } from '../services/code';
-import { isMarkdown, normalizePastedMarkdown } from '../services/markdown/helpers';
+import {
+  isMarkdown,
+  normalizePastedMarkdown,
+  markdownToProsemirror,
+  prosemirrorToMarkdown,
+} from '../services/markdown';
 import { isTitleNode } from '../services/node';
 
 export const Paste = Extension.create({
@@ -40,7 +44,7 @@ export const Paste = Extension.create({
             // 粘贴代码
             if (isInCode(view.state)) {
               event.preventDefault();
-              view.dispatch(view.state.tr.insertText(text));
+              view.dispatch(view.state.tr.insertText(text).scrollIntoView());
               return true;
             }
 
@@ -56,7 +60,7 @@ export const Paste = Extension.create({
                   })
                 )
               );
-              view.dispatch(view.state.tr.insertText(text));
+              view.dispatch(view.state.tr.insertText(text).scrollIntoView());
               return true;
             }
 
@@ -66,14 +70,19 @@ export const Paste = Extension.create({
               const firstNode = view.props.state.doc.content.firstChild;
               const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
               const schema = view.props.state.schema;
-              const doc = markdownSerializer.markdownToProsemirror({
+              const doc = markdownToProsemirror({
                 schema,
                 content: normalizePastedMarkdown(text),
                 hasTitle,
               });
-              // @ts-ignore
-              const transaction = view.state.tr.insert(view.state.selection.head, view.state.schema.nodeFromJSON(doc));
-              view.dispatch(transaction);
+              let tr = view.state.tr;
+              const selection = tr.selection;
+              view.state.doc.nodesBetween(selection.from, selection.to, (node, position) => {
+                const startPosition = hasTitle ? Math.min(position, selection.from) : 0;
+                const endPosition = Math.min(position + node.nodeSize, selection.to);
+                tr = tr.replaceWith(startPosition, endPosition, view.state.schema.nodeFromJSON(doc));
+              });
+              view.dispatch(tr.scrollIntoView());
               return true;
             }
 
@@ -111,8 +120,8 @@ export const Paste = Extension.create({
             if (!doc) {
               return '';
             }
-            const content = markdownSerializer.proseMirrorToMarkdown({
-              schema: this.editor.schema,
+
+            const content = prosemirrorToMarkdown({
               content: doc,
             });
 

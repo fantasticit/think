@@ -1,4 +1,12 @@
-// nodes
+// 自定义节点
+import { Iframe } from './nodes/iframe';
+import { Attachment } from './nodes/attachment';
+import { Banner } from './nodes/banner';
+import { Status } from './nodes/status';
+import { DocumentReference } from './nodes/documentReference';
+import { DocumentChildren } from './nodes/documentChildren';
+import { Mind } from './nodes/mind';
+// 通用
 import { CodeBlock } from './nodes/codeBlock';
 import { CodeBlockWrapper } from './nodes/codeBlockWrapper';
 import { HardBreak } from './nodes/hardBreak';
@@ -6,18 +14,16 @@ import { Heading } from './nodes/heading';
 import { Image } from './nodes/image';
 import { HorizontalRule } from './nodes/horizontalRule';
 import { Blockquote } from './nodes/blockQuote';
-
 // 文本
+import { Title } from './nodes/title';
 import { Katex } from './nodes/katex';
 import { Paragraph } from './nodes/paragraph';
 import { Text } from './nodes/text';
-
 // 表格
 import { Table } from './nodes/table';
 import { TableHeader } from './nodes/tableHeader';
 import { TableRow } from './nodes/tableRow';
 import { TableCell } from './nodes/tableCell';
-
 // 列表
 import { TaskList } from './nodes/taskList';
 import { TaskListItem } from './nodes/taskListItem';
@@ -30,6 +36,7 @@ import { Bold } from './marks/bold';
 import { Code } from './marks/code';
 import { Italic } from './marks/italic';
 import { Link } from './marks/link';
+import { Underline } from './marks/underline';
 
 export class Renderer {
   document: HTMLElement;
@@ -42,6 +49,14 @@ export class Renderer {
     this.storedMarks = [];
 
     this.nodes = [
+      Attachment,
+      Banner,
+      Iframe,
+      Status,
+      Mind,
+      DocumentChildren,
+      DocumentReference,
+
       CodeBlock,
       CodeBlockWrapper,
       HardBreak,
@@ -49,6 +64,7 @@ export class Renderer {
       Image,
       HorizontalRule,
 
+      Title,
       Katex,
       Paragraph,
 
@@ -68,7 +84,7 @@ export class Renderer {
       BulletList,
     ];
 
-    this.marks = [Bold, Code, Italic, Link];
+    this.marks = [Bold, Code, Italic, Link, Underline];
   }
 
   setDocument(document) {

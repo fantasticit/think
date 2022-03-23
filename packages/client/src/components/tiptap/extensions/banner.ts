@@ -2,6 +2,7 @@ import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { BannerWrapper } from '../components/banner';
 import { typesAvailable } from '../services/markdown/markdownToHTML/markdownBanner';
+import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -17,27 +18,26 @@ export const Banner = Node.create({
   group: 'block',
   defining: true,
 
-  addOptions() {
-    return {
-      types: typesAvailable,
-      HTMLAttributes: {
-        class: 'banner',
-      },
-    };
-  },
-
   addAttributes() {
     return {
       type: {
         default: 'info',
         rendered: false,
-        parseHTML: (element) => element.getAttribute('data-banner'),
+        parseHTML: getDatasetAttribute('info'),
         renderHTML: (attributes) => {
           return {
-            'data-banner': attributes.type,
+            'data-type': attributes.type,
             'class': `banner banner-${attributes.type}`,
           };
         },
+      },
+    };
+  },
+
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        class: 'banner',
       },
     };
   },
@@ -50,16 +50,8 @@ export const Banner = Node.create({
     ];
   },
 
-  renderHTML({ node, HTMLAttributes }) {
-    const { class: classy } = this.options.HTMLAttributes;
-
-    const attributes = {
-      ...this.options.HTMLAttributes,
-      'data-callout': node.attrs.type,
-      'class': `${classy} ${classy}-${node.attrs.type}`,
-    };
-
-    return ['div', mergeAttributes(attributes, HTMLAttributes), 0];
+  renderHTML({ HTMLAttributes }) {
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
   // @ts-ignore

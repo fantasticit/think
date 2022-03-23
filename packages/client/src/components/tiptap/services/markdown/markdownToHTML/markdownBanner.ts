@@ -5,9 +5,8 @@ export const typesAvailable = ['info', 'warning', 'danger', 'success'];
 const buildRender = (type) => (tokens, idx, options, env, slf) => {
   const tag = tokens[idx];
 
-  // add attributes to the opening tag
   if (tag.nesting === 1) {
-    tag.attrSet('data-banner', type);
+    tag.attrSet('data-type', type);
     tag.attrJoin('class', `banner banner-${type}`);
   }
 

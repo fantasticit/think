@@ -1,6 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { AttachmentWrapper } from '../components/attachment';
+import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -38,27 +39,35 @@ export const Attachment = Node.create({
     return {
       fileName: {
         default: null,
+        parseHTML: getDatasetAttribute('filename'),
       },
       fileSize: {
         default: null,
+        parseHTML: getDatasetAttribute('filesize'),
       },
       fileType: {
         default: null,
+        parseHTML: getDatasetAttribute('filetype'),
       },
       fileExt: {
         default: null,
+        parseHTML: getDatasetAttribute('fileext'),
       },
       url: {
         default: null,
+        parseHTML: getDatasetAttribute('url'),
       },
-      autoTrigger: {
+      hasTrigger: {
         default: false,
+        parseHTML: (element) => getDatasetAttribute('hastrigger')(element) === 'true',
       },
       error: {
         default: null,
+        parseHTML: getDatasetAttribute('error'),
       },
     };
   },
+
   // @ts-ignore
   addCommands() {
     return {

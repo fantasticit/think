@@ -8,16 +8,30 @@ import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { IconDocument } from 'components/icons';
 import styles from './index.module.scss';
+import { useEffect } from 'react';
 
 const { Text } = Typography;
 
-export const DocumentChildrenWrapper = ({ editor }) => {
+export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { pathname, query } = useRouter();
-  const wikiId = query?.wikiId;
-  const documentId = query?.documentId;
+  let { wikiId, documentId } = node.attrs;
+  if (!wikiId) {
+    query?.wikiId;
+  }
+  if (!documentId) {
+    documentId = query?.documentId;
+  }
   const isShare = pathname.includes('share');
   const { data: documents, loading, error } = useChildrenDocument({ wikiId, documentId, isShare });
+
+  useEffect(() => {
+    const attrs = node.attrs;
+
+    if (attrs.wikiId !== wikiId || attrs.documentId !== documentId) {
+      updateAttributes({ wikiId, documentId });
+    }
+  }, [node.attrs, wikiId, documentId]);
 
   return (
     <NodeViewWrapper as="div" className={cls(styles.wrap, isEditable && styles.isEditable)}>

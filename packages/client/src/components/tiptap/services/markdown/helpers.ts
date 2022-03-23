@@ -1,4 +1,8 @@
 export const isMarkdown = (text: string): boolean => {
+  // html
+  const html = text.match(/<\/?[a-z][\s\S]*>/i);
+  if (html && html.length) return true;
+
   // table
   const tables = text.match(/^\|(\S)*\|/gm);
   if (tables && tables.length) return true;

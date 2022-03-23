@@ -1,5 +1,5 @@
 import { OrderedList as BuiltInOrderedList } from '@tiptap/extension-ordered-list';
-import { getMarkdownSource } from '../services/markdown/markdownSourceMap';
+import { getMarkdownSource } from '../services/markdown';
 
 export const OrderedList = BuiltInOrderedList.extend({
   addAttributes() {

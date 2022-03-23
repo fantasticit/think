@@ -14,7 +14,7 @@ export class Text extends Node {
 
     return {
       type: 'text',
-      text,
+      text: text.trim() || '\n',
     };
   }
 }

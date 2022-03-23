@@ -1,3 +1,5 @@
+import { jsonToStr } from '../../dataset';
+
 const uniq = (arr: string[]) => [...new Set(arr)];
 
 function isString(value) {
@@ -271,7 +273,7 @@ export function renderHTMLNode(tagName, forceRenderInline = false, needNewLine =
     renderTagClose(state, tagName, false);
     if (needNewLine) {
       state.ensureNewLine();
-      state.write('<br />');
+      state.write('\n');
       state.ensureNewLine();
     }
   };
@@ -345,4 +347,12 @@ export function renderImage(state, node) {
 
 export function renderPlayable(state, node) {
   renderImage(state, node);
+}
+
+export function renderCustomContainer(name) {
+  return function (state, node) {
+    state.ensureNewLine();
+    state.write(`::: ${name} ${jsonToStr(node.attrs)}\n:::\n`);
+    state.closeBlock(node);
+  };
 }

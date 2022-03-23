@@ -79,7 +79,7 @@ export class TemplateService {
    * @param id
    * @param tag
    */
-  async updateTemplate(user, id, dto: TemplateDto & { id: string }) {
+  async updateTemplate(user, id, dto: TemplateDto) {
     const old = await this.templateRepo.findOne(id);
 
     if (user.id !== old.createUserId) {

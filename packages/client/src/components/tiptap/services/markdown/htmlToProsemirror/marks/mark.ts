@@ -12,6 +12,6 @@ export class Mark {
   }
 
   data() {
-    return [];
+    return {};
   }
 }

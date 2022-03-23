@@ -11,8 +11,6 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { text } = node.attrs;
 
-  console.log(node.attrs);
-
   const formatText = useMemo(() => {
     try {
       return katex.renderToString(`${text}`);
@@ -26,10 +24,6 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
   ) : (
     <span contentEditable={false}>点击输入公式</span>
   );
-
-  // useEffect(() => {
-  //   updateAttributes(node.attrs);
-  // }, []);
 
   return (
     <NodeViewWrapper as="span" className={styles.wrap} contentEditable={false}>

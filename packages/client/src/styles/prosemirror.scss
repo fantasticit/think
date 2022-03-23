@@ -240,19 +240,27 @@
       padding: 0;
       white-space: pre;
       background-color: transparent;
+
+      width: 100%;
+      max-height: 370px;
+      overflow: auto;
+      overscroll-behavior: contain;
     }
   }
 
   .tableWrapper {
-    width: 100%;
+    max-width: 100%;
     margin: 1em 0;
+    overflow: auto;
+
+    &.has-focus {
+      padding-left: 1em;
+    }
   }
 
   table {
     border-collapse: collapse;
     table-layout: fixed;
-    min-width: 100%;
-    max-width: 100%;
     margin: 1em 0;
 
     td,
