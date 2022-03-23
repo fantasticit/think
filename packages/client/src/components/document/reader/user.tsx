@@ -43,8 +43,6 @@ export const CreateUser: React.FC<{ document: IDocument; container: () => HTMLEl
 
   const el = container && container();
 
-  console.log(el);
-
   if (!el) return content;
   return createPortal(content, el);
 };

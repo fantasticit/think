@@ -1,7 +1,7 @@
 import { Blockquote as BuiltInBlockquote } from '@tiptap/extension-blockquote';
 import { wrappingInputRule } from '@tiptap/core';
 import { getParents } from '../services/dom';
-import { getMarkdownSource } from '../services/markdown/markdownSourceMap';
+import { getMarkdownSource } from '../services/markdown';
 
 export const Blockquote = BuiltInBlockquote.extend({
   addAttributes() {

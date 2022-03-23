@@ -11,7 +11,7 @@ const { Text } = Typography;
 
 export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
-  const { autoTrigger, error, src, alt, title, width, height, textAlign } = node.attrs;
+  const { hasTrigger, error, src, alt, title, width, height, textAlign } = node.attrs;
   const $upload = useRef();
   const [loading, toggleLoading] = useToggle(false);
 
@@ -45,11 +45,11 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   };
 
   useEffect(() => {
-    if (!src && !autoTrigger) {
+    if (!src && !hasTrigger) {
       selectFile();
-      updateAttributes({ autoTrigger: true });
+      updateAttributes({ hasTrigger: true });
     }
-  }, [src, autoTrigger]);
+  }, [src, hasTrigger]);
 
   const content = (() => {
     if (error) {

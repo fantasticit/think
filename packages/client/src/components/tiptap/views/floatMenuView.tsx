@@ -24,6 +24,7 @@ export type FloatMenuViewOptions = {
 export class FloatMenuView {
   public editor: Editor;
   public parentNode: null | HTMLElement;
+  public container: null | HTMLElement;
   private dom: HTMLElement;
   private popup: Instance;
   private _update: FloatMenuViewOptions['update'];
@@ -36,18 +37,30 @@ export class FloatMenuView {
     }
     if (isNodeSelection(state.selection)) {
       const node = view.nodeDOM(range.from) as HTMLElement;
+      console.log(node);
 
       if (node) {
         return node.getBoundingClientRect();
       }
     }
-    return posToDOMRect(view, range.from, range.to);
+
+    const rangeRect = posToDOMRect(view, range.from, range.to);
+
+    if (this.container) {
+      const containerRect = this.container.getBoundingClientRect();
+
+      if (rangeRect.width > containerRect.width) {
+        return containerRect;
+      }
+    }
+
+    return rangeRect;
   };
 
   constructor(props: FloatMenuViewOptions) {
     this.editor = props.editor;
     this.shouldShow = props.shouldShow;
-    this.tippyOptions = props.tippyOptions;
+    this.tippyOptions = props.tippyOptions || {};
     if (props.getReferenceClientRect) {
       this.getReferenceClientRect = props.getReferenceClientRect;
     }
@@ -59,6 +72,14 @@ export class FloatMenuView {
 
     // popup
     this.createPopup();
+  }
+
+  setConatiner(el) {
+    this.container = el;
+    // this.popup?.setProps({
+    //   appendTo: el,
+    // });
+    // this.popup?.
   }
 
   createPopup() {
@@ -76,7 +97,7 @@ export class FloatMenuView {
       trigger: 'manual',
       placement: 'top',
       hideOnClick: 'toggle',
-      ...(this.tippyOptions ?? {}),
+      ...Object.assign({ zIndex: 99 }, this.tippyOptions),
     });
   }
 

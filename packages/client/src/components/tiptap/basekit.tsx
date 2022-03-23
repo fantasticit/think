@@ -15,9 +15,6 @@ import { Emoji } from './extensions/emoji';
 import { EvokeMenu } from './extensions/evokeMenu';
 import { Focus } from './extensions/focus';
 import { FontSize } from './extensions/fontSize';
-import { FootnoteDefinition } from './extensions/footnoteDefinition';
-import { FootnoteReference } from './extensions/footnoteReference';
-import { FootnotesSection } from './extensions/footnotesSection';
 import { Gapcursor } from './extensions/gapCursor';
 import { HardBreak } from './extensions/hardBreak';
 import { Heading } from './extensions/heading';
@@ -34,7 +31,6 @@ import { Loading } from './extensions/loading';
 import { Mind } from './extensions/mind';
 import { OrderedList } from './extensions/orderedList';
 import { Paragraph } from './extensions/paragraph';
-import { Paste } from './extensions/paste';
 import { Placeholder } from './extensions/placeholder';
 import { SearchNReplace } from './extensions/search';
 import { Status } from './extensions/status';
@@ -51,6 +47,7 @@ import { TaskList } from './extensions/taskList';
 import { Title } from './extensions/title';
 import { TrailingNode } from './extensions/trailingNode';
 import { Underline } from './extensions/underline';
+import { Paste } from './extensions/paste';
 
 export const BaseKit = [
   Attachment,
@@ -70,9 +67,6 @@ export const BaseKit = [
   EvokeMenu,
   Focus,
   FontSize,
-  FootnoteDefinition,
-  FootnoteReference,
-  FootnotesSection,
   Gapcursor,
   HardBreak,
   Heading,
@@ -89,7 +83,6 @@ export const BaseKit = [
   Mind,
   OrderedList,
   Paragraph,
-  Paste,
   Placeholder,
   SearchNReplace,
   Status,
@@ -106,4 +99,5 @@ export const BaseKit = [
   Title,
   TrailingNode,
   Underline,
+  Paste,
 ];

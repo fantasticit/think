@@ -5,7 +5,12 @@
   flex-direction: column;
 
   > header {
+    position: relative;
+    z-index: 110;
+    background-color: var(--semi-color-nav-bg);
     height: 60px;
+    user-select: none;
+
     > div {
       overflow: auto;
     }
@@ -27,13 +32,15 @@
 
   > header {
     position: relative;
-    z-index: 10001;
+    z-index: 110;
     height: 50px;
     padding: 0 24px;
     display: flex;
     align-items: center;
     overflow: hidden;
+    background-color: var(--semi-color-nav-bg);
     border-bottom: 1px solid var(--semi-color-border);
+    user-select: none;
 
     &.isStandardWidth {
       justify-content: center;

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Space, Button, Tooltip } from '@douyinfe/semi-ui';
+import { Space, Button } from '@douyinfe/semi-ui';
 import { IconUndo, IconRedo } from '@douyinfe/semi-icons';
+import { Tooltip } from 'components/tooltip';
 import { IconClear } from 'components/icons';
 import { Divider } from './components/divider';
 import { MediaInsertMenu } from './menus/mediaInsert';

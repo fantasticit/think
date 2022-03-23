@@ -6,10 +6,13 @@ import { Link } from '../extensions/link';
 import { Attachment } from '../extensions/attachment';
 import { Image } from '../extensions/image';
 import { Banner } from '../extensions/banner';
+import { Status } from '../extensions/status';
 import { HorizontalRule } from '../extensions/horizontalRule';
 import { Iframe } from '../extensions/iframe';
 import { Mind } from '../extensions/mind';
 import { Table } from '../extensions/table';
+import { TaskList } from '../extensions/taskList';
+import { TaskItem } from '../extensions/taskItem';
 import { Katex } from '../extensions/katex';
 import { DocumentReference } from '../extensions/documentReference';
 import { DocumentChildren } from '../extensions/documentChildren';
@@ -21,9 +24,12 @@ const OTHER_BUBBLE_MENU_TYPES = [
   Attachment.name,
   Image.name,
   Banner.name,
+  Status.name,
   Iframe.name,
   Mind.name,
   Table.name,
+  TaskList.name,
+  TaskItem.name,
   DocumentReference.name,
   DocumentChildren.name,
   Katex.name,

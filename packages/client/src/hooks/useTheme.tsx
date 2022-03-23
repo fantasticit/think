@@ -19,7 +19,6 @@ export const useTheme = () => {
       body.setAttribute('theme-mode', 'dark');
       return;
     }
-
     if (theme === 'light') {
       body.setAttribute('theme-mode', 'light');
       return;

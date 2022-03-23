@@ -8,7 +8,7 @@ export class UpdateDocumentDto {
   readonly title: string;
 
   @IsOptional()
-  content: string;
+  content?: string;
 
   @IsOptional()
   state?: Uint8Array;

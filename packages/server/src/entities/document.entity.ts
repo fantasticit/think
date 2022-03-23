@@ -19,13 +19,13 @@ export class DocumentEntity {
   @Column({ type: 'varchar', comment: '父文档 Id', default: null })
   public parentDocumentId: string;
 
-  @Column({ type: 'varchar', length: 50, comment: '文档标题', default: '' })
+  @Column({ type: 'varchar', default: '未命名文档', comment: '文档标题' })
   public title: string;
 
   @Column({ type: 'text', comment: '文档内容' })
   public content: string;
 
-  @Column({ type: 'blob', comment: '文档内容' })
+  @Column({ type: 'longblob', comment: '文档内容' })
   public state: Uint8Array;
 
   @Column({

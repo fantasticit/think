@@ -1,34 +1,12 @@
 import { wrappingInputRule } from '@tiptap/core';
+import { ReactNodeViewRenderer } from '@tiptap/react';
 import { TaskItem as BuiltInTaskItem } from '@tiptap/extension-task-item';
 import { Plugin } from 'prosemirror-state';
 import { findParentNodeClosestToPos } from 'prosemirror-utils';
 import { PARSE_HTML_PRIORITY_HIGHEST } from '../constants';
+import { TaskItemWrapper } from '../components/taskItem';
 
 const CustomTaskItem = BuiltInTaskItem.extend({
-  addOptions() {
-    return {
-      nested: true,
-      HTMLAttributes: {},
-    };
-  },
-
-  addAttributes() {
-    return {
-      checked: {
-        default: false,
-        parseHTML: (element) => {
-          const checkbox = element.querySelector('input[type=checkbox].task-list-item-checkbox');
-          // @ts-ignore
-          return checkbox?.checked;
-        },
-        renderHTML: (attributes) => ({
-          'data-checked': attributes.checked,
-        }),
-        keepOnSplit: false,
-      },
-    };
-  },
-
   parseHTML() {
     return [
       {
@@ -51,6 +29,44 @@ const CustomTaskItem = BuiltInTaskItem.extend({
     ];
   },
 
+  // addNodeView() {
+  //   return ReactNodeViewRenderer(TaskItemWrapper);
+  // },
+
+  addNodeView() {
+    return ({ node, HTMLAttributes, getPos, editor }) => {
+      const listItem = document.createElement('li');
+      const checkboxWrapper = document.createElement('span');
+      const content = document.createElement('div');
+
+      checkboxWrapper.contentEditable = 'false';
+
+      Object.entries(this.options.HTMLAttributes).forEach(([key, value]) => {
+        listItem.setAttribute(key, value);
+      });
+
+      listItem.dataset.checked = node.attrs.checked;
+      listItem.append(checkboxWrapper, content);
+
+      Object.entries(HTMLAttributes).forEach(([key, value]) => {
+        listItem.setAttribute(key, value);
+      });
+
+      return {
+        dom: listItem,
+        contentDOM: content,
+        update: (updatedNode) => {
+          if (updatedNode.type !== this.type) {
+            return false;
+          }
+
+          listItem.dataset.checked = updatedNode.attrs.checked;
+          return true;
+        },
+      };
+    };
+  },
+
   addProseMirrorPlugins() {
     return [
       new Plugin({
@@ -65,14 +81,20 @@ const CustomTaskItem = BuiltInTaskItem.extend({
             const parentList = findParentNodeClosestToPos(position, function (node) {
               return node.type === schema.nodes.taskItem || node.type === schema.nodes.listItem;
             });
-            // @ts-ignore
-            const isListClicked = event.target.tagName.toLowerCase() === 'li';
-            if (!isListClicked || !parentList || parentList.node.type !== schema.nodes.taskItem) {
+            if (!parentList) {
               return;
             }
+            const element = view.nodeDOM(parentList.pos) as HTMLLIElement;
+            if (element.tagName.toLowerCase() !== 'li') return;
+
+            const parentElement = element.parentElement;
+            const type = parentElement && parentElement.getAttribute('data-type');
+            if (!type || type.toLowerCase() !== 'tasklist') return;
+
             const tr = state.tr;
+            const nextValue = !(element.getAttribute('data-checked') === 'true');
             tr.setNodeMarkup(parentList.pos, schema.nodes.taskItem, {
-              checked: !parentList.node.attrs.checked,
+              checked: nextValue,
             });
             view.dispatch(tr);
           },

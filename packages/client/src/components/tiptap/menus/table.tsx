@@ -25,7 +25,9 @@ export const TableBubbleMenu = ({ editor }) => {
       tippyOptions={{
         maxWidth: 456,
       }}
-      matchRenderContainer={(node: HTMLElement) => node.classList && node.tagName === 'TABLE'}
+      matchRenderContainer={(node: HTMLElement) =>
+        node && node.classList && node.classList.contains('tableWrapper') && node.tagName === 'DIV'
+      }
     >
       <Space>
         <Tooltip content="向前插入一列">

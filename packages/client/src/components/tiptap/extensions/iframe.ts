@@ -1,6 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { IframeWrapper } from '../components/iframe';
+import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -11,7 +12,7 @@ declare module '@tiptap/core' {
 }
 
 export const Iframe = Node.create({
-  name: 'external-iframe',
+  name: 'iframe',
   content: '',
   marks: '',
   group: 'block',
@@ -21,7 +22,7 @@ export const Iframe = Node.create({
   addOptions() {
     return {
       HTMLAttributes: {
-        'data-type': 'external-iframe',
+        class: 'iframe',
       },
     };
   },
@@ -30,12 +31,15 @@ export const Iframe = Node.create({
     return {
       width: {
         default: '100%',
+        parseHTML: getDatasetAttribute('width'),
       },
       height: {
-        default: 54,
+        default: 200,
+        parseHTML: getDatasetAttribute('height'),
       },
       url: {
         default: null,
+        parseHTML: getDatasetAttribute('url'),
       },
     };
   },
@@ -43,7 +47,7 @@ export const Iframe = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'iframe[data-type="external-iframe"]',
+        tag: 'iframe',
       },
     ];
   },

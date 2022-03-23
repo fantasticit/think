@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import { Button } from '@douyinfe/semi-ui';
 import { IconDelete, IconPlus } from '@douyinfe/semi-icons';
+import { mergeAttributes } from '@tiptap/core';
 import { TableCell as BuiltInTableCell } from '@tiptap/extension-table-cell';
 import { Tooltip } from 'components/tooltip';
 import { Plugin, PluginKey } from 'prosemirror-state';
@@ -16,6 +17,56 @@ import {
 import { FloatMenuView } from '../views/floatMenuView';
 
 export const TableCell = BuiltInTableCell.extend({
+  addAttributes() {
+    return {
+      colspan: {
+        default: 1,
+      },
+      rowspan: {
+        default: 1,
+      },
+      colwidth: {
+        default: null,
+        parseHTML: (element) => {
+          const colwidth = element.getAttribute('colwidth');
+          const value = colwidth ? colwidth.split(',').map((item) => parseInt(item, 10)) : null;
+
+          return value;
+        },
+      },
+      style: {
+        default: null,
+      },
+    };
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    let totalWidth = 0;
+    let fixedWidth = true;
+
+    if (HTMLAttributes.colwidth) {
+      HTMLAttributes.colwidth.forEach((col) => {
+        if (!col) {
+          fixedWidth = false;
+        } else {
+          totalWidth += col;
+        }
+      });
+    } else {
+      fixedWidth = false;
+    }
+
+    if (fixedWidth && totalWidth > 0) {
+      HTMLAttributes.style = `width: ${totalWidth}px;`;
+    } else if (totalWidth && totalWidth > 0) {
+      HTMLAttributes.style = `min-width: ${totalWidth}px`;
+    } else {
+      HTMLAttributes.style = null;
+    }
+
+    return ['td', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+  },
+
   addProseMirrorPlugins() {
     const extensionThis = this;
     let selectedRowIndex = -1;
@@ -27,7 +78,7 @@ export const TableCell = BuiltInTableCell.extend({
           new FloatMenuView({
             editor: this.editor,
             tippyOptions: {
-              zIndex: 10000,
+              zIndex: 100,
               offset: [-28, 0],
             },
             shouldShow: ({ editor }, floatMenuView) => {

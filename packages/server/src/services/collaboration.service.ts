@@ -65,6 +65,7 @@ export class CollaborationService {
       onAuthenticate: this.onAuthenticate.bind(this),
       onLoadDocument: this.onLoadDocument.bind(this),
       onChange: this.onChange.bind(this),
+      onDisconnect: this.onDisconnect.bind(this),
     });
     this.server = server;
     this.server.listen(lodash.get(getConfig(), 'server.collaborationPort', 5003));
@@ -212,5 +213,41 @@ export class CollaborationService {
       content: JSON.stringify(node),
       state,
     });
+  }
+
+  async onDisconnect(data) {
+    const { requestParameters, document } = data;
+    const targetId = requestParameters.get('targetId');
+    const docType = requestParameters.get('docType');
+    const userId = requestParameters.get('userId');
+
+    switch (docType) {
+      case 'document': {
+        const documentId = targetId;
+        const { title } = await this.documentService.findById(documentId);
+
+        if (!title) {
+          await this.documentService.updateDocument({ id: userId } as OutUser, targetId, {
+            title: '未命名文档',
+          });
+        }
+        break;
+      }
+
+      case 'template': {
+        const templateId = targetId;
+        const { title } = await this.templateService.findById(templateId);
+
+        if (!title) {
+          await this.templateService.updateTemplate({ id: userId } as OutUser, targetId, {
+            title: '未命名模板',
+          });
+        }
+        break;
+      }
+
+      default:
+        throw new Error('未知类型');
+    }
   }
 }

@@ -7,6 +7,8 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { url, width, height } = node.attrs;
 
+  console.log('render iframe', node.attrs);
+
   const onResize = (size) => {
     updateAttributes({ width: size.width, height: size.height });
   };

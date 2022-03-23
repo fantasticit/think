@@ -7,7 +7,7 @@ export default function splitMixedLists(md) {
 
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i];
-      if (token.attrGet('class') !== 'contains-task-list') {
+      if (token.attrGet('class') !== 'task-list') {
         continue;
       }
       const firstChild = tokens[i + 1];

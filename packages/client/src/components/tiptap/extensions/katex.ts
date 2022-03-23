@@ -14,26 +14,36 @@ export const KatexInputRegex = /^\$\$(.+)?\$\$$/;
 
 export const Katex = Node.create({
   name: 'katex',
-  group: 'block',
-  defining: true,
-  draggable: true,
+  group: 'inline',
+  inline: true,
   selectable: true,
   atom: true,
+
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        class: 'katex',
+      },
+    };
+  },
 
   addAttributes() {
     return {
       text: {
         default: '',
+        parseHTML: (element) => {
+          return element.getAttribute('data-text');
+        },
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: 'div[data-type=katex]' }];
+    return [{ tag: 'span.katex' }];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes)];
+    return ['span', mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes)];
   },
 
   // @ts-ignore

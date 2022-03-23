@@ -2,24 +2,7 @@ import { Mark, mergeAttributes, markInputRule } from '@tiptap/core';
 import { PARSE_HTML_PRIORITY_LOWEST } from '../constants';
 import { markInputRegex, extractMarkAttributesFromMatch } from '../services/markUtils';
 
-const marks = [
-  'ins',
-  'abbr',
-  'bdo',
-  'cite',
-  'dfn',
-  'mark',
-  'small',
-  'span',
-  'time',
-  'kbd',
-  'q',
-  'samp',
-  'var',
-  'ruby',
-  'rp',
-  'rt',
-];
+export const marks = [{ name: 'underline', tag: 'u' }];
 
 const attrs = {
   time: ['datetime'],
@@ -28,9 +11,10 @@ const attrs = {
   bdo: ['dir'],
 };
 
-export const HTMLMarks = marks.map((name) =>
+export const HTMLMarks = marks.slice(1).map(({ name, tag }) =>
   Mark.create({
     name,
+    tag,
     inclusive: false,
     addOptions() {
       return {
@@ -51,17 +35,17 @@ export const HTMLMarks = marks.map((name) =>
     },
 
     parseHTML() {
-      return [{ tag: name, priority: PARSE_HTML_PRIORITY_LOWEST }];
+      return [{ tag: tag, priority: PARSE_HTML_PRIORITY_LOWEST }];
     },
 
     renderHTML({ HTMLAttributes }) {
-      return [name, mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+      return [tag, mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
     },
 
     addInputRules() {
       return [
         markInputRule({
-          find: markInputRegex(name),
+          find: markInputRegex(tag),
           type: this.type,
           getAttributes: extractMarkAttributesFromMatch,
         }),

@@ -1,6 +1,8 @@
 import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
+import { safeJSONParse } from 'helpers/json';
 import { MindWrapper } from '../components/mind';
+import { getDatasetAttribute } from '../services/dataset';
 
 const DEFAULT_MIND_DATA = {
   meta: {
@@ -21,31 +23,34 @@ declare module '@tiptap/core' {
 }
 
 export const Mind = Node.create({
-  name: 'jsmind',
+  name: 'mind',
   content: '',
   marks: '',
   group: 'block',
   draggable: true,
   atom: true,
 
-  addOptions() {
-    return {
-      HTMLAttributes: {
-        'data-type': 'jsmind',
-      },
-    };
-  },
-
   addAttributes() {
     return {
       width: {
         default: '100%',
+        parseHTML: getDatasetAttribute('width'),
       },
       height: {
         default: 240,
+        parseHTML: getDatasetAttribute('height'),
       },
       data: {
         default: DEFAULT_MIND_DATA,
+        parseHTML: getDatasetAttribute('data', true),
+      },
+    };
+  },
+
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        class: 'mind',
       },
     };
   },
@@ -53,7 +58,7 @@ export const Mind = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div[data-type="jsmind"]',
+        tag: 'div',
       },
     ];
   },
