@@ -1,6 +1,6 @@
 import { HocuspocusProvider } from '@hocuspocus/provider';
-import Collaboration from '@tiptap/extension-collaboration';
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
+import { Collaboration } from './collaboration';
+import { CollaborationCursor } from './collaborationCursor';
 import History from '@tiptap/extension-history';
 import { getRandomColor } from 'helpers/color';
 import { Document } from './extensions/document';

@@ -23,8 +23,6 @@
     "@tiptap/extension-code": "^2.0.0-beta.26",
     "@tiptap/extension-code-block": "^2.0.0-beta.37",
     "@tiptap/extension-code-block-lowlight": "^2.0.0-beta.68",
-    "@tiptap/extension-collaboration": "^2.0.0-beta.33",
-    "@tiptap/extension-collaboration-cursor": "^2.0.0-beta.34",
     "@tiptap/extension-color": "^2.0.0-beta.9",
     "@tiptap/extension-document": "^2.0.0-beta.15",
     "@tiptap/extension-dropcursor": "^2.0.0-beta.25",
@@ -60,6 +58,7 @@
     "dompurify": "^2.3.5",
     "interactjs": "^1.10.11",
     "katex": "^0.15.2",
+    "lib0": "^0.2.47",
     "lowlight": "^2.5.0",
     "markdown-it": "^12.3.2",
     "markdown-it-anchor": "^8.4.1",
@@ -78,7 +77,9 @@
     "react-split-pane": "^0.1.92",
     "scroll-into-view-if-needed": "^2.2.29",
     "swr": "^1.2.0",
-    "tippy.js": "^6.3.7"
+    "tippy.js": "^6.3.7",
+    "y-prosemirror": "^1.0.14",
+    "yjs": "^13.5.24"
   },
   "devDependencies": {
     "@types/node": "17.0.13",

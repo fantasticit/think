@@ -57,8 +57,6 @@ importers:
       '@tiptap/extension-code': ^2.0.0-beta.26
       '@tiptap/extension-code-block': ^2.0.0-beta.37
       '@tiptap/extension-code-block-lowlight': ^2.0.0-beta.68
-      '@tiptap/extension-collaboration': ^2.0.0-beta.33
-      '@tiptap/extension-collaboration-cursor': ^2.0.0-beta.34
       '@tiptap/extension-color': ^2.0.0-beta.9
       '@tiptap/extension-document': ^2.0.0-beta.15
       '@tiptap/extension-dropcursor': ^2.0.0-beta.25
@@ -96,6 +94,7 @@ importers:
       dompurify: ^2.3.5
       interactjs: ^1.10.11
       katex: ^0.15.2
+      lib0: ^0.2.47
       lowlight: ^2.5.0
       markdown-it: ^12.3.2
       markdown-it-anchor: ^8.4.1
@@ -117,6 +116,8 @@ importers:
       tippy.js: ^6.3.7
       tsconfig-paths-webpack-plugin: ^3.5.2
       typescript: 4.5.5
+      y-prosemirror: ^1.0.14
+      yjs: ^13.5.24
     dependencies:
       '@douyinfe/semi-icons': 2.3.1_react@17.0.2
       '@douyinfe/semi-next': 2.3.1
@@ -132,8 +133,6 @@ importers:
       '@tiptap/extension-code': 2.0.0-beta.26_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-code-block': 2.0.0-beta.37_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-code-block-lowlight': 2.0.0-beta.68_@tiptap+core@2.0.0-beta.171
-      '@tiptap/extension-collaboration': 2.0.0-beta.33_24052c2d57881e244a8dbd08d556b4fc
-      '@tiptap/extension-collaboration-cursor': 2.0.0-beta.34_24052c2d57881e244a8dbd08d556b4fc
       '@tiptap/extension-color': 2.0.0-beta.9_e32f4205d0966701340db1456434a591
       '@tiptap/extension-document': 2.0.0-beta.15_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-dropcursor': 2.0.0-beta.25_@tiptap+core@2.0.0-beta.171
@@ -169,6 +168,7 @@ importers:
       dompurify: 2.3.5
       interactjs: 1.10.11
       katex: 0.15.2
+      lib0: 0.2.47
       lowlight: 2.5.0
       markdown-it: 12.3.2
       markdown-it-anchor: 8.4.1_markdown-it@12.3.2
@@ -188,6 +188,8 @@ importers:
       scroll-into-view-if-needed: 2.2.29
       swr: 1.2.0_react@17.0.2
       tippy.js: 6.3.7
+      y-prosemirror: 1.0.14_0fedec857d2fb730ad5b02a71124bf2a
+      yjs: 13.5.24
     devDependencies:
       '@types/node': 17.0.13
       '@types/react': 17.0.38
@@ -917,7 +919,7 @@ packages:
     dependencies:
       '@hocuspocus/common': 1.0.0-alpha.4
       '@lifeomic/attempt': 3.0.2
-      lib0: 0.2.43
+      lib0: 0.2.47
       y-protocols: 1.0.5
       yjs: 13.5.24
     dev: false
@@ -1648,36 +1650,6 @@ packages:
       '@tiptap/core': ^2.0.0-beta.1
     dependencies:
       '@tiptap/core': 2.0.0-beta.171
-    dev: false
-
-  /@tiptap/extension-collaboration-cursor/2.0.0-beta.34_24052c2d57881e244a8dbd08d556b4fc:
-    resolution: {integrity: sha512-6jxM8jxOXEwRHv7rkWsacC8Q3km83opEK/2udiMEC7a/yFeMKpYjOP+sAvzdGBposlIof/VgjXhbIUBRBqmqLw==}
-    peerDependencies:
-      '@tiptap/core': ^2.0.0-beta.1
-    dependencies:
-      '@tiptap/core': 2.0.0-beta.171
-      y-prosemirror: 1.0.14_prosemirror-view@1.23.6
-    transitivePeerDependencies:
-      - prosemirror-model
-      - prosemirror-state
-      - prosemirror-view
-      - y-protocols
-      - yjs
-    dev: false
-
-  /@tiptap/extension-collaboration/2.0.0-beta.33_24052c2d57881e244a8dbd08d556b4fc:
-    resolution: {integrity: sha512-KMHJxsS/FSVyum2ds3gfu0WFU1Zu7xQ5YmsSCLXyBxkhDtBGWBZTcpcSh9siWfs26+Fk1ZvcEssNyRYMEummpQ==}
-    peerDependencies:
-      '@tiptap/core': ^2.0.0-beta.1
-    dependencies:
-      '@tiptap/core': 2.0.0-beta.171
-      prosemirror-state: 1.3.4
-      y-prosemirror: 1.0.14_fb8440a343abf572e136ee4e217d51fa
-    transitivePeerDependencies:
-      - prosemirror-model
-      - prosemirror-view
-      - y-protocols
-      - yjs
     dev: false
 
   /@tiptap/extension-color/2.0.0-beta.9_e32f4205d0966701340db1456434a591:
@@ -5811,6 +5783,13 @@ packages:
       isomorphic.js: 0.2.4
     dev: false
 
+  /lib0/0.2.47:
+    resolution: {integrity: sha512-RXprIyaflw7OmFNMpb8HmvDhuRVUFXYCXrmynQN8OGbGevgMx9u6tjQG/yB0dOoDcuB1XXgqFn8Oy3RlKF/Qhg==}
+    engines: {node: '>=12'}
+    dependencies:
+      isomorphic.js: 0.2.4
+    dev: false
+
   /libphonenumber-js/1.9.46:
     resolution: {integrity: sha512-QqTX4UVsGy24njtCgLRspiKpxfRniRBZE/P+d0vQXuYWQ+hwDS6X0ouo0O/SRyf7bhhMCE71b6vAvLMtY5PfEw==}
     dev: false
@@ -8521,6 +8500,20 @@ packages:
     engines: {node: '>=0.4'}
     dev: false
 
+  /y-prosemirror/1.0.14_0fedec857d2fb730ad5b02a71124bf2a:
+    resolution: {integrity: sha512-fJQn/XT+z/gks9sd64eB+Mf1UQP0d5SHQ8RwbrzIwYFW+FgU/nx8/hJm+nrBAoO9azHOY5aDeoffeLmOFXLD9w==}
+    peerDependencies:
+      prosemirror-model: ^1.7.1
+      prosemirror-state: ^1.2.3
+      prosemirror-view: ^1.9.10
+      y-protocols: ^1.0.1
+      yjs: ^13.3.2
+    dependencies:
+      lib0: 0.2.47
+      prosemirror-view: 1.23.6
+      yjs: 13.5.24
+    dev: false
+
   /y-prosemirror/1.0.14_8fd72c89aecefb95d86a797b5207d945:
     resolution: {integrity: sha512-fJQn/XT+z/gks9sd64eB+Mf1UQP0d5SHQ8RwbrzIwYFW+FgU/nx8/hJm+nrBAoO9azHOY5aDeoffeLmOFXLD9w==}
     peerDependencies:
@@ -8535,37 +8528,10 @@ packages:
       yjs: 13.5.24
     dev: false
 
-  /y-prosemirror/1.0.14_fb8440a343abf572e136ee4e217d51fa:
-    resolution: {integrity: sha512-fJQn/XT+z/gks9sd64eB+Mf1UQP0d5SHQ8RwbrzIwYFW+FgU/nx8/hJm+nrBAoO9azHOY5aDeoffeLmOFXLD9w==}
-    peerDependencies:
-      prosemirror-model: ^1.7.1
-      prosemirror-state: ^1.2.3
-      prosemirror-view: ^1.9.10
-      y-protocols: ^1.0.1
-      yjs: ^13.3.2
-    dependencies:
-      lib0: 0.2.43
-      prosemirror-state: 1.3.4
-      prosemirror-view: 1.23.6
-    dev: false
-
-  /y-prosemirror/1.0.14_prosemirror-view@1.23.6:
-    resolution: {integrity: sha512-fJQn/XT+z/gks9sd64eB+Mf1UQP0d5SHQ8RwbrzIwYFW+FgU/nx8/hJm+nrBAoO9azHOY5aDeoffeLmOFXLD9w==}
-    peerDependencies:
-      prosemirror-model: ^1.7.1
-      prosemirror-state: ^1.2.3
-      prosemirror-view: ^1.9.10
-      y-protocols: ^1.0.1
-      yjs: ^13.3.2
-    dependencies:
-      lib0: 0.2.43
-      prosemirror-view: 1.23.6
-    dev: false
-
   /y-protocols/1.0.5:
     resolution: {integrity: sha512-Wil92b7cGk712lRHDqS4T90IczF6RkcvCwAD0A2OPg+adKmOe+nOiT/N2hvpQIWS3zfjmtL4CPaH5sIW1Hkm/A==}
     dependencies:
-      lib0: 0.2.43
+      lib0: 0.2.47
     dev: false
 
   /y18n/5.0.8:
@@ -8626,7 +8592,7 @@ packages:
     resolution: {integrity: sha512-f6DqRfnhjihj4+iQv5zjhsYqOpkcM9SGroqluq6J6eEUTq7ipbgECKf+h5W4P+LU4fKawWFdQH8mxgJ7baZPJw==}
     requiresBuild: true
     dependencies:
-      lib0: 0.2.43
+      lib0: 0.2.47
     dev: false
 
   /yn/3.1.1:
