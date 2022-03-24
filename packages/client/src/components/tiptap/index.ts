@@ -9,6 +9,7 @@ import { BaseKit } from './basekit';
 export { getSchema } from '@tiptap/core';
 export * from './menubar';
 export * from './provider';
+export * from './indexdb';
 export * from './skeleton';
 
 export const DocumentWithTitle = Document.extend({
