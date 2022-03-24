@@ -176,12 +176,16 @@
     }
 
     li {
+      position: relative;
       display: flex;
       align-items: center;
+      padding-left: 16px;
       cursor: pointer;
 
       > span {
-        position: relative;
+        position: absolute;
+        left: 0;
+        top: 6px;
         display: block;
         width: 16px;
         height: 16px;
@@ -223,7 +227,9 @@
         }
 
         > div {
-          text-decoration: line-through;
+          p {
+            text-decoration: line-through;
+          }
         }
       }
     }
