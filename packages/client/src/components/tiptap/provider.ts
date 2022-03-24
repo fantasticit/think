@@ -4,6 +4,8 @@ import { IUser } from '@think/domains';
 const PROVIDER_POOL_READER = new Map();
 const PROVIDER_POOL_EDITOR = new Map();
 
+export type ProviderStatus = 'connecting' | 'connected' | 'disconnected' | 'loadCacheSuccess';
+
 export const getProvider = ({
   targetId,
   token,

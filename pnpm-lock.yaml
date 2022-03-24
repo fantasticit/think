@@ -116,6 +116,7 @@ importers:
       tippy.js: ^6.3.7
       tsconfig-paths-webpack-plugin: ^3.5.2
       typescript: 4.5.5
+      y-indexeddb: ^9.0.7
       y-prosemirror: ^1.0.14
       yjs: ^13.5.24
     dependencies:
@@ -188,6 +189,7 @@ importers:
       scroll-into-view-if-needed: 2.2.29
       swr: 1.2.0_react@17.0.2
       tippy.js: 6.3.7
+      y-indexeddb: 9.0.7_yjs@13.5.24
       y-prosemirror: 1.0.14_0fedec857d2fb730ad5b02a71124bf2a
       yjs: 13.5.24
     devDependencies:
@@ -8498,6 +8500,15 @@ packages:
   /xtend/4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
+    dev: false
+
+  /y-indexeddb/9.0.7_yjs@13.5.24:
+    resolution: {integrity: sha512-58rDlwtRgXucgR9Kxc49AepAR6uGNGfcvPPAMrmMfSvRBQ/tPnx6NoHNyrRkhbALEAjV9tPEAIP0a/KkVqAIyA==}
+    peerDependencies:
+      yjs: ^13.0.0
+    dependencies:
+      lib0: 0.2.47
+      yjs: 13.5.24
     dev: false
 
   /y-prosemirror/1.0.14_0fedec857d2fb730ad5b02a71124bf2a:
