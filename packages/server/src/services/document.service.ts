@@ -300,9 +300,13 @@ export class DocumentService {
       userId: user.id,
     });
 
-    const query = this.documentRepo.createQueryBuilder('documemt');
-    query.select('MAX(documemt.index)', 'maxIndex');
-    const { maxIndex } = await query.getRawOne();
+    const [docs] = await this.documentRepo.findAndCount({ createUserId: user.id });
+    const maxIndex = docs.length
+      ? Math.max.apply(
+          [],
+          docs.map((doc) => +doc.index)
+        )
+      : -1;
 
     const data = {
       ...dto,
