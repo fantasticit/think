@@ -183,6 +183,12 @@ server {
 }
 ```
 
+## 自动化部署
+
+> 思路：在服务器部署 webhook，然后在 github setting 中配置相应钩子，实现自动化部署
+
+参考：[webhook](https://github.com/adnanh/webhook/blob/master/docs/Hook-Examples.md#incoming-github-webhook)
+
 ## 资料
 
 - next.js 源码：https://github.com/vercel/next.js
