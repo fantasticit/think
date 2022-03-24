@@ -1,6 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { StatusWrapper } from '../components/status';
+import { StatusWrapper } from '../wrappers/status';
 import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
@@ -41,20 +41,19 @@ export const Status = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div',
+        tag: 'span.status',
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
+    return ['span', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
-  // @ts-ignore
   addCommands() {
     return {
       setStatus:
-        (options) =>
+        (options = {}) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,

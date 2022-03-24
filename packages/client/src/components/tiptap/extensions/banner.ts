@@ -1,6 +1,6 @@
 import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { BannerWrapper } from '../components/banner';
+import { BannerWrapper } from '../wrappers/banner';
 import { typesAvailable } from '../services/markdown/markdownToHTML/markdownBanner';
 import { getDatasetAttribute } from '../services/dataset';
 
@@ -54,7 +54,6 @@ export const Banner = Node.create({
     return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
-  // @ts-ignore
   addCommands() {
     return {
       setBanner:

@@ -1,6 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { IframeWrapper } from '../components/iframe';
+import { IframeWrapper } from '../wrappers/iframe';
 import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
@@ -16,7 +16,7 @@ export const Iframe = Node.create({
   content: '',
   marks: '',
   group: 'block',
-  draggable: true,
+  selectable: true,
   atom: true,
 
   addOptions() {
@@ -56,7 +56,6 @@ export const Iframe = Node.create({
     return ['iframe', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
-  // @ts-ignore
   addCommands() {
     return {
       setIframe:

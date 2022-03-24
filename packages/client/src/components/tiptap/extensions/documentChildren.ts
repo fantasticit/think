@@ -1,6 +1,6 @@
 import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { DocumentChildrenWrapper } from '../components/documentChildren';
+import { DocumentChildrenWrapper } from '../wrappers/documentChildren';
 import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
@@ -16,9 +16,15 @@ export const DocumentChildrenInputRegex = /^documentChildren\$$/;
 export const DocumentChildren = Node.create({
   name: 'documentChildren',
   group: 'block',
-  draggable: true,
-  selectable: true,
   atom: true,
+
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        class: 'documentChildren',
+      },
+    };
+  },
 
   addAttributes() {
     return {
@@ -32,18 +38,11 @@ export const DocumentChildren = Node.create({
       },
     };
   },
-  addOptions() {
-    return {
-      HTMLAttributes: {
-        class: 'documentChildren',
-      },
-    };
-  },
 
   parseHTML() {
     return [
       {
-        tag: 'div',
+        tag: 'div.documentChildren',
       },
     ];
   },
@@ -51,7 +50,7 @@ export const DocumentChildren = Node.create({
   renderHTML({ HTMLAttributes }) {
     return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
-  // @ts-ignore
+
   addCommands() {
     return {
       setDocumentChildren:

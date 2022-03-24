@@ -1,6 +1,7 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Resizeable } from 'components/resizeable';
 import { useEffect, useRef } from 'react';
+import cls from 'classnames';
 import { Typography, Spin } from '@douyinfe/semi-ui';
 import { useToggle } from 'hooks/useToggle';
 import { uploadFile } from 'services/file';
@@ -12,7 +13,7 @@ const { Text } = Typography;
 export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { hasTrigger, error, src, alt, title, width, height, textAlign } = node.attrs;
-  const $upload = useRef();
+  const $upload = useRef<HTMLInputElement>();
   const [loading, toggleLoading] = useToggle(false);
 
   const onResize = (size) => {
@@ -21,7 +22,6 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
 
   const selectFile = () => {
     if (!isEditable || error || src) return;
-    // @ts-ignore
     isEditable && $upload.current.click();
   };
 
@@ -54,7 +54,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   const content = (() => {
     if (error) {
       return (
-        <div className={styles.wrap}>
+        <div className={cls(styles.wrap, 'render-wrapper')}>
           <Text>{error}</Text>
         </div>
       );
@@ -62,7 +62,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
 
     if (!src) {
       return (
-        <div className={styles.wrap} onClick={selectFile}>
+        <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
           <Spin spinning={loading}>
             <Text style={{ cursor: 'pointer' }}>{loading ? '正在上传中' : '请选择图片'}</Text>
             <input ref={$upload} accept="image/*" type="file" hidden onChange={handleFile} />

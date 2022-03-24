@@ -3,8 +3,8 @@ import { Space, Button, InputNumber, Typography } from '@douyinfe/semi-ui';
 import { IconAlignLeft, IconAlignCenter, IconAlignRight, IconUpload, IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { Upload } from 'components/upload';
-import { BubbleMenu } from './components/bubbleMenu';
-import { Divider } from '../components/divider';
+import { BubbleMenu } from '../views/bubbleMenu';
+import { Divider } from '../wrappers/divider';
 import { Image } from '../extensions/image';
 import { getImageOriginSize } from '../services/image';
 
@@ -51,6 +51,7 @@ export const ImageBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
+
         <Tooltip content="居中">
           <Button
             onClick={() => {
@@ -69,6 +70,7 @@ export const ImageBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
+
         <Tooltip content="右对齐">
           <Button
             onClick={() => {
@@ -87,7 +89,9 @@ export const ImageBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
+
         <Divider />
+
         <Text>宽</Text>
         <InputNumber
           size="small"
@@ -106,6 +110,7 @@ export const ImageBubbleMenu = ({ editor }) => {
               .run();
           }}
         />
+
         <Text>高</Text>
         <InputNumber
           size="small"
@@ -124,30 +129,9 @@ export const ImageBubbleMenu = ({ editor }) => {
               .run();
           }}
         />
+
         <Divider />
-        <Upload
-          accept="image/*"
-          onOK={async (url, fileName) => {
-            const { width, height } = await getImageOriginSize(url);
-            editor
-              .chain()
-              .updateAttributes(Image.name, {
-                src: url,
-                alt: fileName,
-                width,
-                height,
-              })
-              .setNodeSelection(editor.state.selection.from)
-              .focus()
-              .run();
-          }}
-        >
-          {() => (
-            <Tooltip content="上传图片">
-              <Button size="small" type="tertiary" theme="borderless" icon={<IconUpload />} />
-            </Tooltip>
-          )}
-        </Upload>
+
         <Tooltip content="删除" hideOnClick>
           <Button
             size="small"

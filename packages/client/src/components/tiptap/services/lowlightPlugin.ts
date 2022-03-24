@@ -102,14 +102,14 @@ export function LowlightPlugin({
             // (for example, a transaction that affects the entire document).
             // Such transactions can happen during collab syncing via y-prosemirror, for example.
             transaction.steps.some((step) => {
-              // @ts-ignore
               return (
+                // @ts-ignore
                 step.from !== undefined &&
                 // @ts-ignore
                 step.to !== undefined &&
                 oldNodes.some((node) => {
-                  // @ts-ignore
                   return (
+                    // @ts-ignore
                     node.pos >= step.from &&
                     // @ts-ignore
                     node.pos + node.node.nodeSize <= step.to

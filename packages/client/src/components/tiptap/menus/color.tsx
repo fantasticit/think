@@ -3,7 +3,7 @@ import { Button } from '@douyinfe/semi-ui';
 import { IconFont, IconMark } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { isTitleActive } from '../services/isActive';
-import { Color } from './components/color';
+import { ColorPicker } from './colorPicker';
 
 export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
   const { color, backgroundColor } = editor.getAttributes('textStyle');
@@ -14,7 +14,7 @@ export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
 
   return (
     <>
-      <Color
+      <ColorPicker
         onSetColor={(color) => {
           editor.chain().focus().setColor(color).run();
         }}
@@ -45,8 +45,9 @@ export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
             disabled={isTitleActive(editor)}
           />
         </Tooltip>
-      </Color>
-      <Color
+      </ColorPicker>
+
+      <ColorPicker
         onSetColor={(color) => {
           editor.chain().focus().setBackgroundColor(color).run();
         }}
@@ -71,7 +72,7 @@ export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
             disabled={isTitleActive(editor)}
           />
         </Tooltip>
-      </Color>
+      </ColorPicker>
     </>
   );
 };

@@ -1,9 +1,3 @@
-// const provider = new IndexeddbPersistence(docName, ydoc);
-
-// provider.on('synced', () => {
-//   console.log('content from the database is loaded');
-// });
-
 import { IndexeddbPersistence } from 'y-indexeddb';
 
 const POOL = new Map();

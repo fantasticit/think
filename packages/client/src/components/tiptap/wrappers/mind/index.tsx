@@ -1,4 +1,5 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import cls from 'classnames';
 import { useCallback, useEffect, useRef } from 'react';
 import { Button } from '@douyinfe/semi-ui';
 import { IconMinus, IconPlus } from '@douyinfe/semi-icons';
@@ -120,7 +121,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   return (
-    <NodeViewWrapper className={styles.wrap}>
+    <NodeViewWrapper className={cls(styles.wrap, 'render-wrapper')}>
       <NodeViewContent as="div">
         {isEditable ? (
           <Resizeable width={width} height={height} onChange={onResize}>

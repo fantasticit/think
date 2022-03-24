@@ -1,14 +1,19 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Space, Popover, Tag, Input } from '@douyinfe/semi-ui';
+import cls from 'classnames';
 import styles from './index.module.scss';
 
 export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { color, text } = node.attrs;
-  const content = <Tag color={color}>{text || '点击设置状态'}</Tag>;
+  const content = (
+    <Tag className="render-wrapper" color={color}>
+      {text || '点击设置状态'}
+    </Tag>
+  );
 
   return (
-    <NodeViewWrapper as="span" className={styles.wrap}>
+    <NodeViewWrapper as="span" className={cls(styles.wrap, 'status')}>
       {isEditable ? (
         <Popover
           showArrow
@@ -24,8 +29,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
                       key={color}
                       style={{ width: 24, height: 24, cursor: 'pointer' }}
                       type="solid"
-                      // @ts-ignore
-                      color={color}
+                      color={color as unknown as any}
                       onClick={() => updateAttributes({ color })}
                     ></Tag>
                   );

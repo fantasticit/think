@@ -4,7 +4,7 @@ import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import Suggestion from '@tiptap/suggestion';
 import tippy from 'tippy.js';
-import { MenuList } from '../components/menuList';
+import { MenuList } from '../wrappers/menuList';
 import { EVOKE_MENU_ITEMS } from '../menus/evokeMenu';
 
 export const EvokeMenuPluginKey = new PluginKey('evokeMenu');

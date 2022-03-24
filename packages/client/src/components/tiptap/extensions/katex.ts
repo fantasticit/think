@@ -1,6 +1,6 @@
 import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { KatexWrapper } from '../components/katex';
+import { KatexWrapper } from '../wrappers/katex';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -46,11 +46,10 @@ export const Katex = Node.create({
     return ['span', mergeAttributes((this.options && this.options.HTMLAttributes) || {}, HTMLAttributes)];
   },
 
-  // @ts-ignore
   addCommands() {
     return {
       setKatex:
-        (options) =>
+        (options = {}) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,

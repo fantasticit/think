@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import cls from 'classnames';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Button, Select, Tooltip } from '@douyinfe/semi-ui';
 import { IconCopy } from '@douyinfe/semi-icons';
@@ -17,7 +18,7 @@ export const CodeBlockWrapper = ({
   const $container = useRef<HTMLPreElement>();
 
   return (
-    <NodeViewWrapper className={styles.wrap}>
+    <NodeViewWrapper className={cls(styles.wrap, 'render-wrapper')}>
       <div className={styles.handleWrap}>
         {isEditable && (
           <Select

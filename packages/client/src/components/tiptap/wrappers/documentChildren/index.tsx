@@ -34,7 +34,10 @@ export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
   }, [node.attrs, wikiId, documentId]);
 
   return (
-    <NodeViewWrapper as="div" className={cls(styles.wrap, isEditable && styles.isEditable)}>
+    <NodeViewWrapper
+      as="div"
+      className={cls('render-wrapper', styles.wrap, isEditable && styles.isEditable, 'documentChildren')}
+    >
       <div>
         <div>
           <Text type="tertiary">子文档</Text>

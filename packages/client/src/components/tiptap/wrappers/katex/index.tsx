@@ -1,5 +1,6 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
+import cls from 'classnames';
 import { Popover, TextArea, Typography, Space } from '@douyinfe/semi-ui';
 import { IconHelpCircle } from '@douyinfe/semi-icons';
 import katex from 'katex';
@@ -26,7 +27,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   return (
-    <NodeViewWrapper as="span" className={styles.wrap} contentEditable={false}>
+    <NodeViewWrapper as="span" className={cls(styles.wrap, 'render-wrapper')} contentEditable={false}>
       {isEditable ? (
         <Popover
           showArrow

@@ -1,12 +1,17 @@
 .wrap {
-  margin: 8px 0;
+  margin-top: 12px;
 
   &.isEditable {
+    padding: 12px;
+    background-color: var(--semi-color-fill-0);
+
     &:hover {
-      outline: 1px solid var(--semi-color-link);
+      background-color: var(--semi-color-fill-1);
     }
 
     .itemWrap {
+      pointer-events: none;
+
       &:hover {
         color: var(--semi-color-text-1);
         border-color: var(--semi-color-border);

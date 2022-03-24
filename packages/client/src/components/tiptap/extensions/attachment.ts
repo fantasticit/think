@@ -1,6 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { AttachmentWrapper } from '../components/attachment';
+import { AttachmentWrapper } from '../wrappers/attachment';
 import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
@@ -68,7 +68,6 @@ export const Attachment = Node.create({
     };
   },
 
-  // @ts-ignore
   addCommands() {
     return {
       setAttachment:
@@ -78,6 +77,7 @@ export const Attachment = Node.create({
         },
     };
   },
+
   addNodeView() {
     return ReactNodeViewRenderer(AttachmentWrapper);
   },

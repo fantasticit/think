@@ -11,8 +11,8 @@ import {
   IconDeleteTable,
 } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import { Divider } from '../components/divider';
-import { BubbleMenu } from './components/bubbleMenu';
+import { Divider } from '../wrappers/divider';
+import { BubbleMenu } from '../views/bubbleMenu';
 import { Table } from '../extensions/table';
 
 export const TableBubbleMenu = ({ editor }) => {

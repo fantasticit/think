@@ -40,17 +40,18 @@ export const Table = BuiltInTable.extend({
     if (fixedWidth && totalWidth > 0) {
       HTMLAttributes.style = `width: ${totalWidth}px;`;
     } else if (totalWidth && totalWidth > 0) {
-      HTMLAttributes.style = `min-width: 100%`;
+      HTMLAttributes.style = `min-width: ${totalWidth}px`;
     } else {
       HTMLAttributes.style = null;
     }
 
     return [
       'div',
-      { class: 'tableWrapper' },
+      { class: 'tableWrapper adas' },
       ['table', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), ['tbody', 0]],
     ];
   },
 }).configure({
   resizable: true,
+  cellMinWidth: 50,
 });

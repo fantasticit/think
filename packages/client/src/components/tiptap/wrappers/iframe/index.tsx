@@ -1,4 +1,5 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import cls from 'classnames';
 import { Input } from '@douyinfe/semi-ui';
 import { Resizeable } from 'components/resizeable';
 import styles from './index.module.scss';
@@ -7,13 +8,11 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { url, width, height } = node.attrs;
 
-  console.log('render iframe', node.attrs);
-
   const onResize = (size) => {
     updateAttributes({ width: size.width, height: size.height });
   };
   const content = (
-    <NodeViewContent as="div" className={styles.wrap}>
+    <NodeViewContent as="div" className={cls(styles.wrap, 'render-wrapper')}>
       {isEditable && (
         <div className={styles.handlerWrap}>
           <Input placeholder={'输入外链地址'} value={url} onChange={(url) => updateAttributes({ url })}></Input>

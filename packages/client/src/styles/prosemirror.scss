@@ -255,8 +255,7 @@
 
   pre {
     position: relative;
-    border-radius: var(--border-radius);
-    margin: 0.75rem 0px;
+    margin: 0;
     counter-reset: line 0;
     display: flex;
     min-width: 48px;
@@ -264,7 +263,6 @@
     line-height: 1.3;
     background-color: #0d0d0d;
     background-color: var(--semi-color-fill-0);
-    border: 1px solid var(--semi-color-border);
 
     code {
       color: inherit;
@@ -397,6 +395,82 @@
   .search-result-current {
     background: rgb(255, 0, 0);
   }
+
+  /******* 选中样式 *******/
+  hr.selected-node {
+    background-color: rgb(0, 101, 255);
+  }
+
+  .node-status {
+    .semi-tag-default {
+      border: 1px solid var(--semi-color-border);
+    }
+
+    &.selected-node {
+      .semi-tag-default {
+        border: 1px solid rgb(0 101 255);
+      }
+    }
+  }
+
+  .node-codeBlock,
+  .node-documentChildren,
+  .node-documentReference,
+  .node-katex {
+    .render-wrapper {
+      border: 1px solid transparent;
+    }
+  }
+
+  .node-katex {
+    .render-wrapper {
+      border-radius: var(--border-radius);
+    }
+  }
+
+  .node-attachment,
+  .node-banner,
+  .node-iframe,
+  .node-image,
+  .node-katex,
+  .node-mind,
+  .node-codeBlock,
+  .node-documentChildren,
+  .node-documentReference {
+    &:not(.has-focus) {
+      ::selection {
+        background-color: transparent;
+      }
+    }
+    // #e0ebfa
+
+    .render-wrapper {
+      position: relative;
+      user-select: text;
+    }
+
+    &.selected-node {
+      .render-wrapper {
+        border: 1px solid rgb(0 101 255);
+        background-color: var(--semi-color-info-light-hover);
+      }
+    }
+  }
+
+  .tableWrapper {
+    ::selection {
+      background-color: transparent;
+    }
+
+    &.selected-node {
+      td,
+      th {
+        border-color: rgb(0 101 255);
+        background-color: var(--semi-color-info-light-hover);
+      }
+    }
+  }
+  /******* 选中样式 *******/
 }
 
 .resize-cursor {

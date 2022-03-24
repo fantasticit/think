@@ -1,6 +1,6 @@
 import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { DocumentReferenceWrapper } from '../components/documentReference';
+import { DocumentReferenceWrapper } from '../wrappers/documentReference';
 import { getDatasetAttribute } from '../services/dataset';
 
 declare module '@tiptap/core' {
@@ -16,9 +16,7 @@ export const DocumentReferenceInputRegex = /^documentReference\$$/;
 export const DocumentReference = Node.create({
   name: 'documentReference',
   group: 'block',
-  draggable: true,
   atom: true,
-  selectable: true,
 
   addAttributes() {
     return {
@@ -48,7 +46,7 @@ export const DocumentReference = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div',
+        tag: 'div.documentReference',
       },
     ];
   },
@@ -57,7 +55,6 @@ export const DocumentReference = Node.create({
     return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
-  // @ts-ignore
   addCommands() {
     return {
       setDocumentReference:

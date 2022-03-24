@@ -4,7 +4,7 @@ import { TaskItem as BuiltInTaskItem } from '@tiptap/extension-task-item';
 import { Plugin } from 'prosemirror-state';
 import { findParentNodeClosestToPos } from 'prosemirror-utils';
 import { PARSE_HTML_PRIORITY_HIGHEST } from '../constants';
-import { TaskItemWrapper } from '../components/taskItem';
+import { TaskItemWrapper } from '../wrappers/taskItem';
 
 const CustomTaskItem = BuiltInTaskItem.extend({
   parseHTML() {
