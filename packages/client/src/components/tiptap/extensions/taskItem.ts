@@ -29,10 +29,6 @@ const CustomTaskItem = BuiltInTaskItem.extend({
     ];
   },
 
-  // addNodeView() {
-  //   return ReactNodeViewRenderer(TaskItemWrapper);
-  // },
-
   addNodeView() {
     return ({ node, HTMLAttributes, getPos, editor }) => {
       const listItem = document.createElement('li');
@@ -71,7 +67,6 @@ const CustomTaskItem = BuiltInTaskItem.extend({
     return [
       new Plugin({
         props: {
-          // @ts-ignore
           handleClick: (view, pos, event) => {
             const state = view.state;
             const schema = state.schema;
@@ -82,14 +77,20 @@ const CustomTaskItem = BuiltInTaskItem.extend({
               return node.type === schema.nodes.taskItem || node.type === schema.nodes.listItem;
             });
             if (!parentList) {
-              return;
+              return false;
             }
             const element = view.nodeDOM(parentList.pos) as HTMLLIElement;
-            if (element.tagName.toLowerCase() !== 'li') return;
+            if (element.tagName.toLowerCase() !== 'li') return false;
+
+            // 编辑模式：仅当点击 SPAN 时进行状态修改
+            if (view.editable) {
+              const target = event.target as HTMLElement;
+              if (target.tagName.toLowerCase() !== 'span') return false;
+            }
 
             const parentElement = element.parentElement;
             const type = parentElement && parentElement.getAttribute('data-type');
-            if (!type || type.toLowerCase() !== 'tasklist') return;
+            if (!type || type.toLowerCase() !== 'tasklist') return false;
 
             const tr = state.tr;
             const nextValue = !(element.getAttribute('data-checked') === 'true');
@@ -97,6 +98,7 @@ const CustomTaskItem = BuiltInTaskItem.extend({
               checked: nextValue,
             });
             view.dispatch(tr);
+            return true;
           },
         },
       }),
