@@ -17,7 +17,7 @@
     "start": "concurrently \"pnpm:start:*\"",
     "start:server": "pnpm run --dir packages/server start",
     "start:client": "pnpm run --dir packages/client start",
-    "pm2": "concurrently \"pnpm:pm2:*\"",
+    "pm2": "pnpm run pm2:server && pnpm run pm2:client",
     "pm2:server": "pnpm run --dir packages/server pm2",
     "pm2:client": "pnpm run --dir packages/client pm2",
     "format": "prettier --write --parser typescript \"packages/**/*.ts?(x)\""
