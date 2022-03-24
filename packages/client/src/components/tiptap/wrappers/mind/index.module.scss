@@ -5,6 +5,8 @@
   line-height: 0;
   overflow: visible;
   outline: none;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--semi-color-border);
 
   .jsmindWrap {
     position: absolute;
@@ -29,8 +31,7 @@
     position: relative;
     min-height: 50px;
     overflow: hidden;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--semi-color-border);
+
     outline: none;
 
     > input {

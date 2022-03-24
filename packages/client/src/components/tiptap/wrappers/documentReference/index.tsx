@@ -22,7 +22,7 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
   };
 
   return (
-    <NodeViewWrapper as="div" className={cls(styles.wrap, isEditable && styles.isEditable)}>
+    <NodeViewWrapper as="div" className={cls('render-wrapper', styles.wrap, isEditable && styles.isEditable)}>
       <div>
         {isEditable && (
           <DataRender

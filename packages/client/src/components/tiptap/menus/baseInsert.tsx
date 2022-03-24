@@ -3,7 +3,7 @@ import { Button } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
 import { IconQuote, IconLink, IconHorizontalRule } from 'components/icons';
 import { isTitleActive } from '../services/isActive';
-import { Emoji } from './components/emoji';
+import { Emoji } from './emoji';
 import { Search } from './search';
 
 export const BaseInsertMenu: React.FC<{ editor: any }> = ({ editor }) => {

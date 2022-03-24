@@ -1,6 +1,6 @@
 import { Image as BuiltInImage } from '@tiptap/extension-image';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { ImageWrapper } from '../components/image';
+import { ImageWrapper } from '../wrappers/image';
 
 const resolveImageEl = (element) => (element.nodeName === 'IMG' ? element : element.querySelector('img'));
 
@@ -20,10 +20,12 @@ export const Image = BuiltInImage.extend({
       content: '',
       marks: '',
       group: 'block',
-      draggable: true,
+      draggable: false,
+      selectable: true,
       atom: true,
     };
   },
+
   addAttributes() {
     return {
       ...this.parent?.(),
@@ -59,6 +61,7 @@ export const Image = BuiltInImage.extend({
       },
     };
   },
+
   addCommands() {
     return {
       ...this.parent?.(),
@@ -69,6 +72,7 @@ export const Image = BuiltInImage.extend({
         },
     };
   },
+
   addNodeView() {
     return ReactNodeViewRenderer(ImageWrapper);
   },

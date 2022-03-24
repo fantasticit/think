@@ -4,8 +4,8 @@ import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import Suggestion from '@tiptap/suggestion';
 import tippy from 'tippy.js';
-import { EmojiList } from '../components/emojiList';
-import { emojiSearch, emojisToName } from '../components/emojiList/emojis';
+import { EmojiList } from '../wrappers/emojiList';
+import { emojiSearch, emojisToName } from '../wrappers/emojiList/emojis';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

@@ -1,6 +1,6 @@
 import { Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { LoadingWrapper } from '../components/loading';
+import { LoadingWrapper } from '../wrappers/loading';
 
 export const Loading = Node.create({
   name: 'loading',

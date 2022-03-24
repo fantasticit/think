@@ -53,12 +53,15 @@ export const Search = ({ editor }) => {
               <Button disabled={!results.length} onClick={() => editor.commands.replaceAll()}>
                 全部替换
               </Button>
+
               <Button disabled={!results.length} onClick={() => editor.commands.replace()}>
                 替换
               </Button>
+
               <Button disabled={!results.length} onClick={() => editor.commands.goToPrevSearchResult()}>
                 上一个
               </Button>
+
               <Button disabled={!results.length} onClick={() => editor.commands.goToNextSearchResult()}>
                 下一个
               </Button>

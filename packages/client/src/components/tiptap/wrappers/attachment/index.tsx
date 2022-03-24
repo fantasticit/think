@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import cls from 'classnames';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Button, Typography, Spin, Collapsible, Space } from '@douyinfe/semi-ui';
 import {
@@ -47,7 +48,7 @@ const getFileTypeIcon = (type: FileType) => {
 };
 
 export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
-  const $upload = useRef();
+  const $upload = useRef<HTMLInputElement>();
   const isEditable = editor.isEditable;
   const { hasTrigger, fileName, fileSize, fileExt, fileType, url, error } = node.attrs;
   const [loading, toggleLoading] = useToggle(false);
@@ -55,7 +56,6 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
 
   const selectFile = () => {
     if (!isEditable || error || url) return;
-    // @ts-ignore
     isEditable && $upload.current.click();
   };
 
@@ -90,7 +90,7 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   const content = (() => {
     if (error) {
       return (
-        <div className={styles.wrap} onClick={selectFile}>
+        <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
           <Text>{error}</Text>
         </div>
       );
@@ -99,7 +99,7 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
     if (url) {
       return (
         <>
-          <div className={styles.wrap} onClick={selectFile}>
+          <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
             <Space>
               {getFileTypeIcon(type)}
               {fileName}.{fileExt}
@@ -139,7 +139,7 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
 
     if (isEditable && !url) {
       return (
-        <div className={styles.wrap} onClick={selectFile}>
+        <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
           <Spin spinning={loading}>
             <Text style={{ cursor: 'pointer' }}>{loading ? '正在上传中' : '请选择文件'}</Text>
             <input ref={$upload} type="file" hidden onChange={handleFile} />

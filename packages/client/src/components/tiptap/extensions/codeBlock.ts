@@ -3,7 +3,7 @@ import { Node, textblockTypeInputRule, mergeAttributes } from '@tiptap/core';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { LowlightPlugin } from '../services/lowlightPlugin';
-import { CodeBlockWrapper } from '../components/codeBlock';
+import { CodeBlockWrapper } from '../wrappers/codeBlock';
 
 export interface CodeBlockOptions {
   /**

@@ -33,6 +33,7 @@ import { OrderedList } from './extensions/orderedList';
 import { Paragraph } from './extensions/paragraph';
 import { Placeholder } from './extensions/placeholder';
 import { SearchNReplace } from './extensions/search';
+import { SelectionExtension } from './extensions/selection';
 import { Status } from './extensions/status';
 import { Strike } from './extensions/strike';
 import { Table } from './extensions/table';
@@ -85,6 +86,7 @@ export const BaseKit = [
   Paragraph,
   Placeholder,
   SearchNReplace,
+  SelectionExtension,
   Status,
   Strike,
   Table,

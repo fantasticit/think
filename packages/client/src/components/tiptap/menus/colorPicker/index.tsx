@@ -26,7 +26,7 @@ const colors = [
   'rgb(234, 230, 255)',
 ];
 
-export const Color: React.FC<{
+export const ColorPicker: React.FC<{
   onSetColor;
   disabled?: boolean;
 }> = ({ children, onSetColor, disabled = false }) => {

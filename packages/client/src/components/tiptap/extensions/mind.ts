@@ -1,7 +1,6 @@
 import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { safeJSONParse } from 'helpers/json';
-import { MindWrapper } from '../components/mind';
+import { MindWrapper } from '../wrappers/mind';
 import { getDatasetAttribute } from '../services/dataset';
 
 const DEFAULT_MIND_DATA = {
@@ -27,7 +26,7 @@ export const Mind = Node.create({
   content: '',
   marks: '',
   group: 'block',
-  draggable: true,
+  selectable: true,
   atom: true,
 
   addAttributes() {
@@ -67,7 +66,6 @@ export const Mind = Node.create({
     return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
-  // @ts-ignore
   addCommands() {
     return {
       setMind:

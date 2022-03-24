@@ -31,6 +31,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 1 }).run(),
   },
+
   {
     key: '标题2',
     label: (
@@ -41,6 +42,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 2 }).run(),
   },
+
   {
     key: '标题1',
     label: (
@@ -51,6 +53,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().toggleHeading({ level: 3 }).run(),
   },
+
   {
     key: '无序列表',
     label: (
@@ -61,6 +64,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().toggleBulletList().run(),
   },
+
   {
     key: '有序列表',
     label: (
@@ -71,6 +75,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().toggleOrderedList().run(),
   },
+
   {
     key: '任务列表',
     label: (
@@ -81,6 +86,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().toggleTaskList().run(),
   },
+
   {
     key: '链接',
     label: (
@@ -91,6 +97,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().toggleLink({ href: '' }).run(),
   },
+
   {
     key: '引用',
     label: (
@@ -101,6 +108,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().toggleBlockquote().run(),
   },
+
   {
     key: '分割线',
     label: (
@@ -111,6 +119,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().setHorizontalRule().run(),
   },
+
   {
     key: '表格',
     label: (
@@ -121,6 +130,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
   },
+
   {
     key: '代码块',
     label: (
@@ -131,6 +141,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().toggleCodeBlock().run(),
   },
+
   {
     key: '图片',
     label: () => (
@@ -141,6 +152,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().setEmptyImage().run(),
   },
+
   {
     key: '附件',
     label: () => (
@@ -151,6 +163,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().setAttachment().run(),
   },
+
   {
     key: '外链',
     label: (
@@ -161,6 +174,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().setIframe({ url: '' }).run(),
   },
+
   {
     key: '思维导图',
     label: (
@@ -171,6 +185,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().setMind().run(),
   },
+
   {
     key: '数学公式',
     label: (
@@ -181,6 +196,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().setKatex().run(),
   },
+
   {
     key: '状态',
     label: (
@@ -191,6 +207,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().setStatus().run(),
   },
+
   {
     key: '信息框',
     label: (
@@ -201,6 +218,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().setBanner({ type: 'info' }).run(),
   },
+
   {
     key: '文档',
     label: (
@@ -211,6 +229,7 @@ export const EVOKE_MENU_ITEMS = [
     ),
     command: (editor: Editor) => editor.chain().focus().setDocumentReference().run(),
   },
+
   {
     key: '子文档',
     label: (

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Space, Button, Input } from '@douyinfe/semi-ui';
 import { IconExternalOpen, IconUnlink, IconTickCircle } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from './components/bubbleMenu';
+import { BubbleMenu } from '../views/bubbleMenu';
 import { Link } from '../extensions/link';
 
 export const LinkBubbleMenu = ({ editor }) => {
@@ -28,11 +28,11 @@ export const LinkBubbleMenu = ({ editor }) => {
           onChange={(v) => setUrl(v)}
           placeholder={'输入链接'}
           onEnterPress={(e) => {
-            // @ts-ignore
-            const url = e.target.value;
+            const url = (e.target as HTMLInputElement).value;
             setUrl(url);
           }}
         />
+
         <Tooltip content="设置链接">
           <Button
             size="small"
@@ -51,6 +51,7 @@ export const LinkBubbleMenu = ({ editor }) => {
             }}
           />
         </Tooltip>
+
         <Tooltip content="去除链接">
           <Button
             onClick={() => {
@@ -62,6 +63,7 @@ export const LinkBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
+
         <Tooltip content="访问链接">
           <Button
             size="small"

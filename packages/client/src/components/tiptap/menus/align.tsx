@@ -29,12 +29,15 @@ export const AlignMenu = ({ editor }) => {
           <Tooltip content="左对齐">
             <Button onClick={toggle('left')} icon={<IconAlignLeft />} type="tertiary" theme="borderless" />
           </Tooltip>
+
           <Tooltip content="居中">
             <Button onClick={toggle('center')} icon={<IconAlignCenter />} type="tertiary" theme="borderless" />
           </Tooltip>
+
           <Tooltip content="右对齐">
             <Button onClick={toggle('right')} icon={<IconAlignRight />} type="tertiary" theme="borderless" />
           </Tooltip>
+
           <Tooltip content="两端对齐">
             <Button onClick={toggle('justify')} icon={<IconAlignJustify />} type="tertiary" theme="borderless" />
           </Tooltip>

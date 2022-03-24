@@ -1,14 +1,21 @@
 .wrap {
-  margin: 28px 0 16px;
-  padding-top: 12px;
-  border-top: 1px solid var(--semi-color-border);
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--semi-color-border);
+  border-left: 0;
+  border-right: 0;
 
   &.isEditable {
+    border: 0;
+    background-color: var(--semi-color-fill-0);
+
     &:hover {
-      outline: 1px solid var(--semi-color-link);
+      background-color: var(--semi-color-fill-1);
     }
 
     .itemWrap {
+      pointer-events: none;
+
       &:hover {
         color: var(--semi-color-text-1);
         border-color: var(--semi-color-border);
@@ -23,6 +30,8 @@
     text-decoration: none;
     color: var(--semi-color-text-1);
     border-radius: var(--border-radius);
+    border: 1px solid var(--semi-color-border);
+    cursor: pointer;
 
     &:hover {
       color: var(--semi-color-link);
