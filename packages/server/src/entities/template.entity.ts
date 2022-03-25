@@ -14,13 +14,10 @@ export class TemplateEntity {
   @Column({ type: 'varchar', length: 200, comment: '标题' })
   public title: string;
 
-  @Column({ type: 'text', comment: '内容' })
+  @Column({ type: 'longblob', comment: '文档内容' })
   public content: string;
 
-  @Column({
-    type: 'blob',
-    comment: '内容',
-  })
+  @Column({ type: 'longblob', comment: '文档内容' })
   public state: Uint8Array;
 
   @Column({ type: 'int', default: 0, comment: '使用量' })
