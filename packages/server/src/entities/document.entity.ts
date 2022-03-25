@@ -22,7 +22,7 @@ export class DocumentEntity {
   @Column({ type: 'varchar', default: '未命名文档', comment: '文档标题' })
   public title: string;
 
-  @Column({ type: 'text', comment: '文档内容' })
+  @Column({ type: 'longblob', comment: '文档内容' })
   public content: string;
 
   @Column({ type: 'longblob', comment: '文档内容' })
