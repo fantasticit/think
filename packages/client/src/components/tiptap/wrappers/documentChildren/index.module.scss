@@ -2,11 +2,8 @@
   margin-top: 12px;
   padding: 12px;
   border: 1px solid var(--semi-color-border);
-  border-left: 0;
-  border-right: 0;
 
   &.isEditable {
-    border: 0;
     background-color: var(--semi-color-fill-0);
 
     &:hover {

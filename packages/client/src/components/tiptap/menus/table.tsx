@@ -9,6 +9,9 @@ import {
   IconMergeCell,
   IconSplitCell,
   IconDeleteTable,
+  IconTableHeaderRow,
+  IconTableHeaderColumn,
+  IconTableHeaderCell,
 } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
 import { Divider } from '../wrappers/divider';
@@ -24,6 +27,7 @@ export const TableBubbleMenu = ({ editor }) => {
       shouldShow={() => editor.isActive(Table.name)}
       tippyOptions={{
         maxWidth: 456,
+        placement: 'bottom',
       }}
       matchRenderContainer={(node: HTMLElement) =>
         node && node.classList && node.classList.contains('tableWrapper') && node.tagName === 'DIV'
@@ -88,6 +92,38 @@ export const TableBubbleMenu = ({ editor }) => {
             type="tertiary"
             theme="borderless"
             size="small"
+          />
+        </Tooltip>
+
+        <Divider />
+
+        <Tooltip content="设置(或取消)当前列为表头">
+          <Button
+            size="small"
+            type="tertiary"
+            theme="borderless"
+            icon={<IconTableHeaderColumn />}
+            onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
+          />
+        </Tooltip>
+
+        <Tooltip content="设置(或取消)当前行为表头">
+          <Button
+            size="small"
+            type="tertiary"
+            theme="borderless"
+            icon={<IconTableHeaderRow />}
+            onClick={() => editor.chain().focus().toggleHeaderRow().run()}
+          />
+        </Tooltip>
+
+        <Tooltip content="设置(或取消)当前单元格为表头">
+          <Button
+            size="small"
+            type="tertiary"
+            theme="borderless"
+            icon={<IconTableHeaderCell />}
+            onClick={() => editor.chain().focus().toggleHeaderCell().run()}
           />
         </Tooltip>
 

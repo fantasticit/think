@@ -42,3 +42,6 @@ export * from './IconList';
 export * from './IconHeading1';
 export * from './IconHeading2';
 export * from './IconHeading3';
+export * from './IconTableHeaderRow';
+export * from './IconTableHeaderColumn';
+export * from './IconTableHeaderCell';

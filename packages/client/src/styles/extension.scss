@@ -6,10 +6,6 @@
   box-shadow: var(--box-shadow);
   background-color: var(--semi-color-nav-bg);
   overflow-x: auto;
-
-  &.table-bubble-menu {
-    transform: translateY(-2em);
-  }
 }
 
 .table-controller-wrapper {

@@ -5,12 +5,11 @@ const config = getConfig().client;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = semi({
-  reactStrictMode: true,
   assetPrefix: config.assetPrefix,
   env: {
     SERVER_API_URL: config.apiUrl,
     COLLABORATION_API_URL: config.collaborationUrl,
-    ENABLE_ALIYUN_OSS: config?.oss?.aliyun?.accessKeyId,
+    ENABLE_ALIYUN_OSS: !!config?.oss?.aliyun?.accessKeyId,
   },
   webpack: (config, { dev, isServer }) => {
     config.resolve.plugins.push(new TsconfigPathsPlugin());

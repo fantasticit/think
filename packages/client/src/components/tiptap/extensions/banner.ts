@@ -17,6 +17,7 @@ export const Banner = Node.create({
   content: 'paragraph+',
   group: 'block',
   defining: true,
+  selectable: true,
 
   addAttributes() {
     return {

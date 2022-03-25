@@ -24,11 +24,11 @@ db:
 # oss 文件存储服务
 oss:
   aliyun:
-    accessKeyId: 'LTAI5tNd19aX1TZJwGjKJWVE'
-    accessKeySecret: 'nlZJQprIO45QDeeANVlBZ6F7SIjBZs'
-    bucket: 'wipi'
+    accessKeyId: ''
+    accessKeySecret: ''
+    bucket: ''
     https: true
-    region: 'oss-cn-shanghai'
+    region: ''
 
 # jwt 配置
 jwt:

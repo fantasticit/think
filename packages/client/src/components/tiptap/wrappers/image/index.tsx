@@ -71,7 +71,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
       );
     }
 
-    const img = <img src={src} alt={alt} width={width} height={height} />;
+    const img = <img className="render-wrapper" src={src} alt={alt} width={width} height={height} />;
 
     if (isEditable) {
       return (

@@ -1,8 +1,17 @@
+import { string } from 'lib0';
 import { HttpClient } from './HttpClient';
 
-export const uploadFile = async (file: Blob): Promise<string> => {
-  if (process.env.ENABLE_ALIYUN_OSS) {
-    return Promise.reject(new Error('阿里云OSS配置不完善，请自行实现上传文件！'));
+export const readFileAsDataURL = (file): Promise<string | ArrayBuffer> => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', (e) => resolve(e.target.result), { once: true });
+    reader.readAsDataURL(file);
+  });
+};
+
+export const uploadFile = async (file: Blob): Promise<string | ArrayBuffer> => {
+  if (!process.env.ENABLE_ALIYUN_OSS) {
+    return readFileAsDataURL(file);
   }
 
   const formData = new FormData();

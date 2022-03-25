@@ -22,15 +22,15 @@ export const CreateUser: React.FC<{ document: IDocument; container: () => HTMLEl
       }}
     >
       <Space>
-        <Avatar size="extra-extra-small" src={document.createUser && document.createUser.avatar}>
+        <Avatar size="small" src={document.createUser && document.createUser.avatar}>
           <IconUser />
         </Avatar>
         <div>
-          <p>
+          <p style={{ margin: 0 }}>
             创建者：
             {document.createUser && document.createUser.name}
           </p>
-          <p>
+          <p style={{ margin: '8px 0 0' }}>
             最近更新日期：
             <LocaleTime date={document.updatedAt} timeago />
             {' ⦁ '}阅读量：

@@ -165,6 +165,11 @@
 
   p {
     font-size: 1em;
+    line-height: 1.714;
+    font-weight: normal;
+    margin-top: 0.75rem;
+    margin-bottom: 0px;
+    letter-spacing: -0.005em;
   }
 
   ul[data-type='taskList'] {
@@ -261,14 +266,12 @@
     min-width: 48px;
     overflow-x: auto;
     line-height: 1.3;
-    background-color: #0d0d0d;
     background-color: var(--semi-color-fill-0);
 
     code {
       color: inherit;
       font-size: 0.875rem;
       line-height: 1.5rem;
-      border-radius: var(--border-radius);
       margin: 8px;
       padding: 0;
       white-space: pre;
@@ -315,11 +318,12 @@
 
     th {
       font-weight: bold;
+      background-color: rgb(244, 245, 247);
     }
 
     .selectedCell {
       border-style: double;
-      border-color: var(--semi-color-info);
+      border-color: rgb(0 101 255);
       background: var(--semi-color-info-light-hover);
     }
 
@@ -414,14 +418,15 @@
   }
 
   .node-codeBlock,
+  .node-katex,
   .node-documentChildren,
-  .node-documentReference,
-  .node-katex {
+  .node-documentReference {
     .render-wrapper {
-      border: 1px solid transparent;
+      border: 1px solid var(--semi-color-border);
     }
   }
 
+  .node-codeBlock,
   .node-katex {
     .render-wrapper {
       border-radius: var(--border-radius);
@@ -442,7 +447,6 @@
         background-color: transparent;
       }
     }
-    // #e0ebfa
 
     .render-wrapper {
       position: relative;
@@ -451,8 +455,8 @@
 
     &.selected-node {
       .render-wrapper {
-        border: 1px solid rgb(0 101 255);
-        background-color: var(--semi-color-info-light-hover);
+        border: 1px solid rgb(0 101 255) !important;
+        background-color: #e0ebfa;
       }
     }
   }
@@ -466,7 +470,7 @@
       td,
       th {
         border-color: rgb(0 101 255);
-        background-color: var(--semi-color-info-light-hover);
+        background-color: #e0ebfa;
       }
     }
   }

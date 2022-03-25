@@ -2,6 +2,7 @@
   margin-top: 12px;
 
   &.isEditable {
+    border-color: transparent !important;
     padding: 12px;
     background-color: var(--semi-color-fill-0);
 
@@ -11,11 +12,16 @@
 
     .itemWrap {
       pointer-events: none;
+      margin-top: 12px;
 
       &:hover {
         color: var(--semi-color-text-1);
         border-color: var(--semi-color-border);
       }
+    }
+
+    .empty {
+      margin-top: 12px;
     }
   }
 
@@ -24,7 +30,6 @@
     align-items: center;
     padding: 8px;
     border: 1px solid var(--semi-color-border);
-    margin-top: 12px;
     border-radius: var(--border-radius);
     text-decoration: none;
     color: var(--semi-color-text-1);
@@ -44,7 +49,6 @@
     align-items: center;
     padding: 8px;
     border: 1px solid var(--semi-color-border);
-    margin-top: 12px;
     border-radius: var(--border-radius);
     text-decoration: none;
     color: var(--semi-color-text-1);

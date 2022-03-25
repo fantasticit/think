@@ -21,14 +21,6 @@ export const extractFileExtension = (fileName) => {
   return fileName.split('.').pop();
 };
 
-export const readFileAsDataURL = (file) => {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', (e) => resolve(e.target.result), { once: true });
-    reader.readAsDataURL(file);
-  });
-};
-
 export const normalizeFileSize = (size) => {
   if (size < 1024) {
     return size + ' Byte';

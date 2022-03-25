@@ -22,7 +22,10 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
   };
 
   return (
-    <NodeViewWrapper as="div" className={cls('render-wrapper', styles.wrap, isEditable && styles.isEditable)}>
+    <NodeViewWrapper
+      as="div"
+      className={cls(styles.wrap, isEditable && styles.isEditable, isEditable && 'render-wrapper')}
+    >
       <div>
         {isEditable && (
           <DataRender
@@ -55,13 +58,13 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
               query: { wikiId, documentId },
             }}
           >
-            <a className={styles.itemWrap} target="_blank">
+            <a className={cls(styles.itemWrap, !isEditable && 'render-wrapper')} target="_blank">
               <IconDocument />
               <span>{title || '请选择文档'}</span>
             </a>
           </Link>
         ) : (
-          <div className={styles.empty}>
+          <div className={cls(styles.empty, !isEditable && 'render-wrapper')}>
             <span>{'用户未选择文档'}</span>
           </div>
         )}

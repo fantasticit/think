@@ -47,7 +47,7 @@ export const Table = BuiltInTable.extend({
 
     return [
       'div',
-      { class: 'tableWrapper adas' },
+      { class: 'tableWrapper' },
       ['table', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), ['tbody', 0]],
     ];
   },

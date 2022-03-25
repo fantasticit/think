@@ -98,7 +98,12 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   }, [isEditable]);
 
   const content = (
-    <div ref={$container} className={styles.renderWrap} tabIndex={0} style={{ width: '100%', height: '100%' }}>
+    <div
+      ref={$container}
+      className={cls(styles.renderWrap, 'render-wrapper')}
+      tabIndex={0}
+      style={{ width: '100%', height: '100%' }}
+    >
       {!isEditable && (
         <div className={styles.mindHandlerWrap}>
           <Button
@@ -121,16 +126,15 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   return (
-    <NodeViewWrapper className={cls(styles.wrap, 'render-wrapper')}>
-      <NodeViewContent as="div">
-        {isEditable ? (
-          <Resizeable width={width} height={height} onChange={onResize}>
-            {content}
-          </Resizeable>
-        ) : (
-          <div style={{ display: 'inline-block', width, height }}>{content}</div>
-        )}
-      </NodeViewContent>
+    <NodeViewWrapper className={cls(styles.wrap)}>
+      {isEditable ? (
+        <Resizeable width={width} height={height} onChange={onResize}>
+          {content}
+        </Resizeable>
+      ) : (
+        <div style={{ display: 'inline-block', width, height }}>{content}</div>
+      )}
+      {/* <NodeViewContent as="div"></NodeViewContent> */}
     </NodeViewWrapper>
   );
 };
