@@ -1,14 +1,14 @@
 const semi = require('@douyinfe/semi-next').default({});
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { getConfig } = require('@think/config');
-const config = getConfig().client;
+const config = getConfig();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = semi({
   assetPrefix: config.assetPrefix,
   env: {
-    SERVER_API_URL: config.apiUrl,
-    COLLABORATION_API_URL: config.collaborationUrl,
+    SERVER_API_URL: config?.client?.apiUrl,
+    COLLABORATION_API_URL: config?.client?.collaborationUrl,
     ENABLE_ALIYUN_OSS: !!config?.oss?.aliyun?.accessKeyId,
   },
   webpack: (config, { dev, isServer }) => {
