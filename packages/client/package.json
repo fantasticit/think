@@ -6,7 +6,7 @@
     "prebuild": "rimraf .next",
     "build": "next build",
     "start": "cross-env NODE_ENV=production next start -p 5002",
-    "pm2": "pm2 start npm --name @think/client -- start"
+    "pm2": "pm2 start -i max npm --name @think/client -- start"
   },
   "dependencies": {
     "@douyinfe/semi-icons": "^2.3.1",

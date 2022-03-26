@@ -9,7 +9,7 @@
     "dev": "nest start --watch",
     "debug": "nest start --debug --watch",
     "start": "cross-env NODE_ENV=production node dist/main",
-    "pm2": "pm2 start npm --name @think/server -- start",
+    "pm2": "pm2 start -i max npm --name @think/server -- start",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
     "test:watch": "jest --watch",

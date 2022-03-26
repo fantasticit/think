@@ -5,6 +5,7 @@
   border-radius: 3px;
   box-shadow: var(--box-shadow);
   background-color: var(--semi-color-nav-bg);
+  border: 1px solid var(--semi-color-border);
   overflow-x: auto;
 }
 
@@ -14,6 +15,7 @@
   border-radius: 3px;
   box-shadow: var(--box-shadow);
   background-color: var(--semi-color-nav-bg);
+  border: 1px solid var(--semi-color-border);
 
   &.row {
     column-gap: 8px;

@@ -40,10 +40,28 @@
   }
 
   hr {
+    position: relative;
     border: 0;
     height: 2px;
     background: var(--semi-color-border);
-    margin: 18px 0;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 12px;
+    }
+
+    &::before {
+      top: 0;
+    }
+
+    &::after {
+      bottom: 0;
+    }
   }
 }
 

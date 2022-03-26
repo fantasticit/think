@@ -2,10 +2,11 @@
   position: relative;
 
   .handleWrap {
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
-    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 8px;
+    background-color: var(--semi-color-fill-0);
+    border-bottom: 1px solid var(--semi-color-border);
 
     .selectorWrap {
       margin-right: 8px;

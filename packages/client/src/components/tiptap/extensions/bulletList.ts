@@ -17,8 +17,4 @@ export const BulletList = BuiltInBulletList.extend({
       },
     };
   },
-
-  addInputRules() {
-    return [listInputRule(/^\s*([-+*])\s([^\s[])$/, this.type)];
-  },
 });
