@@ -105,7 +105,7 @@ export const TableCell = BuiltInTableCell.extend({
               return !!cells?.some((cell, index) => isRowSelected(index)(editor.state.selection));
             },
             init: (dom, editor) => {
-              dom.classList.add('table-controller-wrapper');
+              dom.classList.add('bubble-memu-table-cell');
               dom.classList.add('row');
               ReactDOM.render(
                 <>

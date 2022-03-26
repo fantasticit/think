@@ -21,7 +21,7 @@ import { Table } from '../extensions/table';
 export const TableBubbleMenu = ({ editor }) => {
   return (
     <BubbleMenu
-      className={'bubble-menu table-bubble-menu'}
+      className={'bubble-menu bubble-menu-table'}
       editor={editor}
       pluginKey="table-bubble-menu"
       shouldShow={() => editor.isActive(Table.name)}

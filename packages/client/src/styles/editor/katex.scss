@@ -1,15 +1,13 @@
 .katex {
+  font-size: 1em;
   text-rendering: auto;
-  font: normal 1.21em;
-  line-height: 1.2;
-  text-indent: 0;
 }
 .katex * {
   -ms-high-contrast-adjust: none !important;
   border-color: currentColor;
 }
 .katex .katex-version:after {
-  content: "0.15.2";
+  content: '0.15.2';
 }
 .katex .katex-mathml {
   clip: rect(1px, 1px, 1px, 1px);
@@ -811,7 +809,7 @@
 }
 .katex .stretchy:after,
 .katex .stretchy:before {
-  content: "";
+  content: '';
 }
 .katex .hide-tail {
   overflow: hidden;
@@ -888,11 +886,11 @@
   padding: 0 0.03889em;
 }
 .katex .eqn-num:before {
-  content: "(" counter(katexEqnNo) ")";
+  content: '(' counter(katexEqnNo) ')';
   counter-increment: katexEqnNo;
 }
 .katex .mml-eqn-num:before {
-  content: "(" counter(mmlEqnNo) ")";
+  content: '(' counter(mmlEqnNo) ')';
   counter-increment: mmlEqnNo;
 }
 .katex .mtr-glue {
@@ -939,7 +937,4 @@
 .katex-display.fleqn > .katex {
   padding-left: 2em;
   text-align: left;
-}
-body {
-  counter-reset: katexEqnNo mmlEqnNo;
 }

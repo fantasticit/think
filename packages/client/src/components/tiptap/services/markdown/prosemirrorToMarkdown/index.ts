@@ -22,6 +22,8 @@ import { OrderedList } from '../../../extensions/orderedList';
 import { Paragraph } from '../../../extensions/paragraph';
 import { Status } from '../../../extensions/status';
 import { Strike } from '../../../extensions/strike';
+import { Subscript } from '../../../extensions/subscript';
+import { Superscript } from '../../../extensions/superscript';
 import { Table } from '../../../extensions/table';
 import { TableCell } from '../../../extensions/tableCell';
 import { TableHeader } from '../../../extensions/tableHeader';
@@ -67,6 +69,8 @@ const SerializerConfig = {
       mixable: true,
       expelEnclosingWhitespace: true,
     },
+    [Subscript.name]: { open: '<sub>', close: '</sub>', mixable: true },
+    [Superscript.name]: { open: '<sup>', close: '</sup>', mixable: true },
     // FIXME: 如何导出 style？
     [TextStyle.name]: { open: '', close: '', mixable: true, expelEnclosingWhitespace: true },
     ...marks.reduce(

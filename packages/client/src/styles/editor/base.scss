@@ -1,0 +1,53 @@
+.ProseMirror {
+  color: var(--semi-color-text-0);
+  white-space: break-spaces;
+  word-break: break-word;
+  word-wrap: break-word;
+  font-family: 'Chinese Quote', 'Segoe UI', Roboto, RobotoNum, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.008em;
+  line-height: 1.74;
+  outline: none !important;
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  a {
+    color: var(--semi-color-link);
+    text-decoration: underline;
+  }
+
+  img {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--semi-color-border);
+  }
+
+  p {
+    font-size: 1em;
+    line-height: 1.714;
+    font-weight: normal;
+    margin-top: 0.75rem;
+    margin-bottom: 0px;
+    letter-spacing: -0.005em;
+  }
+
+  blockquote {
+    box-sizing: border-box;
+    padding-left: 10px;
+    border-left: 2px solid var(--semi-color-fill-2);
+    margin: 0.75rem 0;
+  }
+
+  hr {
+    border: 0;
+    height: 2px;
+    background: var(--semi-color-border);
+    margin: 18px 0;
+  }
+}
+
+.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}

@@ -14,6 +14,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
 
   return (
     <NodeViewWrapper as="span" className={cls(styles.wrap, 'status')}>
+      <NodeViewContent />
       {isEditable ? (
         <Popover
           showArrow
@@ -44,7 +45,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
       ) : (
         content
       )}
-      {/* <NodeViewContent></NodeViewContent> */}
+      <NodeViewContent />
     </NodeViewWrapper>
   );
 };

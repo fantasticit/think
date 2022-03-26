@@ -76,8 +76,6 @@ export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
           <Text type="tertiary">当前页面无法使用子文档</Text>
         )}
       </div>
-
-      <NodeViewContent></NodeViewContent>
     </NodeViewWrapper>
   );
 };

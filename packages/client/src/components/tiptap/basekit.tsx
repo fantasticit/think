@@ -36,6 +36,8 @@ import { SearchNReplace } from './extensions/search';
 import { SelectionExtension } from './extensions/selection';
 import { Status } from './extensions/status';
 import { Strike } from './extensions/strike';
+import { Subscript } from './extensions/subscript';
+import { Superscript } from './extensions/superscript';
 import { Table } from './extensions/table';
 import { TableCell } from './extensions/tableCell';
 import { TableHeader } from './extensions/tableHeader';
@@ -89,6 +91,8 @@ export const BaseKit = [
   SelectionExtension,
   Status,
   Strike,
+  Subscript,
+  Superscript,
   Table,
   TableCell,
   TableHeader,
