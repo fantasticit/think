@@ -79,27 +79,6 @@
   color: var(--semi-color-text-0);
 }
 
-.react-resizable {
-  position: relative;
-}
-
-.react-resizable-handle {
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  width: 56px;
-  height: 8px;
-  background-color: #d9d9d9;
-  border-radius: 4px;
-  position: absolute;
-  margin-left: -28px;
-}
-
-.react-resizable-handle-n,
-.react-resizable-handle-s {
-  cursor: ns-resize;
-}
-
 .semi-spin-wrapper {
   display: flex;
   flex-direction: column;
