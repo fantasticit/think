@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@douyinfe/semi-ui';
 import { IconBold, IconItalic, IconStrikeThrough, IconUnderline, IconCode } from '@douyinfe/semi-icons';
+import { IconSup, IconSub } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
 import { isTitleActive } from '../services/isActive';
 import { ColorMenu } from './color';
@@ -58,6 +59,26 @@ export const BaseMenu: React.FC<{ editor: any }> = ({ editor }) => {
           type="tertiary"
           icon={<IconCode />}
           onClick={() => editor.chain().focus().toggleCode().run()}
+          disabled={isTitleActive(editor)}
+        />
+      </Tooltip>
+
+      <Tooltip content="上标">
+        <Button
+          theme={editor.isActive('superscript') ? 'light' : 'borderless'}
+          type="tertiary"
+          icon={<IconSup />}
+          onClick={() => editor.chain().focus().toggleSuperscript().run()}
+          disabled={isTitleActive(editor)}
+        />
+      </Tooltip>
+
+      <Tooltip content="下标">
+        <Button
+          theme={editor.isActive('subscript') ? 'light' : 'borderless'}
+          type="tertiary"
+          icon={<IconSub />}
+          onClick={() => editor.chain().focus().toggleSubscript().run()}
           disabled={isTitleActive(editor)}
         />
       </Tooltip>

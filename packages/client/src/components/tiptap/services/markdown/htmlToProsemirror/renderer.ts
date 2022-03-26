@@ -36,6 +36,8 @@ import { Bold } from './marks/bold';
 import { Code } from './marks/code';
 import { Italic } from './marks/italic';
 import { Link } from './marks/link';
+import { Subscript } from './marks/subscript';
+import { Superscript } from './marks/superscript';
 import { Underline } from './marks/underline';
 
 export class Renderer {
@@ -84,7 +86,7 @@ export class Renderer {
       BulletList,
     ];
 
-    this.marks = [Bold, Code, Italic, Link, Underline];
+    this.marks = [Bold, Code, Italic, Link, Subscript, Superscript, Underline];
   }
 
   setDocument(document) {

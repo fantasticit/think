@@ -73,6 +73,8 @@ importers:
       '@tiptap/extension-paragraph': ^2.0.0-beta.23
       '@tiptap/extension-placeholder': ^2.0.0-beta.47
       '@tiptap/extension-strike': ^2.0.0-beta.27
+      '@tiptap/extension-subscript': ^2.0.0-beta.10
+      '@tiptap/extension-superscript': ^2.0.0-beta.10
       '@tiptap/extension-table': ^2.0.0-beta.48
       '@tiptap/extension-table-cell': ^2.0.0-beta.20
       '@tiptap/extension-table-header': ^2.0.0-beta.22
@@ -150,6 +152,8 @@ importers:
       '@tiptap/extension-paragraph': 2.0.0-beta.23_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-placeholder': 2.0.0-beta.47_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-strike': 2.0.0-beta.27_@tiptap+core@2.0.0-beta.171
+      '@tiptap/extension-subscript': 2.0.0-beta.10_@tiptap+core@2.0.0-beta.171
+      '@tiptap/extension-superscript': 2.0.0-beta.10_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-table': 2.0.0-beta.48_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-table-cell': 2.0.0-beta.20_@tiptap+core@2.0.0-beta.171
       '@tiptap/extension-table-header': 2.0.0-beta.22_@tiptap+core@2.0.0-beta.171
@@ -1801,6 +1805,22 @@ packages:
 
   /@tiptap/extension-strike/2.0.0-beta.27_@tiptap+core@2.0.0-beta.171:
     resolution: {integrity: sha512-2dmCgtesuDdivM/54Q+Y6Tc3JbGz1SkHP6c62piuqBiYLWg3xa16zChZOhfN8szbbQlBgLT6XRTDt3c2Ux+Dug==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+    dependencies:
+      '@tiptap/core': 2.0.0-beta.171
+    dev: false
+
+  /@tiptap/extension-subscript/2.0.0-beta.10_@tiptap+core@2.0.0-beta.171:
+    resolution: {integrity: sha512-er8/1lp0Rb+SKwEioW0w4oVf3EkdQZ0WS/5kPBG4W0DncfUMT+bw5de76S3kRL9PLZ9UShAL7wuXtuiSi5QsMw==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+    dependencies:
+      '@tiptap/core': 2.0.0-beta.171
+    dev: false
+
+  /@tiptap/extension-superscript/2.0.0-beta.10_@tiptap+core@2.0.0-beta.171:
+    resolution: {integrity: sha512-TUUBS8XsD2MorGORYVlhGDH7wcc9diSbHscD4Dnz8pKWVR0JPUd/od4h5qSffDzAOKxtphTiX9LOFWk6zVooKg==}
     peerDependencies:
       '@tiptap/core': ^2.0.0-beta.1
     dependencies:

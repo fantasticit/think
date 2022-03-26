@@ -45,3 +45,5 @@ export * from './IconHeading3';
 export * from './IconTableHeaderRow';
 export * from './IconTableHeaderColumn';
 export * from './IconTableHeaderCell';
+export * from './IconSub';
+export * from './IconSup';
