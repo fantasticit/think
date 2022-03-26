@@ -14,7 +14,7 @@ export class TemplateEntity {
   @Column({ type: 'varchar', length: 200, comment: '标题' })
   public title: string;
 
-  @Column({ type: 'longblob', comment: '文档内容' })
+  @Column({ type: 'longtext', comment: '文档内容' })
   public content: string;
 
   @Column({ type: 'longblob', comment: '文档内容' })
