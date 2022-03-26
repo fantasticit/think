@@ -94,7 +94,7 @@ export const TableHeader = BuiltInTableHeader.extend({
               return !!cells?.some((cell, index) => isColumnSelected(index)(selection));
             },
             init: (dom, editor) => {
-              dom.classList.add('table-controller-wrapper');
+              dom.classList.add('bubble-memu-table-cell');
               ReactDOM.render(
                 <Space>
                   <Tooltip content="向前插入一列">

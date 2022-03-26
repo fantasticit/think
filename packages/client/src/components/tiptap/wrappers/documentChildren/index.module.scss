@@ -1,15 +1,10 @@
 .wrap {
-  margin-top: 12px;
+  margin-top: 0.75em;
   padding: 12px;
   border: 1px solid var(--semi-color-border);
+  border-radius: var(--border-radius);
 
   &.isEditable {
-    background-color: var(--semi-color-fill-0);
-
-    &:hover {
-      background-color: var(--semi-color-fill-1);
-    }
-
     .itemWrap {
       pointer-events: none;
 
@@ -24,6 +19,7 @@
     display: flex;
     align-items: center;
     margin-top: 12px;
+    padding: 6px;
     text-decoration: none;
     color: var(--semi-color-text-1);
     border-radius: var(--border-radius);

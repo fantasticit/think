@@ -42,43 +42,38 @@ export const EvokeMenu = Node.create({
       new Plugin({
         key: new PluginKey('evokeMenuPlaceholder'),
         props: {
-          decorations: (state) => {
-            if (!editor.isEditable) return;
-
-            const parent = findParentNode((node) => node.type.name === 'paragraph')(state.selection);
-            if (!parent) {
-              return;
-            }
-
-            const decorations: Decoration[] = [];
-            const isEmpty = parent && parent.node.content.size === 0;
-            const isSlash = parent && parent.node.textContent === '/';
-            const isTopLevel = state.selection.$from.depth === 1;
-            const hasOtherChildren = parent && parent.node.content.childCount > 1;
-
-            if (isTopLevel) {
-              if (isEmpty) {
-                decorations.push(
-                  Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
-                    'class': 'is-empty',
-                    'data-placeholder': '输入 / 唤起更多',
-                  })
-                );
-              }
-
-              if (isSlash && !hasOtherChildren) {
-                decorations.push(
-                  Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
-                    'class': 'is-empty',
-                    'data-placeholder': `  继续输入进行过滤`,
-                  })
-                );
-              }
-
-              return DecorationSet.create(state.doc, decorations);
-            }
-            return null;
-          },
+          // decorations: (state) => {
+          //   if (!editor.isEditable) return;
+          //   const parent = findParentNode((node) => node.type.name === 'paragraph')(state.selection);
+          //   if (!parent) {
+          //     return;
+          //   }
+          //   const decorations: Decoration[] = [];
+          //   const isEmpty = parent && parent.node.content.size === 0;
+          //   const isSlash = parent && parent.node.textContent === '/';
+          //   const isTopLevel = state.selection.$from.depth === 1;
+          //   const hasOtherChildren = parent && parent.node.content.childCount > 1;
+          //   if (isTopLevel) {
+          //     if (isEmpty) {
+          //       decorations.push(
+          //         Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
+          //           'class': 'is-empty',
+          //           'data-placeholder': '输入 / 唤起更多',
+          //         })
+          //       );
+          //     }
+          //     if (isSlash && !hasOtherChildren) {
+          //       decorations.push(
+          //         Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
+          //           'class': 'is-empty',
+          //           'data-placeholder': `  继续输入进行过滤`,
+          //         })
+          //       );
+          //     }
+          //     return DecorationSet.create(state.doc, decorations);
+          //   }
+          //   return null;
+          // },
         },
       }),
     ];

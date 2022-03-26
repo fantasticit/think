@@ -35,6 +35,7 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
               <Select
                 placeholder="请选择文档"
                 onChange={(v) => selectDoc(v)}
+                style={{ maxWidth: 180 }}
                 {...(wikiId && documentId ? { value: `${wikiId}/${title}/${documentId}` } : {})}
               >
                 {(tocs || []).map((toc) => (
@@ -69,7 +70,6 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
           </div>
         )}
       </div>
-      <NodeViewContent></NodeViewContent>
     </NodeViewWrapper>
   );
 };

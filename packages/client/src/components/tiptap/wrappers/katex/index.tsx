@@ -28,6 +28,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
 
   return (
     <NodeViewWrapper as="span" className={cls(styles.wrap, 'render-wrapper')} contentEditable={false}>
+      <NodeViewContent />
       {isEditable ? (
         <Popover
           showArrow
@@ -57,7 +58,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
       ) : (
         content
       )}
-      <NodeViewContent></NodeViewContent>
+      <NodeViewContent />
     </NodeViewWrapper>
   );
 };
