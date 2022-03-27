@@ -5,6 +5,7 @@ import { Layout, Spin, Typography } from '@douyinfe/semi-ui';
 import { IUser, ITemplate } from '@think/domains';
 import { DEFAULT_EXTENSION, DocumentWithTitle } from 'components/tiptap';
 import { DataRender } from 'components/data-render';
+import { ImageViewer } from 'components/image-viewer';
 import { useDocumentStyle } from 'hooks/useDocumentStyle';
 import { safeJSONParse } from 'helpers/json';
 import styles from './index.module.scss';
@@ -61,6 +62,7 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error }) => {
                   <Title>{data.title}</Title>
                   <EditorContent editor={editor} />
                 </div>
+                <ImageViewer containerSelector={`.${styles.editorWrap}`} />
               </Content>
             );
           }}

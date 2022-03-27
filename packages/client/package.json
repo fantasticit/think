@@ -80,6 +80,7 @@
     "scroll-into-view-if-needed": "^2.2.29",
     "swr": "^1.2.0",
     "tippy.js": "^6.3.7",
+    "viewerjs": "^1.10.4",
     "y-indexeddb": "^9.0.7",
     "y-prosemirror": "^1.0.14",
     "yjs": "^13.5.24"

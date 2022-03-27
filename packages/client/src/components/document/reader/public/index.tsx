@@ -8,6 +8,7 @@ import { DataRender } from 'components/data-render';
 import { DocumentStyle } from 'components/document/style';
 import { User } from 'components/user';
 import { Theme } from 'components/theme';
+import { ImageViewer } from 'components/image-viewer';
 import { useDocumentStyle } from 'hooks/useDocumentStyle';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { usePublicDocument } from 'data/document';
@@ -120,6 +121,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
                     createUserContainerSelector="#js-share-document-editor-container .ProseMirror .title"
                   />
                 </div>
+                <ImageViewer containerSelector="#js-share-document-editor-container" />
                 <BackTop target={() => document.querySelector('#js-share-document-editor-container').parentNode} />
               </>
             );
