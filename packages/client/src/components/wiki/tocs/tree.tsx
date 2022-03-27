@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Tree as SemiTree, Button, Typography } from '@douyinfe/semi-ui';
 import { IconMore, IconPlus } from '@douyinfe/semi-icons';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { DocumentActions } from 'components/document/actions';
 import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
 import { EventEmitter } from 'helpers/event-emitter';

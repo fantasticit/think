@@ -1,38 +1,38 @@
 .resizable {
-  box-sizing: border-box;
   position: relative;
   display: inline-block;
   width: 100px;
   height: 100px;
   max-width: 100%;
+  box-sizing: border-box;
 
   .resizer {
-    box-sizing: border-box;
     position: absolute;
     z-index: 9999;
     width: 10px;
     height: 10px;
-    border-radius: 50%;
     background: white;
     border: 3px solid #4286f4;
+    border-radius: 50%;
     opacity: 0;
+    box-sizing: border-box;
   }
 
   .resizer.topLeft {
-    left: -5px;
     top: -5px;
+    left: -5px;
     cursor: nwse-resize;
   }
 
   .resizer.topRight {
-    right: -5px;
     top: -5px;
+    right: -5px;
     cursor: nesw-resize;
   }
 
   .resizer.bottomLeft {
-    left: -5px;
     bottom: -5px;
+    left: -5px;
     cursor: nesw-resize;
   }
 

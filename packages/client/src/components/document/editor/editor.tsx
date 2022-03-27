@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { BackTop } from '@douyinfe/semi-ui';
 import { ILoginUser, IAuthority } from '@think/domains';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import {
   MenuBar,
   DEFAULT_EXTENSION,

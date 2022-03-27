@@ -1,37 +1,35 @@
 .ProseMirror {
   code {
-    cursor: text;
-    font-size: 0.875rem;
-    line-height: 1.5rem;
-    border-radius: var(--border-radius);
     padding: 4px;
-    line-height: 1.3;
-    background-color: var(--semi-color-fill-1);
     font-family: Consolas, Menlo, Courier, monospace;
+    font-size: .875rem;
+    line-height: 1.3;
+    cursor: text;
+    background-color: var(--semi-color-fill-1);
+    border-radius: var(--border-radius);
   }
 
   pre {
     position: relative;
-    margin: 0;
-    counter-reset: line 0;
     display: flex;
     min-width: 48px;
+    margin: 0;
     overflow-x: auto;
     line-height: 1.3;
     background-color: var(--semi-color-fill-0);
+    counter-reset: line 0;
 
     code {
-      color: inherit;
-      font-size: 0.875rem;
-      line-height: 1.5rem;
-      margin: 8px;
-      padding: 0;
-      white-space: pre;
-      background-color: transparent;
-
       width: 100%;
       max-height: 370px;
+      padding: 0;
+      margin: 8px;
       overflow: auto;
+      font-size: .875rem;
+      line-height: 1.5rem;
+      color: inherit;
+      white-space: pre;
+      background-color: transparent;
       overscroll-behavior: contain;
     }
   }
@@ -49,7 +47,7 @@
 */
 .hljs {
   color: #24292e;
-  background: #ffffff;
+  background: #fff;
 }
 
 .hljs-doctag,
@@ -119,9 +117,10 @@
 }
 
 .hljs-section {
+  font-weight: bold;
+
   /* prettylights-syntax-markup-heading */
   color: #005cc5;
-  font-weight: bold;
 }
 
 .hljs-bullet {
@@ -130,15 +129,17 @@
 }
 
 .hljs-emphasis {
+  font-style: italic;
+
   /* prettylights-syntax-markup-italic */
   color: #24292e;
-  font-style: italic;
 }
 
 .hljs-strong {
+  font-weight: bold;
+
   /* prettylights-syntax-markup-bold */
   color: #24292e;
-  font-weight: bold;
 }
 
 .hljs-addition {
@@ -237,9 +238,10 @@ body[theme-mode='dark'] {
   }
 
   .hljs-section {
+    font-weight: bold;
+
     /* prettylights-syntax-markup-heading */
     color: #1f6feb;
-    font-weight: bold;
   }
 
   .hljs-bullet {
@@ -248,15 +250,17 @@ body[theme-mode='dark'] {
   }
 
   .hljs-emphasis {
+    font-style: italic;
+
     /* prettylights-syntax-markup-italic */
     color: #c9d1d9;
-    font-style: italic;
   }
 
   .hljs-strong {
+    font-weight: bold;
+
     /* prettylights-syntax-markup-bold */
     color: #c9d1d9;
-    font-weight: bold;
   }
 
   .hljs-addition {
@@ -272,6 +276,6 @@ body[theme-mode='dark'] {
   }
 
   img {
-    opacity: 0.75;
+    opacity: .75;
   }
 }

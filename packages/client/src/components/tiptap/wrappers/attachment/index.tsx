@@ -12,7 +12,7 @@ import {
   IconClose,
 } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { download } from '../../services/download';
 import { uploadFile } from 'services/file';
 import {

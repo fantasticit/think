@@ -8,14 +8,14 @@
     img {
       width: 104px;
       height: 96px;
-      border-radius: 4px;
       margin-bottom: 16px;
+      border-radius: 4px;
     }
   }
 
   .right {
-    flex: 1;
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: space-between;
     overflow: auto;
@@ -59,8 +59,8 @@
 
     .placeholderWrapper {
       width: 100%;
-      overflow: auto;
       margin: 16px 0;
+      overflow: auto;
 
       .coverPlaceholder {
         flex-shrink: 0;

@@ -1,6 +1,6 @@
 .wrap {
   display: flex;
-  padding: 9px 0px 9px 0;
+  padding: 9px 0;
 
   + .wrap {
     margin-top: 16px;
@@ -17,20 +17,9 @@
     }
 
     > footer {
-      //   height: 0;
-      //   transition: all ease-in-out 0.3s;
-
       span {
         cursor: pointer;
       }
     }
   }
-
-  //   &:hover {
-  //     .rightWrap {
-  //       > footer {
-  //         height: 40px;
-  //       }
-  //     }
-  //   }
 }

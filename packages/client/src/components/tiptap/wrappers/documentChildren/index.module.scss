@@ -1,38 +1,38 @@
 .wrap {
-  margin-top: 0.75em;
   padding: 12px;
+  margin-top: .75em;
   border: 1px solid var(--semi-color-border);
   border-radius: var(--border-radius);
+
+  .itemWrap {
+    display: flex;
+    padding: 6px;
+    margin-top: 12px;
+    color: var(--semi-color-text-1);
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid var(--semi-color-border);
+    border-radius: var(--border-radius);
+    align-items: center;
+
+    &:hover {
+      border-color: var(--semi-color-link);
+      color: var(--semi-color-link);
+    }
+
+    span {
+      margin-left: 8px;
+    }
+  }
 
   &.isEditable {
     .itemWrap {
       pointer-events: none;
 
       &:hover {
-        color: var(--semi-color-text-1);
         border-color: var(--semi-color-border);
+        color: var(--semi-color-text-1);
       }
-    }
-  }
-
-  .itemWrap {
-    display: flex;
-    align-items: center;
-    margin-top: 12px;
-    padding: 6px;
-    text-decoration: none;
-    color: var(--semi-color-text-1);
-    border-radius: var(--border-radius);
-    border: 1px solid var(--semi-color-border);
-    cursor: pointer;
-
-    &:hover {
-      color: var(--semi-color-link);
-      border-color: var(--semi-color-link);
-    }
-
-    span {
-      margin-left: 8px;
     }
   }
 }

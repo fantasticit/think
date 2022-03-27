@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dropdown, Button } from '@douyinfe/semi-ui';
 import { IconChevronDown } from '@douyinfe/semi-icons';
-import { useToggle } from 'hooks/useToggle';
-import { useQuery } from 'hooks/useQuery';
+import { useToggle } from 'hooks/use-toggle';
+import { useQuery } from 'hooks/use-query';
 import { WikiCreator } from 'components/wiki/create';
 import { DocumentCreator } from 'components/document/create';
 

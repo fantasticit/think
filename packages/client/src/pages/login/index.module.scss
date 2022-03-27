@@ -1,30 +1,30 @@
 .wrap {
   position: relative;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
   background-color: var(--semi-color-bg-0);
 
   .content {
     position: relative;
     z-index: 10;
-    flex: 1;
     padding: 10vh 24px;
+    flex: 1;
 
     .form {
       width: 100%;
       max-width: 400px;
-      margin: 0 auto;
       padding: 32px 24px;
+      margin: 0 auto;
       border: 1px solid var(--semi-color-border);
       border-radius: var(--border-radius);
       box-shadow: var(--box-shadow);
 
       footer {
-        margin-top: 12px;
         padding-top: 16px;
-        text-align: center;
         border-top: 1px solid var(--semi-color-border);
+        margin-top: 12px;
+        text-align: center;
       }
     }
   }

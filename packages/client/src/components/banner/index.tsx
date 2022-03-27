@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Banner as SemiBanner } from '@douyinfe/semi-ui';
 import { BannerProps } from '@douyinfe/semi-ui/banner';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 
 interface IProps extends BannerProps {
   duration?: number;
@@ -26,5 +26,5 @@ export const Banner: React.FC<IProps> = ({ type, description, duration }) => {
 
   if (!visible) return null;
 
-  return <SemiBanner type="success" description="以为您恢复上一次离线时编辑数据。 " />;
+  return <SemiBanner type={type} description={description} />;
 };

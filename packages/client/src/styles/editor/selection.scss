@@ -3,6 +3,19 @@
     background-color: var(--node-selected-border-color);
   }
 
+  .tableWrapper {
+    ::selection {
+      background-color: transparent;
+    }
+
+    &.selected-node {
+      td,
+      th {
+        border-color: var(--node-selected-border-color);
+      }
+    }
+  }
+
   .node-status {
     .semi-tag-default {
       height: 27px;
@@ -32,6 +45,14 @@
     }
   }
 
+  .node-image,
+  .node-attachment,
+  .node-iframe,
+  .node-mind,
+  .node-banner {
+    margin-top: .75em;
+  }
+
   .node-attachment,
   .node-banner,
   .node-iframe,
@@ -41,12 +62,6 @@
   .node-codeBlock,
   .node-documentChildren,
   .node-documentReference {
-    &:not(.has-focus) {
-      ::selection {
-        background-color: transparent;
-      }
-    }
-
     .render-wrapper {
       position: relative;
       user-select: text;
@@ -66,25 +81,10 @@
         }
       }
     }
-  }
 
-  .node-image,
-  .node-attachment,
-  .node-iframe,
-  .node-mind,
-  .node-banner {
-    margin-top: 0.75em;
-  }
-
-  .tableWrapper {
-    ::selection {
-      background-color: transparent;
-    }
-
-    &.selected-node {
-      td,
-      th {
-        border-color: var(--node-selected-border-color);
+    &:not(.has-focus) {
+      ::selection {
+        background-color: transparent;
       }
     }
   }

@@ -2,7 +2,7 @@ import React, { useMemo, useEffect, useRef } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { Layout } from '@douyinfe/semi-ui';
 import { IDocument, ILoginUser } from '@think/domains';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import {
   DEFAULT_EXTENSION,
   DocumentWithTitle,
@@ -28,7 +28,6 @@ interface IProps {
 export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
   if (!user) return null;
 
-  const $ref = useRef();
   const provider = useMemo(() => {
     return getProvider({
       targetId: documentId,
@@ -70,18 +69,16 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
       error={null}
       normalContent={() => {
         return (
-          <>
-            <Content className={styles.editorWrap}>
-              <div id="js-reader-container">
-                <ImageViewer containerSelector="#js-reader-container" />
-                <EditorContent editor={editor} />
-              </div>
-              <CreateUser
-                document={document}
-                container={() => window.document.querySelector('#js-reader-container .ProseMirror .title')}
-              />
-            </Content>
-          </>
+          <Content className={styles.editorWrap}>
+            <div id="js-reader-container">
+              <ImageViewer containerSelector="#js-reader-container" />
+              <EditorContent editor={editor} />
+            </div>
+            <CreateUser
+              document={document}
+              container={() => window.document.querySelector('#js-reader-container .ProseMirror .title')}
+            />
+          </Content>
         );
       }}
     />

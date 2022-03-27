@@ -1,8 +1,8 @@
 .ProseMirror {
   .tableWrapper {
     max-width: 100%;
+    margin-top: .75em;
     overflow: auto;
-    margin-top: 0.75em;
 
     &.has-focus {
       padding: 1em 0 0 1em;
@@ -10,20 +10,20 @@
   }
 
   table {
-    border-collapse: collapse;
     table-layout: fixed;
+    border-collapse: collapse;
 
     td,
     th {
       position: relative;
-      border-width: 1px;
-      border-style: solid;
-      border-color: var(--semi-color-fill-2);
       box-sizing: border-box;
       min-width: 1em;
       padding: 3px 5px;
-      vertical-align: top;
+      border-width: 1px;
+      border-style: solid;
+      border-color: var(--semi-color-fill-2);
       overflow: visible;
+      vertical-align: top;
 
       > * {
         margin-bottom: 0;
@@ -43,12 +43,12 @@
 
     .grip-column {
       position: absolute;
+      top: -1em;
+      left: 0;
       z-index: 10;
       display: block;
       width: 100%;
-      height: 0.7em;
-      left: 0;
-      top: -1em;
+      height: .7em;
       margin-bottom: 3px;
       cursor: pointer;
       background: #ced4da;
@@ -61,12 +61,12 @@
 
     .grip-row {
       position: absolute;
-      z-index: 10;
-      display: block;
-      height: 100%;
-      width: 0.7em;
       top: 0;
       left: -1em;
+      z-index: 10;
+      display: block;
+      width: .7em;
+      height: 100%;
       margin-right: 3px;
       cursor: pointer;
       background: #ced4da;
@@ -79,15 +79,15 @@
 
     .grip-table {
       position: absolute;
-      z-index: 10;
-      display: block;
-      width: 0.8em;
-      height: 0.8em;
       top: -1em;
       left: -1em;
-      border-radius: 50%;
+      z-index: 10;
+      display: block;
+      width: .8em;
+      height: .8em;
       cursor: pointer;
       background: #ced4da;
+      border-radius: 50%;
 
       &:hover,
       &.selected {
@@ -96,13 +96,13 @@
     }
 
     .column-resize-handle {
-      background-color: #adf;
-      bottom: -2px;
       position: absolute;
-      right: -2px;
-      pointer-events: none;
       top: 0;
+      right: -2px;
+      bottom: -2px;
       width: 4px;
+      pointer-events: none;
+      background-color: #adf;
     }
   }
 }

@@ -1,7 +1,7 @@
 import type { IUser, IDocument } from '@think/domains';
 import useSWR from 'swr';
 import { useState, useCallback, useEffect } from 'react';
-import { useAsyncLoading } from 'hooks/useAsyncLoading';
+import { useAsyncLoading } from 'hooks/use-async-loading';
 import { HttpClient } from 'services/HttpClient';
 import { getPublicDocumentDetail } from 'services/document';
 

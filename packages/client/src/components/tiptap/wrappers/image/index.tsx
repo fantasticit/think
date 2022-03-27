@@ -3,7 +3,7 @@ import { Resizeable } from 'components/resizeable';
 import { useEffect, useRef } from 'react';
 import cls from 'classnames';
 import { Typography, Spin } from '@douyinfe/semi-ui';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { uploadFile } from 'services/file';
 import { extractFileExtension, extractFilename } from '../../services/file';
 import styles from './index.module.scss';

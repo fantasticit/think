@@ -1,32 +1,19 @@
 .wrap {
-  margin-top: 0.75em;
+  margin-top: .75em;
   border-radius: var(--border-radius);
-
-  &.isEditable {
-    padding: 12px;
-
-    .itemWrap {
-      pointer-events: none;
-      margin-top: 12px;
-    }
-
-    .empty {
-      margin-top: 12px;
-    }
-  }
 
   .itemWrap {
     display: flex;
-    align-items: center;
     padding: 8px;
+    color: var(--semi-color-text-1);
+    text-decoration: none;
     border: 1px solid var(--semi-color-border);
     border-radius: var(--border-radius);
-    text-decoration: none;
-    color: var(--semi-color-text-1);
+    align-items: center;
 
     &:hover {
-      color: var(--semi-color-link);
       border-color: var(--semi-color-link);
+      color: var(--semi-color-link);
     }
 
     span {
@@ -36,12 +23,25 @@
 
   .empty {
     display: flex;
-    align-items: center;
     padding: 8px;
+    color: var(--semi-color-text-1);
+    text-decoration: none;
+    cursor: not-allowed;
     border: 1px solid var(--semi-color-border);
     border-radius: var(--border-radius);
-    text-decoration: none;
-    color: var(--semi-color-text-1);
-    cursor: not-allowed;
+    align-items: center;
+  }
+
+  &.isEditable {
+    padding: 12px;
+
+    .itemWrap {
+      margin-top: 12px;
+      pointer-events: none;
+    }
+
+    .empty {
+      margin-top: 12px;
+    }
   }
 }

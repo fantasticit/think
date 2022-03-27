@@ -1,24 +1,18 @@
-/*
- * Released under BSD License
- * Copyright (c) 2014-2015 hizzgdev@163.com
- * 
- * Project Home:
- *   https://github.com/hizzgdev/jsmind/
- */
+/* stylelint-disable */
 
 /* important section */
 .jsmind-inner {
   position: relative;
-  overflow: auto;
   width: 100%;
   height: 100%;
-} /*box-shadow:0 0 2px #000;*/
+  overflow: auto;
+} /* box-shadow:0 0 2px #000; */
 .jsmind-inner {
-  -moz-user-select: none;
-  -o-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+  user-select: none;
+  user-select: none;
+  user-select: none;
+  user-select: none;
+  user-select: none;
   user-select: none;
 }
 
@@ -32,56 +26,62 @@ canvas {
 jmnodes {
   position: absolute;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0);
-} /*background color is necessary*/
+  background-color: rgb(0 0 0 / 0%);
+} /* background color is necessary */
 jmnode {
   position: absolute;
-  cursor: default;
   max-width: 400px;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
 }
+
 jmexpander {
   position: absolute;
+  display: block;
   width: 11px;
   height: 11px;
-  display: block;
   overflow: hidden;
-  line-height: 12px;
   font-size: 12px;
+  line-height: 12px;
   text-align: center;
+  cursor: pointer;
   border-radius: 6px;
   border-width: 1px;
   border-style: solid;
-  cursor: pointer;
 }
 
 /* default theme */
 jmnode {
   padding: 10px;
-  background-color: #fff;
+  font: 16px/1.125 Verdana, Arial, Helvetica, sans-serif;
   color: #333;
+  background-color: #fff;
   border-radius: 5px;
   box-shadow: 1px 1px 1px #666;
-  font: 16px/1.125 Verdana, Arial, Helvetica, sans-serif;
 }
+
 jmnode:hover {
-  box-shadow: 2px 2px 8px #000;
-  background-color: #ebebeb;
   color: #333;
-}
-jmnode.selected {
-  background-color: #11f;
-  color: #fff;
+  background-color: #ebebeb;
   box-shadow: 2px 2px 8px #000;
 }
+
+jmnode.selected {
+  color: #fff;
+  background-color: #11f;
+  box-shadow: 2px 2px 8px #000;
+}
+
 jmnode.root {
   font-size: 24px;
 }
+
 jmexpander {
   border-color: gray;
 }
+
 jmexpander:hover {
   border-color: #000;
 }
@@ -89,214 +89,246 @@ jmexpander:hover {
 @media screen and (max-device-width: 1024px) {
   jmnode {
     padding: 5px;
-    border-radius: 3px;
     font-size: 14px;
+    border-radius: 3px;
   }
+
   jmnode.root {
     font-size: 21px;
   }
 }
+
 /* primary theme */
 jmnodes.theme-primary jmnode {
-  background-color: #428bca;
-  color: #fff;
   border-color: #357ebd;
-}
-jmnodes.theme-primary jmnode:hover {
-  background-color: #3276b1;
-  border-color: #285e8e;
-}
-jmnodes.theme-primary jmnode.selected {
-  background-color: #f1c40f;
   color: #fff;
+  background-color: #428bca;
+}
+
+jmnodes.theme-primary jmnode:hover {
+  border-color: #285e8e;
+  background-color: #3276b1;
+}
+
+jmnodes.theme-primary jmnode.selected {
+  color: #fff;
+  background-color: #f1c40f;
 }
 
 /* warning theme */
 jmnodes.theme-warning jmnode {
-  background-color: #f0ad4e;
   border-color: #eea236;
   color: #fff;
+  background-color: #f0ad4e;
 }
+
 jmnodes.theme-warning jmnode:hover {
-  background-color: #ed9c28;
   border-color: #d58512;
+  background-color: #ed9c28;
 }
+
 jmnodes.theme-warning jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* danger theme */
 jmnodes.theme-danger jmnode {
-  background-color: #d9534f;
   border-color: #d43f3a;
   color: #fff;
+  background-color: #d9534f;
 }
+
 jmnodes.theme-danger jmnode:hover {
-  background-color: #d2322d;
   border-color: #ac2925;
+  background-color: #d2322d;
 }
+
 jmnodes.theme-danger jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* success theme */
 jmnodes.theme-success jmnode {
-  background-color: #5cb85c;
   border-color: #4cae4c;
   color: #fff;
+  background-color: #5cb85c;
 }
+
 jmnodes.theme-success jmnode:hover {
-  background-color: #47a447;
   border-color: #398439;
+  background-color: #47a447;
 }
+
 jmnodes.theme-success jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* info theme */
 jmnodes.theme-info jmnode {
-  background-color: #5dc0de;
   border-color: #46b8da;
   color: #fff;
+  background-color: #5dc0de;
 }
+
 jmnodes.theme-info jmnode:hover {
-  background-color: #39b3d7;
   border-color: #269abc;
+  background-color: #39b3d7;
 }
+
 jmnodes.theme-info jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* greensea theme */
 jmnodes.theme-greensea jmnode {
-  background-color: #1abc9c;
   color: #fff;
+  background-color: #1abc9c;
 }
+
 jmnodes.theme-greensea jmnode:hover {
   background-color: #16a085;
 }
+
 jmnodes.theme-greensea jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* nephrite theme */
 jmnodes.theme-nephrite jmnode {
-  background-color: #2ecc71;
   color: #fff;
+  background-color: #2ecc71;
 }
+
 jmnodes.theme-nephrite jmnode:hover {
   background-color: #27ae60;
 }
+
 jmnodes.theme-nephrite jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* belizehole theme */
 jmnodes.theme-belizehole jmnode {
-  background-color: #3498db;
   color: #fff;
+  background-color: #3498db;
 }
+
 jmnodes.theme-belizehole jmnode:hover {
   background-color: #2980b9;
 }
+
 jmnodes.theme-belizehole jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* wisteria theme */
 jmnodes.theme-wisteria jmnode {
-  background-color: #9b59b6;
   color: #fff;
+  background-color: #9b59b6;
 }
+
 jmnodes.theme-wisteria jmnode:hover {
   background-color: #8e44ad;
 }
+
 jmnodes.theme-wisteria jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* asphalt theme */
 jmnodes.theme-asphalt jmnode {
-  background-color: #34495e;
   color: #fff;
+  background-color: #34495e;
 }
+
 jmnodes.theme-asphalt jmnode:hover {
   background-color: #2c3e50;
 }
+
 jmnodes.theme-asphalt jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* orange theme */
 jmnodes.theme-orange jmnode {
-  background-color: #f1c40f;
   color: #fff;
+  background-color: #f1c40f;
 }
+
 jmnodes.theme-orange jmnode:hover {
   background-color: #f39c12;
 }
+
 jmnodes.theme-orange jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* pumpkin theme */
 jmnodes.theme-pumpkin jmnode {
-  background-color: #e67e22;
   color: #fff;
+  background-color: #e67e22;
 }
+
 jmnodes.theme-pumpkin jmnode:hover {
   background-color: #d35400;
 }
+
 jmnodes.theme-pumpkin jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* pomegranate theme */
 jmnodes.theme-pomegranate jmnode {
-  background-color: #e74c3c;
   color: #fff;
+  background-color: #e74c3c;
 }
+
 jmnodes.theme-pomegranate jmnode:hover {
   background-color: #c0392b;
 }
+
 jmnodes.theme-pomegranate jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* clouds theme */
 jmnodes.theme-clouds jmnode {
-  background-color: #ecf0f1;
   color: #333;
+  background-color: #ecf0f1;
 }
+
 jmnodes.theme-clouds jmnode:hover {
   background-color: #bdc3c7;
 }
+
 jmnodes.theme-clouds jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }
 
 /* asbestos theme */
 jmnodes.theme-asbestos jmnode {
-  background-color: #95a5a6;
   color: #fff;
+  background-color: #95a5a6;
 }
+
 jmnodes.theme-asbestos jmnode:hover {
   background-color: #7f8c8d;
 }
+
 jmnodes.theme-asbestos jmnode.selected {
-  background-color: #11f;
   color: #fff;
+  background-color: #11f;
 }

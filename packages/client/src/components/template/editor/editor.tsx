@@ -28,8 +28,8 @@ import {
 import { DataRender } from 'components/data-render';
 import { User } from 'components/user';
 import { DocumentStyle } from 'components/document/style';
-import { useDocumentStyle } from 'hooks/useDocumentStyle';
-import { useWindowSize } from 'hooks/useWindowSize';
+import { useDocumentStyle } from 'hooks/use-document-style';
+import { useWindowSize } from 'hooks/use-window-size';
 import { safeJSONParse } from 'helpers/json';
 import styles from './index.module.scss';
 

@@ -35,7 +35,7 @@ const getTimeago = (date: number | string | Date) => {
 };
 
 export const LocaleTime: React.FC<Props> = ({ date, timeago, format = 'yyyy-MM-dd HH:mm:ss' }) => {
-  const [_, setMinutesMounted] = useState(0); // eslint-disable-line no-unused-vars
+  const [, setMinutesMounted] = useState(0);
   const callback = useRef<() => void>();
 
   useEffect(() => {

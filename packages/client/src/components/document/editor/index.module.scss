@@ -1,14 +1,14 @@
 .wrap {
-  height: 100%;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 
   > header {
     position: relative;
     z-index: 110;
-    background-color: var(--semi-color-nav-bg);
     height: 60px;
+    background-color: var(--semi-color-nav-bg);
     user-select: none;
 
     > div {
@@ -18,27 +18,27 @@
 
   > main {
     height: calc(100% - 60px);
-    flex: 1;
     overflow: hidden;
     background-color: var(--semi-color-nav-bg);
+    flex: 1;
   }
 }
 
 .editorWrap {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
   overflow: hidden;
 
   > header {
     position: relative;
     z-index: 110;
+    display: flex;
     height: 50px;
     padding: 0 24px;
-    display: flex;
-    align-items: center;
     overflow: hidden;
     background-color: var(--semi-color-nav-bg);
+    align-items: center;
     border-bottom: 1px solid var(--semi-color-border);
     user-select: none;
 

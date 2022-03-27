@@ -52,13 +52,6 @@ export const GridSelect = ({
 
   const onClick = useCallback(
     ({ x, y, isCellDisabled }) => {
-      //   if (isCellDisabled) {
-      //     return null;
-      //   }
-      //   if (activeCell.x === x && activeCell.y === y) {
-      //     return null;
-      //   }
-      //   setActiveCell({ x, y });
       onSelect({
         rows: y + 1,
         cols: x + 1,
@@ -67,7 +60,6 @@ export const GridSelect = ({
     [onSelect]
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onHover = useCallback(
     debounce(({ x, y, isCellDisabled }) => {
       if (isCellDisabled) {

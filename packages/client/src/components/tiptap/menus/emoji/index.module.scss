@@ -5,22 +5,20 @@
 
 .listWrap {
   display: flex;
-  flex-wrap: wrap;
-
-  list-style: none;
-
   width: 320px;
   padding: 0;
   margin: 0;
+  list-style: none;
+  flex-wrap: wrap;
 
   > li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 32px;
     height: 32px;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 4px;
+    font-size: 24px;
     cursor: pointer;
   }
 }

@@ -1,35 +1,75 @@
 .wrap {
   position: relative;
   max-width: 100%;
-  line-height: 0;
   overflow: visible;
+  line-height: 0;
   outline: none;
+
+  :global {
+    /* stylelint-disable-next-line selector-type-no-unknown */
+    jmnodes {
+      /* stylelint-disable-next-line selector-type-no-unknown */
+      jmnode {
+        color: var(--semi-color-text-1);
+        background-color: var(--semi-color-fill-2);
+        outline: 2px solid transparent;
+        box-shadow: none;
+
+        &:first-of-type {
+          color: #fff;
+          background-color: var(--semi-color-link);
+        }
+
+        &.selected {
+          outline: 2px solid var(--semi-color-link);
+        }
+
+        input {
+          width: 100px !important;
+          height: 100%;
+          background-color: #fff;
+          border: 0;
+          outline: none;
+        }
+      }
+
+      /* stylelint-disable-next-line selector-type-no-unknown */
+      jmexpander {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 12px;
+        height: 12px;
+        border-color: var(--semi-color-border);
+      }
+    }
+  }
 
   .jsmindWrap {
     position: absolute;
+    bottom: 0;
     left: 50%;
-    bottom: 0px;
     z-index: 200;
     max-width: 100%;
-    transform: translate(-50%, 0);
-    opacity: 0;
     padding-bottom: 10px;
+    opacity: 0;
+    transform: translate(-50%, 0);
 
     .jsmindInnerWrap {
       padding: 6px;
+      background-color: var(--semi-color-bg-2);
+      border: 1px solid var(--semi-color-border);
       border-radius: var(--border-radius);
       box-shadow: var(--box-shadow);
-      border: 1px solid var(--semi-color-border);
-      background-color: var(--semi-color-bg-2);
     }
   }
 
   .renderWrap {
     position: relative;
     min-height: 50px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--semi-color-border);
     overflow: hidden;
+    border: 1px solid var(--semi-color-border);
+    border-radius: var(--border-radius);
     outline: none;
 
     > input {
@@ -48,11 +88,11 @@
       bottom: 20px;
       z-index: 1000;
       padding: 4px 8px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      border: 1px solid var(--semi-color-border);
       background-color: var(--semi-color-bg-2);
+      border: 1px solid var(--semi-color-border);
+      border-radius: var(--border-radius);
       opacity: 0;
+      box-shadow: var(--box-shadow);
     }
   }
 
@@ -73,42 +113,5 @@
     justify-content: center;
     padding: 10px;
     border-top: 1px solid var(--semi-color-border);
-  }
-
-  :global {
-    jmnodes {
-      jmnode {
-        outline: 2px solid transparent;
-        color: var(--semi-color-text-1);
-        background-color: var(--semi-color-fill-2);
-        box-shadow: none;
-
-        &:first-of-type {
-          color: #fff;
-          background-color: var(--semi-color-link);
-        }
-
-        &.selected {
-          outline: 2px solid var(--semi-color-link);
-        }
-
-        input {
-          width: 100px !important;
-          height: 100%;
-          border: 0;
-          outline: none;
-          background-color: #fff;
-        }
-      }
-
-      jmexpander {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 12px;
-        height: 12px;
-        border-color: var(--semi-color-border);
-      }
-    }
   }
 }

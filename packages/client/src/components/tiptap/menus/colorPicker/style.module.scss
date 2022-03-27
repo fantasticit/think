@@ -6,28 +6,28 @@
 
   .colorItem {
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 32px;
     height: 32px;
     cursor: pointer;
-    border-radius: 4px;
     border: 1px solid transparent;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
 
     &:nth-of-type(n + 8) {
       margin-top: 4px;
     }
 
     &:hover {
-      border-color: rgb(193, 199, 208);
+      border-color: rgb(193 199 208);
     }
 
     > span {
       display: block;
       width: 28px;
       height: 28px;
-      border-radius: 2px;
       border: 1px solid var(--semi-color-border);
+      border-radius: 2px;
     }
   }
 }

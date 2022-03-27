@@ -4,7 +4,7 @@ import { Form, Button, Layout, Space, Typography, Modal } from '@douyinfe/semi-u
 import { Seo } from 'components/seo';
 import { LogoImage, LogoText } from 'components/logo';
 import { Author } from 'components/author';
-import { useAsyncLoading } from 'hooks/useAsyncLoading';
+import { useAsyncLoading } from 'hooks/use-async-loading';
 import { register as registerApi } from 'services/user';
 import styles from './index.module.scss';
 

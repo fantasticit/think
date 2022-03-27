@@ -1,3 +1,4 @@
+/* stylelint-disable */
 .ProseMirror {
   ol,
   ul {
@@ -37,8 +38,8 @@
   }
 
   ul[data-type='taskList'] {
-    list-style: none;
     padding: 0;
+    list-style: none;
 
     p {
       margin: 0;
@@ -53,28 +54,28 @@
 
       > span {
         position: absolute;
-        left: 0;
         top: 6px;
+        left: 0;
         display: block;
         width: 16px;
         height: 16px;
+        background-color: #fff;
         border: 1px solid var(--semi-color-border);
         border-radius: 2px;
-        background-color: #fff;
 
         &::after {
-          content: ' ';
           position: absolute;
-          left: 4.071429px;
           top: -0.357143px;
+          left: 4.071429px;
           width: 6.714286px;
           height: 12.142857px;
           border: 2px solid #fff;
+          content: ' ';
+          opacity: 0;
+          transform: rotate(45deg) scale(0);
           border-top: 0;
           border-left: 0;
           transition: all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6), opacity 0.1s;
-          transform: rotate(45deg) scale(0);
-          opacity: 0;
         }
       }
 

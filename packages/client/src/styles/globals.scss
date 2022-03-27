@@ -27,27 +27,24 @@
 }
 
 .Resizer {
-  background: var(--semi-color-border);
-  opacity: 0.2;
   z-index: 1;
+  background: var(--semi-color-border);
+  opacity: .2;
   box-sizing: border-box;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding;
-  background-clip: padding-box;
+  background-clip: padding;
 }
 
 .Resizer:hover {
-  -webkit-transition: all 2s ease;
   transition: all 2s ease;
 }
 
 .Resizer.horizontal {
+  width: 100%;
   height: 1px;
-  margin: -5px 0;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
+  margin: -5px 0;
   cursor: row-resize;
-  width: 100%;
 }
 
 .Resizer.horizontal:hover {
@@ -57,26 +54,28 @@
 
 .Resizer.vertical {
   width: 1px;
-  margin: 0 -5px;
   border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
+  margin: 0 -5px;
   cursor: col-resize;
+  border-right: 5px solid transparent;
 }
 
 .Resizer.vertical:hover {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
+
 .Resizer.disabled {
   cursor: not-allowed;
 }
+
 .Resizer.disabled:hover {
   border-color: transparent;
 }
 
 .semi-navigation-sub-title-selected {
-  background-color: var(--semi-color-primary-light-default);
   color: var(--semi-color-text-0);
+  background-color: var(--semi-color-primary-light-default);
 }
 
 .semi-spin-wrapper {
@@ -85,7 +84,9 @@
   align-items: center;
 }
 
-// @see https://github.com/react-component/tooltip/issues/18#issuecomment-411476678
+/**
+ * @see https://github.com/react-component/tooltip/issues/18#issuecomment-411476678
+ */
 .semi-button-disabled {
   pointer-events: none;
 }

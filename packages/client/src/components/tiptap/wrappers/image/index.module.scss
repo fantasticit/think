@@ -1,11 +1,11 @@
 .wrap {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 8px 16px;
+  cursor: pointer;
   border: 1px solid var(--semi-color-border);
   border-radius: var(--border-radius);
-  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
 
   &:hover {
     border: 1px solid var(--semi-color-link);

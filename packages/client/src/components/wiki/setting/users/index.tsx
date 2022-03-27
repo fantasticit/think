@@ -5,7 +5,7 @@ import { useWikiUsers } from 'data/wiki';
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
 import { getWikiUserRoleText } from '@think/domains';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { Placeholder } from './placeholder';
 import { AddUser } from './add';
 import { EditUser } from './edit';

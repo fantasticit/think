@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import useSWR from 'swr';
-import { useWindowSize } from 'hooks/useWindowSize';
+import { useWindowSize } from 'hooks/use-window-size';
 import { setStorage, getStorage } from 'helpers/storage';
 
 const key = 'dragable-menu-width';

@@ -6,7 +6,7 @@ import { IUser, ITemplate } from '@think/domains';
 import { DEFAULT_EXTENSION, DocumentWithTitle } from 'components/tiptap';
 import { DataRender } from 'components/data-render';
 import { ImageViewer } from 'components/image-viewer';
-import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { useDocumentStyle } from 'hooks/use-document-style';
 import { safeJSONParse } from 'helpers/json';
 import styles from './index.module.scss';
 

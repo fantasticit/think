@@ -4,11 +4,11 @@
 
     &.has-focus {
       &::before {
-        content: attr(data-placeholder);
         float: left;
+        height: 0;
         color: #aaa;
         pointer-events: none;
-        height: 0;
+        content: attr(data-placeholder);
       }
     }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@douyinfe/semi-ui';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { WikiCreator as WikiCreatorForm } from 'components/wiki/create';
 
 export const WikiCreator: React.FC = ({ children }) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { RadioGroup, Radio, Typography, Slider } from '@douyinfe/semi-ui';
-import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { useDocumentStyle } from 'hooks/use-document-style';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
