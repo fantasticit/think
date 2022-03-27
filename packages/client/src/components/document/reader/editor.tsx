@@ -12,6 +12,7 @@ import {
   destoryProvider,
 } from 'components/tiptap';
 import { DataRender } from 'components/data-render';
+import { ImageViewer } from 'components/image-viewer';
 import { joinUser } from 'components/document/collaboration';
 import { CreateUser } from './user';
 import styles from './index.module.scss';
@@ -72,6 +73,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
           <>
             <Content className={styles.editorWrap}>
               <div id="js-reader-container">
+                <ImageViewer containerSelector="#js-reader-container" />
                 <EditorContent editor={editor} />
               </div>
               <CreateUser

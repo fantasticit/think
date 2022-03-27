@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import { useSafari100vh } from 'hooks/use-safari-100vh';
+import 'viewerjs/dist/viewer.css';
 import 'styles/globals.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {

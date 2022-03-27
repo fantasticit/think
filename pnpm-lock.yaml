@@ -118,6 +118,7 @@ importers:
       tippy.js: ^6.3.7
       tsconfig-paths-webpack-plugin: ^3.5.2
       typescript: 4.5.5
+      viewerjs: ^1.10.4
       y-indexeddb: ^9.0.7
       y-prosemirror: ^1.0.14
       yjs: ^13.5.24
@@ -193,6 +194,7 @@ importers:
       scroll-into-view-if-needed: 2.2.29
       swr: 1.2.0_react@17.0.2
       tippy.js: 6.3.7
+      viewerjs: 1.10.4
       y-indexeddb: 9.0.7_yjs@13.5.24
       y-prosemirror: 1.0.14_0fedec857d2fb730ad5b02a71124bf2a
       yjs: 13.5.24
@@ -8256,6 +8258,10 @@ packages:
   /vary/1.1.2:
     resolution: {integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /viewerjs/1.10.4:
+    resolution: {integrity: sha512-CjMt64yC9D+XUx2t3F0TPbh/Yt5+/ke8/s3IizXa6NtksdJUFDoCcNxi/KRZ9eiZPR/D77pHnnQzAtCoLDaGIw==}
     dev: false
 
   /vm2/3.9.5:
