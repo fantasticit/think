@@ -1,4 +1,4 @@
-import { IDocument } from '@think/domains';
+import { IDocument, IUser, IWiki } from '@think/domains';
 import { HttpClient } from './HttpClient';
 
 /**
@@ -19,7 +19,7 @@ export const updateDocumentViews = (id: string) => {
 export const getPublicDocumentDetail = (
   id: string,
   data: Partial<Pick<IDocument, 'sharePassword'>>
-): Promise<IDocument> => {
+): Promise<IDocument & { createUse: IUser; wiki: IWiki }> => {
   return HttpClient.post('/document/public/detail/' + id, data);
 };
 
