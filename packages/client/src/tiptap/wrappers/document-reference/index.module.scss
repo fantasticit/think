@@ -1,0 +1,47 @@
+.wrap {
+  margin-top: .75em;
+  border-radius: var(--border-radius);
+
+  .itemWrap {
+    display: flex;
+    padding: 8px;
+    color: var(--semi-color-text-1);
+    text-decoration: none;
+    border: 1px solid var(--semi-color-border);
+    border-radius: var(--border-radius);
+    align-items: center;
+
+    &:hover {
+      border-color: var(--semi-color-link);
+      color: var(--semi-color-link);
+    }
+
+    span {
+      margin-left: 8px;
+    }
+  }
+
+  .empty {
+    display: flex;
+    padding: 8px;
+    color: var(--semi-color-text-1);
+    text-decoration: none;
+    cursor: not-allowed;
+    border: 1px solid var(--semi-color-border);
+    border-radius: var(--border-radius);
+    align-items: center;
+  }
+
+  &.isEditable {
+    padding: 12px;
+
+    .itemWrap {
+      margin-top: 12px;
+      pointer-events: none;
+    }
+
+    .empty {
+      margin-top: 12px;
+    }
+  }
+}

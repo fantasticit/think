@@ -1,0 +1,15 @@
+.wrap {
+  position: relative;
+
+  .handleWrap {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--semi-color-border);
+    background-color: var(--semi-color-fill-0);
+
+    .selectorWrap {
+      margin-right: 8px;
+    }
+  }
+}

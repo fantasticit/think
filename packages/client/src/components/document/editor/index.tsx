@@ -4,7 +4,7 @@ import { Nav, Skeleton, Typography, Space, Button, Tooltip, Spin, Popover } from
 import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
 import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
-import { useWindowSize } from 'hooks/useWindowSize';
+import { useWindowSize } from 'hooks/use-window-size';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
 import { DataRender } from 'components/data-render';
@@ -12,7 +12,7 @@ import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
 import { DocumentCollaboration } from 'components/document/collaboration';
 import { DocumentStyle } from 'components/document/style';
-import { useDocumentStyle } from 'hooks/useDocumentStyle';
+import { useDocumentStyle } from 'hooks/use-document-style';
 import { EventEmitter } from 'helpers/event-emitter';
 import { Editor } from './editor';
 import styles from './index.module.scss';

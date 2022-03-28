@@ -1,0 +1,91 @@
+.ProseMirror {
+  hr.selected-node {
+    background-color: var(--node-selected-border-color);
+  }
+
+  .tableWrapper {
+    ::selection {
+      background-color: transparent;
+    }
+
+    &.selected-node {
+      td,
+      th {
+        border-color: var(--node-selected-border-color);
+      }
+    }
+  }
+
+  .node-status {
+    .semi-tag-default {
+      height: 27px;
+      border: 1px solid var(--node-border-color);
+    }
+
+    &.selected-node {
+      .semi-tag-default {
+        border: 1px solid var(--node-selected-border-color);
+      }
+    }
+  }
+
+  .node-codeBlock,
+  .node-katex,
+  .node-documentChildren,
+  .node-documentReference {
+    .render-wrapper {
+      border: 1px solid var(--node-border-color);
+    }
+  }
+
+  .node-codeBlock,
+  .node-katex {
+    .render-wrapper {
+      border-radius: var(--border-radius);
+    }
+  }
+
+  .node-image,
+  .node-attachment,
+  .node-iframe,
+  .node-mind,
+  .node-banner {
+    margin-top: .75em;
+  }
+
+  .node-attachment,
+  .node-banner,
+  .node-iframe,
+  .node-image,
+  .node-katex,
+  .node-mind,
+  .node-codeBlock,
+  .node-documentChildren,
+  .node-documentReference {
+    .render-wrapper {
+      position: relative;
+      user-select: text;
+
+      &:hover {
+        border: 1px solid var(--node-hover-border-color);
+      }
+    }
+
+    &.selected-node {
+      .render-wrapper {
+        border: 1px solid var(--node-selected-border-color) !important;
+
+        &:hover {
+          border-color: var(--node-selected-border-color);
+          box-shadow: none;
+        }
+      }
+    }
+
+    &:not(.has-focus) {
+      ::selection {
+        background-color: transparent;
+      }
+    }
+  }
+}

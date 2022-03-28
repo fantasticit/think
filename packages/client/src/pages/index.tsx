@@ -3,7 +3,7 @@ import type { IDocument } from '@think/domains';
 import Link from 'next/link';
 import React from 'react';
 import { Typography, Button, Table, Spin, List } from '@douyinfe/semi-ui';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
 import { SingleColumnLayout } from 'layouts/single-column';

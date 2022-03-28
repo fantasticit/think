@@ -1,0 +1,23 @@
+.wrap {
+  line-height: 0;
+  border: 1px solid var(--semi-color-border);
+  border-radius: var(--border-radius);
+
+  p {
+    margin-top: .25em;
+  }
+
+  p:first-child {
+    margin: 0;
+  }
+
+  ul {
+    padding-left: 1em;
+    margin: 0;
+  }
+
+  .handlerWrap {
+    display: flex;
+    padding: 10px;
+  }
+}

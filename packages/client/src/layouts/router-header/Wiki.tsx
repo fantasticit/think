@@ -7,7 +7,7 @@ import { useStaredWikis, useWikiDetail } from 'data/wiki';
 import { Empty } from 'components/empty';
 import { DataRender } from 'components/data-render';
 import { WikiStar } from 'components/wiki/star';
-import { Placeholder } from './Placeholder';
+import { Placeholder } from './placeholder';
 import styles from './index.module.scss';
 
 const { Text } = Typography;

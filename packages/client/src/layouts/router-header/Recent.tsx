@@ -8,7 +8,7 @@ import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
 import { DocumentStar } from 'components/document/star';
 import { IconDocumentFill } from 'components/icons/IconDocumentFill';
-import { Placeholder } from './Placeholder';
+import { Placeholder } from './placeholder';
 import styles from './index.module.scss';
 
 const { Text } = Typography;

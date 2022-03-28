@@ -1,0 +1,19 @@
+.ProseMirror {
+  .is-empty {
+    position: relative;
+
+    &.has-focus {
+      &::before {
+        float: left;
+        height: 0;
+        color: #aaa;
+        pointer-events: none;
+        content: attr(data-placeholder);
+      }
+    }
+
+    &.node-codeBlock::before {
+      transform: translate(10px, 10px);
+    }
+  }
+}

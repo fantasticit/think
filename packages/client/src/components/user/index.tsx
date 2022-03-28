@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropdown, Typography, Avatar, Button } from '@douyinfe/semi-ui';
 import { IconSpin } from '@douyinfe/semi-icons';
 import { useUser } from 'data/user';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { UserSetting } from './setting';
 
 const { Text } = Typography;

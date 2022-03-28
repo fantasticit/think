@@ -1,0 +1,17 @@
+.ProseMirror {
+  .title {
+    margin: 10px 0 22px;
+    font-size: 2.4em;
+    font-weight: bold;
+    color: var(--semi-color-text-0);
+    border-bottom: 1px solid var(--semi-color-border);
+
+    &.is-empty::before {
+      float: left;
+      height: 0;
+      color: #aaa;
+      pointer-events: none;
+      content: attr(data-placeholder);
+    }
+  }
+}

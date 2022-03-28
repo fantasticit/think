@@ -23,11 +23,11 @@
 
     .collapseBtn {
       position: absolute;
-      z-index: 100;
       top: 1rem;
       right: 0;
-      transform: translate(50%);
+      z-index: 100;
       opacity: 0;
+      transform: translate(50%);
 
       &.isCollapsed {
         opacity: 1;

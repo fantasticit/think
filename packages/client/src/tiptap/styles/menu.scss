@@ -1,0 +1,25 @@
+.bubble-menu {
+  display: flex;
+  padding: 4px;
+  overflow-x: auto;
+  background-color: var(--semi-color-nav-bg);
+  border: 1px solid var(--semi-color-border);
+  border-radius: 3px;
+  align-items: center;
+  box-shadow: var(--box-shadow);
+}
+
+.bubble-memu-table-cell {
+  display: flex;
+  padding: 4px;
+  background-color: var(--semi-color-nav-bg);
+  border: 1px solid var(--semi-color-border);
+  border-radius: 3px;
+  box-shadow: var(--box-shadow);
+
+  &.row {
+    flex-direction: column;
+    column-gap: 8px;
+    transform: translate(0, 70%);
+  }
+}

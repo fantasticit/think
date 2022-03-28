@@ -1,7 +1,7 @@
 import React from 'react';
 import { Upload as SemiUpload, Button, Toast } from '@douyinfe/semi-ui';
 import { IconUpload } from '@douyinfe/semi-icons';
-import { useAsyncLoading } from 'hooks/useAsyncLoading';
+import { useAsyncLoading } from 'hooks/use-async-loading';
 import { uploadFile } from 'services/file';
 
 interface IProps {

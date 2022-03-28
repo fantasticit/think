@@ -1,0 +1,40 @@
+.ProseMirror {
+  h1 {
+    margin: 26px 0 12px;
+    font-size: 1.87em;
+  }
+
+  h2 {
+    margin: 21px 0 12px;
+    font-size: 1.6em;
+  }
+
+  h3 {
+    margin: 16px 0 12px;
+    font-size: 1.3em;
+  }
+
+  h4 {
+    margin: 14px 0 12px;
+    font-size: 1.1em;
+  }
+
+  h5 {
+    margin: 5px 0 12px;
+    font-size: 1em;
+  }
+
+  h6 {
+    margin: 0 0 12px;
+    font-size: 1em;
+  }
+
+  h1:first-child,
+  h2:first-child,
+  h3:first-child,
+  h4:first-child,
+  h5:first-child,
+  h6:first-child {
+    margin-top: 0;
+  }
+}

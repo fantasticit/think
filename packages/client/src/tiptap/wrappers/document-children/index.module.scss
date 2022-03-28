@@ -1,0 +1,38 @@
+.wrap {
+  padding: 12px;
+  margin-top: .75em;
+  border: 1px solid var(--semi-color-border);
+  border-radius: var(--border-radius);
+
+  .itemWrap {
+    display: flex;
+    padding: 6px;
+    margin-top: 12px;
+    color: var(--semi-color-text-1);
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid var(--semi-color-border);
+    border-radius: var(--border-radius);
+    align-items: center;
+
+    &:hover {
+      border-color: var(--semi-color-link);
+      color: var(--semi-color-link);
+    }
+
+    span {
+      margin-left: 8px;
+    }
+  }
+
+  &.isEditable {
+    .itemWrap {
+      pointer-events: none;
+
+      &:hover {
+        border-color: var(--semi-color-border);
+        color: var(--semi-color-text-1);
+      }
+    }
+  }
+}

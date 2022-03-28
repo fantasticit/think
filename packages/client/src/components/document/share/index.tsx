@@ -5,7 +5,7 @@ import { isPublicDocument } from '@think/domains';
 import { getDocumentShareURL } from 'helpers/url';
 import { ShareIllustration } from 'illustrations/share';
 import { DataRender } from 'components/data-render';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { useDocumentDetail } from 'data/document';
 
 interface IProps {

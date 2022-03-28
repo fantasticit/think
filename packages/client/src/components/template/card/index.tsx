@@ -6,9 +6,9 @@ import { Button, Space, Typography, Tooltip, Avatar, Skeleton, Modal } from '@do
 import { IconEdit, IconUser, IconPlus } from '@douyinfe/semi-icons';
 import { IconDocument } from 'components/icons/IconDocument';
 import { TemplateReader } from 'components/template/reader';
+import { useToggle } from 'hooks/use-toggle';
 import { useUser } from 'data/user';
 import styles from './index.module.scss';
-import { useToggle } from 'hooks/useToggle';
 
 const { Text } = Typography;
 

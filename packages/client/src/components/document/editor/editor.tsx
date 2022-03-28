@@ -3,7 +3,8 @@ import cls from 'classnames';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { BackTop } from '@douyinfe/semi-ui';
 import { ILoginUser, IAuthority } from '@think/domains';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
+import { useNetwork } from 'hooks/use-network';
 import {
   MenuBar,
   DEFAULT_EXTENSION,
@@ -15,7 +16,7 @@ import {
   ProviderStatus,
   getIndexdbProvider,
   destoryIndexdbProvider,
-} from 'components/tiptap';
+} from 'tiptap';
 import { DataRender } from 'components/data-render';
 import { joinUser } from 'components/document/collaboration';
 import { Banner } from 'components/banner';
@@ -34,6 +35,7 @@ interface IProps {
 export const Editor: React.FC<IProps> = ({ user, documentId, authority, className, style }) => {
   if (!user) return null;
   const [status, setStatus] = useState<ProviderStatus>('connecting');
+  const { online } = useNetwork();
   const provider = useMemo(() => {
     return getProvider({
       targetId: documentId,
@@ -94,11 +96,10 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
       normalContent={() => {
         return (
           <div className={styles.editorWrap}>
-            {status === 'disconnected' && (
+            {(!online || status === 'disconnected') && (
               <Banner
                 type="warning"
-                description="我们已与您断开连接，您可以继续编辑文档。一旦重新连接，我们会自动重新提交数据。
-              "
+                description="我们已与您断开连接，您可以继续编辑文档。一旦重新连接，我们会自动重新提交数据。"
               />
             )}
             <header className={className}>

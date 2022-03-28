@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { Layout as SemiLayout, Button } from '@douyinfe/semi-ui';
 import { IconChevronLeft, IconChevronRight } from '@douyinfe/semi-icons';
 import SplitPane from 'react-split-pane';
-import { useDragableWidth, MIN_WIDTH, MAX_WIDTH } from 'hooks/useDragableWidth';
+import { useDragableWidth, MIN_WIDTH, MAX_WIDTH } from 'hooks/use-dragable-width';
 import styles from './index.module.scss';
 
 const { Sider, Content } = SemiLayout;

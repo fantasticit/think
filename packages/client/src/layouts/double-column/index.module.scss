@@ -1,13 +1,12 @@
 .wrap {
   display: flex;
   flex-direction: column;
-
   height: 100%;
   background-color: var(--semi-color-nav-bg);
 
   .contentWrap {
-    flex: 1;
     display: flex;
+    flex: 1;
     flex-wrap: nowrap;
     overflow: hidden;
 
@@ -32,11 +31,11 @@
 
       .collapseBtn {
         position: absolute;
-        z-index: 100;
         top: 1rem;
         right: 0;
-        transform: translate(50%);
+        z-index: 100;
         opacity: 0;
+        transform: translate(50%);
 
         &.isCollapsed {
           opacity: 1;

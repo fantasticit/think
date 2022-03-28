@@ -7,5 +7,5 @@ git pull
 pnpm install
 pnpm run build
 
-pm2 restart @think/server
-pm2 restart @think/client
+pm2 reload @think/server
+pm2 reload @think/client

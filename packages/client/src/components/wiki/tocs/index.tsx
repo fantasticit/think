@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Avatar, Button, Typography, Skeleton } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { Seo } from 'components/seo';
 import { findParents } from 'components/wiki/tocs/utils';
 import { IconDocument, IconSetting, IconOverview } from 'components/icons';

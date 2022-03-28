@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Tooltip, Button } from '@douyinfe/semi-ui';
+import { Tooltip, Button } from '@douyinfe/semi-ui';
 import { IconStar } from '@douyinfe/semi-icons';
 import { useDocumentStar } from 'data/document';
 
@@ -7,8 +7,6 @@ interface IProps {
   documentId: string;
   render?: (arg: { star: boolean; text: string; toggleStar: () => Promise<void> }) => React.ReactNode;
 }
-
-const { Text } = Typography;
 
 export const DocumentStar: React.FC<IProps> = ({ documentId, render }) => {
   const { data, toggleStar } = useDocumentStar(documentId);

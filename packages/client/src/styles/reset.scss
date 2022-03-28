@@ -5,6 +5,31 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  height: 100vh;
+  /* stylelint-disable-next-line declaration-block-no-duplicate-properties */
+  height: var(--app-height);
+  line-height: 1.5;
+  text-rendering: optimizespeed;
+
+  /* stylelint-disable-next-line selector-id-pattern */
+  > div#__next {
+    height: 100%;
+  }
+}
+
 /* Remove default margin */
 body,
 h1,
@@ -25,30 +50,12 @@ ol[role='list'] {
   list-style: none;
 }
 
-/* Set core root defaults */
-html:focus-within {
-  scroll-behavior: smooth;
-}
-
-html,
-body {
-  padding: 0;
-  margin: 0;
-}
-
-/* Set core body defaults */
-body {
-  height: 100vh;
-  height: var(--app-height);
-  text-rendering: optimizeSpeed;
-  line-height: 1.5;
-
-  > div#__next {
-    height: 100%;
-  }
-}
-
 /* A elements that don't have a class get default styles */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 a:not([class]) {
   text-decoration-skip-ink: auto;
 }
@@ -58,7 +65,6 @@ img,
 picture {
   display: inline-block;
   max-width: 100%;
-  // display: block;
 }
 
 /* Inherit fonts for inputs and buttons */
@@ -74,21 +80,13 @@ select {
   html:focus-within {
     scroll-behavior: auto;
   }
+
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-body {
-  overflow-x: hidden;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
 }

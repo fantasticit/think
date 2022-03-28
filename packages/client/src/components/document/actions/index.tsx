@@ -5,7 +5,7 @@ import { DocumentLinkCopyer } from 'components/document/link';
 import { DocumentDeletor } from 'components/document/delete';
 import { DocumentCreator } from 'components/document/create';
 import { DocumentStar } from 'components/document/star';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 
 interface IProps {
   wikiId: string;

@@ -18,7 +18,7 @@ import {
 import { IconUserAdd, IconDelete } from '@douyinfe/semi-icons';
 import { useUser } from 'data/user';
 import { EventEmitter } from 'helpers/event-emitter';
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from 'hooks/use-toggle';
 import { useCollaborationDocument } from 'data/document';
 import { DataRender } from 'components/data-render';
 import { DocumentLinkCopyer } from 'components/document/link';

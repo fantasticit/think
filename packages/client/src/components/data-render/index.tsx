@@ -1,5 +1,5 @@
 import React from 'react';
-import { Empty, Spin, Typography } from '@douyinfe/semi-ui';
+import { Spin, Typography } from '@douyinfe/semi-ui';
 
 type RenderProps = React.ReactNode | (() => React.ReactNode);
 

@@ -8,11 +8,74 @@ import { LogoImage, LogoText } from 'components/logo';
 import { Theme } from 'components/theme';
 import { Message } from 'components/message';
 import { Search } from 'components/search';
-import { useWindowSize } from 'hooks/useWindowSize';
-import { Recent } from './Recent';
-import { Wiki } from './Wiki';
+import { useWindowSize } from 'hooks/use-window-size';
+import { Recent } from './recent';
+import { Wiki } from './wiki';
 
 const { Header: SemiHeader } = SemiLayout;
+
+const menus = [
+  {
+    itemKey: '/',
+    text: (
+      <Link href="/">
+        <a>主页</a>
+      </Link>
+    ),
+    onClick: () => {
+      Router.push({
+        pathname: `/`,
+      });
+    },
+  },
+  {
+    itemKey: '/recent',
+    text: <Recent />,
+  },
+  {
+    itemKey: '/wiki',
+    text: <Wiki />,
+  },
+  {
+    itemKey: '/star',
+    text: (
+      <Link href="/star">
+        <a>收藏</a>
+      </Link>
+    ),
+    onClick: () => {
+      Router.push({
+        pathname: `/star`,
+      });
+    },
+  },
+  {
+    itemKey: '/template',
+    text: (
+      <Link href="/template">
+        <a>模板</a>
+      </Link>
+    ),
+    onClick: () => {
+      Router.push({
+        pathname: `/template`,
+      });
+    },
+  },
+  {
+    itemKey: '/find',
+    text: (
+      <Link href="/find">
+        <a>发现</a>
+      </Link>
+    ),
+    onClick: () => {
+      Router.push({
+        pathname: `/find`,
+      });
+    },
+  },
+];
 
 export const RouterHeader: React.FC = () => {
   const { pathname } = useRouter();
@@ -30,68 +93,7 @@ export const RouterHeader: React.FC = () => {
           </Space>
         }
         selectedKeys={[pathname || '/']}
-        items={[
-          {
-            itemKey: '/',
-            text: (
-              <Link href="/">
-                <a>主页</a>
-              </Link>
-            ),
-            onClick: () => {
-              Router.push({
-                pathname: `/`,
-              });
-            },
-          },
-          {
-            itemKey: '/recent',
-            text: <Recent />,
-          },
-          {
-            itemKey: '/wiki',
-            text: <Wiki />,
-          },
-          {
-            itemKey: '/star',
-            text: (
-              <Link href="/star">
-                <a>收藏</a>
-              </Link>
-            ),
-            onClick: () => {
-              Router.push({
-                pathname: `/star`,
-              });
-            },
-          },
-          {
-            itemKey: '/template',
-            text: (
-              <Link href="/template">
-                <a>模板</a>
-              </Link>
-            ),
-            onClick: () => {
-              Router.push({
-                pathname: `/template`,
-              });
-            },
-          },
-          {
-            itemKey: '/find',
-            text: (
-              <Link href="/find">
-                <a>发现</a>
-              </Link>
-            ),
-            onClick: () => {
-              Router.push({
-                pathname: `/find`,
-              });
-            },
-          },
-        ]}
+        items={menus}
         footer={
           <Space>
             <WikiOrDocumentCreator />

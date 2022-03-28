@@ -1,6 +1,7 @@
+/* stylelint-disable */
 .statusWrap {
-  margin-top: 16px;
   padding: 10px 12px;
+  margin-top: 16px;
   border: 1px solid var(--semi-color-border);
   border-radius: 4px;
 
@@ -9,30 +10,13 @@
   }
 }
 
-.selectedItem {
-  :global {
-    .semi-icon-close {
-      visibility: hidden;
-      color: var(--semi-color-tertiary);
-    }
-  }
-
-  &:hover {
-    :global {
-      .semi-icon-close {
-        visibility: visible;
-      }
-    }
-  }
-}
-
 .selectedItem,
 .sourceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   box-sizing: border-box;
   height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 10px 12px;
 
   &:hover {
@@ -40,8 +24,8 @@
   }
 
   .info {
-    margin-left: 8px;
     flex-grow: 1;
+    margin-left: 8px;
   }
 
   .name {
@@ -53,6 +37,23 @@
     font-size: 12px;
     line-height: 16px;
     color: var(--semi-color-text-2);
+  }
+}
+
+.selectedItem {
+  :global {
+    .semi-icon-close {
+      color: var(--semi-color-tertiary);
+      visibility: hidden;
+    }
+  }
+
+  &:hover {
+    :global {
+      .semi-icon-close {
+        visibility: visible;
+      }
+    }
   }
 }
 

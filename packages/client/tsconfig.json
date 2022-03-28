@@ -25,7 +25,8 @@
       "components/*": ["components/*"],
       "layout/*": ["layout/*"],
       "constants/*": ["constants/*"],
-      "helpers/*": ["helpers/*"]
+      "helpers/*": ["helpers/*"],
+      "tiptap/*": ["tiptap/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

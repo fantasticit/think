@@ -6,7 +6,7 @@ import { useAllMessages, useReadMessages, useUnreadMessages } from 'data/message
 import { EmptyBoxIllustration } from 'illustrations/empty-box';
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
-import { Placeholder } from './Placeholder';
+import { Placeholder } from './placeholder';
 import styles from './index.module.scss';
 
 const { Text } = Typography;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@douyinfe/semi-ui';
-import { useToggle } from 'hooks/useToggle';
-import { useQuery } from 'hooks/useQuery';
+import { useToggle } from 'hooks/use-toggle';
+import { useQuery } from 'hooks/use-query';
 import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
 
 interface IProps {
