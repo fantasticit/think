@@ -552,8 +552,9 @@ export class DocumentService {
     await this.viewService.create({ userId: 'public', documentId, userAgent });
     const views = await this.viewService.getDocumentTotalViews(documentId);
     const createUser = await this.userService.findById(document.createUserId);
+    const wiki = await this.wikiService.getPublicWikiDetail(document.wikiId);
 
-    return { ...document, views, createUser };
+    return { ...document, views, wiki, createUser };
   }
 
   /**

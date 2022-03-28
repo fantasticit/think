@@ -1,4 +1,4 @@
-import type { IUser, IDocument } from '@think/domains';
+import type { IUser, IDocument, IWiki } from '@think/domains';
 import useSWR from 'swr';
 import { useState, useCallback, useEffect } from 'react';
 import { useAsyncLoading } from 'hooks/use-async-loading';
@@ -128,7 +128,7 @@ export const useStaredDocuments = () => {
  */
 export const usePublicDocument = (documentId: string) => {
   const [fetch] = useAsyncLoading(getPublicDocumentDetail);
-  const [document, setDocument] = useState<IDocument | null>(null);
+  const [document, setDocument] = useState<(IDocument & { createUse: IUser; wiki: IWiki }) | null>(null);
   const [error, setError] = useState<(Error & { statusCode?: number }) | null>(null);
   const loading = !document && !error;
 

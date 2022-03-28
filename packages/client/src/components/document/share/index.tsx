@@ -49,6 +49,25 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, render }) => {
         onCancel={() => toggleVisible(false)}
         maskClosable={false}
         style={{ maxWidth: '96vw' }}
+        footer={
+          <>
+            <Button onClick={() => toggleVisible(false)}>取消</Button>
+            <Button theme="solid" type={isPublic ? 'danger' : 'primary'} onClick={handleOk}>
+              {isPublic ? '关闭分享' : '开启分享'}
+            </Button>
+            {isPublic && (
+              <Button
+                theme="solid"
+                type="primary"
+                onClick={() => {
+                  window.open(shareUrl, '_blank');
+                }}
+              >
+                查看文档
+              </Button>
+            )}
+          </>
+        }
       >
         <DataRender
           loading={loading}
