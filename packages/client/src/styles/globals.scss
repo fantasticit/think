@@ -1,7 +1,6 @@
 @import '~@douyinfe/semi-ui/dist/css/semi.min.css';
 @import './var.scss';
 @import './reset.scss';
-@import './editor/index.scss';
 
 .container {
   margin-right: auto;
@@ -29,7 +28,7 @@
 .Resizer {
   z-index: 1;
   background: var(--semi-color-border);
-  opacity: .2;
+  opacity: 0.2;
   box-sizing: border-box;
   background-clip: padding;
 }

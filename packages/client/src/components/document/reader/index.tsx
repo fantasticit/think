@@ -14,7 +14,7 @@ import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
 import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
-import { DocumentSkeleton } from 'components/tiptap';
+import { DocumentSkeleton } from 'tiptap';
 import { Editor } from './editor';
 import { CreateUser } from './user';
 import styles from './index.module.scss';

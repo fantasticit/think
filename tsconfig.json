@@ -14,20 +14,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "downlevelIteration": true,
-    "baseUrl": "./src",
-    "paths": {
-      "styles/*": ["styles/*"],
-      "services/*": ["services/*"],
-      "data/*": ["data/*"],
-      "hooks/*": ["hooks/*"],
-      "context/*": ["context/*"],
-      "components/*": ["components/*"],
-      "layout/*": ["layout/*"],
-      "constants/*": ["constants/*"],
-      "helpers/*": ["helpers/*"],
-      "tiptap/*": ["tiptap/*"]
-    }
+    "downlevelIteration": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

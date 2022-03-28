@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { Layout, Spin, Typography } from '@douyinfe/semi-ui';
 import { IUser, ITemplate } from '@think/domains';
-import { DEFAULT_EXTENSION, DocumentWithTitle } from 'components/tiptap';
+import { DEFAULT_EXTENSION, DocumentWithTitle } from 'tiptap';
 import { DataRender } from 'components/data-render';
 import { ImageViewer } from 'components/image-viewer';
 import { useDocumentStyle } from 'hooks/use-document-style';

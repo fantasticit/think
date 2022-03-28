@@ -7,7 +7,7 @@ interface IProps extends BannerProps {
   duration?: number;
 }
 
-export const Banner: React.FC<IProps> = ({ type, description, duration }) => {
+export const Banner: React.FC<IProps> = ({ type, description, duration = 0 }) => {
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const [visible, toggleVisible] = useToggle(true);
 

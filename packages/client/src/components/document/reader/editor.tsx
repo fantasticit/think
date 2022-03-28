@@ -10,7 +10,7 @@ import {
   getCollaborationCursorExtension,
   getProvider,
   destoryProvider,
-} from 'components/tiptap';
+} from 'tiptap';
 import { DataRender } from 'components/data-render';
 import { ImageViewer } from 'components/image-viewer';
 import { joinUser } from 'components/document/collaboration';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { IDocument } from '@think/domains';
-import { DEFAULT_EXTENSION, DocumentWithTitle } from 'components/tiptap';
+import { DEFAULT_EXTENSION, DocumentWithTitle } from 'tiptap';
 import { safeJSONParse } from 'helpers/json';
 import { CreateUser } from '../user';
 

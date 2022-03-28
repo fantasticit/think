@@ -12,7 +12,7 @@ import { ImageViewer } from 'components/image-viewer';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
 import { usePublicDocument } from 'data/document';
-import { DocumentSkeleton } from 'components/tiptap';
+import { DocumentSkeleton } from 'tiptap';
 import { DocumentContent } from './content';
 import styles from './index.module.scss';
 
