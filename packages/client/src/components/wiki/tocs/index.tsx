@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Avatar, Button, Typography, Skeleton } from '@douyinfe/semi-ui';
+import { Avatar, Button, Typography, Skeleton, Tooltip } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
 import { useToggle } from 'hooks/use-toggle';
@@ -13,6 +13,7 @@ import { EventEmitter } from 'helpers/event-emitter';
 import { NavItem } from './NavItem';
 import { Tree } from './tree';
 import styles from './index.module.scss';
+import { isPublicWiki } from '@think/domains';
 
 const em = new EventEmitter();
 const EVENT_KEY = 'REFRESH_TOCS';
@@ -125,6 +126,45 @@ export const WikiTocs: React.FC<IProps> = ({
           query: { tab: 'base', wikiId },
         }}
         isActive={pathname === '/wiki/[wikiId]/setting'}
+      />
+
+      <DataRender
+        loading={wikiLoading}
+        loadingContent={
+          <NavItem
+            icon={
+              <Skeleton.Avatar
+                size="small"
+                style={{
+                  marginRight: 8,
+                  width: 24,
+                  height: 24,
+                  borderRadius: 4,
+                }}
+              ></Skeleton.Avatar>
+            }
+            text={<Skeleton.Title style={{ width: 120 }} />}
+          />
+        }
+        error={wikiError}
+        normalContent={() =>
+          isPublicWiki(wiki.status) ? (
+            <NavItem
+              icon={<IconOverview />}
+              text={
+                <Tooltip content="该知识库已公开，点我查看" position="right">
+                  公开地址
+                </Tooltip>
+              }
+              href={{
+                pathname: `/share/wiki/[wikiId]`,
+                query: { wikiId },
+              }}
+              isActive={pathname === '/share/wiki/[wikiId]'}
+              openNewTab
+            />
+          ) : null
+        }
       />
 
       <DataRender

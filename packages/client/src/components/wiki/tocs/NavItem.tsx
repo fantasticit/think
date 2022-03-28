@@ -14,9 +14,18 @@ interface IProps {
   };
   isActive?: boolean;
   hoverable?: boolean;
+  openNewTab?: boolean;
 }
 
-export const NavItem: React.FC<IProps> = ({ icon, text, rightNode, href, isActive = false, hoverable = true }) => {
+export const NavItem: React.FC<IProps> = ({
+  icon,
+  text,
+  rightNode,
+  href,
+  isActive = false,
+  hoverable = true,
+  openNewTab = false,
+}) => {
   const right = rightNode ? <span className={styles.rightWrap}>{rightNode}</span> : null;
   const content = (
     <>
@@ -32,7 +41,9 @@ export const NavItem: React.FC<IProps> = ({ icon, text, rightNode, href, isActiv
     >
       {href ? (
         <Link href={href as UrlObject}>
-          <a className={styles.navItem}>{content}</a>
+          <a className={styles.navItem} target={openNewTab ? '_blank' : '_self'}>
+            {content}
+          </a>
         </Link>
       ) : (
         <div className={styles.navItem}>{content}</div>

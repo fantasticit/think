@@ -1,7 +1,20 @@
 import React, { useMemo, useEffect } from 'react';
 import cls from 'classnames';
-import { Layout, Nav, Space, Button, Typography, Skeleton, Input, Popover, Modal, BackTop } from '@douyinfe/semi-ui';
+import {
+  Layout,
+  Nav,
+  Space,
+  Button,
+  Typography,
+  Skeleton,
+  Input,
+  Popover,
+  Modal,
+  Breadcrumb,
+  BackTop,
+} from '@douyinfe/semi-ui';
 import { IconArticle } from '@douyinfe/semi-icons';
+import Link from 'next/link';
 import { Seo } from 'components/seo';
 import { LogoImage, LogoText } from 'components/logo';
 import { DataRender } from 'components/data-render';
@@ -91,9 +104,14 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
               <Skeleton active placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />} loading={true} />
             }
             normalContent={() => (
-              <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
-                {data.title}
-              </Text>
+              <Breadcrumb>
+                <Breadcrumb.Item>
+                  <Link href="/share/wiki/[wikiId]" as={`/share/wiki/${data.wikiId}`}>
+                    <a>{data?.wiki?.name}</a>
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>{data.title}</Breadcrumb.Item>
+              </Breadcrumb>
             )}
           />
         </Nav>
