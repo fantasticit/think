@@ -1,4 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core';
+import { Plugin, PluginKey } from 'prosemirror-state';
+import { isInTitle } from '../services/node';
+import { TextSelection } from 'prosemirror-state';
 
 export interface TitleOptions {
   HTMLAttributes: Record<string, any>;
@@ -26,6 +29,7 @@ export const Title = Node.create<TitleOptions>({
       },
     };
   },
+
   parseHTML() {
     return [
       {
@@ -36,5 +40,38 @@ export const Title = Node.create<TitleOptions>({
 
   renderHTML({ HTMLAttributes }) {
     return ['p', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey(this.name),
+        props: {
+          handleKeyDown(view, evt) {
+            const { state, dispatch } = view;
+
+            if (isInTitle(view.state) && evt.code === 'Enter') {
+              evt.preventDefault();
+
+              const paragraph = state.schema.nodes.paragraph;
+
+              if (!paragraph) {
+                return;
+              }
+
+              const $head = state.selection.$head;
+              const titleNode = $head.node($head.depth);
+              const insertPos = titleNode.firstChild.nodeSize + 1;
+              dispatch(state.tr.insert(insertPos, paragraph.create()));
+
+              const newState = view.state;
+              const next = new TextSelection(newState.doc.resolve(insertPos + 1));
+              dispatch(newState.tr.setSelection(next));
+              return true;
+            }
+          },
+        },
+      }),
+    ];
   },
 });
