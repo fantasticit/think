@@ -20,6 +20,11 @@ db:
     charset: 'utf8mb4'
     timezone: '+08:00'
     synchronize: true
+  redis:
+    host: '127.0.0.1'
+    port: '6379'
+    db: 0
+    password: 'root'
 
 # oss 文件存储服务
 oss:

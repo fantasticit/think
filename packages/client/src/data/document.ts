@@ -77,6 +77,20 @@ export const useDocumentDetail = (documentId, options = null) => {
 };
 
 /**
+ * 获取文档历史版本
+ * @param documentId
+ * @returns
+ */
+export const useDocumentVersion = (documentId) => {
+  const { data, error, mutate } = useSWR<Array<{ version: string; data: string }>>(
+    `/document/version/${documentId}`,
+    (url) => HttpClient.get(url)
+  );
+  const loading = !data && !error;
+  return { data: data || [], loading, error, refresh: mutate };
+};
+
+/**
  * 获取知识库最近更新的10条文档
  * @returns
  */
