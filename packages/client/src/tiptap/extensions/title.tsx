@@ -19,8 +19,6 @@ declare module '@tiptap/core' {
 export const Title = Node.create<TitleOptions>({
   name: 'title',
   content: 'inline*',
-  group: 'block',
-  defining: true,
 
   addOptions() {
     return {
@@ -61,11 +59,10 @@ export const Title = Node.create<TitleOptions>({
 
               const $head = state.selection.$head;
               const titleNode = $head.node($head.depth);
-              const insertPos = titleNode.firstChild.nodeSize + 1;
-              dispatch(state.tr.insert(insertPos, paragraph.create()));
+              const endPos = titleNode.firstChild.nodeSize + 1;
 
               const newState = view.state;
-              const next = new TextSelection(newState.doc.resolve(insertPos + 1));
+              const next = new TextSelection(newState.doc.resolve(endPos + 2));
               dispatch(newState.tr.setSelection(next));
               return true;
             }
