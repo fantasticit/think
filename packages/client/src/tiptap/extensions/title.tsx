@@ -61,6 +61,8 @@ export const Title = Node.create<TitleOptions>({
               const titleNode = $head.node($head.depth);
               const endPos = titleNode.firstChild.nodeSize + 1;
 
+              dispatch(state.tr.insert(endPos, paragraph.create()));
+
               const newState = view.state;
               const next = new TextSelection(newState.doc.resolve(endPos + 2));
               dispatch(newState.tr.setSelection(next));
