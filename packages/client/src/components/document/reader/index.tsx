@@ -9,6 +9,7 @@ import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
 import { DocumentCollaboration } from 'components/document/collaboration';
 import { DocumentStyle } from 'components/document/style';
+import { DocumentVersion } from 'components/document/version';
 import { CommentEditor } from 'components/document/comments';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
@@ -16,7 +17,6 @@ import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
 import { DocumentSkeleton } from 'tiptap';
 import { Editor } from './editor';
-import { CreateUser } from './user';
 import styles from './index.module.scss';
 
 const { Header } = Layout;
@@ -80,6 +80,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
               {authority && authority.readable && (
                 <>
                   <DocumentShare key="share" documentId={documentId} />
+                  <DocumentVersion key="version" documentId={documentId} />
                   <DocumentStar key="star" documentId={documentId} />
                 </>
               )}

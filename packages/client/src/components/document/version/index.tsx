@@ -1,24 +1,23 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import { Button, Modal, Input, Typography, Toast, Layout, Nav } from '@douyinfe/semi-ui';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Button, Modal, Typography } from '@douyinfe/semi-ui';
+import { IconClose } from '@douyinfe/semi-icons';
 import { useEditor, EditorContent } from '@tiptap/react';
-
-import { IconLink } from '@douyinfe/semi-icons';
-import { isPublicDocument } from '@think/domains';
+import cls from 'classnames';
 import { DEFAULT_EXTENSION, DocumentWithTitle } from 'tiptap';
 import { safeJSONParse } from 'helpers/json';
-import { ShareIllustration } from 'illustrations/share';
 import { DataRender } from 'components/data-render';
 import { useToggle } from 'hooks/use-toggle';
 import { useDocumentVersion } from 'data/document';
+import styles from './index.module.scss';
 
 interface IProps {
   documentId: string;
+  onSelect?: (data) => void;
 }
 
-const { Text } = Typography;
-const { Header, Footer, Sider, Content } = Layout;
+const { Title } = Typography;
 
-export const DocumentVersion: React.FC<IProps> = ({ documentId }) => {
+export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
   const [visible, toggleVisible] = useToggle(false);
   const { data, loading, error, refresh } = useDocumentVersion(documentId);
   const [selectedVersion, setSelectedVersion] = useState(null);
@@ -29,6 +28,11 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId }) => {
     content: {},
   });
 
+  const close = useCallback(() => {
+    toggleVisible(false);
+    setSelectedVersion(null);
+  }, []);
+
   const select = useCallback(
     (version) => {
       setSelectedVersion(version);
@@ -37,11 +41,24 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId }) => {
     [editor]
   );
 
+  const restore = useCallback(() => {
+    if (!selectedVersion || !onSelect) return;
+    onSelect(safeJSONParse(selectedVersion.data, { default: {} }).default);
+    close();
+  }, [selectedVersion]);
+
   useEffect(() => {
     if (visible) {
       refresh();
     }
   }, [visible]);
+
+  useEffect(() => {
+    if (!editor) return;
+    if (!data.length) return;
+    if (selectedVersion) return;
+    select(data[0]);
+  }, [editor, data, selectedVersion]);
 
   return (
     <>
@@ -52,30 +69,64 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId }) => {
         title="历史记录"
         fullScreen
         visible={visible}
-        onOk={() => toggleVisible(false)}
-        onCancel={() => toggleVisible(false)}
+        style={{ padding: 0 }}
+        bodyStyle={{ padding: 0 }}
+        header={
+          <div className={styles.headerWrap}>
+            <div>
+              <Button icon={<IconClose />} onClick={close} />
+              <Title heading={5} style={{ marginLeft: 12 }}>
+                版本记录
+              </Title>
+            </div>
+            <div>
+              <Button
+                theme="light"
+                type="primary"
+                style={{ marginRight: 8 }}
+                disabled={loading || error}
+                onClick={() => refresh()}
+              >
+                刷新
+              </Button>
+              {onSelect && (
+                <Button type="primary" theme="solid" disabled={!selectedVersion} onClick={restore}>
+                  恢复此记录
+                </Button>
+              )}
+            </div>
+          </div>
+        }
+        footer={null}
       >
-        <Layout style={{ height: 'calc(100vh - 72px)', overflow: 'hidden' }}>
-          <Sider>
-            <Nav
-              bodyStyle={{ height: 'calc(100vh - 96px)', overflow: 'auto' }}
-              defaultOpenKeys={['job']}
-              items={data.map(({ version, data }) => {
-                return { itemKey: version, text: version, onClick: () => select({ version, data }) };
-              })}
-            />
-          </Sider>
-          <Content>
-            <Layout className="components-layout-demo">
-              <Header>Header</Header>
-              <Content>
-                <div className="container" style={{ paddingBottom: 48 }}>
+        <DataRender
+          loading={loading}
+          error={error}
+          normalContent={() => (
+            <div className={styles.contentWrap}>
+              <aside>
+                <ul>
+                  {data.map(({ version, data }) => {
+                    return (
+                      <li
+                        key={version}
+                        className={cls(selectedVersion && selectedVersion.version === version && styles.selected)}
+                        onClick={() => select({ version, data })}
+                      >
+                        {version}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </aside>
+              <main>
+                <div className={cls('container', styles.editorWrap)}>
                   <EditorContent editor={editor} />
                 </div>
-              </Content>
-            </Layout>
-          </Content>
-        </Layout>
+              </main>
+            </div>
+          )}
+        />
       </Modal>
     </>
   );

@@ -58,6 +58,8 @@ CREATE DATABASE  `think` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_c
 
 #### 可选：Redis
 
+如果需要文档版本服务，请在 `@think/config` 的 `yaml` 配置中进行 `db.redis` 的配置。
+
 ```
 docker pull redis:latest
 docker run --name think-redis -p 6379:6379 -d redis --appendonly yes --requirepass "root"

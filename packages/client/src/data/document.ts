@@ -84,7 +84,8 @@ export const useDocumentDetail = (documentId, options = null) => {
 export const useDocumentVersion = (documentId) => {
   const { data, error, mutate } = useSWR<Array<{ version: string; data: string }>>(
     `/document/version/${documentId}`,
-    (url) => HttpClient.get(url)
+    (url) => HttpClient.get(url),
+    { errorRetryCount: 0 }
   );
   const loading = !data && !error;
   return { data: data || [], loading, error, refresh: mutate };
