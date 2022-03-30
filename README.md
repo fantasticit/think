@@ -29,8 +29,9 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 
 本项目依赖 pnpm 使用 monorepo 形式进行代码组织，分包如下：
 
-- `@think/config`: 管理项目整体配置
-- `@think/share`：数据类型定义、枚举、配置等
+- `@think/config`: 客户端、服务端、OSS、MYSQL、Redis 等配置管理
+- `@think/domains`：领域模型数据定义
+- `@think/constants`：常量配置
 - `@think/server`：服务端
 - `@think/client`：客户端
 
@@ -101,6 +102,8 @@ server:
   prefix: '/api'
   port: 5001
   collaborationPort: 5003
+  # 最大版本记录数
+  maxDocumentVersion: 20
 
 client:
   assetPrefix: '/'
@@ -118,6 +121,10 @@ db:
     charset: 'utf8mb4'
     timezone: '+08:00'
     synchronize: true
+  redis:
+    host: '127.0.0.1'
+    port: '6379'
+    password: 'root'
 
 # oss 文件存储服务
 oss:
