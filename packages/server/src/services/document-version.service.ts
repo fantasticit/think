@@ -14,12 +14,10 @@ export class DocumentVersionService {
     this.init();
   }
 
-  private versionDataToArray(
-    data: Record<string, string>
-  ): Array<{ originVerison: string; version: string; data: string }> {
+  private versionDataToArray(data: Record<string, string>): Array<{ version: string; data: string }> {
     return Object.keys(data)
       .sort((a, b) => +b - +a)
-      .map((key) => ({ originVerison: key, version: new Date(+key).toLocaleString(), data: data[key] }));
+      .map((key) => ({ version: key, data: data[key] }));
   }
 
   private async init() {
@@ -67,7 +65,7 @@ export class DocumentVersionService {
     const data = this.versionDataToArray(res);
 
     while (data.length > this.max) {
-      const lastVersion = data.pop().originVerison;
+      const lastVersion = data.pop().version;
       await this.redis.hdel(documentId, lastVersion);
     }
   }

@@ -6,6 +6,7 @@ import cls from 'classnames';
 import { DEFAULT_EXTENSION, DocumentWithTitle } from 'tiptap';
 import { safeJSONParse } from 'helpers/json';
 import { DataRender } from 'components/data-render';
+import { LocaleTime } from 'components/locale-time';
 import { useToggle } from 'hooks/use-toggle';
 import { useDocumentVersion } from 'data/document';
 import styles from './index.module.scss';
@@ -102,6 +103,7 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
         <DataRender
           loading={loading}
           error={error}
+          empty={!loading && !data.length}
           normalContent={() => (
             <div className={styles.contentWrap}>
               <aside>
@@ -113,7 +115,7 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
                         className={cls(selectedVersion && selectedVersion.version === version && styles.selected)}
                         onClick={() => select({ version, data })}
                       >
-                        {version}
+                        <LocaleTime date={+version} />
                       </li>
                     );
                   })}
