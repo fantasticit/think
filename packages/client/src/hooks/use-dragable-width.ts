@@ -40,7 +40,9 @@ export const useDragableWidth = () => {
 
   useEffect(() => {
     if (!windowSize.width) return;
-    toggleCollapsed(windowSize.width <= 765);
+    if (windowSize.width <= 765) {
+      toggleCollapsed(true);
+    }
   }, [windowSize.width]);
 
   return {
