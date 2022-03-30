@@ -8,12 +8,13 @@ import * as lodash from 'lodash';
 import { OutUser, UserService } from '@services/user.service';
 import { TemplateService } from '@services/template.service';
 import { DocumentService } from '@services/document.service';
+import { DocumentVersionService } from '@services/document-version.service';
 
 @Injectable()
 export class CollaborationService {
   server: typeof Server;
-  debounceTime: 2000;
-  maxDebounceTime: 10000;
+  debounceTime = 1000;
+  maxDebounceTime = 10000;
   timers: Map<
     string,
     {
@@ -28,12 +29,14 @@ export class CollaborationService {
     @Inject(forwardRef(() => DocumentService))
     private readonly documentService: DocumentService,
     @Inject(forwardRef(() => TemplateService))
-    private readonly templateService: TemplateService
+    private readonly templateService: TemplateService,
+    @Inject(forwardRef(() => DocumentVersionService))
+    private readonly documentVersionService: DocumentVersionService
   ) {
     this.initServer();
   }
 
-  debounce(id: string, func: () => void, immediately = false) {
+  debounce(id: string, func: () => void, debounceTime = this.debounceTime, immediately = false) {
     const old = this.timers.get(id);
     const start = old?.start || Date.now();
 
@@ -56,7 +59,7 @@ export class CollaborationService {
 
     this.timers.set(id, {
       start,
-      timeout: setTimeout(run, this.debounceTime),
+      timeout: setTimeout(run, debounceTime),
     });
   }
 
@@ -181,10 +184,19 @@ export class CollaborationService {
     const targetId = requestParameters.get('targetId');
     const docType = requestParameters.get('docType');
 
+    const updateDocument = async (user: OutUser, documentId: string, data) => {
+      await this.documentService.updateDocument(user, documentId, data);
+      this.debounce(
+        `onStoreDocumentVersion-${documentId}`,
+        () => {
+          this.documentVersionService.storeDocumentVersion(documentId, data.content);
+        },
+        this.debounceTime * 2
+      );
+    };
+
     const updateHandler =
-      docType === 'document'
-        ? this.documentService.updateDocument.bind(this.documentService)
-        : this.templateService.updateTemplate.bind(this.templateService);
+      docType === 'document' ? updateDocument : this.templateService.updateTemplate.bind(this.templateService);
 
     this.debounce(`onStoreDocument-${targetId}`, () => {
       this.onStoreDocument(updateHandler, data).catch((error) => {

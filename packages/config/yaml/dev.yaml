@@ -3,6 +3,8 @@ server:
   prefix: '/api'
   port: 5001
   collaborationPort: 5003
+  # 最大版本记录数
+  maxDocumentVersion: 20
 
 client:
   assetPrefix: '/'
@@ -20,6 +22,10 @@ db:
     charset: 'utf8mb4'
     timezone: '+08:00'
     synchronize: true
+  redis:
+    host: '127.0.0.1'
+    port: '6379'
+    password: 'root'
 
 # oss 文件存储服务
 oss:

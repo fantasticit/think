@@ -21,7 +21,7 @@ import { DataRender } from 'components/data-render';
 import { joinUser } from 'components/document/collaboration';
 import { Banner } from 'components/banner';
 import { debounce } from 'helpers/debounce';
-import { changeTitle } from './index';
+import { em, changeTitle, USE_DATA_VERSION } from './index';
 import styles from './index.module.scss';
 
 interface IProps {
@@ -64,7 +64,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
         const title = transaction.doc.content.firstChild.content.firstChild.textContent;
         changeTitle(title);
       } catch (e) {}
-    }, 200),
+    }, 50),
   });
   const [loading, toggleLoading] = useToggle(true);
 
@@ -88,6 +88,16 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
       destoryIndexdbProvider(documentId);
     };
   }, []);
+
+  useEffect(() => {
+    if (!editor) return;
+    const handler = (data) => editor.commands.setContent(data);
+    em.on(USE_DATA_VERSION, handler);
+
+    return () => {
+      em.off(USE_DATA_VERSION, handler);
+    };
+  }, [editor]);
 
   return (
     <DataRender

@@ -243,6 +243,7 @@ importers:
       express: ^4.17.2
       express-rate-limit: ^6.2.0
       helmet: ^5.0.2
+      ioredis: ^5.0.1
       jest: ^27.2.5
       lodash: ^4.17.21
       mysql2: ^2.3.3
@@ -286,6 +287,7 @@ importers:
       express: 4.17.2
       express-rate-limit: 6.2.0_express@4.17.2
       helmet: 5.0.2
+      ioredis: 5.0.1
       lodash: 4.17.21
       mysql2: 2.3.3
       nuid: 1.1.6
@@ -295,7 +297,7 @@ importers:
       reflect-metadata: 0.1.13
       rimraf: 3.0.2
       rxjs: 7.5.2
-      typeorm: 0.2.41_mysql2@2.3.3
+      typeorm: 0.2.41_ioredis@5.0.1+mysql2@2.3.3
       ua-parser-js: 1.0.2
       y-prosemirror: 1.0.14_8fd72c89aecefb95d86a797b5207d945
       yjs: 13.5.24
@@ -945,6 +947,10 @@ packages:
     resolution: {integrity: sha512-YRsVFWjL8Gkkvlx3qnjeaxW4fnibSJ9791g8BA7Pv5ANByI64WmtR1vU7A2rXcrOn8XvyCEfY0ss1s8NhZP+MA==}
     dev: false
 
+  /@ioredis/commands/1.1.1:
+    resolution: {integrity: sha512-fsR4P/ROllzf/7lXYyElUJCheWdTJVJvOTps8v9IWKFATxR61ANOlnoPqhH099xYLrJGpc2ZQ28B3rMeUt5VQg==}
+    dev: false
+
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
     engines: {node: '>=8'}
@@ -1367,7 +1373,7 @@ packages:
       '@nestjs/core': 8.2.6_2d4ee36c4446df4873bb38fb1c4583da
       reflect-metadata: 0.1.13
       rxjs: 7.5.2
-      typeorm: 0.2.41_mysql2@2.3.3
+      typeorm: 0.2.41_ioredis@5.0.1+mysql2@2.3.3
       uuid: 8.3.2
     dev: false
 
@@ -2997,6 +3003,11 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /cluster-key-slot/1.1.0:
+    resolution: {integrity: sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /co-defer/1.0.0:
     resolution: {integrity: sha1-Pkp4eo7tawoh7ih8CU9+jeDTyBg=}
     engines: {node: '>= 0.11.14'}
@@ -3313,7 +3324,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
-    dev: true
 
   /decamelize-keys/1.1.0:
     resolution: {integrity: sha1-0XGoeTMlKAfrPLYdwcFEXQeN8tk=}
@@ -4445,6 +4455,23 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
+  /ioredis/5.0.1:
+    resolution: {integrity: sha512-/5MF5vnUQf1o3+sy/pnkce5K8zdSMTcTgpRUW5oGGT+mEsgd1r7YLRPZ+zWGb9hbZXE3BJCgphc2eESm+2d9KA==}
+    engines: {node: '>=12.22.0'}
+    dependencies:
+      '@ioredis/commands': 1.1.1
+      cluster-key-slot: 1.1.0
+      debug: 4.3.4
+      denque: 2.0.1
+      lodash.defaults: 4.2.0
+      lodash.isarguments: 3.1.0
+      redis-errors: 1.2.0
+      redis-parser: 3.0.0
+      standard-as-callback: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /ip/1.1.5:
     resolution: {integrity: sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=}
     dev: false
@@ -5453,8 +5480,16 @@ packages:
       p-locate: 4.1.0
     dev: true
 
+  /lodash.defaults/4.2.0:
+    resolution: {integrity: sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=}
+    dev: false
+
   /lodash.includes/4.3.0:
     resolution: {integrity: sha1-YLuYqHy5I8aMoeUTJUgzFISfVT8=}
+    dev: false
+
+  /lodash.isarguments/3.1.0:
+    resolution: {integrity: sha1-L1c9hcaiQon/AGY7SRwdM4/zRYo=}
     dev: false
 
   /lodash.isboolean/3.0.3:
@@ -6780,6 +6815,18 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
+  /redis-errors/1.2.0:
+    resolution: {integrity: sha1-62LSrbFeTq9GEMBK/hUpOEJQq60=}
+    engines: {node: '>=4'}
+    dev: false
+
+  /redis-parser/3.0.0:
+    resolution: {integrity: sha1-tm2CjNyv5rS4pCin3vTGvKwxyLQ=}
+    engines: {node: '>=4'}
+    dependencies:
+      redis-errors: 1.2.0
+    dev: false
+
   /reflect-metadata/0.1.13:
     resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
     dev: false
@@ -7212,6 +7259,10 @@ packages:
     dependencies:
       escape-string-regexp: 2.0.0
     dev: true
+
+  /standard-as-callback/2.1.0:
+    resolution: {integrity: sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==}
+    dev: false
 
   /statuses/1.5.0:
     resolution: {integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=}
@@ -7905,7 +7956,7 @@ packages:
     resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
     dev: false
 
-  /typeorm/0.2.41_mysql2@2.3.3:
+  /typeorm/0.2.41_ioredis@5.0.1+mysql2@2.3.3:
     resolution: {integrity: sha512-/d8CLJJxKPgsnrZWiMyPI0rz2MFZnBQrnQ5XP3Vu3mswv2WPexb58QM6BEtmRmlTMYN5KFWUz8SKluze+wS9xw==}
     hasBin: true
     peerDependencies:
@@ -7964,6 +8015,7 @@ packages:
       debug: 4.3.3
       dotenv: 8.6.0
       glob: 7.2.0
+      ioredis: 5.0.1
       js-yaml: 4.1.0
       mkdirp: 1.0.4
       mysql2: 2.3.3

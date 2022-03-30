@@ -9,6 +9,7 @@ import { OutUser, UserService } from '@services/user.service';
 import { WikiService } from '@services/wiki.service';
 import { MessageService } from '@services/message.service';
 import { CollaborationService } from '@services/collaboration.service';
+import { DocumentVersionService } from '@services/document-version.service';
 import { TemplateService } from '@services/template.service';
 import { ViewService } from '@services/view.service';
 import { array2tree } from '@helpers/tree.helper';
@@ -53,6 +54,7 @@ const DOCUMENT_PLACEHOLDERS = [
 @Injectable()
 export class DocumentService {
   private collaborationService: CollaborationService;
+  private documentVersionService: DocumentVersionService;
 
   constructor(
     @InjectRepository(DocumentAuthorityEntity)
@@ -70,7 +72,13 @@ export class DocumentService {
     @Inject(forwardRef(() => ViewService))
     private readonly viewService: ViewService
   ) {
-    this.collaborationService = new CollaborationService(this.userService, this, this.templateService);
+    this.documentVersionService = new DocumentVersionService();
+    this.collaborationService = new CollaborationService(
+      this.userService,
+      this,
+      this.templateService,
+      this.documentVersionService
+    );
   }
 
   /**
@@ -492,6 +500,32 @@ export class DocumentService {
     const createUser = await this.userService.findById(doc.createUserId);
 
     return { document: { ...doc, views, createUser }, authority };
+  }
+
+  /**
+   * 获取文档历史版本
+   * @param user
+   * @param documentId
+   * @returns
+   */
+  public async getDocumentVersion(user: OutUser, documentId: string) {
+    const document = await this.documentRepo.findOne(documentId);
+
+    if (!document) {
+      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
+    }
+
+    const authority = await this.documentAuthorityRepo.findOne({
+      documentId,
+      userId: user.id,
+    });
+
+    if (!authority || !authority.readable) {
+      throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
+    }
+
+    const data = await this.documentVersionService.getDocumentVersions(documentId);
+    return data;
   }
 
   /**

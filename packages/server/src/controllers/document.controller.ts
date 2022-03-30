@@ -49,6 +49,14 @@ export class DocumentController {
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get('version/:id')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtGuard)
+  async getDocumentVersion(@Request() req, @Param('id') documentId) {
+    return await this.documentService.getDocumentVersion(req.user, documentId);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post('children')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
