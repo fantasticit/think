@@ -6,7 +6,7 @@ import { useWikiDetail, useWikiTocs } from 'data/wiki';
 import { useToggle } from 'hooks/use-toggle';
 import { Seo } from 'components/seo';
 import { findParents } from 'components/wiki/tocs/utils';
-import { IconDocument, IconSetting, IconOverview } from 'components/icons';
+import { IconDocument, IconSetting, IconOverview, IconGlobe } from 'components/icons';
 import { DocumentCreator } from 'components/document/create';
 import { DataRender } from 'components/data-render';
 import { EventEmitter } from 'helpers/event-emitter';
@@ -150,7 +150,7 @@ export const WikiTocs: React.FC<IProps> = ({
         normalContent={() =>
           isPublicWiki(wiki.status) ? (
             <NavItem
-              icon={<IconOverview />}
+              icon={<IconGlobe />}
               text={
                 <Tooltip content="该知识库已公开，点我查看" position="right">
                   公开地址

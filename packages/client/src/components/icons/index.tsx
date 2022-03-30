@@ -47,3 +47,4 @@ export * from './IconTableHeaderColumn';
 export * from './IconTableHeaderCell';
 export * from './IconSub';
 export * from './IconSup';
+export * from './IconGlobe';
