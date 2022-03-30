@@ -27,13 +27,13 @@
 
 .Resizer {
   z-index: 1;
-  background: var(--semi-color-border);
   opacity: 0.2;
   box-sizing: border-box;
   background-clip: padding;
 }
 
 .Resizer:hover {
+  background: var(--semi-color-border);
   transition: all 2s ease;
 }
 
