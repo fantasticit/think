@@ -4,6 +4,28 @@ export { prosemirrorToMarkdown } from './prosemirror-to-markdown';
 export * from './helpers';
 export * from './markdown-source-map';
 
+/**
+ * markdown-it 渲染出的 HTML 中 img 不符合格式要求
+ * Input
+ *  <p><img alt="" src="http://wipi.oss-cn-shanghai.aliyuncs.com/2022-03-30/53MWL5S22KFJ397ZNJ36N6/image.png"></p>
+ *  <p class="contains-task-list"><img alt="" src="http://wipi.oss-cn-shanghai.aliyuncs.com/2022-03-30/53MWL5S22KFJ397ZNJ36N6/image.png"></p>
+ * Output:
+ *  <img alt="" src="http://wipi.oss-cn-shanghai.aliyuncs.com/2022-03-30/53MWL5S22KFJ397ZNJ36N6/image.png">
+ *
+ * @param html
+ * @returns
+ */
+const extractImage = (html) => {
+  let matches = [];
+
+  while ((matches = html.match(/(?<=\<p.*?\>)\<img(.|\s)*?\>(?=\<\/p\>)/g))) {
+    const source = html.match(/\<p.*?\>\<img(.|\s)*?\>\<\/p\>/g)[0];
+    html = html.replace(source, matches[0]);
+  }
+
+  return html;
+};
+
 // 将 markdown 字符串转换为 ProseMirror JSONDocument
 export const markdownToProsemirror = ({ schema, content, hasTitle }) => {
   const html = markdownToHTML(content);
@@ -11,7 +33,7 @@ export const markdownToProsemirror = ({ schema, content, hasTitle }) => {
   if (!html) return null;
 
   const parser = new DOMParser();
-  const { body } = parser.parseFromString(html, 'text/html');
+  const { body } = parser.parseFromString(extractImage(html), 'text/html');
   body.append(document.createComment(content));
   const node = htmlToPromsemirror(body, !hasTitle);
 
