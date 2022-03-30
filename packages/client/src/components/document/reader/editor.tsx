@@ -50,6 +50,10 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
       getCollaborationExtension(provider),
       getCollaborationCursorExtension(provider, user),
     ],
+    editorProps: {
+      // @ts-ignore
+      taskItemClickable: true,
+    },
   });
   const [loading, toggleLoading] = useToggle(true);
 

@@ -64,6 +64,8 @@ const CustomTaskItem = BuiltInTaskItem.extend({
   },
 
   addProseMirrorPlugins() {
+    const extensionThis = this;
+
     return [
       new Plugin({
         props: {
@@ -86,6 +88,12 @@ const CustomTaskItem = BuiltInTaskItem.extend({
             if (view.editable) {
               const target = event.target as HTMLElement;
               if (target.tagName.toLowerCase() !== 'span') return false;
+            } else {
+              // 非编辑模式，仅支持配置 taskItemClickable 可点击
+              // @ts-ignore
+              if (!extensionThis.editor.options.editorProps.taskItemClickable) {
+                return;
+              }
             }
 
             const parentElement = element.parentElement;
