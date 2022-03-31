@@ -102,7 +102,9 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
           <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
             <Space>
               {getFileTypeIcon(type)}
-              {fileName}.{fileExt}
+              <Text ellipsis={{ showTooltip: true }} style={{ maxWidth: 320 }}>
+                {fileName}.{fileExt}
+              </Text>
               <Text type="tertiary"> ({normalizeFileSize(fileSize)})</Text>
             </Space>
             <span>
