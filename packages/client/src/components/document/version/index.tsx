@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Modal, Typography } from '@douyinfe/semi-ui';
-import { IconClose } from '@douyinfe/semi-icons';
+import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { useEditor, EditorContent } from '@tiptap/react';
 import cls from 'classnames';
 import { DEFAULT_EXTENSION, DocumentWithTitle } from 'tiptap';
@@ -26,7 +26,7 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
   const editor = useEditor({
     editable: false,
     extensions: [...DEFAULT_EXTENSION, DocumentWithTitle],
-    content: {},
+    content: { type: 'doc', content: [] },
   });
 
   const close = useCallback(() => {
@@ -75,7 +75,7 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
         header={
           <div className={styles.headerWrap}>
             <div>
-              <Button icon={<IconClose />} onClick={close} />
+              <Button theme="borderless" icon={<IconChevronLeft />} onClick={close} />
               <Title heading={5} style={{ marginLeft: 12 }}>
                 版本记录
               </Title>
