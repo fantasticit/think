@@ -49,6 +49,5 @@ export const destoryProvider = (provider, cacheType: 'READER' | 'EDITOR' = 'READ
 
   pool.delete(provider.configuration.name);
   provider.document.destroy();
-  provider.disconnect();
   provider.destroy();
 };
