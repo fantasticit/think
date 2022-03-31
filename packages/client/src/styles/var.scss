@@ -1,11 +1,15 @@
-:root {
+body {
   --border-radius: 4px;
   --box-shadow: rgb(0 0 0 / 10%) 0 0 10px;
-  --node-border-color: rgb(28 31 35 / 8%);
 
+  /* 自定义节点 边框 */
+  --node-border-color: rgb(28 31 35 / 8%);
   /* 自定义节点 hover */
   --node-hover-border-color: #bacefd;
-
   /* 自定义节点选中 */
   --node-selected-border-color: rgb(0 101 255);
+}
+
+body[theme-mode='dark'] {
+  --node-border-color: rgb(255, 255, 255, 0.08);
 }
