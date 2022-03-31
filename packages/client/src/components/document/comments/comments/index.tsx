@@ -27,7 +27,7 @@ const CommentInner = ({ data, depth, replyComment, editComment, deleteComment })
             ></CommentItem>
             {hasChildren ? (
               <CommentInner
-                key={'comment-inner' + depth}
+                key={'comment-inner' + item.id + depth}
                 data={item.children}
                 depth={depth + 1}
                 replyComment={replyComment}
