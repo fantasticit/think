@@ -6,6 +6,7 @@ import { Link } from '../extensions/link';
 import { Attachment } from '../extensions/attachment';
 import { Image } from '../extensions/image';
 import { Banner } from '../extensions/banner';
+import { CodeBlock } from '../extensions/code-block';
 import { Status } from '../extensions/status';
 import { HorizontalRule } from '../extensions/horizontal-rule';
 import { Iframe } from '../extensions/iframe';
@@ -24,6 +25,7 @@ const OTHER_BUBBLE_MENU_TYPES = [
   Attachment.name,
   Image.name,
   Banner.name,
+  CodeBlock.name,
   Status.name,
   Iframe.name,
   Mind.name,
