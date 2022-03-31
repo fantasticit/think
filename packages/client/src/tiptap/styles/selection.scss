@@ -50,7 +50,7 @@
   .node-iframe,
   .node-mind,
   .node-banner {
-    margin-top: .75em;
+    margin-top: 0.75em;
   }
 
   .node-attachment,
@@ -72,6 +72,7 @@
     }
 
     &.selected-node {
+      position: relative;
       .render-wrapper {
         border: 1px solid var(--node-selected-border-color) !important;
 
@@ -79,6 +80,15 @@
           border-color: var(--node-selected-border-color);
           box-shadow: none;
         }
+      }
+
+      &::after {
+        position: absolute;
+        content: '';
+        inset: 0px;
+        opacity: 0.3;
+        pointer-events: none;
+        background-color: rgb(179, 212, 255);
       }
     }
 

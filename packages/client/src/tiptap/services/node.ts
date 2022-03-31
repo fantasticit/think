@@ -29,3 +29,17 @@ export function isInTitle(state: EditorState): boolean {
     }
   }
 }
+
+export function getCurrentNode(state: EditorState): Node {
+  const $head = state.selection.$head;
+  return $head.node($head.depth);
+}
+
+export function isInCodeBlock(state: EditorState): boolean {
+  const $head = state.selection.$head;
+  for (let d = $head.depth; d > 0; d--) {
+    if ($head.node(d).type === state.schema.nodes.codeBlock) {
+      return true;
+    }
+  }
+}
