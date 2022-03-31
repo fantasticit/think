@@ -218,7 +218,7 @@ export class CollaborationService {
     }
 
     const node = TiptapTransformer.fromYdoc(data.document);
-    const title = lodash.get(node, `default.content[0].content[0].text`, '');
+    const title = lodash.get(node, `default.content[0].content[0].text`, '').replace(/\s/g, '').slice(0, 255);
     const state = Buffer.from(Y.encodeStateAsUpdate(data.document));
     await updateHandler({ id: userId } as OutUser, targetId, {
       title,
@@ -236,9 +236,9 @@ export class CollaborationService {
     switch (docType) {
       case 'document': {
         const documentId = targetId;
-        const { title } = await this.documentService.findById(documentId);
+        const ret = await this.documentService.findById(documentId);
 
-        if (!title) {
+        if (ret && !ret.title) {
           await this.documentService.updateDocument({ id: userId } as OutUser, targetId, {
             title: '未命名文档',
           });
@@ -248,9 +248,9 @@ export class CollaborationService {
 
       case 'template': {
         const templateId = targetId;
-        const { title } = await this.templateService.findById(templateId);
+        const ret = await this.templateService.findById(templateId);
 
-        if (!title) {
+        if (ret && !ret.title) {
           await this.templateService.updateTemplate({ id: userId } as OutUser, targetId, {
             title: '未命名模板',
           });
