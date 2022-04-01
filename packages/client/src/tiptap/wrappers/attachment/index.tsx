@@ -53,10 +53,15 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   }, [url, hasTrigger]);
 
   const content = (() => {
-    if (error !== 'null') {
+    if (isEditable && !url) {
       return (
-        <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
-          <Text>{error}</Text>
+        <div className={cls(styles.wrap, 'render-wrapper')}>
+          <Spin spinning={loading}>
+            <Text style={{ cursor: 'pointer' }} onClick={selectFile}>
+              {loading ? '正在上传中' : '请选择文件'}
+            </Text>
+            <input ref={$upload} type="file" hidden onChange={handleFile} />
+          </Spin>
         </div>
       );
     }
@@ -102,23 +107,14 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
       );
     }
 
-    if (isEditable && !url) {
+    if (error !== 'null') {
       return (
-        <div className={cls(styles.wrap, 'render-wrapper')}>
-          <Spin spinning={loading}>
-            <Text style={{ cursor: 'pointer' }} onClick={selectFile}>
-              {loading ? '正在上传中' : '请选择文件'}
-            </Text>
-            <input ref={$upload} type="file" hidden onChange={handleFile} />
-          </Spin>
+        <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
+          <Text>{error}</Text>
         </div>
       );
     }
   })();
 
-  return (
-    <NodeViewWrapper as="div">
-      {content} <NodeViewContent />
-    </NodeViewWrapper>
-  );
+  return <NodeViewWrapper as="div">{content}</NodeViewWrapper>;
 };

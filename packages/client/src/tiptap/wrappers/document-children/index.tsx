@@ -1,4 +1,4 @@
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { NodeViewWrapper } from '@tiptap/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import cls from 'classnames';

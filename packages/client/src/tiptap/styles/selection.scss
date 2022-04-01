@@ -33,6 +33,8 @@
   .node-katex,
   .node-documentChildren,
   .node-documentReference {
+    user-select: none;
+
     .render-wrapper {
       border: 1px solid var(--node-border-color);
     }
