@@ -1,20 +1,53 @@
+.emptyWrap {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 8px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--semi-color-fill-1);
+  }
+
+  > span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    display: block;
+    border-radius: 2px 2px;
+    border: 1px solid #e8e8e8;
+    margin-right: 8px;
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 8px;
+      left: 0px;
+      width: 17px;
+      height: 0;
+      border-bottom: 2px solid #ff5151;
+      transform: rotate(45deg);
+    }
+  }
+}
+
 .colorWrap {
   display: flex;
   flex-wrap: wrap;
-  width: 240px;
+  width: 256px;
   padding: 8px;
 
   .colorItem {
     display: flex;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
     border: 1px solid transparent;
     border-radius: 4px;
     justify-content: center;
     align-items: center;
 
-    &:nth-of-type(n + 8) {
+    &:nth-of-type(n + 11) {
       margin-top: 4px;
     }
 
@@ -24,8 +57,8 @@
 
     > span {
       display: block;
-      width: 28px;
-      height: 28px;
+      width: 20px;
+      height: 20px;
       border: 1px solid var(--semi-color-border);
       border-radius: 2px;
     }

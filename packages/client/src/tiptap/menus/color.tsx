@@ -16,7 +16,7 @@ export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
     <>
       <ColorPicker
         onSetColor={(color) => {
-          editor.chain().focus().setColor(color).run();
+          color ? editor.chain().focus().setColor(color).run() : editor.chain().focus().unsetColor(color).run();
         }}
         disabled={isTitleActive(editor)}
       >
@@ -49,7 +49,9 @@ export const ColorMenu: React.FC<{ editor: any }> = ({ editor }) => {
 
       <ColorPicker
         onSetColor={(color) => {
-          editor.chain().focus().setBackgroundColor(color).run();
+          color
+            ? editor.chain().focus().setBackgroundColor(color).run()
+            : editor.chain().focus().unsetBackgroundColor().run();
         }}
         disabled={isTitleActive(editor)}
       >
