@@ -71,6 +71,12 @@
     }
 
     &.selected-node {
+      &:not(.has-focus) {
+        ::selection {
+          background-color: transparent;
+        }
+      }
+
       .render-wrapper {
         position: relative;
         border: 1px solid var(--node-selected-border-color) !important;
@@ -87,12 +93,6 @@
           pointer-events: none;
           background-color: rgba(179, 212, 255, 0.3);
         }
-      }
-    }
-
-    &:not(.has-focus) {
-      ::selection {
-        background-color: transparent;
       }
     }
   }
@@ -114,6 +114,12 @@
     }
 
     &.selected-node {
+      &:not(.has-focus) {
+        ::selection {
+          background-color: transparent;
+        }
+      }
+
       .render-wrapper {
         position: relative;
 
@@ -126,12 +132,6 @@
           border: 1px solid var(--node-selected-border-color) !important;
           border-radius: var(--border-radius);
         }
-      }
-    }
-
-    &:not(.has-focus) {
-      ::selection {
-        background-color: transparent;
       }
     }
   }
