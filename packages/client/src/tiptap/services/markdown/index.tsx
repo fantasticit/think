@@ -18,9 +18,9 @@ export * from './markdown-source-map';
 const extractImage = (html) => {
   let matches = [];
 
-  while ((matches = html.match(/(?<=\<p.*?\>)\<img(.|\s)*?\>(?=\<\/p\>)/g))) {
-    const source = html.match(/\<p.*?\>\<img(.|\s)*?\>\<\/p\>/g)[0];
-    html = html.replace(source, matches[0]);
+  while ((matches = html.match(/\<p.*?\>\<img(.|\s)*?\>\<\/p\>/g))) {
+    const target = matches[0].match(/<img.*?>/)[0];
+    html = html.replace(matches[0], target);
   }
 
   return html;
