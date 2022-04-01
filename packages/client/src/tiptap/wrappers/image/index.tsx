@@ -71,17 +71,21 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
       );
     }
 
-    const img = <img className="render-wrapper" src={src} alt={alt} width={width} height={height} />;
+    const img = <img src={src} alt={alt} width={width} height={height} />;
 
     if (isEditable) {
       return (
-        <Resizeable width={width} height={height} onChange={onResize}>
+        <Resizeable className={cls('render-wrapper')} width={width} height={height} onChange={onResize}>
           {img}
         </Resizeable>
       );
     }
 
-    return <div style={{ display: 'inline-block', width, height, maxWidth: '100%' }}>{img}</div>;
+    return (
+      <div className={cls('render-wrapper')} style={{ display: 'inline-block', width, height, maxWidth: '100%' }}>
+        {img}
+      </div>
+    );
   })();
 
   return (

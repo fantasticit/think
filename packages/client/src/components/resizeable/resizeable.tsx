@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import cls from 'classnames';
 import { useClickOutside } from 'hooks/use-click-outside';
 import interact from 'interactjs';
 import styles from './style.module.scss';
@@ -7,12 +8,13 @@ interface IProps {
   width: number;
   height: number;
   onChange: (arg: { width: number; height: number }) => void;
+  className?: string;
 }
 
 const MIN_WIDTH = 50;
 const MIN_HEIGHT = 50;
 
-export const Resizeable: React.FC<IProps> = ({ width, height, onChange, children }) => {
+export const Resizeable: React.FC<IProps> = ({ width, height, className, onChange, children }) => {
   const $container = useRef<HTMLDivElement>(null);
   const $topLeft = useRef<HTMLDivElement>(null);
   const $topRight = useRef<HTMLDivElement>(null);
@@ -62,7 +64,12 @@ export const Resizeable: React.FC<IProps> = ({ width, height, onChange, children
   }, [width, height]);
 
   return (
-    <div id="js-resizeable-container" className={styles.resizable} ref={$container} style={{ width, height }}>
+    <div
+      id="js-resizeable-container"
+      className={cls(className, styles.resizable)}
+      ref={$container}
+      style={{ width, height }}
+    >
       <span className={styles.resizer + ' ' + styles.topLeft} ref={$topLeft} data-type={'topLeft'}></span>
       <span className={styles.resizer + ' ' + styles.topRight} ref={$topRight} data-type={'topRight'}></span>
       <span className={styles.resizer + ' ' + styles.bottomLeft} ref={$bottomLeft} data-type={'bottomLeft'}></span>

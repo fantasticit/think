@@ -10,7 +10,7 @@ import { IconDocument, IconSetting, IconOverview, IconGlobe } from 'components/i
 import { DocumentCreator } from 'components/document/create';
 import { DataRender } from 'components/data-render';
 import { EventEmitter } from 'helpers/event-emitter';
-import { NavItem } from './NavItem';
+import { NavItem } from './nav-item';
 import { Tree } from './tree';
 import styles from './index.module.scss';
 import { isPublicWiki } from '@think/domains';

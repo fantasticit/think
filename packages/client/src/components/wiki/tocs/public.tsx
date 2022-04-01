@@ -9,7 +9,7 @@ import { findParents } from 'components/wiki/tocs/utils';
 import { LogoImage, LogoText } from 'components/logo';
 import { DataRender } from 'components/data-render';
 import { Tree } from './tree';
-import { NavItem } from './NavItem';
+import { NavItem } from './nav-item';
 import styles from './index.module.scss';
 
 interface IProps {

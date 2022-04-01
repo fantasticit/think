@@ -56,7 +56,6 @@
   .node-attachment,
   .node-banner,
   .node-iframe,
-  .node-image,
   .node-katex,
   .node-mind,
   .node-codeBlock,
@@ -72,23 +71,61 @@
     }
 
     &.selected-node {
-      position: relative;
       .render-wrapper {
+        position: relative;
         border: 1px solid var(--node-selected-border-color) !important;
 
         &:hover {
           border-color: var(--node-selected-border-color);
           box-shadow: none;
         }
-      }
 
-      &::after {
-        position: absolute;
-        content: '';
-        inset: 0px;
-        opacity: 0.3;
-        pointer-events: none;
-        background-color: rgb(179, 212, 255);
+        &::after {
+          position: absolute;
+          content: '';
+          inset: 0px;
+          pointer-events: none;
+          background-color: rgba(179, 212, 255, 0.3);
+        }
+      }
+    }
+
+    &:not(.has-focus) {
+      ::selection {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .node-image {
+    .render-wrapper {
+      position: relative;
+      &:hover {
+        &::after {
+          position: absolute;
+          content: '';
+          inset: 0px;
+          pointer-events: none;
+          background-color: transparent;
+          border: 1px solid var(--node-hover-border-color) !important;
+          border-radius: var(--border-radius);
+        }
+      }
+    }
+
+    &.selected-node {
+      .render-wrapper {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          content: '';
+          inset: 0px;
+          pointer-events: none;
+          background-color: rgba(179, 212, 255, 0.3);
+          border: 1px solid var(--node-selected-border-color) !important;
+          border-radius: var(--border-radius);
+        }
       }
     }
 

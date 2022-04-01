@@ -20,6 +20,7 @@
 
   .treeItemWrap {
     display: flex;
+    line-height: 28px;
 
     .left {
       display: flex;
@@ -101,5 +102,5 @@
 }
 
 .docListTitle {
-  margin: 12px .5rem;
+  margin: 12px 0.5rem;
 }
