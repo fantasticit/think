@@ -21,25 +21,36 @@ export function isListNode(node: Node): boolean {
   return isBulletListNode(node) || isOrderedListNode(node) || isTodoListNode(node);
 }
 
-export function isInTitle(state: EditorState): boolean {
+export function getCurrentNode(state: EditorState): Node {
+  const $head = state.selection.$head;
+  let node = null;
+
+  for (let d = $head.depth; d > 0; d--) {
+    node = $head.node(d);
+  }
+
+  return node;
+}
+
+export function isInCustomNode(state: EditorState, nodeName: string): boolean {
+  if (!state.schema.nodes[nodeName]) return false;
+
   const $head = state.selection.$head;
   for (let d = $head.depth; d > 0; d--) {
-    if ($head.node(d).type === state.schema.nodes.title) {
+    if ($head.node(d).type === state.schema.nodes[nodeName]) {
       return true;
     }
   }
-}
-
-export function getCurrentNode(state: EditorState): Node {
-  const $head = state.selection.$head;
-  return $head.node($head.depth);
 }
 
 export function isInCodeBlock(state: EditorState): boolean {
-  const $head = state.selection.$head;
-  for (let d = $head.depth; d > 0; d--) {
-    if ($head.node(d).type === state.schema.nodes.codeBlock) {
-      return true;
-    }
-  }
+  return isInCustomNode(state, 'codeBlock');
+}
+
+export function isInTitle(state: EditorState): boolean {
+  return isInCustomNode(state, 'title');
+}
+
+export function isInBanner(state: EditorState): boolean {
+  return isInCustomNode(state, 'banner');
 }

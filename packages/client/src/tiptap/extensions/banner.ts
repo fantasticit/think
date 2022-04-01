@@ -24,7 +24,7 @@ export const Banner = Node.create({
       type: {
         default: 'info',
         rendered: false,
-        parseHTML: getDatasetAttribute('info'),
+        parseHTML: getDatasetAttribute('type'),
         renderHTML: (attributes) => {
           return {
             'data-type': attributes.type,

@@ -7,6 +7,10 @@ export const isMarkdown = (text: string): boolean => {
   const tables = text.match(/^\|(\S)*\|/gm);
   if (tables && tables.length) return true;
 
+  // 自定义 container
+  const conatiner = text.match(/^:::/gm);
+  if (conatiner && conatiner.length > 1) return true;
+
   // code-ish
   const fences = text.match(/^```/gm);
   if (fences && fences.length > 1) return true;

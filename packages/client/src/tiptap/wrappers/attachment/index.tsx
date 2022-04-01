@@ -141,9 +141,11 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
 
     if (isEditable && !url) {
       return (
-        <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
+        <div className={cls(styles.wrap, 'render-wrapper')}>
           <Spin spinning={loading}>
-            <Text style={{ cursor: 'pointer' }}>{loading ? '正在上传中' : '请选择文件'}</Text>
+            <Text style={{ cursor: 'pointer' }} onClick={selectFile}>
+              {loading ? '正在上传中' : '请选择文件'}
+            </Text>
             <input ref={$upload} type="file" hidden onChange={handleFile} />
           </Spin>
         </div>

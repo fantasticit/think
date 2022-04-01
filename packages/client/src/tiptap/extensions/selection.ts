@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey, NodeSelection, TextSelection, Selection, AllSelection } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getCurrentNode, isInCodeBlock } from '../services/node';
+import { getCurrentNode, isInCodeBlock, isInBanner } from '../services/node';
 import { EXTENSION_PRIORITY_HIGHEST } from '../constants';
 
 export const selectionPluginKey = new PluginKey('selection');
@@ -56,13 +56,30 @@ export const SelectionExtension = Extension.create({
              */
             if ((event.ctrlKey || event.metaKey) && (event.keyCode == 65 || event.keyCode == 97)) {
               const node = getCurrentNode(view.state);
+              const $head = view.state.selection.$head;
+              let startPos = null;
+              let endPos = null;
+
               // 代码块
               if (isInCodeBlock(view.state)) {
-                const { pos, parentOffset } = view.state.selection.$head;
+                const { pos, parentOffset } = $head;
+                startPos = pos - parentOffset;
+                endPos = pos - parentOffset + node.nodeSize - 2;
+              }
+
+              // 信息框
+              if (isInBanner(view.state)) {
+                // @ts-ignore
+                const { path = [] } = $head;
+                startPos = path[2];
+                endPos = startPos + path[3].content.size;
+              }
+
+              if (startPos !== null && endPos !== null) {
                 const newState = view.state;
                 const next = new TextSelection(
-                  newState.doc.resolve(pos - parentOffset + node.nodeSize - 2), //内容结束点
-                  newState.doc.resolve(pos - parentOffset) // 内容起始点
+                  newState.doc.resolve(endPos), //内容结束点
+                  newState.doc.resolve(startPos) // 内容起始点
                 );
                 view?.dispatch(newState.tr.setSelection(next));
                 return true;
@@ -70,19 +87,6 @@ export const SelectionExtension = Extension.create({
             }
 
             return false;
-          },
-          handleDoubleClickOn(view, pos, node, nodePos, event) {
-            if (node.type.name === 'codeBlock') {
-              event.preventDefault();
-              const transaction = view.state.tr.setMeta('selectNode', {
-                fromPos: nodePos,
-                toPos: nodePos + node.nodeSize,
-                attrs: { class: 'selected-node' },
-              });
-              view?.dispatch(transaction);
-              return false;
-            }
-            return true;
           },
           decorations(state) {
             return this.getState(state);
@@ -93,10 +97,6 @@ export const SelectionExtension = Extension.create({
             return DecorationSet.empty;
           },
           apply(ctx) {
-            if (ctx.getMeta('selectNode')) {
-              const { fromPos, toPos, attrs } = ctx.getMeta('selectNode');
-              return DecorationSet.create(ctx.doc, [Decoration.node(fromPos, toPos, attrs)]);
-            }
             const { doc, selection } = ctx;
             const decorationSet = getDecorations(doc, selection);
             return decorationSet;
