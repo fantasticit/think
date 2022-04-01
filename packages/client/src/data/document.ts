@@ -2,7 +2,7 @@ import type { IUser, IDocument, IWiki } from '@think/domains';
 import useSWR from 'swr';
 import { useState, useCallback, useEffect } from 'react';
 import { useAsyncLoading } from 'hooks/use-async-loading';
-import { HttpClient } from 'services/HttpClient';
+import { HttpClient } from 'services/http-client';
 import { getPublicDocumentDetail } from 'services/document';
 
 interface IAuthority {

@@ -2,7 +2,7 @@ import type { IUser, ILoginUser } from '@think/domains';
 import useSWR from 'swr';
 import { useCallback, useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
-import { HttpClient } from 'services/HttpClient';
+import { HttpClient } from 'services/http-client';
 import { getStorage, setStorage } from 'helpers/storage';
 
 export const useUser = () => {

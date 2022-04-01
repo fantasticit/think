@@ -1,7 +1,7 @@
 import { CollectType, IDocument, IUser, IWiki, IWikiUser } from '@think/domains';
 import useSWR from 'swr';
 import { useState } from 'react';
-import { HttpClient } from 'services/HttpClient';
+import { HttpClient } from 'services/http-client';
 
 export type ICreateWiki = Pick<IWiki, 'name' | 'description'>;
 export type IUpdateWiki = Partial<IWiki>;

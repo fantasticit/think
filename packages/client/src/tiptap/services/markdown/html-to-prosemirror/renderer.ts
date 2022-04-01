@@ -3,17 +3,17 @@ import { Iframe } from './nodes/iframe';
 import { Attachment } from './nodes/attachment';
 import { Banner } from './nodes/banner';
 import { Status } from './nodes/status';
-import { DocumentReference } from './nodes/documentReference';
-import { DocumentChildren } from './nodes/documentChildren';
+import { DocumentReference } from './nodes/document-reference';
+import { DocumentChildren } from './nodes/document-children';
 import { Mind } from './nodes/mind';
 // 通用
-import { CodeBlock } from './nodes/codeBlock';
-import { CodeBlockWrapper } from './nodes/codeBlockWrapper';
-import { HardBreak } from './nodes/hardBreak';
+import { CodeBlock } from './nodes/code-block';
+import { CodeBlockWrapper } from './nodes/code-block-wrapper';
+import { HardBreak } from './nodes/hard-break';
 import { Heading } from './nodes/heading';
 import { Image } from './nodes/image';
-import { HorizontalRule } from './nodes/horizontalRule';
-import { Blockquote } from './nodes/blockQuote';
+import { HorizontalRule } from './nodes/horizontal-rule';
+import { Blockquote } from './nodes/blockquote';
 // 文本
 import { Title } from './nodes/title';
 import { Katex } from './nodes/katex';
@@ -21,15 +21,15 @@ import { Paragraph } from './nodes/paragraph';
 import { Text } from './nodes/text';
 // 表格
 import { Table } from './nodes/table';
-import { TableHeader } from './nodes/tableHeader';
-import { TableRow } from './nodes/tableRow';
-import { TableCell } from './nodes/tableCell';
+import { TableHeader } from './nodes/table-header';
+import { TableRow } from './nodes/table-row';
+import { TableCell } from './nodes/table-cell';
 // 列表
-import { TaskList } from './nodes/taskList';
-import { TaskListItem } from './nodes/taskListItem';
-import { ListItem } from './nodes/listItem';
-import { OrderedList } from './nodes/orderedList';
-import { BulletList } from './nodes/bulletList';
+import { TaskList } from './nodes/task-list';
+import { TaskListItem } from './nodes/task-list-item';
+import { ListItem } from './nodes/list-item';
+import { OrderedList } from './nodes/ordered-list';
+import { BulletList } from './nodes/bullet-list';
 
 // marks
 import { Bold } from './marks/bold';

@@ -1,5 +1,5 @@
 import { IDocument, IUser, IWiki } from '@think/domains';
-import { HttpClient } from './HttpClient';
+import { HttpClient } from './http-client';
 
 /**
  * 更新文档阅读量

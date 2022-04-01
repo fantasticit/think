@@ -1,4 +1,4 @@
-import { HttpClient } from './HttpClient';
+import { HttpClient } from './http-client';
 
 const ONE_MB = 1 * 1024 * 1024;
 
