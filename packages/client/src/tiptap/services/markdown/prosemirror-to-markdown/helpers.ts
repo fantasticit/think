@@ -341,7 +341,9 @@ export function renderImage(state, node) {
   if (isString(src) || isString(canonicalSrc)) {
     const quotedTitle = title ? ` ${state.quote(title)}` : '';
 
-    state.write(`![${state.esc(alt || '')}](${state.esc(canonicalSrc || src)}${quotedTitle})`);
+    state.write(`![${state.esc(alt || '')}](${state.esc(canonicalSrc || src)}${quotedTitle})\n`);
+    state.write(`\n`);
+    state.ensureNewLine();
   }
 }
 
