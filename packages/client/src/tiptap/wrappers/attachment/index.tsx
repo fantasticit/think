@@ -2,50 +2,17 @@ import { useEffect, useRef } from 'react';
 import cls from 'classnames';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Button, Typography, Spin, Collapsible, Space } from '@douyinfe/semi-ui';
-import {
-  IconDownload,
-  IconPlayCircle,
-  IconFile,
-  IconSong,
-  IconVideo,
-  IconImage,
-  IconClose,
-} from '@douyinfe/semi-icons';
+import { IconDownload, IconPlayCircle, IconClose } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { useToggle } from 'hooks/use-toggle';
 import { download } from '../../services/download';
 import { uploadFile } from 'services/file';
-import {
-  normalizeFileSize,
-  extractFileExtension,
-  extractFilename,
-  normalizeFileType,
-  FileType,
-} from '../../services/file';
+import { normalizeFileSize, extractFileExtension, extractFilename } from '../../services/file';
+import { Player } from './player';
+import { getFileTypeIcon } from './file-icon';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
-
-const getFileTypeIcon = (type: FileType) => {
-  switch (type) {
-    case 'audio':
-      return <IconSong />;
-
-    case 'video':
-      return <IconVideo />;
-
-    case 'file':
-      return <IconFile />;
-
-    case 'image':
-      return <IconImage />;
-
-    default: {
-      const value: never = type;
-      throw new Error(value);
-    }
-  }
-};
 
 export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   const $upload = useRef<HTMLInputElement>();
@@ -78,8 +45,6 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
     }
   };
 
-  const type = normalizeFileType(fileType);
-
   useEffect(() => {
     if (!url && !hasTrigger) {
       selectFile();
@@ -88,7 +53,7 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   }, [url, hasTrigger]);
 
   const content = (() => {
-    if (error) {
+    if (error !== 'null') {
       return (
         <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
           <Text>{error}</Text>
@@ -99,17 +64,17 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
     if (url) {
       return (
         <>
-          <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
-            <Space>
-              {getFileTypeIcon(type)}
-              <Text ellipsis={{ showTooltip: true }} style={{ maxWidth: 320 }}>
-                {fileName}.{fileExt}
-              </Text>
-              <Text type="tertiary"> ({normalizeFileSize(fileSize)})</Text>
-            </Space>
-            <span>
-              {type === 'video' || type === 'audio' ? (
-                <Tooltip content={!visible ? '播放' : '收起'}>
+          <div className={cls(styles.wrap, visible && styles.isPreviewing, 'render-wrapper')} onClick={selectFile}>
+            <div>
+              <Space>
+                {getFileTypeIcon(fileType)}
+                <Text ellipsis={{ showTooltip: true }} style={{ maxWidth: 320 }}>
+                  {fileName}.{fileExt}
+                </Text>
+                <Text type="tertiary"> ({normalizeFileSize(fileSize)})</Text>
+              </Space>
+              <span>
+                <Tooltip content={!visible ? '预览' : '收起'}>
                   <Button
                     theme={'borderless'}
                     type="tertiary"
@@ -117,24 +82,22 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
                     onClick={toggleVisible}
                   />
                 </Tooltip>
-              ) : null}
-              <Tooltip content="下载">
-                <Button
-                  theme={'borderless'}
-                  type="tertiary"
-                  icon={<IconDownload />}
-                  onClick={() => download(url, name)}
-                />
-              </Tooltip>
-            </span>
+                <Tooltip content="下载">
+                  <Button
+                    theme={'borderless'}
+                    type="tertiary"
+                    icon={<IconDownload />}
+                    onClick={() => download(url, name)}
+                  />
+                </Tooltip>
+              </span>
+            </div>
+            {url ? (
+              <Collapsible isOpen={visible}>
+                <Player fileType={fileType} url={url} />
+              </Collapsible>
+            ) : null}
           </div>
-
-          {url ? (
-            <Collapsible isOpen={visible}>
-              {type === 'video' && <video controls autoPlay src={url}></video>}
-              {type === 'audio' && <audio controls autoPlay src={url}></audio>}
-            </Collapsible>
-          ) : null}
         </>
       );
     }

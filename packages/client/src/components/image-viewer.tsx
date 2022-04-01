@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import Viewer from 'viewerjs';
 
 interface IProps {
-  containerSelector: string;
+  containerSelector?: string;
+  container?: HTMLElement;
 }
 
-export const ImageViewer: React.FC<IProps> = ({ containerSelector }) => {
+export const ImageViewer: React.FC<IProps> = ({ container, containerSelector }) => {
   useEffect(() => {
-    const el = document.querySelector(containerSelector);
+    const el = container || document.querySelector(containerSelector);
     if (!el) {
       return null;
     }
@@ -24,7 +25,7 @@ export const ImageViewer: React.FC<IProps> = ({ containerSelector }) => {
       io.disconnect();
       viewer.destroy();
     };
-  }, [containerSelector]);
+  }, [container, containerSelector]);
 
   return null;
 };

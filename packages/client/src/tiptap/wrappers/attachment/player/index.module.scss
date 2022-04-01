@@ -1,0 +1,12 @@
+.playerWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--semi-color-border);
+  padding: 12px;
+
+  > video {
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -31,10 +31,12 @@ export const normalizeFileSize = (size) => {
   return (size / 1024 / 1024).toFixed(2) + ' MB';
 };
 
-export type FileType = 'image' | 'audio' | 'video' | 'file';
+export type FileType = 'image' | 'audio' | 'video' | 'pdf' | 'file';
 
 export const normalizeFileType = (fileType): FileType => {
   if (!fileType) return 'file';
+
+  if (fileType === 'application/pdf') return 'pdf';
 
   if (fileType.startsWith('image')) {
     return 'image';
