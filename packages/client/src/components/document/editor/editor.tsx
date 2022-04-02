@@ -7,7 +7,7 @@ import { useToggle } from 'hooks/use-toggle';
 import { useNetwork } from 'hooks/use-network';
 import {
   MenuBar,
-  DEFAULT_EXTENSION,
+  BaseKit,
   DocumentWithTitle,
   getCollaborationExtension,
   getCollaborationCursorExtension,
@@ -54,7 +54,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
   const editor = useEditor({
     editable: authority && authority.editable,
     extensions: [
-      ...DEFAULT_EXTENSION,
+      ...BaseKit,
       DocumentWithTitle,
       getCollaborationExtension(provider),
       getCollaborationCursorExtension(provider, user),

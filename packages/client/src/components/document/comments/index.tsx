@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { Avatar, Button, Space, Typography, Banner, Pagination } from '@douyinfe/semi-ui';
 import { useToggle } from 'hooks/use-toggle';
-import { DEFAULT_EXTENSION, Document, History, CommentMenuBar } from 'tiptap';
+import { CommentKit, Document, History, CommentMenuBar } from 'tiptap';
 import { DataRender } from 'components/data-render';
 import { useUser } from 'data/user';
 import { useComments } from 'data/comment';
@@ -34,7 +34,7 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
 
   const editor = useEditor({
     editable: true,
-    extensions: [...DEFAULT_EXTENSION, Document, History],
+    extensions: [...CommentKit, Document, History],
   });
 
   const openEditor = () => {

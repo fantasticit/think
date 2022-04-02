@@ -4,7 +4,7 @@ import { Layout } from '@douyinfe/semi-ui';
 import { IDocument, ILoginUser } from '@think/domains';
 import { useToggle } from 'hooks/use-toggle';
 import {
-  DEFAULT_EXTENSION,
+  BaseKit,
   DocumentWithTitle,
   getCollaborationExtension,
   getCollaborationCursorExtension,
@@ -45,7 +45,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
   const editor = useEditor({
     editable: false,
     extensions: [
-      ...DEFAULT_EXTENSION,
+      ...BaseKit,
       DocumentWithTitle,
       getCollaborationExtension(provider),
       getCollaborationCursorExtension(provider, user),

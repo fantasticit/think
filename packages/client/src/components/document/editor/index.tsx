@@ -13,6 +13,8 @@ import { DocumentStar } from 'components/document/star';
 import { DocumentCollaboration } from 'components/document/collaboration';
 import { DocumentStyle } from 'components/document/style';
 import { DocumentVersion } from 'components/document/version';
+import { User } from 'components/user';
+import { Divider } from 'components/divider';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { EventEmitter } from 'helpers/event-emitter';
 import { Editor } from './editor';
@@ -101,6 +103,8 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
                 <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
               </Popover>
               <Theme />
+              <Divider />
+              <User />
             </Space>
           }
         />

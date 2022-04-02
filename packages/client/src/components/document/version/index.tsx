@@ -3,7 +3,7 @@ import { Button, Modal, Typography } from '@douyinfe/semi-ui';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { useEditor, EditorContent } from '@tiptap/react';
 import cls from 'classnames';
-import { DEFAULT_EXTENSION, DocumentWithTitle } from 'tiptap';
+import { BaseKit, DocumentWithTitle } from 'tiptap';
 import { safeJSONParse } from 'helpers/json';
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
@@ -25,7 +25,7 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
 
   const editor = useEditor({
     editable: false,
-    extensions: [...DEFAULT_EXTENSION, DocumentWithTitle],
+    extensions: [...BaseKit, DocumentWithTitle],
     content: { type: 'doc', content: [] },
   });
 

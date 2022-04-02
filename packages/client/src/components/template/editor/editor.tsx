@@ -18,7 +18,7 @@ import {
 import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
 import { ILoginUser, ITemplate } from '@think/domains';
 import { Theme } from 'components/theme';
-import { DEFAULT_EXTENSION, DocumentWithTitle, getCollaborationExtension, getProvider, MenuBar } from 'tiptap';
+import { BaseKit, DocumentWithTitle, getCollaborationExtension, getProvider, MenuBar } from 'tiptap';
 import { DataRender } from 'components/data-render';
 import { User } from 'components/user';
 import { DocumentStyle } from 'components/document/style';
@@ -52,7 +52,7 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
   }, [data, user.token]);
   const editor = useEditor({
     editable: true,
-    extensions: [...DEFAULT_EXTENSION, DocumentWithTitle, getCollaborationExtension(provider)],
+    extensions: [...BaseKit, DocumentWithTitle, getCollaborationExtension(provider)],
     content: safeJSONParse(data && data.content),
   });
 
