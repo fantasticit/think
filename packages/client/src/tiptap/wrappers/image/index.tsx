@@ -5,7 +5,7 @@ import cls from 'classnames';
 import { Typography, Spin } from '@douyinfe/semi-ui';
 import { useToggle } from 'hooks/use-toggle';
 import { uploadFile } from 'services/file';
-import { extractFileExtension, extractFilename } from '../../services/file';
+import { extractFileExtension, extractFilename, getImageWidthHeight } from '../../services/file';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
@@ -36,7 +36,8 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
     toggleLoading(true);
     try {
       const src = await uploadFile(file);
-      updateAttributes({ ...fileInfo, src });
+      const size = await getImageWidthHeight(file);
+      updateAttributes({ ...fileInfo, ...size, src });
       toggleLoading(false);
     } catch (error) {
       updateAttributes({ error: '图片上传失败：' + (error && error.message) || '未知错误' });

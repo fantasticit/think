@@ -52,3 +52,16 @@ export const normalizeFileType = (fileType): FileType => {
 
   return 'file';
 };
+
+export const getImageWidthHeight = (url: string): Promise<{ width: number | string; height: number | string }> => {
+  return new Promise((resolve) => {
+    const img = document.createElement('img');
+    img.onload = () => {
+      resolve({ width: img.width, height: img.height });
+    };
+    img.onerror = () => {
+      resolve({ width: 'auto', height: 'auto' });
+    };
+    img.src = url;
+  });
+};
