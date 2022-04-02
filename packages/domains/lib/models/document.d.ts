@@ -1,18 +1,19 @@
-import { IUser } from "./user";
-import { IWiki } from "./wiki";
+import { IUser } from './user';
+import { IWiki } from './wiki';
 export declare enum DocumentStatus {
     private = "private",
     public = "public"
 }
 export interface IDocument {
     id: string;
-    wikiId: IWiki["id"];
+    wikiId: IWiki['id'];
     isWikiHome: boolean;
-    createUserId: IUser["id"];
+    createUserId: IUser['id'];
     createUser: IUser;
-    parentDocumentId?: IDocument["id"];
+    parentDocumentId?: IDocument['id'];
     title: string;
     content: string;
+    state: Uint8Array;
     status: DocumentStatus;
     views: number;
     sharePassword?: string;
@@ -22,8 +23,8 @@ export interface IDocument {
 }
 export interface IAuthority {
     id: string;
-    documentId: IDocument["id"];
-    userId: IUser["id"];
+    documentId: IDocument['id'];
+    userId: IUser['id'];
     readable: boolean;
     editable: boolean;
 }

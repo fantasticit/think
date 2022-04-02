@@ -1,7 +1,7 @@
-import { IUser } from "./user";
+import { IUser } from './user';
 export interface IMessage {
     id: string;
-    userId: IUser["id"];
+    userId: IUser['id'];
     title: string;
     message: string;
     url: string;

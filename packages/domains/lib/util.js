@@ -5,31 +5,31 @@ const models_1 = require("./models");
 exports.WIKI_STATUS_LIST = [
     {
         value: models_1.WikiStatus.private,
-        label: "私有",
+        label: '私有',
     },
     {
         value: models_1.WikiStatus.public,
-        label: "公开",
+        label: '公开',
     },
 ];
 exports.WIKI_USER_ROLES = [
     {
-        value: "admin",
-        label: "管理员",
+        value: 'admin',
+        label: '管理员',
     },
     {
-        value: "normal",
-        label: "成员",
+        value: 'normal',
+        label: '成员',
     },
 ];
 exports.DOCUMENT_STATUS = [
     {
         value: models_1.DocumentStatus.private,
-        label: "私有",
+        label: '私有',
     },
     {
         value: models_1.DocumentStatus.public,
-        label: "公开",
+        label: '公开',
     },
 ];
 const getWikiStatusText = (wiki) => {

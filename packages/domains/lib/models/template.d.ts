@@ -1,7 +1,7 @@
-import { IUser } from "./user";
+import { IUser } from './user';
 export interface ITemplate {
     id: string;
-    createUserId: IUser["id"];
+    createUserId: IUser['id'];
     createUser: IUser;
     title: string;
     content: string;

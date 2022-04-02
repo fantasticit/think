@@ -21,6 +21,7 @@ export interface IDocument {
   parentDocumentId?: IDocument['id'];
   title: string;
   content: string;
+  state: Uint8Array;
   status: DocumentStatus;
   views: number;
   sharePassword?: string;

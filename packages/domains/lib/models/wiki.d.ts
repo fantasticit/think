@@ -1,4 +1,4 @@
-import { IUser } from "./user";
+import { IUser } from './user';
 export declare enum WikiStatus {
     private = "private",
     public = "public"
@@ -17,7 +17,7 @@ export interface IWiki {
     name: string;
     avatar: string;
     description: string;
-    createUserId: IUser["id"];
+    createUserId: IUser['id'];
     createUser: IUser;
     status: WikiStatus;
     createdAt: Date;
