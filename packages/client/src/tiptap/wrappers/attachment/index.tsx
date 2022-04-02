@@ -22,7 +22,7 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   const [visible, toggleVisible] = useToggle(false);
 
   const selectFile = () => {
-    if (!isEditable || error || url) return;
+    if (!isEditable || url) return;
     isEditable && $upload.current.click();
   };
 
@@ -110,7 +110,9 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
     if (error !== 'null') {
       return (
         <div className={cls(styles.wrap, 'render-wrapper')} onClick={selectFile}>
-          <Text>{error}</Text>
+          <Space>
+            <Text>{error}</Text>
+          </Space>
         </div>
       );
     }
