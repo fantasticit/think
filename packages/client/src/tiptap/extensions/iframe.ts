@@ -34,7 +34,7 @@ export const Iframe = Node.create({
         parseHTML: getDatasetAttribute('width'),
       },
       height: {
-        default: 200,
+        default: 66,
         parseHTML: getDatasetAttribute('height'),
       },
       url: {

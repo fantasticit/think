@@ -53,9 +53,8 @@ export const Link = BuiltInLink.extend({
         title: null,
         parseHTML: (element) => element.getAttribute('title'),
       },
-      canonicalSrc: {
-        default: null,
-        parseHTML: (element) => element.dataset.canonicalSrc,
+      hasTrigger: {
+        default: false,
       },
     };
   },

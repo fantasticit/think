@@ -1,0 +1,42 @@
+import { useCallback, useRef } from 'react';
+import { Button, Form, Dropdown } from '@douyinfe/semi-ui';
+import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+
+type ISize = { width: number; height: number };
+
+export const Size: React.FC<{ width: number; height: number; onOk: (arg: ISize) => void }> = ({
+  width,
+  height,
+  onOk,
+  children,
+}) => {
+  const $form = useRef<FormApi>();
+
+  const handleOk = useCallback(() => {
+    $form.current.validate().then((values) => {
+      onOk(values as ISize);
+    });
+  }, []);
+
+  return (
+    <Dropdown
+      zIndex={10000}
+      trigger="click"
+      position={'bottomLeft'}
+      spacing={10}
+      render={
+        <div style={{ padding: '0 12px 12px' }}>
+          <Form initValues={{ width, height }} getFormApi={(formApi) => ($form.current = formApi)} labelPosition="left">
+            <Form.InputNumber autofocus label="宽" field="width" />
+            <Form.InputNumber label="高" field="height" />
+          </Form>
+          <Button size="small" type="primary" theme="solid" htmlType="submit" onClick={handleOk}>
+            设置
+          </Button>
+        </div>
+      }
+    >
+      <span style={{ display: 'inline-block' }}>{children}</span>
+    </Dropdown>
+  );
+};

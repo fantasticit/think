@@ -1,8 +1,10 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import cls from 'classnames';
-import { Input } from '@douyinfe/semi-ui';
+import { Input, Typography, Space } from '@douyinfe/semi-ui';
 import { Resizeable } from 'components/resizeable';
 import styles from './index.module.scss';
+
+const { Text } = Typography;
 
 export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
@@ -13,14 +15,18 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   };
   const content = (
     <NodeViewContent as="div" className={cls(styles.wrap, 'render-wrapper')}>
-      {isEditable && (
+      {/* {isEditable && (
         <div className={styles.handlerWrap}>
           <Input placeholder={'输入外链地址'} value={url} onChange={(url) => updateAttributes({ url })}></Input>
         </div>
-      )}
-      {url && (
+      )} */}
+      {url ? (
         <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
           <iframe src={url}></iframe>
+        </div>
+      ) : (
+        <div className={styles.emptyWrap}>
+          <Text>请设置外链地址</Text>
         </div>
       )}
     </NodeViewContent>

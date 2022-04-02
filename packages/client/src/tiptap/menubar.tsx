@@ -15,6 +15,7 @@ import { BaseBubbleMenu } from './menus/base-bubble-menu';
 import { ImageBubbleMenu } from './menus/image';
 import { BannerBubbleMenu } from './menus/banner';
 import { LinkBubbleMenu } from './menus/link';
+import { IframeBubbleMenu } from './menus/iframe';
 import { TableBubbleMenu } from './menus/table';
 
 export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
@@ -76,6 +77,7 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
       <BaseBubbleMenu editor={editor} />
       <ImageBubbleMenu editor={editor} />
       <LinkBubbleMenu editor={editor} />
+      <IframeBubbleMenu editor={editor} />
       <BannerBubbleMenu editor={editor} />
       <TableBubbleMenu editor={editor} />
     </div>

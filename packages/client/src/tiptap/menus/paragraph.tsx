@@ -21,8 +21,6 @@ export const Paragraph = ({ editor }) => {
     }
   }, []);
 
-  // console.log(getCurrentCaretTitle(editor));
-
   return (
     <Select
       disabled={isTitleActive(editor)}

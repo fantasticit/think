@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Space, Button, InputNumber, Typography } from '@douyinfe/semi-ui';
-import { IconAlignLeft, IconAlignCenter, IconAlignRight, IconUpload, IconDelete } from '@douyinfe/semi-icons';
+import { Space, Button } from '@douyinfe/semi-ui';
+import { IconAlignLeft, IconAlignCenter, IconAlignRight, IconLineHeight, IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { Upload } from 'components/upload';
 import { BubbleMenu } from '../views/bubble-menu';
 import { Divider } from '../divider';
 import { Image } from '../extensions/image';
-import { getImageOriginSize } from '../services/image';
-
-const { Text } = Typography;
+import { Size } from './size';
 
 export const ImageBubbleMenu = ({ editor }) => {
   const attrs = editor.getAttributes(Image.name);
@@ -92,43 +89,22 @@ export const ImageBubbleMenu = ({ editor }) => {
 
         <Divider />
 
-        <Text>宽</Text>
-        <InputNumber
-          size="small"
-          hideButtons
-          value={width}
-          style={{ width: 60 }}
-          onEnterPress={(e) => {
-            const value = (e.target as HTMLInputElement).value;
+        <Size
+          width={width}
+          height={height}
+          onOk={(size) => {
             editor
               .chain()
-              .updateAttributes(Image.name, {
-                width: value,
-              })
+              .updateAttributes(Image.name, size)
               .setNodeSelection(editor.state.selection.from)
               .focus()
               .run();
           }}
-        />
-
-        <Text>高</Text>
-        <InputNumber
-          size="small"
-          hideButtons
-          value={height}
-          style={{ width: 60 }}
-          onEnterPress={(e) => {
-            const value = (e.target as HTMLInputElement).value;
-            editor
-              .chain()
-              .updateAttributes(Image.name, {
-                height: value,
-              })
-              .setNodeSelection(editor.state.selection.from)
-              .focus()
-              .run();
-          }}
-        />
+        >
+          <Tooltip content="设置宽高">
+            <Button icon={<IconLineHeight />} type="tertiary" theme="borderless" size="small" />
+          </Tooltip>
+        </Size>
 
         <Divider />
 
