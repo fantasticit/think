@@ -4,7 +4,7 @@ import { CollaborationCursor } from './collaboration-cursor';
 import History from '@tiptap/extension-history';
 import { getRandomColor } from 'helpers/color';
 import { Document } from './extensions/document';
-import { BaseKit } from './basekit';
+export { BaseKit, CommentKit } from './basekit';
 
 export { getSchema } from '@tiptap/core';
 export * from './menubar';
@@ -17,7 +17,6 @@ export const DocumentWithTitle = Document.extend({
 });
 
 export { Document, History };
-export const DEFAULT_EXTENSION = [...BaseKit];
 
 export const getCollaborationExtension = (provider: HocuspocusProvider) => {
   return Collaboration.configure({
