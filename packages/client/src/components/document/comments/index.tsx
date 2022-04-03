@@ -92,7 +92,7 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
         error={error}
         loadingContent={
           <>
-            {Array.from({ length: 5 }, (_, i) => i).map((i) => (
+            {Array.from({ length: 3 }, (_, i) => i).map((i) => (
               <CommentItemPlaceholder key={i} />
             ))}
           </>

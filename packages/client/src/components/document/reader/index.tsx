@@ -28,14 +28,13 @@ interface IProps {
 
 export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   if (!documentId) return null;
+
   const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
-
   const { user } = useUser();
-
   const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
   const { document, authority } = documentAndAuth || {};
 
@@ -53,13 +52,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
             <DataRender
               loading={docAuthLoading}
               error={docAuthError}
-              loadingContent={
-                <Skeleton
-                  active
-                  placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />}
-                  loading={true}
-                />
-              }
+              loadingContent={<Skeleton active placeholder={<Skeleton.Title style={{ width: 80 }} />} loading={true} />}
               normalContent={() => (
                 <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
                   {document.title}
@@ -101,7 +94,9 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
               return (
                 <>
                   <Seo title={document.title} />
-                  <Editor key={document.id} user={user} documentId={document.id} document={document} />
+                  <div className={styles.editorContainer}>
+                    {user && <Editor key={document.id} user={user} documentId={document.id} document={document} />}
+                  </div>
                   <div className={styles.commentWrap}>
                     <CommentEditor documentId={document.id} />
                   </div>

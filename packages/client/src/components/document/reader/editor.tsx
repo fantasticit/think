@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useRef } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { Layout } from '@douyinfe/semi-ui';
 import { IDocument, ILoginUser } from '@think/domains';
@@ -10,6 +10,7 @@ import {
   getCollaborationCursorExtension,
   getProvider,
   destoryProvider,
+  DocumentSkeleton,
 } from 'tiptap';
 import { DataRender } from 'components/data-render';
 import { ImageViewer } from 'components/image-viewer';
@@ -26,8 +27,6 @@ interface IProps {
 }
 
 export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
-  if (!user) return null;
-
   const provider = useMemo(() => {
     return getProvider({
       targetId: documentId,
@@ -70,6 +69,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
   return (
     <DataRender
       loading={loading}
+      loadingContent={<DocumentSkeleton />}
       error={null}
       normalContent={() => {
         return (

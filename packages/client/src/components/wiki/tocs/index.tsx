@@ -216,23 +216,7 @@ export const WikiTocs: React.FC<IProps> = ({
       <div className={styles.treeWrap}>
         <DataRender
           loading={tocsLoading}
-          loadingContent={
-            <NavItem
-              icon={
-                <Skeleton.Avatar
-                  size="small"
-                  style={{
-                    marginRight: 8,
-                    width: 24,
-                    height: 24,
-                    borderRadius: 4,
-                  }}
-                ></Skeleton.Avatar>
-              }
-              text={<Skeleton.Title style={{ width: 120 }} />}
-              rightNode={<IconPlus />}
-            />
-          }
+          loadingContent={<NavItem icon={null} text={<Skeleton.Title style={{ width: '100%' }} />} />}
           error={tocsError}
           normalContent={() => (
             <Tree

@@ -23,7 +23,6 @@ import { User } from 'components/user';
 import { Theme } from 'components/theme';
 import { ImageViewer } from 'components/image-viewer';
 import { useDocumentStyle } from 'hooks/use-document-style';
-import { useWindowSize } from 'hooks/use-window-size';
 import { usePublicDocument } from 'data/document';
 import { DocumentSkeleton } from 'tiptap';
 import { DocumentContent } from './content';
@@ -41,7 +40,6 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
   if (!documentId) return null;
 
   const { data, loading, error, query } = usePublicDocument(documentId);
-  const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
@@ -100,9 +98,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           <DataRender
             loading={loading}
             error={error}
-            loadingContent={
-              <Skeleton active placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />} loading={true} />
-            }
+            loadingContent={<Skeleton active placeholder={<Skeleton.Title style={{ width: 80 }} />} loading={true} />}
             normalContent={() => (
               <Breadcrumb>
                 <Breadcrumb.Item>

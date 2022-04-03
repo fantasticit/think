@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import type { IDocument } from '@think/domains';
 import Link from 'next/link';
-import React from 'react';
-import { Typography, Button, Table, Spin, List } from '@douyinfe/semi-ui';
+import React, { useMemo } from 'react';
+import { Typography, Button, Table, List } from '@douyinfe/semi-ui';
 import { useToggle } from 'hooks/use-toggle';
 import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
@@ -31,6 +31,45 @@ const grid = {
 const RecentDocs = () => {
   const { data, error, loading, refresh } = useRecentDocuments();
 
+  const columns = useMemo(
+    () => [
+      <Column
+        title="标题"
+        dataIndex="title"
+        key="title"
+        render={(_, document: IDocument) => {
+          return (
+            <Link href={'/wiki/[wikiId]/document/[docId]'} as={`/wiki/${document.wikiId}/document/${document.id}`}>
+              <a style={{ color: 'inherit', textDecoration: 'none' }}>{document.title}</a>
+            </Link>
+          );
+        }}
+      />,
+      <Column title="阅读量" dataIndex="views" key="views" />,
+      <Column
+        title="更新时间"
+        dataIndex="updatedAt"
+        key="updatedAt"
+        render={(date) => <LocaleTime date={date} timeago />}
+      />,
+      <Column
+        title="操作"
+        dataIndex="operate"
+        key="operate"
+        render={(_, document) => (
+          <DocumentActions
+            wikiId={document.wikiId}
+            documentId={document.id}
+            onStar={refresh}
+            onDelete={refresh}
+            showCreateDocument
+          />
+        )}
+      />,
+    ],
+    []
+  );
+
   return (
     <>
       <Title heading={3} style={{ margin: '24px 0 0' }}>
@@ -38,47 +77,16 @@ const RecentDocs = () => {
       </Title>
       <DataRender
         loading={loading}
-        loadingContent={<Spin />}
+        loadingContent={
+          <Table dataSource={[]} loading={true} pagination={false} size="small" style={{ marginTop: 16 }}>
+            {columns}
+          </Table>
+        }
         error={error}
         normalContent={() =>
           data && data.length ? (
             <Table dataSource={data} loading={loading} pagination={false} size="small" style={{ marginTop: 16 }}>
-              <Column
-                title="标题"
-                dataIndex="title"
-                key="title"
-                render={(_, document: IDocument) => {
-                  return (
-                    <Link
-                      href={'/wiki/[wikiId]/document/[docId]'}
-                      as={`/wiki/${document.wikiId}/document/${document.id}`}
-                    >
-                      <a style={{ color: 'inherit', textDecoration: 'none' }}>{document.title}</a>
-                    </Link>
-                  );
-                }}
-              />
-              <Column title="阅读量" dataIndex="views" key="views" />
-              <Column
-                title="更新时间"
-                dataIndex="updatedAt"
-                key="updatedAt"
-                render={(date) => <LocaleTime date={date} timeago />}
-              />
-              <Column
-                title="操作"
-                dataIndex="operate"
-                key="operate"
-                render={(_, document) => (
-                  <DocumentActions
-                    wikiId={document.wikiId}
-                    documentId={document.id}
-                    onStar={refresh}
-                    onDelete={refresh}
-                    showCreateDocument
-                  />
-                )}
-              />
+              {columns}
             </Table>
           ) : (
             <Empty message="最近访问的文档会出现在此处" />
