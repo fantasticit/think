@@ -32,6 +32,7 @@ import { Blockquote } from './menus/blockquote';
 import { HorizontalRule } from './menus/horizontal-rule';
 import { Search } from './menus/search';
 
+import { Banner } from './menus/banner';
 import { Countdonw } from './menus/countdown';
 import { Image } from './menus/image';
 import { Iframe } from './menus/iframe';
@@ -86,6 +87,7 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
         <HorizontalRule editor={editor} />
         <Search editor={editor} />
 
+        <Banner editor={editor} />
         <Countdonw editor={editor} />
         <Image editor={editor} />
         <Iframe editor={editor} />
