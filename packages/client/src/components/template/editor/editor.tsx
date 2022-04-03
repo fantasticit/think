@@ -24,7 +24,6 @@ import { User } from 'components/user';
 import { DocumentStyle } from 'components/document/style';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
-import { safeJSONParse } from 'helpers/json';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
@@ -41,6 +40,7 @@ interface IProps {
 export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTemplate, deleteTemplate }) => {
   if (!user) return null;
   const { width: windowWidth } = useWindowSize();
+  const [title, setTitle] = useState(data.title);
   const provider = useMemo(() => {
     return getProvider({
       targetId: data.id,
@@ -53,9 +53,13 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
   const editor = useEditor({
     editable: true,
     extensions: [...BaseKit, DocumentWithTitle, getCollaborationExtension(provider)],
-    content: safeJSONParse(data && data.content),
+    onTransaction: ({ transaction }) => {
+      try {
+        const title = transaction.doc.content.firstChild.content.firstChild.textContent;
+        setTitle(title);
+      } catch (e) {}
+    },
   });
-
   const [isPublic, setPublic] = useState(false);
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
@@ -100,7 +104,7 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
                     <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
                   </Tooltip>
                   <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
-                    {data.title}
+                    {title}
                   </Text>
                 </>
               )}
