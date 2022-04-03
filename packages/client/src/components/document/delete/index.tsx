@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { Typography, Space, Modal } from '@douyinfe/semi-ui';
 import { IconDelete } from '@douyinfe/semi-icons';
 import { useDeleteDocument } from 'data/document';
-import { triggerRefreshTocs } from 'components/wiki/tocs';
+import { triggerRefreshTocs } from 'components/wiki/tocs/event';
 
 interface IProps {
   wikiId: string;

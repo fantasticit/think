@@ -2,25 +2,18 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Avatar, Button, Typography, Skeleton, Tooltip } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
+import { isPublicWiki } from '@think/domains';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
 import { useToggle } from 'hooks/use-toggle';
 import { Seo } from 'components/seo';
 import { findParents } from 'components/wiki/tocs/utils';
 import { IconDocument, IconSetting, IconOverview, IconGlobe } from 'components/icons';
-import { DocumentCreator } from 'components/document/create';
 import { DataRender } from 'components/data-render';
-import { EventEmitter } from 'helpers/event-emitter';
+import { event } from 'helpers/event-emitter';
+import { REFRESH_TOCS, triggerCreateDocument } from './event';
 import { NavItem } from './nav-item';
 import { Tree } from './tree';
 import styles from './index.module.scss';
-import { isPublicWiki } from '@think/domains';
-
-const em = new EventEmitter();
-const EVENT_KEY = 'REFRESH_TOCS';
-
-export const triggerRefreshTocs = () => {
-  em.emit(EVENT_KEY);
-};
 
 interface IProps {
   wikiId: string;
@@ -52,12 +45,11 @@ export const WikiTocs: React.FC<IProps> = ({
   }, [tocs, documentId]);
 
   useEffect(() => {
-    em.on(EVENT_KEY, () => {
-      refresh();
-    });
+    const handler = () => refresh();
+    event.on(REFRESH_TOCS, handler);
 
     return () => {
-      em.destroy();
+      event.off(REFRESH_TOCS, handler);
     };
   }, []);
 
@@ -197,17 +189,16 @@ export const WikiTocs: React.FC<IProps> = ({
             }}
             isActive={pathname === '/wiki/[wikiId]/documents'}
             rightNode={
-              <>
-                <Button
-                  style={{ fontSize: '1em' }}
-                  theme="borderless"
-                  type="tertiary"
-                  icon={<IconPlus style={{ fontSize: '1em' }} />}
-                  size="small"
-                  onClick={toggleVisible}
-                />
-                <DocumentCreator wikiId={wiki.id} visible={visible} toggleVisible={toggleVisible} />
-              </>
+              <Button
+                style={{ fontSize: '1em' }}
+                theme="borderless"
+                type="tertiary"
+                icon={<IconPlus style={{ fontSize: '1em' }} />}
+                size="small"
+                onClick={() => {
+                  triggerCreateDocument({ wikiId: wiki.id, documentId: null });
+                }}
+              />
             }
           />
         )}

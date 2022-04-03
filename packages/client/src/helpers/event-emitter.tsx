@@ -6,7 +6,7 @@ export class EventEmitter {
       this.callbacks[event] = [];
     }
 
-    this.callbacks[event].push(fn);
+    this.callbacks[event] = [...this.callbacks[event], fn];
 
     return this;
   }
@@ -39,3 +39,5 @@ export class EventEmitter {
     this.callbacks = {};
   }
 }
+
+export const event = new EventEmitter();

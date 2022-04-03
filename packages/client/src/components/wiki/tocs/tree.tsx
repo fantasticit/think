@@ -5,10 +5,9 @@ import { IconMore, IconPlus } from '@douyinfe/semi-icons';
 import { useToggle } from 'hooks/use-toggle';
 import { DocumentActions } from 'components/document/actions';
 import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
-import { EventEmitter } from 'helpers/event-emitter';
+import { event } from 'helpers/event-emitter';
+import { CREATE_DOCUMENT, triggerCreateDocument } from './event';
 import styles from './index.module.scss';
-
-const em = new EventEmitter();
 
 const Actions = ({ node }) => {
   return (
@@ -27,7 +26,7 @@ const Actions = ({ node }) => {
       <Button
         onClick={(e) => {
           e.stopPropagation();
-          em.emit('plus', node);
+          triggerCreateDocument({ wikiId: node.wikiId, documentId: node.id });
         }}
         type="tertiary"
         theme="borderless"
@@ -44,14 +43,19 @@ const AddDocument = () => {
   const [visible, toggleVisible] = useToggle(false);
 
   useEffect(() => {
-    em.on('plus', (node) => {
-      setWikiId(node.wikiId);
-      setDocumentId(node.id);
+    const handler = ({ wikiId, documentId }) => {
+      if (!wikiId) {
+        throw new Error(`wikiId 未知，无法创建文档`);
+      }
+      setWikiId(wikiId);
+      setDocumentId(documentId);
       toggleVisible(true);
-    });
+    };
+
+    event.on(CREATE_DOCUMENT, handler);
 
     return () => {
-      em.destroy();
+      event.off(CREATE_DOCUMENT, handler);
     };
   }, []);
 
