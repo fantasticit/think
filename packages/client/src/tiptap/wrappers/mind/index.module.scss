@@ -47,7 +47,7 @@
 
   .jsmindWrap {
     position: absolute;
-    bottom: 0;
+    top: 10px;
     left: 50%;
     z-index: 200;
     max-width: 100%;
@@ -96,7 +96,7 @@
     }
   }
 
-  &:hover {
+  &.isActive {
     .jsmindWrap {
       opacity: 1;
     }

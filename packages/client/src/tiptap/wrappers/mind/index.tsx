@@ -5,6 +5,7 @@ import { Button } from '@douyinfe/semi-ui';
 import { IconMinus, IconPlus } from '@douyinfe/semi-icons';
 import { Resizeable } from 'components/resizeable';
 import deepEqual from 'deep-equal';
+import { Mind } from '../../extensions/mind';
 // @ts-ignore
 import jsMind from './jsmind.jsx';
 import styles from './index.module.scss';
@@ -12,6 +13,7 @@ import styles from './index.module.scss';
 export const MindWrapper = ({ editor, node, updateAttributes }) => {
   const $container = useRef();
   const $mind = useRef<any>();
+  const isMindActive = editor.isActive(Mind.name);
   const isEditable = editor.isEditable;
   const { data, width, height = 100 } = node.attrs;
 
@@ -126,7 +128,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   return (
-    <NodeViewWrapper className={cls(styles.wrap)}>
+    <NodeViewWrapper className={cls(styles.wrap, isMindActive && styles.isActive)}>
       {isEditable ? (
         <Resizeable width={width} height={height} onChange={onResize}>
           {content}
@@ -134,7 +136,6 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       ) : (
         <div style={{ display: 'inline-block', width, height }}>{content}</div>
       )}
-      {/* <NodeViewContent as="div"></NodeViewContent> */}
     </NodeViewWrapper>
   );
 };
