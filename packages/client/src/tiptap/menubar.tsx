@@ -18,6 +18,9 @@ import { LinkBubbleMenu } from './menus/link';
 import { IframeBubbleMenu } from './menus/iframe';
 import { TableBubbleMenu } from './menus/table';
 
+import { CountdownBubbleMenu } from './menus/countdown';
+import { CountdownSettingModal } from './menus/countdown-setting';
+
 export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
   if (!editor) {
     return null;
@@ -80,6 +83,9 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
       <IframeBubbleMenu editor={editor} />
       <BannerBubbleMenu editor={editor} />
       <TableBubbleMenu editor={editor} />
+
+      <CountdownBubbleMenu editor={editor} />
+      <CountdownSettingModal editor={editor} />
     </div>
   );
 };

@@ -111,7 +111,7 @@ export const IframeBubbleMenu = ({ editor }) => {
 
         <Divider />
 
-        <Tooltip content="删除节点">
+        <Tooltip content="删除节点" hideOnClick>
           <Button onClick={deleteNode} icon={<IconDelete />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
       </Space>

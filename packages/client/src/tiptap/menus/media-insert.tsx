@@ -16,7 +16,10 @@ import {
   IconMath,
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
+
 import { isTitleActive } from '../services/is-active';
+import { event, OPEN_COUNT_SETTING_MODAL, triggerOpenCountSettingModal } from './event';
+import { CountdownSettingModal } from './countdown-setting';
 
 export const MediaInsertMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
   if (!editor) {
@@ -35,6 +38,10 @@ export const MediaInsertMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
           {/* <Dropdown.Item onClick={() => editor.chain().focus().setToc().run()}>
             <IconCodeBlock /> 目录
           </Dropdown.Item> */}
+
+          <Dropdown.Item onClick={() => triggerOpenCountSettingModal(null)}>
+            <IconCodeBlock /> 倒计时
+          </Dropdown.Item>
 
           <Popover
             showArrow

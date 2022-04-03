@@ -17,6 +17,7 @@ import { TaskItem } from '../extensions/task-item';
 import { Katex } from '../extensions/katex';
 import { DocumentReference } from '../extensions/document-reference';
 import { DocumentChildren } from '../extensions/document-children';
+import { Countdown } from '../extensions/countdown';
 import { BaseMenu } from './base-menu';
 
 const OTHER_BUBBLE_MENU_TYPES = [
@@ -36,6 +37,7 @@ const OTHER_BUBBLE_MENU_TYPES = [
   DocumentChildren.name,
   Katex.name,
   HorizontalRule.name,
+  Countdown.name,
 ];
 
 export const BaseBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {

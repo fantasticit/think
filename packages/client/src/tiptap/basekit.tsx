@@ -8,6 +8,7 @@ import { Code } from './extensions/code';
 import { CodeBlock } from './extensions/code-block';
 import { Color } from './extensions/color';
 import { ColorHighlighter } from './extensions/color-highlighter';
+import { Countdown } from './extensions/countdown';
 import { DocumentChildren } from './extensions/document-children';
 import { DocumentReference } from './extensions/document-reference';
 import { Dropcursor } from './extensions/dropcursor';
@@ -63,6 +64,7 @@ export const BaseKit = [
   CodeBlock,
   Color,
   ColorHighlighter,
+  Countdown,
   DocumentChildren,
   DocumentReference,
   Dropcursor,

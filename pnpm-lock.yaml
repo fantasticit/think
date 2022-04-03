@@ -102,6 +102,7 @@ importers:
       prosemirror-utils: ^0.9.6
       prosemirror-view: ^1.23.6
       react: 17.0.2
+      react-countdown: ^2.3.2
       react-dom: 17.0.2
       react-helmet: ^6.1.0
       react-pdf: ^5.7.2
@@ -181,6 +182,7 @@ importers:
       prosemirror-utils: 0.9.6_prosemirror-tables@1.1.1
       prosemirror-view: 1.23.6
       react: 17.0.2
+      react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-helmet: 6.1.0_react@17.0.2
       react-pdf: 5.7.2_react-dom@17.0.2+react@17.0.2
@@ -6656,6 +6658,17 @@ packages:
       http-errors: 1.8.1
       iconv-lite: 0.4.24
       unpipe: 1.0.0
+    dev: false
+
+  /react-countdown/2.3.2_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-Q4SADotHtgOxNWhDdvgupmKVL0pMB9DvoFcxv5AzjsxVhzOVxnttMbAywgqeOdruwEAmnPhOhNv/awAgkwru2w==}
+    peerDependencies:
+      react: '>= 15'
+      react-dom: '>= 15'
+    dependencies:
+      prop-types: 15.8.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /react-dom/17.0.2_react@17.0.2:
