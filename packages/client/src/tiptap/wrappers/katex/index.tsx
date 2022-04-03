@@ -20,7 +20,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
     }
   }, [text]);
 
-  const content = text ? (
+  const content = text.trim() ? (
     <span contentEditable={false} dangerouslySetInnerHTML={{ __html: formatText }}></span>
   ) : (
     <span contentEditable={false}>点击输入公式</span>
@@ -32,10 +32,11 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
       {isEditable ? (
         <Popover
           showArrow
+          position="bottomLeft"
           content={
             <div style={{ width: 320 }}>
               <TextArea
-                autoFocus
+                autofocus
                 placeholder="输入公式"
                 autosize
                 rows={3}
