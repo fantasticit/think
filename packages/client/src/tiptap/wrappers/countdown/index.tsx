@@ -1,10 +1,31 @@
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
-import { Typography } from '@douyinfe/semi-ui';
+import { Typography, Space } from '@douyinfe/semi-ui';
 import Countdown from 'react-countdown';
 import styles from './index.module.scss';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
+
+const renderer = (props) => {
+  const { completed, formatted } = props;
+  const { days, hours, minutes, seconds } = formatted;
+
+  if (completed) {
+    return <Title heading={4}>已结束</Title>;
+  } else {
+    return (
+      <Space align="baseline">
+        <Title heading={2}>{days}</Title>
+        <Text size="small" style={{ transform: `translateY(-2px)` }}>
+          / 天
+        </Text>
+        <Title heading={3}>
+          {hours}:{minutes}:{seconds}
+        </Title>
+      </Space>
+    );
+  }
+};
 
 export const CountdownWrapper = ({ editor, node }) => {
   const { title, date } = node.attrs;
@@ -12,8 +33,8 @@ export const CountdownWrapper = ({ editor, node }) => {
   return (
     <NodeViewWrapper>
       <div className={cls(styles.wrap, 'render-wrapper')}>
-        <Text style={{ marginBottom: 12 }}>{title}</Text>
-        <Countdown date={date}></Countdown>
+        <Text>{title}</Text>
+        <Countdown date={date} renderer={renderer}></Countdown>
       </div>
     </NodeViewWrapper>
   );

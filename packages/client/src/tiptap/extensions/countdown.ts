@@ -30,7 +30,7 @@ export const Countdown = Node.create({
   addAttributes() {
     return {
       title: {
-        default: '倒计时',
+        default: '倒计时⏰',
         parseHTML: getDatasetAttribute('title'),
       },
       date: {

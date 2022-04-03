@@ -23,6 +23,7 @@ declare module '@tiptap/core' {
        * @description Replace all instances of search result with given replace term.
        */
       replaceAll: () => ReturnType;
+      goToPrevSearchResult: () => void;
       goToNextSearchResult: () => void;
     };
   }

@@ -5,6 +5,7 @@ import { Bold } from '../../../extensions/bold';
 import { BulletList } from '../../../extensions/bullet-list';
 import { Code } from '../../../extensions/code';
 import { CodeBlock } from '../../../extensions/code-block';
+import { Countdown } from '../../../extensions/countdown';
 import { DocumentChildren } from '../../../extensions/document-children';
 import { DocumentReference } from '../../../extensions/document-reference';
 import { HardBreak } from '../../../extensions/hard-break';
@@ -118,6 +119,7 @@ const SerializerConfig = {
       state.write('```');
       state.closeBlock(node);
     },
+    [Countdown.name]: renderCustomContainer('countdown'),
     [DocumentChildren.name]: renderCustomContainer('documentChildren'),
     [DocumentReference.name]: renderCustomContainer('documentReference'),
     [HardBreak.name]: renderHardBreak,

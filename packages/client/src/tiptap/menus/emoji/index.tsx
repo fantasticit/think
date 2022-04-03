@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { Editor } from '@tiptap/core';
 import { Popover, Button, Typography } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
 import { IconEmoji } from 'components/icons';
@@ -18,7 +19,7 @@ const LIST = [
   },
 ];
 
-export const Emoji = ({ editor }) => {
+export const Emoji: React.FC<{ editor: Editor }> = ({ editor }) => {
   const setEmoji = useCallback((emoji) => {
     return () => {
       const transaction = editor.state.tr.insertText(emoji);

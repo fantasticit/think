@@ -13,7 +13,6 @@ import { DocumentChildren } from './extensions/document-children';
 import { DocumentReference } from './extensions/document-reference';
 import { Dropcursor } from './extensions/dropcursor';
 import { Emoji } from './extensions/emoji';
-import { EvokeMenu } from './extensions/evoke-menu';
 import { Focus } from './extensions/focus';
 import { FontSize } from './extensions/font-size';
 import { Gapcursor } from './extensions/gapcursor';
@@ -33,6 +32,7 @@ import { Mind } from './extensions/mind';
 import { OrderedList } from './extensions/ordered-list';
 import { Paragraph } from './extensions/paragraph';
 import { Placeholder } from './extensions/placeholder';
+import { QuickInsert } from './extensions/quick-insert';
 import { SearchNReplace } from './extensions/search';
 import { SelectionExtension } from './extensions/selection';
 import { Status } from './extensions/status';
@@ -69,7 +69,6 @@ export const BaseKit = [
   DocumentReference,
   Dropcursor,
   Emoji,
-  EvokeMenu,
   Focus,
   FontSize,
   Gapcursor,
@@ -89,6 +88,7 @@ export const BaseKit = [
   OrderedList,
   Paragraph,
   Placeholder,
+  QuickInsert,
   SearchNReplace,
   SelectionExtension,
   Status,

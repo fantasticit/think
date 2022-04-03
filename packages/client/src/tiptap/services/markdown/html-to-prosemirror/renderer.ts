@@ -14,6 +14,7 @@ import { Heading } from './nodes/heading';
 import { Image } from './nodes/image';
 import { HorizontalRule } from './nodes/horizontal-rule';
 import { Blockquote } from './nodes/blockquote';
+import { Countdown } from './nodes/countdown';
 // 文本
 import { Title } from './nodes/title';
 import { Katex } from './nodes/katex';
@@ -52,6 +53,7 @@ export class Renderer {
 
     this.nodes = [
       Attachment,
+      Countdown,
       Banner,
       Iframe,
       Status,

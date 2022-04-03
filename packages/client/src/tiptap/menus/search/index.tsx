@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Popover, Button, Typography, Input, Space } from '@douyinfe/semi-ui';
+import { Editor } from '@tiptap/core';
 import { Tooltip } from 'components/tooltip';
 import { IconSearchReplace } from 'components/icons';
 import { SearchNReplace } from '../../extensions/search';
 
 const { Text } = Typography;
 
-export const Search = ({ editor }) => {
+export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
   const searchExtension = editor.extensionManager.extensions.find((ext) => ext.name === SearchNReplace.name);
   const currentIndex = searchExtension ? searchExtension.options.currentIndex : -1;
   const results = searchExtension ? searchExtension.options.results : [];

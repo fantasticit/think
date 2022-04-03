@@ -13,11 +13,12 @@ import { markdownItTable } from './markdownTable';
 import { createMarkdownContainer } from './markdownItContainer';
 
 const markdownAttachment = createMarkdownContainer('attachment');
-const markdownIframe = createMarkdownContainer('iframe');
 const markdownStatus = createMarkdownContainer('status');
-const markdownMind = createMarkdownContainer('mind');
+const markdownCountdown = createMarkdownContainer('countdown');
 const markdownDocumentReference = createMarkdownContainer('documentReference');
 const markdownDocumentChildren = createMarkdownContainer('documentChildren');
+const markdownIframe = createMarkdownContainer('iframe');
+const markdownMind = createMarkdownContainer('mind');
 
 const markdown = markdownit('commonmark')
   .enable('strikethrough')
@@ -33,6 +34,7 @@ const markdown = markdownit('commonmark')
   // 以下为自定义节点
   .use(markdownBanner)
   .use(markdownAttachment)
+  .use(markdownCountdown)
   .use(markdownIframe)
   .use(markdownStatus)
   .use(markdownMind)

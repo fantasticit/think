@@ -1,25 +1,41 @@
 import React from 'react';
-import { Space, Button } from '@douyinfe/semi-ui';
-import { IconUndo, IconRedo } from '@douyinfe/semi-icons';
-import { Tooltip } from 'components/tooltip';
-import { IconClear } from 'components/icons';
+import { Space } from '@douyinfe/semi-ui';
 import { Divider } from './divider';
-import { MediaInsertMenu } from './menus/media-insert';
-import { Paragraph } from './menus/paragraph';
-import { FontSize } from './menus/font-size';
-import { BaseMenu } from './menus/base-menu';
-import { AlignMenu } from './menus/align';
-import { ListMenu } from './menus/list';
-import { BaseInsertMenu } from './menus/base-insert';
-import { BaseBubbleMenu } from './menus/base-bubble-menu';
-import { ImageBubbleMenu } from './menus/image';
-import { BannerBubbleMenu } from './menus/banner';
-import { LinkBubbleMenu } from './menus/link';
-import { IframeBubbleMenu } from './menus/iframe';
-import { TableBubbleMenu } from './menus/table';
 
-import { CountdownBubbleMenu } from './menus/countdown';
-import { CountdownSettingModal } from './menus/countdown-setting';
+import { Insert } from './menus/insert';
+import { Undo } from './menus/undo';
+import { Redo } from './menus/redo';
+import { CleadrNodeAndMarks } from './menus/clear-node-and-marks';
+
+import { Heading } from './menus/heading';
+import { FontSize } from './menus/fontsize';
+import { Bold } from './menus/bold';
+import { Italic } from './menus/italic';
+import { Underline } from './menus/underline';
+import { Strike } from './menus/strike';
+import { Code } from './menus/code';
+import { Superscript } from './menus/superscript';
+import { Subscript } from './menus/subscript';
+import { TextColor } from './menus/text-color';
+import { BackgroundColor } from './menus/background-color';
+
+import { Align } from './menus/align';
+
+import { BulletList } from './menus/bullet-list';
+import { OrderedList } from './menus/ordered-list';
+import { TaskList } from './menus/task-list';
+import { Ident } from './menus/ident';
+
+import { Emoji } from './menus/emoji';
+import { Link } from './menus/link';
+import { Blockquote } from './menus/blockquote';
+import { HorizontalRule } from './menus/horizontal-rule';
+import { Search } from './menus/search';
+
+import { Countdonw } from './menus/countdown';
+import { Image } from './menus/image';
+import { Iframe } from './menus/iframe';
+import { Table } from './menus/table';
 
 export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
   if (!editor) {
@@ -29,63 +45,52 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
   return (
     <div>
       <Space spacing={2}>
-        <MediaInsertMenu editor={editor} />
+        <Insert editor={editor} />
 
         <Divider />
-        <Tooltip content="撤销">
-          <Button
-            onClick={() => editor.chain().focus().undo().run()}
-            icon={<IconUndo />}
-            type="tertiary"
-            theme="borderless"
-          />
-        </Tooltip>
 
-        <Tooltip content="重做">
-          <Button
-            onClick={() => editor.chain().focus().redo().run()}
-            icon={<IconRedo />}
-            type="tertiary"
-            theme="borderless"
-          />
-        </Tooltip>
-
-        <Tooltip content="清除格式">
-          <Button
-            onClick={() => {
-              editor.chain().focus().unsetAllMarks().run();
-              editor.chain().focus().clearNodes().run();
-            }}
-            icon={<IconClear />}
-            type="tertiary"
-            theme="borderless"
-          />
-        </Tooltip>
+        <Undo editor={editor} />
+        <Redo editor={editor} />
+        <CleadrNodeAndMarks editor={editor} />
 
         <Divider />
-        <Paragraph editor={editor} />
+
+        <Heading editor={editor} />
         <FontSize editor={editor} />
-        <BaseMenu editor={editor} />
+        <Bold editor={editor} />
+        <Italic editor={editor} />
+        <Underline editor={editor} />
+        <Strike editor={editor} />
+        <Code editor={editor} />
+        <Superscript editor={editor} />
+        <Subscript editor={editor} />
+        <TextColor editor={editor} />
+        <BackgroundColor editor={editor} />
 
         <Divider />
-        <AlignMenu editor={editor} />
+
+        <Align editor={editor} />
 
         <Divider />
-        <ListMenu editor={editor} />
+
+        <BulletList editor={editor} />
+        <OrderedList editor={editor} />
+        <TaskList editor={editor} />
+        <Ident editor={editor} />
 
         <Divider />
-        <BaseInsertMenu editor={editor} />
+
+        <Emoji editor={editor} />
+        <Link editor={editor} />
+        <Blockquote editor={editor} />
+        <HorizontalRule editor={editor} />
+        <Search editor={editor} />
+
+        <Countdonw editor={editor} />
+        <Image editor={editor} />
+        <Iframe editor={editor} />
+        <Table editor={editor} />
       </Space>
-
-      <BaseBubbleMenu editor={editor} />
-      <ImageBubbleMenu editor={editor} />
-      <LinkBubbleMenu editor={editor} />
-      <IframeBubbleMenu editor={editor} />
-      <BannerBubbleMenu editor={editor} />
-      <TableBubbleMenu editor={editor} />
-
-      <CountdownBubbleMenu editor={editor} />
-      <CountdownSettingModal editor={editor} />
     </div>
   );
 };
@@ -98,38 +103,23 @@ export const CommentMenuBar: React.FC<{ editor: any }> = ({ editor }) => {
   return (
     <>
       <Space spacing={2}>
-        <Tooltip content="撤销">
-          <Button
-            onClick={() => editor.chain().focus().undo().run()}
-            icon={<IconUndo />}
-            type="tertiary"
-            theme="borderless"
-          />
-        </Tooltip>
-
-        <Tooltip content="重做">
-          <Button
-            onClick={() => editor.chain().focus().redo().run()}
-            icon={<IconRedo />}
-            type="tertiary"
-            theme="borderless"
-          />
-        </Tooltip>
-
-        <Tooltip content="清除格式">
-          <Button
-            onClick={() => {
-              editor.chain().focus().unsetAllMarks().run();
-              editor.chain().focus().clearNodes().run();
-            }}
-            icon={<IconClear />}
-            type="tertiary"
-            theme="borderless"
-          />
-        </Tooltip>
+        <Undo editor={editor} />
+        <Redo editor={editor} />
+        <CleadrNodeAndMarks editor={editor} />
 
         <Divider />
-        <BaseMenu editor={editor} />
+
+        <Heading editor={editor} />
+        <FontSize editor={editor} />
+        <Bold editor={editor} />
+        <Italic editor={editor} />
+        <Underline editor={editor} />
+        <Strike editor={editor} />
+        <Code editor={editor} />
+        <Superscript editor={editor} />
+        <Subscript editor={editor} />
+        <TextColor editor={editor} />
+        <BackgroundColor editor={editor} />
       </Space>
     </>
   );

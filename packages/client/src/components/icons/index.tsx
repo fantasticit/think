@@ -48,3 +48,4 @@ export * from './IconTableHeaderCell';
 export * from './IconSub';
 export * from './IconSup';
 export * from './IconGlobe';
+export * from './IconCountdown';
