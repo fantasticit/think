@@ -14,7 +14,7 @@ import {
 } from 'tiptap';
 import { DataRender } from 'components/data-render';
 import { ImageViewer } from 'components/image-viewer';
-import { joinUser } from 'components/document/collaboration';
+import { triggerJoinUser } from 'event';
 import { CreateUser } from './user';
 import styles from './index.module.scss';
 
@@ -36,7 +36,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
       docType: 'document',
       events: {
         onAwarenessUpdate({ states }) {
-          joinUser({ states });
+          triggerJoinUser(states);
         },
       },
     });

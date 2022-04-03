@@ -17,11 +17,11 @@ import {
 } from '@douyinfe/semi-ui';
 import { IconUserAdd, IconDelete } from '@douyinfe/semi-icons';
 import { useUser } from 'data/user';
-import { EventEmitter } from 'helpers/event-emitter';
 import { useToggle } from 'hooks/use-toggle';
 import { useCollaborationDocument } from 'data/document';
 import { DataRender } from 'components/data-render';
 import { DocumentLinkCopyer } from 'components/document/link';
+import { event, JOIN_USER } from 'event';
 
 interface IProps {
   wikiId: string;
@@ -30,13 +30,6 @@ interface IProps {
 
 const { Paragraph } = Typography;
 const { Column } = Table;
-
-const CollaborationEventEmitter = new EventEmitter();
-const KEY = 'JOIN_USER';
-
-export const joinUser = (users) => {
-  CollaborationEventEmitter.emit(KEY, users);
-};
 
 const renderChecked = (onChange, authKey: 'readable' | 'editable') => (checked, docAuth) => {
   const handle = (evt) => {
@@ -56,7 +49,6 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
   const [visible, toggleVisible] = useToggle(false);
   const { users, loading, error, addUser, updateUser, deleteUser } = useCollaborationDocument(documentId);
   const [inviteUser, setInviteUser] = useState('');
-
   const [collaborationUsers, setCollaborationUsers] = useState([]);
 
   const handleOk = () => {
@@ -75,7 +67,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
   };
 
   useEffect(() => {
-    CollaborationEventEmitter.on(KEY, ({ states: users }) => {
+    const handler = (users) => {
       const newCollaborationUsers = users
         .filter(Boolean)
         .filter((state) => state.user)
@@ -97,10 +89,11 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
       });
 
       setCollaborationUsers(newCollaborationUsers);
-    });
+    };
+    event.on(JOIN_USER, handler);
 
     return () => {
-      CollaborationEventEmitter.destroy();
+      event.off(JOIN_USER, handler);
     };
   }, [collaborationUsers, currentUser]);
 

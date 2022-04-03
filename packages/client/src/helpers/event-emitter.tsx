@@ -39,5 +39,3 @@ export class EventEmitter {
     this.callbacks = {};
   }
 }
-
-export const event = new EventEmitter();

@@ -16,23 +16,11 @@ import { DocumentVersion } from 'components/document/version';
 import { User } from 'components/user';
 import { Divider } from 'components/divider';
 import { useDocumentStyle } from 'hooks/use-document-style';
-import { EventEmitter } from 'helpers/event-emitter';
+import { event, CHANGE_DOCUMENT_TITLE, triggerUseDocumentVersion } from 'event';
 import { Editor } from './editor';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
-
-export const em = new EventEmitter();
-const TITLE_CHANGE_EVENT = 'TITLE_CHANGE_EVENT';
-export const USE_DATA_VERSION = 'USE_DATA_VERSION';
-
-export const changeTitle = (title) => {
-  em.emit(TITLE_CHANGE_EVENT, title);
-};
-
-const useVersion = (data) => {
-  em.emit(USE_DATA_VERSION, data);
-};
 
 interface IProps {
   documentId: string;
@@ -77,10 +65,10 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   );
 
   useEffect(() => {
-    em.on(TITLE_CHANGE_EVENT, setTitle);
+    event.on(CHANGE_DOCUMENT_TITLE, setTitle);
 
     return () => {
-      em.destroy();
+      event.off(CHANGE_DOCUMENT_TITLE, setTitle);
     };
   }, []);
 
@@ -97,7 +85,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
                 <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
               )}
               <DocumentShare key="share" documentId={documentId} />
-              <DocumentVersion key="version" documentId={documentId} onSelect={useVersion} />
+              <DocumentVersion key="version" documentId={documentId} onSelect={triggerUseDocumentVersion} />
               <DocumentStar key="star" documentId={documentId} />
               <Popover key="style" zIndex={1061} position="bottomLeft" content={<DocumentStyle />}>
                 <Button icon={<IconArticle />} theme="borderless" type="tertiary" />

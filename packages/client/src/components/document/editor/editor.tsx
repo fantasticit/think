@@ -18,10 +18,9 @@ import {
   destoryIndexdbProvider,
 } from 'tiptap';
 import { DataRender } from 'components/data-render';
-import { joinUser } from 'components/document/collaboration';
 import { Banner } from 'components/banner';
 import { debounce } from 'helpers/debounce';
-import { em, changeTitle, USE_DATA_VERSION } from './index';
+import { event, triggerChangeDocumentTitle, triggerJoinUser, USE_DOCUMENT_VERSION } from 'event';
 import styles from './index.module.scss';
 
 interface IProps {
@@ -45,7 +44,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
       docType: 'document',
       events: {
         onAwarenessUpdate({ states }) {
-          joinUser({ states });
+          triggerJoinUser(states);
         },
       },
     });
@@ -62,7 +61,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
     onTransaction: debounce(({ transaction }) => {
       try {
         const title = transaction.doc.content.firstChild.content.firstChild.textContent;
-        changeTitle(title);
+        triggerChangeDocumentTitle(title);
       } catch (e) {}
     }, 50),
   });
@@ -92,10 +91,9 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
   useEffect(() => {
     if (!editor) return;
     const handler = (data) => editor.commands.setContent(data);
-    em.on(USE_DATA_VERSION, handler);
-
+    event.on(USE_DOCUMENT_VERSION, handler);
     return () => {
-      em.off(USE_DATA_VERSION, handler);
+      event.off(USE_DOCUMENT_VERSION, handler);
     };
   }, [editor]);
 

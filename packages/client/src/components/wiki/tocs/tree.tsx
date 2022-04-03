@@ -5,8 +5,7 @@ import { IconMore, IconPlus } from '@douyinfe/semi-icons';
 import { useToggle } from 'hooks/use-toggle';
 import { DocumentActions } from 'components/document/actions';
 import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
-import { event } from 'helpers/event-emitter';
-import { CREATE_DOCUMENT, triggerCreateDocument } from './event';
+import { event, CREATE_DOCUMENT, triggerCreateDocument } from 'event';
 import styles from './index.module.scss';
 
 const Actions = ({ node }) => {
