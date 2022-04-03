@@ -62,7 +62,7 @@ export const LinkBubbleMenu = ({ editor }) => {
     toggleVisible(true);
   }, []);
 
-  const unsetLink = useCallback(() => editor.chain().unsetLink().run(), [editor]);
+  const unsetLink = useCallback(() => editor.chain().extendMarkRange(Link.name).unsetLink().run(), [editor]);
 
   useEffect(() => {
     if (!isLinkActive) return;
