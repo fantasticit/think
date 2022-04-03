@@ -69,7 +69,8 @@
       position: relative;
       user-select: text;
 
-      &:hover {
+      &:hover,
+      &:active {
         border: 1px solid var(--node-hover-border-color);
       }
     }
@@ -85,7 +86,8 @@
         position: relative;
         border: 1px solid var(--node-selected-border-color) !important;
 
-        &:hover {
+        &:hover,
+        &:active {
           border-color: var(--node-selected-border-color);
           box-shadow: none;
         }
@@ -104,7 +106,8 @@
   .node-image {
     .render-wrapper {
       position: relative;
-      &:hover {
+      &:hover,
+      &:active {
         &::after {
           position: absolute;
           content: '';
