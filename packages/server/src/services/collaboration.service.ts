@@ -1,5 +1,4 @@
 import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
-import { DocumentStatus } from '@think/domains';
 import { getConfig } from '@think/config';
 import * as Y from 'yjs';
 import { TiptapTransformer } from '@hocuspocus/transformer';
@@ -77,57 +76,31 @@ export class CollaborationService {
   async onAuthenticate({ connection, token, requestParameters }: onAuthenticatePayload) {
     const targetId = requestParameters.get('targetId');
     const docType = requestParameters.get('docType');
+    const user = await this.userService.decodeToken(token);
+
+    if (!user || !user.id) {
+      throw new HttpException('您无权查看', HttpStatus.UNAUTHORIZED);
+    }
 
     switch (docType) {
       case 'document': {
-        const documentId = targetId;
-        if (token === 'anoy') {
-          const document = await this.documentService.findById(documentId);
-          if (document.status === DocumentStatus.public) {
-            connection.readOnly = true;
-            return {
-              user: { name: 'anoymouse' },
-            };
-          }
-        } else {
-          const user = await this.userService.decodeToken(token);
-
-          if (!user || !user.id) {
-            throw new HttpException('您无权查看此文档', HttpStatus.UNAUTHORIZED);
-          }
-
-          const authority = await this.documentService.getDocumentAuthority(documentId, user.id);
-
-          if (!authority.readable) {
-            throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
-          }
-
-          if (!authority.editable) {
-            connection.readOnly = true;
-          }
-
-          return {
-            user,
-          };
+        const authority = await this.documentService.getDocumentAuthority(targetId, user.id);
+        if (!authority.readable) {
+          throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
         }
-        break;
+        if (!authority.editable) {
+          connection.readOnly = true;
+        }
+        return {
+          user,
+        };
       }
 
       case 'template': {
-        const templateId = targetId;
-
-        const user = await this.userService.decodeToken(token);
-
-        if (!user || !user.id) {
-          throw new HttpException('您无权查看此模板', HttpStatus.UNAUTHORIZED);
-        }
-
-        const template = await this.templateService.findById(templateId);
-
+        const template = await this.templateService.findById(targetId);
         if (template.createUserId !== user.id) {
           throw new HttpException('您无权查看此模板', HttpStatus.FORBIDDEN);
         }
-
         return {
           user,
         };
@@ -148,34 +121,32 @@ export class CollaborationService {
     const targetId = requestParameters.get('targetId');
     const docType = requestParameters.get('docType');
 
+    let state = null;
+
     switch (docType) {
       case 'document': {
-        const documentId = targetId;
-        const { state } = await this.documentService.findById(documentId);
-        const unit8 = new Uint8Array(state);
-
-        if (unit8.byteLength) {
-          Y.applyUpdate(document, unit8);
-        }
-
-        return document;
+        const res = await this.documentService.findById(targetId);
+        state = res.state;
+        break;
       }
 
       case 'template': {
-        const templateId = targetId;
-        const { state } = await this.templateService.findById(templateId);
-        const unit8 = new Uint8Array(state);
-
-        if (unit8.byteLength) {
-          Y.applyUpdate(document, unit8);
-        }
-
-        return document;
+        const res = await this.templateService.findById(targetId);
+        state = res.state;
+        break;
       }
 
       default:
         throw new Error('未知类型');
     }
+
+    const unit8 = new Uint8Array(state);
+
+    if (unit8.byteLength) {
+      Y.applyUpdate(document, unit8);
+    }
+
+    return document;
   }
 
   async onChange(data: onChangePayload) {
@@ -194,9 +165,9 @@ export class CollaborationService {
         this.debounceTime * 2
       );
     };
+    const updateTemplate = this.templateService.updateTemplate.bind(this.templateService);
 
-    const updateHandler =
-      docType === 'document' ? updateDocument : this.templateService.updateTemplate.bind(this.templateService);
+    const updateHandler = docType === 'document' ? updateDocument : updateTemplate;
 
     this.debounce(`onStoreDocument-${targetId}`, () => {
       this.onStoreDocument(updateHandler, data).catch((error) => {
@@ -208,13 +179,12 @@ export class CollaborationService {
   }
 
   async onStoreDocument(updateHandler, data: onChangePayload) {
-    const { requestParameters, context } = data;
+    const { requestParameters } = data;
     const targetId = requestParameters.get('targetId');
     const userId = requestParameters.get('userId');
 
     if (!userId) {
-      console.error('COLLABORATION: can not get user info');
-      return;
+      throw new HttpException('无用户信息，拒绝存储文档数据变更', HttpStatus.FORBIDDEN);
     }
 
     const node = TiptapTransformer.fromYdoc(data.document);
@@ -233,33 +203,24 @@ export class CollaborationService {
     const docType = requestParameters.get('docType');
     const userId = requestParameters.get('userId');
 
-    switch (docType) {
-      case 'document': {
-        const documentId = targetId;
-        const ret = await this.documentService.findById(documentId);
-
-        if (ret && !ret.title) {
-          await this.documentService.updateDocument({ id: userId } as OutUser, targetId, {
-            title: '未命名文档',
-          });
-        }
-        break;
+    if (docType === 'document') {
+      const data = await this.documentService.findById(targetId);
+      if (data && !data.title) {
+        await this.documentService.updateDocument({ id: userId } as OutUser, targetId, {
+          title: '未命名文档',
+        });
       }
+      return;
+    }
 
-      case 'template': {
-        const templateId = targetId;
-        const ret = await this.templateService.findById(templateId);
-
-        if (ret && !ret.title) {
-          await this.templateService.updateTemplate({ id: userId } as OutUser, targetId, {
-            title: '未命名模板',
-          });
-        }
-        break;
+    if (docType === 'template') {
+      const data = await this.templateService.findById(targetId);
+      if (data && !data.title) {
+        await this.templateService.updateTemplate({ id: userId } as OutUser, targetId, {
+          title: '未命名模板',
+        });
       }
-
-      default:
-        throw new Error('未知类型');
+      return;
     }
   }
 }

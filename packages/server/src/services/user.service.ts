@@ -20,32 +20,21 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepo: Repository<UserEntity>,
+
     private readonly confifgService: ConfigService,
+
     @Inject(forwardRef(() => JwtService))
     private readonly jwtService: JwtService,
+
     @Inject(forwardRef(() => MessageService))
     private readonly messageService: MessageService,
+
     @Inject(forwardRef(() => CollectorService))
     private readonly collectorService: CollectorService,
+
     @Inject(forwardRef(() => WikiService))
     private readonly wikiService: WikiService
-  ) {
-    this.createSuperAdmin();
-  }
-
-  private async createSuperAdmin() {
-    const superadmin = this.confifgService.get('superadmin');
-    if (!superadmin) return;
-    if (!(await this.userRepo.findOne({ name: superadmin.name }))) {
-      const res = await this.userRepo.create({
-        ...superadmin,
-        confirmPassword: superadmin.password,
-        role: UserRole.superadmin,
-      });
-      await this.userRepo.save(res);
-    }
-    console.info('已注册超管用户，请及时修改默认密码');
-  }
+  ) {}
 
   /**
    * 根据 id 查询用户

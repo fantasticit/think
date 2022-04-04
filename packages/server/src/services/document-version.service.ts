@@ -4,6 +4,8 @@ import { IDocument } from '@think/domains';
 import { getConfig } from '@think/config';
 import * as lodash from 'lodash';
 
+type VerisonDataItem = { version: string; data: string };
+
 @Injectable()
 export class DocumentVersionService {
   private redis: Redis;
@@ -14,7 +16,7 @@ export class DocumentVersionService {
     this.init();
   }
 
-  private versionDataToArray(data: Record<string, string>): Array<{ version: string; data: string }> {
+  private versionDataToArray(data: Record<string, string>): Array<VerisonDataItem> {
     return Object.keys(data)
       .sort((a, b) => +b - +a)
       .map((key) => ({ version: key, data: data[key] }));
@@ -88,7 +90,7 @@ export class DocumentVersionService {
    * @param documentId
    * @returns
    */
-  public async getDocumentVersions(documentId: IDocument['id']): Promise<Array<{ version: string; data: string }>> {
+  public async getDocumentVersions(documentId: IDocument['id']): Promise<Array<VerisonDataItem>> {
     if (this.error || !this.redis) {
       throw new HttpException(this.error, HttpStatus.NOT_IMPLEMENTED);
     }

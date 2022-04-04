@@ -2,6 +2,7 @@ import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nest
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { instanceToPlain } from 'class-transformer';
+import { EMPTY_DOCUMNENT } from '@think/constants';
 import { DocumentStatus, IDocument, WikiUserRole } from '@think/domains';
 import { DocumentAuthorityEntity } from '@entities/document-authority.entity';
 import { DocumentEntity } from '@entities/document.entity';
@@ -12,32 +13,10 @@ import { CollaborationService } from '@services/collaboration.service';
 import { DocumentVersionService } from '@services/document-version.service';
 import { TemplateService } from '@services/template.service';
 import { ViewService } from '@services/view.service';
-import { array2tree } from '@helpers/tree.helper';
 import { DocAuthDto } from '@dtos/doc-auth.dto';
 import { CreateDocumentDto } from '@dtos/create-document.dto';
 import { UpdateDocumentDto } from '@dtos/update-document.dto';
 import { ShareDocumentDto } from '@dtos/share-document.dto';
-
-const EMPTY_DOCUMNENT = {
-  content: JSON.stringify({
-    default: {
-      type: 'doc',
-      content: [{ type: 'title', content: [{ type: 'text', text: '未命名文档' }] }],
-    },
-  }),
-  state: Buffer.from(
-    new Uint8Array([
-      1, 14, 204, 224, 154, 225, 13, 0, 7, 1, 7, 100, 101, 102, 97, 117, 108, 116, 3, 5, 116, 105, 116, 108, 101, 1, 0,
-      204, 224, 154, 225, 13, 0, 1, 0, 1, 135, 204, 224, 154, 225, 13, 0, 3, 9, 112, 97, 114, 97, 103, 114, 97, 112,
-      104, 40, 0, 204, 224, 154, 225, 13, 3, 6, 105, 110, 100, 101, 110, 116, 1, 125, 0, 40, 0, 204, 224, 154, 225, 13,
-      3, 9, 116, 101, 120, 116, 65, 108, 105, 103, 110, 1, 119, 4, 108, 101, 102, 116, 0, 4, 71, 204, 224, 154, 225, 13,
-      1, 6, 1, 0, 204, 224, 154, 225, 13, 10, 3, 132, 204, 224, 154, 225, 13, 13, 3, 230, 156, 170, 129, 204, 224, 154,
-      225, 13, 14, 6, 132, 204, 224, 154, 225, 13, 20, 6, 229, 145, 189, 229, 144, 141, 129, 204, 224, 154, 225, 13, 22,
-      5, 132, 204, 224, 154, 225, 13, 27, 6, 230, 150, 135, 230, 161, 163, 1, 204, 224, 154, 225, 13, 5, 1, 2, 6, 4, 11,
-      3, 15, 6, 23, 5,
-    ])
-  ),
-};
 
 @Injectable()
 export class DocumentService {
@@ -46,17 +25,23 @@ export class DocumentService {
 
   constructor(
     @InjectRepository(DocumentAuthorityEntity)
-    private readonly documentAuthorityRepo: Repository<DocumentAuthorityEntity>,
+    public readonly documentAuthorityRepo: Repository<DocumentAuthorityEntity>,
+
     @InjectRepository(DocumentEntity)
-    private readonly documentRepo: Repository<DocumentEntity>,
+    public readonly documentRepo: Repository<DocumentEntity>,
+
     @Inject(forwardRef(() => MessageService))
     private readonly messageService: MessageService,
+
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
+
     @Inject(forwardRef(() => WikiService))
     private readonly wikiService: WikiService,
+
     @Inject(forwardRef(() => TemplateService))
     private readonly templateService: TemplateService,
+
     @Inject(forwardRef(() => ViewService))
     private readonly viewService: ViewService
   ) {
@@ -89,6 +74,15 @@ export class DocumentService {
   public async findByIds(ids: string[]) {
     const documents = await this.documentRepo.findByIds(ids);
     return documents.map((doc) => instanceToPlain(doc));
+  }
+
+  /**
+   * 获取知识库首页文档
+   * @param wikiId
+   * @returns
+   */
+  public async findWikiHomeDocument(wikiId) {
+    return await this.documentRepo.findOne({ wikiId, isWikiHome: true });
   }
 
   /**
@@ -176,11 +170,8 @@ export class DocumentService {
    */
   async addDocUser(user: OutUser, dto: DocAuthDto) {
     const doc = await this.documentRepo.findOne(dto.documentId);
-    if (!doc) {
-      throw new HttpException('文档不存在', HttpStatus.BAD_REQUEST);
-    }
-
     const targetUser = await this.userService.findOne({ name: dto.userName });
+
     if (!targetUser) {
       throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST);
     }
@@ -226,16 +217,6 @@ export class DocumentService {
    */
   async deleteDocUser(user: OutUser, dto: DocAuthDto): Promise<void> {
     const doc = await this.documentRepo.findOne({ id: dto.documentId });
-    if (!doc) {
-      throw new HttpException('文档不存在', HttpStatus.BAD_REQUEST);
-    }
-
-    const isCurrentUserCreator = user.id === doc.createUserId;
-
-    if (!isCurrentUserCreator) {
-      throw new HttpException('您无权限进行该操作', HttpStatus.FORBIDDEN);
-    }
-
     const targetUser = await this.userService.findOne({ name: dto.userName });
 
     if (targetUser.id === doc.createUserId) {
@@ -249,7 +230,7 @@ export class DocumentService {
 
     await this.messageService.notify(targetUser, {
       title: `您已被移出文档「${doc.title}」`,
-      message: `管理员已将您从文档「${doc.title}」移出！`,
+      message: `${user.name}已将您从文档「${doc.title}」移出！`,
       url: `/wiki/${doc.wikiId}/document/${doc.id}`,
     });
 
@@ -332,7 +313,7 @@ export class DocumentService {
     const document = await this.documentRepo.save(res);
 
     // 知识库成员权限继承
-    const wikiUsers = await this.wikiService.getWikiUsers({ userId: user.id, wikiId: dto.wikiId }, true);
+    const wikiUsers = await this.wikiService.getWikiUsers(dto.wikiId);
 
     await Promise.all([
       await this.operateDocumentAuth({
@@ -376,12 +357,6 @@ export class DocumentService {
    */
   async deleteDocument(user: OutUser, documentId) {
     const document = await this.documentRepo.findOne(documentId);
-    if (!document) {
-      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-    }
-    if (document.createUserId !== user.id) {
-      throw new HttpException('您不是该文档的创建者，无法删除', HttpStatus.FORBIDDEN);
-    }
     if (document.isWikiHome) {
       throw new HttpException('该文档作为知识库首页使用，无法删除', HttpStatus.FORBIDDEN);
     }
@@ -414,47 +389,9 @@ export class DocumentService {
    */
   public async updateDocument(user: OutUser, documentId: string, dto: UpdateDocumentDto) {
     const document = await this.documentRepo.findOne(documentId);
-    if (!document) {
-      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-    }
-    const authority = await this.documentAuthorityRepo.findOne({
-      documentId,
-      userId: user.id,
-    });
-    if (!authority || !authority.editable) {
-      throw new HttpException('您无权编辑此文档', HttpStatus.FORBIDDEN);
-    }
     const res = await this.documentRepo.create({ ...document, ...dto });
     const ret = await this.documentRepo.save(res);
     return instanceToPlain(ret);
-  }
-
-  /**
-   * 获取知识库首页文档
-   * @param user
-   * @param wikiId
-   * @returns
-   */
-  async getWikiHomeDocument(user: OutUser, wikiId) {
-    const res = await this.documentRepo.findOne({ wikiId, isWikiHome: true });
-    return instanceToPlain(res);
-  }
-
-  /**
-   * 获取公开知识库首页文档
-   * @param user
-   * @param wikiId
-   * @returns
-   */
-  async getWikiPublicHomeDocument(wikiId, userAgent) {
-    const res = await this.documentRepo.findOne({ wikiId, isWikiHome: true });
-    await this.viewService.create({
-      userId: 'public',
-      documentId: res.id,
-      userAgent,
-    });
-    const views = await this.viewService.getDocumentTotalViews(res.id);
-    return { ...instanceToPlain(res), views };
   }
 
   /**
@@ -464,27 +401,20 @@ export class DocumentService {
    * @returns
    */
   public async getDocumentDetail(user: OutUser, documentId: string, userAgent) {
+    // 1. 记录访问
+    await this.viewService.create({ userId: user.id, documentId, userAgent });
+    // 2. 查询文档
     const document = await this.documentRepo.findOne(documentId);
-
-    if (!document) {
-      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-    }
-
+    // 3. 查询权限
     const authority = await this.documentAuthorityRepo.findOne({
       documentId,
       userId: user.id,
     });
-
-    if (!authority || !authority.readable) {
-      throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
-    }
-
-    await this.viewService.create({ userId: user.id, documentId, userAgent });
+    // 4. 查询访问
     const views = await this.viewService.getDocumentTotalViews(documentId);
-
+    // 5. 生成响应
     const doc = instanceToPlain(document);
     const createUser = await this.userService.findById(doc.createUserId);
-
     return { document: { ...doc, views, createUser }, authority };
   }
 
@@ -495,21 +425,6 @@ export class DocumentService {
    * @returns
    */
   public async getDocumentVersion(user: OutUser, documentId: string) {
-    const document = await this.documentRepo.findOne(documentId);
-
-    if (!document) {
-      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-    }
-
-    const authority = await this.documentAuthorityRepo.findOne({
-      documentId,
-      userId: user.id,
-    });
-
-    if (!authority || !authority.readable) {
-      throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
-    }
-
     const data = await this.documentVersionService.getDocumentVersions(documentId);
     return data;
   }
@@ -520,19 +435,6 @@ export class DocumentService {
    */
   async shareDocument(user: OutUser, documentId, dto: ShareDocumentDto, nextStatus = null) {
     const document = await this.documentRepo.findOne(documentId);
-    if (!document) {
-      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-    }
-
-    const authority = await this.documentAuthorityRepo.findOne({
-      documentId,
-      userId: user.id,
-    });
-
-    if (!authority || !authority.editable) {
-      throw new HttpException('您无权编辑此文档', HttpStatus.FORBIDDEN);
-    }
-
     nextStatus = !nextStatus
       ? document.status === DocumentStatus.private
         ? DocumentStatus.public
@@ -552,14 +454,6 @@ export class DocumentService {
    */
   async getPublicDocumentDetail(documentId, dto: ShareDocumentDto, userAgent) {
     const document = await this.documentRepo.findOne(documentId);
-
-    if (!document) {
-      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-    }
-
-    if (document.status !== DocumentStatus.public) {
-      throw new HttpException('私有文档，无法查看内容', HttpStatus.FORBIDDEN);
-    }
 
     if (document.sharePassword && !dto.sharePassword) {
       throw new HttpException('输入密码后查看内容', HttpStatus.BAD_REQUEST);
@@ -596,20 +490,7 @@ export class DocumentService {
       ? await this.documentRepo.findOne(documentId)
       : await this.documentRepo.findOne({ wikiId, isWikiHome: true });
 
-    if (!document) {
-      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-    }
-
     let unSortDocuments = [];
-
-    const authority = await this.documentAuthorityRepo.findOne({
-      documentId: document.id,
-      userId: user.id,
-    });
-
-    if (!authority || !authority.readable) {
-      throw new HttpException('您无权查看该文档下的子文档', HttpStatus.FORBIDDEN);
-    }
 
     if (document.isWikiHome) {
       unSortDocuments = await this.documentRepo.find({
@@ -661,15 +542,7 @@ export class DocumentService {
       ? await this.documentRepo.findOne(documentId)
       : await this.documentRepo.findOne({ wikiId, isWikiHome: true });
 
-    if (!document) {
-      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-    }
-
     let unSortDocuments = [];
-
-    if (document.status !== DocumentStatus.public) {
-      throw new HttpException('私有文档，无法查看内容', HttpStatus.FORBIDDEN);
-    }
 
     if (document.isWikiHome) {
       unSortDocuments = await this.documentRepo.find({
@@ -704,153 +577,6 @@ export class DocumentService {
         const res = instanceToPlain(doc);
         res.key = res.id;
         res.label = res.title;
-        return res;
-      });
-
-    const docsWithCreateUser = await Promise.all(
-      docs.map(async (doc) => {
-        const createUser = await this.userService.findById(doc.createUserId);
-        return { ...doc, createUser };
-      })
-    );
-
-    return docsWithCreateUser;
-  }
-
-  /**
-   * 获取知识库的文档目录
-   * @param user
-   * @param dto
-   * @returns
-   */
-  public async getWikiTocs(user: OutUser, wikiId: string) {
-    const ONE_DAY_TIME = 24 * 60 * 60 * 1000;
-    await this.wikiService.getWikiDetail(user, wikiId);
-    // @ts-ignore
-    const records = await this.documentAuthorityRepo.find({
-      userId: user.id,
-      wikiId,
-    });
-
-    const ids = records.map((record) => record.documentId);
-    const documents = await this.documentRepo.findByIds(ids, {
-      order: { createdAt: 'ASC' },
-    });
-    documents.sort((a, b) => a.index - b.index);
-
-    documents.forEach((doc) => {
-      delete doc.state;
-    });
-
-    const docs = documents
-      .filter((doc) => !doc.isWikiHome)
-      .map((doc) => {
-        const res = instanceToPlain(doc);
-        res.key = res.id;
-        res.label = res.title;
-        return res;
-      });
-
-    const docsWithCreateUser = await Promise.all(
-      docs.map(async (doc) => {
-        const createUser = await this.userService.findById(doc.createUserId);
-        return { ...doc, createUser };
-      })
-    );
-
-    return array2tree(docsWithCreateUser);
-  }
-
-  /**
-   * 重排知识库目录
-   * @param user
-   * @param wikiId
-   * @param relations
-   */
-  public async orderWikiTocs(
-    user: OutUser,
-    wikiId: string,
-    relations: Array<{ id: string; parentDocumentId?: string; index: number }>
-  ) {
-    await this.wikiService.getWikiDetail(user, wikiId);
-    await Promise.all(
-      relations.map(async (relation) => {
-        const { id, parentDocumentId, index } = relation;
-        const doc = await this.documentRepo.findOne(id);
-
-        if (doc) {
-          const newData = await this.documentRepo.merge(doc, {
-            parentDocumentId,
-            index,
-          });
-          await this.documentRepo.save(newData);
-        }
-      })
-    );
-  }
-
-  /**
-   * 获取知识库公开的文档目录
-   * @param user
-   * @param dto
-   * @returns
-   */
-  public async getPublicWikiTocs(wikiId: string) {
-    await this.wikiService.getPublicWikiDetail(wikiId);
-    // @ts-ignore
-    const unSortDocuments = await this.documentRepo.find({
-      wikiId,
-      status: DocumentStatus.public,
-    });
-
-    const documents = await this.documentRepo.findByIds(
-      unSortDocuments.map((d) => d.id),
-      {
-        order: { createdAt: 'ASC' },
-      }
-    );
-
-    documents.sort((a, b) => a.index - b.index);
-
-    const docs = documents
-      .filter((doc) => !doc.isWikiHome)
-      .map((doc) => {
-        const res = instanceToPlain(doc);
-        res.key = res.id;
-        res.label = res.title;
-        return res;
-      });
-
-    docs.forEach((doc) => {
-      delete doc.state;
-    });
-
-    return array2tree(docs);
-  }
-
-  /**
-   * 获取知识库所有的文档
-   * @param user
-   * @param dto
-   * @returns
-   */
-  public async getWikiDocs(user: OutUser, wikiId: string) {
-    this.wikiService.getWikiDetail(user, wikiId);
-    const records = await this.documentAuthorityRepo.find({
-      userId: user.id,
-      wikiId,
-    });
-    const ids = records.map((record) => record.documentId);
-    const documents = await this.documentRepo.findByIds(ids);
-    documents.forEach((doc) => {
-      delete doc.state;
-    });
-
-    const docs = documents
-      .filter((doc) => !doc.isWikiHome)
-      .map((doc) => {
-        const res = instanceToPlain(doc);
-        res.key = res.id;
         return res;
       });
 

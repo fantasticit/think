@@ -14,6 +14,9 @@ import {
   Delete,
 } from '@nestjs/common';
 import { JwtGuard } from '@guard/jwt.guard';
+import { DocumentAuthorityGuard, CheckDocumentAuthority } from '@guard/document-auth.guard';
+import { DocumentStatusGuard, CheckDocumentStatus } from '@guard/document-status.guard';
+import { DocumentStatus } from '@think/domains';
 import { DocumentService } from '@services/document.service';
 import { DocAuthDto } from '@dtos/doc-auth.dto';
 import { CreateDocumentDto } from '@dtos/create-document.dto';
@@ -21,6 +24,8 @@ import { UpdateDocumentDto } from '@dtos/update-document.dto';
 import { ShareDocumentDto } from '@dtos/share-document.dto';
 
 @Controller('document')
+@UseGuards(DocumentAuthorityGuard)
+@UseGuards(DocumentStatusGuard)
 export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
 
@@ -32,54 +37,104 @@ export class DocumentController {
     return await this.documentService.createDocument(req.user, dto);
   }
 
+  /**
+   * 获取文档详情
+   * @param req
+   * @param documentId
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('detail/:id')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('readable')
   @UseGuards(JwtGuard)
   async getDocumentDetail(@Request() req, @Param('id') documentId) {
     return await this.documentService.getDocumentDetail(req.user, documentId, req.headers['user-agent']);
   }
 
+  /**
+   * 更新文档
+   * @param req
+   * @param documentId
+   * @param dto
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('update/:id')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('editable')
   @UseGuards(JwtGuard)
   async updateDocument(@Request() req, @Param('id') documentId, @Body() dto: UpdateDocumentDto) {
     return await this.documentService.updateDocument(req.user, documentId, dto);
   }
 
+  /**
+   * 获取文档版本记录
+   * @param req
+   * @param documentId
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('version/:id')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('readable')
   @UseGuards(JwtGuard)
   async getDocumentVersion(@Request() req, @Param('id') documentId) {
     return await this.documentService.getDocumentVersion(req.user, documentId);
   }
 
+  /**
+   * 获取文档下的子文档
+   * @param req
+   * @param data
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('children')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('readable')
   @UseGuards(JwtGuard)
   async getChildrenDocuments(@Request() req, @Body() data) {
     return await this.documentService.getChildrenDocuments(req.user, data);
   }
 
+  /**
+   * 删除文档
+   * @param req
+   * @param documentId
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete('delete/:id')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('createUser')
   @UseGuards(JwtGuard)
   async deleteDocument(@Request() req, @Param('id') documentId) {
     return await this.documentService.deleteDocument(req.user, documentId);
   }
 
+  /**
+   * 分享（或关闭分享）文档
+   * @param req
+   * @param documentId
+   * @param dto
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('share/:id')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('editable')
   @UseGuards(JwtGuard)
   async shareDocument(@Request() req, @Param('id') documentId, @Body() dto: ShareDocumentDto) {
     return await this.documentService.shareDocument(req.user, documentId, dto);
   }
 
+  /**
+   * 搜索文档
+   * @param req
+   * @param keyword
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('search')
   @HttpCode(HttpStatus.OK)
@@ -88,57 +143,107 @@ export class DocumentController {
     return await this.documentService.search(req.user, keyword);
   }
 
+  /**
+   * 获取文档成员
+   * @param req
+   * @param documentId
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('user/:id')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('readable')
   @UseGuards(JwtGuard)
   async getDocUsers(@Request() req, @Param('id') documentId) {
     return await this.documentService.getDocUsers(req.user, documentId);
   }
 
+  /**
+   * 添加文档成员
+   * 只有文档创建着才可操作
+   * @param req
+   * @param dto
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('user/:id/add')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('createUser')
   @UseGuards(JwtGuard)
   async addDocUser(@Request() req, @Body() dto: DocAuthDto) {
     return await this.documentService.addDocUser(req.user, dto);
   }
 
+  /**
+   * 修改文档成员（一般是权限操作）
+   * 只有文档创建着才可操作
+   * @param req
+   * @param dto
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('user/:id/update')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('createUser')
   @UseGuards(JwtGuard)
   async updateDocUser(@Request() req, @Body() dto: DocAuthDto) {
     return await this.documentService.updateDocUser(req.user, dto);
   }
 
+  /**
+   * 删除文档成员
+   * 只有文档创建着才可操作
+   * @param req
+   * @param dto
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('user/:id/delete')
   @HttpCode(HttpStatus.OK)
+  @CheckDocumentAuthority('createUser')
   @UseGuards(JwtGuard)
   async deleteDocUser(@Request() req, @Body() dto: DocAuthDto) {
     return await this.documentService.deleteDocUser(req.user, dto);
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
-  @Post('public/detail/:id')
-  @HttpCode(HttpStatus.OK)
-  async getShareDocumentDetail(@Request() req, @Param('id') documentId, @Body() dto: ShareDocumentDto) {
-    return await this.documentService.getPublicDocumentDetail(documentId, dto, req.headers['user-agent']);
-  }
-
-  @UseInterceptors(ClassSerializerInterceptor)
-  @Post('public/children')
-  @HttpCode(HttpStatus.OK)
-  async getShareChildrenDocuments(@Body() data) {
-    return await this.documentService.getShareChildrenDocuments(data);
-  }
-
+  /**
+   * 获取用户最近访问的文档
+   * @param req
+   * @returns
+   */
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('recent')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
   async getWorkspaceDocuments(@Request() req) {
     return await this.documentService.getRecentDocuments(req.user);
+  }
+
+  /**
+   * 获取公开文档详情
+   * @param req
+   * @param documentId
+   * @param dto
+   * @returns
+   */
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('public/detail/:id')
+  @CheckDocumentStatus(DocumentStatus.public)
+  @HttpCode(HttpStatus.OK)
+  async getShareDocumentDetail(@Request() req, @Param('id') documentId, @Body() dto: ShareDocumentDto) {
+    return await this.documentService.getPublicDocumentDetail(documentId, dto, req.headers['user-agent']);
+  }
+
+  /**
+   * 获取公开文档的子文档
+   * @param data
+   * @returns
+   */
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('public/children')
+  @CheckDocumentStatus(DocumentStatus.public)
+  @HttpCode(HttpStatus.OK)
+  async getShareChildrenDocuments(@Body() data) {
+    return await this.documentService.getShareChildrenDocuments(data);
   }
 }

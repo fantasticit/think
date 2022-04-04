@@ -4,6 +4,7 @@ import { UserModule } from '@modules/user.module';
 import { DocumentModule } from '@modules/document.module';
 import { MessageModule } from '@modules/message.module';
 import { CollectorModule } from '@modules/collector.module';
+import { ViewModule } from '@modules/view.module';
 import { WikiEntity } from '@entities/wiki.entity';
 import { WikiUserEntity } from '@entities/wiki-user.entity';
 import { WikiController } from '@controllers/wiki.controller';
@@ -15,6 +16,7 @@ import { WikiService } from '@services/wiki.service';
     forwardRef(() => UserModule),
     forwardRef(() => DocumentModule),
     forwardRef(() => MessageModule),
+    forwardRef(() => ViewModule),
     forwardRef(() => CollectorModule),
   ],
   providers: [WikiService],
