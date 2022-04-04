@@ -20,6 +20,18 @@ export const getProvider = ({
   user: IUser;
   docType: 'document' | 'template';
   events?: {
+    onAuthenticated?: () => void;
+    onAuthenticationFailed?: ({ reason }: { reason: string }) => void;
+    onOpen?: (event: Event) => void;
+    onConnect?: () => void;
+    onMessage?: (event: MessageEvent) => void;
+    onOutgoingMessage?: (message) => void;
+    onStatus?: (status: any) => void;
+    onSynced?: () => void;
+    onDisconnect?: (event: CloseEvent) => void;
+    onClose?: (event: CloseEvent) => void;
+    onDestroy?: () => void;
+    onAwarenessChange?: (states: any) => void;
     onAwarenessUpdate?: (states: any) => void;
   };
 }) => {
@@ -38,7 +50,7 @@ export const getProvider = ({
       maxAttempts: 5,
       forceSyncInterval: 100,
       ...events,
-    });
+    } as any);
     pool.set(targetId, provider);
   }
   return pool.get(targetId);

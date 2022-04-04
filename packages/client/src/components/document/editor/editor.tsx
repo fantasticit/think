@@ -35,6 +35,8 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
   if (!user) return null;
   const [status, setStatus] = useState<ProviderStatus>('connecting');
   const { online } = useNetwork();
+  const [loading, toggleLoading] = useToggle(true);
+  const [error, setError] = useState(null);
   const provider = useMemo(() => {
     return getProvider({
       targetId: documentId,
@@ -45,6 +47,13 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
       events: {
         onAwarenessUpdate({ states }) {
           triggerJoinUser(states);
+        },
+        onAuthenticationFailed() {
+          toggleLoading(false);
+          setError(new Error('鉴权失败！暂时无法提供服务'));
+        },
+        onSynced() {
+          toggleLoading(false);
         },
       },
     });
@@ -65,17 +74,12 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
       } catch (e) {}
     }, 50),
   });
-  const [loading, toggleLoading] = useToggle(true);
 
   useEffect(() => {
     const indexdbProvider = getIndexdbProvider(documentId, provider.document);
 
     indexdbProvider.on('synced', () => {
       setStatus('loadCacheSuccess');
-    });
-
-    provider.on('synced', () => {
-      toggleLoading(false);
     });
 
     provider.on('status', async ({ status }) => {
@@ -100,7 +104,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
   return (
     <DataRender
       loading={loading}
-      error={null}
+      error={error}
       normalContent={() => {
         return (
           <div className={styles.editorWrap}>
