@@ -5,9 +5,9 @@ import { Button, Typography, Spin, Collapsible, Space } from '@douyinfe/semi-ui'
 import { IconDownload, IconPlayCircle, IconClose } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { useToggle } from 'hooks/use-toggle';
-import { download } from '../../services/download';
+import { download } from '../../utils/download';
 import { uploadFile } from 'services/file';
-import { normalizeFileSize, extractFileExtension, extractFilename } from '../../services/file';
+import { normalizeFileSize, extractFileExtension, extractFilename } from '../../utils/file';
 import { Player } from './player';
 import { getFileTypeIcon } from './file-icon';
 import styles from './index.module.scss';

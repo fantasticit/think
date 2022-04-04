@@ -5,7 +5,7 @@ import { Tooltip } from 'components/tooltip';
 import { BubbleMenu } from '../../views/bubble-menu';
 import { Divider } from '../../divider';
 import { Banner } from '../../extensions/banner';
-import { deleteNode } from '../../services/delete-node';
+import { deleteNode } from '../../utils/delete-node';
 
 export const BannerBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
   return (

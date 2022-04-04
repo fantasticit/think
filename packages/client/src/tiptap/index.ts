@@ -4,7 +4,7 @@ import { CollaborationCursor } from './collaboration-cursor';
 import History from '@tiptap/extension-history';
 import { getRandomColor } from 'helpers/color';
 import { Document } from './extensions/document';
-export { BaseKit, CommentKit } from './basekit';
+export { BaseKit, CommentKit } from './start-kit';
 
 export { getSchema } from '@tiptap/core';
 export * from './menubar';

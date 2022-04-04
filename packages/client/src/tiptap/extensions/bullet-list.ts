@@ -1,5 +1,5 @@
 import { BulletList as BuiltInBulletList } from '@tiptap/extension-bullet-list';
-import { getMarkdownSource } from '../services/markdown';
+import { getMarkdownSource } from '../markdown/markdown-to-prosemirror';
 
 export const BulletList = BuiltInBulletList.extend({
   addAttributes() {

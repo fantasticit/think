@@ -1,6 +1,6 @@
 import { htmlToPromsemirror } from './html-to-prosemirror';
 import { markdownToHTML } from './markdown-to-html';
-export { prosemirrorToMarkdown } from './prosemirror-to-markdown';
+export { prosemirrorToMarkdown } from '../prosemirror-to-markdown';
 export * from './helpers';
 export * from './markdown-source-map';
 

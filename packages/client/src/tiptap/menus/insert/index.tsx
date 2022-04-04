@@ -17,7 +17,7 @@ import {
   IconCountdown,
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
-import { isTitleActive } from '../../services/is-active';
+import { isTitleActive } from '../../utils/is-active';
 import { createCountdown } from '../countdown/service';
 
 export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {

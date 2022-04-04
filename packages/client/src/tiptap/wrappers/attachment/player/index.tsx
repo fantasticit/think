@@ -7,7 +7,7 @@ import {
   extractFilename,
   normalizeFileType,
   FileType,
-} from '../../../services/file';
+} from '../../../utils/file';
 import { PDFPlayer } from './pdf-player';
 import styles from './index.module.scss';
 

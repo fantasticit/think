@@ -3,7 +3,7 @@ import { Editor } from '@tiptap/core';
 import { Button } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
 import { IconHorizontalRule } from 'components/icons';
-import { isTitleActive } from '../../services/is-active';
+import { isTitleActive } from '../../utils/is-active';
 
 export const HorizontalRule: React.FC<{ editor: Editor }> = ({ editor }) => {
   if (!editor) {

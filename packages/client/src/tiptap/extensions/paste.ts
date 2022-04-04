@@ -1,15 +1,15 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { EXTENSION_PRIORITY_HIGHEST } from '../constants';
-import { handleFileEvent } from '../services/upload';
-import { isInCode, LANGUAGES } from '../services/code';
+import { handleFileEvent } from '../utils/upload';
+import { isInCode, LANGUAGES } from '../utils/code';
 import {
   isMarkdown,
   normalizePastedMarkdown,
   markdownToProsemirror,
   prosemirrorToMarkdown,
-} from '../services/markdown';
-import { isTitleNode } from '../services/node';
+} from '../markdown/markdown-to-prosemirror';
+import { isTitleNode } from '../utils/node';
 
 export const Paste = Extension.create({
   name: 'paste',

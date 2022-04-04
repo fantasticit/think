@@ -5,7 +5,7 @@ import { TableHeader as BuiltInTableHeader } from '@tiptap/extension-table-heade
 import { Tooltip } from 'components/tooltip';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getCellsInRow, isColumnSelected, isTableSelected, selectColumn } from '../services/table';
+import { getCellsInRow, isColumnSelected, isTableSelected, selectColumn } from '../utils/table';
 import { FloatMenuView } from '../views/float-menu';
 
 // @flow

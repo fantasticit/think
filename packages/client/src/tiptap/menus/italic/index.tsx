@@ -3,7 +3,7 @@ import { Editor } from '@tiptap/core';
 import { Button } from '@douyinfe/semi-ui';
 import { IconItalic } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { isTitleActive } from '../../services/is-active';
+import { isTitleActive } from '../../utils/is-active';
 
 export const Italic: React.FC<{ editor: Editor }> = ({ editor }) => {
   if (!editor) {

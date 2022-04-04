@@ -2,7 +2,7 @@ import React from 'react';
 import { Editor } from '@tiptap/core';
 import { Button, Dropdown, Tooltip } from '@douyinfe/semi-ui';
 import { IconAlignLeft, IconAlignCenter, IconAlignRight, IconAlignJustify } from '@douyinfe/semi-icons';
-import { isTitleActive } from '../../services/is-active';
+import { isTitleActive } from '../../utils/is-active';
 
 export const Align: React.FC<{ editor: Editor }> = ({ editor }) => {
   const current = (() => {

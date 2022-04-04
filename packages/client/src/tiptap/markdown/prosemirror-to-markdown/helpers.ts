@@ -1,4 +1,4 @@
-import { jsonToStr } from '../../dataset';
+import { jsonToStr } from '../../utils/dataset';
 
 const uniq = (arr: string[]) => [...new Set(arr)];
 

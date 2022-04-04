@@ -1,7 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { StatusWrapper } from '../wrappers/status';
-import { getDatasetAttribute } from '../services/dataset';
+import { getDatasetAttribute } from '../utils/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

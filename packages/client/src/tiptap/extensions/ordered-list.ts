@@ -1,5 +1,5 @@
 import { OrderedList as BuiltInOrderedList } from '@tiptap/extension-ordered-list';
-import { getMarkdownSource } from '../services/markdown';
+import { getMarkdownSource } from '../markdown/markdown-to-prosemirror';
 
 export const OrderedList = BuiltInOrderedList.extend({
   addAttributes() {

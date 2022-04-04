@@ -1,8 +1,7 @@
-import { Node, Command, mergeAttributes, wrappingInputRule } from '@tiptap/core';
+import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { BannerWrapper } from '../wrappers/banner';
-import { typesAvailable } from '../services/markdown/markdown-to-html/markdownBanner';
-import { getDatasetAttribute } from '../services/dataset';
+import { getDatasetAttribute } from '../utils/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

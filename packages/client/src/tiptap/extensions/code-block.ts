@@ -2,7 +2,7 @@ import { lowlight } from 'lowlight/lib/all';
 import { Node, textblockTypeInputRule, mergeAttributes } from '@tiptap/core';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { LowlightPlugin } from '../services/lowlight-plugin';
+import { LowlightPlugin } from '../utils/lowlight-plugin';
 import { CodeBlockWrapper } from '../wrappers/code-block';
 
 export interface CodeBlockOptions {

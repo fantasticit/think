@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey, NodeSelection, TextSelection, Selection, AllSelection } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getCurrentNode, isInCodeBlock, isInBanner } from '../services/node';
+import { getCurrentNode, isInCodeBlock, isInBanner } from '../utils/node';
 import { EXTENSION_PRIORITY_HIGHEST } from '../constants';
 
 export const selectionPluginKey = new PluginKey('selection');

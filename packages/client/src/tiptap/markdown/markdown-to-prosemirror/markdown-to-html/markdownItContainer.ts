@@ -1,5 +1,5 @@
 import container from 'markdown-it-container';
-import { strToJSON, jsonToDOMDataset } from '../../dataset';
+import { strToJSON, jsonToDOMDataset } from '../../../utils/dataset';
 
 export const createMarkdownContainer = (types: string | Array<string>) => (md) => {
   if (!Array.isArray(types)) {

@@ -1,10 +1,10 @@
 import { Command, Extension } from '@tiptap/core';
 import { sinkListItem, liftListItem } from 'prosemirror-schema-list';
 import { TextSelection, AllSelection, Transaction } from 'prosemirror-state';
-import { isListActive } from '../services/is-active';
-import { clamp } from '../services/clamp';
-import { getNodeType } from '../services/type';
-import { isListNode } from '../services/node';
+import { isListActive } from '../utils/is-active';
+import { clamp } from '../utils/clamp';
+import { getNodeType } from '../utils/type';
+import { isListNode } from '../utils/node';
 
 type IndentOptions = {
   types: string[];

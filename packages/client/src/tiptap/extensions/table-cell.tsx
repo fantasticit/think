@@ -13,7 +13,7 @@ import {
   isTableSelected,
   selectRow,
   selectTable,
-} from '../services/table';
+} from '../utils/table';
 import { FloatMenuView } from '../views/float-menu';
 
 export const TableCell = BuiltInTableCell.extend({

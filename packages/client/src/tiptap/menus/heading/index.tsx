@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Editor } from '@tiptap/core';
 import { Select } from '@douyinfe/semi-ui';
-import { isTitleActive } from '../../services/is-active';
+import { isTitleActive } from '../../utils/is-active';
 
 const getCurrentCaretTitle = (editor) => {
   if (editor.isActive('heading', { level: 1 })) return 1;

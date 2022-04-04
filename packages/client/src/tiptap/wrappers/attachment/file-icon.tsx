@@ -1,5 +1,5 @@
 import { IconFile, IconSong, IconVideo, IconImage } from '@douyinfe/semi-icons';
-import { normalizeFileType } from '../../services/file';
+import { normalizeFileType } from '../../utils/file';
 
 export const getFileTypeIcon = (fileType: string) => {
   const type = normalizeFileType(fileType);

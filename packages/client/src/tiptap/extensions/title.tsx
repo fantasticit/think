@@ -1,6 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
-import { isInTitle } from '../services/node';
+import { isInTitle } from '../utils/node';
 import { TextSelection } from 'prosemirror-state';
 
 export interface TitleOptions {

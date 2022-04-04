@@ -1,6 +1,6 @@
 import { Mark, mergeAttributes, markInputRule } from '@tiptap/core';
 import { PARSE_HTML_PRIORITY_LOWEST } from '../constants';
-import { markInputRegex, extractMarkAttributesFromMatch } from '../services/mark-utils';
+import { markInputRegex, extractMarkAttributesFromMatch } from '../utils/mark-utils';
 
 export const marks = [{ name: 'underline', tag: 'u' }];
 

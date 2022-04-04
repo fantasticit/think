@@ -1,7 +1,7 @@
 import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentReferenceWrapper } from '../wrappers/document-reference';
-import { getDatasetAttribute } from '../services/dataset';
+import { getDatasetAttribute } from '../utils/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

@@ -1,4 +1,4 @@
-import { BaseKit } from '../../../basekit';
+import { BaseKit } from '../../../start-kit';
 
 /**
  * 通过 tiptap extension 的配置从 DOM 节点上获取属性值
@@ -17,11 +17,7 @@ const getAttribute = (
     accu[key] = conf.default;
 
     if (conf.parseHTML) {
-      // try {
       accu[key] = conf.parseHTML(element);
-      // } catch (e) {
-      //
-      // }
     }
 
     return accu;

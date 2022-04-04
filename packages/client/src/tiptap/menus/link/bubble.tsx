@@ -5,8 +5,8 @@ import { Tooltip } from 'components/tooltip';
 import { Divider } from '../../divider';
 import { BubbleMenu } from '../../views/bubble-menu';
 import { Link } from '../../extensions/link';
-import { isMarkActive } from '../../services/is-active';
-import { findMarkPosition } from '../../services/find-position';
+import { isMarkActive } from '../../utils/is-active';
+import { findMarkPosition } from '../../utils/find-position';
 import { triggerOpenLinkSettingModal } from '../_event';
 
 export const LinkBubbleMenu = ({ editor }) => {
