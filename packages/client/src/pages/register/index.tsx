@@ -17,8 +17,8 @@ const Page = () => {
   const onFinish = (values) => {
     registerWithLoading(values).then((res) => {
       Modal.confirm({
-        title: '注册成功',
-        content: '是否跳转至登录?',
+        title: <Title heading={5}>注册成功</Title>,
+        content: <Text>是否跳转至登录?</Text>,
         okText: '确认',
         cancelText: '取消',
         onOk() {
