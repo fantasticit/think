@@ -8,7 +8,7 @@ const suggestion = {
   items: async ({ query }) => {
     const res = await getUsers();
     const data = res.map((item) => item.name);
-    return data.filter((item) => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5);
+    return data.filter((item) => item.toLowerCase().startsWith(query.toLowerCase()));
   },
 
   render: () => {

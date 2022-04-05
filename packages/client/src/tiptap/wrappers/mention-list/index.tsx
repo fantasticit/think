@@ -1,11 +1,7 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
-import { Modal, Typography } from '@douyinfe/semi-ui';
-import { useRouter } from 'next/router';
 import { Editor } from '@tiptap/core';
 import cls from 'classnames';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { useUser } from 'data/user';
-import { useCollaborationDocument } from 'data/document';
 import styles from './index.module.scss';
 
 interface IProps {
@@ -14,64 +10,14 @@ interface IProps {
   command: any;
 }
 
-const { Title, Text } = Typography;
-
 export const MentionList: React.FC<IProps> = forwardRef((props, ref) => {
   const $container = useRef<HTMLDivElement>();
-  const router = useRouter();
-  const { user: currentUser } = useUser();
-  const { users, addUser, updateUser } = useCollaborationDocument(router.query.documentId);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selectItem = (index) => {
     const userName = props.items[index];
     if (!userName) return;
     props.command({ id: userName });
-
-    // const currentUserAuth = users.find((user) => {
-    //   return user.user.name === currentUser.name;
-    // });
-    // const isCurrentUserCreateUser = currentUserAuth.auth.createUserId === currentUser.id;
-
-    // const target = users.find((user) => {
-    //   return user.user.name === userName;
-    // });
-
-    // if (isCurrentUserCreateUser) {
-    //   if (!target) {
-    //     Modal.confirm({
-    //       title: <Title heading={5}>权限操作</Title>,
-    //       content: <Text>当前用户尚未加入该文档，是否添加他？</Text>,
-    //       onCancel: () => {},
-    //       onOk: async () => {
-    //         addUser(userName).then((res) => {
-    //           console.log('用户已经添加', res);
-    //           props.command({ id: userName });
-    //         });
-    //       },
-    //     });
-    //   } else {
-    //     if (!target.auth.readable) {
-    //       Modal.confirm({
-    //         title: <Title heading={5}>权限操作</Title>,
-    //         content: <Text>当前用户无法阅读该文档，是否添加阅读权限？</Text>,
-    //         onCancel: () => {},
-    //         onOk: async () => {
-    //           updateUser({
-    //             userName,
-    //             readable: true,
-    //             editable: target.auth.editable,
-    //           }).then((res) => {
-    //             props.command({ id: userName });
-    //           });
-    //         },
-    //       });
-    //     } else {
-    //       props.command({ id: userName });
-    //     }
-    //   }
-    // } else {
-    // }
   };
 
   const upHandler = () => {
