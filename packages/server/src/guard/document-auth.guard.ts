@@ -49,12 +49,12 @@ export class DocumentAuthorityGuard implements CanActivate {
 
     if (needAuth === 'createUser') {
       if (document.createUserId !== user.id) {
-        throw new HttpException('您不是该文档的创建者，无法删除', HttpStatus.FORBIDDEN);
+        throw new HttpException('您不是该文档的创建者，无法操作', HttpStatus.FORBIDDEN);
       }
     } else if (needAuth) {
       const authority = await this.documentService.getDocumentAuthority(documentId, user.id);
       if (!authority || !authority[needAuth]) {
-        throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
+        throw new HttpException('您无权操作此文档', HttpStatus.FORBIDDEN);
       }
     }
 

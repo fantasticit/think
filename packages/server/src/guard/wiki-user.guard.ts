@@ -46,7 +46,7 @@ export class WikiUserRoleGuard implements CanActivate {
     const wikiUser = await this.wikiService.findWikiUser(wikiId, user.id);
 
     if (!wikiUser && targetUserRole && wikiUser.userRole !== targetUserRole) {
-      throw new HttpException('您无权查看该知识库', HttpStatus.FORBIDDEN);
+      throw new HttpException('您无权操作该知识库', HttpStatus.FORBIDDEN);
     }
 
     return true;
