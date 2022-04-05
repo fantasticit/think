@@ -7,6 +7,7 @@ import {
   Request,
   UseGuards,
   UseInterceptors,
+  Get,
   Patch,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
@@ -41,5 +42,13 @@ export class UserController {
   @UseGuards(JwtGuard)
   async updateUser(@Request() req, @Body() dto: UpdateUserDto) {
     return await this.userService.updateUser(req.user, dto);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtGuard)
+  async getUsers() {
+    return this.userService.getUsers();
   }
 }
