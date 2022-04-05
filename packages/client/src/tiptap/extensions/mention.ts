@@ -57,34 +57,6 @@ const suggestion = {
       },
     };
   },
-
-  command: ({ editor, range, props }) => {
-    // increase range.to by one when the next node is of type "text"
-    // and starts with a space character
-    const nodeAfter = editor.view.state.selection.$to.nodeAfter;
-    const overrideSpace = nodeAfter?.text?.startsWith(' ');
-
-    if (overrideSpace) {
-      range.to += 1;
-    }
-
-    console.log('mention', props);
-
-    editor
-      .chain()
-      .focus()
-      .insertContentAt(range, [
-        {
-          type: BulitInMention.name,
-          attrs: props,
-        },
-        {
-          type: 'text',
-          text: ' ',
-        },
-      ])
-      .run();
-  },
 };
 
 export const Mention = BulitInMention.configure({

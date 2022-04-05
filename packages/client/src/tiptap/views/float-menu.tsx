@@ -37,7 +37,6 @@ export class FloatMenuView {
     }
     if (isNodeSelection(state.selection)) {
       const node = view.nodeDOM(range.from) as HTMLElement;
-      console.log(node);
 
       if (node) {
         return node.getBoundingClientRect();
