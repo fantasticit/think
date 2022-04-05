@@ -1,17 +1,9 @@
-import type { IUser, IDocument, IWiki } from '@think/domains';
+import type { IUser, IDocument, IWiki, IAuthority } from '@think/domains';
 import useSWR from 'swr';
 import { useState, useCallback, useEffect } from 'react';
 import { useAsyncLoading } from 'hooks/use-async-loading';
 import { HttpClient } from 'services/http-client';
 import { getPublicDocumentDetail } from 'services/document';
-
-interface IAuthority {
-  id: string;
-  documentId: string;
-  userId: string;
-  readable: boolean;
-  editable: boolean;
-}
 
 type ICreateDocument = Partial<Pick<IDocument, 'wikiId' | 'parentDocumentId'>>;
 type IDocumentWithAuth = { document: IDocument; authority: IAuthority };
@@ -171,13 +163,18 @@ export const usePublicDocument = (documentId: string) => {
   };
 };
 
+export type DocAuth = {
+  userName: string;
+  readable?: boolean;
+  editable?: boolean;
+};
 /**
  * 协作文档
  * @param documentId
  * @returns
  */
 export const useCollaborationDocument = (documentId) => {
-  const { data, error, mutate } = useSWR<Array<IAuthority & IUser>>(
+  const { data, error, mutate } = useSWR<Array<{ user: IUser; auth: IAuthority }>>(
     `/document/user/${documentId}`,
     (url) => HttpClient.get(url),
     { shouldRetryOnError: false }
@@ -195,7 +192,7 @@ export const useCollaborationDocument = (documentId) => {
     return ret;
   };
 
-  const updateUser = async (docAuth) => {
+  const updateUser = async (docAuth: DocAuth) => {
     const ret = await HttpClient.post(`/document/user/${documentId}/update`, {
       documentId,
       ...docAuth,
@@ -204,7 +201,7 @@ export const useCollaborationDocument = (documentId) => {
     return ret;
   };
 
-  const deleteUser = async (docAuth) => {
+  const deleteUser = async (docAuth: DocAuth) => {
     const ret = await HttpClient.post(`/document/user/${documentId}/delete`, {
       documentId,
       ...docAuth,

@@ -12,7 +12,6 @@ interface IProps {
 
 export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
   const $container = useRef<HTMLDivElement>();
-  const $image = useRef<HTMLInputElement>();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selectItem = (index) => {
@@ -33,10 +32,6 @@ export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
 
   const enterHandler = () => {
     selectItem(selectedIndex);
-  };
-
-  const handleSelectImage = function () {
-    console.log('image', this.files);
   };
 
   useEffect(() => setSelectedIndex(0), [props.items]);

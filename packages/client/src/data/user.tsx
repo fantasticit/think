@@ -7,7 +7,7 @@ import { getStorage, setStorage } from 'helpers/storage';
 
 export const useUser = () => {
   const router = useRouter();
-  const { data, error, mutate } = useSWR('user', getStorage);
+  const { data, error, mutate } = useSWR<ILoginUser>('user', getStorage);
 
   const logout = useCallback(() => {
     window.localStorage.removeItem('user');
@@ -29,7 +29,7 @@ export const useUser = () => {
 
   const updateUser = async (patch: Pick<IUser, 'email' | 'avatar'>) => {
     const res = await HttpClient.patch('/user/update', patch);
-    const ret = { ...data, ...res } as unknown as IUser;
+    const ret = { ...data, ...res } as unknown as ILoginUser;
     setStorage('user', JSON.stringify(ret));
     mutate(ret);
   };

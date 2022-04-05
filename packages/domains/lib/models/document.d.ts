@@ -27,4 +27,5 @@ export interface IAuthority {
     userId: IUser['id'];
     readable: boolean;
     editable: boolean;
+    createUserId: IUser['id'];
 }
