@@ -2,6 +2,7 @@ import BulitInMention from '@tiptap/extension-mention';
 import { ReactRenderer } from '@tiptap/react';
 import tippy from 'tippy.js';
 import { getUsers } from 'services/user';
+import { getDatasetAttribute } from '../utils/dataset';
 import { MentionList } from '../wrappers/mention-list';
 
 const suggestion = {
@@ -59,7 +60,20 @@ const suggestion = {
   },
 };
 
-export const Mention = BulitInMention.configure({
+export const Mention = BulitInMention.extend({
+  addAttributes() {
+    return {
+      id: {
+        default: '',
+        parseHTML: getDatasetAttribute('id'),
+      },
+      label: {
+        default: '',
+        parseHTML: getDatasetAttribute('label'),
+      },
+    };
+  },
+}).configure({
   HTMLAttributes: {
     class: 'mention',
   },

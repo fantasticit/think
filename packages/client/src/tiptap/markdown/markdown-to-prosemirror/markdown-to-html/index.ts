@@ -18,6 +18,7 @@ const markdownCountdown = createMarkdownContainer('countdown');
 const markdownDocumentReference = createMarkdownContainer('documentReference');
 const markdownDocumentChildren = createMarkdownContainer('documentChildren');
 const markdownIframe = createMarkdownContainer('iframe');
+const markdownMention = createMarkdownContainer('mention');
 const markdownMind = createMarkdownContainer('mind');
 
 const markdown = markdownit('commonmark')
@@ -37,6 +38,7 @@ const markdown = markdownit('commonmark')
   .use(markdownCountdown)
   .use(markdownIframe)
   .use(markdownStatus)
+  .use(markdownMention)
   .use(markdownMind)
   .use(markdownDocumentReference)
   .use(markdownDocumentChildren);

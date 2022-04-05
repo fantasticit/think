@@ -17,7 +17,7 @@ export const MentionList: React.FC<IProps> = forwardRef((props, ref) => {
   const selectItem = (index) => {
     const userName = props.items[index];
     if (!userName) return;
-    props.command({ id: userName });
+    props.command({ id: userName, label: userName });
   };
 
   const upHandler = () => {

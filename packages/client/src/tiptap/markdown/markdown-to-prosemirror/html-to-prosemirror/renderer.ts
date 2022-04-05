@@ -5,6 +5,7 @@ import { Banner } from './nodes/banner';
 import { Status } from './nodes/status';
 import { DocumentReference } from './nodes/document-reference';
 import { DocumentChildren } from './nodes/document-children';
+import { Mention } from './nodes/mention';
 import { Mind } from './nodes/mind';
 // 通用
 import { CodeBlock } from './nodes/code-block';
@@ -57,6 +58,7 @@ export class Renderer {
       Banner,
       Iframe,
       Status,
+      Mention,
       Mind,
       DocumentChildren,
       DocumentReference,

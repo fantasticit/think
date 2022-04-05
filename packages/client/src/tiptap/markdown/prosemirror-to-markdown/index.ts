@@ -12,6 +12,7 @@ import { HardBreak } from '../../extensions/hard-break';
 import { Heading } from '../../extensions/heading';
 import { HorizontalRule } from '../../extensions/horizontal-rule';
 import { marks } from '../../extensions/html-marks';
+import { Mention } from '../../extensions/mention';
 import { Iframe } from '../../extensions/iframe';
 import { Image } from '../../extensions/image';
 import { Italic } from '../../extensions/italic';
@@ -134,6 +135,7 @@ const SerializerConfig = {
     },
     [ListItem.name]: defaultMarkdownSerializer.nodes.list_item,
     [Mind.name]: renderCustomContainer('mind'),
+    [Mention.name]: renderCustomContainer('mention'),
     [OrderedList.name]: renderOrderedList,
     [Paragraph.name]: defaultMarkdownSerializer.nodes.paragraph,
     [Status.name]: renderCustomContainer('status'),
