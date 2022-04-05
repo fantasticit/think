@@ -28,6 +28,7 @@ import { Katex } from './extensions/katex';
 import { Link } from './extensions/link';
 import { ListItem } from './extensions/listItem';
 import { Loading } from './extensions/loading';
+import { Mention } from './extensions/mention';
 import { Mind } from './extensions/mind';
 import { OrderedList } from './extensions/ordered-list';
 import { Paragraph } from './extensions/paragraph';
@@ -84,6 +85,7 @@ export const BaseKit = [
   Link,
   ListItem,
   Loading,
+  Mention,
   Mind,
   OrderedList,
   Paragraph,
@@ -132,6 +134,7 @@ export const CommentKit = [
   Katex,
   Link,
   ListItem,
+  Mention,
   OrderedList,
   Paragraph,
   Placeholder,

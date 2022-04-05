@@ -1,4 +1,5 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import Router from 'next/router';
+import React, { useMemo, useEffect, useState, useRef } from 'react';
 import cls from 'classnames';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { BackTop } from '@douyinfe/semi-ui';
@@ -17,10 +18,13 @@ import {
   getIndexdbProvider,
   destoryIndexdbProvider,
 } from 'tiptap';
+import { findMentions } from 'tiptap/utils/find-mention';
+import { useCollaborationDocument } from 'data/document';
 import { DataRender } from 'components/data-render';
 import { Banner } from 'components/banner';
 import { debounce } from 'helpers/debounce';
 import { event, triggerChangeDocumentTitle, triggerJoinUser, USE_DOCUMENT_VERSION } from 'event';
+import { DocumentUserSetting } from './users';
 import styles from './index.module.scss';
 
 interface IProps {
@@ -31,8 +35,10 @@ interface IProps {
   style: React.CSSProperties;
 }
 
-export const Editor: React.FC<IProps> = ({ user, documentId, authority, className, style }) => {
-  if (!user) return null;
+export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, authority, className, style }) => {
+  if (!currentUser) return null;
+  const $hasShowUserSettingModal = useRef(false);
+  const { users, addUser, updateUser } = useCollaborationDocument(documentId);
   const [status, setStatus] = useState<ProviderStatus>('connecting');
   const { online } = useNetwork();
   const [loading, toggleLoading] = useToggle(true);
@@ -40,9 +46,9 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
   const provider = useMemo(() => {
     return getProvider({
       targetId: documentId,
-      token: user.token,
+      token: currentUser.token,
       cacheType: 'EDITOR',
-      user,
+      user: currentUser,
       docType: 'document',
       events: {
         onAwarenessUpdate({ states }) {
@@ -57,15 +63,14 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
         },
       },
     });
-  }, [documentId, user.token]);
-
+  }, [documentId, currentUser.token]);
   const editor = useEditor({
     editable: authority && authority.editable,
     extensions: [
       ...BaseKit,
       DocumentWithTitle,
       getCollaborationExtension(provider),
-      getCollaborationCursorExtension(provider, user),
+      getCollaborationCursorExtension(provider, currentUser),
     ],
     onTransaction: debounce(({ transaction }) => {
       try {
@@ -74,6 +79,8 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
       } catch (e) {}
     }, 50),
   });
+  const [mentionUsersSettingVisible, toggleMentionUsersSettingVisible] = useToggle(false);
+  const [mentionUsers, setMentionUsers] = useState([]);
 
   useEffect(() => {
     const indexdbProvider = getIndexdbProvider(documentId, provider.document);
@@ -96,10 +103,60 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
     if (!editor) return;
     const handler = (data) => editor.commands.setContent(data);
     event.on(USE_DOCUMENT_VERSION, handler);
+
     return () => {
       event.off(USE_DOCUMENT_VERSION, handler);
     };
   }, [editor]);
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const handler = () => {
+      // 已经拦截过一次，不再拦截
+      if ($hasShowUserSettingModal.current) return;
+
+      const mentionUsers = findMentions(editor);
+      if (!mentionUsers || !mentionUsers.length) return;
+
+      const currentUserAuth = users.find((user) => {
+        return user.user.name === currentUser.name;
+      });
+      const isCurrentUserCreateUser = currentUserAuth.auth.createUserId === currentUser.id;
+
+      if (!isCurrentUserCreateUser) {
+        return;
+      }
+
+      const data = Array.from(new Set(mentionUsers))
+        .filter((userName) => {
+          const exist = users.find((user) => {
+            return user.user.name === userName;
+          });
+          if (!exist || !exist.auth.readable) return true;
+          return false;
+        })
+        .filter(Boolean);
+
+      if (!data.length) return;
+
+      setMentionUsers(data);
+      toggleMentionUsersSettingVisible(true);
+      $hasShowUserSettingModal.current = true;
+      // ignore-me
+      const newErr = new Error('请完成权限操作后关闭页面');
+      throw newErr;
+    };
+
+    Router.events.on('routeChangeStart', handler);
+    window.addEventListener('unload', handler);
+
+    return () => {
+      $hasShowUserSettingModal.current = false;
+      Router.events.off('routeChangeStart', handler);
+      window.removeEventListener('unload', handler);
+    };
+  }, [editor, users, currentUser]);
 
   return (
     <DataRender
@@ -125,6 +182,14 @@ export const Editor: React.FC<IProps> = ({ user, documentId, authority, classNam
               </div>
               <BackTop target={() => document.querySelector('#js-template-editor-container')} />
             </main>
+            <DocumentUserSetting
+              visible={mentionUsersSettingVisible}
+              toggleVisible={toggleMentionUsersSettingVisible}
+              mentionUsers={mentionUsers}
+              users={users}
+              addUser={addUser}
+              updateUser={updateUser}
+            />
           </div>
         );
       }}

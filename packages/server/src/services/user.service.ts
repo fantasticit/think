@@ -149,4 +149,15 @@ export class UserService {
     const user = this.jwtService.decode(token) as UserEntity;
     return user;
   }
+
+  /**
+   * 获取用户列表
+   * @param pagination
+   * @returns
+   */
+  async getUsers() {
+    const query = this.userRepo.createQueryBuilder('user');
+    const [data] = await query.getManyAndCount();
+    return data;
+  }
 }
