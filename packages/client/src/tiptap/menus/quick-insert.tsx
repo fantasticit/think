@@ -219,7 +219,14 @@ export const QUICK_INSERT_ITEMS = [
         状态
       </Space>
     ),
-    command: (editor: Editor) => editor.chain().focus().setStatus().run(),
+    command: (editor: Editor) =>
+      editor
+        .chain()
+        .focus()
+        .setStatus({
+          defaultShowPicker: true,
+        })
+        .run(),
   },
 
   {

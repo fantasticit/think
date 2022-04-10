@@ -86,7 +86,7 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
           <Dropdown.Divider />
           <Dropdown.Title>卡片</Dropdown.Title>
 
-          <Dropdown.Item onClick={() => editor.chain().focus().setStatus().run()}>
+          <Dropdown.Item onClick={() => editor.chain().focus().setStatus({ defaultShowPicker: true }).run()}>
             <IconStatus /> 状态
           </Dropdown.Item>
 

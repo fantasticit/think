@@ -3,10 +3,16 @@ import { ReactNodeViewRenderer } from '@tiptap/react';
 import { StatusWrapper } from '../wrappers/status';
 import { getDatasetAttribute } from '../utils/dataset';
 
+type IStatusAttrs = {
+  color?: string;
+  text?: string;
+  defaultShowPicker?: boolean;
+};
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     status: {
-      setStatus: () => ReturnType;
+      setStatus: (arg: IStatusAttrs) => ReturnType;
     };
   }
 }
@@ -21,12 +27,15 @@ export const Status = Node.create({
   addAttributes() {
     return {
       color: {
-        default: 'grey',
+        default: '#FFA39E',
         parseHTML: getDatasetAttribute('color'),
       },
       text: {
-        default: '',
+        default: '请设置状态内容',
         parseHTML: getDatasetAttribute('text'),
+      },
+      defaultShowPicker: {
+        default: false,
       },
     };
   },
