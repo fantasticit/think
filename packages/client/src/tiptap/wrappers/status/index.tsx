@@ -76,6 +76,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   useEffect(() => {
     if (defaultShowPicker) {
       toggleVisible(true);
+      setTimeout(() => ref.current?.focus(), 100);
     }
   }, [defaultShowPicker]);
 
