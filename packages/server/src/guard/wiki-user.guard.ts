@@ -34,6 +34,10 @@ export class WikiUserRoleGuard implements CanActivate {
 
     const user = this.jwtService.decode(token) as IUser;
 
+    if (!user) {
+      throw new HttpException('请登录', HttpStatus.UNAUTHORIZED);
+    }
+
     const { params, query, body } = request;
     const wikiId = params?.id || params?.wikiId || query?.id || query?.wikiId || body?.wikiId;
 
