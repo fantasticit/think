@@ -35,7 +35,7 @@ export class WikiUserRoleGuard implements CanActivate {
     const user = this.jwtService.decode(token) as IUser;
 
     const { params, query, body } = request;
-    const wikiId = params.id || params.wikiId || query.id || query.wikiId || body.wikiId;
+    const wikiId = params?.id || params?.wikiId || query?.id || query?.wikiId || body?.wikiId;
 
     const wiki = await this.wikiService.findById(wikiId);
 

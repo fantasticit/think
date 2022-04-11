@@ -19,7 +19,7 @@ export class WikiStatusGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const { params, query, body } = request;
-    const wikiId = params.id || params.wikiId || query.id || query.wikiId || body.wikiId;
+    const wikiId = params?.id || params?.wikiId || query?.id || query?.wikiId || body?.wikiId;
 
     const wiki = await this.wikiService.findById(wikiId);
 

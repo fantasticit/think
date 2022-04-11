@@ -32,7 +32,8 @@ export class DocumentAuthorityGuard implements CanActivate {
 
     const user = this.jwtService.decode(token) as IUser;
     const { params, query, body } = request;
-    const documentId = params.id || params.documentId || query.id || query.documentId || body.documentId;
+    const documentId = params?.id || params?.documentId || query?.id || query?.documentId || body?.documentId;
+
     let document = null;
 
     if (documentId) {

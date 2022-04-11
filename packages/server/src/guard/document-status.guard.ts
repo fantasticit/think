@@ -19,7 +19,7 @@ export class DocumentStatusGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const { params, query, body } = request;
-    const documentId = params.id || params.documentId || query.id || query.documentId || body.documentId;
+    const documentId = params?.id || params?.documentId || query?.id || query?.documentId || body?.documentId;
 
     let document = null;
 
