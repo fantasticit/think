@@ -25,8 +25,6 @@ import { UpdateWikiDto } from '@dtos/update-wiki.dto';
 import { ShareWikiDto } from '@dtos/share-wiki.dto';
 
 @Controller('wiki')
-@UseGuards(WikiUserRoleGuard)
-@UseGuards(WikiStatusGuard)
 export class WikiController {
   constructor(private readonly wikiService: WikiService) {}
 
@@ -96,6 +94,7 @@ export class WikiController {
   @Get('detail/:id')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole()
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async getWikiDetail(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.getWikiDetail(req.user, wikiId);
@@ -111,6 +110,7 @@ export class WikiController {
   @Get('homedoc/:id')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole()
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async getWikiHomeDocument(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.getWikiHomeDocument(req.user, wikiId);
@@ -128,6 +128,7 @@ export class WikiController {
   @Patch('update/:id')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole(WikiUserRole.admin)
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async updateWiki(@Request() req, @Param('id') wikiId, @Body() dto: UpdateWikiDto) {
     return await this.wikiService.updateWiki(req.user, wikiId, dto);
@@ -144,6 +145,7 @@ export class WikiController {
   @Delete('delete/:id')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole(WikiUserRole.admin)
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async deleteWiki(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.deleteWiki(req.user, wikiId);
@@ -160,6 +162,7 @@ export class WikiController {
   @Get('user/:id')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole(WikiUserRole.admin)
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async getWikiUsers(@Param('id') wikiId) {
     return await this.wikiService.getWikiUsers(wikiId);
@@ -177,6 +180,7 @@ export class WikiController {
   @Post('user/:id/add')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole(WikiUserRole.admin)
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async addWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: WikiUserDto) {
     return await this.wikiService.addWikiUser(req.user, wikiId, dto);
@@ -194,6 +198,7 @@ export class WikiController {
   @Post('user/:id/update')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole(WikiUserRole.admin)
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async updateWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: WikiUserDto) {
     return await this.wikiService.updateWikiUser(req.user, wikiId, dto);
@@ -211,6 +216,7 @@ export class WikiController {
   @Post('user/:id/delete')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole(WikiUserRole.admin)
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async deleteWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: WikiUserDto) {
     return await this.wikiService.deleteWikiUser(req.user, wikiId, dto);
@@ -228,6 +234,7 @@ export class WikiController {
   @Post('share/:id')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole(WikiUserRole.admin)
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async toggleWorkspaceStatus(@Request() req, @Param('id') wikiId, @Body() dto: ShareWikiDto) {
     return await this.wikiService.shareWiki(req.user, wikiId, dto);
@@ -243,6 +250,7 @@ export class WikiController {
   @Get('tocs/:id')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole()
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async getWikiTocs(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.getWikiTocs(req.user, wikiId);
@@ -259,6 +267,7 @@ export class WikiController {
   @Post('tocs/:id/update')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole()
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async orderWikiTocs(@Body() relations) {
     return await this.wikiService.orderWikiTocs(relations);
@@ -274,6 +283,7 @@ export class WikiController {
   @Get('docs/:id')
   @HttpCode(HttpStatus.OK)
   @CheckWikiUserRole()
+  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async getWikiDocs(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.getWikiDocs(req.user, wikiId);
@@ -288,6 +298,7 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('public/homedoc/:id')
   @CheckWikiStatus(WikiStatus.public)
+  @UseGuards(WikiStatusGuard)
   @HttpCode(HttpStatus.OK)
   async getWikiPublicHomeDocument(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.getPublicWikiHomeDocument(wikiId, req.headers['user-agent']);
@@ -301,6 +312,7 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('public/detail/:id')
   @CheckWikiStatus(WikiStatus.public)
+  @UseGuards(WikiStatusGuard)
   @HttpCode(HttpStatus.OK)
   async getPublicWorkspaceDetail(@Param('id') wikiId) {
     return await this.wikiService.getPublicWikiDetail(wikiId);
@@ -312,9 +324,10 @@ export class WikiController {
    * @returns
    */
   @UseInterceptors(ClassSerializerInterceptor)
+  @HttpCode(HttpStatus.OK)
   @Post('public/tocs/:id')
   @CheckWikiStatus(WikiStatus.public)
-  @HttpCode(HttpStatus.OK)
+  @UseGuards(WikiStatusGuard)
   async getPublicWikiTocs(@Param('id') wikiId) {
     return await this.wikiService.getPublicWikiTocs(wikiId);
   }
@@ -325,8 +338,8 @@ export class WikiController {
    * @returns
    */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('public/wikis')
   @HttpCode(HttpStatus.OK)
+  @Get('public/wikis')
   async getAllPublicWikis(@Query() pagination: IPagination) {
     return await this.wikiService.getAllPublicWikis(pagination);
   }
