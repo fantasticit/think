@@ -495,6 +495,7 @@ export class DocumentService {
     if (document.isWikiHome) {
       unSortDocuments = await this.documentRepo.find({
         wikiId: document.wikiId,
+        parentDocumentId: null,
         isWikiHome: false,
       });
     } else {

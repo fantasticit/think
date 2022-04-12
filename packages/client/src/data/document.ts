@@ -221,8 +221,11 @@ export const useCollaborationDocument = (documentId) => {
  */
 export const useChildrenDocument = ({ wikiId, documentId, isShare = false }) => {
   const { data, error, mutate } = useSWR<Array<IDocument>>(
-    isShare ? '/document/public/children' : `/document/children`,
-    wikiId || documentId ? (url) => HttpClient.post(url, { wikiId, documentId, isShare }) : null,
+    wikiId + '/' + documentId,
+    wikiId || documentId
+      ? () =>
+          HttpClient.post(isShare ? '/document/public/children' : `/document/children`, { wikiId, documentId, isShare })
+      : null,
     { shouldRetryOnError: false }
   );
   const loading = !data && !error;
