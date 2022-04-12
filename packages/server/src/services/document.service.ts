@@ -548,13 +548,13 @@ export class DocumentService {
     if (document.isWikiHome) {
       unSortDocuments = await this.documentRepo.find({
         wikiId: document.wikiId,
+        parentDocumentId: null,
         status: DocumentStatus.public,
         isWikiHome: false,
       });
     } else {
       unSortDocuments = await this.documentRepo.find({
         wikiId: document.wikiId,
-
         parentDocumentId: documentId,
         status: DocumentStatus.public,
         isWikiHome: false,
