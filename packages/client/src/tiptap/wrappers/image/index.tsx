@@ -1,17 +1,15 @@
-import Image from 'next/image';
 import cls from 'classnames';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
-import { Resizeable } from 'components/resizeable';
 import { Typography, Spin } from '@douyinfe/semi-ui';
+import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { Resizeable } from 'components/resizeable';
 import { useToggle } from 'hooks/use-toggle';
 import { uploadFile } from 'services/file';
 import { extractFileExtension, extractFilename, getImageWidthHeight } from '../../utils/file';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
-
-const isNumber = (v) => typeof v === 'number';
 
 export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
@@ -78,12 +76,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
       );
     }
 
-    const img =
-      isNumber(width) && isNumber(height) ? (
-        <Image src={src} alt={alt} width={width} height={height} layout="responsive" />
-      ) : (
-        <img src={src} alt={alt} width={width} height={height} />
-      );
+    const img = <LazyLoadImage src={src} alt={alt} width={width} height={height} />;
 
     if (isEditable) {
       return (

@@ -106,6 +106,7 @@ importers:
       react-countdown: ^2.3.2
       react-dom: 17.0.2
       react-helmet: ^6.1.0
+      react-lazy-load-image-component: ^1.5.4
       react-pdf: ^5.7.2
       react-split-pane: ^0.1.92
       scroll-into-view-if-needed: ^2.2.29
@@ -187,6 +188,7 @@ importers:
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-helmet: 6.1.0_react@17.0.2
+      react-lazy-load-image-component: 1.5.4_react-dom@17.0.2+react@17.0.2
       react-pdf: 5.7.2_react-dom@17.0.2+react@17.0.2
       react-split-pane: 0.1.92_react-dom@17.0.2+react@17.0.2
       scroll-into-view-if-needed: 2.2.29
@@ -5507,6 +5509,10 @@ packages:
       p-locate: 4.1.0
     dev: true
 
+  /lodash.debounce/4.0.8:
+    resolution: {integrity: sha1-gteb/zCmfEAF/9XiUVMArZyk168=}
+    dev: false
+
   /lodash.defaults/4.2.0:
     resolution: {integrity: sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=}
     dev: false
@@ -5545,6 +5551,10 @@ packages:
 
   /lodash.once/4.1.1:
     resolution: {integrity: sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=}
+    dev: false
+
+  /lodash.throttle/4.1.1:
+    resolution: {integrity: sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=}
     dev: false
 
   /lodash.truncate/4.4.2:
@@ -6730,6 +6740,18 @@ packages:
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
     dev: true
+
+  /react-lazy-load-image-component/1.5.4_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-PSi9tckzZmiqfYZwS6ke2RoRbICsN5m0qsG6fEjUdQNe5STiJieXLlRuGD3uAASOQPFiKYFSLoueN07nk0uffw==}
+    peerDependencies:
+      react: ^15.x.x || ^16.x.x || ^17.x.x || ^18.x.x
+      react-dom: ^15.x.x || ^16.x.x || ^17.x.x || ^18.x.x
+    dependencies:
+      lodash.debounce: 4.0.8
+      lodash.throttle: 4.1.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
 
   /react-lifecycles-compat/3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
