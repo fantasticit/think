@@ -13,8 +13,8 @@ interface IProps {
   wikiId: string;
 }
 
-export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
-  const { data: workspace, loading: workspaceLoading, toggleStatus: toggleWorkspaceStatus } = useWikiDetail(wikiId);
+export const Documents: React.FC<IProps> = ({ wikiId }) => {
+  const { data: wiki, loading: wikiLoading, toggleStatus: toggleWorkspaceStatus } = useWikiDetail(wikiId);
   const { data: tocs, loading } = useWikiTocs(wikiId);
   const documents = flattenTree2Array(tocs).map((d) => {
     d.label = d.title;
@@ -22,7 +22,7 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
     return d;
   });
   const [nextStatus, setNextStatus] = useState('');
-  const isPublic = useMemo(() => workspace && isPublicWiki(workspace.status), [workspace]);
+  const isPublic = useMemo(() => wiki && isPublicWiki(wiki.status), [wiki]);
   const [publicDocumentIds, setPublicDocumentIds] = useState([]); // 公开的
   const privateDocumentIds = useMemo(() => {
     return documents.filter((doc) => !publicDocumentIds.includes(doc.id)).map((doc) => doc.id);
@@ -69,9 +69,9 @@ export const WorkspaceDocs: React.FC<IProps> = ({ wikiId }) => {
   }, []);
 
   useEffect(() => {
-    if (!workspace) return;
-    setNextStatus(workspace.status);
-  }, [workspace]);
+    if (!wiki) return;
+    setNextStatus(wiki.status);
+  }, [wiki]);
 
   useEffect(() => {
     if (!documents.length) return;

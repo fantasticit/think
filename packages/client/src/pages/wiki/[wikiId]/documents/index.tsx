@@ -1,16 +1,17 @@
 import { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
-import { Typography, List, Tabs, TabPane, Tree } from '@douyinfe/semi-ui';
+import { Typography, List, Tabs, TabPane } from '@douyinfe/semi-ui';
 import { CreateDocumentIllustration } from 'illustrations/create-document';
 import { DoubleColumnLayout } from 'layouts/double-column';
+import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
 import { WikiTocs } from 'components/wiki/tocs';
 import { WikiTocsManager } from 'components/wiki/tocs/manager';
-import { useWikiDocs } from 'data/wiki';
 import { DocumentCardPlaceholder, DocumentCard } from 'components/document/card';
 import { Empty } from 'components/empty';
 import { DocumentCreator } from 'components/document-creator';
+import { useWikiDocs } from 'data/wiki';
 
 interface IProps {
   wikiId: string;
@@ -79,9 +80,10 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
 
   return (
     <DoubleColumnLayout
-      leftNode={<WikiTocs pageTitle="文档管理" wikiId={wikiId} />}
+      leftNode={<WikiTocs wikiId={wikiId} />}
       rightNode={
         <>
+          <Seo title={tab === 'documents' ? '全部文档' : '目录管理'} />
           <Title heading={3} style={{ marginBottom: 24 }}>
             文档管理
           </Title>

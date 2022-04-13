@@ -4,8 +4,6 @@ import { Avatar, Button, Typography, Skeleton, Tooltip } from '@douyinfe/semi-ui
 import { IconPlus } from '@douyinfe/semi-icons';
 import { isPublicWiki } from '@think/domains';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
-import { useToggle } from 'hooks/use-toggle';
-import { Seo } from 'components/seo';
 import { findParents } from 'components/wiki/tocs/utils';
 import { IconDocument, IconSetting, IconOverview, IconGlobe } from 'components/icons';
 import { DataRender } from 'components/data-render';
@@ -19,20 +17,19 @@ interface IProps {
   documentId?: string;
   docAsLink?: string;
   getDocLink?: (arg: string) => string;
-  pageTitle: string;
+  // pageTitle: string;
 }
 
 const { Text } = Typography;
 
 export const WikiTocs: React.FC<IProps> = ({
-  pageTitle,
+  // pageTitle,
   wikiId,
   documentId = null,
   docAsLink = '/wiki/[wikiId]/document/[documentId]',
   getDocLink = (documentId) => `/wiki/${wikiId}/document/${documentId}`,
 }) => {
   const { pathname } = useRouter();
-  const [visible, toggleVisible] = useToggle(false);
   const { data: wiki, loading: wikiLoading, error: wikiError } = useWikiDetail(wikiId);
   const { data: tocs, loading: tocsLoading, error: tocsError, refresh } = useWikiTocs(wikiId);
   const [parentIds, setParentIds] = useState<Array<string>>([]);
@@ -74,28 +71,25 @@ export const WikiTocs: React.FC<IProps> = ({
         }
         error={wikiError}
         normalContent={() => (
-          <>
-            <Seo title={wiki.name + ' - ' + pageTitle} />
-            <NavItem
-              icon={
-                <Avatar
-                  shape="square"
-                  size="small"
-                  src={wiki.avatar}
-                  style={{
-                    marginRight: 8,
-                    width: 24,
-                    height: 24,
-                    borderRadius: 4,
-                  }}
-                >
-                  {wiki.name.charAt(0)}
-                </Avatar>
-              }
-              text={<Text strong>{wiki.name}</Text>}
-              hoverable={false}
-            />
-          </>
+          <NavItem
+            icon={
+              <Avatar
+                shape="square"
+                size="small"
+                src={wiki.avatar}
+                style={{
+                  marginRight: 8,
+                  width: 24,
+                  height: 24,
+                  borderRadius: 4,
+                }}
+              >
+                {wiki.name.charAt(0)}
+              </Avatar>
+            }
+            text={<Text strong>{wiki.name}</Text>}
+            hoverable={false}
+          />
         )}
       />
 

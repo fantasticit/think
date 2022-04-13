@@ -26,9 +26,9 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
 
   return (
     <DoubleColumnLayout
-      leftNode={<WikiTocs pageTitle="设置" wikiId={wikiId} />}
+      leftNode={<WikiTocs wikiId={wikiId} />}
       rightNode={<WikiSetting wikiId={wikiId} tab={tab} onNavigate={(tab) => navigate(tab)()} />}
-    ></DoubleColumnLayout>
+    />
   );
 };
 

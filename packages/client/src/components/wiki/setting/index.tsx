@@ -1,9 +1,10 @@
 import React from 'react';
 import { Tabs, TabPane } from '@douyinfe/semi-ui';
+import { Seo } from 'components/seo';
 import { useWikiDetail } from 'data/wiki';
 import { Base } from './base';
 import { Users } from './users';
-import { WorkspaceDocs } from './documents';
+import { Documents } from './documents';
 import { More } from './more';
 
 interface IProps {
@@ -12,23 +13,33 @@ interface IProps {
   onNavigate: (arg: string) => void;
 }
 
+const TitleMap = {
+  base: '基础信息',
+  users: '成员管理',
+  docs: '隐私管理',
+  more: '更多',
+};
+
 export const WikiSetting: React.FC<IProps> = ({ wikiId, tab, onNavigate }) => {
-  const { data, loading, error, update } = useWikiDetail(wikiId);
+  const { data, update } = useWikiDetail(wikiId);
 
   return (
-    <Tabs lazyRender type="line" activeKey={tab} onChange={onNavigate}>
-      <TabPane tab="基础信息" itemKey="base">
-        <Base wiki={data} update={update as any} />
-      </TabPane>
-      <TabPane tab="成员管理" itemKey="users">
-        <Users wikiId={wikiId} />
-      </TabPane>
-      <TabPane tab="隐私管理" itemKey="docs">
-        <WorkspaceDocs wikiId={wikiId} />
-      </TabPane>
-      <TabPane tab="更多" itemKey="more">
-        <More wikiId={wikiId} />
-      </TabPane>
-    </Tabs>
+    <>
+      <Seo title={TitleMap[tab]} />
+      <Tabs lazyRender type="line" activeKey={tab} onChange={onNavigate}>
+        <TabPane tab={TitleMap['base']} itemKey="base">
+          <Base wiki={data} update={update as any} />
+        </TabPane>
+        <TabPane tab={TitleMap['users']} itemKey="users">
+          <Users wikiId={wikiId} />
+        </TabPane>
+        <TabPane tab={TitleMap['docs']} itemKey="docs">
+          <Documents wikiId={wikiId} />
+        </TabPane>
+        <TabPane tab={TitleMap['more']} itemKey="more">
+          <More wikiId={wikiId} />
+        </TabPane>
+      </Tabs>
+    </>
   );
 };
