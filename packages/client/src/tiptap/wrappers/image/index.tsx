@@ -1,7 +1,8 @@
+import Image from 'next/image';
+import cls from 'classnames';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Resizeable } from 'components/resizeable';
-import { useEffect, useRef } from 'react';
-import cls from 'classnames';
 import { Typography, Spin } from '@douyinfe/semi-ui';
 import { useToggle } from 'hooks/use-toggle';
 import { uploadFile } from 'services/file';
@@ -10,30 +11,35 @@ import styles from './index.module.scss';
 
 const { Text } = Typography;
 
+const isNumber = (v) => typeof v === 'number';
+
 export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { hasTrigger, error, src, alt, title, width, height, textAlign } = node.attrs;
   const $upload = useRef<HTMLInputElement>();
   const [loading, toggleLoading] = useToggle(false);
 
-  const onResize = (size) => {
+  const onResize = useCallback((size) => {
     updateAttributes({ height: size.height, width: size.width });
-  };
+  }, []);
 
-  const selectFile = () => {
+  const selectFile = useCallback(() => {
     if (!isEditable || error || src) return;
     isEditable && $upload.current.click();
-  };
+  }, [isEditable, error, src]);
 
-  const handleFile = async (e) => {
+  const handleFile = useCallback(async (e) => {
     const file = e.target.files && e.target.files[0];
+
     const fileInfo = {
       fileName: extractFilename(file.name),
       fileSize: file.size,
       fileType: file.type,
       fileExt: extractFileExtension(file.name),
     };
+
     toggleLoading(true);
+
     try {
       const src = await uploadFile(file);
       const size = await getImageWidthHeight(file);
@@ -43,7 +49,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
       updateAttributes({ error: '图片上传失败：' + (error && error.message) || '未知错误' });
       toggleLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (!src && !hasTrigger) {
@@ -52,7 +58,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
     }
   }, [src, hasTrigger]);
 
-  const content = (() => {
+  const content = useMemo(() => {
     if (error) {
       return (
         <div className={cls(styles.wrap, 'render-wrapper')}>
@@ -72,7 +78,12 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
       );
     }
 
-    const img = <img src={src} alt={alt} width={width} height={height} />;
+    const img =
+      isNumber(width) && isNumber(height) ? (
+        <Image src={src} alt={alt} width={width} height={height} layout="responsive" />
+      ) : (
+        <img src={src} alt={alt} width={width} height={height} />
+      );
 
     if (isEditable) {
       return (
@@ -87,7 +98,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
         {img}
       </div>
     );
-  })();
+  }, [error, src, isEditable]);
 
   return (
     <NodeViewWrapper as="div" style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
