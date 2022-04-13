@@ -8,7 +8,7 @@ interface IProps {
   normalContent: React.ReactElement;
 }
 
-export const LoadingWrap: React.FC<IProps> = ({ loading, delay = 300, loadingContent, normalContent }) => {
+export const LoadingWrap: React.FC<IProps> = ({ loading, delay = 200, loadingContent, normalContent }) => {
   const timer = useRef<ReturnType<typeof setTimeout>>(null);
   const [showLoading, toggleShowLoading] = useToggle(false);
 
