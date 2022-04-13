@@ -34,7 +34,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const ret = await this.userService.validateUser(user);
 
     if (!ret) {
-      throw new UnauthorizedException('身份验证失败');
+      throw new UnauthorizedException('请登录后使用');
     }
 
     return user;
