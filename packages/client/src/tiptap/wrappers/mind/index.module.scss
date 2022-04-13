@@ -40,7 +40,7 @@
         align-items: center;
         width: 12px;
         height: 12px;
-        border-color: var(--semi-color-border);
+        border-color: var(--node-border-color);
       }
     }
   }
@@ -58,7 +58,7 @@
     .jsmindInnerWrap {
       padding: 6px;
       background-color: var(--semi-color-bg-2);
-      border: 1px solid var(--semi-color-border);
+      border: 1px solid var(--node-border-color);
       border-radius: var(--border-radius);
       box-shadow: var(--box-shadow);
     }
@@ -68,7 +68,7 @@
     position: relative;
     min-height: 50px;
     overflow: hidden;
-    border: 1px solid var(--semi-color-border);
+    border: 1px solid var(--node-border-color);
     border-radius: var(--border-radius);
     outline: none;
 
@@ -89,7 +89,7 @@
       z-index: 1000;
       padding: 4px 8px;
       background-color: var(--semi-color-bg-2);
-      border: 1px solid var(--semi-color-border);
+      border: 1px solid var(--node-border-color);
       border-radius: var(--border-radius);
       opacity: 0;
       box-shadow: var(--box-shadow);
@@ -112,6 +112,6 @@
     display: flex;
     justify-content: center;
     padding: 10px;
-    border-top: 1px solid var(--semi-color-border);
+    border-top: 1px solid var(--node-border-color);
   }
 }

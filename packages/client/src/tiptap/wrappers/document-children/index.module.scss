@@ -1,23 +1,23 @@
 .wrap {
   padding: 12px;
-  margin-top: .75em;
-  border: 1px solid var(--semi-color-border);
+  margin-top: 0.75em;
+  border: 1px solid var(--node-border-color);
   border-radius: var(--border-radius);
 
   .itemWrap {
     display: flex;
     padding: 6px;
     margin-top: 12px;
-    color: var(--semi-color-text-1);
+    color: var(--node-text-color);
     text-decoration: none;
     cursor: pointer;
-    border: 1px solid var(--semi-color-border);
+    border: 1px solid var(--node-border-color);
     border-radius: var(--border-radius);
     align-items: center;
 
     &:hover {
-      border-color: var(--semi-color-link);
-      color: var(--semi-color-link);
+      border-color: var(--node-hover-border-color);
+      color: var(--node-hover-text-color);
     }
 
     span {

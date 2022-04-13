@@ -4,10 +4,6 @@
   }
 
   .tableWrapper {
-    ::selection {
-      //background-color: transparent;
-    }
-
     &.selected-node {
       td,
       th {
@@ -17,44 +13,11 @@
   }
 
   .node-status {
-    margin-right: 4px;
-
-    .semi-tag-default {
-      border: 1px solid var(--node-border-color);
-    }
-
     &.selected-node {
       .semi-tag-default {
         border: 1px solid var(--node-selected-border-color);
       }
     }
-  }
-
-  .node-codeBlock,
-  .node-katex,
-  .node-documentChildren,
-  .node-documentReference {
-    user-select: none;
-
-    .render-wrapper {
-      border: 1px solid var(--node-border-color);
-    }
-  }
-
-  .node-codeBlock,
-  .node-katex {
-    .render-wrapper {
-      border-radius: var(--border-radius);
-    }
-  }
-
-  .node-image,
-  .node-attachment,
-  .node-iframe,
-  .node-mind,
-  .node-banner,
-  .node-countdown {
-    margin-top: 0.75em;
   }
 
   .node-attachment,
@@ -66,16 +29,6 @@
   .node-codeBlock,
   .node-documentChildren,
   .node-documentReference {
-    .render-wrapper {
-      position: relative;
-      user-select: text;
-
-      &:hover,
-      &:active {
-        border: 1px solid var(--node-hover-border-color);
-      }
-    }
-
     &.selected-node {
       &:not(.has-focus) {
         ::selection {
@@ -105,22 +58,6 @@
   }
 
   .node-image {
-    .render-wrapper {
-      position: relative;
-      &:hover,
-      &:active {
-        &::after {
-          position: absolute;
-          content: '';
-          inset: 0;
-          pointer-events: none;
-          background-color: transparent;
-          border: 1px solid var(--node-hover-border-color) !important;
-          border-radius: var(--border-radius);
-        }
-      }
-    }
-
     &.selected-node {
       &:not(.has-focus) {
         ::selection {

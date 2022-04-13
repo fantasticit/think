@@ -1,10 +1,10 @@
 .wrap {
   line-height: 0;
-  border: 1px solid var(--semi-color-border);
+  border: 1px solid var(--node-border-color);
   border-radius: var(--border-radius);
 
   p {
-    margin-top: .25em;
+    margin-top: 0.25em;
   }
 
   p:first-child {
