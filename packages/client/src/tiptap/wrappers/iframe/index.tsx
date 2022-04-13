@@ -1,6 +1,7 @@
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { useCallback, useMemo } from 'react';
 import cls from 'classnames';
-import { Input, Typography, Space } from '@douyinfe/semi-ui';
+import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { Typography } from '@douyinfe/semi-ui';
 import { Resizeable } from 'components/resizeable';
 import styles from './index.module.scss';
 
@@ -10,21 +11,25 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { url, width, height } = node.attrs;
 
-  const onResize = (size) => {
+  const onResize = useCallback((size) => {
     updateAttributes({ width: size.width, height: size.height });
-  };
-  const content = (
-    <NodeViewContent as="div" className={cls(styles.wrap, 'render-wrapper')}>
-      {url ? (
-        <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
-          <iframe src={url}></iframe>
-        </div>
-      ) : (
-        <div className={styles.emptyWrap}>
-          <Text>请设置外链地址</Text>
-        </div>
-      )}
-    </NodeViewContent>
+  }, []);
+
+  const content = useMemo(
+    () => (
+      <NodeViewContent as="div" className={cls(styles.wrap, 'render-wrapper')}>
+        {url ? (
+          <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
+            <iframe src={url}></iframe>
+          </div>
+        ) : (
+          <div className={styles.emptyWrap}>
+            <Text>请设置外链地址</Text>
+          </div>
+        )}
+      </NodeViewContent>
+    ),
+    [url]
   );
 
   if (!isEditable && !url) {
