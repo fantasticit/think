@@ -1,6 +1,7 @@
 import React from 'react';
 import { Spin, Typography } from '@douyinfe/semi-ui';
 import { Empty } from 'illustrations/empty';
+import { LoadingWrap } from './loading';
 
 type RenderProps = React.ReactNode | (() => React.ReactNode);
 
@@ -57,10 +58,6 @@ export const DataRender: React.FC<IProps> = ({
   emptyContent = defaultEmpty,
   normalContent,
 }) => {
-  if (loading) {
-    return runRender(loadingContent);
-  }
-
   if (error) {
     return runRender(errorContent, error);
   }
@@ -69,5 +66,11 @@ export const DataRender: React.FC<IProps> = ({
     return runRender(emptyContent);
   }
 
-  return runRender(normalContent);
+  return (
+    <LoadingWrap
+      loading={loading}
+      loadingContent={runRender(loadingContent)}
+      normalContent={loading ? null : runRender(normalContent)}
+    />
+  );
 };
