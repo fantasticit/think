@@ -165,12 +165,12 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
       normalContent={() => {
         return (
           <div className={styles.editorWrap}>
-            {(!online || status === 'disconnected') && (
+            {/* {(!online || status === 'disconnected') && (
               <Banner
                 type="warning"
                 description="我们已与您断开连接，您可以继续编辑文档。一旦重新连接，我们会自动重新提交数据。"
               />
-            )}
+            )} */}
             <header className={className}>
               <div>
                 <MenuBar editor={editor} />
