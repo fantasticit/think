@@ -4,6 +4,7 @@ import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import Suggestion from '@tiptap/suggestion';
 import tippy from 'tippy.js';
+import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/constants';
 import { EmojiList } from '../wrappers/emoji-list';
 import { emojiSearch, emojisToName } from '../wrappers/emoji-list/emojis';
 
@@ -20,6 +21,8 @@ export { emojisToName };
 export const Emoji = Node.create({
   name: 'emoji',
   content: 'text*',
+
+  priority: EXTENSION_PRIORITY_HIGHEST,
 
   addOptions() {
     return {

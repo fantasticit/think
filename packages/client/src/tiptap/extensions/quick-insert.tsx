@@ -6,11 +6,14 @@ import Suggestion from '@tiptap/suggestion';
 import tippy from 'tippy.js';
 import { MenuList } from '../wrappers/menu-list';
 import { QUICK_INSERT_ITEMS } from '../menus/quick-insert';
+import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/constants';
 
 export const QuickInsertPluginKey = new PluginKey('quickInsert');
 
 export const QuickInsert = Node.create({
   name: 'quickInsert',
+
+  priority: EXTENSION_PRIORITY_HIGHEST,
 
   addOptions() {
     return {
