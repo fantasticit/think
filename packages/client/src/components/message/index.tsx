@@ -8,6 +8,7 @@ import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { Placeholder } from './placeholder';
 import styles from './index.module.scss';
+import { useUser } from 'data/user';
 
 const { Text } = Typography;
 const PAGE_SIZE = 6;
@@ -82,7 +83,7 @@ const MessagesRender = ({ messageData, loading, error, onClick = null, page = 1,
   );
 };
 
-export const Message = () => {
+const MessageBox = () => {
   const { data: allMsgs, loading: allLoading, error: allError, page: allPage, setPage: allSetPage } = useAllMessages();
   const {
     data: readMsgs,
@@ -205,4 +206,9 @@ export const Message = () => {
       ></Button>
     </Dropdown>
   );
+};
+
+export const Message = () => {
+  const { loading, error } = useUser();
+  return <DataRender loading={loading} error={error} normalContent={() => <MessageBox />} />;
 };
