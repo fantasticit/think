@@ -29,9 +29,7 @@ export const TableBubbleMenu = ({ editor }) => {
         maxWidth: 486,
         placement: 'bottom',
       }}
-      matchRenderContainer={(node: HTMLElement) =>
-        node && node.classList && node.classList.contains('tableWrapper') && node.tagName === 'DIV'
-      }
+      matchRenderContainer={(node: HTMLElement) => node && node.tagName === 'TABLE'}
     >
       <Space>
         <Tooltip content="向前插入一列">
