@@ -214,6 +214,12 @@ export const BuiltInCodeBlock = Node.create<CodeBlockOptions>({
 
         return editor.commands.exitCode();
       },
+
+      'Tab': ({ editor }) => {
+        const { selection } = this.editor.state;
+        const { $anchor } = selection;
+        return editor.chain().insertContentAt($anchor.pos, '  ').run();
+      },
     };
   },
 
