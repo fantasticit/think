@@ -10,23 +10,23 @@
 
   > span:first-child {
     position: relative;
+    display: block;
     width: 18px;
     height: 18px;
-    display: block;
-    border-radius: 2px 2px;
-    border: 1px solid #e8e8e8;
     margin-right: 8px;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
 
     &::after {
-      content: '';
-      display: block;
       position: absolute;
       top: 8px;
-      left: 0px;
+      left: 0;
+      display: block;
       width: 17px;
       height: 0;
-      border-bottom: 2px solid #ff5151;
+      content: '';
       transform: rotate(45deg);
+      border-bottom: 2px solid #ff5151;
     }
   }
 }

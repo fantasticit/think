@@ -1,17 +1,20 @@
 .ProseMirror {
-  --node-text-color: rgba(3, 3, 3, 0.8);
+  --node-text-color: rgb(3 3 3 / 80%);
   --node-hover-text-color: rgb(0 101 255);
+
   /* 自定义节点 边框 */
   --node-border-color: rgb(28 31 35 / 8%);
+
   /* 自定义节点 hover */
   --node-hover-border-color: rgb(0 101 255);
+
   /* 自定义节点选中 */
   --node-selected-border-color: rgb(0 101 255);
 }
 
 body[theme-mode='dark'] {
   .ProseMirror {
-    --node-text-color: rgba(249, 249, 249, 0.8);
-    --node-border-color: rgb(255, 255, 255, 0.08);
+    --node-text-color: rgb(249 249 249 / 80%);
+    --node-border-color: rgb(255 255 255 / 8%);
   }
 }

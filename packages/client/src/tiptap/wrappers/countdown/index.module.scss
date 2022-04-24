@@ -1,12 +1,11 @@
 .wrap {
+  display: flex;
   height: 96px;
   overflow: hidden;
   line-height: 0;
   background-color: var(--semi-color-fill-0);
   border: 1px solid var(--node-border-color);
   border-radius: var(--border-radius);
-
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;

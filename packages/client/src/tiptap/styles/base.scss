@@ -1,8 +1,18 @@
 .ProseMirror {
-  font-family: 'Chinese Quote', 'Segoe UI', Roboto, RobotoNum, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
-    'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family:
+    'Chinese Quote',
+    'Segoe UI',
+    Roboto,
+    RobotoNum,
+    'PingFang SC',
+    'Hiragino Sans GB',
+    'Microsoft YaHei',
+    'Helvetica Neue',
+    Helvetica,
+    Arial,
+    sans-serif;
   line-height: 1.74;
-  letter-spacing: 0.008em;
+  letter-spacing: .008em;
   color: var(--semi-color-text-0);
   word-break: break-word;
   word-wrap: break-word;
@@ -24,19 +34,19 @@
   }
 
   p {
-    margin-top: 0.75rem;
+    margin-top: .75rem;
     margin-bottom: 0;
     font-size: 1em;
     font-weight: normal;
     line-height: 1.714;
-    letter-spacing: -0.005em;
+    letter-spacing: -.005em;
   }
 
   blockquote {
     box-sizing: border-box;
     padding-left: 10px;
     border-left: 2px solid var(--semi-color-fill-2);
-    margin: 0.75rem 0;
+    margin: .75rem 0;
   }
 
   hr {
@@ -74,7 +84,7 @@
 body[theme-mode='dark'] {
   .ProseMirror {
     img {
-      opacity: 0.75;
+      opacity: .75;
     }
   }
 }

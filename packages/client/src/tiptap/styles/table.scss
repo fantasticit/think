@@ -1,15 +1,15 @@
 .ProseMirror {
   .tableWrapper {
-    margin: 0;
     padding: 0;
+    margin: 0;
   }
 
   table {
-    border-collapse: collapse;
-    overflow: hidden;
-    table-layout: fixed;
     width: 100%;
     margin: 0.75em 0 0;
+    overflow: hidden;
+    border-collapse: collapse;
+    table-layout: fixed;
 
     td,
     th {
@@ -55,12 +55,7 @@
   }
 }
 
-.tableWrapper {
-  padding: 1rem 0;
-  overflow-x: auto;
-}
-
 .resize-cursor {
   cursor: ew-resize;
-  cursor: col-resize;
+  cursor: col-resize; /* stylelint-disable declaration-block-no-duplicate-properties */
 }

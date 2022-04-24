@@ -18,8 +18,8 @@
     }
 
     .react-pdf__Page canvas {
-      max-width: 100%;
       height: auto !important;
+      max-width: 100%;
     }
 
     .react-pdf__message {
@@ -29,9 +29,9 @@
   }
 
   .paginationWrap {
+    display: flex;
     margin-top: 1em;
     text-align: center;
-    display: flex;
     justify-content: center;
   }
 }
