@@ -100,6 +100,26 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                   <div className={styles.commentWrap}>
                     <CommentEditor documentId={document.id} />
                   </div>
+                  {authority && authority.editable && (
+                    <BackTop
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: 30,
+                        width: 30,
+                        borderRadius: '100%',
+                        backgroundColor: '#0077fa',
+                        color: '#fff',
+                        bottom: 100,
+                        transform: `translateY(-50px);`,
+                      }}
+                      onClick={gotoEdit}
+                      target={() => window.document.querySelector('.Pane2')}
+                    >
+                      <IconEdit />
+                    </BackTop>
+                  )}
                   <BackTop target={() => window.document.querySelector('.Pane2')} />
                 </>
               );
