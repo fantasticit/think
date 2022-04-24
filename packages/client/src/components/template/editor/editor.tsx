@@ -14,6 +14,7 @@ import {
   Popover,
   Popconfirm,
   BackTop,
+  Toast,
 } from '@douyinfe/semi-ui';
 import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
 import { ILoginUser, ITemplate } from '@think/domains';
@@ -22,6 +23,7 @@ import { BaseKit, DocumentWithTitle, getCollaborationExtension, getProvider, Men
 import { DataRender } from 'components/data-render';
 import { User } from 'components/user';
 import { DocumentStyle } from 'components/document/style';
+import { LogoName } from 'components/logo';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
 import styles from './index.module.scss';
@@ -80,6 +82,22 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
     if (!data) return;
     setPublic(data.isPublic);
   }, [data]);
+
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.keyCode == 83) {
+        event.preventDefault();
+        Toast.info(`${LogoName}会实时保存你的数据，无需手动保存。`);
+        return false;
+      }
+    };
+
+    window.document.addEventListener('keydown', listener);
+
+    return () => {
+      window.document.removeEventListener('keydown', listener);
+    };
+  }, []);
 
   return (
     <div className={styles.wrap}>

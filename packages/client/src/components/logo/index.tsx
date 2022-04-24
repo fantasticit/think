@@ -4,6 +4,8 @@ import styles from './index.module.scss';
 
 const { Text } = Typography;
 
+export const LogoName = '云策文档';
+
 export const LogoImage = () => {
   return (
     <Link href={'/'} as={'/'}>
@@ -35,7 +37,7 @@ export const LogoText = () => {
   return (
     <Link href={'/'} as={'/'}>
       <a className={styles.wrap}>
-        <Text>云策文档</Text>
+        <Text>{LogoName}</Text>
       </a>
     </Link>
   );

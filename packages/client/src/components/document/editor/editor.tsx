@@ -2,7 +2,7 @@ import Router from 'next/router';
 import React, { useMemo, useEffect, useState, useRef } from 'react';
 import cls from 'classnames';
 import { useEditor, EditorContent } from '@tiptap/react';
-import { BackTop } from '@douyinfe/semi-ui';
+import { BackTop, Toast } from '@douyinfe/semi-ui';
 import { ILoginUser, IAuthority } from '@think/domains';
 import { useToggle } from 'hooks/use-toggle';
 import { useNetwork } from 'hooks/use-network';
@@ -22,6 +22,7 @@ import { findMentions } from 'tiptap/utils/find-mention';
 import { useCollaborationDocument } from 'data/document';
 import { DataRender } from 'components/data-render';
 import { Banner } from 'components/banner';
+import { LogoName } from 'components/logo';
 import { debounce } from 'helpers/debounce';
 import { event, triggerChangeDocumentTitle, triggerJoinUser, USE_DOCUMENT_VERSION } from 'event';
 import { DocumentUserSetting } from './users';
@@ -157,6 +158,22 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
       window.removeEventListener('unload', handler);
     };
   }, [editor, users, currentUser]);
+
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.keyCode == 83) {
+        event.preventDefault();
+        Toast.info(`${LogoName}会实时保存你的数据，无需手动保存。`);
+        return false;
+      }
+    };
+
+    window.document.addEventListener('keydown', listener);
+
+    return () => {
+      window.document.removeEventListener('keydown', listener);
+    };
+  }, []);
 
   return (
     <DataRender
