@@ -89,7 +89,7 @@ export const RouterHeader: React.FC = () => {
         header={
           <Space>
             <LogoImage />
-            {windowSize.width >= 576 && <LogoText />}
+            {windowSize.width >= 890 && <LogoText />}
           </Space>
         }
         selectedKeys={[pathname || '/']}
