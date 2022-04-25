@@ -10,12 +10,12 @@
     border-radius: var(--border-radius);
 
     .icon {
+      display: inline-block;
       width: 24px;
       height: 24px;
-      line-height: 24px;
-      font-size: 20px;
-      display: inline-block;
       padding: 0;
+      font-size: 20px;
+      line-height: 24px;
       text-align: center;
       vertical-align: middle;
       cursor: pointer;
@@ -28,7 +28,7 @@
   }
 
   p {
-    margin-top: 0.25em;
+    margin-top: .25em;
   }
 
   p:first-child {
