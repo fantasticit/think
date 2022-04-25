@@ -30,12 +30,24 @@ export const Heading: React.FC<{ editor: Editor }> = ({ editor }) => {
       style={{ width: 90, marginRight: 10 }}
     >
       <Select.Option value="paragraph">正文</Select.Option>
-      <Select.Option value={1}>标题1</Select.Option>
-      <Select.Option value={2}>标题2</Select.Option>
-      <Select.Option value={3}>标题3</Select.Option>
-      <Select.Option value={4}>标题4</Select.Option>
-      <Select.Option value={5}>标题5</Select.Option>
-      <Select.Option value={6}>标题6</Select.Option>
+      <Select.Option value={1}>
+        <h1 style={{ margin: 0, fontSize: '1.3em' }}>标题1</h1>
+      </Select.Option>
+      <Select.Option value={2}>
+        <h2 style={{ margin: 0, fontSize: '1.1em' }}>标题2</h2>
+      </Select.Option>
+      <Select.Option value={3}>
+        <h3 style={{ margin: 0, fontSize: '1.0em' }}>标题3</h3>
+      </Select.Option>
+      <Select.Option value={4}>
+        <h4 style={{ margin: 0, fontSize: '0.9em' }}>标题4</h4>
+      </Select.Option>
+      <Select.Option value={5}>
+        <h5 style={{ margin: 0, fontSize: '0.8em' }}>标题5</h5>
+      </Select.Option>
+      <Select.Option value={6}>
+        <h6 style={{ margin: 0, fontSize: '0.8em' }}>标题6</h6>
+      </Select.Option>
     </Select>
   );
 };

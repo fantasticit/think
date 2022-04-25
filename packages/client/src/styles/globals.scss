@@ -27,7 +27,7 @@
 
 .Resizer {
   z-index: 1;
-  opacity: .2;
+  opacity: 0.2;
   box-sizing: border-box;
   background-clip: padding;
 }
@@ -88,4 +88,14 @@
  */
 .semi-button-disabled {
   pointer-events: none;
+}
+
+.semi-select-selection-text {
+  font-size: 1em;
+  font-weight: normal;
+
+  > * {
+    font-size: inherit !important;
+    font-weight: inherit;
+  }
 }
