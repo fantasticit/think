@@ -82,7 +82,7 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
     <DoubleColumnLayout
       leftNode={<WikiTocs wikiId={wikiId} />}
       rightNode={
-        <>
+        <div style={{ padding: '16px 24px' }}>
           <Seo title={tab === 'documents' ? '全部文档' : '目录管理'} />
           <Title heading={3} style={{ marginBottom: 24 }}>
             文档管理
@@ -95,7 +95,7 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
               <WikiTocsManager wikiId={wikiId} />
             </TabPane>
           </Tabs>
-        </>
+        </div>
       }
     ></DoubleColumnLayout>
   );

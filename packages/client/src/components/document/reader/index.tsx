@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import cls from 'classnames';
 import { Layout, Nav, Space, Button, Typography, Skeleton, Tooltip, Popover, BackTop } from '@douyinfe/semi-ui';
 import { IconEdit, IconArticle } from '@douyinfe/semi-icons';
@@ -29,6 +29,7 @@ interface IProps {
 export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   if (!documentId) return null;
 
+  const [container, setContainer] = useState<HTMLDivElement>();
   const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
@@ -85,47 +86,50 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
         ></Nav>
       </Header>
       <Layout className={styles.contentWrap}>
-        <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
-          <DataRender
-            loading={docAuthLoading}
-            error={docAuthError}
-            loadingContent={<DocumentSkeleton />}
-            normalContent={() => {
-              return (
-                <>
-                  <Seo title={document.title} />
-                  <div className={styles.editorContainer}>
-                    {user && <Editor key={document.id} user={user} documentId={document.id} document={document} />}
-                  </div>
-                  <div className={styles.commentWrap}>
-                    <CommentEditor documentId={document.id} />
-                  </div>
-                  {authority && authority.editable && (
-                    <BackTop
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: 30,
-                        width: 30,
-                        borderRadius: '100%',
-                        backgroundColor: '#0077fa',
-                        color: '#fff',
-                        bottom: 100,
-                        transform: `translateY(-50px);`,
-                      }}
-                      onClick={gotoEdit}
-                      target={() => window.document.querySelector('.Pane2')}
-                      visibilityHeight={200}
-                    >
-                      <IconEdit />
-                    </BackTop>
-                  )}
-                  <BackTop target={() => window.document.querySelector('.Pane2')} />
-                </>
-              );
-            }}
-          />
+        <div ref={setContainer}>
+          <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
+            <DataRender
+              loading={docAuthLoading}
+              error={docAuthError}
+              loadingContent={<DocumentSkeleton />}
+              normalContent={() => {
+                return (
+                  <>
+                    <Seo title={document.title} />
+                    {user && (
+                      <Editor key={document.id} user={user} documentId={document.id} document={document}>
+                        <div className={styles.commentWrap}>
+                          <CommentEditor documentId={document.id} />
+                        </div>
+                      </Editor>
+                    )}
+                    {authority && authority.editable && container && (
+                      <BackTop
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          height: 30,
+                          width: 30,
+                          borderRadius: '100%',
+                          backgroundColor: '#0077fa',
+                          color: '#fff',
+                          bottom: 100,
+                          transform: `translateY(-50px);`,
+                        }}
+                        onClick={gotoEdit}
+                        target={() => container}
+                        visibilityHeight={200}
+                      >
+                        <IconEdit />
+                      </BackTop>
+                    )}
+                    {container && <BackTop target={() => container} />}
+                  </>
+                );
+              }}
+            />
+          </div>
         </div>
       </Layout>
     </div>

@@ -26,7 +26,7 @@ interface IProps {
   document: IDocument;
 }
 
-export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
+export const Editor: React.FC<IProps> = ({ user, documentId, document, children }) => {
   const [loading, toggleLoading] = useToggle(true);
   const [error, setError] = useState(null);
   const provider = useMemo(() => {
@@ -86,6 +86,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document }) => {
               document={document}
               container={() => window.document.querySelector('#js-reader-container .ProseMirror .title')}
             />
+            {children}
           </Content>
         );
       }}
