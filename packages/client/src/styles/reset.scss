@@ -80,8 +80,8 @@ select {
   *,
   *::before,
   *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
   }
@@ -94,8 +94,8 @@ select {
 
 ::-webkit-scrollbar-thumb {
   background-color: transparent;
-  border-radius: 0.5rem;
-  transition: all 0.2s;
+  border-radius: .5rem;
+  transition: all .2s;
 }
 
 *:hover {
