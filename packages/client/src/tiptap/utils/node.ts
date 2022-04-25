@@ -51,6 +51,6 @@ export function isInTitle(state: EditorState): boolean {
   return isInCustomNode(state, 'title');
 }
 
-export function isInBanner(state: EditorState): boolean {
-  return isInCustomNode(state, 'banner');
+export function isInCallout(state: EditorState): boolean {
+  return isInCustomNode(state, 'callout');
 }

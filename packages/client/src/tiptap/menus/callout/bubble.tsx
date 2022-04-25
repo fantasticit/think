@@ -93,7 +93,7 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
             type="tertiary"
             theme="borderless"
             icon={<IconDelete />}
-            onClick={() => deleteNode('banner', editor)}
+            onClick={() => deleteNode('callout', editor)}
           />
         </Tooltip>
       </Space>

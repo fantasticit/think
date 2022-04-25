@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey, NodeSelection, TextSelection, Selection, AllSelection } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getCurrentNode, isInCodeBlock, isInBanner } from '../utils/node';
+import { getCurrentNode, isInCodeBlock, isInCallout } from '../utils/node';
 import { EXTENSION_PRIORITY_HIGHEST } from '../constants';
 
 export const selectionPluginKey = new PluginKey('selection');
@@ -68,7 +68,7 @@ export const SelectionExtension = Extension.create({
               }
 
               // 信息框
-              if (isInBanner(view.state)) {
+              if (isInCallout(view.state)) {
                 // @ts-ignore
                 const { path = [] } = $head;
                 startPos = path[2];
