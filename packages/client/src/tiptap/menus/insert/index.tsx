@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Editor } from '@tiptap/core';
 import { Button, Dropdown, Popover } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
@@ -11,17 +11,149 @@ import {
   IconCodeBlock,
   IconLink,
   IconStatus,
-  IconInfo,
   IconAttachment,
   IconMath,
   IconCountdown,
   IconCallout,
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
+import { useToggle } from 'hooks/use-toggle';
+import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
 import { isTitleActive } from '../../utils/is-active';
 import { createCountdown } from '../countdown/service';
 
+const insertMenuLRUCache = createKeysLocalStorageLRUCache('TIPTAP_INSERT_MENU', 3);
+
+const COMMANDS = [
+  {
+    title: '通用',
+  },
+  {
+    icon: <IconTable />,
+    label: '表格',
+    custom: (editor, runCommand) => (
+      <Popover
+        showArrow
+        position="rightTop"
+        zIndex={10000}
+        content={
+          <div style={{ padding: 0 }}>
+            <GridSelect
+              onSelect={({ rows, cols }) => {
+                return runCommand({
+                  label: '表格',
+                  action: () => editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run(),
+                })();
+              }}
+            />
+          </div>
+        }
+      >
+        <Dropdown.Item>
+          <IconTable />
+          表格
+        </Dropdown.Item>
+      </Popover>
+    ),
+  },
+  {
+    icon: <IconCodeBlock />,
+    label: '代码块',
+    action: (editor) => editor.chain().focus().toggleCodeBlock().run(),
+  },
+  {
+    icon: <IconImage />,
+    label: '图片',
+    action: (editor) => editor.chain().focus().setEmptyImage().run(),
+  },
+  {
+    icon: <IconAttachment />,
+    label: '附件',
+    action: (editor) => editor.chain().focus().setAttachment().run(),
+  },
+  {
+    icon: <IconCountdown />,
+    label: '倒计时',
+    action: (editor) => createCountdown(editor),
+  },
+  {
+    icon: <IconLink />,
+    label: '外链',
+    action: (editor) => editor.chain().focus().setIframe({ url: '' }).run(),
+  },
+  {
+    title: '卡片',
+  },
+  {
+    icon: <IconMind />,
+    label: '思维导图',
+    action: (editor) => editor.chain().focus().setMind().run(),
+  },
+  {
+    icon: <IconMath />,
+    label: '数学公式',
+    action: (editor) => editor.chain().focus().setKatex({ defaultShowPicker: true }).run(),
+  },
+  {
+    icon: <IconStatus />,
+    label: '状态',
+    action: (editor) => editor.chain().focus().setStatus({ defaultShowPicker: true }).run(),
+  },
+  {
+    icon: <IconCallout />,
+    label: '高亮块',
+    action: (editor) => editor.chain().focus().setCallout().run(),
+  },
+  {
+    title: '内容引用',
+  },
+  {
+    icon: <IconDocument />,
+    label: '文档',
+    action: (editor) => editor.chain().focus().setDocumentReference().run(),
+  },
+  {
+    icon: <IconDocument />,
+    label: '子文档',
+    action: (editor) => editor.chain().focus().setDocumentChildren().run(),
+  },
+];
+
 export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
+  const [recentUsed, setRecentUsed] = useState([]);
+  const [visible, toggleVisible] = useToggle(false);
+
+  const renderedCommands = useMemo(
+    () => (recentUsed.length ? [{ title: '最近使用' }, ...recentUsed, ...COMMANDS] : COMMANDS),
+    [recentUsed]
+  );
+
+  const transformToCommands = useCallback((data: string[]) => {
+    return data
+      .map((label) => {
+        return COMMANDS.find((command) => command.label && command.label === label);
+      })
+      .filter(Boolean);
+  }, []);
+
+  const runCommand = useCallback(
+    (command) => {
+      return () => {
+        insertMenuLRUCache.put(command.label);
+        setRecentUsed(transformToCommands(insertMenuLRUCache.get() as string[]));
+        command.action(editor);
+        toggleVisible(false);
+      };
+    },
+    [editor, toggleVisible]
+  );
+
+  useEffect(() => {
+    if (!visible) return;
+    insertMenuLRUCache.syncFromStorage();
+    setRecentUsed(transformToCommands(insertMenuLRUCache.get() as string[]));
+  }, [visible]);
+
   if (!editor) {
     return null;
   }
@@ -31,80 +163,27 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
       zIndex={10000}
       trigger="click"
       position="bottomLeft"
+      visible={visible}
+      onVisibleChange={toggleVisible}
+      style={{
+        minWidth: 132,
+        maxHeight: 'calc(90vh - 120px)',
+        overflowY: 'auto',
+      }}
       render={
         <Dropdown.Menu>
-          <Dropdown.Title>通用</Dropdown.Title>
-
-          <Popover
-            showArrow
-            position="rightTop"
-            zIndex={10000}
-            content={
-              <div style={{ padding: 0 }}>
-                <GridSelect
-                  onSelect={({ rows, cols }) => {
-                    return editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
-                  }}
-                />
-              </div>
-            }
-          >
-            <Dropdown.Item>
-              <IconTable /> 表格
-            </Dropdown.Item>
-          </Popover>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
-            <IconCodeBlock /> 代码块
-          </Dropdown.Item>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().setEmptyImage().run()}>
-            <IconImage />
-            图片
-          </Dropdown.Item>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().setAttachment().run()}>
-            <IconAttachment />
-            附件
-          </Dropdown.Item>
-
-          <Dropdown.Item onClick={() => createCountdown(editor)}>
-            <IconCountdown /> 倒计时
-          </Dropdown.Item>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().setIframe({ url: '' }).run()}>
-            <IconLink /> 外链
-          </Dropdown.Item>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().setMind().run()}>
-            <IconMind /> 思维导图
-          </Dropdown.Item>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().setKatex({ defaultShowPicker: true }).run()}>
-            <IconMath /> 数学公式
-          </Dropdown.Item>
-
-          <Dropdown.Divider />
-          <Dropdown.Title>卡片</Dropdown.Title>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().setStatus({ defaultShowPicker: true }).run()}>
-            <IconStatus /> 状态
-          </Dropdown.Item>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().setCallout().run()}>
-            <IconCallout /> 高亮块
-          </Dropdown.Item>
-
-          <Dropdown.Divider />
-          <Dropdown.Title>文档</Dropdown.Title>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().setDocumentReference().run()}>
-            <IconDocument /> 文档
-          </Dropdown.Item>
-
-          <Dropdown.Item onClick={() => editor.chain().focus().setDocumentChildren().run()}>
-            <IconDocument /> 子文档
-          </Dropdown.Item>
+          {renderedCommands.map((command) => {
+            return command.title ? (
+              <Dropdown.Title>{command.title}</Dropdown.Title>
+            ) : command.custom ? (
+              command.custom(editor, runCommand)
+            ) : (
+              <Dropdown.Item onClick={runCommand(command)}>
+                {command.icon}
+                {command.label}
+              </Dropdown.Item>
+            );
+          })}
         </Dropdown.Menu>
       }
     >
