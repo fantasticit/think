@@ -10,7 +10,7 @@ type VerisonDataItem = { version: string; data: string };
 export class DocumentVersionService {
   private redis: Redis;
   private max: number = 0;
-  private error: string | null = '文档版本服务启动中';
+  private error: string | null = '[think] 文档版本服务启动中';
 
   constructor() {
     this.init();
@@ -41,16 +41,16 @@ export class DocumentVersionService {
         lazyConnect: true,
       });
       redis.on('ready', () => {
-        console.log('文档版本服务启动成功');
+        console.log('[think] 文档版本服务启动成功');
         this.redis = redis;
         this.error = null;
       });
       redis.on('error', (e) => {
-        console.error(`Redis 启动失败: "${e}"`);
+        console.error(`[think] Redis 启动失败: "${e}"`);
       });
       redis.connect().catch((e) => {
         this.redis = null;
-        this.error = 'Redis 启动失败：无法提供文档版本服务';
+        this.error = '[think] Redis 启动失败：无法提供文档版本服务';
       });
     } catch (e) {}
   }

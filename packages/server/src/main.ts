@@ -20,8 +20,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix(config.get('server.prefix') || '/');
   await app.listen(config.get('server.port') || 4000);
-  const url = await app.getUrl();
-  console.log('服务启动成功：', url);
+  console.log('[think] 主服务启动成功');
 }
 
 bootstrap();

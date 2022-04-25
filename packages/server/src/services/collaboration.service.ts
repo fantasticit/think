@@ -63,14 +63,20 @@ export class CollaborationService {
   }
 
   private async initServer() {
-    const server = Server.configure({
-      onAuthenticate: this.onAuthenticate.bind(this),
-      onLoadDocument: this.onLoadDocument.bind(this),
-      onChange: this.onChange.bind(this),
-      onDisconnect: this.onDisconnect.bind(this),
-    });
-    this.server = server;
-    this.server.listen(lodash.get(getConfig(), 'server.collaborationPort', 5003));
+    try {
+      const server = Server.configure({
+        quiet: true,
+        onAuthenticate: this.onAuthenticate.bind(this),
+        onLoadDocument: this.onLoadDocument.bind(this),
+        onChange: this.onChange.bind(this),
+        onDisconnect: this.onDisconnect.bind(this),
+      });
+      this.server = server;
+      await this.server.listen(lodash.get(getConfig(), 'server.collaborationPort', 5003));
+      console.log('[think] 协作服务启动成功');
+    } catch (err) {
+      console.error('[think] 协作服务启动失败：', err.message);
+    }
   }
 
   async onAuthenticate({ connection, token, requestParameters }: onAuthenticatePayload) {
