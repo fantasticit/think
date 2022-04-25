@@ -1,6 +1,12 @@
 .wrap {
   display: inline-flex;
   justify-content: center;
-  padding: 0 8px;
-  transform: translateY(8px);
+  transform: translateY(1px);
+
+  font-size: 12px;
+  line-height: 16px;
+  height: 20px;
+  padding: 2px 8px;
+
+  cursor: pointer;
 }

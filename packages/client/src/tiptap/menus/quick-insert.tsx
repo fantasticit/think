@@ -208,7 +208,14 @@ export const QUICK_INSERT_ITEMS = [
         数学公式
       </Space>
     ),
-    command: (editor: Editor) => editor.chain().focus().setKatex().run(),
+    command: (editor: Editor) =>
+      editor
+        .chain()
+        .focus()
+        .setKatex({
+          defaultShowPicker: true,
+        })
+        .run(),
   },
 
   {

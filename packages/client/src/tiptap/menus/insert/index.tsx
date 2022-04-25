@@ -79,7 +79,7 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
             <IconMind /> 思维导图
           </Dropdown.Item>
 
-          <Dropdown.Item onClick={() => editor.chain().focus().setKatex().run()}>
+          <Dropdown.Item onClick={() => editor.chain().focus().setKatex({ defaultShowPicker: true }).run()}>
             <IconMath /> 数学公式
           </Dropdown.Item>
 

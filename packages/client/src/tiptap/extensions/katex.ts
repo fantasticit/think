@@ -2,10 +2,15 @@ import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { KatexWrapper } from '../wrappers/katex';
 
+type IKatexAttrs = {
+  text?: string;
+  defaultShowPicker?: boolean;
+};
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     katex: {
-      setKatex: () => ReturnType;
+      setKatex: (arg?: IKatexAttrs) => ReturnType;
     };
   }
 }
@@ -34,6 +39,9 @@ export const Katex = Node.create({
         parseHTML: (element) => {
           return element.getAttribute('data-text');
         },
+      },
+      defaultShowPicker: {
+        default: false,
       },
     };
   },
