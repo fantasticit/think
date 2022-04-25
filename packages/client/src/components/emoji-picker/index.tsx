@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Popover, Typography } from '@douyinfe/semi-ui';
 import { EXPRESSIONES, GESTURES, SYMBOLS, OBJECTS, ACTIVITIES, SKY_WEATHER } from './constants';
-import { setStorage, getStorage } from 'helpers/storage';
+import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
 import { useToggle } from 'hooks/use-toggle';
 import styles from './index.module.scss';
 
 const { Title } = Typography;
-const RECENT_USED_EMOJI_KEY = 'RECENT_USED_EMOJI_KEY';
+
+const emojiLocalStorageLRUCache = createKeysLocalStorageLRUCache('EMOJI_PICKER', 20);
 
 const LIST = [
   {
@@ -49,22 +50,17 @@ export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
 
   const selectEmoji = useCallback(
     (emoji) => {
-      setStorage(RECENT_USED_EMOJI_KEY, [...recentUsed, emoji].join('-'));
-      setRecentUsed((arr) => [...arr, emoji]);
+      emojiLocalStorageLRUCache.put(emoji);
+      setRecentUsed(emojiLocalStorageLRUCache.get() as string[]);
       onSelectEmoji && onSelectEmoji(emoji);
     },
-    [onSelectEmoji, recentUsed]
+    [onSelectEmoji]
   );
 
   useEffect(() => {
     if (!visible) return;
-    try {
-      const recentUsed = getStorage(RECENT_USED_EMOJI_KEY);
-      const toArr = recentUsed.split('-');
-      setRecentUsed(toArr);
-    } catch (e) {
-      //
-    }
+    emojiLocalStorageLRUCache.syncFromStorage();
+    setRecentUsed(emojiLocalStorageLRUCache.get() as string[]);
   }, [visible]);
 
   return (

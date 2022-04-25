@@ -5,3 +5,11 @@ export const safeJSONParse = (str, defaultValue = {}) => {
     return defaultValue;
   }
 };
+
+export const safeJSONStringify = (obj, defaultValue = '{}') => {
+  try {
+    return JSON.stringify(obj);
+  } catch (e) {
+    return defaultValue;
+  }
+};
