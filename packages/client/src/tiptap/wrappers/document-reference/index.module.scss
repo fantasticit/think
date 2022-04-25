@@ -1,5 +1,5 @@
 .wrap {
-  margin-top: .75em;
+  margin-top: 0.75em;
   border-radius: var(--border-radius);
 
   .itemWrap {
@@ -7,7 +7,6 @@
     padding: 8px;
     color: var(--node-text-color);
     text-decoration: none;
-    border: 1px solid var(--node-border-color);
     border-radius: var(--border-radius);
     align-items: center;
 
@@ -27,21 +26,7 @@
     color: var(--node-text-color);
     text-decoration: none;
     cursor: not-allowed;
-    border: 1px solid var(--node-border-color);
     border-radius: var(--border-radius);
     align-items: center;
-  }
-
-  &.isEditable {
-    padding: 12px;
-
-    .itemWrap {
-      margin-top: 12px;
-      pointer-events: none;
-    }
-
-    .empty {
-      margin-top: 12px;
-    }
   }
 }

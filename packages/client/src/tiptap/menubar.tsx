@@ -34,6 +34,7 @@ import { Search } from './menus/search';
 
 import { Banner } from './menus/banner';
 import { Countdonw } from './menus/countdown';
+import { DocumentReference } from './menus/document-reference';
 import { Image } from './menus/image';
 import { Iframe } from './menus/iframe';
 import { Table } from './menus/table';
@@ -89,6 +90,7 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
 
         <Banner editor={editor} />
         <Countdonw editor={editor} />
+        <DocumentReference editor={editor} />
         <Image editor={editor} />
         <Iframe editor={editor} />
         <Table editor={editor} />
