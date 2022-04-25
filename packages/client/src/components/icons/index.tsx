@@ -49,3 +49,4 @@ export * from './IconSub';
 export * from './IconSup';
 export * from './IconGlobe';
 export * from './IconCountdown';
+export * from './IconDrawBoard';

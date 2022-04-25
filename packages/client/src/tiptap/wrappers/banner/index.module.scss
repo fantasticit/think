@@ -1,10 +1,34 @@
 .wrap {
   line-height: 0;
-  border: 1px solid var(--node-border-color);
-  border-radius: var(--border-radius);
+
+  .innerWrap {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 16px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: var(--border-radius);
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      font-size: 20px;
+      display: inline-block;
+      padding: 0;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    > div {
+      flex: 1;
+      padding-left: 8px;
+    }
+  }
 
   p {
-    margin-top: .25em;
+    margin-top: 0.25em;
   }
 
   p:first-child {

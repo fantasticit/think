@@ -1,13 +1,37 @@
 import { Editor } from '@tiptap/core';
-import { Space, Button } from '@douyinfe/semi-ui';
-import { IconDelete, IconTickCircle, IconAlertTriangle, IconClear, IconInfoCircle } from '@douyinfe/semi-icons';
+import { Space, Button, Popover, Typography } from '@douyinfe/semi-ui';
+import { IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
+import { IconDrawBoard } from 'components/icons';
 import { BubbleMenu } from '../../views/bubble-menu';
 import { Divider } from '../../divider';
 import { Banner } from '../../extensions/banner';
 import { deleteNode } from '../../utils/delete-node';
+import styles from './bubble.module.scss';
+import { useCallback } from 'react';
+
+const { Text } = Typography;
+
+const TEXT_COLORS = ['#d83931', '#de7802', '#dc9b04', '#2ea121', '#245bdb', '#6425d0', '#646a73'];
+const BORDER_COLORS = ['#fbbfbc', '#fed4a4', '#fff67a', '#b7edb1', '#bacefd', '#cdb2fa', '#dee0e3'];
+const BACKGROUND_COLORS = ['#fef1f1', '#feead2', '#ffc', '#d9f5d6', '#e1eaff', '#ece2fe', '#f2f3f5'];
 
 export const BannerBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
+  const setColor = useCallback(
+    (key, color) => {
+      return () => {
+        editor
+          .chain()
+          .updateAttributes(Banner.name, {
+            [key]: color,
+          })
+          .focus()
+          .run();
+      };
+    },
+    [editor]
+  );
+
   return (
     <BubbleMenu
       className={'bubble-menu'}
@@ -17,80 +41,53 @@ export const BannerBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
       matchRenderContainer={(node) => node && node.id === 'js-bannber-container'}
     >
       <Space>
-        <Tooltip content="信息">
-          <Button
-            size="small"
-            type="tertiary"
-            theme="borderless"
-            icon={<IconInfoCircle style={{ color: 'var(--semi-color-info)' }} />}
-            onClick={() => {
-              editor
-                .chain()
-                .updateAttributes(Banner.name, {
-                  type: 'info',
-                })
-                .focus()
-                .run();
-            }}
-          />
-        </Tooltip>
+        <Popover
+          spacing={10}
+          visible
+          style={{ padding: '0 12px 12px', overflow: 'hidden' }}
+          content={
+            <>
+              <section className={styles.colorWrap}>
+                <Text type="tertiary">字体颜色</Text>
+                <div>
+                  {TEXT_COLORS.map((color) => (
+                    <div className={styles.color} style={{ color: color }} onClick={setColor('textColor', color)}>
+                      A
+                    </div>
+                  ))}
+                </div>
+              </section>
+              <section className={styles.colorWrap}>
+                <Text type="tertiary">边框颜色</Text>
 
-        <Tooltip content="警告">
-          <Button
-            onClick={() => {
-              editor
-                .chain()
-                .updateAttributes(Banner.name, {
-                  type: 'warning',
-                })
-                .focus()
-                .run();
-            }}
-            icon={<IconAlertTriangle style={{ color: 'var(--semi-color-warning)' }} />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
-        </Tooltip>
-
-        <Tooltip content="危险">
-          <Button
-            onClick={() => {
-              editor
-                .chain()
-                .updateAttributes(Banner.name, {
-                  type: 'danger',
-                })
-                .focus()
-                .run();
-            }}
-            icon={<IconClear style={{ color: 'var(--semi-color-danger)' }} />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
-        </Tooltip>
-
-        <Tooltip content="成功">
-          <Button
-            onClick={() => {
-              editor
-                .chain()
-                .updateAttributes(Banner.name, {
-                  type: 'success',
-                })
-                .focus()
-                .run();
-            }}
-            icon={<IconTickCircle style={{ color: 'var(--semi-color-success)' }} />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
-        </Tooltip>
-
+                <div>
+                  {BORDER_COLORS.map((color) => (
+                    <div
+                      className={styles.color}
+                      style={{ backgroundColor: color }}
+                      onClick={setColor('borderColor', color)}
+                    ></div>
+                  ))}
+                </div>
+              </section>
+              <section className={styles.colorWrap}>
+                <Text type="tertiary">背景颜色</Text>
+                <div>
+                  {BACKGROUND_COLORS.map((color) => (
+                    <div
+                      className={styles.color}
+                      style={{ backgroundColor: color }}
+                      onClick={setColor('backgroundColor', color)}
+                    ></div>
+                  ))}
+                </div>
+              </section>
+            </>
+          }
+        >
+          <Button icon={<IconDrawBoard />} type="tertiary" theme="borderless" size="small" />
+        </Popover>
         <Divider />
-
         <Tooltip content="删除" hideOnClick>
           <Button
             size="small"

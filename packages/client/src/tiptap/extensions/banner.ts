@@ -31,6 +31,18 @@ export const Banner = Node.create({
           };
         },
       },
+      emoji: {
+        default: '✅',
+      },
+      textColor: {
+        default: '#d83931',
+      },
+      borderColor: {
+        default: '#fbbfbc',
+      },
+      backgroundColor: {
+        default: '#fef1f1',
+      },
     };
   },
 

@@ -1,0 +1,24 @@
+.colorWrap {
+  margin-top: 16px;
+
+  > div {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 8px;
+
+    .color {
+      display: flex;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      border: 1px solid var(--semi-color-border);
+      border-radius: 4px;
+      justify-content: center;
+      align-items: center;
+
+      &:not(:first-of-type) {
+        margin-left: 4px;
+      }
+    }
+  }
+}
