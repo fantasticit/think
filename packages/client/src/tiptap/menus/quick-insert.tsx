@@ -19,6 +19,7 @@ import {
   IconAttachment,
   IconMath,
   IconCountdown,
+  IconCallout,
 } from 'components/icons';
 import { createCountdown } from './countdown/service';
 import { createOrToggleLink } from './link/service';
@@ -237,14 +238,14 @@ export const QUICK_INSERT_ITEMS = [
   },
 
   {
-    key: '信息框',
+    key: '高亮块',
     label: (
       <Space>
-        <IconInfo />
-        信息框
+        <IconCallout />
+        高亮块
       </Space>
     ),
-    command: (editor: Editor) => editor.chain().focus().setBanner({ type: 'info' }).run(),
+    command: (editor: Editor) => editor.chain().focus().setCallout().run(),
   },
 
   {

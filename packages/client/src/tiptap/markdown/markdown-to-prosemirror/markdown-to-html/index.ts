@@ -8,7 +8,7 @@ import katex from './markdownKatex';
 import tasklist from './markdownTaskList';
 import splitMixedLists from './markedownSplitMixedList';
 import markdownUnderline from './markdownUnderline';
-import markdownBanner from './markdownBanner';
+import markdownCallout from './markdownCallout';
 import { markdownItTable } from './markdownTable';
 import { createMarkdownContainer } from './markdownItContainer';
 
@@ -33,7 +33,7 @@ const markdown = markdownit('commonmark')
   .use(emoji)
   .use(katex)
   // 以下为自定义节点
-  .use(markdownBanner)
+  .use(markdownCallout)
   .use(markdownAttachment)
   .use(markdownCountdown)
   .use(markdownIframe)

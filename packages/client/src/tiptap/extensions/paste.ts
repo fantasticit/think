@@ -115,19 +115,19 @@ export const Paste = Extension.create({
 
             return false;
           },
-          // clipboardTextSerializer: (slice) => {
-          //   const doc = slice.content;
+          clipboardTextSerializer: (slice) => {
+            const doc = slice.content;
 
-          //   if (!doc) {
-          //     return '';
-          //   }
+            if (!doc) {
+              return '';
+            }
 
-          //   const content = prosemirrorToMarkdown({
-          //     content: doc,
-          //   });
+            const content = prosemirrorToMarkdown({
+              content: doc,
+            });
 
-          //   return content;
-          // },
+            return content;
+          },
         },
       }),
     ];

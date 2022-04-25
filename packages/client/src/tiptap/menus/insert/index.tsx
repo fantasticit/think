@@ -15,6 +15,7 @@ import {
   IconAttachment,
   IconMath,
   IconCountdown,
+  IconCallout,
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
 import { isTitleActive } from '../../utils/is-active';
@@ -90,8 +91,8 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
             <IconStatus /> 状态
           </Dropdown.Item>
 
-          <Dropdown.Item onClick={() => editor.chain().focus().setBanner({ type: 'info' }).run()}>
-            <IconInfo /> 信息框
+          <Dropdown.Item onClick={() => editor.chain().focus().setCallout().run()}>
+            <IconCallout /> 高亮块
           </Dropdown.Item>
 
           <Dropdown.Divider />

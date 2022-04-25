@@ -1,12 +1,10 @@
+import { useCallback } from 'react';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
-import { Popover } from '@douyinfe/semi-ui';
 import cls from 'classnames';
-import { useToggle } from 'hooks/use-toggle';
 import { EmojiPicker } from 'components/emoji-picker';
 import styles from './index.module.scss';
-import { useCallback, useEffect, useMemo } from 'react';
 
-export const BannerWrapper = ({ node, updateAttributes }) => {
+export const CalloutWrapper = ({ node, updateAttributes }) => {
   const { emoji, textColor, borderColor, backgroundColor } = node.attrs;
 
   const onSelectEmoji = useCallback((emoji) => {

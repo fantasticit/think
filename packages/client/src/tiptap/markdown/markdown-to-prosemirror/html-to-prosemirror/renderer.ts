@@ -1,7 +1,7 @@
 // 自定义节点
 import { Iframe } from './nodes/iframe';
 import { Attachment } from './nodes/attachment';
-import { Banner } from './nodes/banner';
+import { Callout } from './nodes/callout';
 import { Status } from './nodes/status';
 import { DocumentReference } from './nodes/document-reference';
 import { DocumentChildren } from './nodes/document-children';
@@ -55,7 +55,7 @@ export class Renderer {
     this.nodes = [
       Attachment,
       Countdown,
-      Banner,
+      Callout,
       Iframe,
       Status,
       Mention,

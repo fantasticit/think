@@ -1,8 +1,8 @@
 import { MarkdownSerializer as ProseMirrorMarkdownSerializer, defaultMarkdownSerializer } from 'prosemirror-markdown';
 import { Attachment } from '../../extensions/attachment';
-import { Banner } from '../../extensions/banner';
 import { Bold } from '../../extensions/bold';
 import { BulletList } from '../../extensions/bullet-list';
+import { Callout } from '../../extensions/callout';
 import { Code } from '../../extensions/code';
 import { CodeBlock } from '../../extensions/code-block';
 import { Countdown } from '../../extensions/countdown';
@@ -92,14 +92,6 @@ const SerializerConfig = {
 
   nodes: {
     [Attachment.name]: renderCustomContainer('attachment'),
-    [Banner.name]: (state, node) => {
-      state.write(`:::${node.attrs.type || 'info'}\n`);
-      state.ensureNewLine();
-      state.renderContent(node);
-      state.ensureNewLine();
-      state.write(':::');
-      state.closeBlock(node);
-    },
     blockquote: (state, node) => {
       if (node.attrs.multiline) {
         state.write('>>>');
@@ -113,6 +105,14 @@ const SerializerConfig = {
       }
     },
     [BulletList.name]: defaultMarkdownSerializer.nodes.bullet_list,
+    [Callout.name]: (state, node) => {
+      state.write(`:::callout\n`);
+      state.ensureNewLine();
+      state.renderContent(node);
+      state.ensureNewLine();
+      state.write(':::');
+      state.closeBlock(node);
+    },
     [CodeBlock.name]: (state, node) => {
       state.write(`\`\`\`${node.attrs.language || ''}\n`);
       state.text(node.textContent, false);

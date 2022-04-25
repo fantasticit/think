@@ -5,7 +5,7 @@ import { Tooltip } from 'components/tooltip';
 import { IconDrawBoard } from 'components/icons';
 import { BubbleMenu } from '../../views/bubble-menu';
 import { Divider } from '../../divider';
-import { Banner } from '../../extensions/banner';
+import { Callout } from '../../extensions/callout';
 import { deleteNode } from '../../utils/delete-node';
 import styles from './bubble.module.scss';
 import { useCallback } from 'react';
@@ -16,13 +16,13 @@ const TEXT_COLORS = ['#d83931', '#de7802', '#dc9b04', '#2ea121', '#245bdb', '#64
 const BORDER_COLORS = ['#fbbfbc', '#fed4a4', '#fff67a', '#b7edb1', '#bacefd', '#cdb2fa', '#dee0e3'];
 const BACKGROUND_COLORS = ['#fef1f1', '#feead2', '#ffc', '#d9f5d6', '#e1eaff', '#ece2fe', '#f2f3f5'];
 
-export const BannerBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
+export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
   const setColor = useCallback(
     (key, color) => {
       return () => {
         editor
           .chain()
-          .updateAttributes(Banner.name, {
+          .updateAttributes(Callout.name, {
             [key]: color,
           })
           .focus()
@@ -37,18 +37,17 @@ export const BannerBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="banner-bubble-menu"
-      shouldShow={() => editor.isActive(Banner.name)}
+      shouldShow={() => editor.isActive(Callout.name)}
       matchRenderContainer={(node) => node && node.id === 'js-bannber-container'}
     >
       <Space>
         <Popover
           spacing={10}
-          visible
           style={{ padding: '0 12px 12px', overflow: 'hidden' }}
           content={
             <>
               <section className={styles.colorWrap}>
-                <Text type="tertiary">字体颜色</Text>
+                <Text type="secondary">字体颜色</Text>
                 <div>
                   {TEXT_COLORS.map((color) => (
                     <div className={styles.color} style={{ color: color }} onClick={setColor('textColor', color)}>
@@ -58,7 +57,7 @@ export const BannerBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
                 </div>
               </section>
               <section className={styles.colorWrap}>
-                <Text type="tertiary">边框颜色</Text>
+                <Text type="secondary">边框颜色</Text>
 
                 <div>
                   {BORDER_COLORS.map((color) => (
@@ -71,7 +70,7 @@ export const BannerBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
                 </div>
               </section>
               <section className={styles.colorWrap}>
-                <Text type="tertiary">背景颜色</Text>
+                <Text type="secondary">背景颜色</Text>
                 <div>
                   {BACKGROUND_COLORS.map((color) => (
                     <div

@@ -1,18 +1,18 @@
 import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { BannerWrapper } from '../wrappers/banner';
+import { CalloutWrapper } from '../wrappers/callout';
 import { getDatasetAttribute } from '../utils/dataset';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     banner: {
-      setBanner: (attrs) => ReturnType;
+      setCallout: () => ReturnType;
     };
   }
 }
 
-export const Banner = Node.create({
-  name: 'banner',
+export const Callout = Node.create({
+  name: 'callout',
   content: 'paragraph+',
   group: 'block',
   defining: true,
@@ -20,17 +20,6 @@ export const Banner = Node.create({
 
   addAttributes() {
     return {
-      type: {
-        default: 'info',
-        rendered: false,
-        parseHTML: getDatasetAttribute('type'),
-        renderHTML: (attributes) => {
-          return {
-            'data-type': attributes.type,
-            'class': `banner banner-${attributes.type}`,
-          };
-        },
-      },
       emoji: {
         default: '✅',
       },
@@ -49,7 +38,7 @@ export const Banner = Node.create({
   addOptions() {
     return {
       HTMLAttributes: {
-        class: 'banner',
+        class: 'callout',
       },
     };
   },
@@ -68,14 +57,14 @@ export const Banner = Node.create({
 
   addCommands() {
     return {
-      setBanner:
-        (attributes) =>
+      setCallout:
+        () =>
         ({ commands, editor }) => {
           const { type = null } = editor.getAttributes(this.name);
           if (type) {
             commands.lift(this.name);
           } else {
-            return commands.toggleWrap(this.name, attributes);
+            return commands.toggleWrap(this.name);
           }
         },
     };
@@ -94,6 +83,6 @@ export const Banner = Node.create({
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(BannerWrapper);
+    return ReactNodeViewRenderer(CalloutWrapper);
   },
 });

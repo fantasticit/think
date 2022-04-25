@@ -1,9 +1,9 @@
 import { Attachment } from './extensions/attachment';
 import { BackgroundColor } from './extensions/background-color';
-import { Banner } from './extensions/banner';
 import { Blockquote } from './extensions/blockquote';
 import { Bold } from './extensions/bold';
 import { BulletList } from './extensions/bullet-list';
+import { Callout } from './extensions/callout';
 import { Code } from './extensions/code';
 import { CodeBlock } from './extensions/code-block';
 import { Color } from './extensions/color';
@@ -57,10 +57,10 @@ import { Paste } from './extensions/paste';
 export const BaseKit = [
   Attachment,
   BackgroundColor,
-  Banner,
   Blockquote,
   Bold,
   BulletList,
+  Callout,
   Code,
   CodeBlock,
   Color,

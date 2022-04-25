@@ -1,5 +1,6 @@
 .wrap {
   line-height: 0;
+  margin-top: 0.75em;
 
   .innerWrap {
     display: flex;
@@ -28,7 +29,7 @@
   }
 
   p {
-    margin-top: .25em;
+    margin-top: 0.25em;
   }
 
   p:first-child {
