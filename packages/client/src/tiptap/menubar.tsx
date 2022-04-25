@@ -112,7 +112,6 @@ export const CommentMenuBar: React.FC<{ editor: any }> = ({ editor }) => {
         <Divider />
 
         <Heading editor={editor} />
-        <FontSize editor={editor} />
         <Bold editor={editor} />
         <Italic editor={editor} />
         <Underline editor={editor} />

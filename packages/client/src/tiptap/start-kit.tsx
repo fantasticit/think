@@ -89,7 +89,18 @@ export const BaseKit = [
   Mind,
   OrderedList,
   Paragraph,
-  Placeholder,
+  Placeholder.configure({
+    placeholder: ({ node, editor }) => {
+      if (!editor.isEditable) return;
+
+      if (node.type.name === 'title') {
+        return '请输入标题';
+      }
+      return '输入 / 唤起更多';
+    },
+    showOnlyCurrent: false,
+    showOnlyWhenEditable: true,
+  }),
   QuickInsert,
   SearchNReplace,
   SelectionExtension,
@@ -122,6 +133,7 @@ export const CommentKit = [
   Color,
   ColorHighlighter,
   Dropcursor,
+  Emoji,
   Focus,
   FontSize,
   Gapcursor,
@@ -137,7 +149,10 @@ export const CommentKit = [
   Mention,
   OrderedList,
   Paragraph,
-  Placeholder,
+  Placeholder.configure({
+    placeholder: '请输入内容',
+    showOnlyWhenEditable: true,
+  }),
   Strike,
   Subscript,
   Superscript,
