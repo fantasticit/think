@@ -116,6 +116,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                       }}
                       onClick={gotoEdit}
                       target={() => window.document.querySelector('.Pane2')}
+                      visibilityHeight={200}
                     >
                       <IconEdit />
                     </BackTop>
