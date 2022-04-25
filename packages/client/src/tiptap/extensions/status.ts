@@ -21,8 +21,8 @@ export const Status = Node.create({
   name: 'status',
   group: 'inline',
   inline: true,
-  atom: true,
   selectable: true,
+  atom: true,
 
   addAttributes() {
     return {

@@ -29,7 +29,8 @@
   .node-mind,
   .node-codeBlock,
   .node-documentChildren,
-  .node-documentReference {
+  .node-documentReference,
+  .node-status {
     &.selected-node {
       &:not(.has-focus) {
         ::selection {

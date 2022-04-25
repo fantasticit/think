@@ -92,6 +92,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
       {isEditable ? (
         <Popover
           showArrow
+          position="bottomLeft"
           visible={visible}
           onVisibleChange={onVisibleChange}
           content={
