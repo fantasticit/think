@@ -29,7 +29,7 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
         )}
       </NodeViewContent>
     ),
-    [url]
+    [url, width, height]
   );
 
   if (!isEditable && !url) {
@@ -39,8 +39,8 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   return (
     <NodeViewWrapper>
       {isEditable ? (
-        <Resizeable height={height} width={width} onChange={onResize}>
-          {content}
+        <Resizeable height={height} width={width} onChangeEnd={onResize}>
+          <div style={{ width, height, maxWidth: '100%' }}>{content}</div>
         </Resizeable>
       ) : (
         <div style={{ width, height, maxWidth: '100%' }}>{content}</div>

@@ -80,7 +80,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
 
     if (isEditable) {
       return (
-        <Resizeable className={cls('render-wrapper')} width={width} height={height} onChange={onResize}>
+        <Resizeable className={cls('render-wrapper')} width={width} height={height} onChangeEnd={onResize}>
           {img}
         </Resizeable>
       );
@@ -91,7 +91,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
         {img}
       </div>
     );
-  }, [error, src, isEditable]);
+  }, [error, src, isEditable, width, height]);
 
   return (
     <NodeViewWrapper as="div" style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
