@@ -73,7 +73,12 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
             <div>
               <Space>
                 {getFileTypeIcon(fileType)}
-                <Text style={{ marginLeft: 8 }} ellipsis={{ showTooltip: true }}>
+                <Text
+                  style={{ marginLeft: 8 }}
+                  ellipsis={{
+                    showTooltip: { opts: { content: `${fileName}.${fileExt}`, style: { wordBreak: 'break-all' } } },
+                  }}
+                >
                   {fileName}.{fileExt}
                   <Text type="tertiary">({normalizeFileSize(fileSize)})</Text>
                 </Text>
