@@ -38,7 +38,7 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
     <BubbleMenu
       className={'bubble-menu'}
       editor={editor}
-      pluginKey="countdonw-bubble-menu"
+      pluginKey="document-reference-bubble-menu"
       shouldShow={() => editor.isActive(DocumentReference.name)}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >

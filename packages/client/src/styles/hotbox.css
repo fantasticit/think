@@ -1,0 +1,191 @@
+/* stylelint-disable */
+.hotbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  font-family: Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+}
+
+.hotbox .state {
+  position: absolute;
+  display: none;
+  overflow: visible;
+}
+
+.hotbox .state .center .button,
+.hotbox .state .ring .button {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  margin-top: -35px;
+  margin-left: -35px;
+  border-radius: 100%;
+  box-shadow: 0 0 30px rgb(0 0 0 / 30%);
+}
+
+.hotbox .state .center .label,
+.hotbox .state .ring .label,
+.hotbox .state .center .key,
+.hotbox .state .ring .key {
+  display: block;
+  line-height: 1.4em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.hotbox .state .center .label,
+.hotbox .state .ring .label {
+  margin-top: 17px;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1em;
+  color: black;
+}
+
+.hotbox .state .center .key,
+.hotbox .state .ring .key {
+  font-size: 12px;
+  color: #999;
+}
+
+.hotbox .state .ring-shape {
+  position: absolute;
+  top: -25px;
+  left: -25px;
+  border: 25px solid rgb(0 0 0 / 30%);
+  border-radius: 100%;
+  box-sizing: content-box;
+}
+
+.hotbox .state .top,
+.hotbox .state .bottom {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.hotbox .state .top .button,
+.hotbox .state .bottom .button {
+  position: relative;
+  display: inline-block;
+  padding: 8px 15px;
+  margin: 0 10px;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgb(0 0 0 / 30%);
+}
+
+.hotbox .state .top .button .label,
+.hotbox .state .bottom .button .label {
+  font-size: 14px;
+  line-height: 14px;
+  line-height: 1em;
+  color: black;
+  vertical-align: middle;
+}
+
+.hotbox .state .top .button .key,
+.hotbox .state .bottom .button .key {
+  margin-left: 3px;
+  font-size: 12px;
+  line-height: 12px;
+  color: #999;
+  vertical-align: middle;
+}
+
+.hotbox .state .top .button .key::before,
+.hotbox .state .bottom .button .key::before {
+  content: '(';
+}
+
+.hotbox .state .top .button .key::after,
+.hotbox .state .bottom .button .key::after {
+  content: ')';
+}
+
+.hotbox .state .button {
+  overflow: hidden;
+  cursor: default;
+  background: #f9f9f9;
+}
+
+.hotbox .state .button .key,
+.hotbox .state .button .label {
+  opacity: 0.3;
+}
+
+.hotbox .state .button.enabled {
+  background: white;
+}
+
+.hotbox .state .button.enabled .key,
+.hotbox .state .button.enabled .label {
+  opacity: 1;
+}
+
+.hotbox .state .button.enabled:hover {
+  background: #e87372;
+}
+
+.hotbox .state .button.enabled:hover .label {
+  color: white;
+}
+
+.hotbox .state .button.enabled:hover .key {
+  color: #fadfdf;
+}
+
+.hotbox .state .button.enabled.selected {
+  animation: selected 0.1s ease;
+  background: #e45d5c;
+}
+
+.hotbox .state .button.enabled.selected .label {
+  color: white;
+}
+
+.hotbox .state .button.enabled.selected .key {
+  color: #fadfdf;
+}
+
+.hotbox .state .button.enabled.pressed,
+.hotbox .state .button.enabled:active {
+  background: #ff974d;
+}
+
+.hotbox .state .button.enabled.pressed .label,
+.hotbox .state .button.enabled:active .label {
+  color: white;
+}
+
+.hotbox .state .button.enabled.pressed .key,
+.hotbox .state .button.enabled:active .key {
+  color: #fff0e6;
+}
+
+.hotbox .state.active {
+  display: block;
+}
+
+@keyframes selected {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.hotbox-key-receiver {
+  position: absolute;
+  top: -999999px;
+  left: -999999px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  outline: none;
+}

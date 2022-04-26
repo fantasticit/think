@@ -1,140 +1,220 @@
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
-import { useCallback, useEffect, useRef } from 'react';
-import { Button } from '@douyinfe/semi-ui';
-import { IconMinus, IconPlus } from '@douyinfe/semi-icons';
-import { Resizeable } from 'components/resizeable';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Spin, Button, Typography } from '@douyinfe/semi-ui';
+import { IconMinus, IconPlus, IconAlignCenter } from '@douyinfe/semi-icons';
 import deepEqual from 'deep-equal';
+import { Resizeable } from 'components/resizeable';
+import { Tooltip } from 'components/tooltip';
+import { useToggle } from 'hooks/use-toggle';
+import { MIN_ZOOM, MAX_ZOOM, ZOOM_STEP } from '../../menus/mind/constant';
+import { clamp } from '../../utils/clamp';
 import { Mind } from '../../extensions/mind';
-// @ts-ignore
-import jsMind from './jsmind.jsx';
+import { loadKityMinder } from './kityminder';
 import styles from './index.module.scss';
+
+const { Text } = Typography;
 
 export const MindWrapper = ({ editor, node, updateAttributes }) => {
   const $container = useRef();
   const $mind = useRef<any>();
   const isMindActive = editor.isActive(Mind.name);
   const isEditable = editor.isEditable;
-  const { data, width, height = 100 } = node.attrs;
+  const { data, template, theme, zoom, callCenterCount, width, height } = node.attrs;
+  const [loading, toggleLoading] = useToggle(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  const zoomIn = useCallback(() => {
-    const jm = $mind.current;
-    if (!jm) return;
+  const content = useMemo(() => {
+    if (error) {
+      return (
+        <div style={{ width: '100%', height: '100%' }}>
+          <Text>{error.message || error}</Text>
+        </div>
+      );
+    }
 
-    jm.view.zoomIn();
+    if (loading) {
+      return <Spin spinning={loading} style={{ width: '100%', height: '100%' }}></Spin>;
+    }
+
+    return (
+      <div
+        ref={$container}
+        className={cls(styles.renderWrap, 'render-wrapper')}
+        tabIndex={0}
+        style={{ width: '100%', height: '100%' }}
+      ></div>
+    );
+  }, [loading, error]);
+
+  const onResize = useCallback(
+    (size) => {
+      updateAttributes({ width: size.width, height: size.height });
+      setCenter();
+    },
+    [updateAttributes]
+  );
+
+  const setCenter = useCallback(() => {
+    const minder = $mind.current;
+    if (!minder) return;
+    minder.execCommand('camera');
   }, []);
 
-  const zoomOut = useCallback(() => {
-    const jm = $mind.current;
-    if (!jm) return;
+  const setZoom = useCallback(
+    (type: 'minus' | 'plus') => {
+      return () => {
+        const minder = $mind.current;
+        if (!minder) return;
+        const currentZoom = minder.getZoomValue();
+        const nextZoom = clamp(
+          type === 'minus' ? currentZoom - ZOOM_STEP : currentZoom + ZOOM_STEP,
+          MIN_ZOOM,
+          MAX_ZOOM
+        );
+        minder.execCommand('zoom', nextZoom);
+      };
+    },
+    [editor, zoom]
+  );
 
-    jm.view.zoomOut();
-  }, []);
+  const saveData = useCallback(() => {
+    const minder = $mind.current;
+    if (!minder) return;
+    updateAttributes({ data: minder.exportJson() });
+  }, [updateAttributes]);
 
-  const syncData = useCallback(() => {
-    const jm = $mind.current;
-    if (!jm) return;
-    const data = jm.get_data();
-    try {
-      updateAttributes({ data });
-    } catch (e) {}
-  }, []);
-
+  // 加载依赖
   useEffect(() => {
-    if (!data) return;
-    if (!data.meta) return;
+    loadKityMinder()
+      .then(() => {
+        toggleLoading(false);
+      })
+      .catch((e) => {
+        setError(e);
+      });
+  }, []);
 
-    const onChange = (_, data) => {
-      if (data.node) {
-        syncData();
-      }
+  // 初始化渲染
+  useEffect(() => {
+    if (loading || !$container.current) return;
+
+    const onChange = () => {
+      saveData();
     };
 
-    setTimeout(() => {
+    try {
+      const Editor = window.kityminder.Editor;
+      const minder = new Editor($container.current).minder;
+      minder.importJson(data);
+      minder.execCommand('template', template);
+      minder.execCommand('theme', theme);
+      minder.execCommand('zoom', parseInt(zoom));
+
+      $mind.current = minder;
+      minder.on('contentChange', onChange);
+      toggleLoading(false);
+    } catch (e) {
+      setError(e);
+    }
+
+    return () => {
       if ($mind.current) {
-        const jm = $mind.current;
-        const currentData = jm.get_data();
-        const isEqual = deepEqual(currentData, data);
-        if (!isEqual) {
-          jm.show(data);
-        }
-        return;
+        $mind.current.off('contentChange', onChange);
       }
+    };
+  }, [loading]);
 
-      const options = {
-        container: $container.current,
-        editable: isEditable,
-        view: {
-          hmargin: 100,
-          vmargin: 50,
-          line_width: window.devicePixelRatio,
-          line_color: '#e5e9ef',
-        },
-      };
-      const jm = new jsMind(options);
-      jm.show(data);
-      $mind.current = jm;
-      jm.add_event_listener(onChange);
-    }, 0);
-  }, [data, isEditable]);
-
-  const onResize = (size) => {
-    const jm = $mind.current;
-    if (!jm) return;
-    updateAttributes({ width: size.width, height: size.height });
-    setTimeout(() => {
-      jm.view.show(true);
-      jm.view.showAddHandlerDOMNode();
-    }, 100);
-  };
-
+  // 数据同步渲染
   useEffect(() => {
-    const jm = $mind.current;
-    if (!jm) return;
+    const minder = $mind.current;
+    if (!minder) return;
+    const currentData = minder.exportJson();
+    const isEqual = deepEqual(currentData, data);
+    if (isEqual) return;
+
+    // TODO: 也许刷新更好些
+    minder.importJson(data);
+  }, [data]);
+
+  // 布局
+  useEffect(() => {
+    const minder = $mind.current;
+    if (!minder) return;
+    minder.execCommand('template', template);
+  }, [template]);
+
+  // 主题
+  useEffect(() => {
+    const minder = $mind.current;
+    if (!minder) return;
+    minder.execCommand('theme', theme);
+  }, [theme]);
+
+  // 缩放
+  useEffect(() => {
+    const minder = $mind.current;
+    if (!minder) return;
+    minder.execCommand('zoom', parseInt(zoom));
+  }, [zoom]);
+
+  // 启用/禁用
+  useEffect(() => {
+    const minder = $mind.current;
+    if (!minder) return;
 
     if (isEditable) {
-      jm.enable_edit();
+      minder.enable();
     } else {
-      jm.disable_edit();
+      minder.disable();
     }
   }, [isEditable]);
 
-  const content = (
-    <div
-      ref={$container}
-      className={cls(styles.renderWrap, 'render-wrapper')}
-      tabIndex={0}
-      style={{ width: '100%', height: '100%' }}
-    >
-      {!isEditable && (
-        <div className={styles.mindHandlerWrap}>
-          <Button
-            size="small"
-            theme="borderless"
-            type="tertiary"
-            icon={<IconMinus style={{ fontSize: 14 }} />}
-            onClick={zoomOut}
-          />
-          <Button
-            size="small"
-            theme="borderless"
-            type="tertiary"
-            icon={<IconPlus style={{ fontSize: 14 }} />}
-            onClick={zoomIn}
-          />
-        </div>
-      )}
-    </div>
-  );
+  // 居中
+  useEffect(() => {
+    setCenter();
+  }, [callCenterCount]);
 
   return (
     <NodeViewWrapper className={cls(styles.wrap, isMindActive && styles.isActive)}>
       {isEditable ? (
-        <Resizeable width={width} height={height} onChange={onResize}>
+        <Resizeable width={width} height={height} onChangeEnd={onResize}>
           {content}
         </Resizeable>
       ) : (
         <div style={{ display: 'inline-block', width, height, maxWidth: '100%' }}>{content}</div>
+      )}
+
+      {!isEditable && (
+        <div className={styles.mindHandlerWrap}>
+          <Tooltip content="缩小">
+            <Button
+              size="small"
+              theme="borderless"
+              type="tertiary"
+              icon={<IconMinus style={{ fontSize: 14 }} />}
+              onClick={setZoom('minus')}
+            />
+          </Tooltip>
+          <Tooltip content="放大">
+            <Button
+              size="small"
+              theme="borderless"
+              type="tertiary"
+              icon={<IconPlus style={{ fontSize: 14 }} />}
+              onClick={setZoom('plus')}
+            />
+          </Tooltip>
+          <Tooltip content="居中">
+            <Button
+              size="small"
+              theme="borderless"
+              type="tertiary"
+              icon={<IconAlignCenter style={{ fontSize: 14 }} />}
+              onClick={setCenter}
+            />
+          </Tooltip>
+        </div>
       )}
     </NodeViewWrapper>
   );
