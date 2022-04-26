@@ -51,3 +51,4 @@ export * from './IconGlobe';
 export * from './IconCountdown';
 export * from './IconDrawBoard';
 export * from './IconCallout';
+export * from './IconStructure';

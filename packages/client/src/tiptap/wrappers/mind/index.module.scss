@@ -3,11 +3,32 @@
   max-width: 100%;
   overflow: visible;
   line-height: 0;
-  outline: none;
 
   .renderWrap {
+    border: 1px solid var(--node-border-color);
+    border-radius: var(--border-radius);
+
     &::after {
       background-color: transparent !important;
+    }
+  }
+
+  .mindHandlerWrap {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    padding: 4px 8px;
+    background-color: var(--semi-color-bg-2);
+    border: 1px solid var(--node-border-color);
+    border-radius: var(--border-radius);
+    opacity: 0;
+    box-shadow: var(--box-shadow);
+  }
+
+  &.isActive {
+    .mindHandlerWrap {
+      opacity: 1;
     }
   }
 }

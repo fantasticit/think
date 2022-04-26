@@ -1,0 +1,42 @@
+.sectionWrap {
+  margin-top: 16px;
+
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    width: 168px;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+
+      li {
+        width: 80px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        padding: 0 5px;
+        font-size: 12px;
+        cursor: pointer;
+        text-decoration: none;
+        border: 1px solid rgb(28 31 35 / 8%);
+
+        &.active {
+          border: 1px solid rgb(0 101 255);
+        }
+
+        &:nth-of-type(2n) {
+          margin-left: 8px;
+        }
+
+        &:nth-of-type(n + 3) {
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+}

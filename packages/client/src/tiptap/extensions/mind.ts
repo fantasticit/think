@@ -6,7 +6,7 @@ import { getDatasetAttribute } from '../utils/dataset';
 const DEFAULT_MIND_DATA = {
   root: { data: { text: '中心节点' }, children: [] },
   template: 'default',
-  theme: 'fresh-blue',
+  theme: 'classic',
   version: '1.4.43',
 };
 
@@ -38,6 +38,18 @@ export const Mind = Node.create({
       data: {
         default: DEFAULT_MIND_DATA,
         parseHTML: getDatasetAttribute('data', true),
+      },
+      template: {
+        default: 'default',
+        parseHTML: getDatasetAttribute('template'),
+      },
+      theme: {
+        default: 'classic',
+        parseHTML: getDatasetAttribute('theme'),
+      },
+      zoom: {
+        default: 100,
+        parseHTML: getDatasetAttribute('zoom'),
       },
     };
   },
