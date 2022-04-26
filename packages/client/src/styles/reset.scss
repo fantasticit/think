@@ -19,6 +19,7 @@ html:focus-within {
 
 body {
   margin: 0;
+  overflow: hidden;
 
   /* stylelint-disable-next-line selector-id-pattern */
   > div#__next {
