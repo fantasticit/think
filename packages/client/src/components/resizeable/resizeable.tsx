@@ -7,14 +7,15 @@ import styles from './style.module.scss';
 interface IProps {
   width: number;
   height: number;
-  onChange: (arg: { width: number; height: number }) => void;
+  onChange?: (arg: { width: number; height: number }) => void;
+  onChangeEnd?: (arg: { width: number; height: number }) => void;
   className?: string;
 }
 
 const MIN_WIDTH = 50;
 const MIN_HEIGHT = 50;
 
-export const Resizeable: React.FC<IProps> = ({ width, height, className, onChange, children }) => {
+export const Resizeable: React.FC<IProps> = ({ width, height, className, onChange, onChangeEnd, children }) => {
   const $container = useRef<HTMLDivElement>(null);
   const $topLeft = useRef<HTMLDivElement>(null);
   const $topRight = useRef<HTMLDivElement>(null);
@@ -51,6 +52,10 @@ export const Resizeable: React.FC<IProps> = ({ width, height, className, onChang
           });
           Object.assign(event.target.dataset, { x, y });
           onChange && onChange({ width, height });
+        },
+        end: function (event) {
+          let { width, height } = event.rect;
+          onChangeEnd && onChangeEnd({ width, height });
         },
       },
     });

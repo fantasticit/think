@@ -51,6 +51,10 @@ export const Mind = Node.create({
         default: 100,
         parseHTML: getDatasetAttribute('zoom'),
       },
+      callCenterCount: {
+        default: 0,
+        parseHTML: (element) => Number(getDatasetAttribute('callcentercount')(element)),
+      },
     };
   },
 

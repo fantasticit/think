@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
-import { useRouter } from 'next/router';
 import cls from 'classnames';
-import { Space, Button, List, Popover, Typography, RadioGroup, Radio } from '@douyinfe/semi-ui';
-import { IconEdit, IconDelete } from '@douyinfe/semi-icons';
+import { Space, Button, Popover, Typography } from '@douyinfe/semi-ui';
+import { IconAlignCenter, IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { IconStructure, IconDrawBoard, IconZoomIn, IconZoomOut } from 'components/icons';
 import { BubbleMenu } from '../../views/bubble-menu';
@@ -15,7 +14,7 @@ import styles from './bubble.module.scss';
 const { Text } = Typography;
 
 export const MindBubbleMenu = ({ editor }) => {
-  const { template, theme, zoom } = editor.getAttributes(Mind.name);
+  const { template, theme, zoom, callCenterCount } = editor.getAttributes(Mind.name);
 
   const setZoom = useCallback(
     (type: 'minus' | 'plus') => {
@@ -31,6 +30,18 @@ export const MindBubbleMenu = ({ editor }) => {
     },
     [editor, zoom]
   );
+
+  const setCenter = useCallback(() => {
+    const nextValue = Number.isNaN(callCenterCount) ? 1 : Number(callCenterCount) + 1;
+
+    editor
+      .chain()
+      .updateAttributes(Mind.name, {
+        callCenterCount: nextValue,
+      })
+      .focus()
+      .run();
+  }, [editor, callCenterCount]);
 
   const setTemplate = useCallback(
     (template) => {
@@ -91,6 +102,11 @@ export const MindBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
+        <Tooltip content="居中">
+          <Button size="small" type="tertiary" theme="borderless" icon={<IconAlignCenter />} onClick={setCenter} />
+        </Tooltip>
+        <Divider />
+
         <Popover
           zIndex={10000}
           spacing={10}
@@ -103,6 +119,7 @@ export const MindBubbleMenu = ({ editor }) => {
                   {TEMPLATES.map((item) => {
                     return (
                       <li
+                        key={item.label}
                         className={cls(template === item.value && styles.active)}
                         onClick={() => setTemplate(item.value)}
                       >
@@ -130,6 +147,7 @@ export const MindBubbleMenu = ({ editor }) => {
                   {THEMES.map((item) => {
                     return (
                       <li
+                        key={item.label}
                         className={cls(theme === item.value && styles.active)}
                         style={item.style || {}}
                         onClick={() => setTheme(item.value)}
