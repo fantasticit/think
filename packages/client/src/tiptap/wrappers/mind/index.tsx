@@ -111,6 +111,10 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       minder.execCommand('theme', theme);
       minder.execCommand('zoom', parseInt(zoom));
 
+      if (!isEditable) {
+        minder.disable();
+      }
+
       $mind.current = minder;
       minder.on('contentChange', onChange);
       toggleLoading(false);
