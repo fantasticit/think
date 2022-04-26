@@ -14,9 +14,11 @@ export const Emoji: React.FC<{ editor: Editor }> = ({ editor }) => {
 
   return (
     <EmojiPicker onSelectEmoji={setEmoji}>
-      <Tooltip content="插入表情">
-        <Button theme={'borderless'} type="tertiary" icon={<IconEmoji />} />
-      </Tooltip>
+      <span>
+        <Tooltip content="插入表情">
+          <Button theme={'borderless'} type="tertiary" icon={<IconEmoji />} />
+        </Tooltip>
+      </span>
     </EmojiPicker>
   );
 };

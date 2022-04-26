@@ -92,7 +92,7 @@ export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
         </div>
       }
     >
-      <span>{children}</span>
+      {children}
     </Popover>
   );
 };
