@@ -134,7 +134,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
           {content}
         </Resizeable>
       ) : (
-        <div style={{ display: 'inline-block', width, height }}>{content}</div>
+        <div style={{ display: 'inline-block', width, height, maxWidth: '100%' }}>{content}</div>
       )}
     </NodeViewWrapper>
   );
