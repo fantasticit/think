@@ -22,7 +22,7 @@ export const CountdownBubbleMenu = ({ editor }) => {
       editor={editor}
       pluginKey="countdonw-bubble-menu"
       shouldShow={() => editor.isActive(Countdown.name)}
-      tippyOptions={{ maxWidth: 456 }}
+      tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
       <Space>
         <Tooltip content="编辑">

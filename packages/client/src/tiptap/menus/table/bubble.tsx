@@ -26,8 +26,7 @@ export const TableBubbleMenu = ({ editor }) => {
       pluginKey="table-bubble-menu"
       shouldShow={() => editor.isActive(Table.name)}
       tippyOptions={{
-        maxWidth: 486,
-        placement: 'bottom',
+        maxWidth: 'calc(100vw - 100px)',
       }}
       matchRenderContainer={(node: HTMLElement) => node && node.tagName === 'TABLE'}
     >

@@ -65,7 +65,7 @@ export const IframeBubbleMenu = ({ editor }) => {
       editor={editor}
       pluginKey="link-bubble-menu"
       shouldShow={() => editor.isActive(Iframe.name)}
-      tippyOptions={{ maxWidth: 456 }}
+      tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
       <Modal
         title="编辑链接"

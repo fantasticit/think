@@ -40,7 +40,7 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
       editor={editor}
       pluginKey="countdonw-bubble-menu"
       shouldShow={() => editor.isActive(DocumentReference.name)}
-      tippyOptions={{ maxWidth: 456 }}
+      tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
       <Space>
         <Popover

@@ -59,7 +59,7 @@ export const LinkBubbleMenu = ({ editor }) => {
       editor={editor}
       pluginKey="link-bubble-menu"
       shouldShow={() => editor.isActive(Link.name)}
-      tippyOptions={{ maxWidth: 456 }}
+      tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
       <Space>
         <Tooltip content="访问链接">

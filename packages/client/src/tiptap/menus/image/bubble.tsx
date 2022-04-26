@@ -25,7 +25,7 @@ export const ImageBubbleMenu = ({ editor }) => {
       pluginKey="image-bubble-menu"
       shouldShow={() => editor.isActive(Image.name) && !!editor.getAttributes(Image.name).src}
       tippyOptions={{
-        maxWidth: 456,
+        maxWidth: 'calc(100vw - 100px)',
       }}
       matchRenderContainer={(node) => node && node.id === 'js-resizeable-container'}
     >
