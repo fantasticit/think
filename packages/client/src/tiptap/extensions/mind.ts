@@ -4,13 +4,10 @@ import { MindWrapper } from '../wrappers/mind';
 import { getDatasetAttribute } from '../utils/dataset';
 
 const DEFAULT_MIND_DATA = {
-  meta: {
-    name: 'jsMind',
-    author: 'think',
-    version: '0.2',
-  },
-  format: 'node_tree',
-  data: { id: 'root', topic: '中心节点', children: [] },
+  root: { data: { text: '中心节点' }, children: [] },
+  template: 'default',
+  theme: 'fresh-blue',
+  version: '1.4.43',
 };
 
 declare module '@tiptap/core' {
@@ -23,11 +20,10 @@ declare module '@tiptap/core' {
 
 export const Mind = Node.create({
   name: 'mind',
-  content: '',
-  marks: '',
   group: 'block',
   selectable: true,
   atom: true,
+  inline: false,
 
   addAttributes() {
     return {

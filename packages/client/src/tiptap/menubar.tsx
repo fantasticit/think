@@ -38,6 +38,7 @@ import { DocumentReference } from './menus/document-reference';
 import { Image } from './menus/image';
 import { Iframe } from './menus/iframe';
 import { Table } from './menus/table';
+import { Mind } from './menus/mind';
 
 export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
   if (!editor) {
@@ -94,6 +95,7 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
         <Image editor={editor} />
         <Iframe editor={editor} />
         <Table editor={editor} />
+        <Mind editor={editor} />
       </Space>
     </div>
   );

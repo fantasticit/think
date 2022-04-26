@@ -1,13 +1,13 @@
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { useCallback, useEffect, useRef } from 'react';
 import { Button } from '@douyinfe/semi-ui';
 import { IconMinus, IconPlus } from '@douyinfe/semi-icons';
 import { Resizeable } from 'components/resizeable';
 import deepEqual from 'deep-equal';
+import { useToggle } from 'hooks/use-toggle';
 import { Mind } from '../../extensions/mind';
-// @ts-ignore
-import jsMind from './jsmind.jsx';
+import { loadKityMinder } from './kityminder';
 import styles from './index.module.scss';
 
 export const MindWrapper = ({ editor, node, updateAttributes }) => {
@@ -16,87 +16,57 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   const isMindActive = editor.isActive(Mind.name);
   const isEditable = editor.isEditable;
   const { data, width, height = 100 } = node.attrs;
+  const [loading, toggleLoading] = useToggle(true);
 
-  const zoomIn = useCallback(() => {
-    const jm = $mind.current;
-    if (!jm) return;
+  const onResize = useCallback(
+    (size) => {
+      updateAttributes({ width: size.width, height: size.height });
+    },
+    [updateAttributes]
+  );
 
-    jm.view.zoomIn();
-  }, []);
+  const saveData = useCallback(() => {
+    const minder = $mind.current;
+    if (!minder) return;
+    updateAttributes({ data: minder.exportJson() });
+  }, [updateAttributes]);
 
-  const zoomOut = useCallback(() => {
-    const jm = $mind.current;
-    if (!jm) return;
-
-    jm.view.zoomOut();
-  }, []);
-
-  const syncData = useCallback(() => {
-    const jm = $mind.current;
-    if (!jm) return;
-    const data = jm.get_data();
-    try {
-      updateAttributes({ data });
-    } catch (e) {}
-  }, []);
-
+  // 初始化
   useEffect(() => {
-    if (!data) return;
-    if (!data.meta) return;
+    const onChange = () => {
+      saveData();
+    };
+    loadKityMinder().then((Editor) => {
+      toggleLoading(false);
+      const minder = new Editor($container.current).minder;
+      minder.importJson(data);
+      $mind.current = minder;
+      minder.on('contentChange', onChange);
+      // @ts-ignore
+      window.minder = minder;
+    });
 
-    const onChange = (_, data) => {
-      if (data.node) {
-        syncData();
+    return () => {
+      if ($mind.current) {
+        $mind.current.off('contentChange', onChange);
       }
     };
+  }, [toggleLoading]);
 
-    setTimeout(() => {
-      if ($mind.current) {
-        const jm = $mind.current;
-        const currentData = jm.get_data();
-        const isEqual = deepEqual(currentData, data);
-        if (!isEqual) {
-          jm.show(data);
-        }
-        return;
-      }
-
-      const options = {
-        container: $container.current,
-        editable: isEditable,
-        view: {
-          hmargin: 100,
-          vmargin: 50,
-          line_width: window.devicePixelRatio,
-          line_color: '#e5e9ef',
-        },
-      };
-      const jm = new jsMind(options);
-      jm.show(data);
-      $mind.current = jm;
-      jm.add_event_listener(onChange);
-    }, 0);
-  }, [data, isEditable]);
-
-  const onResize = (size) => {
-    const jm = $mind.current;
-    if (!jm) return;
-    updateAttributes({ width: size.width, height: size.height });
-    setTimeout(() => {
-      jm.view.show(true);
-      jm.view.showAddHandlerDOMNode();
-    }, 100);
-  };
-
+  // 数据同步渲染
   useEffect(() => {
-    const jm = $mind.current;
-    if (!jm) return;
+    const minder = $mind.current;
+    if (!minder) return;
+    const currentData = minder.exportJson();
+    const isEqual = deepEqual(currentData, data);
+    if (isEqual) return;
+    minder.importData(data);
+  }, [data]);
 
-    if (isEditable) {
-      jm.enable_edit();
-    } else {
-      jm.disable_edit();
-    }
+  // 启用/禁用
+  useEffect(() => {
+    const minder = $mind.current;
+    if (!minder) return;
   }, [isEditable]);
 
   const content = (
@@ -105,26 +75,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       className={cls(styles.renderWrap, 'render-wrapper')}
       tabIndex={0}
       style={{ width: '100%', height: '100%' }}
-    >
-      {!isEditable && (
-        <div className={styles.mindHandlerWrap}>
-          <Button
-            size="small"
-            theme="borderless"
-            type="tertiary"
-            icon={<IconMinus style={{ fontSize: 14 }} />}
-            onClick={zoomOut}
-          />
-          <Button
-            size="small"
-            theme="borderless"
-            type="tertiary"
-            icon={<IconPlus style={{ fontSize: 14 }} />}
-            onClick={zoomIn}
-          />
-        </div>
-      )}
-    </div>
+    ></div>
   );
 
   return (
