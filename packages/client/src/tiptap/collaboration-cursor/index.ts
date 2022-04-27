@@ -6,11 +6,11 @@ type CollaborationCursorStorage = {
   users: { clientId: number; [key: string]: any }[];
 };
 
-export function findNodeAt(state: EditorState, from, to) {
+export function findNodeAt(editor, state: EditorState, from, to) {
   let target = null;
   let pos = -1;
 
-  if (state && state.doc) {
+  if (editor && !editor.isDestroyed) {
     state.doc.nodesBetween(from, to, (node, p) => {
       target = node;
       pos = p;
@@ -61,6 +61,10 @@ const awarenessStatesToArray = (states: Map<number, Record<string, any>>) => {
 const lockCollaborationUserEditingNodes = (extensionThis, users) => {
   const { editor, options } = extensionThis;
 
+  if (!editor || editor.isDestroyed) {
+    return;
+  }
+
   while (options.lockedDOMNodes.length) {
     const dom = options.lockedDOMNodes.shift();
     dom && dom.classList && dom.classList.remove(options.lockClassName);
@@ -82,20 +86,22 @@ const lockCollaborationUserEditingNodes = (extensionThis, users) => {
     users.forEach((user) => {
       if (user.name === options.user.name) return;
 
-      const cursor = user.cursor;
-      if (cursor) {
-        const { node, pos } = findNodeAt(editor.state, cursor.originAnchor, cursor.originHead);
+      try {
+        const cursor = user.cursor;
+        if (cursor) {
+          const { node, pos } = findNodeAt(editor, editor.state, cursor.originAnchor, cursor.originHead);
 
-        if (node && node.isAtom) {
-          const dom = editor.view.nodeDOM(pos) as HTMLElement;
-          if (!dom || !dom.classList) return;
-          dom.classList.add(options.lockClassName);
-          dom.dataset.color = user.color;
-          dom.dataset.name = user.name + '正在编辑中...';
-          options.lockedDOMNodes.push(dom);
-          options.collaborationUserCursorCache.set(user.clientId, { user, cursor });
+          if (node && node.isAtom) {
+            const dom = editor.view.nodeDOM(pos) as HTMLElement;
+            if (!dom || !dom.classList) return;
+            dom.classList.add(options.lockClassName);
+            dom.dataset.color = user.color;
+            dom.dataset.name = user.name + '正在编辑中...';
+            options.lockedDOMNodes.push(dom);
+            options.collaborationUserCursorCache.set(user.clientId, { user, cursor });
+          }
         }
-      }
+      } catch (e) {}
     });
   }
 };
