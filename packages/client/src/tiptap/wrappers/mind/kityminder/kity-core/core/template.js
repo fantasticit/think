@@ -26,7 +26,7 @@ define(function (require, exports, module) {
       return {
         useTemplate: function (name, duration) {
           this.setTemplate(name);
-          this.refresh(duration || 500);
+          this.refresh(duration || 800);
         },
 
         getTemplate: function () {
@@ -68,7 +68,6 @@ define(function (require, exports, module) {
       };
     })()
   );
-  let timer = null;
 
   Module.register('TemplateModule', {
     /**
@@ -86,10 +85,7 @@ define(function (require, exports, module) {
 
         execute: function (minder, name) {
           minder.useTemplate(name);
-          clearTimeout(timer);
-          timer = setTimeout(() => {
-            minder.execCommand('camera');
-          }, 550);
+          minder.execCommand('camera');
         },
 
         queryValue: function (minder) {

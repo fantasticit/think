@@ -19,6 +19,11 @@ define(function (require, exports, module) {
     var receiver = this.receiver;
     var receiverElement = receiver.element;
     var isGecko = window.kity.Browser.gecko;
+
+    if (minder.disableEdit) {
+      return;
+    }
+
     // setup everything to go
     setupReciverElement();
     setupFsm();
@@ -91,6 +96,10 @@ define(function (require, exports, module) {
      */
     // edit for the selected node
     function editText() {
+      if (minder.preventEdit) {
+        return;
+      }
+
       var node = minder.getSelectedNode();
       if (!node) {
         return;
@@ -120,6 +129,10 @@ define(function (require, exports, module) {
      * @Date 2015-12-2
      */
     function enterInputMode() {
+      if (minder.preventEdit) {
+        return;
+      }
+
       var node = minder.getSelectedNode();
       if (node) {
         var fontSize = node.getData('font-size') || node.getStyle('font-size');

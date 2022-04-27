@@ -14,9 +14,18 @@ define(function (require, exports, module) {
     var minder = this.minder;
     var receiver = this.receiver;
     var container = this.container;
+
+    if (minder.preventEdit) {
+      return;
+    }
+
     var hotbox = new Hotbox(container);
     hotbox.setParentFSM(fsm);
     fsm.when('normal -> hotbox', function (exit, enter, reason) {
+      if (minder.preventEdit) {
+        return;
+      }
+
       var node = minder.getSelectedNode();
       var position;
       if (node) {

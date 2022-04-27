@@ -134,8 +134,9 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       minder.execCommand('zoom', parseInt(zoom));
 
       if (!isEditable) {
-        minder.disable();
+        minder.preventEdit = true;
       } else {
+        minder.preventEdit = false;
         minder.enable();
       }
 
@@ -172,8 +173,9 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     if (!minder) return;
 
     if (!isEditable) {
-      minder.disable();
+      minder.preventEdit = true;
     } else {
+      minder.preventEdit = false;
       minder.enable();
     }
   }, [isEditable]);
