@@ -222,22 +222,23 @@ define(function (require, exports, module) {
         let dx = 0;
         let dy = 0;
 
-        if (!focusNode || focusNode.type === 'root') {
-          // 默认居中
-          const parentNode = km.getPaper().node;
-          const shapeNode = km.getRoot().rc.container.node;
-          const { width: pw, height: ph, x: px, y: py } = parentNode.getBoundingClientRect();
-          const { width: sw, height: sh, x, y } = shapeNode.getBBox();
-          dx = pw / 2 - x - sw / 2;
-          dy = ph / 2 - y - sh / 2;
-          dragger.moveTo(new kity.Point(dx, dy), duration);
-        } else {
-          var viewport = km.getPaper().getViewPort();
-          var offset = focusNode.getRenderContainer().getRenderBox('view');
-          dx = viewport.center.x - offset.x - offset.width / 2;
-          dy = viewport.center.y - offset.y;
-          dragger.move(new kity.Point(dx, dy), duration);
-        }
+        // if (!focusNode || focusNode.type === 'root') {
+        //   // 默认居中
+        //   const parentNode = km.getPaper().node;
+        //   const shapeNode = km.getRoot().rc.container.node;
+        //   const { width: pw, height: ph, x: px, y: py } = parentNode.getBoundingClientRect();
+        //   const { width: sw, height: sh, x, y } = shapeNode.getBBox();
+        //   dx = pw / 2 - x - sw / 2;
+        //   dy = ph / 2 - y - sh / 2;
+        //   dragger.moveTo(new kity.Point(dx, dy), duration);
+        // } else {
+        focusNode = focusNode || km.getRoot();
+        var viewport = km.getPaper().getViewPort();
+        var offset = focusNode.getRenderContainer().getRenderBox('view');
+        dx = viewport.center.x - offset.x - offset.width / 2;
+        dy = viewport.center.y - offset.y;
+        dragger.move(new kity.Point(dx, dy), duration);
+        // }
 
         this.setContentChanged(false);
       },

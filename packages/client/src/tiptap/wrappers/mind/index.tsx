@@ -1,16 +1,15 @@
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Spin, Button, Typography } from '@douyinfe/semi-ui';
-import { IconMinus, IconPlus, IconAlignCenter } from '@douyinfe/semi-icons';
+import { Spin, Typography } from '@douyinfe/semi-ui';
 import deepEqual from 'deep-equal';
 import { Resizeable } from 'components/resizeable';
-import { Tooltip } from 'components/tooltip';
 import { useToggle } from 'hooks/use-toggle';
-import { MIN_ZOOM, MAX_ZOOM, ZOOM_STEP } from '../../menus/mind/constant';
 import { clamp } from '../../utils/clamp';
 import { Mind } from '../../extensions/mind';
 import { loadKityMinder } from './kityminder';
+import { Toolbar } from './toolbar';
+import { MIN_ZOOM, MAX_ZOOM, ZOOM_STEP } from './toolbar/constant';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
@@ -20,7 +19,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   const $mind = useRef<any>();
   const isMindActive = editor.isActive(Mind.name);
   const isEditable = editor.isEditable;
-  const { data, template, theme, zoom, callCenterCount, width, height } = node.attrs;
+  const { data, template, theme, zoom, width, height } = node.attrs;
   const [loading, toggleLoading] = useToggle(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -55,12 +54,6 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     [updateAttributes]
   );
 
-  const setCenter = useCallback(() => {
-    const minder = $mind.current;
-    if (!minder) return;
-    minder.execCommand('camera');
-  }, []);
-
   const setZoom = useCallback(
     (type: 'minus' | 'plus') => {
       return () => {
@@ -73,16 +66,45 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
           MAX_ZOOM
         );
         minder.execCommand('zoom', nextZoom);
+        isEditable && updateAttributes({ zoom: nextZoom });
       };
     },
-    [editor, zoom]
+    [editor, zoom, isEditable, updateAttributes]
+  );
+
+  const setCenter = useCallback(() => {
+    const minder = $mind.current;
+    if (!minder) return;
+    minder.execCommand('camera');
+  }, []);
+
+  // 布局
+  const setTemplate = useCallback(
+    (template) => {
+      const minder = $mind.current;
+      if (!minder) return;
+      minder.execCommand('template', template);
+      isEditable && updateAttributes({ template });
+    },
+    [updateAttributes, isEditable]
+  );
+
+  // 主题
+  const setTheme = useCallback(
+    (theme) => {
+      const minder = $mind.current;
+      if (!minder) return;
+      minder.execCommand('theme', theme);
+      isEditable && updateAttributes({ theme });
+    },
+    [updateAttributes, isEditable]
   );
 
   const saveData = useCallback(() => {
     const minder = $mind.current;
     if (!minder) return;
-    updateAttributes({ data: minder.exportJson() });
-  }, [updateAttributes]);
+    isEditable && updateAttributes({ data: minder.exportJson() });
+  }, [updateAttributes, isEditable]);
 
   // 加载依赖
   useEffect(() => {
@@ -113,6 +135,8 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
 
       if (!isEditable) {
         minder.disable();
+      } else {
+        minder.enable();
       }
 
       $mind.current = minder;
@@ -125,6 +149,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     return () => {
       if ($mind.current) {
         $mind.current.off('contentChange', onChange);
+        $mind.current.destroy();
       }
     };
   }, [loading]);
@@ -133,13 +158,32 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   useEffect(() => {
     const minder = $mind.current;
     if (!minder) return;
+
     const currentData = minder.exportJson();
     const isEqual = deepEqual(currentData, data);
     if (isEqual) return;
-
     // TODO: 也许刷新更好些
     minder.importJson(data);
   }, [data]);
+
+  // 启用/禁用
+  useEffect(() => {
+    const minder = $mind.current;
+    if (!minder) return;
+
+    if (!isEditable) {
+      minder.disable();
+    } else {
+      minder.enable();
+    }
+  }, [isEditable]);
+
+  // 缩放
+  useEffect(() => {
+    const minder = $mind.current;
+    if (!minder) return;
+    minder.execCommand('zoom', parseInt(zoom));
+  }, [zoom]);
 
   // 布局
   useEffect(() => {
@@ -155,30 +199,6 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     minder.execCommand('theme', theme);
   }, [theme]);
 
-  // 缩放
-  useEffect(() => {
-    const minder = $mind.current;
-    if (!minder) return;
-    minder.execCommand('zoom', parseInt(zoom));
-  }, [zoom]);
-
-  // 启用/禁用
-  useEffect(() => {
-    const minder = $mind.current;
-    if (!minder) return;
-
-    if (isEditable) {
-      minder.enable();
-    } else {
-      minder.disable();
-    }
-  }, [isEditable]);
-
-  // 居中
-  useEffect(() => {
-    setCenter();
-  }, [callCenterCount]);
-
   return (
     <NodeViewWrapper className={cls(styles.wrap, isMindActive && styles.isActive)}>
       {isEditable ? (
@@ -188,38 +208,19 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       ) : (
         <div style={{ display: 'inline-block', width, height, maxWidth: '100%' }}>{content}</div>
       )}
-
-      {!isEditable && (
-        <div className={styles.mindHandlerWrap}>
-          <Tooltip content="缩小">
-            <Button
-              size="small"
-              theme="borderless"
-              type="tertiary"
-              icon={<IconMinus style={{ fontSize: 14 }} />}
-              onClick={setZoom('minus')}
-            />
-          </Tooltip>
-          <Tooltip content="放大">
-            <Button
-              size="small"
-              theme="borderless"
-              type="tertiary"
-              icon={<IconPlus style={{ fontSize: 14 }} />}
-              onClick={setZoom('plus')}
-            />
-          </Tooltip>
-          <Tooltip content="居中">
-            <Button
-              size="small"
-              theme="borderless"
-              type="tertiary"
-              icon={<IconAlignCenter style={{ fontSize: 14 }} />}
-              onClick={setCenter}
-            />
-          </Tooltip>
-        </div>
-      )}
+      <div className={styles.toolbarWrap}>
+        <Toolbar
+          isEditable={isEditable}
+          template={template}
+          theme={theme}
+          zoom={zoom}
+          setZoomMinus={setZoom('minus')}
+          setZoomPlus={setZoom('plus')}
+          setCenter={setCenter}
+          setTemplate={setTemplate}
+          setTheme={setTheme}
+        />
+      </div>
     </NodeViewWrapper>
   );
 };

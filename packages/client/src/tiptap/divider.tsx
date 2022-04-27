@@ -1,4 +1,4 @@
-export const Divider = () => {
+export const Divider = ({ vertical = false }) => {
   return (
     <div
       style={{
@@ -7,6 +7,7 @@ export const Divider = () => {
         height: 24,
         margin: '0 6px',
         backgroundColor: 'var(--semi-color-border)',
+        transform: `rotate(${vertical ? 90 : 0}deg)`,
       }}
     ></div>
   );

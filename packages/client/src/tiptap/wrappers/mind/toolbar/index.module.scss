@@ -1,3 +1,22 @@
+.wrap {
+  position: absolute;
+  top: 50%;
+  left: 1em;
+  z-index: 1000;
+  display: flex;
+  padding: 4px;
+  overflow-x: auto;
+  background-color: var(--semi-color-nav-bg);
+  border: 1px solid var(--semi-color-border);
+  border-radius: 3px;
+  transform: translateY(-50%);
+  flex-direction: column;
+  row-gap: 8px;
+  align-items: center;
+  box-shadow: var(--box-shadow);
+  user-select: none;
+}
+
 .sectionWrap {
   margin-top: 16px;
 
