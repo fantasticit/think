@@ -1,4 +1,4 @@
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { NodeViewWrapper } from '@tiptap/react';
 import { useMemo, useCallback, useEffect, useRef } from 'react';
 import cls from 'classnames';
 import { Popover, TextArea, Typography, Space } from '@douyinfe/semi-ui';

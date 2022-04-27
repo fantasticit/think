@@ -1,7 +1,7 @@
 import { NodeViewWrapper } from '@tiptap/react';
 import { Spin } from '@douyinfe/semi-ui';
 
-export const LoadingWrapper = ({ editor, node, updateAttributes }) => {
+export const LoadingWrapper = ({ editor, node }) => {
   const isEditable = editor.isEditable;
   const { text } = node.attrs;
 

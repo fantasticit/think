@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import cls from 'classnames';
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { NodeViewWrapper } from '@tiptap/react';
 import { Button, Typography, Spin, Collapsible, Space } from '@douyinfe/semi-ui';
 import { IconDownload, IconPlayCircle, IconClose } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
@@ -68,47 +68,45 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
 
     if (url) {
       return (
-        <>
-          <div className={cls(styles.wrap, visible && styles.isPreviewing, 'render-wrapper')} onClick={selectFile}>
-            <div>
-              <Space>
-                {getFileTypeIcon(fileType)}
-                <Text
-                  style={{ marginLeft: 8 }}
-                  ellipsis={{
-                    showTooltip: { opts: { content: `${fileName}.${fileExt}`, style: { wordBreak: 'break-all' } } },
-                  }}
-                >
-                  {fileName}.{fileExt}
-                  <Text type="tertiary">({normalizeFileSize(fileSize)})</Text>
-                </Text>
-              </Space>
-              <span>
-                <Tooltip content={!visible ? '预览' : '收起'}>
-                  <Button
-                    theme={'borderless'}
-                    type="tertiary"
-                    icon={!visible ? <IconPlayCircle /> : <IconClose />}
-                    onClick={toggleVisible}
-                  />
-                </Tooltip>
-                <Tooltip content="下载">
-                  <Button
-                    theme={'borderless'}
-                    type="tertiary"
-                    icon={<IconDownload />}
-                    onClick={() => download(url, name)}
-                  />
-                </Tooltip>
-              </span>
-            </div>
-            {url ? (
-              <Collapsible isOpen={visible}>
-                <Player fileType={fileType} url={url} />
-              </Collapsible>
-            ) : null}
+        <div className={cls(styles.wrap, visible && styles.isPreviewing, 'render-wrapper')} onClick={selectFile}>
+          <div>
+            <Space>
+              {getFileTypeIcon(fileType)}
+              <Text
+                style={{ marginLeft: 8 }}
+                ellipsis={{
+                  showTooltip: { opts: { content: `${fileName}.${fileExt}`, style: { wordBreak: 'break-all' } } },
+                }}
+              >
+                {fileName}.{fileExt}
+                <Text type="tertiary">({normalizeFileSize(fileSize)})</Text>
+              </Text>
+            </Space>
+            <span>
+              <Tooltip content={!visible ? '预览' : '收起'}>
+                <Button
+                  theme={'borderless'}
+                  type="tertiary"
+                  icon={!visible ? <IconPlayCircle /> : <IconClose />}
+                  onClick={toggleVisible}
+                />
+              </Tooltip>
+              <Tooltip content="下载">
+                <Button
+                  theme={'borderless'}
+                  type="tertiary"
+                  icon={<IconDownload />}
+                  onClick={() => download(url, name)}
+                />
+              </Tooltip>
+            </span>
           </div>
-        </>
+          {url ? (
+            <Collapsible isOpen={visible}>
+              <Player fileType={fileType} url={url} />
+            </Collapsible>
+          ) : null}
+        </div>
       );
     }
 

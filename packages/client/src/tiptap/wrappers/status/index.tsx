@@ -1,4 +1,4 @@
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { NodeViewWrapper } from '@tiptap/react';
 import { Button, Collapsible, Space, Popover, Tag, Input } from '@douyinfe/semi-ui';
 import cls from 'classnames';
 import { useCallback, useEffect, useRef } from 'react';
@@ -90,7 +90,6 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
 
   return (
     <NodeViewWrapper as="span" className={cls(styles.wrap, 'status')}>
-      <NodeViewContent />
       {isEditable ? (
         <Popover
           showArrow
@@ -130,7 +129,6 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
       ) : (
         content
       )}
-      <NodeViewContent />
     </NodeViewWrapper>
   );
 };

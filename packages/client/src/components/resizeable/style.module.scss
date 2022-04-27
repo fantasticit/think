@@ -8,12 +8,12 @@
 
   .cloneNodeWrap {
     position: absolute;
-    background-color: rgb(179 212 255 / 30%);
     display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 14px;
     color: #333;
+    background-color: rgb(179 212 255 / 30%);
+    align-items: center;
+    justify-content: center;
     user-select: none;
   }
 
