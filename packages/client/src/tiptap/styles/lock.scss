@@ -1,0 +1,24 @@
+.ProseMirror {
+  .is-locked {
+    position: relative;
+    cursor: not-allowed;
+    pointer-events: none !important;
+
+    &::after {
+      position: absolute;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      background-color: rgb(179 212 255 / 30%);
+      inset: 0;
+      color: #fff;
+
+      content: attr(data-name);
+    }
+  }
+}

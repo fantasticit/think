@@ -1,18 +1,34 @@
 import { Extension } from '@tiptap/core';
-import { yCursorPlugin } from 'y-prosemirror';
+import { yCursorPlugin } from './cursor-plugin';
+import { EditorState } from 'prosemirror-state';
 
 type CollaborationCursorStorage = {
   users: { clientId: number; [key: string]: any }[];
 };
 
+export function findNodeAt(state: EditorState, from, to) {
+  let target = null;
+  let pos = -1;
+
+  if (state && state.doc) {
+    state.doc.nodesBetween(from, to, (node, p) => {
+      target = node;
+      pos = p;
+      return true;
+    });
+  }
+
+  return { node: target, pos };
+}
+
 export interface CollaborationCursorOptions {
   provider: any;
   user: Record<string, any>;
   render(user: Record<string, any>): HTMLElement;
-  /**
-   * @deprecated The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCursor.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor
-   */
-  onUpdate: (users: { clientId: number; [key: string]: any }[]) => null;
+  onUpdate: (users: { clientId: number; [key: string]: any }[]) => void;
+  lockClassName?: string;
+  lockedDOMNodes?: HTMLElement[]; // 锁定的DOM节点
+  collaborationUserCursorCache?: Map<number, { user; cursor }>; // 协作用户的光标缓存
 }
 
 declare module '@tiptap/core' {
@@ -36,9 +52,52 @@ const awarenessStatesToArray = (states: Map<number, Record<string, any>>) => {
   return Array.from(states.entries()).map(([key, value]) => {
     return {
       clientId: key,
+      cursor: value.cursor,
       ...value.user,
     };
   });
+};
+
+const lockCollaborationUserEditingNodes = (extensionThis, users) => {
+  const { editor, options } = extensionThis;
+
+  while (options.lockedDOMNodes.length) {
+    const dom = options.lockedDOMNodes.shift();
+    dom && dom.classList && dom.classList.remove(options.lockClassName);
+
+    dom.dataset.color = '';
+    dom.dataset.name = '';
+    // dom.dataset.name = user.name;
+  }
+
+  users.forEach((user) => {
+    const cursor = user.cursor;
+    if (!cursor && options.collaborationUserCursorCache.has(user.clientId)) {
+      // 协作用户光标丢失，可能是进入自定义节点进行编辑了，读缓存的上一次光标
+      user.cursor = options.collaborationUserCursorCache.get(user.clientId).cursor;
+    }
+  });
+
+  if (users && users.length) {
+    users.forEach((user) => {
+      if (user.name === options.user.name) return;
+
+      const cursor = user.cursor;
+      if (cursor) {
+        const { node, pos } = findNodeAt(editor.state, cursor.originAnchor, cursor.originHead);
+
+        if (node && node.isAtom) {
+          const dom = editor.view.nodeDOM(pos) as HTMLElement;
+          if (!dom || !dom.classList) return;
+          dom.classList.add(options.lockClassName);
+          dom.dataset.color = user.color;
+          dom.dataset.name = user.name + '正在编辑中...';
+          options.lockedDOMNodes.push(dom);
+          options.collaborationUserCursorCache.set(user.clientId, { user, cursor });
+        }
+      }
+    });
+  }
 };
 
 const defaultOnUpdate = () => null;
@@ -69,15 +128,10 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
         return cursor;
       },
       onUpdate: defaultOnUpdate,
+      lockClassName: 'is-locked',
+      lockedDOMNodes: [],
+      collaborationUserCursorCache: new Map(),
     };
-  },
-
-  onCreate() {
-    if (this.options.onUpdate !== defaultOnUpdate) {
-      console.warn(
-        '[tiptap warn]: DEPRECATED: The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCursor.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor'
-      );
-    }
   },
 
   addStorage() {
@@ -90,24 +144,20 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
     return {
       updateUser: (attributes) => () => {
         this.options.user = attributes;
-
         this.options.provider.awareness.setLocalStateField('user', this.options.user);
-
         return true;
       },
       user:
         (attributes) =>
         ({ editor }) => {
-          console.warn(
-            '[tiptap warn]: DEPRECATED: The "user" command is deprecated. Please use "updateUser" instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor'
-          );
-
           return editor.commands.updateUser(attributes);
         },
     };
   },
 
   addProseMirrorPlugins() {
+    const extensionThis = this;
+
     return [
       yCursorPlugin(
         (() => {
@@ -116,7 +166,9 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
           this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states);
 
           this.options.provider.awareness.on('update', () => {
-            this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states);
+            const users = (this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states));
+            lockCollaborationUserEditingNodes(extensionThis, users);
+            this.options.onUpdate(this.storage.users);
           });
 
           return this.options.provider.awareness;
