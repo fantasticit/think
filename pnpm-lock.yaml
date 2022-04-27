@@ -89,7 +89,6 @@ importers:
       copy-to-clipboard: ^3.3.1
       deep-equal: ^2.0.5
       dompurify: ^2.3.5
-      interactjs: ^1.10.11
       katex: ^0.15.2
       kity: ^2.0.4
       lib0: ^0.2.47
@@ -105,6 +104,7 @@ importers:
       prosemirror-tables: ^1.1.1
       prosemirror-utils: ^0.9.6
       prosemirror-view: ^1.23.6
+      re-resizable: ^6.9.9
       react: 17.0.2
       react-countdown: ^2.3.2
       react-dom: 17.0.2
@@ -172,7 +172,6 @@ importers:
       copy-to-clipboard: 3.3.1
       deep-equal: 2.0.5
       dompurify: 2.3.5
-      interactjs: 1.10.11
       katex: 0.15.2
       kity: 2.0.4
       lib0: 0.2.47
@@ -188,6 +187,7 @@ importers:
       prosemirror-tables: 1.1.1
       prosemirror-utils: 0.9.6_prosemirror-tables@1.1.1
       prosemirror-view: 1.23.6
+      re-resizable: 6.9.9_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -953,10 +953,6 @@ packages:
       - prosemirror-state
       - prosemirror-view
       - y-protocols
-    dev: false
-
-  /@interactjs/types/1.10.11:
-    resolution: {integrity: sha512-YRsVFWjL8Gkkvlx3qnjeaxW4fnibSJ9791g8BA7Pv5ANByI64WmtR1vU7A2rXcrOn8XvyCEfY0ss1s8NhZP+MA==}
     dev: false
 
   /@ioredis/commands/1.1.1:
@@ -4468,12 +4464,6 @@ packages:
       through: 2.3.8
     dev: true
 
-  /interactjs/1.10.11:
-    resolution: {integrity: sha512-VPUWsGAOPmrZe1YF7Fq/4AIBBZ+3FikZRS8bpzT6VsAfUuhxl/CKJY73IAiZHd3fz9p174CXErn0Qs81XEFICA==}
-    dependencies:
-      '@interactjs/types': 1.10.11
-    dev: false
-
   /internal-slot/1.0.3:
     resolution: {integrity: sha512-O0DB1JC/sPyZl7cIo78n5dR7eUSwwpYPiXRhTzNxZVAMUuB8vlnRFyLxdrVToks6XPLVnFfbzaVd5WLjhgg+vA==}
     engines: {node: '>= 0.4'}
@@ -6705,6 +6695,16 @@ packages:
       http-errors: 1.8.1
       iconv-lite: 0.4.24
       unpipe: 1.0.0
+    dev: false
+
+  /re-resizable/6.9.9_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-l+MBlKZffv/SicxDySKEEh42hR6m5bAHfNu3Tvxks2c4Ah+ldnWjfnVRwxo/nxF27SsUsxDS0raAzFuJNKABXA==}
+    peerDependencies:
+      react: ^16.13.1 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /react-countdown/2.3.2_react-dom@17.0.2+react@17.0.2:
