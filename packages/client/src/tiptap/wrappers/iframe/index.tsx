@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Typography } from '@douyinfe/semi-ui';
 import { Resizeable } from 'components/resizeable';
+import { getEditorContainerDOMSize } from '../../utils/editor';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
@@ -10,6 +11,7 @@ const { Text } = Typography;
 export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { url, width, height } = node.attrs;
+  const { width: maxWidth } = getEditorContainerDOMSize(editor);
 
   const onResize = useCallback((size) => {
     updateAttributes({ width: size.width, height: size.height });
@@ -39,7 +41,7 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   return (
     <NodeViewWrapper>
       {isEditable ? (
-        <Resizeable height={height} width={width} onChangeEnd={onResize}>
+        <Resizeable width={width || maxWidth} maxWidth={maxWidth} height={height} onChangeEnd={onResize}>
           <div style={{ width, height, maxWidth: '100%' }}>{content}</div>
         </Resizeable>
       ) : (

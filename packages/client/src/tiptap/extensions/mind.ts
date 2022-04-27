@@ -10,10 +10,19 @@ const DEFAULT_MIND_DATA = {
   version: '1.4.43',
 };
 
+export interface IMindAttrs {
+  width?: number;
+  height?: number;
+  data?: Record<string, unknown>;
+  template?: string;
+  theme?: string;
+  zoom?: number;
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     mind: {
-      setMind: (attrs?: unknown) => ReturnType;
+      setMind: (attrs?: IMindAttrs) => ReturnType;
     };
   }
 }
@@ -28,7 +37,7 @@ export const Mind = Node.create({
   addAttributes() {
     return {
       width: {
-        default: '100%',
+        default: null,
         parseHTML: getDatasetAttribute('width'),
       },
       height: {
@@ -50,10 +59,6 @@ export const Mind = Node.create({
       zoom: {
         default: 100,
         parseHTML: getDatasetAttribute('zoom'),
-      },
-      callCenterCount: {
-        default: 0,
-        parseHTML: (element) => Number(getDatasetAttribute('callcentercount')(element)),
       },
     };
   },
@@ -83,6 +88,9 @@ export const Mind = Node.create({
       setMind:
         (options) =>
         ({ tr, commands, chain, editor }) => {
+          options = options || {};
+          options.data = options.data || DEFAULT_MIND_DATA;
+
           // @ts-ignore
           if (tr.selection?.node?.type?.name == this.name) {
             return commands.updateAttributes(this.name, options);
@@ -94,7 +102,7 @@ export const Mind = Node.create({
             .insertContentAt(pos.before(), [
               {
                 type: this.name,
-                attrs: { data: DEFAULT_MIND_DATA },
+                attrs: options,
               },
             ])
             .run();

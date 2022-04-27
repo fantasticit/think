@@ -1,8 +1,8 @@
 .wrap {
   padding: 12px;
-  margin-top: 0.75em;
   border: 1px solid var(--node-border-color);
   border-radius: var(--border-radius);
+  user-select: none;
 
   .itemWrap {
     display: flex;

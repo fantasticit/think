@@ -20,7 +20,7 @@
     opacity: 0;
   }
 
-  &.isActive {
+  &:hover {
     .toolbarWrap {
       opacity: 1;
     }

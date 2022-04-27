@@ -11,6 +11,7 @@ const { Text } = Typography;
 
 interface IProps {
   isEditable: boolean;
+  maxHeight: number;
   zoom: number | string;
   template: string;
   theme: string;
@@ -23,6 +24,7 @@ interface IProps {
 
 export const Toolbar: React.FC<IProps> = ({
   isEditable,
+  maxHeight,
   template,
   theme,
   zoom,
@@ -33,7 +35,7 @@ export const Toolbar: React.FC<IProps> = ({
   setTheme,
 }) => {
   return (
-    <div className={styles.wrap}>
+    <div className={styles.wrap} style={{ maxHeight }}>
       {isEditable ? (
         <>
           <Tooltip content="缩小" position="right">

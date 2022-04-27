@@ -4,6 +4,43 @@
   width: 100px;
   height: 100px;
   max-width: 100%;
+  box-sizing: border-box;
+
+  .resizer {
+    position: absolute;
+    z-index: 9999;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border: 3px solid #4286f4;
+    border-radius: 50%;
+    opacity: 0;
+    box-sizing: border-box;
+  }
+
+  .resizer.topLeft {
+    top: -5px;
+    left: -5px;
+    cursor: nwse-resize;
+  }
+
+  .resizer.topRight {
+    top: -5px;
+    right: -5px;
+    cursor: nesw-resize;
+  }
+
+  .resizer.bottomLeft {
+    bottom: -5px;
+    left: -5px;
+    cursor: nesw-resize;
+  }
+
+  .resizer.bottomRight {
+    right: -5px;
+    bottom: -5px;
+    cursor: nwse-resize;
+  }
 
   &.isActive {
     .resizer {

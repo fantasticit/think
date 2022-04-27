@@ -1,4 +1,4 @@
-import { NodeViewWrapper } from '@tiptap/react';
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Spin, Typography } from '@douyinfe/semi-ui';
@@ -6,6 +6,7 @@ import deepEqual from 'deep-equal';
 import { Resizeable } from 'components/resizeable';
 import { useToggle } from 'hooks/use-toggle';
 import { clamp } from '../../utils/clamp';
+import { getEditorContainerDOMSize } from '../../utils/editor';
 import { Mind } from '../../extensions/mind';
 import { loadKityMinder } from './kityminder';
 import { Toolbar } from './toolbar';
@@ -17,8 +18,9 @@ const { Text } = Typography;
 export const MindWrapper = ({ editor, node, updateAttributes }) => {
   const $container = useRef();
   const $mind = useRef<any>();
-  const isMindActive = editor.isActive(Mind.name);
   const isEditable = editor.isEditable;
+  const isActive = editor.isActive(Mind.name);
+  const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const { data, template, theme, zoom, width, height } = node.attrs;
   const [loading, toggleLoading] = useToggle(true);
   const [error, setError] = useState<Error | null>(null);
@@ -202,9 +204,9 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   }, [theme]);
 
   return (
-    <NodeViewWrapper className={cls(styles.wrap, isMindActive && styles.isActive)}>
+    <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
       {isEditable ? (
-        <Resizeable width={width} height={height} onChangeEnd={onResize}>
+        <Resizeable width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
           {content}
         </Resizeable>
       ) : (
@@ -213,6 +215,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       <div className={styles.toolbarWrap}>
         <Toolbar
           isEditable={isEditable}
+          maxHeight={height * 0.8}
           template={template}
           theme={theme}
           zoom={zoom}
@@ -223,6 +226,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
           setTheme={setTheme}
         />
       </div>
+      <NodeViewContent />
     </NodeViewWrapper>
   );
 };

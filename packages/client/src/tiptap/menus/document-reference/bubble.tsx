@@ -60,7 +60,9 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
                       style={{ cursor: 'pointer' }}
                       main={
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <IconDocument />
+                          <Text style={{ display: 'flex', alignItems: 'center' }}>
+                            <IconDocument />
+                          </Text>
                           <Text
                             ellipsis={{ showTooltip: { opts: { content: item.title, position: 'right' } } }}
                             style={{ width: 150, paddingLeft: 6 }}

@@ -27,12 +27,16 @@
     }
   }
 
-  .node-image,
   .node-attachment,
+  .node-callout,
+  .node-countdown,
   .node-iframe,
+  .node-image,
+  .node-katex,
   .node-mind,
-  .node-banner,
-  .node-countdown {
+  .node-codeBlock,
+  .node-documentChildren,
+  .node-documentReference {
     margin-top: 0.75em;
   }
 
@@ -53,9 +57,6 @@
   .node-codeBlock,
   .node-documentChildren,
   .node-documentReference {
-    display: inline-block;
-    max-width: 100%;
-
     .render-wrapper {
       position: relative;
       user-select: text;

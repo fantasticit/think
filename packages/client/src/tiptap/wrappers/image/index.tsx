@@ -7,6 +7,7 @@ import { Resizeable } from 'components/resizeable';
 import { useToggle } from 'hooks/use-toggle';
 import { uploadFile } from 'services/file';
 import { extractFileExtension, extractFilename, getImageWidthHeight } from '../../utils/file';
+import { getEditorContainerDOMSize } from '../../utils/editor';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
@@ -14,6 +15,7 @@ const { Text } = Typography;
 export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const { hasTrigger, error, src, alt, title, width, height, textAlign } = node.attrs;
+  const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const $upload = useRef<HTMLInputElement>();
   const [loading, toggleLoading] = useToggle(false);
 
@@ -80,7 +82,13 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
 
     if (isEditable) {
       return (
-        <Resizeable className={cls('render-wrapper')} width={width} height={height} onChangeEnd={onResize}>
+        <Resizeable
+          className={cls('render-wrapper')}
+          width={width || maxWidth}
+          height={height}
+          maxWidth={maxWidth}
+          onChangeEnd={onResize}
+        >
           {img}
         </Resizeable>
       );

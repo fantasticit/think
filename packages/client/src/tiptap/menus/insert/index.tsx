@@ -21,6 +21,7 @@ import { useToggle } from 'hooks/use-toggle';
 import { useUser } from 'data/user';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
 import { isTitleActive } from '../../utils/is-active';
+import { getEditorContainerDOMSize } from '../../utils/editor';
 import { createCountdown } from '../countdown/service';
 
 const insertMenuLRUCache = createKeysLocalStorageLRUCache('TIPTAP_INSERT_MENU', 3);
@@ -88,7 +89,10 @@ const COMMANDS = [
   {
     icon: <IconMind />,
     label: '思维导图',
-    action: (editor) => editor.chain().focus().setMind().run(),
+    action: (editor) => {
+      const { width } = getEditorContainerDOMSize(editor);
+      editor.chain().focus().setMind({ width }).run();
+    },
   },
   {
     icon: <IconMath />,

@@ -34,6 +34,7 @@ import { Search } from './menus/search';
 
 import { Callout } from './menus/callout';
 import { Countdonw } from './menus/countdown';
+import { DocumentChildren } from './menus/document-children';
 import { DocumentReference } from './menus/document-reference';
 import { Image } from './menus/image';
 import { Iframe } from './menus/iframe';
@@ -91,6 +92,7 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
 
         <Callout editor={editor} />
         <Countdonw editor={editor} />
+        <DocumentChildren editor={editor} />
         <DocumentReference editor={editor} />
         <Image editor={editor} />
         <Iframe editor={editor} />

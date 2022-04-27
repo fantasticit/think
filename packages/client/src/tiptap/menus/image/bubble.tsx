@@ -6,10 +6,12 @@ import { BubbleMenu } from '../../views/bubble-menu';
 import { Divider } from '../../divider';
 import { Image } from '../../extensions/image';
 import { Size } from '../_components/size';
+import { getEditorContainerDOMSize } from '../../utils/editor';
 
 export const ImageBubbleMenu = ({ editor }) => {
   const attrs = editor.getAttributes(Image.name);
   const { width: currentWidth, height: currentHeight } = attrs;
+  const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const [width, setWidth] = useState(currentWidth);
   const [height, setHeight] = useState(currentHeight);
 
@@ -91,6 +93,7 @@ export const ImageBubbleMenu = ({ editor }) => {
 
         <Size
           width={width}
+          maxWidth={maxWidth}
           height={height}
           onOk={(size) => {
             editor
