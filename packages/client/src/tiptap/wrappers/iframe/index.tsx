@@ -1,6 +1,6 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import cls from 'classnames';
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { NodeViewWrapper } from '@tiptap/react';
 import { Typography } from '@douyinfe/semi-ui';
 import { Resizeable } from 'components/resizeable';
 import { getEditorContainerDOMSize } from '../../utils/editor';
@@ -17,36 +17,21 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
     updateAttributes({ width: size.width, height: size.height });
   }, []);
 
-  const content = useMemo(
-    () => (
-      <NodeViewContent as="div" className={cls(styles.wrap, 'render-wrapper')}>
-        {url ? (
-          <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
-            <iframe src={url}></iframe>
-          </div>
-        ) : (
-          <div className={styles.emptyWrap}>
-            <Text>请设置外链地址</Text>
-          </div>
-        )}
-      </NodeViewContent>
-    ),
-    [url, width, height]
-  );
-
-  if (!isEditable && !url) {
-    return null;
-  }
-
   return (
     <NodeViewWrapper>
-      {isEditable ? (
-        <Resizeable width={width || maxWidth} maxWidth={maxWidth} height={height} onChangeEnd={onResize}>
-          <div style={{ width, height, maxWidth: '100%' }}>{content}</div>
-        </Resizeable>
-      ) : (
-        <div style={{ width, height, maxWidth: '100%' }}>{content}</div>
-      )}
+      <Resizeable width={width} maxWidth={maxWidth} height={height} isEditable={isEditable} onChangeEnd={onResize}>
+        <div className={cls(styles.wrap, 'render-wrapper')}>
+          {url ? (
+            <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
+              <iframe src={url}></iframe>
+            </div>
+          ) : (
+            <div className={styles.emptyWrap}>
+              <Text>请设置外链地址</Text>
+            </div>
+          )}
+        </div>
+      </Resizeable>
     </NodeViewWrapper>
   );
 };

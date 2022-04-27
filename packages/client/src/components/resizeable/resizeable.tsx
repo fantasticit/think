@@ -10,6 +10,7 @@ interface IProps {
   width: number;
   height: number;
   maxWidth?: number;
+  isEditable?: boolean;
   onChange?: (arg: ISize) => void;
   onChangeEnd?: (arg: ISize) => void;
   className?: string;
@@ -18,26 +19,30 @@ interface IProps {
 const MIN_WIDTH = 50;
 const MIN_HEIGHT = 50;
 
-function clamp(val: number, min: number, max: number): number {
+function clamp(val: number, min: number, max: number): string {
   if (val < min) {
-    return min;
+    return '' + min;
   }
   if (val > max) {
-    return max;
+    return '' + max;
   }
-  return val;
+  return '' + val;
 }
 
 export const Resizeable: React.FC<IProps> = ({
   width,
   height,
   maxWidth,
+  isEditable = false,
   className,
   onChange,
   onChangeEnd,
   children,
 }) => {
   const $container = useRef<HTMLDivElement>(null);
+  const $cloneNode = useRef<HTMLDivElement>(null);
+  const $cloneNodeTip = useRef<HTMLDivElement>(null);
+  const $placeholderNode = useRef<HTMLDivElement>(null);
   const $topLeft = useRef<HTMLDivElement>(null);
   const $topRight = useRef<HTMLDivElement>(null);
   const $bottomLeft = useRef<HTMLDivElement>(null);
@@ -49,6 +54,8 @@ export const Resizeable: React.FC<IProps> = ({
   });
 
   useEffect(() => {
+    if (!isEditable) return;
+
     interact($container.current).resizable({
       edges: {
         top: true,
@@ -58,19 +65,24 @@ export const Resizeable: React.FC<IProps> = ({
       },
       listeners: {
         move: function (event) {
-          let { x, y } = event.target.dataset;
-          x = (parseFloat(x) || 0) + event.deltaRect.left;
-          y = (parseFloat(y) || 0) + event.deltaRect.top;
+          const placeholderNode = $placeholderNode.current;
+          Object.assign(placeholderNode.style, {
+            opacity: 0,
+          });
 
+          const cloneNode = $cloneNode.current;
           let { width, height } = event.rect;
-          width = clamp(width, MIN_WIDTH, maxWidth || Infinity);
-          height = clamp(height, MIN_HEIGHT, Infinity);
-
-          Object.assign(event.target.style, {
+          width = parseInt(clamp(width, MIN_WIDTH, maxWidth || Infinity));
+          height = parseInt(clamp(height, MIN_HEIGHT, Infinity));
+          Object.assign(cloneNode.style, {
             width: `${width}px`,
             height: `${height}px`,
+            zIndex: 1000,
           });
-          Object.assign(event.target.dataset, { x, y });
+
+          const tipNode = $cloneNodeTip.current;
+          tipNode.innerText = `${width}x${height}`;
+
           onChange && onChange({ width, height });
         },
         end: function (event) {
@@ -78,11 +90,24 @@ export const Resizeable: React.FC<IProps> = ({
           width = clamp(width, MIN_WIDTH, maxWidth || Infinity);
           height = clamp(height, MIN_HEIGHT, Infinity);
 
+          const cloneNode = $cloneNode.current;
+          Object.assign(cloneNode.style, {
+            zIndex: 0,
+          });
+
+          const tipNode = $cloneNodeTip.current;
+          tipNode.innerText = ``;
+
+          const placeholderNode = $placeholderNode.current;
+          Object.assign(placeholderNode.style, {
+            opacity: 1,
+          });
+
           onChangeEnd && onChangeEnd({ width, height });
         },
       },
     });
-  }, [maxWidth]);
+  }, [maxWidth, isEditable]);
 
   useEffect(() => {
     Object.assign($container.current.style, {
@@ -98,10 +123,41 @@ export const Resizeable: React.FC<IProps> = ({
       ref={$container}
       style={{ width, height }}
     >
-      <span className={styles.resizer + ' ' + styles.topLeft} ref={$topLeft} data-type={'topLeft'}></span>
-      <span className={styles.resizer + ' ' + styles.topRight} ref={$topRight} data-type={'topRight'}></span>
-      <span className={styles.resizer + ' ' + styles.bottomLeft} ref={$bottomLeft} data-type={'bottomLeft'}></span>
-      <span className={styles.resizer + ' ' + styles.bottomRight} ref={$bottomRight} data-type={'bottomRight'}></span>
+      {isEditable && (
+        <>
+          <div ref={$placeholderNode} className={styles.placeholderWrap} style={{ opacity: 1 }}>
+            <span className={styles.resizer + ' ' + styles.topLeft} ref={$topLeft} data-type={'topLeft'}></span>
+            <span className={styles.resizer + ' ' + styles.topRight} ref={$topRight} data-type={'topRight'}></span>
+            <span
+              className={styles.resizer + ' ' + styles.bottomLeft}
+              ref={$bottomLeft}
+              data-type={'bottomLeft'}
+            ></span>
+            <span
+              className={styles.resizer + ' ' + styles.bottomRight}
+              ref={$bottomRight}
+              data-type={'bottomRight'}
+            ></span>
+          </div>
+
+          <div ref={$cloneNode} className={styles.cloneNodeWrap} style={{ width, height, maxWidth }}>
+            <span className={styles.resizer + ' ' + styles.topLeft} ref={$topLeft} data-type={'topLeft'}></span>
+            <span className={styles.resizer + ' ' + styles.topRight} ref={$topRight} data-type={'topRight'}></span>
+            <span
+              className={styles.resizer + ' ' + styles.bottomLeft}
+              ref={$bottomLeft}
+              data-type={'bottomLeft'}
+            ></span>
+            <span
+              className={styles.resizer + ' ' + styles.bottomRight}
+              ref={$bottomRight}
+              data-type={'bottomRight'}
+            ></span>
+            <span ref={$cloneNodeTip}></span>
+          </div>
+        </>
+      )}
+
       {children}
     </div>
   );

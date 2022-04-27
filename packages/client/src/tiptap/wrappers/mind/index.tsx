@@ -1,4 +1,4 @@
-import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
+import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Spin, Typography } from '@douyinfe/semi-ui';
@@ -15,6 +15,8 @@ import styles from './index.module.scss';
 
 const { Text } = Typography;
 
+const INHERIT_SIZE_STYLE = { width: '100%', height: '100%' };
+
 export const MindWrapper = ({ editor, node, updateAttributes }) => {
   const $container = useRef();
   const $mind = useRef<any>();
@@ -28,14 +30,14 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   const content = useMemo(() => {
     if (error) {
       return (
-        <div style={{ width: '100%', height: '100%' }}>
+        <div style={INHERIT_SIZE_STYLE}>
           <Text>{error.message || error}</Text>
         </div>
       );
     }
 
     if (loading) {
-      return <Spin spinning={loading} style={{ width: '100%', height: '100%' }}></Spin>;
+      return <Spin spinning={loading} style={INHERIT_SIZE_STYLE}></Spin>;
     }
 
     return (
@@ -43,10 +45,10 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
         ref={$container}
         className={cls(styles.renderWrap, 'render-wrapper')}
         tabIndex={0}
-        style={{ width: '100%', height: '100%' }}
+        style={INHERIT_SIZE_STYLE}
       ></div>
     );
-  }, [loading, error]);
+  }, [loading, error, width, height]);
 
   const onResize = useCallback(
     (size) => {
@@ -203,15 +205,13 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     minder.execCommand('theme', theme);
   }, [theme]);
 
+  console.log(width, height);
+
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
-      {isEditable ? (
-        <Resizeable width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
-          {content}
-        </Resizeable>
-      ) : (
-        <div style={{ display: 'inline-block', width, height, maxWidth: '100%' }}>{content}</div>
-      )}
+      <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
+        {content}
+      </Resizeable>
       <div className={styles.toolbarWrap}>
         <Toolbar
           isEditable={isEditable}
@@ -226,7 +226,6 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
           setTheme={setTheme}
         />
       </div>
-      <NodeViewContent />
     </NodeViewWrapper>
   );
 };
