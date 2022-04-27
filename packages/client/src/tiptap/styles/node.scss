@@ -37,7 +37,15 @@
   }
 
   .node-attachment,
-  .node-banner,
+  .node-countdown,
+  .node-iframe,
+  .node-codeBlock,
+  .node-documentChildren,
+  .node-documentReference {
+    width: 100%;
+  }
+
+  .node-attachment,
   .node-countdown,
   .node-iframe,
   .node-katex,
