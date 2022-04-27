@@ -7,6 +7,7 @@ type IStatusAttrs = {
   color?: string;
   text?: string;
   defaultShowPicker?: boolean;
+  createUser: string;
 };
 
 declare module '@tiptap/core' {
@@ -37,6 +38,9 @@ export const Status = Node.create({
       defaultShowPicker: {
         default: false,
       },
+      createUser: {
+        default: null,
+      },
     };
   },
 
@@ -63,7 +67,7 @@ export const Status = Node.create({
   addCommands() {
     return {
       setStatus:
-        (options = {}) =>
+        (options) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,

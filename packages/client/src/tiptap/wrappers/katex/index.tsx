@@ -5,13 +5,15 @@ import { Popover, TextArea, Typography, Space } from '@douyinfe/semi-ui';
 import { IconHelpCircle } from '@douyinfe/semi-icons';
 import katex from 'katex';
 import { useToggle } from 'hooks/use-toggle';
+import { useUser } from 'data/user';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
 
 export const KatexWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
-  const { text, defaultShowPicker } = node.attrs;
+  const { text, defaultShowPicker, createUser } = node.attrs;
+  const { user } = useUser();
   const ref = useRef<HTMLTextAreaElement>();
   const [visible, toggleVisible] = useToggle(false);
 
@@ -36,19 +38,19 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
   const onVisibleChange = useCallback(
     (value) => {
       toggleVisible(value);
-      if (defaultShowPicker) {
+      if (defaultShowPicker && user && createUser === user.name) {
         updateAttributes({ defaultShowPicker: false });
       }
     },
-    [defaultShowPicker, updateAttributes]
+    [defaultShowPicker, updateAttributes, createUser, user]
   );
 
   useEffect(() => {
-    if (defaultShowPicker) {
+    if (defaultShowPicker && user && createUser === user.name) {
       toggleVisible(true);
       setTimeout(() => ref.current?.focus(), 100);
     }
-  }, [defaultShowPicker]);
+  }, [defaultShowPicker, createUser, user]);
 
   return (
     <NodeViewWrapper as="span" className={cls(styles.wrap, 'render-wrapper')} contentEditable={false}>

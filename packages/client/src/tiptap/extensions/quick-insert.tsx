@@ -26,7 +26,7 @@ export const QuickInsert = Node.create({
           const $from = state.selection.$from;
           const tr = state.tr.deleteRange($from.start(), $from.pos);
           dispatch(tr);
-          props?.command(editor);
+          props?.command(editor, props.user);
           editor?.view?.focus();
         },
       },

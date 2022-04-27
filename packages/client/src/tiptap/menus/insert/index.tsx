@@ -18,6 +18,7 @@ import {
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
 import { useToggle } from 'hooks/use-toggle';
+import { useUser } from 'data/user';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
 import { isTitleActive } from '../../utils/is-active';
 import { createCountdown } from '../countdown/service';
@@ -92,12 +93,13 @@ const COMMANDS = [
   {
     icon: <IconMath />,
     label: '数学公式',
-    action: (editor) => editor.chain().focus().setKatex({ defaultShowPicker: true }).run(),
+    action: (editor, user) => editor.chain().focus().setKatex({ defaultShowPicker: true, createUser: user.name }).run(),
   },
   {
     icon: <IconStatus />,
     label: '状态',
-    action: (editor) => editor.chain().focus().setStatus({ defaultShowPicker: true }).run(),
+    action: (editor, user) =>
+      editor.chain().focus().setStatus({ defaultShowPicker: true, createUser: user.name }).run(),
   },
   {
     icon: <IconCallout />,
@@ -120,6 +122,7 @@ const COMMANDS = [
 ];
 
 export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
+  const { user } = useUser();
   const [recentUsed, setRecentUsed] = useState([]);
   const [visible, toggleVisible] = useToggle(false);
 
@@ -141,7 +144,7 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
       return () => {
         insertMenuLRUCache.put(command.label);
         setRecentUsed(transformToCommands(insertMenuLRUCache.get() as string[]));
-        command.action(editor);
+        command.action(editor, user);
         toggleVisible(false);
       };
     },

@@ -209,14 +209,19 @@ export const QUICK_INSERT_ITEMS = [
         数学公式
       </Space>
     ),
-    command: (editor: Editor) =>
+    command: (editor: Editor, user) => {
+      console.log('user', user);
+      if (!user) return;
+
       editor
         .chain()
         .focus()
         .setKatex({
           defaultShowPicker: true,
+          createUser: user.name,
         })
-        .run(),
+        .run();
+    },
   },
 
   {
@@ -227,14 +232,18 @@ export const QUICK_INSERT_ITEMS = [
         状态
       </Space>
     ),
-    command: (editor: Editor) =>
+    command: (editor: Editor, user) => {
+      if (!user) return;
+
       editor
         .chain()
         .focus()
         .setStatus({
           defaultShowPicker: true,
+          createUser: user.name,
         })
-        .run(),
+        .run();
+    },
   },
 
   {

@@ -1,9 +1,10 @@
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Button, Collapsible, Space, Popover, Tag, Input } from '@douyinfe/semi-ui';
 import cls from 'classnames';
+import { useCallback, useEffect, useRef } from 'react';
+import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
 import styles from './index.module.scss';
-import { useCallback, useEffect, useRef } from 'react';
 
 const colors = [
   '#F5222D',
@@ -52,7 +53,8 @@ const colors = [
 
 export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
-  const { color, text, defaultShowPicker } = node.attrs;
+  const { color, text, defaultShowPicker, createUser } = node.attrs;
+  const { user } = useUser();
   const ref = useRef<HTMLInputElement>();
   const [visible, toggleVisible] = useToggle(false);
   const [isOpen, toggleOpen] = useToggle(false);
@@ -66,19 +68,19 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   const onVisibleChange = useCallback(
     (value) => {
       toggleVisible(value);
-      if (defaultShowPicker) {
+      if (defaultShowPicker && user && user.name === createUser) {
         updateAttributes({ defaultShowPicker: false });
       }
     },
-    [defaultShowPicker, updateAttributes]
+    [defaultShowPicker, updateAttributes, createUser, user]
   );
 
   useEffect(() => {
-    if (defaultShowPicker) {
+    if (defaultShowPicker && user && user.name === createUser) {
       toggleVisible(true);
       setTimeout(() => ref.current?.focus(), 100);
     }
-  }, [defaultShowPicker]);
+  }, [defaultShowPicker, createUser, user]);
 
   useEffect(() => {
     if (visible) {

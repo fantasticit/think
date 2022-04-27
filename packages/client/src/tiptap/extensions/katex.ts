@@ -5,6 +5,7 @@ import { KatexWrapper } from '../wrappers/katex';
 type IKatexAttrs = {
   text?: string;
   defaultShowPicker?: boolean;
+  createUser: string;
 };
 
 declare module '@tiptap/core' {
@@ -43,6 +44,9 @@ export const Katex = Node.create({
       defaultShowPicker: {
         default: false,
       },
+      createUser: {
+        default: null,
+      },
     };
   },
 
@@ -57,7 +61,7 @@ export const Katex = Node.create({
   addCommands() {
     return {
       setKatex:
-        (options = {}) =>
+        (options) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,

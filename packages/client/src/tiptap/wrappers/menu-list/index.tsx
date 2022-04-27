@@ -2,6 +2,7 @@ import { Editor } from '@tiptap/core';
 import React, { useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import cls from 'classnames';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import { useUser } from 'data/user';
 import styles from './index.module.scss';
 
 interface IProps {
@@ -11,6 +12,7 @@ interface IProps {
 }
 
 export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
+  const { user } = useUser();
   const $container = useRef<HTMLDivElement>();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -18,6 +20,8 @@ export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
     const item = props.items[index];
 
     if (item) {
+      // @ts-ignore
+      item.user = user; // 注入用户信息
       props.command(item);
     }
   };
