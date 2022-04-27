@@ -45,6 +45,9 @@
   .node-codeBlock,
   .node-documentChildren,
   .node-documentReference {
+    display: inline-block;
+    max-width: 100%;
+
     .render-wrapper {
       position: relative;
       user-select: text;

@@ -123,7 +123,7 @@ export const MindBubbleMenu = ({ editor }) => {
                         className={cls(template === item.value && styles.active)}
                         onClick={() => setTemplate(item.value)}
                       >
-                        {item.label}
+                        <Text>{item.label}</Text>
                       </li>
                     );
                   })}

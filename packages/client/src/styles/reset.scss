@@ -88,25 +88,39 @@ select {
   }
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-button {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+}
+
 ::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 0;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: transparent;
-  border-radius: 0.5rem;
-  transition: all 0.2s;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-corner,
+::-webkit-resizer {
+  background-color: transparent;
 }
 
 *:hover {
-  &::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb &::-webkit-scrollbar-corner,
+  &::-webkit-resizer {
     background-color: var(--scrollbar-bg);
   }
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  background: transparent;
 }
