@@ -1,7 +1,13 @@
 import { Command, Extension } from '@tiptap/core';
 import { sinkListItem, liftListItem } from 'prosemirror-schema-list';
 import { TextSelection, AllSelection, Transaction } from 'prosemirror-state';
-import { isListActive, getNodeType } from 'tiptap/prose-utils';
+import { isListActive, isListNode, clamp, getNodeType } from 'tiptap/prose-utils';
+
+type IndentOptions = {
+  types: string[];
+  indentLevels: number[];
+  defaultIndentLevel: number;
+};
 
 declare module '@tiptap/core' {
   interface Commands {
@@ -12,12 +18,35 @@ declare module '@tiptap/core' {
   }
 }
 
-export type Options = {
-  type: 'space' | 'tab';
-  size: number;
-};
+export enum IndentProps {
+  min = 0,
+  max = 210,
+  more = 30,
+  less = -30,
+}
 
-const updateIndent = (tr: Transaction, options: Options): Transaction => {
+function setNodeIndentMarkup(tr: Transaction, pos: number, delta: number): Transaction {
+  if (!tr.doc) return tr;
+
+  const node = tr.doc.nodeAt(pos);
+  if (!node) return tr;
+
+  const minIndent = IndentProps.min;
+  const maxIndent = IndentProps.max;
+
+  const indent = clamp((node.attrs.indent || 0) + delta, minIndent, maxIndent);
+
+  if (indent === node.attrs.indent) return tr;
+
+  const nodeAttrs = {
+    ...node.attrs,
+    indent,
+  };
+
+  return tr.setNodeMarkup(pos, node.type, nodeAttrs, node.marks);
+}
+
+function updateIndentLevel(tr: Transaction, delta: number): Transaction {
   const { doc, selection } = tr;
 
   if (!doc || !selection) return tr;
@@ -26,23 +55,50 @@ const updateIndent = (tr: Transaction, options: Options): Transaction => {
     return tr;
   }
 
-  const { to } = selection;
+  const { from, to } = selection;
 
-  const text = options.type === 'space' ? Array(options.size).fill(' ').join('') : '\t';
+  doc.nodesBetween(from, to, (node, pos) => {
+    const nodeType = node.type;
 
-  return tr.insertText(text, to);
-};
+    if (nodeType.name === 'paragraph' || nodeType.name === 'heading') {
+      tr = setNodeIndentMarkup(tr, pos, delta);
+      return false;
+    }
+    if (isListNode(node)) {
+      return false;
+    }
+    return true;
+  });
 
-export const Indent = Extension.create<Options>({
+  return tr;
+}
+
+export const Indent = Extension.create<IndentOptions>({
   name: 'indent',
 
   addOptions() {
-    const options: Options = {
-      type: 'space',
-      size: 2,
+    return {
+      types: ['heading', 'paragraph'],
+      indentLevels: [0, 30, 60, 90, 120, 150, 180, 210],
+      defaultIndentLevel: 0,
     };
+  },
 
-    return options;
+  addGlobalAttributes() {
+    return [
+      {
+        types: this.options.types,
+        attributes: {
+          indent: {
+            default: this.options.defaultIndentLevel,
+            renderHTML: (attributes) => ({
+              style: `margin-left: ${attributes.indent}px!important;`,
+            }),
+            parseHTML: (element) => parseInt(element.style.marginLeft) || this.options.defaultIndentLevel,
+          },
+        },
+      },
+    ];
   },
 
   addCommands() {
@@ -56,11 +112,15 @@ export const Indent = Extension.create<Options>({
             return sinkListItem(type)(state, dispatch);
           }
 
-          const _tr = updateIndent(tr, this.options);
-          if (_tr.docChanged) {
-            dispatch?.(_tr);
+          const { selection } = state;
+          tr = tr.setSelection(selection);
+          tr = updateIndentLevel(tr, IndentProps.more);
+
+          if (tr.docChanged) {
+            dispatch && dispatch(tr);
             return true;
           }
+
           return false;
         },
       outdent:
@@ -72,11 +132,15 @@ export const Indent = Extension.create<Options>({
             return liftListItem(type)(state, dispatch);
           }
 
-          const _tr = updateIndent(tr, this.options);
-          if (_tr.docChanged) {
-            dispatch?.(_tr);
+          const { selection } = state;
+          tr = tr.setSelection(selection);
+          tr = updateIndentLevel(tr, IndentProps.less);
+
+          if (tr.docChanged) {
+            dispatch && dispatch(tr);
             return true;
           }
+
           return false;
         },
     };
