@@ -63,7 +63,7 @@ function attrSet(token, name, value) {
 function processToken(state: StateCore, options: TaskListsOptions): boolean {
   const allTokens = state.tokens;
 
-  attrSet(allTokens[0], 'class', 'contains-task-list');
+  attrSet(allTokens[0], 'class', '');
 
   for (let i = 2; i < allTokens.length; i++) {
     if (!isTodoItem(allTokens, i)) {

@@ -86,7 +86,6 @@ importers:
       '@types/react': 17.0.38
       axios: ^0.25.0
       classnames: ^2.3.1
-      copy-to-clipboard: ^3.3.1
       deep-equal: ^2.0.5
       dompurify: ^2.3.5
       interactjs: ^1.10.11
@@ -115,6 +114,7 @@ importers:
       scroll-into-view-if-needed: ^2.2.29
       swr: ^1.2.0
       tippy.js: ^6.3.7
+      toggle-selection: ^1.0.6
       tsconfig-paths-webpack-plugin: ^3.5.2
       typescript: 4.5.5
       viewerjs: ^1.10.4
@@ -169,7 +169,6 @@ importers:
       '@tiptap/suggestion': 2.0.0-beta.90_@tiptap+core@2.0.0-beta.171
       axios: 0.25.0
       classnames: 2.3.1
-      copy-to-clipboard: 3.3.1
       deep-equal: 2.0.5
       dompurify: 2.3.5
       interactjs: 1.10.11
@@ -198,6 +197,7 @@ importers:
       scroll-into-view-if-needed: 2.2.29
       swr: 1.2.0_react@17.0.2
       tippy.js: 6.3.7
+      toggle-selection: 1.0.6
       viewerjs: 1.10.4
       y-indexeddb: 9.0.7_yjs@13.5.24
       y-prosemirror: 1.0.14_0fedec857d2fb730ad5b02a71124bf2a
@@ -3169,12 +3169,6 @@ packages:
   /copy-text-to-clipboard/2.2.0:
     resolution: {integrity: sha512-WRvoIdnTs1rgPMkgA2pUOa/M4Enh2uzCwdKsOMYNAJiz/4ZvEJgmbF4OmninPmlFdAWisfeh0tH+Cpf7ni3RqQ==}
     engines: {node: '>=6'}
-    dev: false
-
-  /copy-to-clipboard/3.3.1:
-    resolution: {integrity: sha512-i13qo6kIHTTpCm8/Wup+0b1mVWETvu2kIMzKoK8FpkLkFxlt0znUAHcMzox+T8sPlqtZXq3CulEjQHsYiGFJUw==}
-    dependencies:
-      toggle-selection: 1.0.6
     dev: false
 
   /copy-to/2.0.1:

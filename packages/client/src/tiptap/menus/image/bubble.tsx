@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
-import { IconAlignLeft, IconAlignCenter, IconAlignRight, IconLineHeight, IconDelete } from '@douyinfe/semi-icons';
+import {
+  IconAlignLeft,
+  IconAlignCenter,
+  IconAlignRight,
+  IconLineHeight,
+  IconCopy,
+  IconDelete,
+} from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { BubbleMenu } from 'tiptap/views/bubble-menu';
 import { Divider } from 'tiptap/divider';
 import { Image } from 'tiptap/extensions/image';
-import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
+import { getEditorContainerDOMSize, copyNode, deleteNode } from 'tiptap/prose-utils';
 import { Size } from '../_components/size';
 
 export const ImageBubbleMenu = ({ editor }) => {
@@ -32,6 +39,16 @@ export const ImageBubbleMenu = ({ editor }) => {
       matchRenderContainer={(node) => node && node.id === 'js-resizeable-container'}
     >
       <Space>
+        <Tooltip content="复制">
+          <Button
+            onClick={() => copyNode(Image.name, editor)}
+            icon={<IconCopy />}
+            type="tertiary"
+            theme="borderless"
+            size="small"
+          />
+        </Tooltip>
+
         <Tooltip content="左对齐">
           <Button
             onClick={() => {
@@ -89,8 +106,6 @@ export const ImageBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
 
-        <Divider />
-
         <Size
           width={width}
           maxWidth={maxWidth}
@@ -117,7 +132,7 @@ export const ImageBubbleMenu = ({ editor }) => {
             type="tertiary"
             theme="borderless"
             icon={<IconDelete />}
-            onClick={() => editor.chain().deleteSelection().run()}
+            onClick={() => deleteNode(Image.name, editor)}
           />
         </Tooltip>
       </Space>

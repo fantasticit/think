@@ -32,7 +32,9 @@ import { Blockquote } from './menus/blockquote';
 import { HorizontalRule } from './menus/horizontal-rule';
 import { Search } from './menus/search';
 
+import { Attachment } from './menus/attachment';
 import { Callout } from './menus/callout';
+import { CodeBlock } from './menus/code-block';
 import { Countdonw } from './menus/countdown';
 import { DocumentChildren } from './menus/document-children';
 import { DocumentReference } from './menus/document-reference';
@@ -90,7 +92,9 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
         <HorizontalRule editor={editor} />
         <Search editor={editor} />
 
+        <Attachment editor={editor} />
         <Callout editor={editor} />
+        <CodeBlock editor={editor} />
         <Countdonw editor={editor} />
         <DocumentChildren editor={editor} />
         <DocumentReference editor={editor} />

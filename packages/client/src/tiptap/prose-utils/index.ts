@@ -2,6 +2,7 @@ export * from './active';
 export * from './clamp';
 export * from './code';
 export * from './color';
+export * from './copy-node';
 export * from './delete-node';
 export * from './dom-dataset';
 export * from './dom';

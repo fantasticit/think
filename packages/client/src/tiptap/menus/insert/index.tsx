@@ -65,7 +65,10 @@ const COMMANDS = [
   {
     icon: <IconImage />,
     label: '图片',
-    action: (editor) => editor.chain().focus().setEmptyImage().run(),
+    action: (editor) => {
+      const { width } = getEditorContainerDOMSize(editor);
+      editor.chain().focus().setEmptyImage({ width }).run();
+    },
   },
   {
     icon: <IconAttachment />,

@@ -1,11 +1,12 @@
 import { useCallback, useRef } from 'react';
 import { Space, Button, Modal, Form, Typography } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
-import { IconEdit, IconExternalOpen, IconLineHeight, IconDelete } from '@douyinfe/semi-icons';
+import { IconEdit, IconExternalOpen, IconLineHeight, IconCopy, IconDelete } from '@douyinfe/semi-icons';
 import { useToggle } from 'hooks/use-toggle';
 import { Tooltip } from 'components/tooltip';
 import { BubbleMenu } from 'tiptap/views/bubble-menu';
 import { Iframe } from 'tiptap/extensions/iframe';
+import { copyNode, deleteNode } from 'tiptap/prose-utils';
 import { Divider } from 'tiptap/divider';
 import { Size } from '../_components/size';
 
@@ -57,8 +58,6 @@ export const IframeBubbleMenu = ({ editor }) => {
     [editor]
   );
 
-  const deleteNode = useCallback(() => editor.chain().deleteSelection().run(), [editor]);
-
   return (
     <BubbleMenu
       className={'bubble-menu'}
@@ -95,6 +94,16 @@ export const IframeBubbleMenu = ({ editor }) => {
       </Modal>
 
       <Space>
+        <Tooltip content="复制">
+          <Button
+            onClick={() => copyNode(Iframe.name, editor)}
+            icon={<IconCopy />}
+            type="tertiary"
+            theme="borderless"
+            size="small"
+          />
+        </Tooltip>
+
         <Tooltip content="访问链接">
           <Button size="small" type="tertiary" theme="borderless" icon={<IconExternalOpen />} onClick={visitLink} />
         </Tooltip>
@@ -112,7 +121,13 @@ export const IframeBubbleMenu = ({ editor }) => {
         <Divider />
 
         <Tooltip content="删除节点" hideOnClick>
-          <Button onClick={deleteNode} icon={<IconDelete />} type="tertiary" theme="borderless" size="small" />
+          <Button
+            onClick={() => deleteNode(Iframe.name, editor)}
+            icon={<IconDelete />}
+            type="tertiary"
+            theme="borderless"
+            size="small"
+          />
         </Tooltip>
       </Space>
     </BubbleMenu>

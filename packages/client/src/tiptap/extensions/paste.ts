@@ -8,6 +8,8 @@ import {
   markdownToProsemirror,
   prosemirrorToMarkdown,
 } from 'tiptap/markdown/markdown-to-prosemirror';
+import { copyNode } from 'tiptap/prose-utils';
+import { safeJSONParse } from 'helpers/json';
 
 const isPureText = (content): boolean => {
   if (!content) return false;
@@ -43,7 +45,6 @@ export const Paste = Extension.create({
             if (!event.clipboardData) return false;
 
             const files = Array.from(event.clipboardData.files);
-
             if (files.length) {
               event.preventDefault();
               files.forEach((file) => {
@@ -55,6 +56,16 @@ export const Paste = Extension.create({
             const text = event.clipboardData.getData('text/plain');
             const html = event.clipboardData.getData('text/html');
             const vscode = event.clipboardData.getData('vscode-editor-data');
+            const node = event.clipboardData.getData('text/node');
+            const markdownText = event.clipboardData.getData('text/markdown');
+
+            if (node) {
+              const doc = safeJSONParse(node);
+              let tr = view.state.tr;
+              const selection = tr.selection;
+              view.dispatch(tr.insert(selection.from - 1, view.state.schema.nodeFromJSON(doc)).scrollIntoView());
+              return true;
+            }
 
             // 粘贴代码
             if (isInCode(view.state)) {
@@ -80,14 +91,14 @@ export const Paste = Extension.create({
             }
 
             // 处理 markdown
-            if (isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
+            if (markdownText || isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
               event.preventDefault();
               const firstNode = view.props.state.doc.content.firstChild;
               const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
               const schema = view.props.state.schema;
               const doc = markdownToProsemirror({
                 schema,
-                content: normalizePastedMarkdown(text),
+                content: normalizePastedMarkdown(markdownText || text),
                 hasTitle,
               });
               let tr = view.state.tr;
@@ -130,8 +141,41 @@ export const Paste = Extension.create({
 
             return false;
           },
+          handleKeyDown(view, event) {
+            /**
+             * Command + C
+             * Ctrl + C
+             */
+            if ((event.ctrlKey || event.metaKey) && event.keyCode == 67) {
+              const { state } = view;
+              const $pos = state.selection.$anchor;
+              // @ts-ignore
+              const currentNode = state.selection.node;
+              let targetNode = null;
+
+              if (currentNode) {
+                targetNode = currentNode;
+              } else {
+                if ($pos.depth) {
+                  for (let d = $pos.depth; d > 0; d--) {
+                    const node = $pos.node(d);
+                    targetNode = node;
+                  }
+                }
+              }
+
+              if (currentNode) {
+                event.preventDefault();
+                copyNode(currentNode);
+                return true;
+              }
+            }
+
+            return false;
+          },
           clipboardTextSerializer: (slice) => {
             const isText = isPureText(slice.content.toJSON());
+
             if (isText) {
               return slice.content.textBetween(0, slice.content.size, '\n\n');
             }

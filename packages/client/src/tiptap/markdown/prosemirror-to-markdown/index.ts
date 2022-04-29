@@ -91,7 +91,7 @@ const SerializerConfig = {
   },
 
   nodes: {
-    [Attachment.name]: renderCustomContainer('attachment'),
+    attachment: renderCustomContainer('attachment'),
     blockquote: (state, node) => {
       if (node.attrs.multiline) {
         state.write('>>>');

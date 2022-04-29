@@ -1,4 +1,5 @@
 import { Space, Button } from '@douyinfe/semi-ui';
+import { IconCopy } from '@douyinfe/semi-icons';
 import {
   IconAddColumnBefore,
   IconAddColumnAfter,
@@ -17,6 +18,7 @@ import { Tooltip } from 'components/tooltip';
 import { Divider } from 'tiptap/divider';
 import { BubbleMenu } from 'tiptap/views/bubble-menu';
 import { Table } from 'tiptap/extensions/table';
+import { copyNode } from 'tiptap/prose-utils';
 
 export const TableBubbleMenu = ({ editor }) => {
   return (
@@ -31,6 +33,18 @@ export const TableBubbleMenu = ({ editor }) => {
       matchRenderContainer={(node: HTMLElement) => node && node.tagName === 'TABLE'}
     >
       <Space>
+        <Tooltip content="复制">
+          <Button
+            onClick={() => copyNode(Table.name, editor)}
+            icon={<IconCopy />}
+            type="tertiary"
+            theme="borderless"
+            size="small"
+          />
+        </Tooltip>
+
+        <Divider />
+
         <Tooltip content="向前插入一列">
           <Button
             onClick={() => editor.chain().focus().addColumnBefore().run()}

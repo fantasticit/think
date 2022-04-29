@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
-import { IconLineHeight, IconDelete } from '@douyinfe/semi-icons';
+import { IconCopy, IconLineHeight, IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { BubbleMenu } from 'tiptap/views/bubble-menu';
 import { Mind } from 'tiptap/extensions/mind';
 import { Divider } from 'tiptap/divider';
-import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
+import { getEditorContainerDOMSize, copyNode, deleteNode } from 'tiptap/prose-utils';
 import { Size } from '../_components/size';
 
 export const MindBubbleMenu = ({ editor }) => {
@@ -20,8 +20,6 @@ export const MindBubbleMenu = ({ editor }) => {
     [editor]
   );
 
-  const deleteNode = useCallback(() => editor.chain().deleteSelection().run(), [editor]);
-
   return (
     <BubbleMenu
       className={'bubble-menu'}
@@ -32,6 +30,16 @@ export const MindBubbleMenu = ({ editor }) => {
       matchRenderContainer={(node) => node && node.id === 'js-resizeable-container'}
     >
       <Space>
+        <Tooltip content="复制">
+          <Button
+            onClick={() => copyNode(Mind.name, editor)}
+            icon={<IconCopy />}
+            type="tertiary"
+            theme="borderless"
+            size="small"
+          />
+        </Tooltip>
+
         <Size width={width} maxWidth={maxWidth} height={height} onOk={setSize}>
           <Tooltip content="设置宽高">
             <Button icon={<IconLineHeight />} type="tertiary" theme="borderless" size="small" />
@@ -39,7 +47,13 @@ export const MindBubbleMenu = ({ editor }) => {
         </Size>
         <Divider />
         <Tooltip content="删除节点" hideOnClick>
-          <Button onClick={deleteNode} icon={<IconDelete />} type="tertiary" theme="borderless" size="small" />
+          <Button
+            onClick={() => deleteNode(Mind.name, editor)}
+            icon={<IconDelete />}
+            type="tertiary"
+            theme="borderless"
+            size="small"
+          />
         </Tooltip>
       </Space>
     </BubbleMenu>

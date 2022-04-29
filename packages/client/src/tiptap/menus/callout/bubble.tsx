@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
 import { Editor } from '@tiptap/core';
 import { Space, Button, Popover, Typography } from '@douyinfe/semi-ui';
-import { IconDelete } from '@douyinfe/semi-icons';
+import { IconCopy, IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { IconDrawBoard } from 'components/icons';
 import { BubbleMenu } from 'tiptap/views/bubble-menu';
 import { Divider } from 'tiptap/divider';
 import { Callout } from 'tiptap/extensions/callout';
-import { deleteNode } from 'tiptap/prose-utils';
+import { copyNode, deleteNode } from 'tiptap/prose-utils';
 import styles from './bubble.module.scss';
 
 const { Text } = Typography;
@@ -41,6 +41,16 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
       matchRenderContainer={(node) => node && node.id === 'js-bannber-container'}
     >
       <Space>
+        <Tooltip content="复制">
+          <Button
+            onClick={() => copyNode(Callout.name, editor)}
+            icon={<IconCopy />}
+            type="tertiary"
+            theme="borderless"
+            size="small"
+          />
+        </Tooltip>
+
         <Popover
           spacing={10}
           style={{ padding: '0 12px 12px', overflow: 'hidden' }}
@@ -93,7 +103,7 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
             type="tertiary"
             theme="borderless"
             icon={<IconDelete />}
-            onClick={() => deleteNode('callout', editor)}
+            onClick={() => deleteNode(Callout.name, editor)}
           />
         </Tooltip>
       </Space>
