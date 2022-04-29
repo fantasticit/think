@@ -6,9 +6,9 @@ import { Tooltip } from 'components/tooltip';
 import { DataRender } from 'components/data-render';
 import { IconDocument } from 'components/icons';
 import { useWikiTocs } from 'data/wiki';
-import { BubbleMenu } from '../../views/bubble-menu';
-import { DocumentReference } from '../../extensions/document-reference';
-import { Divider } from '../../divider';
+import { BubbleMenu } from 'tiptap/views/bubble-menu';
+import { DocumentReference } from 'tiptap/extensions/document-reference';
+import { Divider } from 'tiptap/divider';
 
 const { Text } = Typography;
 

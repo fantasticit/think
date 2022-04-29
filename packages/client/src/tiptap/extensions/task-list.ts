@@ -1,5 +1,5 @@
 import { TaskList as BuiltInTaskList } from '@tiptap/extension-task-list';
-import { PARSE_HTML_PRIORITY_HIGHEST } from '../constants';
+import { PARSE_HTML_PRIORITY_HIGHEST } from 'tiptap/constants';
 
 export const TaskList = BuiltInTaskList.extend({
   parseHTML() {

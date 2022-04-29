@@ -1,10 +1,10 @@
+import { useMemo } from 'react';
 import { NodeViewWrapper } from '@tiptap/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import cls from 'classnames';
 import { IconDocument } from 'components/icons';
 import styles from './index.module.scss';
-import { useMemo } from 'react';
 
 export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => {
   const { pathname } = useRouter();

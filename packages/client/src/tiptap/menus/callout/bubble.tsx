@@ -1,14 +1,14 @@
+import { useCallback } from 'react';
 import { Editor } from '@tiptap/core';
 import { Space, Button, Popover, Typography } from '@douyinfe/semi-ui';
 import { IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { IconDrawBoard } from 'components/icons';
-import { BubbleMenu } from '../../views/bubble-menu';
-import { Divider } from '../../divider';
-import { Callout } from '../../extensions/callout';
-import { deleteNode } from '../../utils/delete-node';
+import { BubbleMenu } from 'tiptap/views/bubble-menu';
+import { Divider } from 'tiptap/divider';
+import { Callout } from 'tiptap/extensions/callout';
+import { deleteNode } from 'tiptap/prose-utils';
 import styles from './bubble.module.scss';
-import { useCallback } from 'react';
 
 const { Text } = Typography;
 

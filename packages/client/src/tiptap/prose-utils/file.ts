@@ -53,6 +53,23 @@ export const normalizeFileType = (fileType): FileType => {
   return 'file';
 };
 
+export const readImageAsBase64 = (file: File): Promise<{ alt: string; src: string }> => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.addEventListener(
+      'load',
+      () => {
+        resolve({
+          alt: file.name,
+          src: reader.result as string,
+        });
+      },
+      false
+    );
+    reader.readAsDataURL(file);
+  });
+};
+
 export const getImageWidthHeight = (url: string): Promise<{ width: number | string; height: number | string }> => {
   return new Promise((resolve) => {
     const img = document.createElement('img');

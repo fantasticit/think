@@ -3,7 +3,7 @@ import { Editor } from '@tiptap/core';
 import { Button } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
 import { IconQuote } from 'components/icons';
-import { isTitleActive } from '../../utils/is-active';
+import { isTitleActive } from 'tiptap/prose-utils';
 
 export const Blockquote: React.FC<{ editor: Editor }> = ({ editor }) => {
   if (!editor) {

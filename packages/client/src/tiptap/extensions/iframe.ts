@@ -1,7 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { IframeWrapper } from '../wrappers/iframe';
-import { getDatasetAttribute } from '../utils/dataset';
+import { IframeWrapper } from 'tiptap/wrappers/iframe';
+import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

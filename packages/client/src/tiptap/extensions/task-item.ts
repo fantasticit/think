@@ -1,10 +1,8 @@
 import { wrappingInputRule } from '@tiptap/core';
-import { ReactNodeViewRenderer } from '@tiptap/react';
 import { TaskItem as BuiltInTaskItem } from '@tiptap/extension-task-item';
 import { Plugin } from 'prosemirror-state';
 import { findParentNodeClosestToPos } from 'prosemirror-utils';
-import { PARSE_HTML_PRIORITY_HIGHEST } from '../constants';
-import { TaskItemWrapper } from '../wrappers/task-item';
+import { PARSE_HTML_PRIORITY_HIGHEST } from 'tiptap/constants';
 
 const CustomTaskItem = BuiltInTaskItem.extend({
   parseHTML() {

@@ -13,8 +13,8 @@ import {
   isTableSelected,
   selectRow,
   selectTable,
-} from '../utils/table';
-import { FloatMenuView } from '../views/float-menu';
+} from 'tiptap/prose-utils';
+import { FloatMenuView } from 'tiptap/views/float-menu';
 
 export const TableCell = BuiltInTableCell.extend({
   addAttributes() {

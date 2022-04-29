@@ -4,9 +4,9 @@ import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { IconEdit, IconExternalOpen, IconLineHeight, IconDelete } from '@douyinfe/semi-icons';
 import { useToggle } from 'hooks/use-toggle';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from '../../views/bubble-menu';
-import { Iframe } from '../../extensions/iframe';
-import { Divider } from '../../divider';
+import { BubbleMenu } from 'tiptap/views/bubble-menu';
+import { Iframe } from 'tiptap/extensions/iframe';
+import { Divider } from 'tiptap/divider';
 import { Size } from '../_components/size';
 
 const { Text } = Typography;

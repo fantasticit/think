@@ -1,7 +1,7 @@
 import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { MindWrapper } from '../wrappers/mind';
-import { getDatasetAttribute } from '../utils/dataset';
+import { MindWrapper } from 'tiptap/wrappers/mind';
+import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 const DEFAULT_MIND_DATA = {
   root: { data: { text: '中心节点' }, children: [] },

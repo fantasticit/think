@@ -3,7 +3,7 @@ import { Editor } from '@tiptap/core';
 import { Button } from '@douyinfe/semi-ui';
 import { IconStrikeThrough } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { isTitleActive } from '../../utils/is-active';
+import { isTitleActive } from 'tiptap/prose-utils';
 
 export const Strike: React.FC<{ editor: Editor }> = ({ editor }) => {
   if (!editor) {

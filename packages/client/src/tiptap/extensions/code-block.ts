@@ -1,9 +1,9 @@
-import { lowlight } from 'lowlight/lib/all';
 import { Node, textblockTypeInputRule, mergeAttributes } from '@tiptap/core';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { LowlightPlugin } from '../utils/lowlight-plugin';
-import { CodeBlockWrapper } from '../wrappers/code-block';
+import { lowlight } from 'lowlight/lib/all';
+import { LowlightPlugin } from 'tiptap/prose-utils';
+import { CodeBlockWrapper } from 'tiptap/wrappers/code-block';
 
 export interface CodeBlockOptions {
   /**

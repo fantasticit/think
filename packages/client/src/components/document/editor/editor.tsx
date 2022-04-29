@@ -18,7 +18,7 @@ import {
   getIndexdbProvider,
   destoryIndexdbProvider,
 } from 'tiptap';
-import { findMentions } from 'tiptap/utils/find-mention';
+import { findMentions } from 'tiptap/prose-utils';
 import { useCollaborationDocument } from 'data/document';
 import { DataRender } from 'components/data-render';
 import { Banner } from 'components/banner';

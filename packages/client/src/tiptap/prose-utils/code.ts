@@ -1,7 +1,7 @@
 import { EditorState } from 'prosemirror-state';
 // @ts-ignore
 import { lowlight } from 'lowlight';
-import { isMarkActive } from './is-active';
+import { isMarkActive } from './active';
 
 export const LANGUAGES = lowlight.listLanguages().reduce((a, language) => {
   a[language] = language;

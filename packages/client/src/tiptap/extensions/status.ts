@@ -1,7 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { StatusWrapper } from '../wrappers/status';
-import { getDatasetAttribute } from '../utils/dataset';
+import { StatusWrapper } from 'tiptap/wrappers/status';
+import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 type IStatusAttrs = {
   color?: string;

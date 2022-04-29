@@ -3,7 +3,7 @@ import { Popover, Button, Typography, Input, Space } from '@douyinfe/semi-ui';
 import { Editor } from '@tiptap/core';
 import { Tooltip } from 'components/tooltip';
 import { IconSearchReplace } from 'components/icons';
-import { SearchNReplace } from '../../extensions/search';
+import { SearchNReplace } from 'tiptap/extensions/search';
 
 const { Text } = Typography;
 

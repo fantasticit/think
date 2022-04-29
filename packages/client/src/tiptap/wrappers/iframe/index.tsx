@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { NodeViewWrapper } from '@tiptap/react';
 import { Typography } from '@douyinfe/semi-ui';
 import { Resizeable } from 'components/resizeable';
-import { getEditorContainerDOMSize } from '../../utils/editor';
+import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 import styles from './index.module.scss';
 
 const { Text } = Typography;

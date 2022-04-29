@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core';
-import { isMarkActive } from '../../utils/is-active';
+import { isMarkActive } from 'tiptap/prose-utils';
 import { triggerOpenLinkSettingModal } from '../_event';
 
 /**

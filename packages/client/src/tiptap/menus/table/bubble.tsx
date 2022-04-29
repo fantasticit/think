@@ -14,9 +14,9 @@ import {
   IconTableHeaderCell,
 } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import { Divider } from '../../divider';
-import { BubbleMenu } from '../../views/bubble-menu';
-import { Table } from '../../extensions/table';
+import { Divider } from 'tiptap/divider';
+import { BubbleMenu } from 'tiptap/views/bubble-menu';
+import { Table } from 'tiptap/extensions/table';
 
 export const TableBubbleMenu = ({ editor }) => {
   return (

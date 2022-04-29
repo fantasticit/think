@@ -1,7 +1,6 @@
 import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { CalloutWrapper } from '../wrappers/callout';
-import { getDatasetAttribute } from '../utils/dataset';
+import { CalloutWrapper } from 'tiptap/wrappers/callout';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -73,7 +72,7 @@ export const Callout = Node.create({
   addInputRules() {
     return [
       wrappingInputRule({
-        find: /^:::([\dA-Za-z]*) $/,
+        find: /^:::callout $/,
         type: this.type,
         getAttributes: (match) => {
           return { type: match[1] };

@@ -1,6 +1,6 @@
 import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { KatexWrapper } from '../wrappers/katex';
+import { KatexWrapper } from 'tiptap/wrappers/katex';
 
 type IKatexAttrs = {
   text?: string;

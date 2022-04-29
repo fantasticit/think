@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
 import { IconAlignLeft, IconAlignCenter, IconAlignRight, IconLineHeight, IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from '../../views/bubble-menu';
-import { Divider } from '../../divider';
-import { Image } from '../../extensions/image';
+import { BubbleMenu } from 'tiptap/views/bubble-menu';
+import { Divider } from 'tiptap/divider';
+import { Image } from 'tiptap/extensions/image';
+import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 import { Size } from '../_components/size';
-import { getEditorContainerDOMSize } from '../../utils/editor';
 
 export const ImageBubbleMenu = ({ editor }) => {
   const attrs = editor.getAttributes(Image.name);

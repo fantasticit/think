@@ -1,5 +1,5 @@
 import { IconFile, IconSong, IconVideo, IconImage } from '@douyinfe/semi-icons';
-import { normalizeFileType } from '../../utils/file';
+import { normalizeFileType } from 'tiptap/prose-utils';
 
 export const getFileTypeIcon = (fileType: string) => {
   const type = normalizeFileType(fileType);

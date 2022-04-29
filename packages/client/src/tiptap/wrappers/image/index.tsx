@@ -5,8 +5,12 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Resizeable } from 'components/resizeable';
 import { useToggle } from 'hooks/use-toggle';
 import { uploadFile } from 'services/file';
-import { extractFileExtension, extractFilename, getImageWidthHeight } from '../../utils/file';
-import { getEditorContainerDOMSize } from '../../utils/editor';
+import {
+  extractFileExtension,
+  extractFilename,
+  getImageWidthHeight,
+  getEditorContainerDOMSize,
+} from 'tiptap/prose-utils';
 import styles from './index.module.scss';
 
 const { Text } = Typography;

@@ -1,16 +1,7 @@
 import { Command, Extension } from '@tiptap/core';
 import { sinkListItem, liftListItem } from 'prosemirror-schema-list';
 import { TextSelection, AllSelection, Transaction } from 'prosemirror-state';
-import { isListActive } from '../utils/is-active';
-import { clamp } from '../utils/clamp';
-import { getNodeType } from '../utils/type';
-import { isListNode } from '../utils/node';
-
-type IndentOptions = {
-  types: string[];
-  indentLevels: number[];
-  defaultIndentLevel: number;
-};
+import { isListActive, getNodeType } from 'tiptap/prose-utils';
 
 declare module '@tiptap/core' {
   interface Commands {
@@ -21,35 +12,12 @@ declare module '@tiptap/core' {
   }
 }
 
-export enum IndentProps {
-  min = 0,
-  max = 210,
-  more = 30,
-  less = -30,
-}
+export type Options = {
+  type: 'space' | 'tab';
+  size: number;
+};
 
-function setNodeIndentMarkup(tr: Transaction, pos: number, delta: number): Transaction {
-  if (!tr.doc) return tr;
-
-  const node = tr.doc.nodeAt(pos);
-  if (!node) return tr;
-
-  const minIndent = IndentProps.min;
-  const maxIndent = IndentProps.max;
-
-  const indent = clamp((node.attrs.indent || 0) + delta, minIndent, maxIndent);
-
-  if (indent === node.attrs.indent) return tr;
-
-  const nodeAttrs = {
-    ...node.attrs,
-    indent,
-  };
-
-  return tr.setNodeMarkup(pos, node.type, nodeAttrs, node.marks);
-}
-
-function updateIndentLevel(tr: Transaction, delta: number): Transaction {
+const updateIndent = (tr: Transaction, options: Options): Transaction => {
   const { doc, selection } = tr;
 
   if (!doc || !selection) return tr;
@@ -58,50 +26,23 @@ function updateIndentLevel(tr: Transaction, delta: number): Transaction {
     return tr;
   }
 
-  const { from, to } = selection;
+  const { to } = selection;
 
-  doc.nodesBetween(from, to, (node, pos) => {
-    const nodeType = node.type;
+  const text = options.type === 'space' ? Array(options.size).fill(' ').join('') : '\t';
 
-    if (nodeType.name === 'paragraph' || nodeType.name === 'heading') {
-      tr = setNodeIndentMarkup(tr, pos, delta);
-      return false;
-    }
-    if (isListNode(node)) {
-      return false;
-    }
-    return true;
-  });
+  return tr.insertText(text, to);
+};
 
-  return tr;
-}
-
-export const Indent = Extension.create<IndentOptions>({
+export const Indent = Extension.create<Options>({
   name: 'indent',
 
   addOptions() {
-    return {
-      types: ['heading', 'paragraph'],
-      indentLevels: [0, 30, 60, 90, 120, 150, 180, 210],
-      defaultIndentLevel: 0,
+    const options: Options = {
+      type: 'space',
+      size: 2,
     };
-  },
 
-  addGlobalAttributes() {
-    return [
-      {
-        types: this.options.types,
-        attributes: {
-          indent: {
-            default: this.options.defaultIndentLevel,
-            renderHTML: (attributes) => ({
-              style: `margin-left: ${attributes.indent}px!important;`,
-            }),
-            parseHTML: (element) => parseInt(element.style.marginLeft) || this.options.defaultIndentLevel,
-          },
-        },
-      },
-    ];
+    return options;
   },
 
   addCommands() {
@@ -115,15 +56,11 @@ export const Indent = Extension.create<IndentOptions>({
             return sinkListItem(type)(state, dispatch);
           }
 
-          const { selection } = state;
-          tr = tr.setSelection(selection);
-          tr = updateIndentLevel(tr, IndentProps.more);
-
-          if (tr.docChanged) {
-            dispatch && dispatch(tr);
+          const _tr = updateIndent(tr, this.options);
+          if (_tr.docChanged) {
+            dispatch?.(_tr);
             return true;
           }
-
           return false;
         },
       outdent:
@@ -135,15 +72,11 @@ export const Indent = Extension.create<IndentOptions>({
             return liftListItem(type)(state, dispatch);
           }
 
-          const { selection } = state;
-          tr = tr.setSelection(selection);
-          tr = updateIndentLevel(tr, IndentProps.less);
-
-          if (tr.docChanged) {
-            dispatch && dispatch(tr);
+          const _tr = updateIndent(tr, this.options);
+          if (_tr.docChanged) {
+            dispatch?.(_tr);
             return true;
           }
-
           return false;
         },
     };

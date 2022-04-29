@@ -3,7 +3,7 @@ import { Form, Modal } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { Editor } from '@tiptap/core';
 import { useToggle } from 'hooks/use-toggle';
-import { isValidURL } from '../../utils/valid-url';
+import { isValidURL } from 'tiptap/prose-utils';
 import { event, OPEN_LINK_SETTING_MODAL } from '../_event';
 
 type IProps = { editor: Editor };

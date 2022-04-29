@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@douyinfe/semi-ui';
 import { IconSub } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import { isTitleActive } from '../../utils/is-active';
+import { isTitleActive } from 'tiptap/prose-utils';
 
 export const Subscript: React.FC<{ editor: any }> = ({ editor }) => {
   if (!editor) {

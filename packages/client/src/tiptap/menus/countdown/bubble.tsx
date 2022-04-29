@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
 import { IconEdit, IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from '../../views/bubble-menu';
-import { Countdown } from '../../extensions/countdown';
-import { Divider } from '../../divider';
+import { BubbleMenu } from 'tiptap/views/bubble-menu';
+import { Countdown } from 'tiptap/extensions/countdown';
+import { Divider } from 'tiptap/divider';
 import { triggerOpenCountSettingModal } from '../_event';
 
 export const CountdownBubbleMenu = ({ editor }) => {

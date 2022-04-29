@@ -2,11 +2,10 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
 import { IconExternalOpen, IconUnlink, IconEdit } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { Divider } from '../../divider';
-import { BubbleMenu } from '../../views/bubble-menu';
-import { Link } from '../../extensions/link';
-import { isMarkActive } from '../../utils/is-active';
-import { findMarkPosition } from '../../utils/find-position';
+import { Divider } from 'tiptap/divider';
+import { BubbleMenu } from 'tiptap/views/bubble-menu';
+import { Link } from 'tiptap/extensions/link';
+import { isMarkActive, findMarkPosition } from 'tiptap/prose-utils';
 import { triggerOpenLinkSettingModal } from '../_event';
 
 export const LinkBubbleMenu = ({ editor }) => {

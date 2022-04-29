@@ -20,8 +20,7 @@ import { GridSelect } from 'components/grid-select';
 import { useToggle } from 'hooks/use-toggle';
 import { useUser } from 'data/user';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
-import { isTitleActive } from '../../utils/is-active';
-import { getEditorContainerDOMSize } from '../../utils/editor';
+import { isTitleActive, getEditorContainerDOMSize } from 'tiptap/prose-utils';
 import { createCountdown } from '../countdown/service';
 
 const insertMenuLRUCache = createKeysLocalStorageLRUCache('TIPTAP_INSERT_MENU', 3);

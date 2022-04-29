@@ -1,7 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { CountdownWrapper } from '../wrappers/countdown';
-import { getDatasetAttribute } from '../utils/dataset';
+import { CountdownWrapper } from 'tiptap/wrappers/countdown';
+import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

@@ -1,4 +1,4 @@
-import { jsonToStr } from '../../utils/dataset';
+import { jsonToStr } from 'tiptap/prose-utils';
 
 const uniq = (arr: string[]) => [...new Set(arr)];
 

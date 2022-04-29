@@ -3,7 +3,7 @@ import { Editor } from '@tiptap/core';
 import { Button } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
 import { IconLink } from 'components/icons';
-import { isTitleActive } from '../../utils/is-active';
+import { isTitleActive } from 'tiptap/prose-utils';
 import { createOrToggleLink } from './service';
 import { LinkBubbleMenu } from './bubble';
 import { LinkSettingModal } from './modal';

@@ -5,9 +5,8 @@ import { Spin, Typography } from '@douyinfe/semi-ui';
 import deepEqual from 'deep-equal';
 import { Resizeable } from 'components/resizeable';
 import { useToggle } from 'hooks/use-toggle';
-import { clamp } from '../../utils/clamp';
-import { getEditorContainerDOMSize } from '../../utils/editor';
-import { Mind } from '../../extensions/mind';
+import { clamp, getEditorContainerDOMSize } from 'tiptap/prose-utils';
+import { Mind } from 'tiptap/extensions/mind';
 import { loadKityMinder } from './kityminder';
 import { Toolbar } from './toolbar';
 import { MIN_ZOOM, MAX_ZOOM, ZOOM_STEP } from './toolbar/constant';
@@ -204,8 +203,6 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     if (!minder) return;
     minder.execCommand('theme', theme);
   }, [theme]);
-
-  console.log(width, height);
 
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>

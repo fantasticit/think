@@ -1,5 +1,5 @@
 import BuiltInCode from '@tiptap/extension-code';
-import { EXTENSION_PRIORITY_LOWER } from '../constants';
+import { EXTENSION_PRIORITY_LOWER } from 'tiptap/constants';
 
 export const Code = BuiltInCode.extend({
   excludes: null,

@@ -1,6 +1,6 @@
 import { Image as BuiltInImage } from '@tiptap/extension-image';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { ImageWrapper } from '../wrappers/image';
+import { ImageWrapper } from 'tiptap/wrappers/image';
 
 const resolveImageEl = (element) => (element.nodeName === 'IMG' ? element : element.querySelector('img'));
 

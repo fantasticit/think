@@ -1,7 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core';
-import { Plugin, PluginKey } from 'prosemirror-state';
-import { isInTitle } from '../utils/node';
-import { TextSelection } from 'prosemirror-state';
+import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
+import { isInTitle } from 'tiptap/prose-utils';
 
 export interface TitleOptions {
   HTMLAttributes: Record<string, any>;

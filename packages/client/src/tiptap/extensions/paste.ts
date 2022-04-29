@@ -1,15 +1,29 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
-import { EXTENSION_PRIORITY_HIGHEST } from '../constants';
-import { handleFileEvent } from '../utils/upload';
-import { isInCode, LANGUAGES } from '../utils/code';
+import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/constants';
+import { handleFileEvent, isInCode, LANGUAGES, isTitleNode } from 'tiptap/prose-utils';
 import {
   isMarkdown,
   normalizePastedMarkdown,
   markdownToProsemirror,
   prosemirrorToMarkdown,
-} from '../markdown/markdown-to-prosemirror';
-import { isTitleNode } from '../utils/node';
+} from 'tiptap/markdown/markdown-to-prosemirror';
+
+const isPureText = (content): boolean => {
+  if (!content) return false;
+
+  if (Array.isArray(content)) {
+    if (content.length > 1) return false;
+    return isPureText(content[0]);
+  }
+
+  const child = content['content'];
+  if (child) {
+    return isPureText(child);
+  }
+
+  return content['type'] === 'text';
+};
 
 export const Paste = Extension.create({
   name: 'paste',
@@ -25,6 +39,7 @@ export const Paste = Extension.create({
             if (view.props.editable && !view.props.editable(view.state)) {
               return false;
             }
+
             if (!event.clipboardData) return false;
 
             const files = Array.from(event.clipboardData.files);
@@ -116,16 +131,18 @@ export const Paste = Extension.create({
             return false;
           },
           clipboardTextSerializer: (slice) => {
-            const doc = slice.content;
+            const isText = isPureText(slice.content.toJSON());
+            if (isText) {
+              return slice.content.textBetween(0, slice.content.size, '\n\n');
+            }
 
+            const doc = slice.content;
             if (!doc) {
               return '';
             }
-
             const content = prosemirrorToMarkdown({
               content: doc,
             });
-
             return content;
           },
         },

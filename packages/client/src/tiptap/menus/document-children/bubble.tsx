@@ -2,8 +2,8 @@ import { useCallback } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
 import { IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from '../../views/bubble-menu';
-import { DocumentChildren } from '../../extensions/document-children';
+import { BubbleMenu } from 'tiptap/views/bubble-menu';
+import { DocumentChildren } from 'tiptap/extensions/document-children';
 
 export const DocumentChildrenBubbleMenu = ({ editor }) => {
   const deleteNode = useCallback(() => editor.chain().deleteSelection().run(), [editor]);

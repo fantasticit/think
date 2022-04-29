@@ -6,7 +6,7 @@ import { IconDelete, IconPlus } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getCellsInRow, isColumnSelected, isTableSelected, selectColumn } from '../utils/table';
+import { getCellsInRow, isColumnSelected, isTableSelected, selectColumn } from 'tiptap/prose-utils';
 import { FloatMenuView } from '../views/float-menu';
 
 export const TableHeader = BuiltInTableHeader.extend({

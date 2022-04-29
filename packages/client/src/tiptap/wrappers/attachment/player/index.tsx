@@ -7,7 +7,7 @@ import {
   extractFilename,
   normalizeFileType,
   FileType,
-} from '../../../utils/file';
+} from 'tiptap/prose-utils';
 import { PDFPlayer } from './pdf-player';
 import styles from './index.module.scss';
 
