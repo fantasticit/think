@@ -92,7 +92,7 @@ export const Resizeable: React.FC<IProps> = ({
 
           const cloneNode = $cloneNode.current;
           Object.assign(cloneNode.style, {
-            zIndex: 0,
+            zIndex: -1,
           });
 
           const tipNode = $cloneNodeTip.current;
