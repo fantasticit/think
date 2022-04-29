@@ -148,21 +148,8 @@ export const Paste = Extension.create({
              */
             if ((event.ctrlKey || event.metaKey) && event.keyCode == 67) {
               const { state } = view;
-              const $pos = state.selection.$anchor;
               // @ts-ignore
               const currentNode = state.selection.node;
-              let targetNode = null;
-
-              if (currentNode) {
-                targetNode = currentNode;
-              } else {
-                if ($pos.depth) {
-                  for (let d = $pos.depth; d > 0; d--) {
-                    const node = $pos.node(d);
-                    targetNode = node;
-                  }
-                }
-              }
 
               if (currentNode) {
                 event.preventDefault();
