@@ -80,7 +80,6 @@ function copy(text, options) {
                 e.clipboardData.setData(item.format || format, item.text || item);
               }
             });
-            console.log(e.clipboardData);
           } else {
             e.clipboardData.setData(format, text);
           }
@@ -117,7 +116,6 @@ function copy(text, options) {
       } else {
         window.clipboardData.setData(format, text);
       }
-      console.log(window.clipboardData, '1');
       options.onCopy && options.onCopy(window.clipboardData);
       success = true;
     } catch (err) {
