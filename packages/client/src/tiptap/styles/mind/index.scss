@@ -1,0 +1,30 @@
+/* stylelint-disable */
+@import './context-menu.scss';
+@import './mobile-menu.scss';
+@import './node-menu.scss';
+@import './toolbar.scss';
+@import './mind.scss';
+
+.map-container {
+  &.is-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.map-container .map-canvas .selected {
+  outline: none !important;
+  border-color: rgb(9 109 217);
+}
+
+.map-container .map-canvas root tpc {
+  line-height: 20px;
+}
+
+#input-box {
+  color: #333 !important;
+}

@@ -5,10 +5,8 @@ import { MindWrapper } from 'tiptap/wrappers/mind';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 const DEFAULT_MIND_DATA = {
-  root: { data: { text: '中心节点' }, children: [] },
-  template: 'default',
-  theme: 'classic',
-  version: '1.4.43',
+  nodeData: { topic: '中心节点', root: true, children: [] },
+  linkData: {},
 };
 
 export interface IMindAttrs {

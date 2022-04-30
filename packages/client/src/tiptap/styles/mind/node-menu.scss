@@ -1,0 +1,11 @@
+.node-toolbar-container {
+  position: absolute;
+  display: flex;
+  padding: 4px;
+  overflow-x: auto;
+  background-color: var(--semi-color-nav-bg);
+  border: 1px solid var(--semi-color-border);
+  border-radius: 3px;
+  align-items: center;
+  box-shadow: var(--box-shadow);
+}

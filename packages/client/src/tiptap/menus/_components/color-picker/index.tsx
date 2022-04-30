@@ -87,7 +87,7 @@ export const ColorPicker: React.FC<{
     <Dropdown
       zIndex={10000}
       trigger="click"
-      position={'bottom'}
+      position={'bottomLeft'}
       render={
         <div style={{ padding: '8px 0' }}>
           <div className={styles.emptyWrap} onClick={() => onSetColor(null)}>

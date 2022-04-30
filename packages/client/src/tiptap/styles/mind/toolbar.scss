@@ -1,0 +1,42 @@
+/* stylelint-disable */
+.toolbar {
+  position: absolute;
+  display: flex;
+  padding: 8px;
+  overflow-x: auto;
+  color: #fff;
+  background-color: var(--semi-color-nav-bg);
+  border: 1px solid var(--semi-color-border);
+  border-radius: 3px;
+  align-items: center;
+  box-shadow: var(--box-shadow);
+}
+
+.toolbar span:active {
+  opacity: 0.5;
+}
+
+.rb {
+  right: 20px;
+  bottom: 20px;
+  font-family: iconfont;
+}
+
+.rb span + span {
+  margin-left: 10px;
+}
+
+.lt {
+  top: 20px;
+  left: 20px;
+  font-size: 20px;
+  flex-direction: column;
+}
+
+.lt span {
+  display: block;
+}
+
+.lt span + span {
+  margin-top: 10px;
+}

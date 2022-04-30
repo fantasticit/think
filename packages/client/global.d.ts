@@ -1,3 +1,3 @@
 interface Window {
-  kityminder: any;
+  MindElixir: any;
 }
