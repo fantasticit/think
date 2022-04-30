@@ -19,3 +19,4 @@ export * from './text';
 export * from './type';
 export * from './upload';
 export * from './url';
+export * from './uuid';

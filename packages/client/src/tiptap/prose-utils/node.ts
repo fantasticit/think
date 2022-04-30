@@ -41,6 +41,7 @@ export function isInCustomNode(state: EditorState, nodeName: string): boolean {
       return true;
     }
   }
+  return false;
 }
 
 export function isInCodeBlock(state: EditorState): boolean {
