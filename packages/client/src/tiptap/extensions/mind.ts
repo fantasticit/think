@@ -1,5 +1,6 @@
 import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
+import { Plugin, PluginKey } from 'prosemirror-state';
 import { MindWrapper } from 'tiptap/wrappers/mind';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
 
@@ -121,6 +122,23 @@ export const Mind = Node.create({
         type: this.type,
         getAttributes: (match) => {
           return { type: match[1] };
+        },
+      }),
+    ];
+  },
+
+  addProseMirrorPlugins() {
+    const { editor } = this;
+
+    return [
+      new Plugin({
+        key: new PluginKey('mind'),
+        props: {
+          handleKeyDown(view, event) {
+            if (editor.isActive('mind')) {
+              return true;
+            }
+          },
         },
       }),
     ];
