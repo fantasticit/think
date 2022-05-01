@@ -10,9 +10,10 @@
       left: 0;
       z-index: 1000;
       display: flex;
-      color: #fff;
+      font-weight: bold;
+      color: #333;
       pointer-events: none;
-      background-color: rgb(179 212 255 / 30%);
+      background-color: rgb(179 212 255 / 75%);
       content: attr(data-name);
       align-items: center;
       justify-content: center;
