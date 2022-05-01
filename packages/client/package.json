@@ -61,7 +61,6 @@
     "dompurify": "^2.3.5",
     "interactjs": "^1.10.11",
     "katex": "^0.15.2",
-    "kity": "^2.0.4",
     "lib0": "^0.2.47",
     "lowlight": "^2.5.0",
     "markdown-it": "^12.3.2",
