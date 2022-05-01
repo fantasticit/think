@@ -56,6 +56,7 @@
     "@tiptap/suggestion": "^2.0.0-beta.90",
     "axios": "^0.25.0",
     "classnames": "^2.3.1",
+    "clone": "^2.1.2",
     "deep-equal": "^2.0.5",
     "dompurify": "^2.3.5",
     "interactjs": "^1.10.11",

@@ -1,5 +1,6 @@
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
+import clone from 'clone';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Spin, Typography } from '@douyinfe/semi-ui';
 import { Resizeable } from 'components/resizeable';
@@ -83,13 +84,13 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       mind = new window.MindElixir({
         el: `#${containerId.current}`,
         direction: window.MindElixir.SIDE,
-        data: JSON.parse(JSON.stringify(data)),
+        data: clone(data),
         editable: editor.isEditable,
         contextMenu: editor.isEditable,
         keypress: editor.isEditable,
         nodeMenu: editor.isEditable,
         toolBar: true,
-        draggable: false, // 需要修复
+        draggable: false, // TODO: 需要修复
         locale: 'zh_CN',
       });
       mind.shouldPreventDefault = () => editor.isActive('mind');
