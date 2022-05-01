@@ -1,8 +1,8 @@
 import { LEFT, RIGHT, SIDE } from '../const';
 import { NodeObj } from '../index';
 import { encodeHTML } from '../utils/index';
-export type Top = HTMLElement;
 
+export type Top = HTMLElement;
 export type Group = HTMLElement;
 
 export interface Topic extends HTMLElement {

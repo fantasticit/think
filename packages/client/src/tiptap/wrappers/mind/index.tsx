@@ -85,11 +85,11 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
         direction: window.MindElixir.SIDE,
         data: JSON.parse(JSON.stringify(data)),
         editable: editor.isEditable,
-        draggable: editor.isEditable,
         contextMenu: editor.isEditable,
-        toolBar: true,
         keypress: editor.isEditable,
-        nodeMenu: true,
+        nodeMenu: editor.isEditable,
+        toolBar: true,
+        draggable: false, // 需要修复
         locale: 'zh_CN',
       });
       mind.shouldPreventDefault = () => editor.isActive('mind');
@@ -103,7 +103,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
 
     return () => {
       if (mind) {
-        mind.bus.removeListener('operation', onChange);
+        mind.destroy();
       }
     };
   }, [loading, editor, updateAttributes]);

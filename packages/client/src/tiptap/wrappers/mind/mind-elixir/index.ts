@@ -48,6 +48,7 @@ import {
   updateNodeStyle,
   updateNodeTags,
   updateNodeIcons,
+  updateNodeHyperLink,
   processPrimaryNode,
   setNodeTopic,
   moveNodeBefore,
@@ -294,6 +295,7 @@ MindElixir.prototype = {
   updateNodeStyle,
   updateNodeTags,
   updateNodeIcons,
+  updateNodeHyperLink,
   processPrimaryNode,
   setNodeTopic,
 
@@ -399,6 +401,11 @@ MindElixir.prototype = {
     this.layout();
     this.linkDiv();
     if (!this.overflowHidden) initMouseEvent(this);
+  },
+
+  destroy: function () {
+    this.bus.destroy();
+    this.mindElixirBox.removeChild(this.container);
   },
 };
 

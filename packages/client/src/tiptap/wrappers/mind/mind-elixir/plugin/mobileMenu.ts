@@ -11,18 +11,13 @@ export default function (mind, option?) {
   const add_child = createLi('cm-add_child', 'zijiedian');
   const add_sibling = createLi('cm-add_sibling', 'tongjijiedian-');
   const remove_child = createLi('cm-remove_child', 'shanchu2');
-  // let focus = createLi('cm-fucus', i18n[locale].focus, '')
-  // let unfocus = createLi('cm-unfucus', i18n[locale].cancelFocus, '')
   const up = createLi('cm-up', 'rising');
   const down = createLi('cm-down', 'falling');
   const edit = createLi('cm-edit', 'edit');
-  // let link = createLi('cm-down', i18n[locale].link, '')
 
   const menuUl = document.createElement('ul');
   menuUl.className = 'menu-list';
-  // if (!option || option.link) {
-  //   menuUl.appendChild(link)
-  // }
+
   if (option && option.extend) {
     for (let i = 0; i < option.extend.length; i++) {
       const item = option.extend[i];
@@ -37,10 +32,6 @@ export default function (mind, option?) {
   menuContainer.appendChild(add_child);
   menuContainer.appendChild(add_sibling);
   menuContainer.appendChild(remove_child);
-  // if (!option || option.focus) {
-  //   menuContainer.appendChild(focus)
-  //   menuContainer.appendChild(unfocus)
-  // }
   menuContainer.appendChild(up);
   menuContainer.appendChild(down);
   menuContainer.appendChild(edit);
@@ -48,39 +39,6 @@ export default function (mind, option?) {
 
   mind.container.append(menuContainer);
   let isRoot = true;
-  // mind.container.onclick = function (e) {
-  //   e.preventDefault()
-  //   // console.log(e.pageY, e.screenY, e.clientY)
-  //   let target = e.target
-  //   if (target.tagName === 'TPC') {
-  //     if (target.parentElement.tagName === 'ROOT') {
-  //       isRoot = true
-  //     } else {
-  //       isRoot = false
-  //     }
-  //     // if (isRoot) {
-  //     //   focus.className = 'disabled'
-  //     //   up.className = 'disabled'
-  //     //   down.className = 'disabled'
-  //     //   add_sibling.className = 'disabled'
-  //     //   remove_child.className = 'disabled'
-  //     // } else {
-  //     //   focus.className = ''
-  //     //   up.className = ''
-  //     //   down.className = ''
-  //     //   add_sibling.className = ''
-  //     //   remove_child.className = ''
-  //     // }
-  //     mind.selectNode(target)
-  //     menuContainer.hidden = false
-  //     let height = menuUl.offsetHeight
-  //     let width = menuUl.offsetWidth
-  //     let rect = target.getBoundingClientRect()
-  //     // menuUl.style.top = rect.top - 10 - height + 'px'
-  //     // menuUl.style.left = rect.left - (width - rect.width) / 2 + 'px'
-  //     // menuUl.style.left = e.clientX + 'px'
-  //   }
-  // }
 
   mind.bus.addListener('unselectNode', function () {
     menuContainer.hidden = true;
@@ -108,15 +66,6 @@ export default function (mind, option?) {
     if (isRoot) return;
     mind.removeNode();
   };
-  // focus.onclick = e => {
-  //   if (isRoot) return
-  //   mind.focusNode(mind.currentNode)
-  //   menuContainer.hidden = true
-  // }
-  // unfocus.onclick = e => {
-  //   mind.cancelFocus()
-  //   menuContainer.hidden = true
-  // }
   up.onclick = (e) => {
     if (isRoot) return;
     mind.moveUpNode();
@@ -128,24 +77,4 @@ export default function (mind, option?) {
   edit.onclick = (e) => {
     mind.beginEdit();
   };
-  // link.onclick = e => {
-  //   let from = mind.currentNode
-  //   mind.map.addEventListener(
-  //     'click',
-  //     e => {
-  //       e.preventDefault()
-  //       if (
-  //         e.target.parentElement.nodeName === 'T' ||
-  //         e.target.parentElement.nodeName === 'ROOT'
-  //       ) {
-  //         mind.createLink(from, mind.currentNode)
-  //       } else {
-  //         console.log('取消连接')
-  //       }
-  //     },
-  //     {
-  //       once: true,
-  //     }
-  //   )
-  // }
 }

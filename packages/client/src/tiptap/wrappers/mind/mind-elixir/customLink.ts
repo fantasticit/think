@@ -112,6 +112,11 @@ export const createLink = function (from, to, isInitPaint, obj) {
   if (!isInitPaint) {
     this.showLinkController(p2x, p2y, p3x, p3y, newLinkObj, fromData, toData);
   }
+
+  this.bus.fire('operation', {
+    name: 'createLink',
+    linkObj: newLinkObj,
+  });
 };
 
 export const removeLink = function (linkSvg) {
@@ -129,6 +134,10 @@ export const removeLink = function (linkSvg) {
   delete this.linkData[id];
   link.remove();
   link = null;
+
+  this.bus.fire('operation', {
+    name: 'removeLink',
+  });
 };
 export const selectLink = function (targetElement) {
   this.currentLink = targetElement;
@@ -222,6 +231,11 @@ export const showLinkController = function (p2x, p2y, p3x, p3y, linkObj, fromDat
     this.line1.setAttribute('y2', p2y);
     linkObj.delta1.x = p2x - fromData.cx;
     linkObj.delta1.y = p2y - fromData.cy;
+
+    this.bus.fire('operation', {
+      name: 'updateLink',
+      linkObj,
+    });
   });
 
   this.helper2.init(this.map, (deltaX, deltaY) => {
@@ -246,5 +260,10 @@ export const showLinkController = function (p2x, p2y, p3x, p3y, linkObj, fromDat
     this.line2.setAttribute('y2', p4y);
     linkObj.delta2.x = p3x - toData.cx;
     linkObj.delta2.y = p3y - toData.cy;
+
+    this.bus.fire('operation', {
+      name: 'updateLink',
+      linkObj,
+    });
   });
 };

@@ -82,6 +82,7 @@ export default function (mind) {
   };
 
   document.addEventListener('keydown', (e) => {
+    if (mind.isInnerEditing) return; // 脑图内部操作
     if (!mind.editable) return;
 
     if (mind.shouldPreventDefault && mind.shouldPreventDefault()) {

@@ -1,6 +1,7 @@
 import { dragMoveHelper } from './utils/index';
+
 export default function (mind) {
-  mind.map.addEventListener('click', (e) => {
+  const onClick = (e) => {
     // if (dragMoveHelper.afterMoving) return
     // e.preventDefault() // can cause a tag don't work
     if (e.target.nodeName === 'EPD') {
@@ -17,36 +18,52 @@ export default function (mind) {
       mind.unselectNode();
       mind.hideLinkController();
     }
-  });
+  };
 
-  mind.map.addEventListener('dblclick', (e) => {
+  const onDbClick = (e) => {
     e.preventDefault();
     if (!mind.editable) return;
     if (e.target.parentElement.nodeName === 'T' || e.target.parentElement.nodeName === 'ROOT') {
       mind.beginEdit(e.target);
     }
-  });
+  };
 
-  /**
-   * drag and move
-   */
-  mind.map.addEventListener('mousemove', (e) => {
+  const onMouseMove = (e) => {
     // click trigger mousemove in windows chrome
     // the 'true' is a string
     if (e.target.contentEditable !== 'true') {
       dragMoveHelper.onMove(e, mind.container);
     }
-  });
-  mind.map.addEventListener('mousedown', (e) => {
+  };
+
+  const onMouseDown = (e) => {
     if (e.target.contentEditable !== 'true') {
       dragMoveHelper.afterMoving = false;
       dragMoveHelper.mousedown = true;
     }
-  });
-  mind.map.addEventListener('mouseleave', (e) => {
+  };
+
+  const onMouseLeave = (e) => {
     dragMoveHelper.clear();
-  });
-  mind.map.addEventListener('mouseup', (e) => {
+  };
+
+  const onMouseUp = (e) => {
     dragMoveHelper.clear();
+  };
+
+  mind.map.addEventListener('click', onClick);
+  mind.map.addEventListener('dblclick', onDbClick);
+  mind.map.addEventListener('mousemove', onMouseMove);
+  mind.map.addEventListener('mousedown', onMouseDown);
+  mind.map.addEventListener('mouseleave', onMouseLeave);
+  mind.map.addEventListener('mouseup', onMouseUp);
+
+  mind.bus.addListener('destroy', () => {
+    mind.map.removeEventListener('click', onClick);
+    mind.map.removeEventListener('dblclick', onDbClick);
+    mind.map.removeEventListener('mousemove', onMouseMove);
+    mind.map.removeEventListener('mousedown', onMouseDown);
+    mind.map.removeEventListener('mouseleave', onMouseLeave);
+    mind.map.removeEventListener('mouseup', onMouseUp);
   });
 }

@@ -30,4 +30,8 @@ Bus.prototype = {
       }
     }
   },
+  destroy: function () {
+    this.fire('destroy');
+    this.handlers = {};
+  },
 };

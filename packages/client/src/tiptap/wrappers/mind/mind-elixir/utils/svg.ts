@@ -5,7 +5,7 @@ export const createMainPath = function (d: string) {
   path.setAttribute('d', d);
   path.setAttribute('stroke', '#4f83fd');
   path.setAttribute('fill', 'none');
-  path.setAttribute('stroke-width', '2');
+  path.setAttribute('stroke-width', '3');
   return path;
 };
 
@@ -21,7 +21,7 @@ export const createLine = function (x1: number, y1: number, x2: number, y2: numb
   line.setAttribute('y1', y1);
   line.setAttribute('x2', x2);
   line.setAttribute('y2', y2);
-  line.setAttribute('stroke', '#f00');
+  line.setAttribute('stroke', '#6ec4c4');
   line.setAttribute('fill', 'none');
   line.setAttribute('stroke-width', '2');
   return line;
@@ -33,7 +33,7 @@ export const createPath = function (d: string) {
   path.setAttribute('stroke', '#6e80db');
   path.setAttribute('fill', 'none');
   path.setAttribute('stroke-linecap', 'square');
-  path.setAttribute('stroke-width', '1');
+  path.setAttribute('stroke-width', '2');
   path.setAttribute('transform', 'translate(0.5,-0.5)');
   // adding translate(0.5,-0.5) can fix render error on windows, but i still dunno why
   return path;
@@ -47,12 +47,12 @@ export const createSvgGroup = function (d: string, arrowd: string): CustomSvg {
   const path = $d.createElementNS(svgNS, 'path');
   const arrow = $d.createElementNS(svgNS, 'path');
   arrow.setAttribute('d', arrowd);
-  arrow.setAttribute('stroke', 'rgb(235, 95, 82)');
+  arrow.setAttribute('stroke', '#6ec4c4');
   arrow.setAttribute('fill', 'none');
   arrow.setAttribute('stroke-linecap', 'cap');
   arrow.setAttribute('stroke-width', '2');
   path.setAttribute('d', d);
-  path.setAttribute('stroke', 'rgb(235, 95, 82)');
+  path.setAttribute('stroke', '#6ec4c4');
   path.setAttribute('fill', 'none');
   path.setAttribute('stroke-linecap', 'cap');
   path.setAttribute('stroke-width', '2');

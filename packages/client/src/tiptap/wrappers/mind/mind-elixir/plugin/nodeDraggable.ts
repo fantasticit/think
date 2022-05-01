@@ -1,8 +1,8 @@
 import { dragMoveHelper, throttle } from '../utils/index';
 import { findEle as E, Topic, Group } from '../utils/dom';
-// https://html.spec.whatwg.org/multipage/dnd.html#drag-and-drop-processing-model
 
 const $d = document;
+
 const insertPreview = function (el, insertLocation) {
   if (!insertLocation) {
     clearPreview(el);
@@ -39,13 +39,13 @@ export default function (mind) {
   let meet: Element;
   const threshold = 12;
 
-  mind.map.addEventListener('dragstart', function (e) {
+  const onDragStart = function (e) {
     dragged = e.target;
     (dragged.parentNode.parentNode as Group).style.opacity = '0.5';
     dragMoveHelper.clear();
-  });
+  };
 
-  mind.map.addEventListener('dragend', async function (e: DragEvent) {
+  const onDragEnd = async function (e: DragEvent) {
     e.preventDefault();
     (e.target as HTMLElement).style.opacity = '';
     clearPreview(meet);
@@ -65,38 +65,43 @@ export default function (mind) {
     }
     (dragged.parentNode.parentNode as Group).style.opacity = '1';
     dragged = null;
-  });
+  };
 
-  mind.map.addEventListener(
-    'dragover',
-    throttle(function (e: DragEvent) {
-      // console.log('drag', e)
-      clearPreview(meet);
-      // minus threshold infer that postion of the cursor is above topic
-      const topMeet = $d.elementFromPoint(e.clientX, e.clientY - threshold);
-      if (canPreview(topMeet, dragged)) {
-        meet = topMeet;
-        const y = topMeet.getBoundingClientRect().y;
-        if (e.clientY > y + topMeet.clientHeight) {
-          insertLocation = 'after';
-        } else if (e.clientY > y + topMeet.clientHeight / 2) {
+  const onDragOver = throttle(function (e: DragEvent) {
+    clearPreview(meet);
+    const topMeet = $d.elementFromPoint(e.clientX, e.clientY - threshold);
+    if (canPreview(topMeet, dragged)) {
+      meet = topMeet;
+      const y = topMeet.getBoundingClientRect().y;
+      if (e.clientY > y + topMeet.clientHeight) {
+        insertLocation = 'after';
+      } else if (e.clientY > y + topMeet.clientHeight / 2) {
+        insertLocation = 'in';
+      }
+    } else {
+      const bottomMeet = $d.elementFromPoint(e.clientX, e.clientY + threshold);
+      if (canPreview(bottomMeet, dragged)) {
+        meet = bottomMeet;
+        const y = bottomMeet.getBoundingClientRect().y;
+        if (e.clientY < y) {
+          insertLocation = 'before';
+        } else if (e.clientY < y + bottomMeet.clientHeight / 2) {
           insertLocation = 'in';
         }
       } else {
-        const bottomMeet = $d.elementFromPoint(e.clientX, e.clientY + threshold);
-        if (canPreview(bottomMeet, dragged)) {
-          meet = bottomMeet;
-          const y = bottomMeet.getBoundingClientRect().y;
-          if (e.clientY < y) {
-            insertLocation = 'before';
-          } else if (e.clientY < y + bottomMeet.clientHeight / 2) {
-            insertLocation = 'in';
-          }
-        } else {
-          insertLocation = meet = null;
-        }
+        insertLocation = meet = null;
       }
-      if (meet) insertPreview(meet, insertLocation);
-    }, 200)
-  );
+    }
+    if (meet) insertPreview(meet, insertLocation);
+  }, 200);
+
+  mind.map.addEventListener('dragstart', onDragStart);
+  mind.map.addEventListener('dragend', onDragEnd);
+  mind.map.addEventListener('dragover', onDragOver);
+
+  mind.bus.addListener('destroy', () => {
+    mind.map.removeEventListener('dragstart', onDragStart);
+    mind.map.removeEventListener('dragend', onDragEnd);
+    mind.map.removeEventListener('dragover', onDragOver);
+  });
 }

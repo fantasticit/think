@@ -73,17 +73,24 @@ export const updateNodeIcons = function (object, icons) {
 };
 
 export const updateNodeHyperLink = function (object, hyperLink) {
-  if (!hyperLink) return;
-  const oldVal = object.hyperLink;
-  object.hyperLink = hyperLink;
   const nodeEle = findEle(object.id);
-  shapeTpc(nodeEle, object);
-  this.linkDiv();
-  this.bus.fire('operation', {
-    name: 'editHyperLink',
-    obj: object,
-    origin: oldVal,
-  });
+
+  if (!hyperLink) {
+    const linkEle = nodeEle.querySelector('a.hyper-link') as HTMLElement;
+    if (linkEle) {
+      linkEle.parentNode.removeChild(linkEle);
+    }
+  } else {
+    const oldVal = object.hyperLink;
+    object.hyperLink = hyperLink;
+    shapeTpc(nodeEle, object);
+    this.linkDiv();
+    this.bus.fire('operation', {
+      name: 'editHyperLink',
+      obj: object,
+      origin: oldVal,
+    });
+  }
 };
 
 export const updateNodeSvgChart = function () {
@@ -404,6 +411,7 @@ export const removeNode = function (el) {
   if (t.tagName === 'ROOT') {
     return;
   }
+  this.bus.fire('removeNode', nodeObj);
   if (childrenLength === 0) {
     // remove epd when children length === 0
     const parentT = t.parentNode.parentNode.previousSibling;

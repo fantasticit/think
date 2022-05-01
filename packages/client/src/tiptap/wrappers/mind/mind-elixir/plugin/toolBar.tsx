@@ -9,46 +9,11 @@ import {
   IconZoomOut,
   IconZoomIn,
 } from 'components/icons';
-
-function Direction({ mind }) {
-  return (
-    <Space spacing={4}>
-      <Button
-        type="tertiary"
-        theme="borderless"
-        size="small"
-        onClick={() => {
-          mind.initLeft();
-        }}
-        icon={<IconMindLeft style={{ fontSize: '0.85em' }} />}
-      />
-
-      <Button
-        type="tertiary"
-        theme="borderless"
-        size="small"
-        onClick={() => {
-          mind.initRight();
-        }}
-        icon={<IconMindRight style={{ fontSize: '0.85em' }} />}
-      />
-
-      <Button
-        type="tertiary"
-        theme="borderless"
-        size="small"
-        onClick={() => {
-          mind.initSide();
-        }}
-        icon={<IconMindSide style={{ fontSize: '0.85em' }} />}
-      />
-    </Space>
-  );
-}
+import { Divider } from 'tiptap/divider';
 
 function Operation({ mind }) {
   return (
-    <Space spacing={4}>
+    <Space spacing={2}>
       <Button
         type="tertiary"
         theme="borderless"
@@ -90,22 +55,45 @@ function Operation({ mind }) {
         }}
         icon={<IconZoomIn style={{ fontSize: '0.85em' }} />}
       />
+
+      <Divider />
+
+      <Button
+        type="tertiary"
+        theme="borderless"
+        size="small"
+        onClick={() => {
+          mind.initLeft();
+        }}
+        icon={<IconMindLeft style={{ fontSize: '0.85em' }} />}
+      />
+
+      <Button
+        type="tertiary"
+        theme="borderless"
+        size="small"
+        onClick={() => {
+          mind.initRight();
+        }}
+        icon={<IconMindRight style={{ fontSize: '0.85em' }} />}
+      />
+
+      <Button
+        type="tertiary"
+        theme="borderless"
+        size="small"
+        onClick={() => {
+          mind.initSide();
+        }}
+        icon={<IconMindSide style={{ fontSize: '0.85em' }} />}
+      />
     </Space>
   );
 }
 
 export default function (mind) {
-  {
-    const div = document.createElement('div');
-    div.className = 'toolbar lt';
-    ReactDOM.render(<Direction mind={mind} />, div);
-    mind.container.append(div);
-  }
-
-  {
-    const div = document.createElement('div');
-    div.className = 'toolbar rb';
-    ReactDOM.render(<Operation mind={mind} />, div);
-    mind.container.append(div);
-  }
+  const div = document.createElement('div');
+  div.className = 'toolbar rb';
+  ReactDOM.render(<Operation mind={mind} />, div);
+  mind.container.append(div);
 }

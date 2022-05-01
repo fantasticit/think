@@ -28,6 +28,7 @@ export const selectNode = function (targetElement, isNewNode, clickEvent) {
   targetElement.classList.add('selected');
   this.currentNode = targetElement;
   if (isNewNode) {
+    console.log('selectNewNode 1');
     this.bus.fire('selectNewNode', targetElement.nodeObj, clickEvent);
   } else {
     this.bus.fire('selectNode', targetElement.nodeObj, clickEvent);
