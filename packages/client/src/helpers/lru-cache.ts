@@ -1,4 +1,4 @@
-import { safeJSONParse, safeJSONStringify } from './json';
+import { safeJSONStringify } from './json';
 import { setStorage, getStorage } from './storage';
 
 class Node {
