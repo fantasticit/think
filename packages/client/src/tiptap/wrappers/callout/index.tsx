@@ -4,7 +4,8 @@ import cls from 'classnames';
 import { EmojiPicker } from 'components/emoji-picker';
 import styles from './index.module.scss';
 
-export const CalloutWrapper = ({ node, updateAttributes }) => {
+export const CalloutWrapper = ({ editor, node, updateAttributes }) => {
+  const { isEditable } = editor;
   const { emoji, textColor, borderColor, backgroundColor } = node.attrs;
 
   const onSelectEmoji = useCallback((emoji) => {
@@ -20,9 +21,13 @@ export const CalloutWrapper = ({ node, updateAttributes }) => {
           backgroundColor,
         }}
       >
-        <EmojiPicker onSelectEmoji={onSelectEmoji}>
-          <span className={styles.icon}>{emoji || 'Icon'}</span>
-        </EmojiPicker>
+        {isEditable ? (
+          <EmojiPicker onSelectEmoji={onSelectEmoji}>
+            <span className={styles.icon}>{emoji || 'Icon'}</span>
+          </EmojiPicker>
+        ) : (
+          emoji && <span className={styles.icon}>{emoji}</span>
+        )}
         <NodeViewContent
           style={{
             color: textColor,
