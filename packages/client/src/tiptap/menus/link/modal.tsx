@@ -21,6 +21,9 @@ export const LinkSettingModal: React.FC<IProps> = ({ editor }) => {
 
       const { from, to } = initialState;
       const { view } = editor;
+
+      console.log(from, to);
+
       const schema = view.state.schema;
       const node = schema.text(values.text, [schema.marks.link.create({ href: values.href })]);
       view.dispatch(view.state.tr.replaceRangeWith(from, to, node));

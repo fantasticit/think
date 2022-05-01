@@ -163,10 +163,6 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
     setRecentUsed(transformToCommands(insertMenuLRUCache.get() as string[]));
   }, [visible, transformToCommands]);
 
-  if (!editor) {
-    return null;
-  }
-
   return (
     <Dropdown
       zIndex={10000}
@@ -181,13 +177,13 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
       }}
       render={
         <Dropdown.Menu>
-          {renderedCommands.map((command) => {
+          {renderedCommands.map((command, index) => {
             return command.title ? (
-              <Dropdown.Title>{command.title}</Dropdown.Title>
+              <Dropdown.Title key={'title' + index}>{command.title}</Dropdown.Title>
             ) : command.custom ? (
               command.custom(editor, runCommand)
             ) : (
-              <Dropdown.Item onClick={runCommand(command)}>
+              <Dropdown.Item key={command.label} onClick={runCommand(command)}>
                 {command.icon}
                 {command.label}
               </Dropdown.Item>

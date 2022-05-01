@@ -64,7 +64,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
       hasCancel: false,
       maskClosable: false,
       onOk() {
-        const $input = document.querySelector('#js-share-document-password') as HTMLInputElement;
+        const $input = document.querySelector('#js-share-document-password');
         query($input.value);
       },
     });

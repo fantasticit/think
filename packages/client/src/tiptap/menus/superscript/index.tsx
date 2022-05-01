@@ -5,10 +5,6 @@ import { Tooltip } from 'components/tooltip';
 import { isTitleActive } from 'tiptap/prose-utils';
 
 export const Superscript: React.FC<{ editor: any }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
-
   return (
     <Tooltip content="上标">
       <Button

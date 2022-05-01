@@ -1,17 +1,15 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 8,
-    sourceType: 'module',
-    ecmaFeatures: {
-      impliedStrict: true,
-      experimentalObjectRestSpread: true,
-    },
-    allowImportExportEverywhere: true,
-    project: ['./packages/client/tsconfig.json'],
-  },
   plugins: ['@typescript-eslint', 'react-hooks'],
   extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx', '.js', '.jsx'],
+      parserOptions: {
+        project: ['./packages/client/tsconfig.json'],
+      },
+    },
+  ],
   settings: {
     react: {
       version: 'detect',

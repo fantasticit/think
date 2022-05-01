@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
 import { IconExternalOpen, IconUnlink, IconEdit } from '@douyinfe/semi-icons';
@@ -12,7 +11,6 @@ import { triggerOpenLinkSettingModal } from '../_event';
 export const LinkBubbleMenu = ({ editor }) => {
   const attrs = editor.getAttributes(Link.name);
   const { href, target } = attrs;
-  const isLinkActive = editor.isActive(Link.name);
   const [text, setText] = useState();
   const [from, setFrom] = useState(-1);
   const [to, setTo] = useState(-1);
@@ -28,30 +26,40 @@ export const LinkBubbleMenu = ({ editor }) => {
   const unsetLink = useCallback(() => editor.chain().extendMarkRange(Link.name).unsetLink().run(), [editor]);
 
   useEffect(() => {
-    if (!isLinkActive) return;
+    const listener = () => {
+      const isLinkActive = editor.isActive(Link.name);
 
-    const { state } = editor;
-    const isInLink = isMarkActive(state.schema.marks.link)(state);
+      if (!isLinkActive) return;
 
-    if (!isInLink) return;
+      const { state } = editor;
+      const isInLink = isMarkActive(state.schema.marks.link)(state);
 
-    const { $head } = editor.state.selection;
-    const marks = $head.marks();
-    if (!marks.length) return;
+      if (!isInLink) return;
 
-    const mark = marks[0];
-    const node = $head.node($head.depth);
-    const startPosOfThisLine = $head.pos - (($head.nodeBefore && $head.nodeBefore.nodeSize) || 0);
-    const endPosOfThisLine = $head.nodeAfter
-      ? startPosOfThisLine + $head.nodeAfter.nodeSize
-      : $head.pos - $head.parentOffset + node.content.size;
+      const { $head } = editor.state.selection;
+      const marks = $head.marks();
+      if (!marks.length) return;
 
-    const { start, end } = findMarkPosition(state, mark, startPosOfThisLine, endPosOfThisLine);
-    const text = state.doc.textBetween(start, end);
-    setText(text);
-    setFrom(start);
-    setTo(end);
-  });
+      const mark = marks[0];
+      const node = $head.node($head.depth);
+      const startPosOfThisLine = $head.pos - (($head.nodeBefore && $head.nodeBefore.nodeSize) || 0);
+      const endPosOfThisLine = $head.nodeAfter
+        ? startPosOfThisLine + $head.nodeAfter.nodeSize
+        : $head.pos - $head.parentOffset + node.content.size;
+
+      const { start, end } = findMarkPosition(state, mark, startPosOfThisLine, endPosOfThisLine);
+      const text = state.doc.textBetween(start, end);
+      setText(text);
+      setFrom(start);
+      setTo(end);
+    };
+
+    editor.on('selectionUpdate', listener);
+
+    return () => {
+      editor.off('selectionUpdate', listener);
+    };
+  }, [editor]);
 
   return (
     <BubbleMenu

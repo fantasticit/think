@@ -49,7 +49,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document, children 
         },
       },
     });
-  }, [documentId, user.token]);
+  }, [documentId, user, toggleLoading]);
   const editor = useEditor({
     editable: false,
     extensions: [
@@ -68,7 +68,7 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document, children 
     return () => {
       destoryProvider(provider, 'READER');
     };
-  }, []);
+  }, [provider]);
 
   return (
     <DataRender

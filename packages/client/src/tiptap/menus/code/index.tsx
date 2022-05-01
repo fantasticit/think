@@ -6,10 +6,6 @@ import { Tooltip } from 'components/tooltip';
 import { isTitleActive } from 'tiptap/prose-utils';
 
 export const Code: React.FC<{ editor: Editor }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
-
   return (
     <Tooltip content="行内代码">
       <Button

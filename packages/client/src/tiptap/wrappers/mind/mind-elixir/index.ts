@@ -196,7 +196,7 @@ function MindElixir(
     mobileMenu,
   }: Options
 ) {
-  const box = document.querySelector(el) as HTMLElement;
+  const box = document.querySelector(el);
   if (!box) return;
   this.mindElixirBox = box;
   this.before = before || {};

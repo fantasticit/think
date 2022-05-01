@@ -40,8 +40,8 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = (props) => {
 
     editor.registerPlugin(plugin);
     return () => editor.unregisterPlugin(pluginKey);
-    // TODO: 检验是否应该是 props.editor
-  }, [props, element]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.editor, element]);
 
   return (
     <div ref={setElement} className={props.className} style={{ visibility: 'hidden' }}>

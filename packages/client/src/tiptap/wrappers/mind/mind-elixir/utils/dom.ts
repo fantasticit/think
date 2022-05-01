@@ -103,7 +103,7 @@ export function createInputDiv(tpc: Topic) {
   console.time('createInputDiv');
   if (!tpc) return;
   let div = $d.createElement('div');
-  const origin = tpc.childNodes[0].textContent as string;
+  const origin = tpc.childNodes[0].textContent;
   tpc.appendChild(div);
   div.id = 'input-box';
   div.innerText = origin;
@@ -138,7 +138,7 @@ export function createInputDiv(tpc: Topic) {
     if (!div) return; // 防止重复blur
     const node = tpc.nodeObj;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const topic = div.textContent!.trim();
+    const topic = div.textContent.trim();
     if (topic === '') node.topic = origin;
     else node.topic = topic;
     div.remove();

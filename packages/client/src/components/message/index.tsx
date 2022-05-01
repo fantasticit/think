@@ -117,25 +117,32 @@ const MessageBox = () => {
     Notification.info({
       title: '消息通知',
       content: (
-        <Link href={msg.url}>
-          <a className={styles.item}>
-            <div className={styles.leftWrap}>
-              <Text
-                ellipsis={{
-                  showTooltip: {
-                    opts: { content: msg.message },
-                  },
-                }}
-                style={{ width: 240 }}
-              >
-                {msg.title}
-              </Text>
-            </div>
-          </a>
-        </Link>
+        <>
+          <div>
+            <Text
+              ellipsis={{
+                showTooltip: {
+                  opts: { content: msg.message },
+                },
+              }}
+              style={{ width: 240 }}
+            >
+              {msg.title}
+            </Text>
+          </div>
+          <div>
+            <Text link>
+              <Link href={msg.url}>
+                <a className={styles.item} target="_blank">
+                  查看详情
+                </a>
+              </Link>
+            </Text>
+          </div>
+        </>
       ),
-
       duration: 3,
+      showClose: true,
       onHookClose() {
         readMessage(msg.id);
       },

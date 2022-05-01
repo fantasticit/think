@@ -37,7 +37,6 @@ interface IProps {
 }
 
 export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, authority, className, style }) => {
-  if (!currentUser) return null;
   const $hasShowUserSettingModal = useRef(false);
   const { users, addUser, updateUser } = useCollaborationDocument(documentId);
   const [status, setStatus] = useState<ProviderStatus>('connecting');
@@ -64,7 +63,7 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
         },
       },
     });
-  }, [documentId, currentUser.token]);
+  }, [documentId, currentUser, toggleLoading]);
   const editor = useEditor({
     editable: authority && authority.editable,
     extensions: [
@@ -77,7 +76,9 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
       try {
         const title = transaction.doc.content.firstChild.content.firstChild.textContent;
         triggerChangeDocumentTitle(title);
-      } catch (e) {}
+      } catch (e) {
+        //
+      }
     }, 50),
   });
   const [mentionUsersSettingVisible, toggleMentionUsersSettingVisible] = useToggle(false);
@@ -98,7 +99,7 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
       destoryProvider(provider, 'EDITOR');
       destoryIndexdbProvider(documentId);
     };
-  }, []);
+  }, [documentId, provider]);
 
   useEffect(() => {
     if (!editor) return;
@@ -157,7 +158,7 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
       Router.events.off('routeChangeStart', handler);
       window.removeEventListener('unload', handler);
     };
-  }, [editor, users, currentUser]);
+  }, [editor, users, currentUser, toggleMentionUsersSettingVisible]);
 
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {

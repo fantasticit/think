@@ -9,10 +9,6 @@ import { LinkBubbleMenu } from './bubble';
 import { LinkSettingModal } from './modal';
 
 export const Link: React.FC<{ editor: Editor }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
-
   return (
     <>
       <Tooltip content="插入链接">

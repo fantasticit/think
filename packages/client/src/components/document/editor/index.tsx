@@ -27,7 +27,6 @@ interface IProps {
 }
 
 export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
-  if (!documentId) return null;
   const { width: windowWith } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
@@ -42,7 +41,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
     Router.push({
       pathname: `/wiki/${document.wikiId}/document/${documentId}`,
     });
-  }, [document]);
+  }, [document, documentId]);
 
   const DocumentTitle = (
     <>

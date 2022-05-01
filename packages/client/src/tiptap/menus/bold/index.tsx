@@ -6,10 +6,6 @@ import { Tooltip } from 'components/tooltip';
 import { isTitleActive } from 'tiptap/prose-utils';
 
 export const Bold: React.FC<{ editor: Editor }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
-
   return (
     <Tooltip content="粗体">
       <Button

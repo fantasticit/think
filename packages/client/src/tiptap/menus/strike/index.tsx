@@ -6,10 +6,6 @@ import { Tooltip } from 'components/tooltip';
 import { isTitleActive } from 'tiptap/prose-utils';
 
 export const Strike: React.FC<{ editor: Editor }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
-
   return (
     <Tooltip content="删除线">
       <Button

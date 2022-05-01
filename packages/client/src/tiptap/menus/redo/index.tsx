@@ -5,10 +5,6 @@ import { IconRedo } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
 
 export const Redo: React.FC<{ editor: Editor }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
-
   return (
     <Tooltip content="撤销">
       <Button

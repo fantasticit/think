@@ -43,11 +43,7 @@ import { Iframe } from './menus/iframe';
 import { Table } from './menus/table';
 import { Mind } from './menus/mind';
 
-export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
-
+const _MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
   return (
     <div>
       <Space spacing={2}>
@@ -87,8 +83,8 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
         <Divider />
 
         <Emoji editor={editor} />
-        <Link editor={editor} />
         <Blockquote editor={editor} />
+        <Link editor={editor} />
         <HorizontalRule editor={editor} />
         <Search editor={editor} />
 
@@ -107,11 +103,11 @@ export const MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
   );
 };
 
-export const CommentMenuBar: React.FC<{ editor: any }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
+export const MenuBar = React.memo(_MenuBar, (prevProps, nextProps) => {
+  return prevProps.editor === nextProps.editor;
+});
 
+const _CommentMenuBar: React.FC<{ editor: any }> = ({ editor }) => {
   return (
     <>
       <Space spacing={2}>
@@ -135,3 +131,7 @@ export const CommentMenuBar: React.FC<{ editor: any }> = ({ editor }) => {
     </>
   );
 };
+
+export const CommentMenuBar = React.memo(_CommentMenuBar, (prevProps, nextProps) => {
+  return prevProps.editor === nextProps.editor;
+});

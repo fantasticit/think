@@ -19,6 +19,7 @@ export const extractMarkAttributesFromMatch = ([, , , attrsString]) => {
 
 export function findMarkPosition(state: EditorState, mark, from, to) {
   let markPos = { start: -1, end: -1 };
+
   state.doc.nodesBetween(from, to, (node, pos) => {
     if (markPos.start > -1) {
       return false;

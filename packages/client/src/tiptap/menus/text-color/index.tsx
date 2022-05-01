@@ -9,10 +9,6 @@ import { ColorPicker } from '../_components/color-picker';
 export const TextColor: React.FC<{ editor: Editor }> = ({ editor }) => {
   const { color } = editor.getAttributes('textStyle');
 
-  if (!editor) {
-    return null;
-  }
-
   return (
     <ColorPicker
       onSetColor={(color) => {

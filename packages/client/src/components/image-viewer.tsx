@@ -12,7 +12,7 @@ export const ImageViewer: React.FC<IProps> = ({ container, containerSelector }) 
     if (!el) {
       return null;
     }
-    const viewer = new Viewer(el as HTMLElement, { inline: false });
+    const viewer = new Viewer(el, { inline: false });
     const io = new MutationObserver(() => {
       viewer.update();
     });
