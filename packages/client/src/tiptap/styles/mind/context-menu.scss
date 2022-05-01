@@ -13,9 +13,10 @@ cmenu .menu-list {
   padding: 0;
   margin: 0;
   font: 300 15px Roboto, sans-serif;
-  color: #333;
+  color: var(--semi-color-text-0);
   list-style: none;
   box-shadow: 0 12px 15px 0 rgb(0 0 0 / 20%);
+  background-color: var(--semi-color-nav-bg);
 }
 
 cmenu .menu-list * {
@@ -27,8 +28,7 @@ cmenu .menu-list li {
   padding: 6px 10px;
   overflow: hidden;
   white-space: nowrap;
-  background-color: #fff;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 1px solid var(--semi-color-border);
 }
 
 cmenu .menu-list li a {
@@ -38,17 +38,14 @@ cmenu .menu-list li a {
 
 cmenu .menu-list li.disabled {
   color: #5e5e5e;
-  background-color: #f7f7f7;
 }
 
 cmenu .menu-list li.disabled:hover {
   cursor: default;
-  background-color: #f7f7f7;
 }
 
 cmenu .menu-list li:hover {
   cursor: pointer;
-  background-color: #ecf0f1;
 }
 
 cmenu .menu-list li:first-child {

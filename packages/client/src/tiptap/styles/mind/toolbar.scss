@@ -2,7 +2,7 @@
 .toolbar {
   position: absolute;
   display: flex;
-  padding: 4px 8px;
+  padding: 2px 4px;
   overflow-x: auto;
   color: #fff;
   background-color: var(--semi-color-nav-bg);
@@ -16,14 +16,28 @@
   opacity: 0.5;
 }
 
-.rb {
+.rb1 {
+  right: 70px;
+  bottom: 20px;
+  font-family: iconfont;
+
+  width: 0;
+  padding: 0;
+
+  &.is-visible {
+    width: auto;
+    padding: 2px 4px;
+  }
+}
+
+.rb1 span + span {
+  margin-left: 10px;
+}
+
+.rb2 {
   right: 20px;
   bottom: 20px;
   font-family: iconfont;
-}
-
-.rb span + span {
-  margin-left: 10px;
 }
 
 .lt {
