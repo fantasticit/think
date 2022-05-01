@@ -21,7 +21,7 @@
     "pm2:server": "pnpm run --dir packages/server pm2",
     "pm2:client": "pnpm run --dir packages/client pm2",
     "format": "concurrently \"pnpm:format:*\"",
-    "format:ts": "prettier --write --parser typescript \"packages/**/*.ts?(x)\"",
+    "format:ts": "prettier --write --parser typescript \"git status\"",
     "format:css": "stylelint --fix --formatter verbose --allow-empty-input \"packages/**/*.{css,scss,sass}\""
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "node": ">=16.5.0"
   },
   "devDependencies": {
+    "lint-staged": "^12.4.1",
     "pre-commit": "^1.2.2",
     "prettier": "^2.3.2",
     "stylelint": "^14.6.1",
@@ -45,5 +46,13 @@
     "stylelint-prettier": "^2.0.0",
     "typescript": "^4.5.5"
   },
-  "pre-commit": "format"
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": "prettier --write",
+    "*.{css,scss,sass}": " stylelint --fix --formatter verbose --allow-empty-input"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
 }
