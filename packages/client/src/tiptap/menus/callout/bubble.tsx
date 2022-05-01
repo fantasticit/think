@@ -60,7 +60,12 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
                 <Text type="secondary">字体颜色</Text>
                 <div>
                   {TEXT_COLORS.map((color) => (
-                    <div className={styles.color} style={{ color: color }} onClick={setColor('textColor', color)}>
+                    <div
+                      key={color}
+                      className={styles.color}
+                      style={{ color: color }}
+                      onClick={setColor('textColor', color)}
+                    >
                       A
                     </div>
                   ))}
@@ -72,6 +77,7 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
                 <div>
                   {BORDER_COLORS.map((color) => (
                     <div
+                      key={color}
                       className={styles.color}
                       style={{ backgroundColor: color }}
                       onClick={setColor('borderColor', color)}
@@ -84,6 +90,7 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
                 <div>
                   {BACKGROUND_COLORS.map((color) => (
                     <div
+                      key={color}
                       className={styles.color}
                       style={{ backgroundColor: color }}
                       onClick={setColor('backgroundColor', color)}
