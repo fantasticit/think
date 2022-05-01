@@ -14,13 +14,16 @@ const getCurrentCaretTitle = (editor) => {
 };
 
 export const Heading: React.FC<{ editor: Editor }> = ({ editor }) => {
-  const toggle = useCallback((level) => {
-    if (level === 'paragraph') {
-      editor.chain().focus().setParagraph().run();
-    } else {
-      editor.chain().focus().toggleHeading({ level }).run();
-    }
-  }, []);
+  const toggle = useCallback(
+    (level) => {
+      if (level === 'paragraph') {
+        editor.chain().focus().setParagraph().run();
+      } else {
+        editor.chain().focus().toggleHeading({ level }).run();
+      }
+    },
+    [editor]
+  );
 
   return (
     <Select

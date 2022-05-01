@@ -9,13 +9,16 @@ export const FontSize: React.FC<{ editor: Editor }> = ({ editor }) => {
   const currentFontSizePx = editor.getAttributes('textStyle').fontSize || '16px';
   const currentFontSize = +currentFontSizePx.replace('px', '');
 
-  const toggle = useCallback((val) => {
-    editor
-      .chain()
-      .focus()
-      .setFontSize(val + 'px')
-      .run();
-  }, []);
+  const toggle = useCallback(
+    (val) => {
+      editor
+        .chain()
+        .focus()
+        .setFontSize(val + 'px')
+        .run();
+    },
+    [editor]
+  );
 
   return (
     <Select

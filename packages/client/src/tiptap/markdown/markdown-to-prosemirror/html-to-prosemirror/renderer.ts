@@ -116,7 +116,7 @@ export class Renderer {
   }
 
   renderChildren(node) {
-    let nodes = [];
+    const nodes = [];
 
     node.childNodes.forEach((child) => {
       const NodeClass = this.getMatchingNode(child);
@@ -180,7 +180,7 @@ export class Renderer {
   }
 
   getMatchingClass(node, classes) {
-    for (let i in classes) {
+    for (const i in classes) {
       const Class = classes[i];
       const instance = new Class(node);
       if (instance.matching()) {

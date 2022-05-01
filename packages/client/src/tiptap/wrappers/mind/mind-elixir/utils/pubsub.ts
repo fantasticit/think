@@ -11,19 +11,19 @@ Bus.prototype = {
   },
   fire: function (type, ...payload) {
     if (this.handlers[type] instanceof Array) {
-      var handlers = this.handlers[type];
-      for (var i = 0; i < handlers.length; i++) {
+      const handlers = this.handlers[type];
+      for (let i = 0; i < handlers.length; i++) {
         handlers[i](...payload);
       }
     }
   },
   removeListener: function (type, handler) {
     if (!this.handlers[type]) return;
-    var handlers = this.handlers[type];
+    const handlers = this.handlers[type];
     if (!handler) {
       handlers.length = 0;
     } else if (handlers.length) {
-      for (var i = 0; i < handlers.length; i++) {
+      for (let i = 0; i < handlers.length; i++) {
         if (handlers[i] === handler) {
           this.handlers[type].splice(i, 1);
         }

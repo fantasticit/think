@@ -61,7 +61,7 @@ export const Paste = Extension.create({
 
             if (node) {
               const doc = safeJSONParse(node);
-              let tr = view.state.tr;
+              const tr = view.state.tr;
               const selection = tr.selection;
               view.dispatch(tr.insert(selection.from - 1, view.state.schema.nodeFromJSON(doc)).scrollIntoView());
               return true;

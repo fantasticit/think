@@ -81,3 +81,5 @@ export const EmojiList: React.FC<IProps> = forwardRef((props, ref) => {
     </div>
   );
 });
+
+EmojiList.displayName = 'EmojiList';

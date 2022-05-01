@@ -17,7 +17,7 @@ export const Size: React.FC<{ width: number; maxWidth?: number; height: number; 
     $form.current.validate().then((values) => {
       onOk(values as ISize);
     });
-  }, []);
+  }, [onOk]);
 
   return (
     <Dropdown

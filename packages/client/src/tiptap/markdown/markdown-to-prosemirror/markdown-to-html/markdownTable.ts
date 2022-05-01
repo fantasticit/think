@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // Copied from https://github.com/markdown-it/markdown-it/blob/master/lib/rules_block/table.js
 
 function isSpace(code) {
@@ -10,14 +12,14 @@ function isSpace(code) {
 }
 
 function getLine(state, line) {
-  var pos = state.bMarks[line] + state.tShift[line],
+  const pos = state.bMarks[line] + state.tShift[line],
     max = state.eMarks[line];
 
   return state.src.substr(pos, max - pos);
 }
 
 function escapedSplit(str) {
-  var result = [],
+  let result = [],
     pos = 0,
     max = str.length,
     ch,
@@ -53,7 +55,7 @@ function escapedSplit(str) {
 }
 
 function table(state, startLine, endLine, silent) {
-  var ch,
+  let ch,
     lineText,
     pos,
     i,

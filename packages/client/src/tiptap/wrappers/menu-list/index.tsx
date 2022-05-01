@@ -87,3 +87,5 @@ export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
     </div>
   );
 });
+
+MenuList.displayName = 'MenuList';

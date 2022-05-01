@@ -1,9 +1,10 @@
+/* eslint-disable */
 // var katex = require('katex');
 
 // Test if potential opening or closing delimieter
 // Assumes that there is a "$" at state.src[pos]
 function isValidDelim(state, pos) {
-  var prevChar,
+  let prevChar,
     nextChar,
     max = state.posMax,
     can_open = true,
@@ -32,7 +33,7 @@ function isValidDelim(state, pos) {
 }
 
 function math_inline(state, silent) {
-  var start, match, token, res, pos, esc_count;
+  let start, match, token, res, pos, esc_count;
 
   if (state.src[state.pos] !== '$') {
     return false;
@@ -107,7 +108,7 @@ function math_inline(state, silent) {
 }
 
 function math_block(state, start, end, silent) {
-  var firstLine,
+  let firstLine,
     lastLine,
     next,
     lastPos,
@@ -179,7 +180,7 @@ function escapeHtml(unsafe) {
     .replace(/'/g, '&#039;');
 }
 
-var katex = {
+let katex = {
   renderToString: (s, opts) => s,
 };
 
@@ -194,7 +195,7 @@ export default function math_plugin(md, options) {
     options.blockClass = '';
   }
 
-  var inlineRenderer = function (tokens, idx) {
+  const inlineRenderer = function (tokens, idx) {
     return katexBlock(tokens[idx].content);
   };
 
@@ -212,7 +213,7 @@ export default function math_plugin(md, options) {
     }
   };
 
-  var blockRenderer = function (tokens, idx) {
+  const blockRenderer = function (tokens, idx) {
     return katexBlock(tokens[idx].content) + '\n';
   };
 

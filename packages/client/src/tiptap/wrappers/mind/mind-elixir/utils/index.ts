@@ -51,11 +51,12 @@ export function refreshIds(data: NodeObj) {
 }
 
 export const throttle = (fn: (any) => void, wait: number) => {
-  var pre = Date.now();
+  let pre = Date.now();
   return function () {
-    var context = this;
-    var args = arguments;
-    var now = Date.now();
+    const context = this;
+    // eslint-disable-next-line prefer-rest-params
+    const args = arguments;
+    const now = Date.now();
     if (now - pre >= wait) {
       fn.apply(context, args);
       pre = Date.now();
@@ -78,7 +79,7 @@ export function getArrowPoints(p3x: number, p3y: number, p4x: number, p4y: numbe
   }
   const arrowLength = 20;
   const arrowAngle = 30;
-  var a1 = angle + arrowAngle;
+  const a1 = angle + arrowAngle;
   const a2 = angle - arrowAngle;
   return {
     x1: p4x + Math.cos((Math.PI * a1) / 180) * arrowLength,

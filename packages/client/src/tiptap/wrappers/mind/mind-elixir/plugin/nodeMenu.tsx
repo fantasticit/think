@@ -86,6 +86,7 @@ const Toolbar = ({ mind, toggleBold, setFontColor, setBackgroundColor, setLink }
     return () => {
       mind.bus.removeListener('selectNode', listener);
     };
+    // eslint-disable-next-line  react-hooks/exhaustive-deps
   }, []);
 
   return (

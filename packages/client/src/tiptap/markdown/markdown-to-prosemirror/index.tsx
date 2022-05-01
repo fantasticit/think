@@ -18,6 +18,7 @@ export * from './markdown-source-map';
 const extractImage = (html) => {
   let matches = [];
 
+  // eslint-disable-next-line no-useless-escape
   while ((matches = html.match(/\<p.*?\>\<img(.|\s)*?\>\<\/p\>/g))) {
     const target = matches[0].match(/<img.*?>/)[0];
     html = html.replace(matches[0], target);

@@ -17,7 +17,7 @@ export const CountdownSettingModal: React.FC<IProps> = ({ editor }) => {
       editor.chain().focus().setCountdown({ title: values.title, date: values.date.valueOf() }).run();
       toggleVisible(false);
     });
-  }, []);
+  }, [editor, toggleVisible]);
 
   useEffect(() => {
     const handler = (data) => {
@@ -30,7 +30,7 @@ export const CountdownSettingModal: React.FC<IProps> = ({ editor }) => {
     return () => {
       event.off(OPEN_COUNT_SETTING_MODAL, handler);
     };
-  }, []);
+  }, [toggleVisible]);
 
   return (
     <Modal centered title="倒计时" visible={visible} onOk={handleOk} onCancel={() => toggleVisible(false)}>

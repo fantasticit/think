@@ -154,14 +154,14 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
         toggleVisible(false);
       };
     },
-    [editor, toggleVisible]
+    [editor, toggleVisible, transformToCommands, user]
   );
 
   useEffect(() => {
     if (!visible) return;
     insertMenuLRUCache.syncFromStorage();
     setRecentUsed(transformToCommands(insertMenuLRUCache.get() as string[]));
-  }, [visible]);
+  }, [visible, transformToCommands]);
 
   if (!editor) {
     return null;

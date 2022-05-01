@@ -17,7 +17,7 @@ export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
   const { pathname, query } = useRouter();
   let { wikiId, documentId } = node.attrs;
   if (!wikiId) {
-    query?.wikiId;
+    wikiId = query?.wikiId;
   }
   if (!documentId) {
     documentId = query?.documentId;
@@ -31,7 +31,7 @@ export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
     if (attrs.wikiId !== wikiId || attrs.documentId !== documentId) {
       updateAttributes({ wikiId, documentId });
     }
-  }, [node.attrs, wikiId, documentId]);
+  }, [node.attrs, wikiId, documentId, updateAttributes]);
 
   return (
     <NodeViewWrapper

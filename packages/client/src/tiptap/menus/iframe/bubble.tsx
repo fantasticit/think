@@ -27,7 +27,7 @@ export const IframeBubbleMenu = ({ editor }) => {
 
   const handleCancel = useCallback(() => {
     toggleVisible(false);
-  }, []);
+  }, [toggleVisible]);
 
   const handleOk = useCallback(() => {
     $form.current.validate().then((values) => {
@@ -41,7 +41,7 @@ export const IframeBubbleMenu = ({ editor }) => {
         .run();
       toggleVisible(false);
     });
-  }, []);
+  }, [editor, toggleVisible]);
 
   const visitLink = useCallback(() => {
     window.open(url, '_blank');
@@ -49,7 +49,7 @@ export const IframeBubbleMenu = ({ editor }) => {
 
   const openEditLinkModal = useCallback(() => {
     toggleVisible(true);
-  }, []);
+  }, [toggleVisible]);
 
   const setSize = useCallback(
     (size) => {

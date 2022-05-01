@@ -20,7 +20,7 @@ export const createMarkdownContainer = (types: string | Array<string>) => (md) =
         if (tag.nesting === 1) {
           tag.attrSet('class', type);
 
-          var m = tag.info.trim().match(regexp);
+          const m = tag.info.trim().match(regexp);
           if (m[1]) {
             const data = strToJSON(m[1]);
             jsonToDOMDataset(data).forEach(({ key, value }) => {

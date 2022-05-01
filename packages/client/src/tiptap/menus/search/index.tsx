@@ -15,12 +15,16 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
   const [replaceValue, setReplaceValue] = useState('');
 
   useEffect(() => {
-    editor?.commands?.setSearchTerm(searchValue);
-  }, [searchValue]);
+    if (editor && editor.commands && editor.commands.setSearchTerm) {
+      editor.commands.setSearchTerm(searchValue);
+    }
+  }, [searchValue, editor]);
 
   useEffect(() => {
-    editor?.commands?.setReplaceTerm(replaceValue);
-  }, [replaceValue]);
+    if (editor && editor.commands && editor.commands.setReplaceTerm) {
+      editor.commands.setReplaceTerm(replaceValue);
+    }
+  }, [replaceValue, editor]);
 
   return (
     <Popover

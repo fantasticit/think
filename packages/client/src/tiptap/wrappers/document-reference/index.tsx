@@ -44,7 +44,7 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
         </a>
       </Link>
     );
-  }, [wikiId, documentId]);
+  }, [wikiId, documentId, isEditable, isShare, title]);
 
   return (
     <NodeViewWrapper as="div" className={cls(styles.wrap, isEditable && 'render-wrapper')}>

@@ -32,7 +32,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
       ) : (
         <span contentEditable={false}>点击输入公式</span>
       ),
-    [text]
+    [text, formatText]
   );
 
   const onVisibleChange = useCallback(
@@ -42,7 +42,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
         updateAttributes({ defaultShowPicker: false });
       }
     },
-    [defaultShowPicker, updateAttributes, createUser, user]
+    [defaultShowPicker, toggleVisible, updateAttributes, createUser, user]
   );
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
       toggleVisible(true);
       setTimeout(() => ref.current?.focus(), 100);
     }
-  }, [defaultShowPicker, createUser, user]);
+  }, [defaultShowPicker, toggleVisible, createUser, user]);
 
   return (
     <NodeViewWrapper as="span" className={cls(styles.wrap, 'render-wrapper')} contentEditable={false}>

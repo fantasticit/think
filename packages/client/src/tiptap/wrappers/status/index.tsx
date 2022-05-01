@@ -72,7 +72,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
         updateAttributes({ defaultShowPicker: false });
       }
     },
-    [defaultShowPicker, updateAttributes, createUser, user]
+    [defaultShowPicker, toggleVisible, updateAttributes, createUser, user]
   );
 
   useEffect(() => {
@@ -80,7 +80,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
       toggleVisible(true);
       setTimeout(() => ref.current?.focus(), 100);
     }
-  }, [defaultShowPicker, createUser, user]);
+  }, [defaultShowPicker, toggleVisible, createUser, user]);
 
   useEffect(() => {
     if (visible) {

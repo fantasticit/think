@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import cls from 'classnames';
 import { NodeViewWrapper } from '@tiptap/react';
 import { Button, Typography, Spin, Collapsible, Space } from '@douyinfe/semi-ui';
@@ -20,36 +20,39 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   const [loading, toggleLoading] = useToggle(false);
   const [visible, toggleVisible] = useToggle(false);
 
-  const selectFile = () => {
+  const selectFile = useCallback(() => {
     if (!isEditable || url) return;
     isEditable && $upload.current.click();
-  };
+  }, [isEditable, url]);
 
-  const handleFile = async (e) => {
-    const file = e.target.files && e.target.files[0];
-    const fileInfo = {
-      fileName: extractFilename(file.name),
-      fileSize: file.size,
-      fileType: file.type,
-      fileExt: extractFileExtension(file.name),
-    };
-    toggleLoading(true);
-    try {
-      const url = await uploadFile(file);
-      updateAttributes({ ...fileInfo, url });
-      toggleLoading(false);
-    } catch (error) {
-      updateAttributes({ error: '文件上传失败：' + (error && error.message) || '未知错误' });
-      toggleLoading(false);
-    }
-  };
+  const handleFile = useCallback(
+    async (e) => {
+      const file = e.target.files && e.target.files[0];
+      const fileInfo = {
+        fileName: extractFilename(file.name),
+        fileSize: file.size,
+        fileType: file.type,
+        fileExt: extractFileExtension(file.name),
+      };
+      toggleLoading(true);
+      try {
+        const url = await uploadFile(file);
+        updateAttributes({ ...fileInfo, url });
+        toggleLoading(false);
+      } catch (error) {
+        updateAttributes({ error: '文件上传失败：' + (error && error.message) || '未知错误' });
+        toggleLoading(false);
+      }
+    },
+    [toggleLoading, updateAttributes]
+  );
 
   useEffect(() => {
     if (!url && !hasTrigger) {
       selectFile();
       updateAttributes({ hasTrigger: true });
     }
-  }, [url, hasTrigger]);
+  }, [url, hasTrigger, selectFile, updateAttributes]);
 
   const content = (() => {
     if (isEditable && !url) {

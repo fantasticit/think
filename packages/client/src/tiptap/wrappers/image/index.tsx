@@ -22,44 +22,50 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   const $upload = useRef<HTMLInputElement>();
   const [loading, toggleLoading] = useToggle(false);
 
-  const onResize = useCallback((size) => {
-    updateAttributes({ height: size.height, width: size.width });
-  }, []);
+  const onResize = useCallback(
+    (size) => {
+      updateAttributes({ height: size.height, width: size.width });
+    },
+    [updateAttributes]
+  );
 
   const selectFile = useCallback(() => {
     if (!isEditable || error || src) return;
     isEditable && $upload.current.click();
   }, [isEditable, error, src]);
 
-  const handleFile = useCallback(async (e) => {
-    const file = e.target.files && e.target.files[0];
+  const handleFile = useCallback(
+    async (e) => {
+      const file = e.target.files && e.target.files[0];
 
-    const fileInfo = {
-      fileName: extractFilename(file.name),
-      fileSize: file.size,
-      fileType: file.type,
-      fileExt: extractFileExtension(file.name),
-    };
+      const fileInfo = {
+        fileName: extractFilename(file.name),
+        fileSize: file.size,
+        fileType: file.type,
+        fileExt: extractFileExtension(file.name),
+      };
 
-    toggleLoading(true);
+      toggleLoading(true);
 
-    try {
-      const src = await uploadFile(file);
-      const size = await getImageWidthHeight(file);
-      updateAttributes({ ...fileInfo, ...size, src });
-      toggleLoading(false);
-    } catch (error) {
-      updateAttributes({ error: '图片上传失败：' + (error && error.message) || '未知错误' });
-      toggleLoading(false);
-    }
-  }, []);
+      try {
+        const src = await uploadFile(file);
+        const size = await getImageWidthHeight(file);
+        updateAttributes({ ...fileInfo, ...size, src });
+        toggleLoading(false);
+      } catch (error) {
+        updateAttributes({ error: '图片上传失败：' + (error && error.message) || '未知错误' });
+        toggleLoading(false);
+      }
+    },
+    [updateAttributes, toggleLoading]
+  );
 
   useEffect(() => {
     if (!src && !hasTrigger) {
       selectFile();
       updateAttributes({ hasTrigger: true });
     }
-  }, [src, hasTrigger]);
+  }, [src, hasTrigger, selectFile, updateAttributes]);
 
   return (
     <NodeViewWrapper as="div" style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>

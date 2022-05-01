@@ -47,7 +47,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
         style={{ ...INHERIT_SIZE_STYLE, overflow: 'hidden' }}
       ></div>
     );
-  }, [loading, error, width, height]);
+  }, [loading, error]);
 
   const onResize = useCallback(
     (size) => {
@@ -69,11 +69,12 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       .catch((e) => {
         setError(e);
       });
-  }, []);
+  }, [toggleLoading]);
 
   // 初始化渲染
   useEffect(() => {
-    if (loading || !$container.current) return;
+    const container = $container.current;
+    if (loading || !container) return;
 
     const onChange = () => {
       updateAttributes({ data: mind.getAllData() });
@@ -89,8 +90,8 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       isEnter = false;
     };
 
-    $container.current.addEventListener('onmouseenter', onMouseEnter);
-    $container.current.addEventListener('onMouseLeave', onMouseLeave);
+    container.addEventListener('onmouseenter', onMouseEnter);
+    container.addEventListener('onMouseLeave', onMouseLeave);
 
     try {
       mind = new window.MindElixir({
@@ -115,16 +116,18 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     }
 
     return () => {
-      if ($container.current) {
-        $container.current.removeEventListener('onmouseenter', onMouseEnter);
-        $container.current.removeEventListener('onMouseLeave', onMouseLeave);
+      if (container) {
+        container.removeEventListener('onmouseenter', onMouseEnter);
+        container.removeEventListener('onMouseLeave', onMouseLeave);
       }
 
       if (mind) {
         mind.destroy();
       }
     };
-  }, [loading, editor, updateAttributes]);
+    // data 的更新交给下方 effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, editor, updateAttributes, toggleLoading]);
 
   useEffect(() => {
     const mind = $mind.current;

@@ -13,9 +13,12 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   const { url, width, height } = node.attrs;
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
 
-  const onResize = useCallback((size) => {
-    updateAttributes({ width: size.width, height: size.height });
-  }, []);
+  const onResize = useCallback(
+    (size) => {
+      updateAttributes({ width: size.width, height: size.height });
+    },
+    [updateAttributes]
+  );
 
   return (
     <NodeViewWrapper>

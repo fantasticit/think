@@ -137,6 +137,7 @@ export function createInputDiv(tpc: Topic) {
   div.addEventListener('blur', () => {
     if (!div) return; // 防止重复blur
     const node = tpc.nodeObj;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const topic = div.textContent!.trim();
     if (topic === '') node.topic = origin;
     else node.topic = topic;

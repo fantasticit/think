@@ -47,7 +47,7 @@ export const jsonToDOMDataset = (json: Record<string, unknown>) => {
  * @param transformToJSON 是否要转为 JSON
  */
 export const getDatasetAttribute =
-  (attribute: string, transformToJSON: boolean = false) =>
+  (attribute: string, transformToJSON = false) =>
   (element: HTMLElement) => {
     const dataKey = attribute.startsWith('data-') ? attribute : `data-${attribute}`;
     const value = decodeURIComponent(element.getAttribute(dataKey));

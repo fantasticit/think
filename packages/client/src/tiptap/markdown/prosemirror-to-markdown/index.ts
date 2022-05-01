@@ -130,6 +130,7 @@ const SerializerConfig = {
     [Image.name]: renderImage,
     [Katex.name]: (state, node) => {
       state.ensureNewLine();
+      // eslint-disable-next-line no-useless-escape
       state.write(`\$\$${node.attrs.text || ''}\$\$`);
       state.closeBlock(node);
     },

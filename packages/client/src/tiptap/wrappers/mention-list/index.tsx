@@ -81,3 +81,5 @@ export const MentionList: React.FC<IProps> = forwardRef((props, ref) => {
     </div>
   );
 });
+
+MentionList.displayName = 'MentionList';

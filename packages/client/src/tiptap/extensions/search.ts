@@ -182,7 +182,7 @@ const gotoSearchResult = ({ view, tr, searchResults, searchResultCurrentClass, g
   const result = searchResults[gotoIndex];
 
   if (result) {
-    let transaction = tr.setMeta('directDecoration', {
+    const transaction = tr.setMeta('directDecoration', {
       fromPos: result.from,
       toPos: result.to,
       attrs: { class: searchResultCurrentClass },

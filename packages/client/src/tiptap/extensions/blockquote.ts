@@ -20,6 +20,7 @@ export const Blockquote = BuiltInBlockquote.extend({
   addInputRules() {
     const multilineInputRegex = /^\s*>>>\s$/gm;
     return [
+      // eslint-disable-next-line no-unsafe-optional-chaining
       ...this.parent?.(),
       wrappingInputRule({
         find: multilineInputRegex,

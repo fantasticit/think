@@ -27,7 +27,7 @@ export const LinkSettingModal: React.FC<IProps> = ({ editor }) => {
       view.dispatch(view.state.tr.scrollIntoView());
       toggleVisible(false);
     });
-  }, [initialState]);
+  }, [initialState, editor, toggleVisible]);
 
   useEffect(() => {
     const handler = (data) => {
@@ -40,7 +40,7 @@ export const LinkSettingModal: React.FC<IProps> = ({ editor }) => {
     return () => {
       event.off(OPEN_LINK_SETTING_MODAL, handler);
     };
-  }, [editor]);
+  }, [editor, toggleVisible]);
 
   return (
     <Modal title="编辑链接" visible={visible} onOk={handleOk} onCancel={() => toggleVisible(false)} centered>

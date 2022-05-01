@@ -14,8 +14,8 @@ import { SIDE, GAP, TURNPOINT_R, PRIMARY_NODE_HORIZONTAL_GAP, PRIMARY_NODE_VERTI
  * @param {object} primaryNode process the specific primary node only
  */
 export default function linkDiv(primaryNode) {
-  var primaryNodeHorizontalGap = this.primaryNodeHorizontalGap || PRIMARY_NODE_HORIZONTAL_GAP;
-  var primaryNodeVerticalGap = this.primaryNodeVerticalGap || PRIMARY_NODE_VERTICAL_GAP;
+  const primaryNodeHorizontalGap = this.primaryNodeHorizontalGap || PRIMARY_NODE_HORIZONTAL_GAP;
+  const primaryNodeVerticalGap = this.primaryNodeVerticalGap || PRIMARY_NODE_VERTICAL_GAP;
   console.time('linkDiv');
   const root = this.root;
   root.style.cssText = `top:${10000 - root.offsetHeight / 2}px;left:${10000 - root.offsetWidth / 2}px;`;

@@ -44,7 +44,9 @@ export function copyNode(nodeOrNodeName: string | Node, editor?: Editor) {
       toCopy.push({ text: markdown, format: 'text/markdown' });
       const html = markdownToHTML(markdown);
       toCopy.push({ text: html, format: 'text/html' });
-    } catch (e) {}
+    } catch (e) {
+      //
+    }
 
     copy(toCopy);
   }

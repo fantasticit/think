@@ -48,7 +48,6 @@ export const getProvider = ({
         docType,
       },
       maxAttempts: 5,
-      forceSyncInterval: 100,
       ...events,
     } as any);
     pool.set(targetId, provider);

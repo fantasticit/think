@@ -8,9 +8,12 @@ export const CalloutWrapper = ({ editor, node, updateAttributes }) => {
   const { isEditable } = editor;
   const { emoji, textColor, borderColor, backgroundColor } = node.attrs;
 
-  const onSelectEmoji = useCallback((emoji) => {
-    updateAttributes({ emoji });
-  }, []);
+  const onSelectEmoji = useCallback(
+    (emoji) => {
+      updateAttributes({ emoji });
+    },
+    [updateAttributes]
+  );
 
   return (
     <NodeViewWrapper id="js-bannber-container" className={cls(styles.wrap)}>

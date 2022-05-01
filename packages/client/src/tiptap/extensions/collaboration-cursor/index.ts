@@ -101,7 +101,9 @@ const lockCollaborationUserEditingNodes = (extensionThis, users) => {
             options.collaborationUserCursorCache.set(user.clientId, { user, cursor });
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        //
+      }
     });
   }
 };
