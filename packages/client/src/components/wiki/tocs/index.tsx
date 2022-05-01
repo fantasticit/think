@@ -47,7 +47,7 @@ export const WikiTocs: React.FC<IProps> = ({
     return () => {
       event.off(REFRESH_TOCS, handler);
     };
-  }, []);
+  }, [refresh]);
 
   return (
     <div className={styles.wrap}>

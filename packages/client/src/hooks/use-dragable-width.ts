@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import useSWR from 'swr';
 import { useWindowSize } from 'hooks/use-window-size';
 import { setStorage, getStorage } from 'helpers/storage';
@@ -21,14 +21,17 @@ export const useDragableWidth = () => {
     runTimeWidthRef.current = size;
   };
 
-  const toggleCollapsed = (collapsed = null) => {
-    const isBool = typeof collapsed === 'boolean';
-    const nextCollapsed = isBool ? collapsed : !isCollapsed;
-    let nextWidth = nextCollapsed ? COLLAPSED_WIDTH : MIN_WIDTH;
-    setStorage(key, nextWidth);
-    mutate();
-    runTimeWidthRef.current = nextWidth;
-  };
+  const toggleCollapsed = useCallback(
+    (collapsed = null) => {
+      const isBool = typeof collapsed === 'boolean';
+      const nextCollapsed = isBool ? collapsed : !isCollapsed;
+      const nextWidth = nextCollapsed ? COLLAPSED_WIDTH : MIN_WIDTH;
+      setStorage(key, nextWidth);
+      mutate();
+      runTimeWidthRef.current = nextWidth;
+    },
+    [isCollapsed, mutate]
+  );
 
   useEffect(() => {
     mutate();
@@ -36,14 +39,14 @@ export const useDragableWidth = () => {
     return () => {
       runTimeWidthRef.current = null;
     };
-  }, []);
+  }, [mutate]);
 
   useEffect(() => {
     if (!windowSize.width) return;
     if (windowSize.width <= 765) {
       toggleCollapsed(true);
     }
-  }, [windowSize.width]);
+  }, [windowSize.width, toggleCollapsed]);
 
   return {
     width: data,

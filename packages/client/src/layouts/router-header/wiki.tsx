@@ -88,7 +88,7 @@ export const Wiki = () => {
                   {starWikis.length ? (
                     starWikis.map((wiki) => {
                       return (
-                        <div className={styles.itemWrap}>
+                        <div className={styles.itemWrap} key={wiki.id}>
                           <Link
                             href={{
                               pathname: '/wiki/[wikiId]',

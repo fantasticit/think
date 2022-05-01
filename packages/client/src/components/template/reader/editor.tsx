@@ -21,8 +21,6 @@ interface IProps {
 }
 
 export const Editor: React.FC<IProps> = ({ user, data, loading, error }) => {
-  if (!user) return null;
-
   const c = safeJSONParse(data.content);
   let json = c.default || c;
 
@@ -43,6 +41,8 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error }) => {
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
+
+  if (!user) return null;
 
   return (
     <div className={styles.wrap}>

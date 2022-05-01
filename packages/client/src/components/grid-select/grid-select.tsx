@@ -60,15 +60,12 @@ export const GridSelect = ({
     [onSelect]
   );
 
-  const onHover = useCallback(
-    debounce(({ x, y, isCellDisabled }) => {
-      if (isCellDisabled) {
-        return setHoverCell(null);
-      }
-      setHoverCell({ x, y });
-    }, 5),
-    [disabled]
-  );
+  const onHover = useCallback(({ x, y, isCellDisabled }) => {
+    if (isCellDisabled) {
+      return setHoverCell(null);
+    }
+    setHoverCell({ x, y });
+  }, []);
 
   const cells = useMemo(() => {
     const cells = [];

@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import React from 'react';
 import { DocumentEditor } from 'components/document/editor';
 
 interface IProps {

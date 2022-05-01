@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import React from 'react';
 import { DoubleColumnLayout } from 'layouts/double-column';
 import { WikiTocs } from 'components/wiki/tocs';
 import { DocumentReader } from 'components/document/reader';

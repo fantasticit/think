@@ -38,7 +38,7 @@ export const TemplateList: React.FC<IProps> = ({
     const start = (page - 1) * pageSize;
     const end = page * pageSize;
     return arr.slice(start, end);
-  }, [data, page]);
+  }, [data, page, pageSize]);
 
   return (
     <DataRender

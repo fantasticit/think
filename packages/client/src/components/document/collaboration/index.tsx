@@ -31,6 +31,7 @@ interface IProps {
 const { Paragraph } = Typography;
 const { Column } = Table;
 
+// eslint-disable-next-line react/display-name
 const renderChecked = (onChange, authKey: 'readable' | 'editable') => (checked, docAuth) => {
   const handle = (evt) => {
     const data = {
@@ -67,8 +68,8 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
   };
 
   useEffect(() => {
-    const handler = (users) => {
-      const newCollaborationUsers = users
+    const handler = (mentionUsers) => {
+      const newCollaborationUsers = mentionUsers
         .filter(Boolean)
         .filter((state) => state.user)
         .map((state) => ({ ...state.user, clientId: state.clientId }));
@@ -90,6 +91,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
 
       setCollaborationUsers(newCollaborationUsers);
     };
+
     event.on(JOIN_USER, handler);
 
     return () => {

@@ -112,7 +112,7 @@ export const Resizeable: React.FC<IProps> = ({
         },
       },
     });
-  }, [maxWidth, isEditable]);
+  }, [maxWidth, isEditable, onChange, onChangeEnd]);
 
   useEffect(() => {
     Object.assign($container.current.style, {

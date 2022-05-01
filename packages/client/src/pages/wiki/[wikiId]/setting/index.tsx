@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
 import { DoubleColumnLayout } from 'layouts/double-column';
@@ -15,14 +15,17 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
     tab?: string;
   };
 
-  const navigate = useCallback((tab = 'base') => {
-    return () => {
-      Router.push({
-        pathname: `/wiki/${wikiId}/setting`,
-        query: { tab },
-      });
-    };
-  }, []);
+  const navigate = useCallback(
+    (tab = 'base') => {
+      return () => {
+        Router.push({
+          pathname: `/wiki/${wikiId}/setting`,
+          query: { tab },
+        });
+      };
+    },
+    [wikiId]
+  );
 
   return (
     <DoubleColumnLayout

@@ -40,7 +40,7 @@ const MessagesRender = ({ messageData, loading, error, onClick = null, page = 1,
               <>
                 {messages.map((msg) => {
                   return (
-                    <div className={styles.itemWrap} onClick={() => handleRead(msg.id)}>
+                    <div key={msg.id} className={styles.itemWrap} onClick={() => handleRead(msg.id)}>
                       <Link href={msg.url}>
                         <a className={styles.item}>
                           <div className={styles.leftWrap}>
@@ -140,7 +140,7 @@ const MessageBox = () => {
         readMessage(msg.id);
       },
     });
-  }, [unreadMsgs]);
+  }, [unreadMsgs, readMessage]);
 
   return (
     <Dropdown

@@ -15,7 +15,7 @@ export const EditUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => 
       setUserRole(WikiUserRole.normal);
       toggleVisible(false);
     });
-  }, [onOk, userRole]);
+  }, [onOk, userRole, toggleVisible]);
 
   return (
     <Modal
@@ -33,7 +33,11 @@ export const EditUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => 
         ) : null}
         <Select value={userRole} onChange={setUserRole} style={{ width: '100%' }}>
           {WIKI_USER_ROLES.map((wikiStatus) => {
-            return <Select.Option value={wikiStatus.value}>{wikiStatus.label}</Select.Option>;
+            return (
+              <Select.Option key={wikiStatus.value} value={wikiStatus.value}>
+                {wikiStatus.label}
+              </Select.Option>
+            );
           })}
         </Select>
         <Button theme="solid" block style={{ margin: '24px 0' }} onClick={handleOk}>

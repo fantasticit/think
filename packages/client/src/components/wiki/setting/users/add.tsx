@@ -20,7 +20,7 @@ export const AddUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => {
       setUserName('');
       toggleVisible(false);
     });
-  }, [onOk, userName, userRole]);
+  }, [onOk, userName, userRole, toggleVisible]);
 
   return (
     <Modal
@@ -40,7 +40,11 @@ export const AddUser: React.FC<IProps> = ({ visible, toggleVisible, onOk }) => {
         <Space>
           <Select value={userRole} onChange={setUserRole} style={{ width: 120 }}>
             {WIKI_USER_ROLES.map((wikiStatus) => {
-              return <Select.Option value={wikiStatus.value}>{wikiStatus.label}</Select.Option>;
+              return (
+                <Select.Option key={wikiStatus.value} value={wikiStatus.value}>
+                  {wikiStatus.label}
+                </Select.Option>
+              );
             })}
           </Select>
           <Input

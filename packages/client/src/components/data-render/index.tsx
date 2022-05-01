@@ -47,7 +47,7 @@ const defaultEmpty = () => {
   );
 };
 
-const runRender = (fn, ...args) => (typeof fn === 'function' ? fn.apply(null, args) : fn);
+const runRender = (fn, ...args) => (typeof fn === 'function' ? fn(...args) : fn);
 
 export const DataRender: React.FC<IProps> = ({
   loading,

@@ -12,7 +12,7 @@ interface IProps {
 
 export const DocumentContent: React.FC<IProps> = ({ document, createUserContainerSelector }) => {
   const c = safeJSONParse(document.content);
-  let json = c.default || c;
+  const json = c.default || c;
 
   const editor = useEditor({
     editable: false,

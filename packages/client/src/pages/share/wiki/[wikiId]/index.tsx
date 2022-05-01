@@ -1,3 +1,4 @@
+import React from 'react';
 import { NextPage } from 'next';
 import { PublicDoubleColumnLayout } from 'layouts/public-double-column';
 import { usePublicWikiHomeDoc } from 'data/wiki';

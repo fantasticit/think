@@ -148,12 +148,12 @@ export const usePublicDocument = (documentId: string) => {
         })
         .catch(setError);
     },
-    [documentId, error]
+    [fetch, documentId]
   );
 
   useEffect(() => {
     queryData();
-  }, [documentId]);
+  }, [documentId, queryData]);
 
   return {
     data: document,

@@ -40,7 +40,6 @@ interface IProps {
 }
 
 export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTemplate, deleteTemplate }) => {
-  if (!user) return null;
   const { width: windowWidth } = useWindowSize();
   const [title, setTitle] = useState(data.title);
   const provider = useMemo(() => {
@@ -51,7 +50,7 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
       user,
       docType: 'template',
     });
-  }, [data, user.token]);
+  }, [data, user]);
   const editor = useEditor({
     editable: true,
     extensions: [...BaseKit, DocumentWithTitle, getCollaborationExtension(provider)],
@@ -59,7 +58,9 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
       try {
         const title = transaction.doc.content.firstChild.content.firstChild.textContent;
         setTitle(title);
-      } catch (e) {}
+      } catch (e) {
+        //
+      }
     },
   });
   const [isPublic, setPublic] = useState(false);
@@ -76,7 +77,7 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
     deleteTemplate().then(() => {
       goback();
     });
-  }, [deleteTemplate]);
+  }, [deleteTemplate, goback]);
 
   useEffect(() => {
     if (!data) return;
@@ -98,6 +99,8 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
       window.document.removeEventListener('keydown', listener);
     };
   }, []);
+
+  if (!user) return null;
 
   return (
     <div className={styles.wrap}>

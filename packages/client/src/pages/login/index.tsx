@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import React from 'react';
 import { Form, Button, Layout, Space, Typography } from '@douyinfe/semi-ui';
 import { useUser } from 'data/user';
 import { Seo } from 'components/seo';

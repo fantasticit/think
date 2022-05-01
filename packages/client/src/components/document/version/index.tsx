@@ -32,7 +32,7 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
   const close = useCallback(() => {
     toggleVisible(false);
     setSelectedVersion(null);
-  }, []);
+  }, [toggleVisible]);
 
   const select = useCallback(
     (version) => {
@@ -46,20 +46,20 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
     if (!selectedVersion || !onSelect) return;
     onSelect(safeJSONParse(selectedVersion.data, { default: {} }).default);
     close();
-  }, [selectedVersion]);
+  }, [selectedVersion, close, onSelect]);
 
   useEffect(() => {
     if (visible) {
       refresh();
     }
-  }, [visible]);
+  }, [visible, refresh]);
 
   useEffect(() => {
     if (!editor) return;
     if (!data.length) return;
     if (selectedVersion) return;
     select(data[0]);
-  }, [editor, data, selectedVersion]);
+  }, [editor, data, selectedVersion, select]);
 
   return (
     <>

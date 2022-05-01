@@ -33,7 +33,7 @@ export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, onDelete
       okButtonProps: { loading, type: 'danger' },
       style: { maxWidth: '96vw' },
     });
-  }, [wikiId, documentId, api, loading, onDelete]);
+  }, [wikiId, api, loading, onDelete]);
 
   return (
     <Text type="danger" onClick={deleteAction}>

@@ -27,8 +27,6 @@ interface IProps {
 }
 
 export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
-  if (!documentId) return null;
-
   const [container, setContainer] = useState<HTMLDivElement>();
   const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
@@ -42,6 +40,8 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   const gotoEdit = useCallback(() => {
     Router.push(`/wiki/${document.wikiId}/document/${document.id}/edit`);
   }, [document]);
+
+  if (!documentId) return null;
 
   return (
     <div className={styles.wrap}>

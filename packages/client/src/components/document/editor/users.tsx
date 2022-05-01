@@ -15,6 +15,7 @@ interface IProps {
 const { Text } = Typography;
 const { Column } = Table;
 
+// eslint-disable-next-line react/display-name
 const renderChecked = (onChange, authKey: 'readable' | 'editable') => (checked, data) => {
   const handle = (evt) => {
     const ret = {

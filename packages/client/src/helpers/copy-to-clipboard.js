@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 
 var deselectCurrent = require('toggle-selection');
@@ -59,7 +60,7 @@ function copy(text, options) {
           window.clipboardData.clearData();
           var format = clipboardToIE11Formatting[options.format] || clipboardToIE11Formatting['default'];
           if (Array.isArray(text)) {
-            text.forEach((item) => {
+            text.forEach(function (item) {
               if (typeof item === 'string') {
                 window.clipboardData.setData(item, item);
               } else {
@@ -73,7 +74,7 @@ function copy(text, options) {
           // all other browsers
           e.clipboardData.clearData();
           if (Array.isArray(text)) {
-            text.forEach((item) => {
+            text.forEach(function (item) {
               if (typeof item === 'string') {
                 e.clipboardData.setData(item, item);
               } else {
@@ -106,7 +107,7 @@ function copy(text, options) {
     debug && console.warn('trying IE specific stuff');
     try {
       if (Array.isArray(text)) {
-        text.forEach((item) => {
+        text.forEach(function (item) {
           if (typeof item === 'string') {
             window.clipboardData.setData(item, item);
           } else {

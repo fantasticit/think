@@ -34,7 +34,7 @@ export const Recent = () => {
                       {recentDocs.length ? (
                         recentDocs.map((doc) => {
                           return (
-                            <div className={styles.itemWrap}>
+                            <div className={styles.itemWrap} key={doc.id}>
                               <Link
                                 href={{
                                   pathname: '/wiki/[wikiId]/document/[documentId]',

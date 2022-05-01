@@ -1,10 +1,9 @@
-const semi = require('@douyinfe/semi-next').default({});
+/* eslint-disable */
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { getConfig } = require('@think/config');
 const config = getConfig();
 
-/** @type {import('next').NextConfig} */
-const nextConfig = semi({
+const nextConfig = require('@douyinfe/semi-next').default({})({
   assetPrefix: config.assetPrefix,
   env: {
     SERVER_API_URL: config?.client?.apiUrl,

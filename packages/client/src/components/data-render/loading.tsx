@@ -28,7 +28,7 @@ export const LoadingWrap: React.FC<IProps> = ({ loading, delay = 200, loadingCon
     return () => {
       clearTimeout(timer.current);
     };
-  }, [delay, loading]);
+  }, [delay, loading, toggleShowLoading]);
 
   if (loading) {
     return showLoading ? loadingContent : null;

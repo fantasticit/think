@@ -67,7 +67,7 @@ const RecentDocs = () => {
         )}
       />,
     ],
-    []
+    [refresh]
   );
 
   return (

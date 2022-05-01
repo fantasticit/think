@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import React from 'react';
 import { DoubleColumnLayout } from 'layouts/double-column';
 import { useWikiHomeDoc } from 'data/wiki';
 import { DataRender } from 'components/data-render';
@@ -14,7 +15,7 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
 
   return (
     <DoubleColumnLayout
-      leftNode={<WikiTocs pageTitle="概览" wikiId={wikiId} />}
+      leftNode={<WikiTocs wikiId={wikiId} />}
       rightNode={
         <DataRender
           loading={loading}

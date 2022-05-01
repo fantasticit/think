@@ -14,18 +14,21 @@ export const useUser = () => {
     window.localStorage.removeItem('token');
     mutate(null);
     Router.replace('/login');
-  }, []);
+  }, [mutate]);
 
-  const login = useCallback((data) => {
-    HttpClient.post<IUser>('/user/login', data).then((res) => {
-      const user = res as unknown as ILoginUser;
-      mutate(user);
-      setStorage('user', JSON.stringify(user));
-      user.token && setStorage('token', user.token);
-      const next = router.query?.redirect || '/';
-      Router.replace(next as string);
-    });
-  }, []);
+  const login = useCallback(
+    (data) => {
+      HttpClient.post<IUser>('/user/login', data).then((res) => {
+        const user = res as unknown as ILoginUser;
+        mutate(user);
+        setStorage('user', JSON.stringify(user));
+        user.token && setStorage('token', user.token);
+        const next = router.query?.redirect || '/';
+        Router.replace(next as string);
+      });
+    },
+    [mutate, router.query?.redirect]
+  );
 
   const updateUser = async (patch: Pick<IUser, 'email' | 'avatar'>) => {
     const res = await HttpClient.patch('/user/update', patch);
@@ -36,7 +39,7 @@ export const useUser = () => {
 
   useEffect(() => {
     mutate();
-  }, []);
+  }, [mutate]);
 
   return {
     user: data,

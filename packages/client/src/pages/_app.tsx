@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import React from 'react';
 import { useTheme } from 'hooks/use-theme';
 import 'viewerjs/dist/viewer.css';
 import 'styles/globals.scss';

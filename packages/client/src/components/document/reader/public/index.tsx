@@ -37,8 +37,6 @@ interface IProps {
 }
 
 export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = true }) => {
-  if (!documentId) return null;
-
   const { data, loading, error, query } = usePublicDocument(documentId);
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
@@ -71,6 +69,8 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
       },
     });
   }, [error, query]);
+
+  if (!documentId) return null;
 
   return (
     <Layout className={styles.wrap}>

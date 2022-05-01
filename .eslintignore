@@ -1,0 +1,6 @@
+node_modules
+**/.next/**
+**/_next/**
+**/dist/**
+./packages/client/src/tiptap/next.config.js
+./packages/client/src/tiptap/wrappers/mind/mind-elixir/iconfont/iconfont.js

@@ -56,7 +56,7 @@ const AddDocument = () => {
     return () => {
       event.off(CREATE_DOCUMENT, handler);
     };
-  }, []);
+  }, [toggleVisible]);
 
   return (
     <DocumenCreatorForm wikiId={wikiId} parentDocumentId={documentId} visible={visible} toggleVisible={toggleVisible} />
@@ -85,7 +85,7 @@ export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId, isShare
         {isShareMode ? null : renderBtn(item)}
       </div>
     ),
-    [isShareMode]
+    [isShareMode, docAsLink, getDocLink, renderBtn]
   );
 
   useEffect(() => {

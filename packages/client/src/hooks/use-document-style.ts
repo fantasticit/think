@@ -39,7 +39,7 @@ export const useDocumentStyle = () => {
 
   useEffect(() => {
     mutate();
-  }, []);
+  }, [mutate]);
 
   return {
     width: (data && data.width) || DEFAULT_WIDTH,

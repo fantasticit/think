@@ -26,7 +26,7 @@ export const Documents: React.FC<IProps> = ({ wikiId }) => {
   const [publicDocumentIds, setPublicDocumentIds] = useState([]); // 公开的
   const privateDocumentIds = useMemo(() => {
     return documents.filter((doc) => !publicDocumentIds.includes(doc.id)).map((doc) => doc.id);
-  }, [tocs, publicDocumentIds]);
+  }, [documents, publicDocumentIds]);
 
   const submit = () => {
     const data = { nextStatus, publicDocumentIds, privateDocumentIds };
@@ -77,7 +77,7 @@ export const Documents: React.FC<IProps> = ({ wikiId }) => {
     if (!documents.length) return;
     const activeIds = documents.filter((doc) => isPublicDocument(doc.status)).map((doc) => doc.id);
     setPublicDocumentIds(activeIds);
-  }, [tocs]);
+  }, [tocs, documents]);
 
   return (
     <div className={styles.wrap}>
@@ -115,7 +115,11 @@ export const Documents: React.FC<IProps> = ({ wikiId }) => {
         </Title>
         <RadioGroup direction="vertical" value={nextStatus} onChange={(e) => setNextStatus(e.target.value)}>
           {WIKI_STATUS_LIST.map((status) => {
-            return <Radio value={status.value}>{status.label}</Radio>;
+            return (
+              <Radio key={status.value} value={status.value}>
+                {status.label}
+              </Radio>
+            );
           })}
         </RadioGroup>
       </div>

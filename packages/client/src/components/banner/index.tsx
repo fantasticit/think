@@ -22,7 +22,7 @@ export const Banner: React.FC<IProps> = ({ type, description, duration = 0 }) =>
     return () => {
       clearTimeout(timer.current);
     };
-  }, [duration]);
+  }, [duration, toggleVisible]);
 
   if (!visible) return null;
 
