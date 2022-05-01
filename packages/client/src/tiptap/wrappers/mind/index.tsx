@@ -10,7 +10,7 @@ import styles from './index.module.scss';
 
 const { Text } = Typography;
 
-const INHERIT_SIZE_STYLE = { width: '100%', height: '100%' };
+const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
 
 export const MindWrapper = ({ editor, node, updateAttributes }) => {
   const $container = useRef<HTMLDivElement>();

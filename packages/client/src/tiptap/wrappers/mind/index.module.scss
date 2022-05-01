@@ -12,17 +12,4 @@
       background-color: transparent !important;
     }
   }
-
-  .toolbarWrap {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    opacity: 0;
-  }
-
-  &:hover {
-    .toolbarWrap {
-      opacity: 1;
-    }
-  }
 }
