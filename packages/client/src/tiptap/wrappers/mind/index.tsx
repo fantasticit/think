@@ -1,6 +1,7 @@
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import clone from 'clone';
+import deepEqual from 'deep-equal';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Spin, Typography } from '@douyinfe/semi-ui';
 import { Resizeable } from 'components/resizeable';
@@ -80,6 +81,17 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
 
     let mind = null;
 
+    let isEnter = false;
+    const onMouseEnter = () => {
+      isEnter = true;
+    };
+    const onMouseLeave = () => {
+      isEnter = false;
+    };
+
+    $container.current.addEventListener('onmouseenter', onMouseEnter);
+    $container.current.addEventListener('onMouseLeave', onMouseLeave);
+
     try {
       mind = new window.MindElixir({
         el: `#${containerId.current}`,
@@ -93,7 +105,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
         draggable: false, // TODO: 需要修复
         locale: 'zh_CN',
       });
-      mind.shouldPreventDefault = () => editor.isActive('mind');
+      mind.shouldPreventDefault = () => isEnter && editor.isActive('mind');
       mind.init();
       mind.bus.addListener('operation', onChange);
       $mind.current = mind;
@@ -103,11 +115,25 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     }
 
     return () => {
+      if ($container.current) {
+        $container.current.removeEventListener('onmouseenter', onMouseEnter);
+        $container.current.removeEventListener('onMouseLeave', onMouseLeave);
+      }
+
       if (mind) {
         mind.destroy();
       }
     };
   }, [loading, editor, updateAttributes]);
+
+  useEffect(() => {
+    const mind = $mind.current;
+    if (!mind) return;
+    const newData = clone(data);
+    if (!deepEqual(newData, mind.getAllData())) {
+      mind.update(newData);
+    }
+  }, [data]);
 
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>

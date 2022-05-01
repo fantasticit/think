@@ -403,6 +403,17 @@ MindElixir.prototype = {
     if (!this.overflowHidden) initMouseEvent(this);
   },
 
+  update(data) {
+    const { linkData, nodeData } = data || MindElixir.new('新文档');
+    if (linkData) {
+      this.linkData = linkData;
+    }
+    if (nodeData) {
+      this.nodeData = nodeData;
+    }
+    this.refresh();
+  },
+
   destroy: function () {
     this.bus.destroy();
     this.mindElixirBox.removeChild(this.container);

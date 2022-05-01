@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { Button, Space } from '@douyinfe/semi-ui';
+import { Button, Space, Toast } from '@douyinfe/semi-ui';
 import {
   IconMindLeft,
   IconMindRight,
@@ -19,6 +19,10 @@ function Operation({ mind }) {
         theme="borderless"
         size="small"
         onClick={() => {
+          if (!mind.container.requestFullscreen) {
+            Toast.error('当前浏览器不支持全屏');
+            return;
+          }
           mind.container.requestFullscreen();
         }}
         icon={<IconMindFull style={{ fontSize: '0.85em' }} />}
