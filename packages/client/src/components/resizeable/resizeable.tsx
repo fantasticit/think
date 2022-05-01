@@ -29,6 +29,11 @@ function clamp(val: number, min: number, max: number): string {
   return '' + val;
 }
 
+function calcWidth(width, minWidth, maxWidth) {
+  const val = parseInt(clamp(width, minWidth, maxWidth || Infinity));
+  return val === maxWidth ? '100%' : val;
+}
+
 export const Resizeable: React.FC<IProps> = ({
   width,
   height,
@@ -72,7 +77,7 @@ export const Resizeable: React.FC<IProps> = ({
 
           const cloneNode = $cloneNode.current;
           let { width, height } = event.rect;
-          width = parseInt(clamp(width, MIN_WIDTH, maxWidth || Infinity));
+          width = calcWidth(width, MIN_WIDTH, maxWidth || Infinity);
           height = parseInt(clamp(height, MIN_HEIGHT, Infinity));
           Object.assign(cloneNode.style, {
             width: `${width}px`,
@@ -87,7 +92,7 @@ export const Resizeable: React.FC<IProps> = ({
         },
         end: function (event) {
           let { width, height } = event.rect;
-          width = clamp(width, MIN_WIDTH, maxWidth || Infinity);
+          width = calcWidth(width, MIN_WIDTH, maxWidth || Infinity);
           height = clamp(height, MIN_HEIGHT, Infinity);
 
           const cloneNode = $cloneNode.current;
