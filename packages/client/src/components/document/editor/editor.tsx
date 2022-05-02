@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import React, { useMemo, useEffect, useState, useRef } from 'react';
 import cls from 'classnames';
+import deepEqual from 'deep-equal';
 import { BackTop, Toast, Spin, Typography } from '@douyinfe/semi-ui';
 import { ILoginUser, IAuthority } from '@think/domains';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
@@ -40,7 +41,7 @@ interface IProps {
 
 const { Text } = Typography;
 
-export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, authority, className, style }) => {
+export const _Editor: React.FC<IProps> = ({ user: currentUser, documentId, authority, className, style }) => {
   const $hasShowUserSettingModal = useRef(false);
   const { users, addUser, updateUser } = useCollaborationDocument(documentId);
   const [status, setStatus] = useState<ProviderStatus>('connecting');
@@ -251,3 +252,15 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
     />
   );
 };
+
+export const Editor = React.memo(_Editor, (prevProps, nextProps) => {
+  if (deepEqual(prevProps, nextProps)) return true;
+  Toast.info({
+    content: '信息已更新，我们将为您重新加载页面！',
+    duration: 3,
+    onClose() {
+      Router.reload();
+    },
+  });
+  return false;
+});

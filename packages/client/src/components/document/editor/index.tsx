@@ -117,7 +117,6 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
               <>
                 <Seo title={document.title} />
                 <Editor
-                  key={document.id}
                   user={user}
                   documentId={document.id}
                   authority={authority}
