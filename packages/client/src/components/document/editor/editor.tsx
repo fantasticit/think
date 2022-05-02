@@ -65,6 +65,9 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
         onSynced() {
           toggleLoading(false);
         },
+        onStatus({ status }) {
+          setStatus(status);
+        },
       },
     });
   }, [documentId, currentUser, toggleLoading]);
@@ -85,21 +88,14 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
           //
         }
       }, 50),
+      onDestroy() {
+        destoryProvider(provider, 'EDITOR');
+      },
     },
     [authority, provider]
   );
   const [mentionUsersSettingVisible, toggleMentionUsersSettingVisible] = useToggle(false);
   const [mentionUsers, setMentionUsers] = useState([]);
-
-  useEffect(() => {
-    provider.on('status', async ({ status }) => {
-      setStatus(status);
-    });
-
-    return () => {
-      destoryProvider(provider, 'EDITOR');
-    };
-  }, [documentId, provider, authority]);
 
   useEffect(() => {
     if (!authority || !authority.editable) return;

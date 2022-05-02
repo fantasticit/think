@@ -64,13 +64,10 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document, children 
       // @ts-ignore
       taskItemClickable: true,
     },
-  });
-
-  useEffect(() => {
-    return () => {
+    onDestroy() {
       destoryProvider(provider, 'READER');
-    };
-  }, [provider]);
+    },
+  });
 
   return (
     <DataRender
