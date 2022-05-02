@@ -1,33 +1,47 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Editor } from '@tiptap/core';
 import { Button } from '@douyinfe/semi-ui';
 import { IconFont } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { isTitleActive } from 'tiptap/prose-utils';
+import { useActive } from 'tiptap/hooks/use-active';
+import { Title } from 'tiptap/extensions/title';
+import { TextStyle } from 'tiptap/extensions/text-style';
+import { useAttributes } from 'tiptap/hooks/use-attributes';
 import { ColorPicker } from '../_components/color-picker';
 
+type Color = { color: string };
+
+const FlexStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+} as React.CSSProperties;
+
 export const TextColor: React.FC<{ editor: Editor }> = ({ editor }) => {
-  const { color } = editor.getAttributes('textStyle');
+  const isTitleActive = useActive(editor, Title.name);
+  const isTextStyleActive = useActive(editor, TextStyle.name);
+  const color = useAttributes<Color, Color['color']>(
+    editor,
+    'textStyle',
+    { color: 'transparent' },
+    (attrs) => attrs.color
+  );
+
+  const setColor = useCallback(
+    (color) => {
+      color ? editor.chain().focus().setColor(color).run() : editor.chain().focus().unsetColor().run();
+    },
+    [editor]
+  );
 
   return (
-    <ColorPicker
-      onSetColor={(color) => {
-        color ? editor.chain().focus().setColor(color).run() : editor.chain().focus().unsetColor().run();
-      }}
-      disabled={isTitleActive(editor)}
-    >
+    <ColorPicker onSetColor={setColor} disabled={isTitleActive}>
       <Tooltip content="文本色">
         <Button
-          theme={editor.isActive('textStyle') ? 'light' : 'borderless'}
+          theme={isTextStyleActive ? 'light' : 'borderless'}
           type={'tertiary'}
           icon={
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
+            <div style={FlexStyle}>
               <IconFont style={{ fontSize: '0.85em' }} />
               <span
                 style={{
@@ -38,7 +52,7 @@ export const TextColor: React.FC<{ editor: Editor }> = ({ editor }) => {
               ></span>
             </div>
           }
-          disabled={isTitleActive(editor)}
+          disabled={isTitleActive}
         />
       </Tooltip>
     </ColorPicker>

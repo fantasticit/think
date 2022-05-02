@@ -3,20 +3,20 @@ import { sinkListItem, liftListItem } from 'prosemirror-schema-list';
 import { TextSelection, AllSelection, Transaction } from 'prosemirror-state';
 import { isListActive, isListNode, clamp, getNodeType } from 'tiptap/prose-utils';
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    indent: {
+      indent: () => ReturnType;
+      outdent: () => ReturnType;
+    };
+  }
+}
+
 type IndentOptions = {
   types: string[];
   indentLevels: number[];
   defaultIndentLevel: number;
 };
-
-declare module '@tiptap/core' {
-  interface Commands {
-    indent: {
-      indent: () => Command;
-      outdent: () => Command;
-    };
-  }
-}
 
 export enum IndentProps {
   min = 0,

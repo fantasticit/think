@@ -20,7 +20,9 @@ import { GridSelect } from 'components/grid-select';
 import { useToggle } from 'hooks/use-toggle';
 import { useUser } from 'data/user';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
-import { isTitleActive, getEditorContainerDOMSize } from 'tiptap/prose-utils';
+import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
+import { useActive } from 'tiptap/hooks/use-active';
+import { Title } from 'tiptap/extensions/title';
 import { createCountdown } from '../countdown/service';
 
 const insertMenuLRUCache = createKeysLocalStorageLRUCache('TIPTAP_INSERT_MENU', 3);
@@ -34,6 +36,7 @@ const COMMANDS = [
     label: '表格',
     custom: (editor, runCommand) => (
       <Popover
+        key="table"
         showArrow
         position="rightTop"
         zIndex={10000}
@@ -130,6 +133,7 @@ const COMMANDS = [
 export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
   const { user } = useUser();
   const [recentUsed, setRecentUsed] = useState([]);
+  const isTitleActive = useActive(editor, Title.name);
   const [visible, toggleVisible] = useToggle(false);
 
   const renderedCommands = useMemo(
@@ -194,7 +198,7 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
     >
       <div>
         <Tooltip content="插入">
-          <Button type="tertiary" theme="borderless" icon={<IconPlus />} disabled={isTitleActive(editor)} />
+          <Button type="tertiary" theme="borderless" icon={<IconPlus />} disabled={isTitleActive} />
         </Tooltip>
       </div>
     </Dropdown>

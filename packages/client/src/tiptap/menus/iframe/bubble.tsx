@@ -7,6 +7,7 @@ import { Tooltip } from 'components/tooltip';
 import { BubbleMenu } from 'tiptap/views/bubble-menu';
 import { Iframe } from 'tiptap/extensions/iframe';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
+import { useAttributes } from 'tiptap/hooks/use-attributes';
 import { Divider } from 'tiptap/divider';
 import { Size } from '../_components/size';
 
@@ -16,8 +17,7 @@ const EXAMPLE_LINK =
   'https://proxy.tencentsuite.com/openapi/proxy/v2/addon?uid=144115212008575217&creator=144115212008575217&redirect=https%3A%2F%2Fi.y.qq.com%2Fn2%2Fm%2Foutchain%2Fplayer%2Findex.html%3Fsongid%3D5408217&docType=1&docID=300000000$RwqOunTcpXjs&addonID=0b69e1b9517e44a4aee35d33ee021b55&packageID=817&nonce=m3rqxn';
 
 export const IframeBubbleMenu = ({ editor }) => {
-  const attrs = editor.getAttributes(Iframe.name);
-  const { width, height, url } = attrs;
+  const { width, height, url } = useAttributes(editor, Iframe.name, { width: 0, height: 0, url: '' });
   const $form = useRef<FormApi>();
   const [visible, toggleVisible] = useToggle(false);
 
@@ -58,11 +58,14 @@ export const IframeBubbleMenu = ({ editor }) => {
     [editor]
   );
 
+  const copyMe = useCallback(() => copyNode(Iframe.name, editor), [editor]);
+  const deleteMe = useCallback(() => deleteNode(Iframe.name, editor), [editor]);
+
   return (
     <BubbleMenu
       className={'bubble-menu'}
       editor={editor}
-      pluginKey="link-bubble-menu"
+      pluginKey="iframe-bubble-menu"
       shouldShow={() => editor.isActive(Iframe.name)}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
@@ -93,15 +96,9 @@ export const IframeBubbleMenu = ({ editor }) => {
         </Form>
       </Modal>
 
-      <Space>
+      <Space spacing={4}>
         <Tooltip content="复制">
-          <Button
-            onClick={() => copyNode(Iframe.name, editor)}
-            icon={<IconCopy />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={copyMe} icon={<IconCopy />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Tooltip content="访问链接">
@@ -121,13 +118,7 @@ export const IframeBubbleMenu = ({ editor }) => {
         <Divider />
 
         <Tooltip content="删除节点" hideOnClick>
-          <Button
-            onClick={() => deleteNode(Iframe.name, editor)}
-            icon={<IconDelete />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={deleteMe} icon={<IconDelete />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
       </Space>
     </BubbleMenu>

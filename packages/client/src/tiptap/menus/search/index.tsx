@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Popover, Button, Typography, Input, Space } from '@douyinfe/semi-ui';
 import { Editor } from '@tiptap/core';
 import { Tooltip } from 'components/tooltip';
@@ -8,11 +8,17 @@ import { SearchNReplace } from 'tiptap/extensions/search';
 const { Text } = Typography;
 
 export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
-  const searchExtension = editor.extensionManager.extensions.find((ext) => ext.name === SearchNReplace.name);
-  const currentIndex = searchExtension ? searchExtension.options.currentIndex : -1;
-  const results = searchExtension ? searchExtension.options.results : [];
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [results, setResults] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [replaceValue, setReplaceValue] = useState('');
+
+  const onVisibleChange = useCallback((visible) => {
+    if (!visible) {
+      setSearchValue('');
+      setReplaceValue('');
+    }
+  }, []);
 
   useEffect(() => {
     if (editor && editor.commands && editor.commands.setSearchTerm) {
@@ -26,18 +32,33 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
     }
   }, [replaceValue, editor]);
 
+  useEffect(() => {
+    const searchExtension = editor.extensionManager.extensions.find((ext) => ext.name === SearchNReplace.name);
+
+    if (!searchExtension) return;
+
+    const listener = () => {
+      const currentIndex = searchExtension ? searchExtension.options.currentIndex : -1;
+      const results = searchExtension ? searchExtension.options.results : [];
+      setCurrentIndex(currentIndex);
+      setResults(results);
+    };
+
+    searchExtension.options.onChange = listener;
+
+    return () => {
+      if (!searchExtension) return;
+      delete searchExtension.options.onChange;
+    };
+  }, [editor]);
+
   return (
     <Popover
       showArrow
       zIndex={10000}
       trigger="click"
       position="bottomRight"
-      onVisibleChange={(visible) => {
-        if (!visible) {
-          setSearchValue('');
-          setReplaceValue('');
-        }
-      }}
+      onVisibleChange={onVisibleChange}
       content={
         <div>
           <div style={{ marginBottom: 12 }}>
@@ -45,29 +66,29 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
             <Input
               autofocus
               value={searchValue}
-              onChange={(v) => setSearchValue(v)}
+              onChange={setSearchValue}
               suffix={results.length ? `${currentIndex + 1}/${results.length}` : ''}
             />
           </div>
           <div style={{ marginBottom: 12 }}>
             <Text type="tertiary">替换为</Text>
-            <Input value={replaceValue} onChange={(v) => setReplaceValue(v)} />
+            <Input value={replaceValue} onChange={setReplaceValue} />
           </div>
           <div>
             <Space>
-              <Button disabled={!results.length} onClick={() => editor.commands.replaceAll()}>
+              <Button disabled={!results.length} onClick={editor.commands.replaceAll}>
                 全部替换
               </Button>
 
-              <Button disabled={!results.length} onClick={() => editor.commands.replace()}>
+              <Button disabled={!results.length} onClick={editor.commands.replace}>
                 替换
               </Button>
 
-              <Button disabled={!results.length} onClick={() => editor.commands.goToPrevSearchResult()}>
+              <Button disabled={!results.length} onClick={editor.commands.goToPrevSearchResult}>
                 上一个
               </Button>
 
-              <Button disabled={!results.length} onClick={() => editor.commands.goToNextSearchResult()}>
+              <Button disabled={!results.length} onClick={editor.commands.goToNextSearchResult}>
                 下一个
               </Button>
             </Space>

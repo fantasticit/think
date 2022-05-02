@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
 import { IconCopy } from '@douyinfe/semi-icons';
 import {
@@ -21,6 +22,20 @@ import { Table } from 'tiptap/extensions/table';
 import { copyNode } from 'tiptap/prose-utils';
 
 export const TableBubbleMenu = ({ editor }) => {
+  const copyMe = useCallback(() => copyNode(Table.name, editor), [editor]);
+  const deleteMe = useCallback(() => editor.chain().focus().deleteTable(), [editor]);
+  const addColumnBefore = useCallback(() => editor.chain().focus().addColumnBefore().run(), [editor]);
+  const addColumnAfter = useCallback(() => editor.chain().focus().addColumnAfter().run(), [editor]);
+  const deleteColumn = useCallback(() => editor.chain().focus().deleteColumn().run(), [editor]);
+  const addRowBefore = useCallback(() => editor.chain().focus().addRowBefore().run(), [editor]);
+  const addRowAfter = useCallback(() => editor.chain().focus().addRowAfter().run(), [editor]);
+  const deleteRow = useCallback(() => editor.chain().focus().deleteRow().run(), [editor]);
+  const toggleHeaderColumn = useCallback(() => editor.chain().focus().toggleHeaderColumn().run(), [editor]);
+  const toggleHeaderRow = useCallback(() => editor.chain().focus().toggleHeaderRow().run(), [editor]);
+  const toggleHeaderCell = useCallback(() => editor.chain().focus().toggleHeaderCell().run(), [editor]);
+  const mergeCells = useCallback(() => editor.chain().focus().mergeCells().run(), [editor]);
+  const splitCell = useCallback(() => editor.chain().focus().splitCell().run(), [editor]);
+
   return (
     <BubbleMenu
       className={'bubble-menu bubble-menu-table'}
@@ -32,22 +47,16 @@ export const TableBubbleMenu = ({ editor }) => {
       }}
       matchRenderContainer={(node: HTMLElement) => node && node.tagName === 'TABLE'}
     >
-      <Space>
+      <Space spacing={4}>
         <Tooltip content="复制">
-          <Button
-            onClick={() => copyNode(Table.name, editor)}
-            icon={<IconCopy />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={copyMe} icon={<IconCopy />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Divider />
 
         <Tooltip content="向前插入一列">
           <Button
-            onClick={() => editor.chain().focus().addColumnBefore().run()}
+            onClick={addColumnBefore}
             icon={<IconAddColumnBefore />}
             type="tertiary"
             theme="borderless"
@@ -57,7 +66,7 @@ export const TableBubbleMenu = ({ editor }) => {
 
         <Tooltip content="向后插入一列">
           <Button
-            onClick={() => editor.chain().focus().addColumnAfter().run()}
+            onClick={addColumnAfter}
             icon={<IconAddColumnAfter />}
             type="tertiary"
             theme="borderless"
@@ -65,45 +74,21 @@ export const TableBubbleMenu = ({ editor }) => {
           />
         </Tooltip>
         <Tooltip content="删除当前列" hideOnClick>
-          <Button
-            onClick={() => editor.chain().focus().deleteColumn().run()}
-            icon={<IconDeleteColumn />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={deleteColumn} icon={<IconDeleteColumn />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Divider />
 
         <Tooltip content="向前插入一行">
-          <Button
-            onClick={() => editor.chain().focus().addRowBefore().run()}
-            icon={<IconAddRowBefore />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={addRowBefore} icon={<IconAddRowBefore />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Tooltip content="向后插入一行">
-          <Button
-            onClick={() => editor.chain().focus().addRowAfter().run()}
-            icon={<IconAddRowAfter />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={addRowAfter} icon={<IconAddRowAfter />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Tooltip content="删除当前行" hideOnClick>
-          <Button
-            onClick={() => editor.chain().focus().deleteRow().run()}
-            icon={<IconDeleteRow />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={deleteRow} icon={<IconDeleteRow />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Divider />
@@ -114,7 +99,7 @@ export const TableBubbleMenu = ({ editor }) => {
             type="tertiary"
             theme="borderless"
             icon={<IconTableHeaderColumn />}
-            onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
+            onClick={toggleHeaderColumn}
           />
         </Tooltip>
 
@@ -124,7 +109,7 @@ export const TableBubbleMenu = ({ editor }) => {
             type="tertiary"
             theme="borderless"
             icon={<IconTableHeaderRow />}
-            onClick={() => editor.chain().focus().toggleHeaderRow().run()}
+            onClick={toggleHeaderRow}
           />
         </Tooltip>
 
@@ -134,42 +119,24 @@ export const TableBubbleMenu = ({ editor }) => {
             type="tertiary"
             theme="borderless"
             icon={<IconTableHeaderCell />}
-            onClick={() => editor.chain().focus().toggleHeaderCell().run()}
+            onClick={toggleHeaderCell}
           />
         </Tooltip>
 
         <Divider />
 
         <Tooltip content="合并单元格">
-          <Button
-            size="small"
-            type="tertiary"
-            theme="borderless"
-            icon={<IconMergeCell />}
-            onClick={() => editor.chain().focus().mergeCells().run()}
-          />
+          <Button size="small" type="tertiary" theme="borderless" icon={<IconMergeCell />} onClick={mergeCells} />
         </Tooltip>
 
         <Tooltip content="分离单元格">
-          <Button
-            size="small"
-            type="tertiary"
-            theme="borderless"
-            icon={<IconSplitCell />}
-            onClick={() => editor.chain().focus().splitCell().run()}
-          />
+          <Button size="small" type="tertiary" theme="borderless" icon={<IconSplitCell />} onClick={splitCell} />
         </Tooltip>
 
         <Divider />
 
         <Tooltip content="删除表格" hideOnClick>
-          <Button
-            size="small"
-            type="tertiary"
-            theme="borderless"
-            icon={<IconDeleteTable />}
-            onClick={() => editor.chain().focus().deleteTable().run()}
-          />
+          <Button size="small" type="tertiary" theme="borderless" icon={<IconDeleteTable />} onClick={deleteMe} />
         </Tooltip>
       </Space>
     </BubbleMenu>

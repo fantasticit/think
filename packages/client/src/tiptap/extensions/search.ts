@@ -43,6 +43,7 @@ interface SearchOptions {
   searchResultCurrentClass: string;
   caseSensitive: boolean;
   disableRegex: boolean;
+  onChange?: () => void;
 }
 
 interface TextNodesWithPosition {
@@ -216,6 +217,7 @@ export const SearchNReplace = Extension.create<SearchOptions>({
       searchResultCurrentClass: 'search-result-current',
       caseSensitive: false,
       disableRegex: false,
+      onChange: () => {},
     };
   },
 
@@ -279,7 +281,7 @@ export const SearchNReplace = Extension.create<SearchOptions>({
           const { currentIndex, results, searchResultCurrentClass } = this.options;
           const nextIndex = (currentIndex + results.length - 1) % results.length;
           this.options.currentIndex = nextIndex;
-
+          this.options.onChange && this.options.onChange();
           return gotoSearchResult({
             view,
             tr,
@@ -294,7 +296,7 @@ export const SearchNReplace = Extension.create<SearchOptions>({
           const { currentIndex, results, searchResultCurrentClass } = this.options;
           const nextIndex = (currentIndex + 1) % results.length;
           this.options.currentIndex = nextIndex;
-
+          this.options.onChange && this.options.onChange();
           return gotoSearchResult({
             view,
             tr,
@@ -330,6 +332,10 @@ export const SearchNReplace = Extension.create<SearchOptions>({
                 searchResultClass
               );
               extensionThis.options.results = results;
+
+              if (results.length && searchTerm) {
+                extensionThis.options.onChange && extensionThis.options.onChange();
+              }
 
               if (ctx.getMeta('directDecoration')) {
                 const { fromPos, toPos, attrs } = ctx.getMeta('directDecoration');

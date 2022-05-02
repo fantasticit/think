@@ -44,6 +44,8 @@ import { Table } from './menus/table';
 import { Mind } from './menus/mind';
 
 const _MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
+  if (!editor) return null;
+
   return (
     <div>
       <Space spacing={2}>

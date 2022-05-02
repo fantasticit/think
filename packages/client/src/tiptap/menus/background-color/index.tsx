@@ -1,40 +1,50 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Editor } from '@tiptap/core';
 import { Button } from '@douyinfe/semi-ui';
 import { IconMark } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
-import { isTitleActive } from 'tiptap/prose-utils';
+import { useAttributes } from 'tiptap/hooks/use-attributes';
+import { useActive } from 'tiptap/hooks/use-active';
+import { Title } from 'tiptap/extensions/title';
 import { ColorPicker } from '../_components/color-picker';
 
+const FlexStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+};
+
 export const BackgroundColor: React.FC<{ editor: Editor }> = ({ editor }) => {
-  const { backgroundColor } = editor.getAttributes('textStyle');
+  const backgroundColor = useAttributes(
+    editor,
+    'textStyle',
+    { backgroundColor: 'transparent' },
+    (attrs) => attrs.backgroundColor
+  );
+  const isTitleActive = useActive(editor, Title.name);
+
+  const setBackgroundColor = useCallback(
+    (color) => {
+      color
+        ? editor.chain().focus().setBackgroundColor(color).run()
+        : editor.chain().focus().unsetBackgroundColor().run();
+    },
+    [editor]
+  );
 
   return (
-    <ColorPicker
-      onSetColor={(color) => {
-        color
-          ? editor.chain().focus().setBackgroundColor(color).run()
-          : editor.chain().focus().unsetBackgroundColor().run();
-      }}
-      disabled={isTitleActive(editor)}
-    >
+    <ColorPicker onSetColor={setBackgroundColor} disabled={isTitleActive}>
       <Tooltip content="背景色">
         <Button
           theme={editor.isActive('textStyle') ? 'light' : 'borderless'}
           type={'tertiary'}
           icon={
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
+            <div style={FlexStyle}>
               <IconMark />
               <span style={{ backgroundColor, width: 12, height: 2 }}></span>
             </div>
           }
-          disabled={isTitleActive(editor)}
+          disabled={isTitleActive}
         />
       </Tooltip>
     </ColorPicker>

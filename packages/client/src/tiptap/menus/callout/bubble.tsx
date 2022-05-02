@@ -32,23 +32,20 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
     [editor]
   );
 
+  const copyMe = useCallback(() => copyNode(Callout.name, editor), [editor]);
+  const deleteMe = useCallback(() => deleteNode(Callout.name, editor), [editor]);
+
   return (
     <BubbleMenu
       className={'bubble-menu'}
       editor={editor}
-      pluginKey="banner-bubble-menu"
+      pluginKey="calloyt-bubble-menu"
       shouldShow={() => editor.isActive(Callout.name)}
       matchRenderContainer={(node) => node && node.id === 'js-bannber-container'}
     >
-      <Space>
+      <Space spacing={4}>
         <Tooltip content="复制">
-          <Button
-            onClick={() => copyNode(Callout.name, editor)}
-            icon={<IconCopy />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={copyMe} icon={<IconCopy />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Popover
@@ -103,15 +100,11 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
         >
           <Button icon={<IconDrawBoard />} type="tertiary" theme="borderless" size="small" />
         </Popover>
+
         <Divider />
+
         <Tooltip content="删除" hideOnClick>
-          <Button
-            size="small"
-            type="tertiary"
-            theme="borderless"
-            icon={<IconDelete />}
-            onClick={() => deleteNode(Callout.name, editor)}
-          />
+          <Button size="small" type="tertiary" theme="borderless" icon={<IconDelete />} onClick={deleteMe} />
         </Tooltip>
       </Space>
     </BubbleMenu>

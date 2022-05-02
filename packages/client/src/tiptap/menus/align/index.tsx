@@ -1,26 +1,35 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Editor } from '@tiptap/core';
 import { Button, Dropdown, Tooltip } from '@douyinfe/semi-ui';
 import { IconAlignLeft, IconAlignCenter, IconAlignRight, IconAlignJustify } from '@douyinfe/semi-icons';
-import { isTitleActive } from 'tiptap/prose-utils';
+import { useActive } from 'tiptap/hooks/use-active';
+import { Title } from 'tiptap/extensions/title';
 
 export const Align: React.FC<{ editor: Editor }> = ({ editor }) => {
-  const current = (() => {
-    if (editor.isActive({ textAlign: 'center' })) {
+  const isTitleActive = useActive(editor, Title.name);
+  const isAlignCenter = useActive(editor, { textAlign: 'center' });
+  const isAlignRight = useActive(editor, { textAlign: 'right' });
+  const isAlignJustify = useActive(editor, { textAlign: 'justify' });
+
+  const current = useMemo(() => {
+    if (isAlignCenter) {
       return <IconAlignCenter />;
     }
-    if (editor.isActive({ textAlign: 'right' })) {
+    if (isAlignRight) {
       return <IconAlignRight />;
     }
-    if (editor.isActive({ textAlign: 'justify' })) {
+    if (isAlignJustify) {
       return <IconAlignJustify />;
     }
     return <IconAlignLeft />;
-  })();
+  }, [isAlignCenter, isAlignRight, isAlignJustify]);
 
-  const toggle = (align) => {
-    return () => editor.chain().focus().setTextAlign(align).run();
-  };
+  const toggle = useCallback(
+    (align) => {
+      return () => editor.chain().focus().setTextAlign(align).run();
+    },
+    [editor]
+  );
 
   return (
     <Dropdown
@@ -47,7 +56,7 @@ export const Align: React.FC<{ editor: Editor }> = ({ editor }) => {
     >
       <span>
         <Tooltip content="对齐方式" spacing={6}>
-          <Button type="tertiary" theme="borderless" icon={current} disabled={isTitleActive(editor)}></Button>
+          <Button type="tertiary" theme="borderless" icon={current} disabled={isTitleActive}></Button>
         </Tooltip>
       </span>
     </Dropdown>

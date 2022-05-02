@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
 import { IconCopy, IconDelete } from '@douyinfe/semi-icons';
 import { Tooltip } from 'components/tooltip';
@@ -7,6 +8,9 @@ import { copyNode, deleteNode } from 'tiptap/prose-utils';
 import { Divider } from 'tiptap/divider';
 
 export const DocumentChildrenBubbleMenu = ({ editor }) => {
+  const copyMe = useCallback(() => copyNode(DocumentChildren.name, editor), [editor]);
+  const deleteMe = useCallback(() => deleteNode(DocumentChildren.name, editor), [editor]);
+
   return (
     <BubbleMenu
       className={'bubble-menu'}
@@ -15,27 +19,15 @@ export const DocumentChildrenBubbleMenu = ({ editor }) => {
       shouldShow={() => editor.isActive(DocumentChildren.name)}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
-      <Space>
+      <Space spacing={4}>
         <Tooltip content="复制">
-          <Button
-            onClick={() => copyNode(DocumentChildren.name, editor)}
-            icon={<IconCopy />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={copyMe} icon={<IconCopy />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Divider />
 
         <Tooltip content="删除节点" hideOnClick>
-          <Button
-            onClick={() => deleteNode(DocumentChildren.name, editor)}
-            icon={<IconDelete />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={deleteMe} icon={<IconDelete />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
       </Space>
     </BubbleMenu>

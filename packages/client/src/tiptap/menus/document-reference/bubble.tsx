@@ -33,6 +33,9 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
     [editor]
   );
 
+  const copyMe = useCallback(() => copyNode(DocumentReference.name, editor), [editor]);
+  const deleteMe = useCallback(() => deleteNode(DocumentReference.name, editor), [editor]);
+
   return (
     <BubbleMenu
       className={'bubble-menu'}
@@ -41,15 +44,9 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
       shouldShow={() => editor.isActive(DocumentReference.name)}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
-      <Space>
+      <Space spacing={4}>
         <Tooltip content="复制">
-          <Button
-            onClick={() => copyNode(DocumentReference.name, editor)}
-            icon={<IconCopy />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={copyMe} icon={<IconCopy />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Popover
@@ -97,13 +94,7 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
         <Divider />
 
         <Tooltip content="删除节点" hideOnClick>
-          <Button
-            onClick={() => deleteNode(DocumentReference.name, editor)}
-            icon={<IconDelete />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={deleteMe} icon={<IconDelete />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
       </Space>
     </BubbleMenu>

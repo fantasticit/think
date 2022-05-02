@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Space, Button } from '@douyinfe/semi-ui';
 import {
   IconAlignLeft,
@@ -13,14 +13,57 @@ import { BubbleMenu } from 'tiptap/views/bubble-menu';
 import { Divider } from 'tiptap/divider';
 import { Image } from 'tiptap/extensions/image';
 import { getEditorContainerDOMSize, copyNode, deleteNode } from 'tiptap/prose-utils';
+import { useAttributes } from 'tiptap/hooks/use-attributes';
 import { Size } from '../_components/size';
 
 export const ImageBubbleMenu = ({ editor }) => {
-  const attrs = editor.getAttributes(Image.name);
-  const { width: currentWidth, height: currentHeight } = attrs;
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
+  const { width: currentWidth, height: currentHeight } = useAttributes(editor, Image.name, { width: 0, height: 0 });
   const [width, setWidth] = useState(currentWidth);
   const [height, setHeight] = useState(currentHeight);
+
+  const copyMe = useCallback(() => copyNode(Image.name, editor), [editor]);
+  const deleteMe = useCallback(() => deleteNode(Image.name, editor), [editor]);
+
+  const alignLeft = useCallback(() => {
+    editor
+      .chain()
+      .updateAttributes(Image.name, {
+        textAlign: 'left',
+      })
+      .setNodeSelection(editor.state.selection.from)
+      .focus()
+      .run();
+  }, [editor]);
+
+  const alignCenter = useCallback(() => {
+    editor
+      .chain()
+      .updateAttributes(Image.name, {
+        textAlign: 'center',
+      })
+      .setNodeSelection(editor.state.selection.from)
+      .focus()
+      .run();
+  }, [editor]);
+
+  const alignRight = useCallback(() => {
+    editor
+      .chain()
+      .updateAttributes(Image.name, {
+        textAlign: 'right',
+      })
+      .setNodeSelection(editor.state.selection.from)
+      .focus()
+      .run();
+  }, [editor]);
+
+  const updateSize = useCallback(
+    (size) => {
+      editor.chain().updateAttributes(Image.name, size).setNodeSelection(editor.state.selection.from).focus().run();
+    },
+    [editor]
+  );
 
   useEffect(() => {
     setWidth(parseInt(currentWidth));
@@ -38,87 +81,24 @@ export const ImageBubbleMenu = ({ editor }) => {
       }}
       matchRenderContainer={(node) => node && node.id === 'js-resizeable-container'}
     >
-      <Space>
+      <Space spacing={4}>
         <Tooltip content="复制">
-          <Button
-            onClick={() => copyNode(Image.name, editor)}
-            icon={<IconCopy />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={copyMe} icon={<IconCopy />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Tooltip content="左对齐">
-          <Button
-            onClick={() => {
-              editor
-                .chain()
-                .updateAttributes(Image.name, {
-                  textAlign: 'left',
-                })
-                .setNodeSelection(editor.state.selection.from)
-                .focus()
-                .run();
-            }}
-            icon={<IconAlignLeft />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={alignLeft} icon={<IconAlignLeft />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Tooltip content="居中">
-          <Button
-            onClick={() => {
-              editor
-                .chain()
-                .updateAttributes(Image.name, {
-                  textAlign: 'center',
-                })
-                .setNodeSelection(editor.state.selection.from)
-                .focus()
-                .run();
-            }}
-            icon={<IconAlignCenter />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={alignCenter} icon={<IconAlignCenter />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Tooltip content="右对齐">
-          <Button
-            onClick={() => {
-              editor
-                .chain()
-                .updateAttributes(Image.name, {
-                  textAlign: 'right',
-                })
-                .setNodeSelection(editor.state.selection.from)
-                .focus()
-                .run();
-            }}
-            icon={<IconAlignRight />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={alignRight} icon={<IconAlignRight />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
-        <Size
-          width={width}
-          maxWidth={maxWidth}
-          height={height}
-          onOk={(size) => {
-            editor
-              .chain()
-              .updateAttributes(Image.name, size)
-              .setNodeSelection(editor.state.selection.from)
-              .focus()
-              .run();
-          }}
-        >
+        <Size width={width} maxWidth={maxWidth} height={height} onOk={updateSize}>
           <Tooltip content="设置宽高">
             <Button icon={<IconLineHeight />} type="tertiary" theme="borderless" size="small" />
           </Tooltip>
@@ -127,13 +107,7 @@ export const ImageBubbleMenu = ({ editor }) => {
         <Divider />
 
         <Tooltip content="删除" hideOnClick>
-          <Button
-            size="small"
-            type="tertiary"
-            theme="borderless"
-            icon={<IconDelete />}
-            onClick={() => deleteNode(Image.name, editor)}
-          />
+          <Button size="small" type="tertiary" theme="borderless" icon={<IconDelete />} onClick={deleteMe} />
         </Tooltip>
       </Space>
     </BubbleMenu>

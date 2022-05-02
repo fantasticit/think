@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Editor } from '@tiptap/core';
 import { Button } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
 import { IconHorizontalRule } from 'components/icons';
-import { isTitleActive } from 'tiptap/prose-utils';
+import { useActive } from 'tiptap/hooks/use-active';
+import { Title } from 'tiptap/extensions/title';
 
 export const HorizontalRule: React.FC<{ editor: Editor }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
+  const isTitleActive = useActive(editor, Title.name);
+
+  const setHorizontalRule = useCallback(() => editor.chain().focus().setHorizontalRule().run(), [editor]);
 
   return (
     <Tooltip content="插入分割线">
@@ -16,8 +17,8 @@ export const HorizontalRule: React.FC<{ editor: Editor }> = ({ editor }) => {
         theme={'borderless'}
         type="tertiary"
         icon={<IconHorizontalRule />}
-        onClick={() => editor.chain().focus().setHorizontalRule().run()}
-        disabled={isTitleActive(editor)}
+        onClick={setHorizontalRule}
+        disabled={isTitleActive}
       />
     </Tooltip>
   );

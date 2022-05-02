@@ -120,7 +120,13 @@ export const createKeysLocalStorageLRUCache = (storageKey, capacity) => {
   const lruCache = new LRUCache(capacity);
 
   if (USED_STORAGE_KEYS.includes(storageKey)) {
-    throw new Error(`Storage Key ${storageKey} has been used!`);
+    // @ts-ignore
+    if (module.hot) {
+      console.error(`Storage Key ${storageKey} has been used!`);
+      return;
+    } else {
+      throw new Error(`Storage Key ${storageKey} has been used!`);
+    }
   }
 
   USED_STORAGE_KEYS.push(storageKey);

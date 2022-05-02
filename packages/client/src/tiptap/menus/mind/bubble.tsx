@@ -6,12 +6,12 @@ import { BubbleMenu } from 'tiptap/views/bubble-menu';
 import { Mind } from 'tiptap/extensions/mind';
 import { Divider } from 'tiptap/divider';
 import { getEditorContainerDOMSize, copyNode, deleteNode } from 'tiptap/prose-utils';
+import { useAttributes } from 'tiptap/hooks/use-attributes';
 import { Size } from '../_components/size';
 
 export const MindBubbleMenu = ({ editor }) => {
-  const attrs = editor.getAttributes(Mind.name);
-  const { width, height } = attrs;
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
+  const { width, height } = useAttributes(editor, Mind.name, { width: 0, height: 0 });
 
   const setSize = useCallback(
     (size) => {
@@ -19,6 +19,9 @@ export const MindBubbleMenu = ({ editor }) => {
     },
     [editor]
   );
+
+  const copyMe = useCallback(() => copyNode(Mind.name, editor), [editor]);
+  const deleteMe = useCallback(() => deleteNode(Mind.name, editor), [editor]);
 
   return (
     <BubbleMenu
@@ -29,15 +32,9 @@ export const MindBubbleMenu = ({ editor }) => {
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
       matchRenderContainer={(node) => node && node.id === 'js-resizeable-container'}
     >
-      <Space>
+      <Space spacing={4}>
         <Tooltip content="复制">
-          <Button
-            onClick={() => copyNode(Mind.name, editor)}
-            icon={<IconCopy />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={copyMe} icon={<IconCopy />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
 
         <Size width={width} maxWidth={maxWidth} height={height} onOk={setSize}>
@@ -45,15 +42,11 @@ export const MindBubbleMenu = ({ editor }) => {
             <Button icon={<IconLineHeight />} type="tertiary" theme="borderless" size="small" />
           </Tooltip>
         </Size>
+
         <Divider />
+
         <Tooltip content="删除节点" hideOnClick>
-          <Button
-            onClick={() => deleteNode(Mind.name, editor)}
-            icon={<IconDelete />}
-            type="tertiary"
-            theme="borderless"
-            size="small"
-          />
+          <Button onClick={deleteMe} icon={<IconDelete />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>
       </Space>
     </BubbleMenu>

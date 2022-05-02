@@ -1,4 +1,6 @@
-export const Divider = ({ vertical = false }) => {
+import React from 'react';
+
+export const _Divider = ({ vertical = false }) => {
   return (
     <div
       style={{
@@ -12,3 +14,7 @@ export const Divider = ({ vertical = false }) => {
     ></div>
   );
 };
+
+export const Divider = React.memo(_Divider, (prevProps, nextProps) => {
+  return prevProps.vertical === nextProps.vertical;
+});

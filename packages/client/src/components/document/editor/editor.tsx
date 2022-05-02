@@ -64,23 +64,26 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
       },
     });
   }, [documentId, currentUser, toggleLoading]);
-  const editor = useEditor({
-    editable: authority && authority.editable,
-    extensions: [
-      ...BaseKit,
-      DocumentWithTitle,
-      getCollaborationExtension(provider),
-      getCollaborationCursorExtension(provider, currentUser),
-    ],
-    onTransaction: debounce(({ transaction }) => {
-      try {
-        const title = transaction.doc.content.firstChild.content.firstChild.textContent;
-        triggerChangeDocumentTitle(title);
-      } catch (e) {
-        //
-      }
-    }, 50),
-  });
+  const editor = useEditor(
+    {
+      editable: authority && authority.editable,
+      extensions: [
+        ...BaseKit,
+        DocumentWithTitle,
+        getCollaborationExtension(provider),
+        getCollaborationCursorExtension(provider, currentUser),
+      ],
+      onTransaction: debounce(({ transaction }) => {
+        try {
+          const title = transaction.doc.content.firstChild.content.firstChild.textContent;
+          triggerChangeDocumentTitle(title);
+        } catch (e) {
+          //
+        }
+      }, 50),
+    },
+    [authority, provider]
+  );
   const [mentionUsersSettingVisible, toggleMentionUsersSettingVisible] = useToggle(false);
   const [mentionUsers, setMentionUsers] = useState([]);
 

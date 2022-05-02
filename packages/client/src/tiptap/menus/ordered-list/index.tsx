@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Editor } from '@tiptap/core';
 import { Button } from '@douyinfe/semi-ui';
 import { IconOrderedList } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import { isTitleActive } from 'tiptap/prose-utils';
+import { useActive } from 'tiptap/hooks/use-active';
+import { Title } from 'tiptap/extensions/title';
+import { OrderedList as OrderedListExtension } from 'tiptap/extensions/ordered-list';
 
 export const OrderedList: React.FC<{ editor: Editor }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
+  const isTitleActive = useActive(editor, Title.name);
+  const isOrderedListActive = useActive(editor, OrderedListExtension.name);
+
+  const toggleOrderedList = useCallback(() => editor.chain().focus().toggleOrderedList().run(), [editor]);
 
   return (
     <Tooltip content="有序列表">
       <Button
-        theme={editor.isActive('orderedList') ? 'light' : 'borderless'}
+        theme={isOrderedListActive ? 'light' : 'borderless'}
         type="tertiary"
         icon={<IconOrderedList />}
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        disabled={isTitleActive(editor)}
+        onClick={toggleOrderedList}
+        disabled={isTitleActive}
       />
     </Tooltip>
   );

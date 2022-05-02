@@ -4,10 +4,6 @@ import { CountdownBubbleMenu } from './bubble';
 import { CountdownSettingModal } from './modal';
 
 export const Countdonw: React.FC<{ editor: Editor }> = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
-
   return (
     <>
       <CountdownBubbleMenu editor={editor} />

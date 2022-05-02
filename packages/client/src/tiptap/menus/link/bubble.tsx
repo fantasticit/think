@@ -6,11 +6,11 @@ import { Divider } from 'tiptap/divider';
 import { BubbleMenu } from 'tiptap/views/bubble-menu';
 import { Link } from 'tiptap/extensions/link';
 import { isMarkActive, findMarkPosition } from 'tiptap/prose-utils';
+import { useAttributes } from 'tiptap/hooks/use-attributes';
 import { triggerOpenLinkSettingModal } from '../_event';
 
 export const LinkBubbleMenu = ({ editor }) => {
-  const attrs = editor.getAttributes(Link.name);
-  const { href, target } = attrs;
+  const { href, target } = useAttributes(editor, Link.name, { href: '', target: '' });
   const [text, setText] = useState();
   const [from, setFrom] = useState(-1);
   const [to, setTo] = useState(-1);
@@ -69,7 +69,7 @@ export const LinkBubbleMenu = ({ editor }) => {
       shouldShow={() => editor.isActive(Link.name)}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
-      <Space>
+      <Space spacing={4}>
         <Tooltip content="访问链接">
           <Button size="small" type="tertiary" theme="borderless" icon={<IconExternalOpen />} onClick={visitLink} />
         </Tooltip>
