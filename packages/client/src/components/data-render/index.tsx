@@ -59,7 +59,6 @@ export const DataRender: React.FC<IProps> = ({
   normalContent,
 }) => {
   if (error) {
-    console.log(error, errorContent);
     return runRender(errorContent, error);
   }
 
