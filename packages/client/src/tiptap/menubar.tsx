@@ -43,11 +43,7 @@ import { Iframe } from './menus/iframe';
 import { Table } from './menus/table';
 import { Mind } from './menus/mind';
 
-import useTilg from 'tilg';
-
 const _MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
-  useTilg();
-
   if (!editor) return null;
 
   return (
