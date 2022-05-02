@@ -45,7 +45,7 @@ import { Table } from './menus/table';
 import { Mind } from './menus/mind';
 
 const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
-  const isEditable = useMemo(() => editor.isEditable, [editor]);
+  const isEditable = useMemo(() => editor && editor.isEditable, [editor]);
 
   if (!editor) return null;
 
