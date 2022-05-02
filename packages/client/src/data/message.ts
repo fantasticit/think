@@ -1,5 +1,5 @@
 import type { IMessage } from '@think/domains';
-import { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import useSWR from 'swr';
 import { HttpClient } from 'services/http-client';
 
@@ -63,11 +63,14 @@ export const useUnreadMessages = () => {
   });
   const loading = !data && !error;
 
-  const readMessage = async (messageId) => {
-    const ret = await HttpClient.post(`/message/read/${messageId}`);
-    mutate();
-    return ret;
-  };
+  const readMessage = useCallback(
+    async (messageId) => {
+      const ret = await HttpClient.post(`/message/read/${messageId}`);
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
   return {
     data,

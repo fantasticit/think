@@ -1,6 +1,6 @@
 import { CollectType, IDocument, IUser, IWiki, IWikiUser } from '@think/domains';
 import useSWR from 'swr';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { HttpClient } from 'services/http-client';
 
 export type ICreateWiki = Pick<IWiki, 'name' | 'description'>;
@@ -47,22 +47,28 @@ export const useOwnWikis = () => {
     HttpClient.get(url)
   );
 
-  const createWiki = async (data: ICreateWiki) => {
-    const res = await HttpClient.post<IWiki>('/wiki/create', data);
-    mutate();
-    return res;
-  };
+  const createWiki = useCallback(
+    async (data: ICreateWiki) => {
+      const res = await HttpClient.post<IWiki>('/wiki/create', data);
+      mutate();
+      return res;
+    },
+    [mutate]
+  );
 
   /**
    * 删除文档
    * @param id
    * @returns
    */
-  const deletWiki = async (id) => {
-    const res = await HttpClient.delete<IWiki>('/wiki/delete/' + id);
-    mutate();
-    return res;
-  };
+  const deletWiki = useCallback(
+    async (id) => {
+      const res = await HttpClient.delete<IWiki>('/wiki/delete/' + id);
+      mutate();
+      return res;
+    },
+    [mutate]
+  );
 
   const loading = !data && !error;
   const list = (data && data.data) || [];
@@ -92,11 +98,14 @@ export const useWikiTocs = (wikiId) => {
   );
   const loading = !data && !error;
 
-  const update = async (relations: Array<{ id: string; parentDocumentId: string }>) => {
-    const res = await HttpClient.post(`/wiki/tocs/${wikiId}/update`, relations);
-    mutate();
-    return res;
-  };
+  const update = useCallback(
+    async (relations: Array<{ id: string; parentDocumentId: string }>) => {
+      const res = await HttpClient.post(`/wiki/tocs/${wikiId}/update`, relations);
+      mutate();
+      return res;
+    },
+    [mutate]
+  );
 
   return { data, loading, error, refresh: mutate, update };
 };
@@ -128,22 +137,28 @@ export const useWikiDetail = (wikiId) => {
    * @param data
    * @returns
    */
-  const update = async (data: IUpdateWiki) => {
-    const res = await HttpClient.patch('/wiki/update/' + wikiId, data);
-    mutate();
-    return res;
-  };
+  const update = useCallback(
+    async (data: IUpdateWiki) => {
+      const res = await HttpClient.patch('/wiki/update/' + wikiId, data);
+      mutate();
+      return res;
+    },
+    [mutate]
+  );
 
   /**
    * 公开或私有知识库
    * @param data
    * @returns
    */
-  const toggleStatus = async (data) => {
-    const res = await HttpClient.post('/wiki/share/' + wikiId, data);
-    mutate();
-    return res;
-  };
+  const toggleStatus = useCallback(
+    async (data) => {
+      const res = await HttpClient.post('/wiki/share/' + wikiId, data);
+      mutate();
+      return res;
+    },
+    [mutate]
+  );
 
   return { data, loading, error, update, toggleStatus };
 };
@@ -157,23 +172,32 @@ export const useWikiUsers = (wikiId) => {
   const { data, error, mutate } = useSWR<IWikiUser[]>('/wiki/user/' + wikiId, (url) => HttpClient.get(url));
   const loading = !data && !error;
 
-  const addUser = async (data: IWikiUserOpeateData) => {
-    const ret = await HttpClient.post(`/wiki/user/${wikiId}/add`, data);
-    mutate();
-    return ret;
-  };
+  const addUser = useCallback(
+    async (data: IWikiUserOpeateData) => {
+      const ret = await HttpClient.post(`/wiki/user/${wikiId}/add`, data);
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
-  const updateUser = async (data: IWikiUserOpeateData) => {
-    const ret = await HttpClient.post(`/wiki/user/${wikiId}/update`, data);
-    mutate();
-    return ret;
-  };
+  const updateUser = useCallback(
+    async (data: IWikiUserOpeateData) => {
+      const ret = await HttpClient.post(`/wiki/user/${wikiId}/update`, data);
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
-  const deleteUser = async (data: IWikiUserOpeateData) => {
-    const ret = await HttpClient.post(`/wiki/user/${wikiId}/delete`, data);
-    mutate();
-    return ret;
-  };
+  const deleteUser = useCallback(
+    async (data: IWikiUserOpeateData) => {
+      const ret = await HttpClient.post(`/wiki/user/${wikiId}/delete`, data);
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
   return {
     data,
@@ -199,13 +223,13 @@ export const useWikiStar = (wikiId) => {
     })
   );
 
-  const toggleStar = async () => {
+  const toggleStar = useCallback(async () => {
     await HttpClient.post('/collector/toggle/', {
       type: CollectType.wiki,
       targetId: wikiId,
     });
     mutate();
-  };
+  }, [mutate]);
 
   return { data, error, toggleStar };
 };

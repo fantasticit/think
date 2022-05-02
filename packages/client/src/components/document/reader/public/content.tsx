@@ -1,7 +1,6 @@
-import React from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
+import React, { useMemo } from 'react';
 import { IDocument } from '@think/domains';
-import { BaseKit, DocumentWithTitle } from 'tiptap';
+import { useEditor, EditorContent, BaseKit, DocumentWithTitle } from 'tiptap';
 import { safeJSONParse } from 'helpers/json';
 import { CreateUser } from '../user';
 
@@ -11,16 +10,20 @@ interface IProps {
 }
 
 export const DocumentContent: React.FC<IProps> = ({ document, createUserContainerSelector }) => {
-  const c = safeJSONParse(document.content);
-  const json = c.default || c;
+  const json = useMemo(() => {
+    const c = safeJSONParse(document.content);
+    const json = c.default || c;
+    return json;
+  }, [document]);
 
-  const editor = useEditor({
-    editable: false,
-    extensions: [...BaseKit, DocumentWithTitle],
-    content: json,
-  });
-
-  if (!json) return null;
+  const editor = useEditor(
+    {
+      editable: false,
+      extensions: [...BaseKit, DocumentWithTitle],
+      content: json,
+    },
+    [json]
+  );
 
   return (
     <>

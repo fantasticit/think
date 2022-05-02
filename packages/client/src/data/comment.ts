@@ -1,5 +1,5 @@
 import type { IComment } from '@think/domains';
-import { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import useSWR from 'swr';
 import { HttpClient } from 'services/http-client';
 
@@ -20,29 +20,38 @@ export const useComments = (documentId) => {
   }>(`/comment/document/${documentId}?page=${page}`, (url) => HttpClient.get(url));
   const loading = !data && !error;
 
-  const addComment = async (data: CreateCommentDto) => {
-    const ret = await HttpClient.post(`/comment/add`, {
-      documentId,
-      ...data,
-    });
-    mutate();
-    return ret;
-  };
+  const addComment = useCallback(
+    async (data: CreateCommentDto) => {
+      const ret = await HttpClient.post(`/comment/add`, {
+        documentId,
+        ...data,
+      });
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
-  const updateComment = async (data: UpdateCommentDto) => {
-    const ret = await HttpClient.post(`/comment/update`, {
-      documentId,
-      ...data,
-    });
-    mutate();
-    return ret;
-  };
+  const updateComment = useCallback(
+    async (data: UpdateCommentDto) => {
+      const ret = await HttpClient.post(`/comment/update`, {
+        documentId,
+        ...data,
+      });
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
-  const deleteComment = async (comment: IComment) => {
-    const ret = await HttpClient.post(`/comment/delete/${comment.id}`);
-    mutate();
-    return ret;
-  };
+  const deleteComment = useCallback(
+    async (comment: IComment) => {
+      const ret = await HttpClient.post(`/comment/delete/${comment.id}`);
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
   return {
     data,

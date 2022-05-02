@@ -1,12 +1,14 @@
 import Router from 'next/router';
 import React, { useMemo, useEffect, useState, useRef } from 'react';
 import cls from 'classnames';
-import { useEditor, EditorContent } from '@tiptap/react';
-import { BackTop, Toast } from '@douyinfe/semi-ui';
+import { BackTop, Toast, Spin, Typography } from '@douyinfe/semi-ui';
 import { ILoginUser, IAuthority } from '@think/domains';
+import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import { useToggle } from 'hooks/use-toggle';
 import { useNetwork } from 'hooks/use-network';
 import {
+  useEditor,
+  EditorContent,
   MenuBar,
   BaseKit,
   DocumentWithTitle,
@@ -35,6 +37,8 @@ interface IProps {
   className: string;
   style: React.CSSProperties;
 }
+
+const { Text } = Typography;
 
 export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, authority, className, style }) => {
   const $hasShowUserSettingModal = useRef(false);
@@ -182,7 +186,31 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
   return (
     <DataRender
       loading={loading}
+      loadingContent={
+        <div style={{ margin: '10vh auto' }}>
+          <Spin tip="正在为您加载编辑器中...">
+            {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
+            <div></div>
+          </Spin>
+        </div>
+      }
       error={error}
+      errorContent={(error) => (
+        <div
+          style={{
+            margin: '10vh',
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <SecureDocumentIllustration />
+          <Text style={{ marginTop: 12 }} type="danger">
+            {(error && error.message) || '未知错误'}
+          </Text>
+        </div>
+      )}
       normalContent={() => {
         return (
           <div className={styles.editorWrap}>
@@ -191,6 +219,9 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
                 type="warning"
                 description="我们已与您断开连接，您可以继续编辑文档。一旦重新连接，我们会自动重新提交数据。"
               />
+            )}
+            {authority && !authority.editable && (
+              <Banner type="warning" description="您没有编辑权限，暂不能编辑该文档。" closeable={false} />
             )}
             <header className={className}>
               <div>

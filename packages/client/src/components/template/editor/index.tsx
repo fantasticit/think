@@ -27,14 +27,9 @@ export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
         return (
           <>
             <Seo title={data.title} />
-            <Editor
-              user={user}
-              data={data}
-              loading={loading}
-              error={error}
-              updateTemplate={updateTemplate}
-              deleteTemplate={deleteTemplate}
-            />
+            {user && data && (
+              <Editor user={user} data={data} updateTemplate={updateTemplate} deleteTemplate={deleteTemplate} />
+            )}
           </>
         );
       }}

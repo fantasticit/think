@@ -1,3 +1,4 @@
+import { HocuspocusProvider } from '@hocuspocus/provider';
 import { Attachment } from './extensions/attachment';
 import { BackgroundColor } from './extensions/background-color';
 import { Blockquote } from './extensions/blockquote';
@@ -53,6 +54,15 @@ import { Title } from './extensions/title';
 import { TrailingNode } from './extensions/trailing-node';
 import { Underline } from './extensions/underline';
 import { Paste } from './extensions/paste';
+
+import { getRandomColor } from 'helpers/color';
+// 文档
+import { Document } from './extensions/document';
+// 操作历史
+import History from '@tiptap/extension-history';
+// 协作
+import { Collaboration } from './extensions/collaboration';
+import { CollaborationCursor } from './extensions/collaboration-cursor';
 
 export const BaseKit = [
   Attachment,
@@ -164,3 +174,25 @@ export const CommentKit = [
   TrailingNode,
   Underline,
 ];
+
+export { Document, History };
+
+export const DocumentWithTitle = Document.extend({
+  content: 'title block+',
+});
+
+export const getCollaborationExtension = (provider: HocuspocusProvider) => {
+  return Collaboration.configure({
+    document: provider.document,
+  });
+};
+
+export const getCollaborationCursorExtension = (provider: HocuspocusProvider, user) => {
+  return CollaborationCursor.configure({
+    provider,
+    user: {
+      ...user,
+      color: getRandomColor(),
+    },
+  });
+};

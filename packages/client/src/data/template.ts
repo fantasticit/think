@@ -1,5 +1,5 @@
 import type { ITemplate } from '@think/domains';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import useSWR from 'swr';
 import { HttpClient } from 'services/http-client';
 
@@ -31,11 +31,14 @@ export const useOwnTemplates = () => {
   }>(`/template/own?page=${page}`, (url) => HttpClient.get(url));
   const loading = !data && !error;
 
-  const addTemplate = async (data): Promise<ITemplate> => {
-    const ret = await HttpClient.post(`/template/add`, data);
-    mutate();
-    return ret as unknown as ITemplate;
-  };
+  const addTemplate = useCallback(
+    async (data): Promise<ITemplate> => {
+      const ret = await HttpClient.post(`/template/add`, data);
+      mutate();
+      return ret as unknown as ITemplate;
+    },
+    [mutate]
+  );
 
   return {
     data,
@@ -47,23 +50,24 @@ export const useOwnTemplates = () => {
 };
 
 export const useTemplate = (templateId) => {
-  const { data, error, mutate } = useSWR<ITemplate>(`/template/detail/${templateId}`, (url) => HttpClient.get(url), {
-    revalidateOnMount: true,
-  });
+  const { data, error, mutate } = useSWR<ITemplate>(`/template/detail/${templateId}`, (url) => HttpClient.get(url));
   const loading = !data && !error;
 
-  const updateTemplate = async (data): Promise<ITemplate> => {
-    const ret = await HttpClient.post(`/template/update`, {
-      id: templateId,
-      ...data,
-    });
-    mutate();
-    return ret as unknown as ITemplate;
-  };
+  const updateTemplate = useCallback(
+    async (data): Promise<ITemplate> => {
+      const ret = await HttpClient.post(`/template/update`, {
+        id: templateId,
+        ...data,
+      });
+      mutate();
+      return ret as unknown as ITemplate;
+    },
+    [mutate]
+  );
 
-  const deleteTemplate = async () => {
+  const deleteTemplate = useCallback(async () => {
     await HttpClient.post(`/template/delete/${templateId}`);
-  };
+  }, []);
 
   return {
     data,

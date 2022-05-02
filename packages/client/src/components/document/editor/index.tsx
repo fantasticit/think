@@ -5,6 +5,7 @@ import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
 import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
 import { useWindowSize } from 'hooks/use-window-size';
+import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
 import { DataRender } from 'components/data-render';
@@ -43,26 +44,6 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
     });
   }, [document, documentId]);
 
-  const DocumentTitle = (
-    <>
-      <Tooltip content="返回" position="bottom">
-        <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
-      </Tooltip>
-      <DataRender
-        loading={docAuthLoading}
-        error={docAuthError}
-        loadingContent={
-          <Skeleton active placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />} loading={true} />
-        }
-        normalContent={() => (
-          <Text ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWith / 4) }}>
-            {title}
-          </Text>
-        )}
-      />
-    </>
-  );
-
   useEffect(() => {
     event.on(CHANGE_DOCUMENT_TITLE, setTitle);
 
@@ -77,7 +58,25 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         <Nav
           className={styles.headerOuterWrap}
           mode="horizontal"
-          header={DocumentTitle}
+          header={
+            <>
+              <Tooltip content="返回" position="bottom">
+                <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
+              </Tooltip>
+              <DataRender
+                loading={docAuthLoading}
+                error={docAuthError}
+                loadingContent={
+                  <Skeleton active placeholder={<Skeleton.Title style={{ width: 80 }} />} loading={true} />
+                }
+                normalContent={() => (
+                  <Text ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWith / 4) }}>
+                    {title}
+                  </Text>
+                )}
+              />
+            </>
+          }
           footer={
             <Space>
               {document && authority.readable && (
@@ -100,11 +99,19 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         <DataRender
           loading={docAuthLoading}
           loadingContent={
-            <div style={{ margin: 24 }}>
-              <Spin></Spin>
+            <div style={{ margin: '10vh auto' }}>
+              <Spin tip="正在为您读取文档中...">
+                {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
+                <div></div>
+              </Spin>
             </div>
           }
           error={docAuthError}
+          errorContent={
+            <div style={{ margin: '10vh', textAlign: 'center' }}>
+              <SecureDocumentIllustration />
+            </div>
+          }
           normalContent={() => {
             return (
               <>

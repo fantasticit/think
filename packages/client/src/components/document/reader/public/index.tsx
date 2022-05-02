@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useRef, useCallback } from 'react';
 import cls from 'classnames';
 import {
   Layout,
@@ -7,12 +7,12 @@ import {
   Button,
   Typography,
   Skeleton,
-  Input,
   Popover,
-  Modal,
   Breadcrumb,
   BackTop,
+  Form,
 } from '@douyinfe/semi-ui';
+import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { IconArticle } from '@douyinfe/semi-icons';
 import Link from 'next/link';
 import { Seo } from 'components/seo';
@@ -37,38 +37,18 @@ interface IProps {
 }
 
 export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = true }) => {
+  const $form = useRef<FormApi>();
   const { data, loading, error, query } = usePublicDocument(documentId);
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
 
-  useEffect(() => {
-    if (!error) return;
-    if (error.statusCode !== 400) return;
-    Modal.confirm({
-      title: '请输入密码',
-      content: (
-        <>
-          <Seo title={'输入密码后查看'} />
-          <Input
-            id="js-share-document-password"
-            style={{ marginTop: 24 }}
-            autofocus
-            mode="password"
-            placeholder="请输入密码"
-          />
-        </>
-      ),
-      closable: false,
-      hasCancel: false,
-      maskClosable: false,
-      onOk() {
-        const $input = document.querySelector('#js-share-document-password');
-        query($input.value);
-      },
+  const handleOk = useCallback(() => {
+    $form.current.validate().then((values) => {
+      query(values.password);
     });
-  }, [error, query]);
+  }, [query]);
 
   if (!documentId) return null;
 
@@ -116,6 +96,29 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
         <DataRender
           loading={loading}
           error={error}
+          errorContent={(error) => {
+            if (error.statusCode === 400) {
+              return (
+                <div>
+                  <Seo title={'输入密码后查看'} />
+                  <Form
+                    style={{ width: 320, maxWidth: 'calc(100vw - 160px)', margin: '10vh auto' }}
+                    initValues={{ password: '' }}
+                    getFormApi={(formApi) => ($form.current = formApi)}
+                    labelPosition="left"
+                    onSubmit={handleOk}
+                    layout="horizontal"
+                  >
+                    <Form.Input autofocus label="密码" field="password" placeholder="请输入密码" />
+                    <Button type="primary" theme="solid" htmlType="submit">
+                      提交
+                    </Button>
+                  </Form>
+                </div>
+              );
+            }
+            return <Text>{error.message || error || '未知错误'}</Text>;
+          }}
           loadingContent={
             <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
               <DocumentSkeleton />

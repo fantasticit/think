@@ -1,17 +1,18 @@
 import React, { useMemo, useEffect, useState } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import { Layout } from '@douyinfe/semi-ui';
+import { Layout, Spin, Typography } from '@douyinfe/semi-ui';
 import { IDocument, ILoginUser } from '@think/domains';
 import { useToggle } from 'hooks/use-toggle';
 import {
+  useEditor,
+  EditorContent,
   BaseKit,
   DocumentWithTitle,
   getCollaborationExtension,
   getCollaborationCursorExtension,
   getProvider,
   destoryProvider,
-  DocumentSkeleton,
 } from 'tiptap';
+import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import { DataRender } from 'components/data-render';
 import { ImageViewer } from 'components/image-viewer';
 import { triggerJoinUser } from 'event';
@@ -19,6 +20,7 @@ import { CreateUser } from './user';
 import styles from './index.module.scss';
 
 const { Content } = Layout;
+const { Text } = Typography;
 
 interface IProps {
   user: ILoginUser;
@@ -73,8 +75,31 @@ export const Editor: React.FC<IProps> = ({ user, documentId, document, children 
   return (
     <DataRender
       loading={loading}
-      loadingContent={<DocumentSkeleton />}
+      loadingContent={
+        <div style={{ margin: '10vh auto' }}>
+          <Spin tip="正在为您加载文档内容中...">
+            {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
+            <div />
+          </Spin>
+        </div>
+      }
       error={error}
+      errorContent={(error) => (
+        <div
+          style={{
+            margin: '10vh',
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <SecureDocumentIllustration />
+          <Text style={{ marginTop: 12 }} type="danger">
+            {(error && error.message) || '未知错误'}
+          </Text>
+        </div>
+      )}
       normalContent={() => {
         return (
           <Content className={styles.editorWrap}>

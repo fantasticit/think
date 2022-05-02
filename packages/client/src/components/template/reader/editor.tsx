@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import cls from 'classnames';
-import { useEditor, EditorContent } from '@tiptap/react';
 import { Layout, Spin, Typography } from '@douyinfe/semi-ui';
 import { IUser, ITemplate } from '@think/domains';
-import { BaseKit, DocumentWithTitle } from 'tiptap';
+import { useEditor, EditorContent, BaseKit, DocumentWithTitle } from 'tiptap';
 import { DataRender } from 'components/data-render';
 import { ImageViewer } from 'components/image-viewer';
 import { useDocumentStyle } from 'hooks/use-document-style';
@@ -21,21 +20,28 @@ interface IProps {
 }
 
 export const Editor: React.FC<IProps> = ({ user, data, loading, error }) => {
-  const c = safeJSONParse(data.content);
-  let json = c.default || c;
+  const json = useMemo(() => {
+    const c = safeJSONParse(data.content);
+    let json = c.default || c;
 
-  if (json && json.content) {
-    json = {
-      type: 'doc',
-      content: json.content.slice(1),
-    };
-  }
+    if (json && json.content) {
+      json = {
+        type: 'doc',
+        content: json.content.slice(1),
+      };
+    }
 
-  const editor = useEditor({
-    editable: false,
-    extensions: [...BaseKit, DocumentWithTitle],
-    content: json,
-  });
+    return json;
+  }, [data]);
+
+  const editor = useEditor(
+    {
+      editable: false,
+      extensions: [...BaseKit, DocumentWithTitle],
+      content: json,
+    },
+    [json]
+  );
 
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {

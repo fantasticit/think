@@ -1,7 +1,7 @@
 import Router from 'next/router';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import cls from 'classnames';
-import { Layout, Nav, Space, Button, Typography, Skeleton, Tooltip, Popover, BackTop } from '@douyinfe/semi-ui';
+import { Layout, Nav, Space, Button, Typography, Skeleton, Tooltip, Popover, BackTop, Spin } from '@douyinfe/semi-ui';
 import { IconEdit, IconArticle } from '@douyinfe/semi-icons';
 import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
@@ -15,7 +15,6 @@ import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
 import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
-import { DocumentSkeleton } from 'tiptap';
 import { Editor } from './editor';
 import styles from './index.module.scss';
 
@@ -91,7 +90,14 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
             <DataRender
               loading={docAuthLoading}
               error={docAuthError}
-              loadingContent={<DocumentSkeleton />}
+              loadingContent={
+                <div style={{ margin: '10vh auto' }}>
+                  <Spin tip="正在为您读取文档中...">
+                    {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
+                    <div></div>
+                  </Spin>
+                </div>
+              }
               normalContent={() => {
                 return (
                   <>

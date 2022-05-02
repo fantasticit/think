@@ -1,15 +1,12 @@
 import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import Router from 'next/router';
 import cls from 'classnames';
-import { useEditor, EditorContent } from '@tiptap/react';
 import {
   Button,
   Nav,
   Space,
-  Skeleton,
   Typography,
   Tooltip,
-  Spin,
   Switch,
   Popover,
   Popconfirm,
@@ -19,8 +16,15 @@ import {
 import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
 import { ILoginUser, ITemplate } from '@think/domains';
 import { Theme } from 'components/theme';
-import { BaseKit, DocumentWithTitle, getCollaborationExtension, getProvider, MenuBar } from 'tiptap';
-import { DataRender } from 'components/data-render';
+import {
+  useEditor,
+  EditorContent,
+  BaseKit,
+  DocumentWithTitle,
+  getCollaborationExtension,
+  getProvider,
+  MenuBar,
+} from 'tiptap';
 import { User } from 'components/user';
 import { DocumentStyle } from 'components/document/style';
 import { LogoName } from 'components/logo';
@@ -33,13 +37,11 @@ const { Text } = Typography;
 interface IProps {
   user: ILoginUser;
   data: ITemplate;
-  loading: boolean;
-  error: Error | null;
   updateTemplate: (arg) => Promise<ITemplate>;
   deleteTemplate: () => Promise<void>;
 }
 
-export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTemplate, deleteTemplate }) => {
+export const Editor: React.FC<IProps> = ({ user, data, updateTemplate, deleteTemplate }) => {
   const { width: windowWidth } = useWindowSize();
   const [title, setTitle] = useState(data.title);
   const provider = useMemo(() => {
@@ -50,19 +52,22 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
       user,
       docType: 'template',
     });
-  }, [data, user]);
-  const editor = useEditor({
-    editable: true,
-    extensions: [...BaseKit, DocumentWithTitle, getCollaborationExtension(provider)],
-    onTransaction: ({ transaction }) => {
-      try {
-        const title = transaction.doc.content.firstChild.content.firstChild.textContent;
-        setTitle(title);
-      } catch (e) {
-        //
-      }
+  }, []);
+  const editor = useEditor(
+    {
+      editable: true,
+      extensions: [...BaseKit, DocumentWithTitle, getCollaborationExtension(provider)],
+      onTransaction: ({ transaction }) => {
+        try {
+          const title = transaction.doc.content.firstChild.content.firstChild.textContent;
+          setTitle(title);
+        } catch (e) {
+          //
+        }
+      },
     },
-  });
+    [provider]
+  );
   const [isPublic, setPublic] = useState(false);
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
@@ -100,8 +105,6 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
     };
   }, []);
 
-  if (!user) return null;
-
   return (
     <div className={styles.wrap}>
       <header>
@@ -109,27 +112,14 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
           style={{ overflow: 'auto' }}
           mode="horizontal"
           header={
-            <DataRender
-              loading={loading}
-              error={error}
-              loadingContent={
-                <Skeleton
-                  active
-                  placeholder={<Skeleton.Title style={{ width: 80, marginBottom: 8 }} />}
-                  loading={true}
-                />
-              }
-              normalContent={() => (
-                <>
-                  <Tooltip content="返回" position="bottom">
-                    <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
-                  </Tooltip>
-                  <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
-                    {title}
-                  </Text>
-                </>
-              )}
-            />
+            <>
+              <Tooltip content="返回" position="bottom">
+                <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
+              </Tooltip>
+              <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
+                {title}
+              </Text>
+            </>
           }
           footer={
             <Space>
@@ -149,32 +139,19 @@ export const Editor: React.FC<IProps> = ({ user, data, loading, error, updateTem
         ></Nav>
       </header>
       <main className={styles.contentWrap}>
-        <DataRender
-          loading={false}
-          loadingContent={
-            <div style={{ margin: 24 }}>
-              <Spin></Spin>
+        <div className={styles.editorWrap}>
+          <header className={editorWrapClassNames}>
+            <div>
+              <MenuBar editor={editor} />
             </div>
-          }
-          error={error}
-          normalContent={() => {
-            return (
-              <div className={styles.editorWrap}>
-                <header className={editorWrapClassNames}>
-                  <div>
-                    <MenuBar editor={editor} />
-                  </div>
-                </header>
-                <main id="js-template-editor-container">
-                  <div className={cls(styles.contentWrap, editorWrapClassNames)} style={{ fontSize }}>
-                    <EditorContent editor={editor} />
-                  </div>
-                  <BackTop target={() => document.querySelector('#js-template-editor-container')} />
-                </main>
-              </div>
-            );
-          }}
-        />
+          </header>
+          <main id="js-template-editor-container">
+            <div className={cls(styles.contentWrap, editorWrapClassNames)} style={{ fontSize }}>
+              <EditorContent editor={editor} />
+            </div>
+            <BackTop target={() => document.querySelector('#js-template-editor-container')} />
+          </main>
+        </div>
       </main>
     </div>
   );

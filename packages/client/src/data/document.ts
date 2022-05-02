@@ -53,17 +53,23 @@ export const useDocumentDetail = (documentId, options = null) => {
     options
   );
   const loading = !data && !error;
-  const update = async (data: IUpdateDocument) => {
-    const res = await HttpClient.post('/document/update/' + documentId, data);
-    mutate();
-    return res;
-  };
+  const update = useCallback(
+    async (data: IUpdateDocument) => {
+      const res = await HttpClient.post('/document/update/' + documentId, data);
+      mutate();
+      return res;
+    },
+    [mutate]
+  );
 
-  const toggleStatus = async (data: Partial<Pick<IDocument, 'sharePassword'>>) => {
-    const ret = await HttpClient.post('/document/share/' + documentId, data);
-    mutate();
-    return ret;
-  };
+  const toggleStatus = useCallback(
+    async (data: Partial<Pick<IDocument, 'sharePassword'>>) => {
+      const ret = await HttpClient.post('/document/share/' + documentId, data);
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
   return { data, loading, error, update, toggleStatus };
 };
@@ -106,13 +112,13 @@ export const useDocumentStar = (documentId) => {
     })
   );
 
-  const toggleStar = async () => {
+  const toggleStar = useCallback(async () => {
     await HttpClient.post('/collector/toggle/', {
       type: 'document',
       targetId: documentId,
     });
     mutate();
-  };
+  }, [mutate]);
 
   return { data, error, toggleStar };
 };
@@ -181,34 +187,43 @@ export const useCollaborationDocument = (documentId) => {
   );
   const loading = !data && !error;
 
-  const addUser = async (userName) => {
-    const ret = await HttpClient.post(`/document/user/${documentId}/add`, {
-      documentId,
-      userName,
-      readable: true,
-      editable: false,
-    });
-    mutate();
-    return ret;
-  };
+  const addUser = useCallback(
+    async (userName) => {
+      const ret = await HttpClient.post(`/document/user/${documentId}/add`, {
+        documentId,
+        userName,
+        readable: true,
+        editable: false,
+      });
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
-  const updateUser = async (docAuth: DocAuth) => {
-    const ret = await HttpClient.post(`/document/user/${documentId}/update`, {
-      documentId,
-      ...docAuth,
-    });
-    mutate();
-    return ret;
-  };
+  const updateUser = useCallback(
+    async (docAuth: DocAuth) => {
+      const ret = await HttpClient.post(`/document/user/${documentId}/update`, {
+        documentId,
+        ...docAuth,
+      });
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
-  const deleteUser = async (docAuth: DocAuth) => {
-    const ret = await HttpClient.post(`/document/user/${documentId}/delete`, {
-      documentId,
-      ...docAuth,
-    });
-    mutate();
-    return ret;
-  };
+  const deleteUser = useCallback(
+    async (docAuth: DocAuth) => {
+      const ret = await HttpClient.post(`/document/user/${documentId}/delete`, {
+        documentId,
+        ...docAuth,
+      });
+      mutate();
+      return ret;
+    },
+    [mutate]
+  );
 
   return { users: data, loading, error, addUser, updateUser, deleteUser };
 };

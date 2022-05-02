@@ -1,13 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { Banner as SemiBanner } from '@douyinfe/semi-ui';
+import { IconClose } from '@douyinfe/semi-icons';
 import { BannerProps } from '@douyinfe/semi-ui/banner';
 import { useToggle } from 'hooks/use-toggle';
 
 interface IProps extends BannerProps {
   duration?: number;
+  closeable?: boolean;
 }
 
-export const Banner: React.FC<IProps> = ({ type, description, duration = 0 }) => {
+export const Banner: React.FC<IProps> = ({ type, description, duration = 0, closeable = true }) => {
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const [visible, toggleVisible] = useToggle(true);
 
@@ -26,5 +28,5 @@ export const Banner: React.FC<IProps> = ({ type, description, duration = 0 }) =>
 
   if (!visible) return null;
 
-  return <SemiBanner type={type} description={description} />;
+  return <SemiBanner type={type} description={description} closeIcon={closeable ? <IconClose /> : null} />;
 };
