@@ -92,21 +92,28 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
   const [mentionUsers, setMentionUsers] = useState([]);
 
   useEffect(() => {
-    const indexdbProvider = getIndexdbProvider(documentId, provider.document);
-
-    indexdbProvider.on('synced', () => {
-      setStatus('loadCacheSuccess');
-    });
-
     provider.on('status', async ({ status }) => {
       setStatus(status);
     });
 
     return () => {
       destoryProvider(provider, 'EDITOR');
+    };
+  }, [documentId, provider, authority]);
+
+  useEffect(() => {
+    if (!authority || !authority.editable) return;
+
+    const indexdbProvider = getIndexdbProvider(documentId, provider.document);
+
+    indexdbProvider.on('synced', () => {
+      setStatus('loadCacheSuccess');
+    });
+
+    return () => {
       destoryIndexdbProvider(documentId);
     };
-  }, [documentId, provider]);
+  }, [documentId, provider, authority]);
 
   useEffect(() => {
     if (!editor) return;

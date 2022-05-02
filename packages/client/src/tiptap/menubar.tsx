@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { Editor } from '@tiptap/core';
 import { Space } from '@douyinfe/semi-ui';
 import { Divider } from './divider';
 
@@ -43,11 +44,18 @@ import { Iframe } from './menus/iframe';
 import { Table } from './menus/table';
 import { Mind } from './menus/mind';
 
-const _MenuBar: React.FC<{ editor: any }> = ({ editor }) => {
+const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
+  const isEditable = useMemo(() => editor.isEditable, [editor]);
+
   if (!editor) return null;
 
   return (
-    <div>
+    <div
+      style={{
+        opacity: isEditable ? 1 : 0.65,
+        pointerEvents: isEditable ? 'auto' : 'none',
+      }}
+    >
       <Space spacing={2}>
         <Insert editor={editor} />
 
@@ -109,7 +117,7 @@ export const MenuBar = React.memo(_MenuBar, (prevProps, nextProps) => {
   return prevProps.editor === nextProps.editor;
 });
 
-const _CommentMenuBar: React.FC<{ editor: any }> = ({ editor }) => {
+const _CommentMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
   return (
     <>
       <Space spacing={2}>

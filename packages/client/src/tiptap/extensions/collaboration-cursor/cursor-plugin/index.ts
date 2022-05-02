@@ -101,7 +101,8 @@ export const createDecorations = (state, awareness, createCursor) => {
 export const yCursorPlugin = (
   awareness,
   { cursorBuilder = defaultCursorBuilder, getSelection = (state) => state.selection } = {},
-  cursorStateField = 'cursor'
+  cursorStateField = 'cursor',
+  isEditable = false
 ) =>
   new Plugin({
     key: yCursorPluginKey,
@@ -131,6 +132,8 @@ export const yCursorPlugin = (
         }
       };
       const updateCursorInfo = () => {
+        if (!isEditable) return;
+
         const ystate = ySyncPluginKey.getState(view.state);
         // @note We make implicit checks when checking for the cursor property
         const current = awareness.getLocalState() || {};

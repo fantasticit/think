@@ -20,6 +20,7 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     // instance.on('transaction', () => {
     //   requestAnimationFrame(() => {
     //     requestAnimationFrame(() => {
+    //       console.log('update');
     //       forceUpdate();
     //     });
     //   });

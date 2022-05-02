@@ -45,6 +45,7 @@ export const SelectionExtension = Extension.create({
   name: 'selection',
   priority: EXTENSION_PRIORITY_HIGHEST,
   addProseMirrorPlugins() {
+    const { isEditable } = this.editor;
     return [
       new Plugin({
         key: selectionPluginKey,
@@ -100,6 +101,30 @@ export const SelectionExtension = Extension.create({
             const { doc, selection } = ctx;
             const decorationSet = getDecorations(doc, selection);
             return decorationSet;
+          },
+        },
+      }),
+      new Plugin({
+        key: new PluginKey('preventSelection'),
+        props: {
+          // 禁止非可编辑用户选中
+          handleClick(_, __, event) {
+            if (!isEditable) {
+              event.preventDefault();
+              return true;
+            }
+          },
+          handleKeyPress(_, event) {
+            if (!isEditable) {
+              event.preventDefault();
+              return true;
+            }
+          },
+          handleKeyDown(_, event) {
+            if (!isEditable) {
+              event.preventDefault();
+              return true;
+            }
           },
         },
       }),

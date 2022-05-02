@@ -133,7 +133,7 @@ export class BubbleMenuView {
       trigger: 'manual',
       placement: 'top',
       hideOnClick: 'toggle',
-      ...Object.assign({ zIndex: 99 }, this.tippyOptions),
+      ...Object.assign({ zIndex: 999 }, this.tippyOptions),
     });
 
     // maybe we have to hide tippy on its own blur event as well
@@ -160,14 +160,16 @@ export class BubbleMenuView {
     const from = Math.min(...ranges.map((range) => range.$from.pos));
     const to = Math.max(...ranges.map((range) => range.$to.pos));
 
-    const shouldShow = this.shouldShow?.({
-      editor: this.editor,
-      view,
-      state,
-      oldState,
-      from,
-      to,
-    });
+    const shouldShow =
+      this.editor.isEditable &&
+      this.shouldShow?.({
+        editor: this.editor,
+        view,
+        state,
+        oldState,
+        from,
+        to,
+      });
 
     if (!shouldShow) {
       this.hide();

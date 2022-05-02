@@ -165,6 +165,7 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
 
   addProseMirrorPlugins() {
     const extensionThis = this;
+    const { isEditable } = this.editor;
 
     return [
       yCursorPlugin(
@@ -184,7 +185,9 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
         // @ts-ignore
         {
           cursorBuilder: this.options.render,
-        }
+        },
+        'cursor',
+        isEditable
       ),
     ];
   },
