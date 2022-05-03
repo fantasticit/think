@@ -2,21 +2,8 @@ import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import cls from 'classnames';
-import {
-  Layout,
-  Nav,
-  Space,
-  Avatar,
-  Button,
-  Typography,
-  Skeleton,
-  Tooltip,
-  Popover,
-  BackTop,
-  Spin,
-} from '@douyinfe/semi-ui';
-import { LocaleTime } from 'components/locale-time';
-import { IconUser, IconEdit, IconArticle } from '@douyinfe/semi-icons';
+import { Layout, Nav, Space, Button, Typography, Skeleton, Tooltip, Popover, BackTop, Spin } from '@douyinfe/semi-ui';
+import { IconEdit, IconArticle } from '@douyinfe/semi-icons';
 import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
 import { DocumentShare } from 'components/document/share';
@@ -31,6 +18,7 @@ import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
 import { triggerJoinUser } from 'event';
 import { CollaborationEditor } from 'tiptap/editor';
+import { Author } from './author';
 import styles from './index.module.scss';
 
 const { Header } = Layout;
@@ -70,37 +58,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
       const target = element && element.querySelector('.ProseMirror .title');
 
       if (target) {
-        return createPortal(
-          <div
-            style={{
-              borderTop: '1px solid var(--semi-color-border)',
-              marginTop: 24,
-              padding: '16px 0',
-              fontSize: 13,
-              fontWeight: 'normal',
-              color: 'var(--semi-color-text-0)',
-            }}
-          >
-            <Space>
-              <Avatar size="small" src={document.createUser && document.createUser.avatar}>
-                <IconUser />
-              </Avatar>
-              <div>
-                <p style={{ margin: 0 }}>
-                  创建者：
-                  {document.createUser && document.createUser.name}
-                </p>
-                <p style={{ margin: '8px 0 0' }}>
-                  最近更新日期：
-                  <LocaleTime date={document.updatedAt} timeago />
-                  {' ⦁ '}阅读量：
-                  {document.views}
-                </p>
-              </div>
-            </Space>
-          </div>,
-          target
-        );
+        return createPortal(<Author document={document} />, target);
       }
 
       return null;

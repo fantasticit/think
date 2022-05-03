@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import cls from 'classnames';
 import {
   Layout,
@@ -26,6 +27,7 @@ import { useDocumentStyle } from 'hooks/use-document-style';
 import { usePublicDocument } from 'data/document';
 import { DocumentSkeleton } from 'tiptap/components/skeleton';
 import { CollaborationEditor } from 'tiptap/editor';
+import { Author } from '../author';
 import styles from './index.module.scss';
 
 const { Header, Content } = Layout;
@@ -43,6 +45,21 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
+
+  const renderAuthor = useCallback(
+    (element) => {
+      if (!document) return null;
+
+      const target = element && element.querySelector('.ProseMirror .title');
+
+      if (target) {
+        return createPortal(<Author document={data} />, target);
+      }
+
+      return null;
+    },
+    [data]
+  );
 
   const handleOk = useCallback(() => {
     $form.current.validate().then((values) => {
@@ -121,7 +138,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           }}
           loadingContent={
             <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
-              1<DocumentSkeleton />
+              <DocumentSkeleton />
             </div>
           }
           normalContent={() => {
@@ -132,7 +149,14 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
                 style={{ fontSize }}
               >
                 <Seo title={data.title} />
-                <CollaborationEditor menubar={false} editable={false} user={null} id={documentId} type="document" />
+                <CollaborationEditor
+                  menubar={false}
+                  editable={false}
+                  user={null}
+                  id={documentId}
+                  type="document"
+                  renderInEditorPortal={renderAuthor}
+                />
                 <ImageViewer containerSelector="#js-share-document-editor-container" />
                 <BackTop target={() => document.querySelector('#js-share-document-editor-container').parentNode} />
               </div>
