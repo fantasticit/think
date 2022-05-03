@@ -75,7 +75,7 @@ export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId, isShare
           <a className={styles.left}>
             <Typography.Text
               ellipsis={{
-                showTooltip: { opts: { content: label, position: 'right' } },
+                showTooltip: { opts: { content: label, style: { wordBreak: 'break-all' }, position: 'right' } },
               }}
             >
               {label}

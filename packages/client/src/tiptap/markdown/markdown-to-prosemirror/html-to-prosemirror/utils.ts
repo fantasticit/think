@@ -1,4 +1,4 @@
-import { BaseKit } from '../../../start-kit';
+import { AllExtensions } from './all-kit';
 
 /**
  * 通过 tiptap extension 的配置从 DOM 节点上获取属性值
@@ -25,7 +25,7 @@ const getAttribute = (
 };
 
 export const getAttributes = (name: string, element: HTMLElement): Record<string, unknown> => {
-  const ext = BaseKit.find((ext) => ext.name === name);
+  const ext = AllExtensions.find((ext) => ext && ext.name === name);
 
   if (!ext) return {};
 

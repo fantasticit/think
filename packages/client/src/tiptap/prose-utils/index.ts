@@ -11,6 +11,8 @@ export * from './editor-container-size';
 export * from './file';
 export * from './lowlight-plugin';
 export * from './mark';
+export * from './markdown-source-map';
+export * from './markdown';
 export * from './mention';
 export * from './node';
 export * from './position';

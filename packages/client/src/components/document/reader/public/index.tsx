@@ -24,8 +24,8 @@ import { Theme } from 'components/theme';
 import { ImageViewer } from 'components/image-viewer';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { usePublicDocument } from 'data/document';
-import { DocumentSkeleton } from 'tiptap';
-import { DocumentContent } from './content';
+import { DocumentSkeleton } from 'tiptap/components/skeleton';
+import { CollaborationEditor } from 'tiptap/editor';
 import styles from './index.module.scss';
 
 const { Header, Content } = Layout;
@@ -121,26 +121,21 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           }}
           loadingContent={
             <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
-              <DocumentSkeleton />
+              1<DocumentSkeleton />
             </div>
           }
           normalContent={() => {
             return (
-              <>
+              <div
+                id="js-share-document-editor-container"
+                className={cls(styles.editorWrap, editorWrapClassNames)}
+                style={{ fontSize }}
+              >
                 <Seo title={data.title} />
-                <div
-                  className={cls(styles.editorWrap, editorWrapClassNames)}
-                  style={{ fontSize }}
-                  id="js-share-document-editor-container"
-                >
-                  <DocumentContent
-                    document={data}
-                    createUserContainerSelector="#js-share-document-editor-container .ProseMirror .title"
-                  />
-                </div>
+                <CollaborationEditor menubar={false} editable={false} user={null} id={documentId} type="document" />
                 <ImageViewer containerSelector="#js-share-document-editor-container" />
                 <BackTop target={() => document.querySelector('#js-share-document-editor-container').parentNode} />
-              </>
+              </div>
             );
           }}
         />

@@ -27,7 +27,7 @@ export class DocumentVersionService {
     const redisConfig = lodash.get(config, 'db.redis', null);
 
     if (!redisConfig) {
-      console.error('Redis 未配置，无法启动文档版本服务');
+      console.error('[think] Redis 未配置，无法启动文档版本服务');
       return;
     }
 
@@ -46,11 +46,11 @@ export class DocumentVersionService {
         this.error = null;
       });
       redis.on('error', (e) => {
-        console.error(`[think] Redis 启动失败: "${e}"`);
+        console.error(`[think] 文档版本服务启动错误: "${e}"`);
       });
       redis.connect().catch((e) => {
         this.redis = null;
-        this.error = '[think] Redis 启动失败：无法提供文档版本服务';
+        this.error = '[think] 文档版本服务启动失败！';
       });
     } catch (e) {}
   }

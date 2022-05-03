@@ -104,7 +104,7 @@ export const useWikiTocs = (wikiId) => {
       mutate();
       return res;
     },
-    [mutate]
+    [mutate, wikiId]
   );
 
   return { data, loading, error, refresh: mutate, update };
@@ -143,7 +143,7 @@ export const useWikiDetail = (wikiId) => {
       mutate();
       return res;
     },
-    [mutate]
+    [mutate, wikiId]
   );
 
   /**
@@ -157,7 +157,7 @@ export const useWikiDetail = (wikiId) => {
       mutate();
       return res;
     },
-    [mutate]
+    [mutate, wikiId]
   );
 
   return { data, loading, error, update, toggleStatus };
@@ -178,7 +178,7 @@ export const useWikiUsers = (wikiId) => {
       mutate();
       return ret;
     },
-    [mutate]
+    [mutate, wikiId]
   );
 
   const updateUser = useCallback(
@@ -187,7 +187,7 @@ export const useWikiUsers = (wikiId) => {
       mutate();
       return ret;
     },
-    [mutate]
+    [mutate, wikiId]
   );
 
   const deleteUser = useCallback(
@@ -196,7 +196,7 @@ export const useWikiUsers = (wikiId) => {
       mutate();
       return ret;
     },
-    [mutate]
+    [mutate, wikiId]
   );
 
   return {
@@ -229,7 +229,7 @@ export const useWikiStar = (wikiId) => {
       targetId: wikiId,
     });
     mutate();
-  }, [mutate]);
+  }, [mutate, wikiId]);
 
   return { data, error, toggleStar };
 };

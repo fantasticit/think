@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 .wrap {
   display: flex;
   flex-direction: column;
@@ -30,51 +31,31 @@
   height: 100%;
   overflow: hidden;
 
-  > header {
-    position: relative;
-    z-index: 110;
-    display: flex;
-    height: 50px;
-    padding: 0 24px;
-    overflow: hidden;
-    background-color: var(--semi-color-nav-bg);
-    align-items: center;
-    border-bottom: 1px solid var(--semi-color-border);
-    user-select: none;
-
-    &.isStandardWidth {
-      justify-content: center;
-    }
-
-    &.isFullWidth {
-      justify-content: flex-start;
-    }
-
-    > div {
-      display: inline-flex;
-      align-items: center;
-      height: 100%;
-      overflow: auto;
+  > div {
+    > main {
+      padding: 24px 24px 96px;
     }
   }
 
-  > main {
-    flex: 1;
-    height: calc(100% - 50px);
-    overflow: auto;
-
-    .contentWrap {
-      padding: 24px 24px 96px;
-
-      &.isStandardWidth {
-        width: 96%;
-        max-width: 750px;
-        margin: 0 auto;
+  &.isStandardWidth {
+    > div {
+      > main {
+        > div:first-of-type {
+          width: 96%;
+          max-width: 750px;
+          margin: 0 auto;
+        }
       }
+    }
+  }
 
-      &.isFullWidth {
-        width: 100%;
-        margin: 0 auto;
+  &.isFullWidth {
+    width: 100%;
+    margin: 0 auto;
+
+    > div {
+      > header {
+        justify-content: flex-start;
       }
     }
   }

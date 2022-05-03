@@ -69,8 +69,9 @@ export const DataRender: React.FC<IProps> = ({
   return (
     <LoadingWrap
       loading={loading}
-      loadingContent={runRender(loadingContent)}
-      normalContent={loading ? null : runRender(normalContent)}
+      runRender={runRender}
+      loadingContent={loadingContent}
+      normalContent={loading ? null : normalContent}
     />
   );
 };

@@ -1,40 +1,41 @@
 import { MarkdownSerializer as ProseMirrorMarkdownSerializer, defaultMarkdownSerializer } from 'prosemirror-markdown';
-import { Attachment } from 'tiptap/extensions/attachment';
-import { Bold } from 'tiptap/extensions/bold';
-import { BulletList } from 'tiptap/extensions/bullet-list';
-import { Callout } from 'tiptap/extensions/callout';
-import { Code } from 'tiptap/extensions/code';
-import { CodeBlock } from 'tiptap/extensions/code-block';
-import { Countdown } from 'tiptap/extensions/countdown';
-import { DocumentChildren } from 'tiptap/extensions/document-children';
-import { DocumentReference } from 'tiptap/extensions/document-reference';
-import { HardBreak } from 'tiptap/extensions/hard-break';
-import { Heading } from 'tiptap/extensions/heading';
-import { HorizontalRule } from 'tiptap/extensions/horizontal-rule';
-import { marks } from 'tiptap/extensions/html-marks';
-import { Mention } from 'tiptap/extensions/mention';
-import { Iframe } from 'tiptap/extensions/iframe';
-import { Image } from 'tiptap/extensions/image';
-import { Italic } from 'tiptap/extensions/italic';
-import { Katex } from 'tiptap/extensions/katex';
-import { Link } from 'tiptap/extensions/link';
-import { ListItem } from 'tiptap/extensions/listItem';
-import { Mind } from 'tiptap/extensions/mind';
-import { OrderedList } from 'tiptap/extensions/ordered-list';
-import { Paragraph } from 'tiptap/extensions/paragraph';
-import { Status } from 'tiptap/extensions/status';
-import { Strike } from 'tiptap/extensions/strike';
-import { Subscript } from 'tiptap/extensions/subscript';
-import { Superscript } from 'tiptap/extensions/superscript';
-import { Table } from 'tiptap/extensions/table';
-import { TableCell } from 'tiptap/extensions/table-cell';
-import { TableHeader } from 'tiptap/extensions/table-header';
-import { TableRow } from 'tiptap/extensions/table-row';
-import { Text } from 'tiptap/extensions/text';
-import { TaskItem } from 'tiptap/extensions/task-item';
-import { TaskList } from 'tiptap/extensions/task-list';
-import { TextStyle } from 'tiptap/extensions/text-style';
-import { Title } from 'tiptap/extensions/title';
+import { Attachment } from 'tiptap/core/extensions/attachment';
+import { Blockquote } from 'tiptap/core/extensions/blockquote';
+import { Bold } from 'tiptap/core/extensions/bold';
+import { BulletList } from 'tiptap/core/extensions/bullet-list';
+import { Callout } from 'tiptap/core/extensions/callout';
+import { Code } from 'tiptap/core/extensions/code';
+import { CodeBlock } from 'tiptap/core/extensions/code-block';
+import { Countdown } from 'tiptap/core/extensions/countdown';
+import { DocumentChildren } from 'tiptap/core/extensions/document-children';
+import { DocumentReference } from 'tiptap/core/extensions/document-reference';
+import { HardBreak } from 'tiptap/core/extensions/hard-break';
+import { Heading } from 'tiptap/core/extensions/heading';
+import { HorizontalRule } from 'tiptap/core/extensions/horizontal-rule';
+import { marks } from 'tiptap/core/extensions/html-marks';
+import { Mention } from 'tiptap/core/extensions/mention';
+import { Iframe } from 'tiptap/core/extensions/iframe';
+import { Image } from 'tiptap/core/extensions/image';
+import { Italic } from 'tiptap/core/extensions/italic';
+import { Katex } from 'tiptap/core/extensions/katex';
+import { Link } from 'tiptap/core/extensions/link';
+import { ListItem } from 'tiptap/core/extensions/listItem';
+import { Mind } from 'tiptap/core/extensions/mind';
+import { OrderedList } from 'tiptap/core/extensions/ordered-list';
+import { Paragraph } from 'tiptap/core/extensions/paragraph';
+import { Status } from 'tiptap/core/extensions/status';
+import { Strike } from 'tiptap/core/extensions/strike';
+import { Subscript } from 'tiptap/core/extensions/subscript';
+import { Superscript } from 'tiptap/core/extensions/superscript';
+import { Table } from 'tiptap/core/extensions/table';
+import { TableCell } from 'tiptap/core/extensions/table-cell';
+import { TableHeader } from 'tiptap/core/extensions/table-header';
+import { TableRow } from 'tiptap/core/extensions/table-row';
+import { Text } from 'tiptap/core/extensions/text';
+import { TaskItem } from 'tiptap/core/extensions/task-item';
+import { TaskList } from 'tiptap/core/extensions/task-list';
+import { TextStyle } from 'tiptap/core/extensions/text-style';
+import { Title } from 'tiptap/core/extensions/title';
 import {
   isPlainURL,
   renderHardBreak,
@@ -91,8 +92,8 @@ const SerializerConfig = {
   },
 
   nodes: {
-    attachment: renderCustomContainer('attachment'),
-    blockquote: (state, node) => {
+    [Attachment.name]: renderCustomContainer('attachment'),
+    [Blockquote.name]: (state, node) => {
       if (node.attrs.multiline) {
         state.write('>>>');
         state.ensureNewLine();

@@ -70,7 +70,12 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
                   <Skeleton active placeholder={<Skeleton.Title style={{ width: 80 }} />} loading={true} />
                 }
                 normalContent={() => (
-                  <Text ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWith / 4) }}>
+                  <Text
+                    ellipsis={{
+                      showTooltip: { opts: { content: title, style: { wordBreak: 'break-all' } } },
+                    }}
+                    style={{ width: ~~(windowWith / 4) }}
+                  >
                     {title}
                   </Text>
                 )}

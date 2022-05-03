@@ -1,8 +1,5 @@
 import { htmlToPromsemirror } from './html-to-prosemirror';
 import { markdownToHTML } from './markdown-to-html';
-export { prosemirrorToMarkdown } from '../prosemirror-to-markdown';
-export * from './helpers';
-export * from './markdown-source-map';
 
 /**
  * markdown-it 渲染出的 HTML 中 img 不符合格式要求

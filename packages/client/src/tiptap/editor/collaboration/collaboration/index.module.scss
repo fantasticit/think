@@ -1,0 +1,26 @@
+.wrap {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
+
+  > header {
+    position: relative;
+    z-index: 110;
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    padding: 0 24px;
+    overflow: hidden;
+    background-color: var(--semi-color-nav-bg);
+    align-items: center;
+    border-bottom: 1px solid var(--semi-color-border);
+    user-select: none;
+  }
+
+  > main {
+    flex: 1;
+    overflow: auto;
+  }
+}
