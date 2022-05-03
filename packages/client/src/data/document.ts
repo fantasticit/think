@@ -59,7 +59,7 @@ export const useDocumentDetail = (documentId, options = null) => {
       mutate();
       return res;
     },
-    [mutate]
+    [mutate, documentId]
   );
 
   const toggleStatus = useCallback(
@@ -68,7 +68,7 @@ export const useDocumentDetail = (documentId, options = null) => {
       mutate();
       return ret;
     },
-    [mutate]
+    [mutate, documentId]
   );
 
   return { data, loading, error, update, toggleStatus };
@@ -118,7 +118,7 @@ export const useDocumentStar = (documentId) => {
       targetId: documentId,
     });
     mutate();
-  }, [mutate]);
+  }, [mutate, documentId]);
 
   return { data, error, toggleStar };
 };
@@ -198,7 +198,7 @@ export const useCollaborationDocument = (documentId) => {
       mutate();
       return ret;
     },
-    [mutate]
+    [mutate, documentId]
   );
 
   const updateUser = useCallback(
@@ -210,7 +210,7 @@ export const useCollaborationDocument = (documentId) => {
       mutate();
       return ret;
     },
-    [mutate]
+    [mutate, documentId]
   );
 
   const deleteUser = useCallback(
@@ -222,7 +222,7 @@ export const useCollaborationDocument = (documentId) => {
       mutate();
       return ret;
     },
-    [mutate]
+    [mutate, documentId]
   );
 
   return { users: data, loading, error, addUser, updateUser, deleteUser };

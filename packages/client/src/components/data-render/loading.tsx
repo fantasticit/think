@@ -1,14 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { useToggle } from 'hooks/use-toggle';
 
-interface IProps {
-  loading: boolean;
-  delay?: number;
-  loadingContent: React.ReactElement;
-  normalContent: React.ReactElement;
-}
+// interface IProps {
+//   loading: boolean;
+//   delay?: number;
+//   runRender
+//   loadingContent: React.ReactElement;
+//   normalContent: React.ReactElement;
+// }
 
-export const LoadingWrap: React.FC<IProps> = ({ loading, delay = 200, loadingContent, normalContent }) => {
+export const LoadingWrap = ({ loading, delay = 200, runRender, loadingContent, normalContent }) => {
   const timer = useRef<ReturnType<typeof setTimeout>>(null);
   const [showLoading, toggleShowLoading] = useToggle(false);
 
@@ -31,8 +32,8 @@ export const LoadingWrap: React.FC<IProps> = ({ loading, delay = 200, loadingCon
   }, [delay, loading, toggleShowLoading]);
 
   if (loading) {
-    return showLoading ? loadingContent : null;
+    return showLoading ? runRender(loadingContent) : null;
   }
 
-  return normalContent;
+  return runRender(normalContent);
 };

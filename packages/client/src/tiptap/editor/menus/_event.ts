@@ -1,0 +1,34 @@
+import { Editor } from 'tiptap/editor';
+import { EventEmitter } from 'helpers/event-emitter';
+
+const getEventEmitter = (editor: Editor): EventEmitter => {
+  try {
+    const event = editor.eventEmitter;
+    return event;
+  } catch (e) {
+    throw new Error('未找到 EventEmitter 模块！');
+  }
+};
+
+export const OPEN_COUNT_SETTING_MODAL = 'OPEN_COUNT_SETTING_MODAL';
+export const OPEN_LINK_SETTING_MODAL = 'OPEN_LINK_SETTING_MODAL';
+
+export const subject = (editor: Editor, eventName, handler) => {
+  const event = getEventEmitter(editor);
+  event.on(eventName, handler);
+};
+
+export const cancelSubject = (editor: Editor, eventName, handler) => {
+  const event = getEventEmitter(editor);
+  event.off(eventName, handler);
+};
+
+export const triggerOpenCountSettingModal = (editor: Editor, data) => {
+  const event = getEventEmitter(editor);
+  event.emit(OPEN_COUNT_SETTING_MODAL, data);
+};
+
+export const triggerOpenLinkSettingModal = (editor: Editor, data) => {
+  const event = getEventEmitter(editor);
+  event.emit(OPEN_LINK_SETTING_MODAL, data);
+};

@@ -1,5 +1,6 @@
 import Router from 'next/router';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import cls from 'classnames';
 import { Layout, Nav, Space, Button, Typography, Skeleton, Tooltip, Popover, BackTop, Spin } from '@douyinfe/semi-ui';
 import { IconEdit, IconArticle } from '@douyinfe/semi-icons';
@@ -15,11 +16,25 @@ import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
 import { useUser } from 'data/user';
 import { useDocumentDetail } from 'data/document';
-import { Editor } from './editor';
+import { triggerJoinUser } from 'event';
+import { CollaborationEditor } from 'tiptap/editor';
+import { Author } from './author';
 import styles from './index.module.scss';
 
 const { Header } = Layout;
 const { Text } = Typography;
+const EditBtnStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 30,
+  width: 30,
+  borderRadius: '100%',
+  backgroundColor: '#0077fa',
+  color: '#fff',
+  bottom: 100,
+  transform: 'translateY(-50px)',
+};
 
 interface IProps {
   documentId: string;
@@ -35,6 +50,21 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   const { user } = useUser();
   const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
   const { document, authority } = documentAndAuth || {};
+
+  const renderAuthor = useCallback(
+    (element) => {
+      if (!document) return null;
+
+      const target = element && element.querySelector('.ProseMirror .title');
+
+      if (target) {
+        return createPortal(<Author document={document} />, target);
+      }
+
+      return null;
+    },
+    [document]
+  );
 
   const gotoEdit = useCallback(() => {
     Router.push(`/wiki/${document.wikiId}/document/${document.id}/edit`);
@@ -54,7 +84,13 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
               error={docAuthError}
               loadingContent={<Skeleton active placeholder={<Skeleton.Title style={{ width: 80 }} />} loading={true} />}
               normalContent={() => (
-                <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
+                <Text
+                  strong
+                  ellipsis={{
+                    showTooltip: { opts: { content: document.title, style: { wordBreak: 'break-all' } } },
+                  }}
+                  style={{ width: ~~(windowWidth / 4) }}
+                >
                   {document.title}
                 </Text>
               )}
@@ -103,30 +139,22 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                   <>
                     <Seo title={document.title} />
                     {user && (
-                      <Editor key={document.id} user={user} documentId={document.id} document={document}>
-                        <div className={styles.commentWrap}>
-                          <CommentEditor documentId={document.id} />
-                        </div>
-                      </Editor>
+                      <CollaborationEditor
+                        editable={false}
+                        user={user}
+                        id={documentId}
+                        type="document"
+                        renderInEditorPortal={renderAuthor}
+                        onAwarenessUpdate={triggerJoinUser}
+                      />
+                    )}
+                    {user && (
+                      <div className={styles.commentWrap}>
+                        <CommentEditor documentId={document.id} />
+                      </div>
                     )}
                     {authority && authority.editable && container && (
-                      <BackTop
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          height: 30,
-                          width: 30,
-                          borderRadius: '100%',
-                          backgroundColor: '#0077fa',
-                          color: '#fff',
-                          bottom: 100,
-                          transform: `translateY(-50px);`,
-                        }}
-                        onClick={gotoEdit}
-                        target={() => container}
-                        visibilityHeight={200}
-                      >
+                      <BackTop style={EditBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
                         <IconEdit />
                       </BackTop>
                     )}

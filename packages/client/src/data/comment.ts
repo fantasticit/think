@@ -29,7 +29,7 @@ export const useComments = (documentId) => {
       mutate();
       return ret;
     },
-    [mutate]
+    [mutate, documentId]
   );
 
   const updateComment = useCallback(
@@ -41,7 +41,7 @@ export const useComments = (documentId) => {
       mutate();
       return ret;
     },
-    [mutate]
+    [mutate, documentId]
   );
 
   const deleteComment = useCallback(

@@ -27,6 +27,7 @@
       "constants/*": ["constants/*"],
       "helpers/*": ["helpers/*"],
       "tiptap/*": ["tiptap/*"],
+      "tiptap-v2/*": ["tiptap-v2/*"],
       "event/*": ["event/*"]
     }
   },

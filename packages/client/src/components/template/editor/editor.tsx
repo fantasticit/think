@@ -1,35 +1,15 @@
 import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import Router from 'next/router';
 import cls from 'classnames';
-import {
-  Button,
-  Nav,
-  Space,
-  Typography,
-  Tooltip,
-  Switch,
-  Popover,
-  Popconfirm,
-  BackTop,
-  Toast,
-} from '@douyinfe/semi-ui';
+import { Button, Nav, Space, Typography, Tooltip, Switch, Popover, Popconfirm } from '@douyinfe/semi-ui';
 import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
 import { ILoginUser, ITemplate } from '@think/domains';
 import { Theme } from 'components/theme';
-import {
-  useEditor,
-  EditorContent,
-  BaseKit,
-  DocumentWithTitle,
-  getCollaborationExtension,
-  getProvider,
-  MenuBar,
-} from 'tiptap';
 import { User } from 'components/user';
 import { DocumentStyle } from 'components/document/style';
-import { LogoName } from 'components/logo';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
+import { CollaborationEditor } from 'tiptap/editor';
 import styles from './index.module.scss';
 
 const { Text } = Typography;
@@ -44,30 +24,6 @@ interface IProps {
 export const Editor: React.FC<IProps> = ({ user, data, updateTemplate, deleteTemplate }) => {
   const { width: windowWidth } = useWindowSize();
   const [title, setTitle] = useState(data.title);
-  const provider = useMemo(() => {
-    return getProvider({
-      targetId: data.id,
-      token: user.token,
-      cacheType: 'READER',
-      user,
-      docType: 'template',
-    });
-  }, []);
-  const editor = useEditor(
-    {
-      editable: true,
-      extensions: [...BaseKit, DocumentWithTitle, getCollaborationExtension(provider)],
-      onTransaction: ({ transaction }) => {
-        try {
-          const title = transaction.doc.content.firstChild.content.firstChild.textContent;
-          setTitle(title);
-        } catch (e) {
-          //
-        }
-      },
-    },
-    [provider]
-  );
   const [isPublic, setPublic] = useState(false);
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
@@ -88,22 +44,6 @@ export const Editor: React.FC<IProps> = ({ user, data, updateTemplate, deleteTem
     if (!data) return;
     setPublic(data.isPublic);
   }, [data]);
-
-  useEffect(() => {
-    const listener = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.keyCode == 83) {
-        event.preventDefault();
-        Toast.info(`${LogoName}会实时保存你的数据，无需手动保存。`);
-        return false;
-      }
-    };
-
-    window.document.addEventListener('keydown', listener);
-
-    return () => {
-      window.document.removeEventListener('keydown', listener);
-    };
-  }, []);
 
   return (
     <div className={styles.wrap}>
@@ -140,17 +80,9 @@ export const Editor: React.FC<IProps> = ({ user, data, updateTemplate, deleteTem
       </header>
       <main className={styles.contentWrap}>
         <div className={styles.editorWrap}>
-          <header className={editorWrapClassNames}>
-            <div>
-              <MenuBar editor={editor} />
-            </div>
-          </header>
-          <main id="js-template-editor-container">
-            <div className={cls(styles.contentWrap, editorWrapClassNames)} style={{ fontSize }}>
-              <EditorContent editor={editor} />
-            </div>
-            <BackTop target={() => document.querySelector('#js-template-editor-container')} />
-          </main>
+          <div className={cls(styles.contentWrap, editorWrapClassNames)} style={{ fontSize }}>
+            <CollaborationEditor menubar editable user={user} id={data.id} type="template" onTitleUpdate={setTitle} />
+          </div>
         </div>
       </main>
     </div>

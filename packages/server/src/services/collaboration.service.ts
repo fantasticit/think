@@ -8,6 +8,7 @@ import { OutUser, UserService } from '@services/user.service';
 import { TemplateService } from '@services/template.service';
 import { DocumentService } from '@services/document.service';
 import { DocumentVersionService } from '@services/document-version.service';
+import { DocumentStatus } from '@think/domains';
 
 @Injectable()
 export class CollaborationService {
@@ -82,27 +83,35 @@ export class CollaborationService {
   async onAuthenticate({ connection, token, requestParameters }: onAuthenticatePayload) {
     const targetId = requestParameters.get('targetId');
     const docType = requestParameters.get('docType');
-    const user = await this.userService.decodeToken(token);
-
-    if (!user || !user.id) {
-      throw new HttpException('您无权查看', HttpStatus.UNAUTHORIZED);
-    }
+    const user = token ? await this.userService.decodeToken(token) : null;
 
     switch (docType) {
       case 'document': {
-        const authority = await this.documentService.getDocumentAuthority(targetId, user.id);
-        if (!authority.readable) {
-          throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
+        if (!user) {
+          const document = await this.documentService.findById(targetId);
+          if (!document || document.status !== DocumentStatus.public) {
+            throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
+          }
+          return { user: { name: '匿名用户' } };
+        } else {
+          const authority = await this.documentService.getDocumentAuthority(targetId, user.id);
+          if (!authority.readable) {
+            throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
+          }
+          if (!authority.editable) {
+            connection.readOnly = true;
+          }
+          return {
+            user,
+          };
         }
-        if (!authority.editable) {
-          connection.readOnly = true;
-        }
-        return {
-          user,
-        };
       }
 
       case 'template': {
+        if (!user || !user.id) {
+          throw new HttpException('您无权查看', HttpStatus.UNAUTHORIZED);
+        }
+
         const template = await this.templateService.findById(targetId);
         if (template.createUserId !== user.id) {
           throw new HttpException('您无权查看此模板', HttpStatus.FORBIDDEN);

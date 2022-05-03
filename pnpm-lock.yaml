@@ -135,6 +135,7 @@ importers:
       react-split-pane: ^0.1.92
       scroll-into-view-if-needed: ^2.2.29
       swr: ^1.2.0
+      tilg: ^0.1.1
       tippy.js: ^6.3.7
       toggle-selection: ^1.0.6
       tsconfig-paths-webpack-plugin: ^3.5.2
@@ -218,6 +219,7 @@ importers:
       react-split-pane: 0.1.92_react-dom@17.0.2+react@17.0.2
       scroll-into-view-if-needed: 2.2.29
       swr: 1.2.0_react@17.0.2
+      tilg: 0.1.1_react@17.0.2
       tippy.js: 6.3.7
       toggle-selection: 1.0.6
       viewerjs: 1.10.4
@@ -8717,6 +8719,14 @@ packages:
 
   /through/2.3.8:
     resolution: {integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=}
+
+  /tilg/0.1.1_react@17.0.2:
+    resolution: {integrity: sha512-0uHyTAUM0tJL792LeviRPFkJtCbF6Za3/hbbnRmWGUaicOhbJ0IpvBViXiXTF7nk6R0L6vve2XLesQzn5jEVng==}
+    peerDependencies:
+      react: ^18.0.0 || ^17.0.0
+    dependencies:
+      react: 17.0.2
+    dev: false
 
   /tiny-invariant/1.2.0:
     resolution: {integrity: sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==}

@@ -62,12 +62,12 @@ export const useTemplate = (templateId) => {
       mutate();
       return ret as unknown as ITemplate;
     },
-    [mutate]
+    [mutate, templateId]
   );
 
   const deleteTemplate = useCallback(async () => {
     await HttpClient.post(`/template/delete/${templateId}`);
-  }, []);
+  }, [templateId]);
 
   return {
     data,
