@@ -66,13 +66,13 @@ export const EmojiList: React.FC<IProps> = forwardRef((props, ref) => {
       <div ref={$container}>
         {props.items.length ? (
           props.items.map((item, index) => (
-            <button
+            <span
               className={cls(styles.item, index === selectedIndex ? styles['is-selected'] : '')}
               key={index}
               onClick={() => selectItem(index)}
             >
               {item.fallbackImage ? <img src={item.fallbackImage} /> : item.emoji}:{item.name}:
-            </button>
+            </span>
           ))
         ) : (
           <div className={styles.item}>没有找到结果</div>

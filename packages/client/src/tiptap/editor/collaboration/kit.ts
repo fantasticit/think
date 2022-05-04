@@ -27,6 +27,7 @@ import { OrderedList } from 'tiptap/core/extensions/ordered-list';
 import { Paragraph } from 'tiptap/core/extensions/paragraph';
 import { Placeholder } from 'tiptap/core/extensions/placeholder';
 import { SelectionExtension } from 'tiptap/core/extensions/selection';
+import { ScrollIntoView } from 'tiptap/core/extensions/scroll-into-view';
 import { Strike } from 'tiptap/core/extensions/strike';
 import { Subscript } from 'tiptap/core/extensions/subscript';
 import { Superscript } from 'tiptap/core/extensions/superscript';
@@ -106,6 +107,7 @@ export const CollaborationKit = [
   Loading,
   OrderedList,
   SelectionExtension,
+  ScrollIntoView,
   Strike,
   Subscript,
   Superscript,
@@ -139,6 +141,5 @@ export const CollaborationKit = [
   SearchNReplace,
   Status,
   Title,
-  // Document,
   DocumentWithTitle,
 ];

@@ -72,13 +72,13 @@ export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
       <div ref={$container}>
         {props.items.length ? (
           props.items.map((item, index) => (
-            <button
+            <span
               className={cls(styles.item, index === selectedIndex ? styles['is-selected'] : '')}
               key={index}
               onClick={() => selectItem(index)}
             >
               {typeof item.label === 'function' ? item.label(props.editor) : item.label}
-            </button>
+            </span>
           ))
         ) : (
           <div className={styles.item}>没有找到结果</div>
