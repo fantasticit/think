@@ -77,6 +77,7 @@ export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId, isShare
               ellipsis={{
                 showTooltip: { opts: { content: label, style: { wordBreak: 'break-all' }, position: 'right' } },
               }}
+              style={{ color: 'inherit' }}
             >
               {label}
             </Typography.Text>

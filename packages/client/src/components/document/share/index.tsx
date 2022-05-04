@@ -40,14 +40,12 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, render }) => {
           {isPublic ? '分享中' : '分享'}
         </Button>
       )}
-
       <Modal
         title={isPublic ? '关闭分享' : '开启分享'}
         okText={isPublic ? '关闭分享' : '开启分享'}
         visible={visible}
         onOk={handleOk}
         onCancel={() => toggleVisible(false)}
-        maskClosable={false}
         style={{ maxWidth: '96vw' }}
         footer={
           <>

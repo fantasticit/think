@@ -25,7 +25,7 @@ export const User: React.FC = () => {
     <>
       <Dropdown
         trigger="click"
-        position="bottomLeft"
+        position="bottomRight"
         render={
           <Dropdown.Menu style={{ width: 160 }}>
             <Dropdown.Item onClick={() => toggleVisible(true)}>

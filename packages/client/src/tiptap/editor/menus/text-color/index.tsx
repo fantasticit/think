@@ -12,7 +12,7 @@ import { ColorPicker } from 'tiptap/components/color-picker';
 type Color = { color: string };
 
 const FlexStyle = {
-  display: 'flex',
+  display: 'inline-flex',
   flexDirection: 'column',
   alignItems: 'center',
 } as React.CSSProperties;
@@ -35,13 +35,13 @@ export const TextColor: React.FC<{ editor: Editor }> = ({ editor }) => {
   );
 
   return (
-    <ColorPicker onSetColor={setColor} disabled={isTitleActive}>
+    <ColorPicker title="文本色" onSetColor={setColor} disabled={isTitleActive}>
       <Tooltip content="文本色">
         <Button
           theme={isTextStyleActive ? 'light' : 'borderless'}
           type={'tertiary'}
           icon={
-            <div style={FlexStyle}>
+            <span style={FlexStyle}>
               <IconFont style={{ fontSize: '0.85em' }} />
               <span
                 style={{
@@ -50,7 +50,7 @@ export const TextColor: React.FC<{ editor: Editor }> = ({ editor }) => {
                   backgroundColor: color,
                 }}
               ></span>
-            </div>
+            </span>
           }
           disabled={isTitleActive}
         />

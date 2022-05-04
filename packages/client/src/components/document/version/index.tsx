@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Modal, Typography } from '@douyinfe/semi-ui';
+import { Button, Modal, Typography, Layout, Nav } from '@douyinfe/semi-ui';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { useEditor, EditorContent } from '@tiptap/react';
 import cls from 'classnames';
@@ -16,6 +16,7 @@ interface IProps {
   onSelect?: (data) => void;
 }
 
+const { Sider, Content } = Layout;
 const { Title } = Typography;
 
 export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
@@ -105,28 +106,40 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
           error={error}
           empty={!loading && !data.length}
           normalContent={() => (
-            <div className={styles.contentWrap}>
-              <aside>
-                <ul>
+            <Layout className={styles.contentWrap}>
+              <Sider style={{ backgroundColor: 'var(--semi-color-bg-1)' }}>
+                <Nav
+                  style={{ maxWidth: 200, height: '100%' }}
+                  bodyStyle={{ height: '100%' }}
+                  selectedKeys={[selectedVersion]}
+                  footer={{
+                    collapseButton: true,
+                  }}
+                >
                   {data.map(({ version, data }) => {
                     return (
-                      <li
+                      <Nav.Item
                         key={version}
+                        itemKey={version}
                         className={cls(selectedVersion && selectedVersion.version === version && styles.selected)}
+                        text={<LocaleTime date={+version} />}
                         onClick={() => select({ version, data })}
-                      >
-                        <LocaleTime date={+version} />
-                      </li>
+                      />
                     );
                   })}
-                </ul>
-              </aside>
-              <main>
-                <div className={cls('container', styles.editorWrap)}>
+                </Nav>
+              </Sider>
+              <Content
+                style={{
+                  padding: 16,
+                  backgroundColor: 'var(--semi-color-bg-0)',
+                }}
+              >
+                <div className={'container'}>
                   <EditorContent editor={editor} />
                 </div>
-              </main>
-            </div>
+              </Content>
+            </Layout>
           )}
         />
       </Modal>

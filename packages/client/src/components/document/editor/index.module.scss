@@ -8,12 +8,14 @@
   > header {
     position: relative;
     z-index: 110;
-    height: 60px;
     background-color: var(--semi-color-nav-bg);
     user-select: none;
 
-    > div {
+    .mobileToolbar {
+      padding: 12px 16px;
       overflow: auto;
+      text-align: center;
+      border-bottom: 1px solid var(--semi-color-border);
     }
   }
 

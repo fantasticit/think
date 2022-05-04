@@ -33,7 +33,14 @@ export const CountdownSettingModal: React.FC<IProps> = ({ editor }) => {
   }, [editor, toggleVisible]);
 
   return (
-    <Modal centered title="倒计时" visible={visible} onOk={handleOk} onCancel={() => toggleVisible(false)}>
+    <Modal
+      centered
+      title="倒计时"
+      style={{ maxWidth: '96vw' }}
+      visible={visible}
+      onOk={handleOk}
+      onCancel={() => toggleVisible(false)}
+    >
       <Form initValues={initialState} getFormApi={(formApi) => ($form.current = formApi)} labelPosition="left">
         <Form.Input labelWidth={72} label="标题" field="title" required />
         <Form.DatePicker labelWidth={72} style={{ width: '100%' }} label="截止日期" field="date" type="dateTime" />

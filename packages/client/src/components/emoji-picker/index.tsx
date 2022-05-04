@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Popover, Typography } from '@douyinfe/semi-ui';
+import { Popover, Typography, Modal } from '@douyinfe/semi-ui';
 import { EXPRESSIONES, GESTURES, SYMBOLS, OBJECTS, ACTIVITIES, SKY_WEATHER } from './constants';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
 import { useToggle } from 'hooks/use-toggle';
 import styles from './index.module.scss';
+import { useWindowSize } from 'hooks/use-window-size';
 
 const { Title } = Typography;
 
@@ -41,6 +42,7 @@ interface IProps {
 }
 
 export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
+  const { isMobile } = useWindowSize();
   const [recentUsed, setRecentUsed] = useState([]);
   const [visible, toggleVisible] = useToggle(false);
   const renderedList = useMemo(
@@ -57,6 +59,30 @@ export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
     [onSelectEmoji]
   );
 
+  const content = useMemo(
+    () => (
+      <div className={styles.wrap} style={{ paddingBottom: isMobile ? 24 : 0 }}>
+        {renderedList.map((item, index) => {
+          return (
+            <div key={item.title} className={styles.sectionWrap}>
+              <Title heading={6} style={{ margin: `${index === 0 ? 0 : 16}px 0 6px` }}>
+                {item.title}
+              </Title>
+              <ul className={styles.listWrap}>
+                {(item.data || []).map((ex) => (
+                  <li key={ex} onClick={() => selectEmoji(ex)}>
+                    {ex}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    ),
+    [isMobile, renderedList, selectEmoji]
+  );
+
   useEffect(() => {
     if (!visible) return;
     emojiLocalStorageLRUCache.syncFromStorage();
@@ -64,35 +90,34 @@ export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
   }, [visible]);
 
   return (
-    <Popover
-      showArrow
-      zIndex={10000}
-      trigger="click"
-      position="bottomLeft"
-      visible={visible}
-      onVisibleChange={toggleVisible}
-      content={
-        <div className={styles.wrap}>
-          {renderedList.map((item, index) => {
-            return (
-              <div key={item.title} className={styles.sectionWrap}>
-                <Title heading={6} style={{ margin: `${index === 0 ? 0 : 16}px 0 6px` }}>
-                  {item.title}
-                </Title>
-                <ul className={styles.listWrap}>
-                  {(item.data || []).map((ex) => (
-                    <li key={ex} onClick={() => selectEmoji(ex)}>
-                      {ex}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
-      }
-    >
-      {children}
-    </Popover>
+    <span>
+      {isMobile ? (
+        <>
+          <Modal
+            centered
+            title="表情"
+            visible={visible}
+            footer={null}
+            onCancel={() => toggleVisible(false)}
+            style={{ maxWidth: '96vw' }}
+          >
+            {content}
+          </Modal>
+          <span onMouseDown={() => toggleVisible(true)}>{children}</span>
+        </>
+      ) : (
+        <Popover
+          showArrow
+          zIndex={10000}
+          trigger="click"
+          position="bottomLeft"
+          visible={visible}
+          onVisibleChange={toggleVisible}
+          content={content}
+        >
+          {children}
+        </Popover>
+      )}
+    </span>
   );
 };

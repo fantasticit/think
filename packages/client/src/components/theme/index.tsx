@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Tooltip } from '@douyinfe/semi-ui';
+import { Button } from '@douyinfe/semi-ui';
 import { IconSun, IconMoon } from '@douyinfe/semi-icons';
 import { useTheme } from 'hooks/use-theme';
+import { Tooltip } from 'components/tooltip';
 
 export const Theme = () => {
   const { theme, toggle } = useTheme();
