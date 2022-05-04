@@ -31,7 +31,16 @@
       }
 
       .semi-navigation-footer {
+        display: block;
         height: 64px;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        .semi-navigation-collapse-btn {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
       }
     }
   }
