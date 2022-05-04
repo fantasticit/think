@@ -5,10 +5,6 @@
   overflow-y: auto;
   border-radius: var(--border-radius);
   box-shadow: rgb(9 30 66 / 31%) 0 0 1px, rgb(9 30 66 / 25%) 0 4px 8px -2px;
-
-  &::-webkit-scrollbar {
-    background-color: #fff !important;
-  }
 }
 
 .item {
@@ -21,7 +17,6 @@
   background-color: rgb(255 255 255);
   border: 0;
   border-radius: 0;
-  outline: none;
   flex: 0 0 auto;
   align-items: center;
 

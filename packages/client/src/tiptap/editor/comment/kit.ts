@@ -28,6 +28,7 @@ import { OrderedList } from 'tiptap/core/extensions/ordered-list';
 import { Paragraph } from 'tiptap/core/extensions/paragraph';
 import { Placeholder } from 'tiptap/core/extensions/placeholder';
 import { Strike } from 'tiptap/core/extensions/strike';
+import { ScrollIntoView } from 'tiptap/core/extensions/scroll-into-view';
 import { Subscript } from 'tiptap/core/extensions/subscript';
 import { Superscript } from 'tiptap/core/extensions/superscript';
 import { Table } from 'tiptap/core/extensions/table';
@@ -87,6 +88,7 @@ export const CommentKit = [
     showOnlyWhenEditable: true,
   }),
   Strike,
+  ScrollIntoView,
   Subscript,
   Superscript,
   Table,

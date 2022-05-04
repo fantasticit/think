@@ -114,24 +114,16 @@ export class LRUCache {
   }
 }
 
-const USED_STORAGE_KEYS = [];
+const CacheMap = new Map();
 
 export const createKeysLocalStorageLRUCache = (storageKey, capacity) => {
   const lruCache = new LRUCache(capacity);
 
-  if (USED_STORAGE_KEYS.includes(storageKey)) {
-    // @ts-ignore
-    if (module.hot) {
-      console.error(`Storage Key ${storageKey} has been used!`);
-      return;
-    } else {
-      throw new Error(`Storage Key ${storageKey} has been used!`);
-    }
+  if (CacheMap.has(storageKey)) {
+    return CacheMap.get(setStorage);
   }
 
-  USED_STORAGE_KEYS.push(storageKey);
-
-  return {
+  const manager = {
     syncFromStorage() {
       const data = getStorage(storageKey) || [];
       data
@@ -152,4 +144,8 @@ export const createKeysLocalStorageLRUCache = (storageKey, capacity) => {
       return key ? lruCache.get(key) : lruCache.keys();
     },
   };
+
+  CacheMap.set(storageKey, manager);
+
+  return manager;
 };

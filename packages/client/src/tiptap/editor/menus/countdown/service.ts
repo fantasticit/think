@@ -6,5 +6,5 @@ import { triggerOpenCountSettingModal } from '../_event';
  * @param editor
  */
 export const createCountdown = (editor: Editor) => {
-  triggerOpenCountSettingModal(null);
+  triggerOpenCountSettingModal(editor, null);
 };

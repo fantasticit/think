@@ -2,7 +2,6 @@ import React, { useEffect, forwardRef, useImperativeHandle, useRef, useMemo } fr
 import { Toast, BackTop } from '@douyinfe/semi-ui';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import cls from 'classnames';
-import { debounce } from 'helpers/debounce';
 import { useNetwork } from 'hooks/use-network';
 import { useToggle } from 'hooks/use-toggle';
 import { useWindowSize } from 'hooks/use-window-size';
@@ -11,6 +10,7 @@ import { Banner } from 'components/banner';
 import { Collaboration } from 'tiptap/core/extensions/collaboration';
 import { CollaborationCursor } from 'tiptap/core/extensions/collaboration-cursor';
 import { getRandomColor } from 'helpers/color';
+import { isAndroid, isIOS } from 'helpers/env';
 import { useEditor, EditorContent } from '../../react';
 import { CollaborationKit } from '../kit';
 import { MenuBar } from './menubar';
@@ -25,8 +25,30 @@ type IProps = Pick<
   status: ProviderStatus;
 };
 
+function scrollEditor(editor) {
+  try {
+    /**
+     * 修复移动端编辑问题
+     */
+    setTimeout(() => {
+      try {
+        const element = editor.options.element;
+        // 脏代码：这里使用 parentElement 是和布局有关的，需要根据实际情况修改
+        const parentElement = element.parentNode as HTMLElement;
+        const nextScrollTop = element.scrollHeight;
+        parentElement.scrollTop = nextScrollTop;
+      } catch (e) {
+        //
+      }
+    }, 0);
+  } catch (e) {
+    //
+  }
+}
+
 export const EditorInstance = forwardRef((props: IProps, ref) => {
   const { hocuspocusProvider, editable, user, onTitleUpdate, status, menubar, renderInEditorPortal } = props;
+  const $headerContainer = useRef<HTMLDivElement>();
   const $mainContainer = useRef<HTMLDivElement>();
   const { isMobile } = useWindowSize();
   const { online } = useNetwork();
@@ -49,16 +71,24 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
           },
         }),
       ].filter(Boolean),
-      onTransaction: debounce(({ transaction }) => {
+      onTransaction({ transaction }) {
         try {
           const title = transaction.doc.content.firstChild.content.firstChild.textContent;
           onTitleUpdate(title);
         } catch (e) {
           //
         }
-      }, 50),
+
+        if (editable) {
+          scrollEditor(this);
+        }
+      },
       onCreate() {
         toggleCreated(true);
+
+        if (editable) {
+          scrollEditor(this);
+        }
       },
       onDestroy() {},
     },
@@ -89,6 +119,46 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     };
   }, []);
 
+  // 监听键盘收起、打开
+  useEffect(() => {
+    let cleanUp = () => {};
+    const focusIn = () => {
+      setTimeout(() => {
+        if (!$headerContainer.current) return;
+        $headerContainer.current.classList.add(styles.keyUp);
+        $headerContainer.current.scrollIntoView();
+      }, 200);
+    };
+    const focusOut = () => {
+      if (!$headerContainer.current) return;
+      $headerContainer.current.classList.remove(styles.iOSKeyUp);
+    };
+
+    if (isIOS()) {
+      document.body.addEventListener('focusin', focusIn);
+      document.body.addEventListener('focusout', focusOut);
+      cleanUp = () => {
+        document.body.removeEventListener('focusin', focusIn);
+        document.body.removeEventListener('focusout', focusOut);
+      };
+    } else if (isAndroid) {
+      const originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
+      window.onresize = function () {
+        //键盘弹起与隐藏都会引起窗口的高度发生变化
+        const resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        if (resizeHeight < originalHeight) {
+          focusIn();
+        } else {
+          focusOut();
+        }
+      };
+    }
+
+    return () => {
+      cleanUp();
+    };
+  }, []);
+
   return (
     <>
       {(!online || status === 'disconnected') && (
@@ -102,7 +172,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
         <Banner type="warning" description="您没有编辑权限，暂不能编辑该文档。" closeable={false} />
       )}
       {menubar && (
-        <header className={cls(isMobile && styles.mobileToolbar)}>
+        <header className={cls(isMobile && styles.mobileToolbar)} ref={$headerContainer}>
           <MenuBar editor={editor} />
         </header>
       )}
