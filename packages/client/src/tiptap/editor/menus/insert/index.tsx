@@ -20,7 +20,6 @@ import { GridSelect } from 'components/grid-select';
 import { useToggle } from 'hooks/use-toggle';
 import { useUser } from 'data/user';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
-import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 import { useActive } from 'tiptap/editor/hooks/use-active';
 import { Title } from 'tiptap/core/extensions/title';
 import { createCountdown } from '../countdown/service';
@@ -69,8 +68,7 @@ const COMMANDS = [
     icon: <IconImage />,
     label: '图片',
     action: (editor) => {
-      const { width } = getEditorContainerDOMSize(editor);
-      editor.chain().focus().setEmptyImage({ width }).run();
+      editor.chain().focus().setEmptyImage({ width: '100%' }).run();
     },
   },
   {
@@ -95,8 +93,7 @@ const COMMANDS = [
     icon: <IconMind />,
     label: '思维导图',
     action: (editor) => {
-      const { width } = getEditorContainerDOMSize(editor);
-      editor.chain().focus().setMind({ width }).run();
+      editor.chain().focus().setMind({ width: '100%' }).run();
     },
   },
   {
