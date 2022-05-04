@@ -20,8 +20,8 @@ export const LinkBubbleMenu = ({ editor }) => {
   }, [href, target]);
 
   const openEditLinkModal = useCallback(() => {
-    triggerOpenLinkSettingModal({ href, text, from, to });
-  }, [href, text, from, to]);
+    triggerOpenLinkSettingModal(editor, { href, text, from, to });
+  }, [editor, href, text, from, to]);
 
   const unsetLink = useCallback(() => editor.chain().extendMarkRange(Link.name).unsetLink().run(), [editor]);
 
