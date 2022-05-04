@@ -87,6 +87,7 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
                 type="primary"
                 style={{ marginRight: 8 }}
                 disabled={loading || error}
+                loading={loading}
                 onClick={() => refresh()}
               >
                 刷新
