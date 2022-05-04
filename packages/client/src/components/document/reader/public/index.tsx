@@ -29,6 +29,7 @@ import { DocumentSkeleton } from 'tiptap/components/skeleton';
 import { CollaborationEditor } from 'tiptap/editor';
 import { Author } from '../author';
 import styles from './index.module.scss';
+import { useWindowSize } from 'hooks/use-window-size';
 
 const { Header, Content } = Layout;
 const { Text } = Typography;
@@ -42,6 +43,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
   const $form = useRef<FormApi>();
   const { data, loading, error, query } = usePublicDocument(documentId);
   const { width, fontSize } = useDocumentStyle();
+  const { isMobile } = useWindowSize();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
@@ -158,7 +160,10 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
                   renderInEditorPortal={renderAuthor}
                 />
                 <ImageViewer containerSelector="#js-share-document-editor-container" />
-                <BackTop target={() => document.querySelector('#js-share-document-editor-container').parentNode} />
+                <BackTop
+                  style={{ bottom: 65, right: isMobile ? 16 : 100 }}
+                  target={() => document.querySelector('#js-share-document-editor-container').parentNode}
+                />
               </div>
             );
           }}

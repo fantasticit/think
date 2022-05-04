@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import cls from 'classnames';
 import { Layout, Nav, Space, Button, Typography, Skeleton, Tooltip, Popover, BackTop, Spin } from '@douyinfe/semi-ui';
 import { IconEdit, IconArticle } from '@douyinfe/semi-icons';
+import { ImageViewer } from 'components/image-viewer';
 import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
 import { DocumentShare } from 'components/document/share';
@@ -23,7 +24,7 @@ import styles from './index.module.scss';
 
 const { Header } = Layout;
 const { Text } = Typography;
-const EditBtnStyle = {
+const getEditBtnStyle = (right = 16) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -32,10 +33,10 @@ const EditBtnStyle = {
   borderRadius: '100%',
   backgroundColor: '#0077fa',
   color: '#fff',
-  right: 16,
+  right,
   bottom: 70,
   transform: 'translateY(-50px)',
-};
+});
 
 interface IProps {
   documentId: string;
@@ -97,6 +98,8 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
     [document, documentId, authority, isMobile, gotoEdit]
   );
 
+  const editBtnStyle = useMemo(() => getEditBtnStyle(isMobile ? 16 : 100), [isMobile]);
+
   if (!documentId) return null;
 
   return (
@@ -142,7 +145,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
               }
               normalContent={() => {
                 return (
-                  <>
+                  <div id="js-reader-container">
                     <Seo title={document.title} />
                     {user && (
                       <CollaborationEditor
@@ -160,12 +163,15 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                       </div>
                     )}
                     {!isMobile && authority && authority.editable && container && (
-                      <BackTop style={EditBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
+                      <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
                         <IconEdit />
                       </BackTop>
                     )}
-                    {container && <BackTop style={{ bottom: 65, right: 16 }} target={() => container} />}
-                  </>
+                    <ImageViewer containerSelector="#js-reader-container" />
+                    {container && (
+                      <BackTop style={{ bottom: 65, right: isMobile ? 16 : 100 }} target={() => container} />
+                    )}
+                  </div>
                 );
               }}
             />
