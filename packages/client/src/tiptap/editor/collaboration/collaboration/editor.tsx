@@ -78,17 +78,9 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
         } catch (e) {
           //
         }
-
-        if (editable) {
-          scrollEditor(this);
-        }
       },
       onCreate() {
         toggleCreated(true);
-
-        if (editable) {
-          scrollEditor(this);
-        }
       },
       onDestroy() {},
     },
