@@ -34,7 +34,7 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
 
   const hocuspocusProvider = useMemo(() => {
     return new HocuspocusProvider({
-      url: 'ws://192.168.31.124:5003' || process.env.COLLABORATION_API_URL,
+      url: process.env.COLLABORATION_API_URL,
       name: documentId,
       token: (user && user.token) || 'read-public',
       parameters: {

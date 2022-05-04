@@ -3,7 +3,7 @@ import { Toast } from '@douyinfe/semi-ui';
 import Router from 'next/router';
 
 export const HttpClient = axios.create({
-  baseURL: 'http://192.168.31.124:5001/api' || process.env.SERVER_API_URL,
+  baseURL: process.env.SERVER_API_URL,
   timeout: 60000,
 });
 
