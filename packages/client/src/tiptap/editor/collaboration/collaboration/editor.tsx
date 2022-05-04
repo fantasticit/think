@@ -1,18 +1,21 @@
 import React, { useEffect, forwardRef, useImperativeHandle, useRef, useMemo } from 'react';
 import { Toast, BackTop } from '@douyinfe/semi-ui';
 import { HocuspocusProvider } from '@hocuspocus/provider';
+import cls from 'classnames';
 import { debounce } from 'helpers/debounce';
 import { useNetwork } from 'hooks/use-network';
 import { useToggle } from 'hooks/use-toggle';
+import { useWindowSize } from 'hooks/use-window-size';
 import { LogoName } from 'components/logo';
 import { Banner } from 'components/banner';
-import { useEditor, EditorContent } from '../../react';
 import { Collaboration } from 'tiptap/core/extensions/collaboration';
 import { CollaborationCursor } from 'tiptap/core/extensions/collaboration-cursor';
 import { getRandomColor } from 'helpers/color';
+import { useEditor, EditorContent } from '../../react';
 import { CollaborationKit } from '../kit';
 import { MenuBar } from './menubar';
 import { ICollaborationEditorProps, ProviderStatus } from './type';
+import styles from './index.module.scss';
 
 type IProps = Pick<
   ICollaborationEditorProps,
@@ -25,6 +28,7 @@ type IProps = Pick<
 export const EditorInstance = forwardRef((props: IProps, ref) => {
   const { hocuspocusProvider, editable, user, onTitleUpdate, status, menubar, renderInEditorPortal } = props;
   const $mainContainer = useRef<HTMLDivElement>();
+  const { isMobile } = useWindowSize();
   const { online } = useNetwork();
   const [created, toggleCreated] = useToggle(false);
   const editor = useEditor(
@@ -98,7 +102,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
         <Banner type="warning" description="您没有编辑权限，暂不能编辑该文档。" closeable={false} />
       )}
       {menubar && (
-        <header>
+        <header className={cls(isMobile && styles.mobileToolbar)}>
           <MenuBar editor={editor} />
         </header>
       )}
@@ -107,7 +111,9 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
         {protals}
       </main>
 
-      {editable && menubar && <BackTop target={() => $mainContainer.current} visibilityHeight={200} />}
+      {editable && menubar && (
+        <BackTop target={() => $mainContainer.current} style={{ right: 16, bottom: 65 }} visibilityHeight={200} />
+      )}
     </>
   );
 });

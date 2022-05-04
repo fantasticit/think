@@ -1,6 +1,8 @@
-import React from 'react';
-import { Dropdown, Typography } from '@douyinfe/semi-ui';
+import React, { useMemo } from 'react';
+import { Dropdown, Typography, Modal } from '@douyinfe/semi-ui';
 import styles from './style.module.scss';
+import { useWindowSize } from 'hooks/use-window-size';
+import { useToggle } from 'hooks/use-toggle';
 
 const { Text } = Typography;
 
@@ -78,36 +80,60 @@ const colors = [
 ];
 
 export const ColorPicker: React.FC<{
-  onSetColor;
+  title?: string;
+  onSetColor: (arg: string) => void;
   disabled?: boolean;
-}> = ({ children, onSetColor, disabled = false }) => {
+}> = ({ children, title = '颜色管理', onSetColor, disabled = false }) => {
+  const { isMobile } = useWindowSize();
+  const [visible, toggleVisible] = useToggle(false);
+
+  const content = useMemo(
+    () => (
+      <div style={{ padding: isMobile ? '0 0 24px' : '12px 16px' }}>
+        <div className={styles.emptyWrap} onClick={() => onSetColor(null)}>
+          <span></span>
+          <Text>无颜色</Text>
+        </div>
+
+        <div className={styles.colorWrap}>
+          {colors.map((color) => {
+            return (
+              <div key={color} className={styles.colorItem} onClick={() => onSetColor(color)}>
+                <span style={{ backgroundColor: color }}></span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    ),
+    [onSetColor, isMobile]
+  );
+
   if (disabled) return <span style={{ display: 'inline-block' }}>{children}</span>;
 
   return (
-    <Dropdown
-      zIndex={10000}
-      trigger="click"
-      position={'bottomLeft'}
-      render={
-        <div style={{ padding: '8px 0' }}>
-          <div className={styles.emptyWrap} onClick={() => onSetColor(null)}>
-            <span></span>
-            <Text>无颜色</Text>
-          </div>
-
-          <div className={styles.colorWrap}>
-            {colors.map((color) => {
-              return (
-                <div key={color} className={styles.colorItem} onClick={() => onSetColor(color)}>
-                  <span style={{ backgroundColor: color }}></span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      }
-    >
-      <span style={{ display: 'inline-block' }}>{children}</span>
-    </Dropdown>
+    <span>
+      {isMobile ? (
+        <>
+          <Modal
+            centered
+            title={title}
+            visible={visible}
+            footer={null}
+            onCancel={() => toggleVisible(false)}
+            style={{ maxWidth: '96vw', width: 288 }}
+          >
+            {content}
+          </Modal>
+          <span style={{ display: 'inline-block' }} onMouseDown={() => toggleVisible(true)}>
+            {children}
+          </span>
+        </>
+      ) : (
+        <Dropdown zIndex={10000} trigger="click" position={'bottomLeft'} render={content}>
+          <span style={{ display: 'inline-block' }}>{children}</span>
+        </Dropdown>
+      )}
+    </span>
   );
 };

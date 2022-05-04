@@ -28,7 +28,7 @@ interface IProps {
 }
 
 export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
-  const { width: windowWith } = useWindowSize();
+  const { width: windowWith, isMobile } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
@@ -43,6 +43,20 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
       pathname: `/wiki/${document.wikiId}/document/${documentId}`,
     });
   }, [document, documentId]);
+
+  const actions = (
+    <Space>
+      {document && authority.readable && (
+        <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
+      )}
+      <DocumentShare key="share" documentId={documentId} />
+      <DocumentVersion key="version" documentId={documentId} onSelect={triggerUseDocumentVersion} />
+      <DocumentStar key="star" documentId={documentId} />
+      <Popover key="style" zIndex={1061} position={isMobile ? 'topRight' : 'bottomLeft'} content={<DocumentStyle />}>
+        <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
+      </Popover>
+    </Space>
+  );
 
   useEffect(() => {
     event.on(CHANGE_DOCUMENT_TITLE, setTitle);
@@ -61,7 +75,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
           header={
             <>
               <Tooltip content="返回" position="bottom">
-                <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
+                <Button onMouseDown={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
               </Tooltip>
               <DataRender
                 loading={docAuthLoading}
@@ -83,22 +97,19 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
             </>
           }
           footer={
-            <Space>
-              {document && authority.readable && (
-                <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
+            <>
+              {isMobile ? null : (
+                <>
+                  {actions}
+                  <Divider />
+                </>
               )}
-              <DocumentShare key="share" documentId={documentId} />
-              <DocumentVersion key="version" documentId={documentId} onSelect={triggerUseDocumentVersion} />
-              <DocumentStar key="star" documentId={documentId} />
-              <Popover key="style" zIndex={1061} position="bottomLeft" content={<DocumentStyle />}>
-                <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
-              </Popover>
               <Theme />
-              <Divider />
               <User />
-            </Space>
+            </>
           }
         />
+        {isMobile && <div className={styles.mobileToolbar}>{actions}</div>}
       </header>
       <main className={styles.contentWrap}>
         <DataRender

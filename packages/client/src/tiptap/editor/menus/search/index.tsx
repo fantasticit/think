@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Popover, Button, Typography, Input, Space } from '@douyinfe/semi-ui';
+import { Popover, Button, Typography, Input, Space, Modal } from '@douyinfe/semi-ui';
 import { Editor } from 'tiptap/editor';
+import { useWindowSize } from 'hooks/use-window-size';
+import { useToggle } from 'hooks/use-toggle';
 import { Tooltip } from 'components/tooltip';
 import { IconSearchReplace } from 'components/icons';
 import { SearchNReplace } from 'tiptap/core/extensions/search';
@@ -8,17 +10,26 @@ import { SearchNReplace } from 'tiptap/core/extensions/search';
 const { Text } = Typography;
 
 export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
+  const { isMobile } = useWindowSize();
+  const [visible, toggleVisible] = useToggle(false);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [results, setResults] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [replaceValue, setReplaceValue] = useState('');
 
-  const onVisibleChange = useCallback((visible) => {
+  const openModalOnMobile = useCallback(() => {
+    if (!isMobile) return;
+    toggleVisible(true);
+  }, [isMobile, toggleVisible]);
+
+  useEffect(() => {
     if (!visible) {
       setSearchValue('');
       setReplaceValue('');
+      setCurrentIndex(-1);
+      setResults([]);
     }
-  }, []);
+  }, [visible]);
 
   useEffect(() => {
     if (editor && editor.commands && editor.commands.setSearchTerm) {
@@ -52,55 +63,78 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
     };
   }, [editor]);
 
+  const content = (
+    <div style={{ paddingBottom: isMobile ? 24 : 0 }}>
+      <div style={{ marginBottom: 12 }}>
+        <Text type="tertiary">查找</Text>
+        <Input
+          autofocus
+          value={searchValue}
+          onChange={setSearchValue}
+          suffix={results.length ? `${currentIndex + 1}/${results.length}` : ''}
+        />
+      </div>
+      <div style={{ marginBottom: 12 }}>
+        <Text type="tertiary">替换为</Text>
+        <Input value={replaceValue} onChange={setReplaceValue} />
+      </div>
+      <div>
+        <Space>
+          <Button disabled={!results.length} onClick={editor.commands.replaceAll}>
+            全部替换
+          </Button>
+
+          <Button disabled={!results.length} onClick={editor.commands.replace}>
+            替换
+          </Button>
+
+          <Button disabled={!results.length} onClick={editor.commands.goToPrevSearchResult}>
+            上一个
+          </Button>
+
+          <Button disabled={!results.length} onClick={editor.commands.goToNextSearchResult}>
+            下一个
+          </Button>
+        </Space>
+      </div>
+    </div>
+  );
+
+  const btn = (
+    <Tooltip content="查找替换">
+      <Button theme={'borderless'} type="tertiary" icon={<IconSearchReplace />} onMouseDown={openModalOnMobile} />
+    </Tooltip>
+  );
+
   return (
-    <Popover
-      showArrow
-      zIndex={10000}
-      trigger="click"
-      position="bottomRight"
-      onVisibleChange={onVisibleChange}
-      content={
-        <div>
-          <div style={{ marginBottom: 12 }}>
-            <Text type="tertiary">查找</Text>
-            <Input
-              autofocus
-              value={searchValue}
-              onChange={setSearchValue}
-              suffix={results.length ? `${currentIndex + 1}/${results.length}` : ''}
-            />
-          </div>
-          <div style={{ marginBottom: 12 }}>
-            <Text type="tertiary">替换为</Text>
-            <Input value={replaceValue} onChange={setReplaceValue} />
-          </div>
-          <div>
-            <Space>
-              <Button disabled={!results.length} onClick={editor.commands.replaceAll}>
-                全部替换
-              </Button>
-
-              <Button disabled={!results.length} onClick={editor.commands.replace}>
-                替换
-              </Button>
-
-              <Button disabled={!results.length} onClick={editor.commands.goToPrevSearchResult}>
-                上一个
-              </Button>
-
-              <Button disabled={!results.length} onClick={editor.commands.goToNextSearchResult}>
-                下一个
-              </Button>
-            </Space>
-          </div>
-        </div>
-      }
-    >
-      <span>
-        <Tooltip content="查找替换">
-          <Button theme={'borderless'} type="tertiary" icon={<IconSearchReplace />} />
-        </Tooltip>
-      </span>
-    </Popover>
+    <span>
+      {isMobile ? (
+        <>
+          <Modal
+            centered
+            title="查找替换"
+            visible={visible}
+            footer={null}
+            onCancel={() => toggleVisible(false)}
+            style={{ maxWidth: '96vw' }}
+          >
+            {content}
+          </Modal>
+          {btn}
+        </>
+      ) : (
+        <Popover
+          showArrow
+          zIndex={10000}
+          trigger="click"
+          position="bottomRight"
+          visible={visible}
+          onVisibleChange={toggleVisible}
+          content={content}
+        >
+          <span>{btn}</span>
+        </Popover>
+      )}
+    </span>
   );
 };

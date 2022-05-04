@@ -1,7 +1,7 @@
 import React from 'react';
-import { Layout as SemiLayout, Nav, Space } from '@douyinfe/semi-ui';
+import { Layout as SemiLayout, Nav, Space, Typography, Dropdown, Button } from '@douyinfe/semi-ui';
+import { IconMenu } from '@douyinfe/semi-icons';
 import Router, { useRouter } from 'next/router';
-import Link from 'next/link';
 import { User } from 'components/user';
 import { WikiOrDocumentCreator } from 'components/wiki-or-document-creator';
 import { LogoImage, LogoText } from 'components/logo';
@@ -9,19 +9,18 @@ import { Theme } from 'components/theme';
 import { Message } from 'components/message';
 import { Search } from 'components/search';
 import { useWindowSize } from 'hooks/use-window-size';
-import { Recent } from './recent';
-import { Wiki } from './wiki';
+import { useToggle } from 'hooks/use-toggle';
+import { Recent, RecentModal } from './recent';
+import { Wiki, WikiModal } from './wiki';
+import styles from './index.module.scss';
 
 const { Header: SemiHeader } = SemiLayout;
+const { Text } = Typography;
 
 const menus = [
   {
     itemKey: '/',
-    text: (
-      <Link href="/">
-        <a>主页</a>
-      </Link>
-    ),
+    text: '主页',
     onClick: () => {
       Router.push({
         pathname: `/`,
@@ -38,11 +37,7 @@ const menus = [
   },
   {
     itemKey: '/star',
-    text: (
-      <Link href="/star">
-        <a>收藏</a>
-      </Link>
-    ),
+    text: '收藏',
     onClick: () => {
       Router.push({
         pathname: `/star`,
@@ -51,11 +46,7 @@ const menus = [
   },
   {
     itemKey: '/template',
-    text: (
-      <Link href="/template">
-        <a>模板</a>
-      </Link>
-    ),
+    text: '模板',
     onClick: () => {
       Router.push({
         pathname: `/template`,
@@ -64,11 +55,7 @@ const menus = [
   },
   {
     itemKey: '/find',
-    text: (
-      <Link href="/find">
-        <a>发现</a>
-      </Link>
-    ),
+    text: '发现',
     onClick: () => {
       Router.push({
         pathname: `/find`,
@@ -79,22 +66,47 @@ const menus = [
 
 export const RouterHeader: React.FC = () => {
   const { pathname } = useRouter();
-  const windowSize = useWindowSize();
+  const { width, isMobile } = useWindowSize();
+  const [recentModalVisible, toggleRecentModalVisible] = useToggle(false);
+  const [wikiModalVisible, toggleWikiModalVisible] = useToggle(false);
 
   return (
     <SemiHeader>
-      <Nav
-        mode="horizontal"
-        style={{ overflow: 'auto' }}
-        header={
+      {isMobile ? (
+        <div className={styles.mobileHeader}>
           <Space>
             <LogoImage />
-            {windowSize.width >= 890 && <LogoText />}
+            <LogoText />
+            <RecentModal visible={recentModalVisible} toggleVisible={toggleRecentModalVisible} />
+            <WikiModal visible={wikiModalVisible} toggleVisible={toggleWikiModalVisible} />
+            <Dropdown
+              trigger="click"
+              position="bottomRight"
+              render={
+                <Dropdown.Menu>
+                  {menus.slice(0, 1).map((menu) => {
+                    return (
+                      <Dropdown.Item key={menu.itemKey} onClick={menu.onClick}>
+                        {menu.text}
+                      </Dropdown.Item>
+                    );
+                  })}
+                  <Dropdown.Item onClick={toggleRecentModalVisible}>最近</Dropdown.Item>
+                  <Dropdown.Item onClick={toggleWikiModalVisible}>知识库</Dropdown.Item>
+                  {menus.slice(3).map((menu) => {
+                    return (
+                      <Dropdown.Item key={menu.itemKey} onClick={menu.onClick}>
+                        {menu.text}
+                      </Dropdown.Item>
+                    );
+                  })}
+                </Dropdown.Menu>
+              }
+            >
+              <Button icon={<IconMenu />} type="tertiary" theme="borderless" />
+            </Dropdown>
           </Space>
-        }
-        selectedKeys={[pathname || '/']}
-        items={menus}
-        footer={
+
           <Space>
             <WikiOrDocumentCreator />
             <Search />
@@ -102,8 +114,30 @@ export const RouterHeader: React.FC = () => {
             <Theme />
             <User />
           </Space>
-        }
-      ></Nav>
+        </div>
+      ) : (
+        <Nav
+          mode="horizontal"
+          style={{ overflow: 'auto' }}
+          header={
+            <Space>
+              <LogoImage />
+              {width >= 890 && <LogoText />}
+            </Space>
+          }
+          selectedKeys={[pathname || '/']}
+          items={menus}
+          footer={
+            <Space>
+              <WikiOrDocumentCreator />
+              <Search />
+              <Message />
+              <Theme />
+              <User />
+            </Space>
+          }
+        ></Nav>
+      )}
     </SemiHeader>
   );
 };

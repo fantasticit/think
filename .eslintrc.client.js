@@ -36,7 +36,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/ban-types': 0,
     'react-hooks/rules-of-hooks': 2,
-    'react-hooks/exhaustive-deps': 1,
+    'react-hooks/exhaustive-deps': 2,
     'react/prop-types': 0,
     'testing-library/no-unnecessary-act': 0,
     'react/react-in-jsx-scope': 0,

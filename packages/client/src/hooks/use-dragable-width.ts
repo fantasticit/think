@@ -66,7 +66,7 @@ export const useDragableWidth = () => {
       setStorage(key, nextWidth);
     }
     mutate();
-  }, [mutate, currentWidth, minWidth]);
+  }, [mutate, currentWidth, minWidth, maxWidth]);
 
   useEffect(() => {
     const min = windowWidth <= PC_MOBILE_CRITICAL_WIDTH ? DEFAULT_MOBILE_MIN_WIDTH : DEFAULT_PC_MIN_WIDTH;

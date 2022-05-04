@@ -13,6 +13,7 @@
 .treeInnerWrap {
   :global {
     .semi-tree-option-list-block .semi-tree-option-selected {
+      font-weight: 600;
       color: var(--semi-color-primary);
       background-color: var(--semi-color-primary-light-default);
     }
@@ -55,6 +56,7 @@
   }
 
   &.isActive {
+    font-weight: 600;
     color: var(--semi-color-primary);
     background-color: var(--semi-color-primary-light-default);
   }
@@ -90,7 +92,7 @@
 
     .title {
       overflow: hidden;
-      color: var(--semi-color-text-0);
+      color: inherit;
       text-overflow: ellipsis;
       white-space: nowrap;
       flex: 1;

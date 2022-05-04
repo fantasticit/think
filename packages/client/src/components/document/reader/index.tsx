@@ -32,7 +32,8 @@ const EditBtnStyle = {
   borderRadius: '100%',
   backgroundColor: '#0077fa',
   color: '#fff',
-  bottom: 100,
+  right: 16,
+  bottom: 70,
   transform: 'translateY(-50px)',
 };
 
@@ -42,7 +43,7 @@ interface IProps {
 
 export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   const [container, setContainer] = useState<HTMLDivElement>();
-  const { width: windowWidth } = useWindowSize();
+  const { width: windowWidth, isMobile } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
@@ -70,6 +71,32 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
     Router.push(`/wiki/${document.wikiId}/document/${document.id}/edit`);
   }, [document]);
 
+  const actions = useMemo(
+    () => (
+      <Space>
+        {document && authority.readable && (
+          <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
+        )}
+        {authority && authority.editable && (
+          <Tooltip key="edit" content="编辑" position="bottom">
+            <Button icon={<IconEdit />} onMouseDown={gotoEdit} />
+          </Tooltip>
+        )}
+        {authority && authority.readable && (
+          <>
+            <DocumentShare key="share" documentId={documentId} />
+            <DocumentVersion key="version" documentId={documentId} />
+            <DocumentStar key="star" documentId={documentId} />
+          </>
+        )}
+        <Popover key="style" zIndex={1061} position={isMobile ? 'topRight' : 'bottomLeft'} content={<DocumentStyle />}>
+          <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
+        </Popover>
+      </Space>
+    ),
+    [document, documentId, authority, isMobile, gotoEdit]
+  );
+
   if (!documentId) return null;
 
   return (
@@ -89,35 +116,14 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                   ellipsis={{
                     showTooltip: { opts: { content: document.title, style: { wordBreak: 'break-all' } } },
                   }}
-                  style={{ width: ~~(windowWidth / 4) }}
+                  style={{ width: isMobile ? windowWidth - 100 : ~~(windowWidth / 4) }}
                 >
                   {document.title}
                 </Text>
               )}
             />
           }
-          footer={
-            <Space>
-              {document && authority.readable && (
-                <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
-              )}
-              {authority && authority.editable && (
-                <Tooltip key="edit" content="编辑" position="bottom">
-                  <Button icon={<IconEdit />} onClick={gotoEdit} />
-                </Tooltip>
-              )}
-              {authority && authority.readable && (
-                <>
-                  <DocumentShare key="share" documentId={documentId} />
-                  <DocumentVersion key="version" documentId={documentId} />
-                  <DocumentStar key="star" documentId={documentId} />
-                </>
-              )}
-              <Popover key="style" zIndex={1061} position="bottomLeft" content={<DocumentStyle />}>
-                <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
-              </Popover>
-            </Space>
-          }
+          footer={isMobile ? <></> : actions}
         ></Nav>
       </Header>
       <Layout className={styles.contentWrap}>
@@ -153,12 +159,12 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                         <CommentEditor documentId={document.id} />
                       </div>
                     )}
-                    {authority && authority.editable && container && (
+                    {!isMobile && authority && authority.editable && container && (
                       <BackTop style={EditBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
                         <IconEdit />
                       </BackTop>
                     )}
-                    {container && <BackTop target={() => container} />}
+                    {container && <BackTop style={{ bottom: 65, right: 16 }} target={() => container} />}
                   </>
                 );
               }}
@@ -166,6 +172,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
           </div>
         </div>
       </Layout>
+      {isMobile && <div className={styles.mobileToolbar}>{actions}</div>}
     </div>
   );
 };

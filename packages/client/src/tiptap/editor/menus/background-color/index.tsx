@@ -9,7 +9,7 @@ import { Title } from 'tiptap/core/extensions/title';
 import { ColorPicker } from 'tiptap/components/color-picker';
 
 const FlexStyle: React.CSSProperties = {
-  display: 'flex',
+  display: 'inline-flex',
   flexDirection: 'column',
   alignItems: 'center',
 };
@@ -33,16 +33,16 @@ export const BackgroundColor: React.FC<{ editor: Editor }> = ({ editor }) => {
   );
 
   return (
-    <ColorPicker onSetColor={setBackgroundColor} disabled={isTitleActive}>
+    <ColorPicker title="背景色" onSetColor={setBackgroundColor} disabled={isTitleActive}>
       <Tooltip content="背景色">
         <Button
           theme={editor.isActive('textStyle') ? 'light' : 'borderless'}
           type={'tertiary'}
           icon={
-            <div style={FlexStyle}>
+            <span style={FlexStyle}>
               <IconMark />
               <span style={{ backgroundColor, width: 12, height: 2 }}></span>
-            </div>
+            </span>
           }
           disabled={isTitleActive}
         />

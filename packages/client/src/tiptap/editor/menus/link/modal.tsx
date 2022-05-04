@@ -45,7 +45,14 @@ export const LinkSettingModal: React.FC<IProps> = ({ editor }) => {
   }, [editor, toggleVisible]);
 
   return (
-    <Modal title="编辑链接" visible={visible} onOk={handleOk} onCancel={handleCancel} centered>
+    <Modal
+      title="编辑链接"
+      style={{ maxWidth: '96vw' }}
+      visible={visible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      centered
+    >
       <Form initValues={initialState} getFormApi={(formApi) => ($form.current = formApi)} labelPosition="left">
         <Form.Input label="文本" field="text" placeholder="请输入文本"></Form.Input>
         <Form.Input

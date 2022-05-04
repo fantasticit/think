@@ -128,7 +128,6 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
         visible={visible}
         onOk={handleOk}
         onCancel={() => toggleVisible(false)}
-        maskClosable={false}
         style={{ maxWidth: '96vw' }}
         footer={null}
       >

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Link from 'next/link';
-import { Typography, Dropdown, Badge, Button, Tabs, TabPane, Pagination, Notification } from '@douyinfe/semi-ui';
+import { Typography, Dropdown, Badge, Button, Tabs, TabPane, Pagination, Notification, Modal } from '@douyinfe/semi-ui';
 import { IconMessage } from 'components/icons/IconMessage';
 import { useAllMessages, useReadMessages, useUnreadMessages } from 'data/message';
 import { EmptyBoxIllustration } from 'illustrations/empty-box';
@@ -9,6 +9,8 @@ import { Empty } from 'components/empty';
 import { Placeholder } from './placeholder';
 import styles from './index.module.scss';
 import { useUser } from 'data/user';
+import { useWindowSize } from 'hooks/use-window-size';
+import { useToggle } from 'hooks/use-toggle';
 
 const { Text } = Typography;
 const PAGE_SIZE = 6;
@@ -84,6 +86,8 @@ const MessagesRender = ({ messageData, loading, error, onClick = null, page = 1,
 };
 
 const MessageBox = () => {
+  const { isMobile } = useWindowSize();
+  const [visible, toggleVisible] = useToggle(false);
   const { data: allMsgs, loading: allLoading, error: allError, page: allPage, setPage: allSetPage } = useAllMessages();
   const {
     data: readMsgs,
@@ -108,6 +112,11 @@ const MessageBox = () => {
       })
     );
   };
+
+  const openModalOnMobile = useCallback(() => {
+    if (!isMobile) return;
+    toggleVisible(true);
+  }, [isMobile, toggleVisible]);
 
   useEffect(() => {
     if (!unreadMsgs || !unreadMsgs.total) return;
@@ -149,69 +158,92 @@ const MessageBox = () => {
     });
   }, [unreadMsgs, readMessage]);
 
-  return (
-    <Dropdown
-      position="bottomRight"
-      trigger="click"
-      content={
-        <div style={{ width: 300, padding: '16px 16px 0' }}>
-          <Tabs
-            type="line"
-            size="small"
-            tabBarExtraContent={
-              unreadMsgs && unreadMsgs.total > 0 ? (
-                <Text type="quaternary" onClick={clearAll} style={{ cursor: 'pointer' }}>
-                  全部已读
-                </Text>
-              ) : null
-            }
-          >
-            <TabPane tab="未读" itemKey="unread">
-              <MessagesRender
-                messageData={unreadMsgs}
-                loading={unreadLoading}
-                error={unreadError}
-                onClick={readMessage}
-                page={unreadPage}
-                onPageChange={unreadSetPage}
-              />
-            </TabPane>
-            <TabPane tab="已读" itemKey="read">
-              <MessagesRender
-                messageData={readMsgs}
-                loading={readLoading}
-                error={readError}
-                page={readPage}
-                onPageChange={readSetPage}
-              />
-            </TabPane>
-            <TabPane tab="全部" itemKey="all">
-              <MessagesRender
-                messageData={allMsgs}
-                loading={allLoading}
-                error={allError}
-                page={allPage}
-                onPageChange={allSetPage}
-              />
-            </TabPane>
-          </Tabs>
-        </div>
+  const content = (
+    <Tabs
+      type="line"
+      size="small"
+      tabBarExtraContent={
+        unreadMsgs && unreadMsgs.total > 0 ? (
+          <Text type="quaternary" onClick={clearAll} style={{ cursor: 'pointer' }}>
+            全部已读
+          </Text>
+        ) : null
       }
     >
-      <Button
-        type="tertiary"
-        theme="borderless"
-        icon={
-          unreadMsgs && unreadMsgs.total > 0 ? (
-            <Badge count={unreadMsgs.total} overflowCount={99} type="danger">
-              <IconMessage style={{ transform: `translateY(2px)` }} />
-            </Badge>
-          ) : (
-            <IconMessage />
-          )
-        }
-      ></Button>
-    </Dropdown>
+      <TabPane tab="未读" itemKey="unread">
+        <MessagesRender
+          messageData={unreadMsgs}
+          loading={unreadLoading}
+          error={unreadError}
+          onClick={readMessage}
+          page={unreadPage}
+          onPageChange={unreadSetPage}
+        />
+      </TabPane>
+      <TabPane tab="已读" itemKey="read">
+        <MessagesRender
+          messageData={readMsgs}
+          loading={readLoading}
+          error={readError}
+          page={readPage}
+          onPageChange={readSetPage}
+        />
+      </TabPane>
+      <TabPane tab="全部" itemKey="all">
+        <MessagesRender
+          messageData={allMsgs}
+          loading={allLoading}
+          error={allError}
+          page={allPage}
+          onPageChange={allSetPage}
+        />
+      </TabPane>
+    </Tabs>
+  );
+
+  const btn = (
+    <Button
+      type="tertiary"
+      theme="borderless"
+      icon={
+        unreadMsgs && unreadMsgs.total > 0 ? (
+          <Badge count={unreadMsgs.total} overflowCount={99} type="danger">
+            <IconMessage style={{ transform: `translateY(2px)` }} />
+          </Badge>
+        ) : (
+          <IconMessage />
+        )
+      }
+      onClick={openModalOnMobile}
+    />
+  );
+
+  return (
+    <span>
+      {isMobile ? (
+        <>
+          <Modal
+            centered
+            title="最近访问"
+            visible={visible}
+            footer={null}
+            onCancel={toggleVisible}
+            style={{ maxWidth: '96vw' }}
+          >
+            {content}
+          </Modal>
+          {btn}
+        </>
+      ) : (
+        <Dropdown
+          position="bottomRight"
+          trigger="click"
+          content={<div style={{ width: 300, padding: '16px 16px 0' }}>{content}</div>}
+        >
+          {btn}
+        </Dropdown>
+      )}
+    </span>
   );
 };
 

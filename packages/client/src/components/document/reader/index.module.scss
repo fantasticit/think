@@ -38,4 +38,22 @@
       border-top: 1px solid var(--semi-color-border);
     }
   }
+
+  .mobileToolbar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    display: flex;
+    height: 49px;
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    background: var(--semi-color-bg-1);
+    box-sizing: content-box;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid var(--semi-color-border);
+  }
 }

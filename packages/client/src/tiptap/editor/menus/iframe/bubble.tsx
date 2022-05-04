@@ -71,6 +71,7 @@ export const IframeBubbleMenu = ({ editor }) => {
     >
       <Modal
         title="编辑链接"
+        style={{ maxWidth: '96vw' }}
         visible={visible}
         onOk={handleOk}
         onCancel={() => toggleVisible(false)}
