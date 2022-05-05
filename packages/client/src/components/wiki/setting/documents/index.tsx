@@ -16,11 +16,15 @@ interface IProps {
 export const Documents: React.FC<IProps> = ({ wikiId }) => {
   const { data: wiki, loading: wikiLoading, toggleStatus: toggleWorkspaceStatus } = useWikiDetail(wikiId);
   const { data: tocs, loading } = useWikiTocs(wikiId);
-  const documents = flattenTree2Array(tocs).map((d) => {
-    d.label = d.title;
-    d.value = d.id;
-    return d;
-  });
+  const documents = useMemo(
+    () =>
+      flattenTree2Array(tocs).map((d) => {
+        d.label = d.title;
+        d.value = d.id;
+        return d;
+      }),
+    [tocs]
+  );
   const [nextStatus, setNextStatus] = useState('');
   const isPublic = useMemo(() => wiki && isPublicWiki(wiki.status), [wiki]);
   const [publicDocumentIds, setPublicDocumentIds] = useState([]); // 公开的
@@ -47,7 +51,6 @@ export const Documents: React.FC<IProps> = ({ wikiId }) => {
           }}
           key={item.label}
           checked={item.checked}
-          style={{ height: 52 }}
         >
           <Text>{item.title}</Text>
         </Checkbox>
@@ -77,7 +80,7 @@ export const Documents: React.FC<IProps> = ({ wikiId }) => {
     if (!documents.length) return;
     const activeIds = documents.filter((doc) => isPublicDocument(doc.status)).map((doc) => doc.id);
     setPublicDocumentIds(activeIds);
-  }, [tocs, documents]);
+  }, [documents]);
 
   return (
     <div className={styles.wrap}>
