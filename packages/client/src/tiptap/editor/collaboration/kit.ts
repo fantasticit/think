@@ -108,17 +108,7 @@ export const CollaborationKit = [
   Loading,
   OrderedList,
   SelectionExtension,
-  ScrollIntoView.configure({
-    onScroll: debounce((editor) => {
-      setTimeout(() => {
-        const element = editor.options.element;
-        // 脏代码：这里使用 parentElement 是和布局有关的，需要根据实际情况修改
-        const parentElement = element.parentNode as HTMLElement;
-        const nextScrollTop = element.scrollHeight;
-        parentElement.scrollTop = nextScrollTop;
-      }, 0);
-    }, 200),
-  }),
+  ScrollIntoView,
   Strike,
   Subscript,
   Superscript,
