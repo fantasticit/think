@@ -67,6 +67,7 @@ const menus = [
 export const RouterHeader: React.FC = () => {
   const { pathname } = useRouter();
   const { width, isMobile } = useWindowSize();
+  const [dropdownVisible, toggleDropdownVisible] = useToggle(false);
   const [recentModalVisible, toggleRecentModalVisible] = useToggle(false);
   const [wikiModalVisible, toggleWikiModalVisible] = useToggle(false);
 
@@ -82,8 +83,11 @@ export const RouterHeader: React.FC = () => {
             <Dropdown
               trigger="click"
               position="bottomRight"
+              visible={dropdownVisible}
+              onVisibleChange={toggleDropdownVisible}
               render={
-                <Dropdown.Menu>
+                // @ts-ignore
+                <Dropdown.Menu onClick={toggleDropdownVisible}>
                   {menus.slice(0, 1).map((menu) => {
                     return (
                       <Dropdown.Item key={menu.itemKey} onClick={menu.onClick}>
@@ -103,7 +107,7 @@ export const RouterHeader: React.FC = () => {
                 </Dropdown.Menu>
               }
             >
-              <Button icon={<IconMenu />} type="tertiary" theme="borderless" />
+              <Button icon={<IconMenu />} type="tertiary" theme="borderless" onMouseDown={toggleDropdownVisible} />
             </Dropdown>
           </Space>
 

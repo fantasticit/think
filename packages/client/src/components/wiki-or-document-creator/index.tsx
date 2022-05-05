@@ -14,26 +14,27 @@ interface IProps {
 export const WikiOrDocumentCreator: React.FC<IProps> = ({ onCreateDocument, children }) => {
   const { isMobile } = useWindowSize();
   const { wikiId, docId } = useQuery<{ wikiId?: string; docId?: string }>();
+  const [dropdownVisible, toggleDropdownVisible] = useToggle(false);
   const [visible, toggleVisible] = useToggle(false);
   const [createDocumentModalVisible, toggleCreateDocumentModalVisible] = useToggle(false);
 
   return (
     <>
       <Dropdown
+        trigger="click"
+        visible={dropdownVisible}
+        onVisibleChange={toggleDropdownVisible}
         render={
-          <Dropdown.Menu>
+          // @ts-ignore
+          <Dropdown.Menu onClick={toggleDropdownVisible}>
             <Dropdown.Item onClick={toggleVisible}>知识库</Dropdown.Item>
             {wikiId && <Dropdown.Item onClick={toggleCreateDocumentModalVisible}>文档</Dropdown.Item>}
           </Dropdown.Menu>
         }
       >
-        {children || isMobile ? (
-          <Button type="primary" theme="solid" icon={<IconPlus />} size="small" />
-        ) : (
-          <Button type="primary" theme="solid" icon={<IconChevronDown />} iconPosition="right">
-            新建
-          </Button>
-        )}
+        <span onClick={toggleDropdownVisible}>
+          {children || <Button type="primary" theme="solid" icon={<IconPlus />} size="small" />}
+        </span>
       </Dropdown>
       <WikiCreator visible={visible} toggleVisible={toggleVisible} />
       {wikiId && (

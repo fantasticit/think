@@ -5,7 +5,6 @@ import { useCreateDocument } from 'data/document';
 import { usePublicTemplates, useOwnTemplates } from 'data/template';
 import { TemplateList } from 'components/template/list';
 import { TemplateCardEmpty } from 'components/template/card';
-
 import styles from './index.module.scss';
 
 interface IProps {
@@ -56,7 +55,7 @@ export const DocumentCreator: React.FC<IProps> = ({ wikiId, parentDocumentId, vi
         width: '96vh',
       }}
       bodyStyle={{
-        maxHeight: 'calc(90vh - 120px)',
+        maxHeight: 'calc(80vh - 150px)',
         overflow: 'auto',
       }}
       key={wikiId}

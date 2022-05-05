@@ -150,7 +150,9 @@ export const WikiModal = ({ visible, toggleVisible }) => {
       onCancel={toggleVisible}
       style={{ maxWidth: '96vw' }}
     >
-      <WikiContent />
+      <div style={{ paddingBottom: 24 }}>
+        <WikiContent />
+      </div>
     </Modal>
   );
 };

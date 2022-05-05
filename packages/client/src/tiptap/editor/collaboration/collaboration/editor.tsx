@@ -25,27 +25,6 @@ type IProps = Pick<
   status: ProviderStatus;
 };
 
-function scrollEditor(editor) {
-  try {
-    /**
-     * 修复移动端编辑问题
-     */
-    setTimeout(() => {
-      try {
-        const element = editor.options.element;
-        // 脏代码：这里使用 parentElement 是和布局有关的，需要根据实际情况修改
-        const parentElement = element.parentNode as HTMLElement;
-        const nextScrollTop = element.scrollHeight;
-        parentElement.scrollTop = nextScrollTop;
-      } catch (e) {
-        //
-      }
-    }, 0);
-  } catch (e) {
-    //
-  }
-}
-
 export const EditorInstance = forwardRef((props: IProps, ref) => {
   const { hocuspocusProvider, editable, user, onTitleUpdate, status, menubar, renderInEditorPortal } = props;
   const $headerContainer = useRef<HTMLDivElement>();
@@ -113,6 +92,8 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
 
   // 监听键盘收起、打开
   useEffect(() => {
+    if (!isMobile) return;
+
     let cleanUp = () => {};
     const focusIn = () => {
       setTimeout(() => {
@@ -149,7 +130,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     return () => {
       cleanUp();
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <>
@@ -159,22 +140,29 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
           description="我们已与您断开连接，您可以继续编辑文档。一旦重新连接，我们会自动重新提交数据。"
         />
       )}
-      {/* FIXME：需要菜单栏但是无法编辑，则认为进入了编辑模式但是没有编辑权限 */}
+
+      {/* FIXME：需要菜单栏但是无法编辑，则认为进入了编辑模式但是没有编辑权限，也许有更好的判断 */}
       {!editable && menubar && (
         <Banner type="warning" description="您没有编辑权限，暂不能编辑该文档。" closeable={false} />
       )}
+
       {menubar && (
         <header className={cls(isMobile && styles.mobileToolbar)} ref={$headerContainer}>
           <MenuBar editor={editor} />
         </header>
       )}
+
       <main ref={$mainContainer}>
         <EditorContent editor={editor} />
         {protals}
       </main>
 
       {editable && menubar && (
-        <BackTop target={() => $mainContainer.current} style={{ right: 16, bottom: 65 }} visibilityHeight={200} />
+        <BackTop
+          target={() => $mainContainer.current}
+          style={{ right: isMobile ? 16 : 100, bottom: 65 }}
+          visibilityHeight={200}
+        />
       )}
     </>
   );

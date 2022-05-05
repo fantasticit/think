@@ -5,7 +5,7 @@ export const Placeholder = () => {
     <Skeleton
       placeholder={
         <>
-          {Array.from({ length: 6 }).fill(
+          {Array.from({ length: 7 }).fill(
             <Skeleton.Title style={{ width: '100%', marginBottom: 12, marginTop: 12 }} />
           )}
         </>

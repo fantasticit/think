@@ -84,7 +84,9 @@ export const RecentModal = ({ visible, toggleVisible }) => {
       onCancel={toggleVisible}
       style={{ maxWidth: '96vw' }}
     >
-      <RecentDocs />
+      <div style={{ paddingBottom: 24 }}>
+        <RecentDocs />
+      </div>
     </Modal>
   );
 };

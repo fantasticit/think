@@ -32,7 +32,7 @@ const MessagesRender = ({ messageData, loading, error, onClick = null, page = 1,
         return (
           <div
             className={styles.itemsWrap}
-            style={{ margin: '8px -16px' }}
+            style={{ margin: '8px -16px', minHeight: 224 }}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
