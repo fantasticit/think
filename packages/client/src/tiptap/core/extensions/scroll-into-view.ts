@@ -1,19 +1,33 @@
-import { Extension } from '@tiptap/core';
+import { Editor, Extension } from '@tiptap/core';
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state';
-import { debounce } from 'helpers/debounce';
 
 export const scrollIntoViewPluginKey = new PluginKey('scrollIntoViewPlugin');
 
 type TransactionWithScroll = Transaction & { scrolledIntoView: boolean };
 
-export const ScrollIntoView = Extension.create({
+interface IScrollIntoViewOptions {
+  /**
+   *
+   * 将 markdown 转换为 html
+   */
+  onScroll: (editor: Editor) => void;
+}
+
+export const ScrollIntoView = Extension.create<IScrollIntoViewOptions>({
   name: 'scrollIntoView',
+
+  addOptions() {
+    return {
+      onScroll: () => {},
+    };
+  },
+
   addProseMirrorPlugins() {
     const { editor } = this;
     return [
       new Plugin({
         key: scrollIntoViewPluginKey,
-        appendTransaction: debounce((transactions, oldState, newState) => {
+        appendTransaction: (transactions, oldState, newState) => {
           if (!transactions.length || !editor.isEditable) {
             return;
           }
@@ -24,9 +38,10 @@ export const ScrollIntoView = Extension.create({
             tr.getMeta('scrollIntoView') !== false &&
             tr.getMeta('addToHistory') !== false
           ) {
+            this.options.onScroll(editor);
             return newState.tr.scrollIntoView();
           }
-        }, 100),
+        },
       }),
     ];
   },

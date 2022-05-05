@@ -63,6 +63,7 @@ import { Status } from 'tiptap/core/extensions/status';
 import { markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
 import { markdownToHTML } from 'tiptap/markdown/markdown-to-prosemirror/markdown-to-html';
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
+import { debounce } from 'helpers/debounce';
 
 const DocumentWithTitle = Document.extend({
   content: 'title block+',
@@ -107,7 +108,17 @@ export const CollaborationKit = [
   Loading,
   OrderedList,
   SelectionExtension,
-  ScrollIntoView,
+  ScrollIntoView.configure({
+    onScroll: debounce((editor) => {
+      setTimeout(() => {
+        const element = editor.options.element;
+        // 脏代码：这里使用 parentElement 是和布局有关的，需要根据实际情况修改
+        const parentElement = element.parentNode as HTMLElement;
+        const nextScrollTop = element.scrollHeight;
+        parentElement.scrollTop = nextScrollTop;
+      }, 0);
+    }, 200),
+  }),
   Strike,
   Subscript,
   Superscript,
