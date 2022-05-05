@@ -11,11 +11,11 @@ export interface BubbleMenuPluginProps {
   shouldShow?:
     | ((props: {
         editor: Editor;
-        view: EditorView;
-        state: EditorState;
+        view?: EditorView;
+        state?: EditorState;
         oldState?: EditorState;
-        from: number;
-        to: number;
+        from?: number;
+        to?: number;
       }) => boolean)
     | null;
   renderContainerSelector?: string;
@@ -113,6 +113,14 @@ export class BubbleMenuView {
     if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
       return;
     }
+
+    const shouldShow =
+      this.editor.isEditable &&
+      this.shouldShow?.({
+        editor: this.editor,
+      });
+
+    if (shouldShow) return;
 
     this.hide();
   };
