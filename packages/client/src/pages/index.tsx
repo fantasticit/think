@@ -53,12 +53,12 @@ const RecentDocs = () => {
         key="createUser"
         render={(createUser) => {
           return (
-            <div>
-              <Avatar size="small" src={createUser.avatar} style={{ marginRight: 4 }}>
+            <span>
+              <Avatar size="extra-extra-small" src={createUser.avatar} style={{ marginRight: 4 }}>
                 {createUser.name.slice(0, 1)}
               </Avatar>
               {createUser.name}
-            </div>
+            </span>
           );
         }}
       />,
