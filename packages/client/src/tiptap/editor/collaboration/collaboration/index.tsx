@@ -5,6 +5,7 @@ import { HocuspocusProvider } from '@hocuspocus/provider';
 import { useToggle } from 'hooks/use-toggle';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import { DataRender } from 'components/data-render';
+import { debounce } from 'helpers/debounce';
 import { Editor } from '../../react';
 import { ICollaborationEditorProps, ProviderStatus } from './type';
 import { EditorInstance } from './editor';
@@ -43,10 +44,10 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
         docType: type,
       },
       maxAttempts: 1,
-      onAwarenessUpdate({ states }) {
+      onAwarenessUpdate: debounce(({ states }) => {
         const users = states.map((state) => ({ clientId: state.clientId, user: state.user }));
         onAwarenessUpdate && onAwarenessUpdate(users);
-      },
+      }, 200),
       onAuthenticationFailed() {
         toggleLoading(false);
         setError(new Error('鉴权失败！暂时无法提供服务'));
