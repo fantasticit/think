@@ -20,12 +20,7 @@ const FlexStyle = {
 export const TextColor: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);
   const isTextStyleActive = useActive(editor, TextStyle.name);
-  const color = useAttributes<Color, Color['color']>(
-    editor,
-    'textStyle',
-    { color: 'transparent' },
-    (attrs) => attrs.color
-  );
+  const color = useAttributes<Color, Color['color']>(editor, 'textStyle', { color: null }, (attrs) => attrs.color);
 
   const setColor = useCallback(
     (color) => {

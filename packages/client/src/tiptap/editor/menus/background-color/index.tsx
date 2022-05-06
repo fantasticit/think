@@ -18,7 +18,7 @@ export const BackgroundColor: React.FC<{ editor: Editor }> = ({ editor }) => {
   const backgroundColor = useAttributes(
     editor,
     'textStyle',
-    { backgroundColor: 'transparent' },
+    { backgroundColor: null },
     (attrs) => attrs.backgroundColor
   );
   const isTitleActive = useActive(editor, Title.name);
