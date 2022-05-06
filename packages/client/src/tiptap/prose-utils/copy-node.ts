@@ -2,8 +2,6 @@ import { Editor } from '@tiptap/core';
 import { Node, Fragment } from 'prosemirror-model';
 import { copy } from 'helpers/copy';
 import { safeJSONStringify } from 'helpers/json';
-// import { prosemirrorToMarkdown } from 'tiptap/_markdown/prosemirror-to-markdown';
-// import { markdownToHTML } from 'tiptap/markdown/markdown-to-prosemirror/markdown-to-html';
 
 export function copyNode(nodeOrNodeName: Node);
 export function copyNode(nodeOrNodeName: string, editor: Editor);
@@ -38,8 +36,6 @@ export function copyNode(nodeOrNodeName: string | Node, editor?: Editor) {
     if (targetNode.textContent) {
       toCopy.push({ text: targetNode.textContent, format: 'text/plain' });
     }
-
-    console.log('copy', editor);
 
     try {
       const { markdownToHTML, prosemirrorToMarkdown } = editor.extensionStorage['paste'];

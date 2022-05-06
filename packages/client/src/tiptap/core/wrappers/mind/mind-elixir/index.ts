@@ -416,7 +416,7 @@ MindElixir.prototype = {
   },
 
   destroy: function () {
-    this.bus.destroy();
+    this.bus && this.bus.destroy();
   },
 };
 
