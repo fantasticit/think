@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import type { IDocument } from '@think/domains';
 import Link from 'next/link';
 import React, { useMemo } from 'react';
-import { Typography, Button, Table, List } from '@douyinfe/semi-ui';
+import { Typography, Button, Table, List, Avatar } from '@douyinfe/semi-ui';
 import { useToggle } from 'hooks/use-toggle';
 import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
@@ -37,6 +37,7 @@ const RecentDocs = () => {
         title="标题"
         dataIndex="title"
         key="title"
+        width={200}
         render={(_, document: IDocument) => {
           return (
             <Link href={'/wiki/[wikiId]/document/[docId]'} as={`/wiki/${document.wikiId}/document/${document.id}`}>
@@ -46,6 +47,21 @@ const RecentDocs = () => {
         }}
       />,
       <Column title="阅读量" dataIndex="views" key="views" />,
+      <Column
+        title="创建者"
+        dataIndex="createUser"
+        key="createUser"
+        render={(createUser) => {
+          return (
+            <div>
+              <Avatar size="small" src={createUser.avatar} style={{ marginRight: 4 }}>
+                {createUser.name.slice(0, 1)}
+              </Avatar>
+              {createUser.name}
+            </div>
+          );
+        }}
+      />,
       <Column
         title="更新时间"
         dataIndex="updatedAt"

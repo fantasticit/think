@@ -598,18 +598,20 @@ export class DocumentService {
    * @returns
    */
   public async getRecentDocuments(user: OutUser) {
-    const query = await this.documentRepo
-      .createQueryBuilder('document')
-      .where('document.createUserId=:createUserId')
-      .andWhere('document.isWikiHome=:isWikiHome')
-      .setParameter('createUserId', user.id)
-      .setParameter('isWikiHome', 0);
+    const query = await this.documentAuthorityRepo
+      .createQueryBuilder('documentAuth')
+      .where('documentAuth.userId=:userId')
+      .andWhere('documentAuth.readable=:readable')
+      .setParameter('userId', user.id)
+      .setParameter('readable', 1);
 
-    query.orderBy('document.updatedAt', 'DESC');
-    query.take(10);
-    const documents = await query.getMany();
+    query.orderBy('documentAuth.updatedAt', 'DESC');
 
-    const docs = documents.map((doc) => instanceToPlain(doc));
+    query.take(20);
+
+    const documentIds = await (await query.getMany()).map((docAuth) => docAuth.documentId);
+    const documents = await this.documentRepo.findByIds(documentIds, { order: { updatedAt: 'DESC' } });
+    const docs = documents.filter((doc) => !doc.isWikiHome).map((doc) => instanceToPlain(doc));
 
     const res = await Promise.all(
       docs.map(async (doc) => {
