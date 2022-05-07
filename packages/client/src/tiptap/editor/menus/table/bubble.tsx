@@ -19,11 +19,13 @@ import { Tooltip } from 'components/tooltip';
 import { Divider } from 'tiptap/components/divider';
 import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
 import { Table } from 'tiptap/core/extensions/table';
-import { copyNode } from 'tiptap/prose-utils';
+import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 export const TableBubbleMenu = ({ editor }) => {
   const copyMe = useCallback(() => copyNode(Table.name, editor), [editor]);
-  const deleteMe = useCallback(() => editor.chain().focus().deleteTable(), [editor]);
+  const deleteMe = useCallback(() => {
+    deleteNode(Table.name, editor);
+  }, [editor]);
   const addColumnBefore = useCallback(() => editor.chain().focus().addColumnBefore().run(), [editor]);
   const addColumnAfter = useCallback(() => editor.chain().focus().addColumnAfter().run(), [editor]);
   const deleteColumn = useCallback(() => editor.chain().focus().deleteColumn().run(), [editor]);
