@@ -1,9 +1,8 @@
 .items {
-  width: 200px;
-  max-height: 380px;
+  width: 160px;
+  max-height: 320px;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: var(--semi-color-bg-0);
   border-radius: var(--border-radius);
   box-shadow: rgb(9 30 66 / 31%) 0 0 1px, rgb(9 30 66 / 25%) 0 4px 8px -2px;
 }
@@ -18,11 +17,8 @@
   background-color: rgb(255 255 255);
   border: 0;
   border-radius: 0;
-  outline: 0;
   flex: 0 0 auto;
   align-items: center;
-  box-sizing: border-box;
-  fill: rgb(255 255 255);
 
   &:hover {
     background-color: #f4f5f7;
