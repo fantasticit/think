@@ -46,7 +46,6 @@ export const TableBubbleMenu = ({ editor }) => {
       tippyOptions={{
         maxWidth: 'calc(100vw - 100px)',
         placement: 'bottom',
-        offset: [0, 20],
       }}
       shouldShow={() => {
         return editor.isActive(Table.name);
@@ -56,7 +55,7 @@ export const TableBubbleMenu = ({ editor }) => {
         while (container.tagName !== 'TABLE') {
           container = container.parentElement;
         }
-        return container;
+        return container.parentElement;
       }}
     >
       <Space spacing={4}>

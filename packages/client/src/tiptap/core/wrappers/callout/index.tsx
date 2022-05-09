@@ -16,7 +16,7 @@ export const CalloutWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   return (
-    <NodeViewWrapper id="js-bannber-container" className={cls(styles.wrap)}>
+    <NodeViewWrapper id="js-callout-container" className={cls(styles.wrap)}>
       <div
         className={cls(styles.innerWrap, 'render-wrapper')}
         style={{

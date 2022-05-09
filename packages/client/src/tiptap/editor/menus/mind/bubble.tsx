@@ -30,7 +30,14 @@ export const MindBubbleMenu = ({ editor }) => {
       pluginKey="mind-bubble-menu"
       shouldShow={() => editor.isActive(Mind.name)}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
-      matchRenderContainer={(node) => node && node.id === 'js-resizeable-container'}
+      getRenderContainer={(node) => {
+        try {
+          const inner = node.querySelector('#js-resizeable-container');
+          return inner as HTMLElement;
+        } catch (e) {
+          return node;
+        }
+      }}
     >
       <Space spacing={4}>
         <Tooltip content="复制">

@@ -39,9 +39,15 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
     <BubbleMenu
       className={'bubble-menu'}
       editor={editor}
-      pluginKey="calloyt-bubble-menu"
+      pluginKey="callout-bubble-menu"
       shouldShow={() => editor.isActive(Callout.name)}
-      matchRenderContainer={(node) => node && node.id === 'js-bannber-container'}
+      getRenderContainer={(node) => {
+        let container = node;
+        while (container && container.id !== 'js-callout-container') {
+          container = container.parentElement;
+        }
+        return container;
+      }}
     >
       <Space spacing={4}>
         <Tooltip content="复制">

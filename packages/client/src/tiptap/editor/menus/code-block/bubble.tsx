@@ -18,7 +18,13 @@ export const CodeBlockBubbleMenu = ({ editor }) => {
       pluginKey="code-block-bubble-menu"
       shouldShow={() => editor.isActive(CodeBlock.name)}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
-      matchRenderContainer={(node: HTMLElement) => node && node.classList && node.classList.contains('node-codeBlock')}
+      getRenderContainer={(node) => {
+        let container = node;
+        while (container && container.classList && !container.classList.contains('node-codeBlock')) {
+          container = container.parentElement;
+        }
+        return container;
+      }}
     >
       <Space spacing={4}>
         <Tooltip content="复制">
