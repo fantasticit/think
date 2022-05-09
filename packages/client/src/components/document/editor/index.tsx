@@ -52,9 +52,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
       <DocumentShare key="share" documentId={documentId} />
       <DocumentVersion key="version" documentId={documentId} onSelect={triggerUseDocumentVersion} />
       <DocumentStar key="star" documentId={documentId} />
-      <Popover key="style" zIndex={1061} position={isMobile ? 'topRight' : 'bottomLeft'} content={<DocumentStyle />}>
-        <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
-      </Popover>
+      <DocumentStyle />
     </Space>
   );
 

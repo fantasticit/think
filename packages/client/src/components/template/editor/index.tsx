@@ -78,9 +78,7 @@ export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
                   }
                   footer={
                     <Space>
-                      <Popover key="style" zIndex={1061} position="bottomLeft" content={<DocumentStyle />}>
-                        <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
-                      </Popover>
+                      <DocumentStyle />
                       <Tooltip position="bottom" content={isPublic ? '公开模板' : '个人模板'}>
                         <Switch onChange={(v) => updateTemplate({ isPublic: v })}></Switch>
                       </Tooltip>

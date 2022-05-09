@@ -90,12 +90,10 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
             <DocumentStar key="star" documentId={documentId} />
           </>
         )}
-        <Popover key="style" zIndex={1061} position={isMobile ? 'topRight' : 'bottomLeft'} content={<DocumentStyle />}>
-          <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
-        </Popover>
+        <DocumentStyle />
       </Space>
     ),
-    [document, documentId, authority, isMobile, gotoEdit]
+    [document, documentId, authority, gotoEdit]
   );
 
   const editBtnStyle = useMemo(() => getEditBtnStyle(isMobile ? 16 : 100), [isMobile]);

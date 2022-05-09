@@ -86,9 +86,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           }
           footer={
             <Space>
-              <Popover key="style" zIndex={1061} position="bottomLeft" content={<DocumentStyle />}>
-                <Button icon={<IconArticle />} theme="borderless" type="tertiary" />
-              </Popover>
+              <DocumentStyle />
               <Theme />
               <User />
             </Space>
