@@ -35,6 +35,10 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
   const editor = useEditor(
     {
       editable,
+      editorProps: {
+        // @ts-ignore
+        taskItemClickable: true,
+      },
       extensions: [
         ...CollaborationKit,
         Collaboration.configure({

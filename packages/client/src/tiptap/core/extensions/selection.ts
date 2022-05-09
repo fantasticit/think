@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey, NodeSelection, TextSelection, Selection, AllSelection } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getCurrentNode, isInCodeBlock, isInCallout } from 'tiptap/prose-utils';
+import { getCurrentNode, isInCodeBlock, isInCallout, getNodeAtPos, isTodoListNode } from 'tiptap/prose-utils';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 
 export const selectionPluginKey = new PluginKey('selection');
@@ -108,7 +108,11 @@ export const SelectionExtension = Extension.create({
         key: new PluginKey('preventSelection'),
         props: {
           // 禁止非可编辑用户选中
-          handleClick(_, __, event) {
+          handleClick(view, pos, event) {
+            if (isTodoListNode(getNodeAtPos(view.state, pos))) {
+              return false;
+            }
+
             if (!isEditable) {
               event.preventDefault();
               return true;

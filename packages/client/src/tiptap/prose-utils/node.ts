@@ -32,6 +32,17 @@ export function getCurrentNode(state: EditorState): Node {
   return node;
 }
 
+export function getNodeAtPos(state: EditorState, pos: number): Node {
+  const $head = state.doc.resolve(pos);
+  let node = null;
+
+  for (let d = $head.depth; d > 0; d--) {
+    node = $head.node(d);
+  }
+
+  return node;
+}
+
 export function isInCustomNode(state: EditorState, nodeName: string): boolean {
   if (!state.schema.nodes[nodeName]) return false;
 
