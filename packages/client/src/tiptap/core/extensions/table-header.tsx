@@ -28,10 +28,16 @@ export const TableHeader = BuiltInTableHeader.extend({
   },
 
   addProseMirrorPlugins() {
+    const { isEditable } = this.editor;
+
     return [
       new Plugin({
         props: {
           decorations: (state) => {
+            if (!isEditable) {
+              return DecorationSet.empty;
+            }
+
             const { doc, selection } = state;
             const decorations: Decoration[] = [];
             const cells = getCellsInRow(0)(selection);

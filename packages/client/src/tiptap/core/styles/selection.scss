@@ -80,4 +80,27 @@
       }
     }
   }
+
+  .node-table {
+    &.selected-node {
+      &:not(.has-focus) {
+        ::selection {
+          background-color: transparent;
+        }
+      }
+
+      .render-wrapper {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          pointer-events: none;
+          border: 1px solid var(--node-selected-border-color) !important;
+          background-color: rgb(179 212 255 / 30%);
+          content: '';
+          inset: 0;
+        }
+      }
+    }
+  }
 }

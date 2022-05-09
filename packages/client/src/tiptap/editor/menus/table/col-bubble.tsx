@@ -3,7 +3,7 @@ import { Space, Button } from '@douyinfe/semi-ui';
 import { IconAddColumnBefore, IconAddColumnAfter, IconDeleteColumn } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
 import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
-import { TableRow } from 'tiptap/core/extensions/table-row';
+import { Table } from 'tiptap/core/extensions/table';
 import { isTableSelected } from 'tiptap/prose-utils';
 
 export const TableColBubbleMenu = ({ editor }) => {
@@ -20,9 +20,9 @@ export const TableColBubbleMenu = ({ editor }) => {
         offset: [0, 20],
       }}
       shouldShow={({ node, state }) => {
-        if (!node || isTableSelected(state.selection)) return false;
+        if (!editor.isActive(Table.name) || !node || isTableSelected(state.selection)) return false;
         const gripColumn = node.querySelector('a.grip-column.selected');
-        return editor.isActive(TableRow.name) && !!gripColumn;
+        return !!gripColumn;
       }}
       getRenderContainer={(node) => {
         return node;

@@ -1,7 +1,7 @@
 .ProseMirror {
-  .scrollable-wrapper {
+  .node-table {
     position: relative;
-    margin: 0.5em 0;
+    margin-top: 0.75em;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
   }
@@ -30,13 +30,24 @@
 
     &.left {
       box-shadow: 16px 0 16px -16px inset rgb(0 0 0 / 25%);
-      border-left: 1em solid red;
     }
 
     &.right {
       right: 0;
       left: auto;
       box-shadow: rgb(0 0 0 / 25%) -16px 0 16px -16px inset;
+
+      &.is-editable {
+        &::after {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 1em;
+          height: 1em;
+          background-color: var(--semi-color-nav-bg);
+          content: '';
+        }
+      }
     }
   }
 
@@ -47,6 +58,10 @@
     border-collapse: collapse;
     box-sizing: border-box;
     border-color: var(--semi-color-fill-2);
+
+    &.is-readonly {
+      margin-top: 0;
+    }
 
     td,
     th {

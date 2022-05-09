@@ -7,12 +7,14 @@ export const Table = BuiltInTable.extend({
   renderHTML() {
     return [
       'div',
-      { class: 'scrollable-wrapper' },
-      ['div', { class: 'scrollable' }, ['table', { class: 'rme-table' }, ['tbody', 0]]],
+      { class: 'node-table' },
+      ['div', { class: `scrollable` }, ['table', { class: `think-table render-wrapper` }, ['tbody', 0]]],
     ];
   },
 
   addProseMirrorPlugins() {
+    const { isEditable } = this.editor;
+
     return [
       tableEditing(),
       new Plugin({
@@ -25,9 +27,14 @@ export const Table = BuiltInTable.extend({
             doc.descendants((node, pos) => {
               if (node.type.name !== this.name) return;
 
-              const elements = document.getElementsByClassName('rme-table');
+              const elements = document.getElementsByClassName('think-table');
               const table = elements[index];
+
               if (!table) return;
+
+              if (!isEditable) {
+                table.classList.add('is-readonly');
+              }
 
               const element = table.parentElement;
               const shadowRight = !!(element && element.scrollWidth > element.clientWidth);
@@ -36,7 +43,7 @@ export const Table = BuiltInTable.extend({
                 decorations.push(
                   Decoration.widget(pos + 1, () => {
                     const shadow = document.createElement('div');
-                    shadow.className = 'scrollable-shadow right';
+                    shadow.className = `scrollable-shadow right ${isEditable ? 'is-editable' : ''}`;
                     return shadow;
                   })
                 );
