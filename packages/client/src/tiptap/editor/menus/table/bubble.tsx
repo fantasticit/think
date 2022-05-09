@@ -43,11 +43,21 @@ export const TableBubbleMenu = ({ editor }) => {
       className={'bubble-menu bubble-menu-table'}
       editor={editor}
       pluginKey="table-bubble-menu"
-      shouldShow={() => editor.isActive(Table.name)}
       tippyOptions={{
         maxWidth: 'calc(100vw - 100px)',
+        placement: 'bottom',
+        offset: [0, 20],
       }}
-      matchRenderContainer={(node: HTMLElement) => node && node.tagName === 'TABLE'}
+      shouldShow={() => {
+        return editor.isActive(Table.name);
+      }}
+      getRenderContainer={(node) => {
+        let container = node;
+        while (container.tagName !== 'TABLE') {
+          container = container.parentElement;
+        }
+        return container;
+      }}
     >
       <Space spacing={4}>
         <Tooltip content="复制">

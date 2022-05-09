@@ -11,6 +11,7 @@ export interface BubbleMenuPluginProps {
   shouldShow?:
     | ((props: {
         editor: Editor;
+        node?: HTMLElement;
         view?: EditorView;
         state?: EditorState;
         oldState?: EditorState;
@@ -20,6 +21,7 @@ export interface BubbleMenuPluginProps {
     | null;
   renderContainerSelector?: string;
   matchRenderContainer?: (node: HTMLElement) => boolean;
+  getRenderContainer?: (node: HTMLElement) => HTMLElement;
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
@@ -39,10 +41,9 @@ export class BubbleMenuView {
 
   public tippyOptions?: Partial<Props>;
 
-  public renderContainerSelector?: string;
-
-  public matchRenderContainer?: BubbleMenuPluginProps['matchRenderContainer'];
-
+  // public renderContainerSelector?: string;
+  // public matchRenderContainer?: BubbleMenuPluginProps['matchRenderContainer'];
+  public getRenderContainer?: BubbleMenuPluginProps['getRenderContainer'];
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
     const { doc, selection } = state;
     const { empty } = selection;
@@ -65,14 +66,17 @@ export class BubbleMenuView {
     view,
     tippyOptions = {},
     shouldShow,
-    renderContainerSelector,
-    matchRenderContainer,
+    // renderContainerSelector,
+    // matchRenderContainer,
+    getRenderContainer,
   }: BubbleMenuViewProps) {
     this.editor = editor;
     this.element = element;
     this.view = view;
-    this.renderContainerSelector = renderContainerSelector;
-    this.matchRenderContainer = matchRenderContainer;
+    // this.renderContainerSelector = renderContainerSelector;
+    // this.matchRenderContainer = matchRenderContainer;
+
+    this.getRenderContainer = getRenderContainer;
 
     if (shouldShow) {
       this.shouldShow = shouldShow;
@@ -82,8 +86,8 @@ export class BubbleMenuView {
       capture: true,
     });
     this.view.dom.addEventListener('dragstart', this.dragstartHandler);
-    this.editor.on('focus', this.focusHandler);
-    this.editor.on('blur', this.blurHandler);
+    // this.editor.on('focus', this.focusHandler);
+    // this.editor.on('blur', this.blurHandler);
     this.tippyOptions = tippyOptions || {};
     // Detaches menu content from its current parent
     this.element.remove();
@@ -167,12 +171,14 @@ export class BubbleMenuView {
     const { ranges } = selection;
     const from = Math.min(...ranges.map((range) => range.$from.pos));
     const to = Math.max(...ranges.map((range) => range.$to.pos));
+    const node = view.domAtPos(from).node as HTMLElement;
 
     const shouldShow =
       this.editor.isEditable &&
       this.shouldShow?.({
         editor: this.editor,
         view,
+        node,
         state,
         oldState,
         from,
@@ -187,34 +193,43 @@ export class BubbleMenuView {
     this.tippy?.setProps({
       getReferenceClientRect: () => {
         if (isNodeSelection(state.selection)) {
-          let node = view.nodeDOM(from) as HTMLElement;
+          const node = view.nodeDOM(from) as HTMLElement;
 
-          if (this.matchRenderContainer) {
-            while (node && !this.matchRenderContainer(node)) {
-              node = node.firstElementChild as HTMLElement;
-            }
-
-            if (node) {
-              return node.getBoundingClientRect();
-            }
+          if (this.getRenderContainer) {
+            return this.getRenderContainer(node).getBoundingClientRect();
           }
 
-          if (node) {
-            return node.getBoundingClientRect();
-          }
+          // if (this.matchRenderContainer) {
+          //   while (node && !this.matchRenderContainer(node)) {
+          //     node = node.firstElementChild as HTMLElement;
+          //   }
+
+          //   if (node) {
+          //     return node.getBoundingClientRect();
+          //   }
+          // }
+
+          // if (node) {
+          //   return node.getBoundingClientRect();
+          // }
         }
 
-        if (this.matchRenderContainer) {
-          let node = view.domAtPos(from).node as HTMLElement;
-
-          while (node && !this.matchRenderContainer(node)) {
-            node = node.parentElement;
-          }
-
-          if (node) {
-            return node.getBoundingClientRect();
-          }
+        if (this.getRenderContainer) {
+          const node = view.domAtPos(from).node as HTMLElement;
+          return this.getRenderContainer(node).getBoundingClientRect();
         }
+
+        // if (this.matchRenderContainer) {
+        //   let node = view.domAtPos(from).node as HTMLElement;
+
+        //   while (node && !this.matchRenderContainer(node)) {
+        //     node = node.parentElement;
+        //   }
+
+        //   if (node) {
+        //     return node.getBoundingClientRect();
+        //   }
+        // }
 
         return posToDOMRect(view, from, to);
       },

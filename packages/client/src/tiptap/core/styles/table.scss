@@ -1,30 +1,62 @@
 .ProseMirror {
-  .tableWrapper {
-    max-width: 100%;
-    padding: 0;
-    margin: 0;
-    overflow: auto;
+  .scrollable-wrapper {
+    position: relative;
+    margin: 0.5em 0;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  .scrollable {
+    padding-left: 1em;
+    margin-left: -1em;
+    overflow: auto hidden;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    transition: border 250ms ease-in-out 0s;
+  }
+
+  .scrollable-shadow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1em;
+    width: 16px;
+    transition: box-shadow 250ms ease-in-out 0s;
+    border-width: 0 0 0 1em;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+    pointer-events: none;
+
+    &.left {
+      box-shadow: 16px 0 16px -16px inset rgb(0 0 0 / 25%);
+      border-left: 1em solid red;
+    }
+
+    &.right {
+      right: 0;
+      left: auto;
+      box-shadow: rgb(0 0 0 / 25%) -16px 0 16px -16px inset;
+    }
   }
 
   table {
     width: 100%;
-    max-width: 100%;
-    margin: 0.75em 0 0;
-    overflow: hidden;
+    margin-top: 1em;
+    border-radius: 4px;
     border-collapse: collapse;
-    table-layout: fixed;
+    box-sizing: border-box;
+    border-color: var(--semi-color-fill-2);
 
     td,
     th {
       position: relative;
-      box-sizing: border-box;
-      min-width: 1em;
-      padding: 3px 5px;
-      border-width: 1px;
-      border-style: solid;
-      border-color: var(--semi-color-fill-2);
-      overflow: visible;
+      min-width: 100px;
+      padding: 4px 8px;
+      text-align: left;
       vertical-align: top;
+      border: 1px solid rgb(232 235 237);
+      border-color: var(--semi-color-fill-2);
 
       > * {
         margin-bottom: 0;
@@ -42,6 +74,60 @@
       background: var(--semi-color-info-light-hover);
     }
 
+    .grip-column {
+      position: absolute;
+      top: -1em;
+      left: 0;
+      z-index: 10;
+      display: block;
+      width: 100%;
+      height: 0.7em;
+      margin-bottom: 3px;
+      cursor: pointer;
+      background: #ced4da;
+
+      &:hover,
+      &.selected {
+        background: var(--semi-color-info);
+      }
+    }
+
+    .grip-row {
+      position: absolute;
+      top: 0;
+      left: -1em;
+      z-index: 10;
+      display: block;
+      width: 0.7em;
+      height: 100%;
+      margin-right: 3px;
+      cursor: pointer;
+      background: #ced4da;
+
+      &:hover,
+      &.selected {
+        background: var(--semi-color-info);
+      }
+    }
+
+    .grip-table {
+      position: absolute;
+      top: -1em;
+      left: -1em;
+      z-index: 10;
+      display: block;
+      width: 0.8em;
+      height: 0.8em;
+      cursor: pointer;
+      background: #ced4da;
+      border-radius: 50%;
+
+      &:hover,
+      &.selected {
+        background: var(--semi-color-info);
+      }
+    }
+
     .column-resize-handle {
       position: absolute;
       top: 0;
@@ -50,10 +136,6 @@
       width: 4px;
       pointer-events: none;
       background-color: #adf;
-    }
-
-    p {
-      margin: 0;
     }
   }
 }
