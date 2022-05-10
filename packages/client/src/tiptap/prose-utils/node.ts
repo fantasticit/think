@@ -2,19 +2,19 @@ import { Node } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 
 export function isTitleNode(node: Node): boolean {
-  return node.type.name === 'title';
+  return node && node.type.name === 'title';
 }
 
 export function isBulletListNode(node: Node): boolean {
-  return node.type.name === 'bulletList';
+  return node && node.type.name === 'bulletList';
 }
 
 export function isOrderedListNode(node: Node): boolean {
-  return node.type.name === 'orderedList';
+  return node && node.type.name === 'orderedList';
 }
 
 export function isTodoListNode(node: Node): boolean {
-  return node.type.name === 'taskList';
+  return node && node.type.name === 'taskList';
 }
 
 export function isListNode(node: Node): boolean {
