@@ -10,7 +10,14 @@ export const TableColBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(
     ({ node, state }) => {
       if (!editor.isActive(Table.name) || !node || isTableSelected(state.selection)) return false;
-      const gripColumn = node.querySelector('a.grip-column.selected');
+
+      let container = node;
+
+      while (container && !['TD', 'TH'].includes(container.tagName)) {
+        container = container.parentElement;
+      }
+
+      const gripColumn = container && container.querySelector && container.querySelector('a.grip-column.selected');
       return !!gripColumn;
     },
     [editor]
@@ -28,7 +35,7 @@ export const TableColBubbleMenu = ({ editor }) => {
       editor={editor}
       pluginKey="table-col-bubble-menu"
       tippyOptions={{
-        offset: [0, 20],
+        offset: [0, 35],
       }}
       shouldShow={shouldShow}
       getRenderContainer={getRenderContainer}
@@ -53,6 +60,7 @@ export const TableColBubbleMenu = ({ editor }) => {
             size="small"
           />
         </Tooltip>
+
         <Tooltip content="删除当前列" hideOnClick>
           <Button onClick={deleteColumn} icon={<IconDeleteColumn />} type="tertiary" theme="borderless" size="small" />
         </Tooltip>

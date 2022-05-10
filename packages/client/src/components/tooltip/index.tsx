@@ -21,7 +21,7 @@ export const Tooltip: React.FC<IProps> = ({ content, hideOnClick = false, positi
         onMouseLeave={() => {
           toggleVisible(false);
         }}
-        onMouseMove={() => {
+        onMouseDown={() => {
           hideOnClick && toggleVisible(false);
         }}
       >
