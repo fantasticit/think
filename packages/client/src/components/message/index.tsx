@@ -118,45 +118,45 @@ const MessageBox = () => {
     toggleVisible(true);
   }, [isMobile, toggleVisible]);
 
-  useEffect(() => {
-    if (!unreadMsgs || !unreadMsgs.total) return;
+  // useEffect(() => {
+  //   if (!unreadMsgs || !unreadMsgs.total) return;
 
-    const msg = unreadMsgs.data[0];
+  //   const msg = unreadMsgs.data[0];
 
-    Notification.info({
-      title: '消息通知',
-      content: (
-        <>
-          <div>
-            <Text
-              ellipsis={{
-                showTooltip: {
-                  opts: { content: msg.message },
-                },
-              }}
-              style={{ width: 240 }}
-            >
-              {msg.title}
-            </Text>
-          </div>
-          <div>
-            <Text link>
-              <Link href={msg.url}>
-                <a className={styles.item} target="_blank">
-                  查看详情
-                </a>
-              </Link>
-            </Text>
-          </div>
-        </>
-      ),
-      duration: 3,
-      showClose: true,
-      onHookClose() {
-        readMessage(msg.id);
-      },
-    });
-  }, [unreadMsgs, readMessage]);
+  //   Notification.info({
+  //     title: '消息通知',
+  //     content: (
+  //       <>
+  //         <div>
+  //           <Text
+  //             ellipsis={{
+  //               showTooltip: {
+  //                 opts: { content: msg.message },
+  //               },
+  //             }}
+  //             style={{ width: 240 }}
+  //           >
+  //             {msg.title}
+  //           </Text>
+  //         </div>
+  //         <div>
+  //           <Text link>
+  //             <Link href={msg.url}>
+  //               <a className={styles.item} target="_blank">
+  //                 查看详情
+  //               </a>
+  //             </Link>
+  //           </Text>
+  //         </div>
+  //       </>
+  //     ),
+  //     duration: 3,
+  //     showClose: true,
+  //     onHookClose() {
+  //       readMessage(msg.id);
+  //     },
+  //   });
+  // }, [unreadMsgs, readMessage]);
 
   const content = (
     <Tabs
