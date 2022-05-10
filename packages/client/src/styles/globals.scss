@@ -3,6 +3,7 @@
 @import './reset.scss';
 
 .container {
+  width: 100%;
   margin-right: auto;
   margin-left: auto;
 }
@@ -22,6 +23,24 @@
 @media (min-width: 992px) {
   .container {
     width: 750px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 960px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1440px;
   }
 }
 

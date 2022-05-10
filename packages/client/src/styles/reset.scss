@@ -5,8 +5,14 @@
   box-sizing: border-box;
 }
 
-body,
 html {
+  line-height: 1.15;
+  text-size-adjust: 100%;
+  tab-size: 2;
+}
+
+html,
+body {
   height: 100%; /* Fill the window */
   padding: 0;
   margin: 0;
