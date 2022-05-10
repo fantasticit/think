@@ -4,9 +4,9 @@ import { Collapsible, Button } from '@douyinfe/semi-ui';
 import styles from './index.module.scss';
 import { useToggle } from 'hooks/use-toggle';
 
-export const TableOfContentsWrapper = ({ editor, node, updateAttributes }) => {
+export const TableOfContentsWrapper = ({ editor }) => {
   const [items, setItems] = useState([]);
-  const [visible, toggleVisible] = useToggle(false);
+  const [visible, toggleVisible] = useToggle(true);
 
   const maskStyle = useMemo(
     () =>
