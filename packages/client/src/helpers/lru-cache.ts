@@ -114,14 +114,8 @@ export class LRUCache {
   }
 }
 
-const CacheMap = new Map();
-
 export const createKeysLocalStorageLRUCache = (storageKey, capacity) => {
   const lruCache = new LRUCache(capacity);
-
-  if (CacheMap.has(storageKey)) {
-    return CacheMap.get(setStorage);
-  }
 
   const manager = {
     syncFromStorage() {
@@ -144,8 +138,6 @@ export const createKeysLocalStorageLRUCache = (storageKey, capacity) => {
       return key ? lruCache.get(key) : lruCache.keys();
     },
   };
-
-  CacheMap.set(storageKey, manager);
 
   return manager;
 };
