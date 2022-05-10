@@ -25,6 +25,7 @@ import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 import { Katex } from 'tiptap/core/extensions/katex';
 import { DocumentReference } from 'tiptap/core/extensions/document-reference';
 import { DocumentChildren } from 'tiptap/core/extensions/document-children';
+import { HorizontalRule } from 'tiptap/core/extensions/horizontal-rule';
 
 const OTHER_BUBBLE_MENU_TYPES = [
   Title.name,
@@ -40,6 +41,7 @@ const OTHER_BUBBLE_MENU_TYPES = [
   DocumentReference.name,
   DocumentChildren.name,
   Katex.name,
+  HorizontalRule.name,
 ];
 
 export const Text = ({ editor }) => {
