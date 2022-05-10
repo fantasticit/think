@@ -1,6 +1,5 @@
 .emptyWrap {
   display: flex;
-  width: 240px;
   cursor: pointer;
   border: 1px solid transparent;
   flex-wrap: nowrap;
@@ -35,7 +34,6 @@
 .colorWrap {
   display: flex;
   flex-wrap: wrap;
-  width: 240px;
   margin-top: 8px;
 
   .colorItem {

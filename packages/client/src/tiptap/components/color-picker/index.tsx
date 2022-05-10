@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Dropdown, Typography, Modal } from '@douyinfe/semi-ui';
+import { Dropdown, Typography, Modal, SideSheet, Row, Col } from '@douyinfe/semi-ui';
 import styles from './style.module.scss';
 import { useWindowSize } from 'hooks/use-window-size';
 import { useToggle } from 'hooks/use-toggle';
@@ -89,7 +89,7 @@ export const ColorPicker: React.FC<{
 
   const content = useMemo(
     () => (
-      <div style={{ padding: isMobile ? '0 0 24px' : '12px 16px' }}>
+      <div style={{ padding: isMobile ? '24px 0 24px' : '12px 16px', width: isMobile ? 'auto' : 272 }}>
         <div className={styles.emptyWrap} onClick={() => onSetColor(null)}>
           <span></span>
           <Text>无颜色</Text>
@@ -115,16 +115,17 @@ export const ColorPicker: React.FC<{
     <span>
       {isMobile ? (
         <>
-          <Modal
-            centered
+          <SideSheet
+            headerStyle={{ borderBottom: '1px solid var(--semi-color-border)' }}
+            placement="bottom"
             title={title}
             visible={visible}
-            footer={null}
-            onCancel={() => toggleVisible(false)}
-            style={{ maxWidth: '96vw', width: 288 }}
+            onCancel={toggleVisible}
+            height={284}
+            mask={false}
           >
             {content}
-          </Modal>
+          </SideSheet>
           <span style={{ display: 'inline-block' }} onMouseDown={() => toggleVisible(true)}>
             {children}
           </span>

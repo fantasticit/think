@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Popover, Button, Typography, Input, Space, Modal } from '@douyinfe/semi-ui';
+import { Popover, Button, Typography, Input, Space, SideSheet } from '@douyinfe/semi-ui';
 import { Editor } from 'tiptap/editor';
 import { useWindowSize } from 'hooks/use-window-size';
 import { useToggle } from 'hooks/use-toggle';
@@ -64,7 +64,7 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
   }, [editor]);
 
   const content = (
-    <div style={{ paddingBottom: isMobile ? 24 : 0 }}>
+    <div style={{ padding: isMobile ? '24px 0' : 0 }}>
       <div style={{ marginBottom: 12 }}>
         <Text type="tertiary">查找</Text>
         <Input
@@ -110,16 +110,17 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
     <span>
       {isMobile ? (
         <>
-          <Modal
-            centered
-            title="查找替换"
+          <SideSheet
+            headerStyle={{ borderBottom: '1px solid var(--semi-color-border)' }}
+            placement="bottom"
+            title={'查找替换'}
             visible={visible}
-            footer={null}
-            onCancel={() => toggleVisible(false)}
-            style={{ maxWidth: '96vw' }}
+            onCancel={toggleVisible}
+            height={280}
+            mask={false}
           >
             {content}
-          </Modal>
+          </SideSheet>
           {btn}
         </>
       ) : (
