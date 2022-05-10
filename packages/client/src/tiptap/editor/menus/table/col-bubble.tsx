@@ -7,6 +7,17 @@ import { Table } from 'tiptap/core/extensions/table';
 import { isTableSelected } from 'tiptap/prose-utils';
 
 export const TableColBubbleMenu = ({ editor }) => {
+  const shouldShow = useCallback(
+    ({ node, state }) => {
+      if (!editor.isActive(Table.name) || !node || isTableSelected(state.selection)) return false;
+      const gripColumn = node.querySelector('a.grip-column.selected');
+      return !!gripColumn;
+    },
+    [editor]
+  );
+  const getRenderContainer = useCallback((node) => {
+    return node;
+  }, []);
   const addColumnBefore = useCallback(() => editor.chain().focus().addColumnBefore().run(), [editor]);
   const addColumnAfter = useCallback(() => editor.chain().focus().addColumnAfter().run(), [editor]);
   const deleteColumn = useCallback(() => editor.chain().focus().deleteColumn().run(), [editor]);
@@ -19,14 +30,8 @@ export const TableColBubbleMenu = ({ editor }) => {
       tippyOptions={{
         offset: [0, 20],
       }}
-      shouldShow={({ node, state }) => {
-        if (!editor.isActive(Table.name) || !node || isTableSelected(state.selection)) return false;
-        const gripColumn = node.querySelector('a.grip-column.selected');
-        return !!gripColumn;
-      }}
-      getRenderContainer={(node) => {
-        return node;
-      }}
+      shouldShow={shouldShow}
+      getRenderContainer={getRenderContainer}
     >
       <Space spacing={4}>
         <Tooltip content="向前插入一列">

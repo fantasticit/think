@@ -19,6 +19,7 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
   const isShare = pathname.includes('share');
   const { data: tocs, loading, error } = useWikiTocs(isShare ? null : wikiIdFromUrl);
 
+  const shouldShow = useCallback(() => editor.isActive(DocumentReference.name), [editor]);
   const selectDoc = useCallback(
     (item) => {
       const { wikiId, title, id: documentId } = item;
@@ -32,7 +33,6 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
     },
     [editor]
   );
-
   const copyMe = useCallback(() => copyNode(DocumentReference.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(DocumentReference.name, editor), [editor]);
 
@@ -41,7 +41,7 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="document-reference-bubble-menu"
-      shouldShow={() => editor.isActive(DocumentReference.name)}
+      shouldShow={shouldShow}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
       <Space spacing={4}>

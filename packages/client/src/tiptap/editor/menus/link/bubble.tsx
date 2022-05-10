@@ -15,6 +15,8 @@ export const LinkBubbleMenu = ({ editor }) => {
   const [from, setFrom] = useState(-1);
   const [to, setTo] = useState(-1);
 
+  const shouldShow = useCallback(() => editor.isActive(Link.name), [editor]);
+
   const visitLink = useCallback(() => {
     window.open(href, target);
   }, [href, target]);
@@ -66,7 +68,7 @@ export const LinkBubbleMenu = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="link-bubble-menu"
-      shouldShow={() => editor.isActive(Link.name)}
+      shouldShow={shouldShow}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
       <Space spacing={4}>

@@ -15,7 +15,7 @@ export const CountdownBubbleMenu = ({ editor }) => {
   const openEditLinkModal = useCallback(() => {
     triggerOpenCountSettingModal(editor, attrs);
   }, [editor, attrs]);
-
+  const shouldShow = useCallback(() => editor.isActive(Countdown.name), [editor]);
   const copyMe = useCallback(() => copyNode(Countdown.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(Countdown.name, editor), [editor]);
 
@@ -24,7 +24,7 @@ export const CountdownBubbleMenu = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="countdonw-bubble-menu"
-      shouldShow={() => editor.isActive(Countdown.name)}
+      shouldShow={shouldShow}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
       <Space spacing={4}>

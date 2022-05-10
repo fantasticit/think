@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Editor } from 'tiptap/editor';
 import { Button } from '@douyinfe/semi-ui';
 import { IconStrikeThrough } from '@douyinfe/semi-icons';
@@ -11,13 +11,15 @@ export const Strike: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);
   const isStrikeActive = useActive(editor, StrikeExtension.name);
 
+  const toggleStrike = useCallback(() => editor.chain().focus().toggleStrike().run(), [editor]);
+
   return (
     <Tooltip content="删除线">
       <Button
         theme={isStrikeActive ? 'light' : 'borderless'}
         type="tertiary"
         icon={<IconStrikeThrough />}
-        onClick={() => editor.chain().focus().toggleStrike().run()}
+        onClick={toggleStrike}
         disabled={isTitleActive}
       />
     </Tooltip>

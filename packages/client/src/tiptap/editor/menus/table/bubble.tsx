@@ -22,6 +22,16 @@ import { Table } from 'tiptap/core/extensions/table';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 export const TableBubbleMenu = ({ editor }) => {
+  const shouldShow = useCallback(() => {
+    return editor.isActive(Table.name);
+  }, [editor]);
+  const getRenderContainer = useCallback((node) => {
+    let container = node;
+    while (container.tagName !== 'TABLE') {
+      container = container.parentElement;
+    }
+    return container.parentElement;
+  }, []);
   const copyMe = useCallback(() => copyNode(Table.name, editor), [editor]);
   const deleteMe = useCallback(() => {
     deleteNode(Table.name, editor);
@@ -47,16 +57,8 @@ export const TableBubbleMenu = ({ editor }) => {
         maxWidth: 'calc(100vw - 100px)',
         placement: 'bottom',
       }}
-      shouldShow={() => {
-        return editor.isActive(Table.name);
-      }}
-      getRenderContainer={(node) => {
-        let container = node;
-        while (container.tagName !== 'TABLE') {
-          container = container.parentElement;
-        }
-        return container.parentElement;
-      }}
+      shouldShow={shouldShow}
+      getRenderContainer={getRenderContainer}
     >
       <Space spacing={4}>
         <Tooltip content="复制">

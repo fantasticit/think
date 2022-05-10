@@ -57,7 +57,7 @@ export const IframeBubbleMenu = ({ editor }) => {
     },
     [editor]
   );
-
+  const shouldShow = useCallback(() => editor.isActive(Iframe.name), [editor]);
   const copyMe = useCallback(() => copyNode(Iframe.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(Iframe.name, editor), [editor]);
 
@@ -66,7 +66,7 @@ export const IframeBubbleMenu = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="iframe-bubble-menu"
-      shouldShow={() => editor.isActive(Iframe.name)}
+      shouldShow={shouldShow}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
       <Modal

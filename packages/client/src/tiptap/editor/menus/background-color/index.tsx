@@ -36,7 +36,7 @@ export const BackgroundColor: React.FC<{ editor: Editor }> = ({ editor }) => {
     <ColorPicker title="背景色" onSetColor={setBackgroundColor} disabled={isTitleActive}>
       <Tooltip content="背景色">
         <Button
-          theme={editor.isActive('textStyle') ? 'light' : 'borderless'}
+          theme={backgroundColor ? 'light' : 'borderless'}
           type={'tertiary'}
           icon={
             <span style={FlexStyle}>

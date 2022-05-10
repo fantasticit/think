@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Editor } from 'tiptap/editor';
 import { Button } from '@douyinfe/semi-ui';
 import { IconBold } from '@douyinfe/semi-icons';
@@ -11,13 +11,15 @@ export const Bold: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);
   const isBoldActive = useActive(editor, BoldExtension.name);
 
+  const toggleBold = useCallback(() => editor.chain().focus().toggleBold().run(), [editor]);
+
   return (
     <Tooltip content="粗体">
       <Button
         theme={isBoldActive ? 'light' : 'borderless'}
         type="tertiary"
         icon={<IconBold />}
-        onClick={() => editor.chain().focus().toggleBold().run()}
+        onClick={toggleBold}
         disabled={isTitleActive}
       />
     </Tooltip>

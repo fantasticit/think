@@ -42,6 +42,7 @@ import { DocumentReference } from 'tiptap/editor/menus/document-reference';
 import { Image } from 'tiptap/editor/menus/image';
 import { Iframe } from 'tiptap/editor/menus/iframe';
 import { Table } from 'tiptap/editor/menus/table';
+import { Text } from 'tiptap/editor/menus/text';
 import { Mind } from 'tiptap/editor/menus/mind';
 
 const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
@@ -108,6 +109,7 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <Image editor={editor} />
         <Iframe editor={editor} />
         <Table editor={editor} />
+        <Text editor={editor} />
         <Mind editor={editor} />
       </Space>
     </div>

@@ -12,9 +12,11 @@ export const useActive = (editor: Editor, ...args) => {
     };
 
     editor.on('selectionUpdate', listener);
+    editor.on('transaction', listener);
 
     return () => {
       editor.off('selectionUpdate', listener);
+      editor.off('transaction', listener);
     };
   }, [editor, args, toggleActive]);
 

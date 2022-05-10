@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Editor } from 'tiptap/editor';
 import { Button } from '@douyinfe/semi-ui';
 import { IconCode } from '@douyinfe/semi-icons';
@@ -11,13 +11,15 @@ export const Code: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);
   const isCodeActive = useActive(editor, InlineCode.name);
 
+  const toggleCode = useCallback(() => editor.chain().focus().toggleCode().run(), [editor]);
+
   return (
     <Tooltip content="行内代码">
       <Button
         theme={isCodeActive ? 'light' : 'borderless'}
         type="tertiary"
         icon={<IconCode />}
-        onClick={() => editor.chain().focus().toggleCode().run()}
+        onClick={toggleCode}
         disabled={isTitleActive}
       />
     </Tooltip>

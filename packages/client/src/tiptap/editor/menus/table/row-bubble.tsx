@@ -7,6 +7,17 @@ import { Table } from 'tiptap/core/extensions/table';
 import { isTableSelected } from 'tiptap/prose-utils';
 
 export const TableRowBubbleMenu = ({ editor }) => {
+  const shouldShow = useCallback(
+    ({ node, state }) => {
+      if (!editor.isActive(Table.name) || !node || isTableSelected(state.selection)) return false;
+      const gripRow = node.querySelector('a.grip-row.selected');
+      return !!gripRow;
+    },
+    [editor]
+  );
+  const getRenderContainer = useCallback((node) => {
+    return node;
+  }, []);
   const addRowBefore = useCallback(() => editor.chain().focus().addRowBefore().run(), [editor]);
   const addRowAfter = useCallback(() => editor.chain().focus().addRowAfter().run(), [editor]);
   const deleteRow = useCallback(() => editor.chain().focus().deleteRow().run(), [editor]);
@@ -20,14 +31,8 @@ export const TableRowBubbleMenu = ({ editor }) => {
         placement: 'left',
         offset: [0, 20],
       }}
-      shouldShow={({ node, state }) => {
-        if (!editor.isActive(Table.name) || !node || isTableSelected(state.selection)) return false;
-        const gripRow = node.querySelector('a.grip-row.selected');
-        return !!gripRow;
-      }}
-      getRenderContainer={(node) => {
-        return node;
-      }}
+      shouldShow={shouldShow}
+      getRenderContainer={getRenderContainer}
     >
       <Space vertical spacing={4}>
         <Tooltip content="向前插入一行">

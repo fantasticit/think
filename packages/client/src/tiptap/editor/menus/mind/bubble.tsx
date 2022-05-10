@@ -19,7 +19,15 @@ export const MindBubbleMenu = ({ editor }) => {
     },
     [editor]
   );
-
+  const shouldShow = useCallback(() => editor.isActive(Mind.name), [editor]);
+  const getRenderContainer = useCallback((node) => {
+    try {
+      const inner = node.querySelector('#js-resizeable-container');
+      return inner as HTMLElement;
+    } catch (e) {
+      return node;
+    }
+  }, []);
   const copyMe = useCallback(() => copyNode(Mind.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(Mind.name, editor), [editor]);
 
@@ -28,16 +36,9 @@ export const MindBubbleMenu = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="mind-bubble-menu"
-      shouldShow={() => editor.isActive(Mind.name)}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
-      getRenderContainer={(node) => {
-        try {
-          const inner = node.querySelector('#js-resizeable-container');
-          return inner as HTMLElement;
-        } catch (e) {
-          return node;
-        }
-      }}
+      shouldShow={shouldShow}
+      getRenderContainer={getRenderContainer}
     >
       <Space spacing={4}>
         <Tooltip content="复制">

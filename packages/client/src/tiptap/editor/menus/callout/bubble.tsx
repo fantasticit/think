@@ -32,6 +32,14 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
     [editor]
   );
 
+  const shouldShow = useCallback(() => editor.isActive(Callout.name), [editor]);
+  const getRenderContainer = useCallback((node) => {
+    let container = node;
+    while (container && container.id !== 'js-callout-container') {
+      container = container.parentElement;
+    }
+    return container;
+  }, []);
   const copyMe = useCallback(() => copyNode(Callout.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(Callout.name, editor), [editor]);
 
@@ -40,14 +48,8 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="callout-bubble-menu"
-      shouldShow={() => editor.isActive(Callout.name)}
-      getRenderContainer={(node) => {
-        let container = node;
-        while (container && container.id !== 'js-callout-container') {
-          container = container.parentElement;
-        }
-        return container;
-      }}
+      shouldShow={shouldShow}
+      getRenderContainer={getRenderContainer}
     >
       <Space spacing={4}>
         <Tooltip content="复制">

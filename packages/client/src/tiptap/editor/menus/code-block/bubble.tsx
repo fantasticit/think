@@ -8,6 +8,14 @@ import { copyNode, deleteNode } from 'tiptap/prose-utils';
 import { Divider } from 'tiptap/components/divider';
 
 export const CodeBlockBubbleMenu = ({ editor }) => {
+  const shouldShow = useCallback(() => editor.isActive(CodeBlock.name), [editor]);
+  const getRenderContainer = useCallback((node) => {
+    let container = node;
+    while (container && container.classList && !container.classList.contains('node-codeBlock')) {
+      container = container.parentElement;
+    }
+    return container;
+  }, []);
   const copyMe = useCallback(() => copyNode(CodeBlock.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(CodeBlock.name, editor), [editor]);
 
@@ -16,15 +24,9 @@ export const CodeBlockBubbleMenu = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="code-block-bubble-menu"
-      shouldShow={() => editor.isActive(CodeBlock.name)}
+      shouldShow={shouldShow}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
-      getRenderContainer={(node) => {
-        let container = node;
-        while (container && container.classList && !container.classList.contains('node-codeBlock')) {
-          container = container.parentElement;
-        }
-        return container;
-      }}
+      getRenderContainer={getRenderContainer}
     >
       <Space spacing={4}>
         <Tooltip content="复制">

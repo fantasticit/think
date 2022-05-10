@@ -8,6 +8,7 @@ import { copyNode, deleteNode } from 'tiptap/prose-utils';
 import { Divider } from 'tiptap/components/divider';
 
 export const DocumentChildrenBubbleMenu = ({ editor }) => {
+  const shouldShow = useCallback(() => editor.isActive(DocumentChildren.name), [editor]);
   const copyMe = useCallback(() => copyNode(DocumentChildren.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(DocumentChildren.name, editor), [editor]);
 
@@ -16,7 +17,7 @@ export const DocumentChildrenBubbleMenu = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="document-children-bubble-menu"
-      shouldShow={() => editor.isActive(DocumentChildren.name)}
+      shouldShow={shouldShow}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >
       <Space spacing={4}>

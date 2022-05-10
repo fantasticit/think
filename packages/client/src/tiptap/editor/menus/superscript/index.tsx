@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button } from '@douyinfe/semi-ui';
 import { IconSup } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
@@ -10,13 +10,15 @@ export const Superscript: React.FC<{ editor: any }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);
   const isSuperscriptActive = useActive(editor, SuperscriptExtension.name);
 
+  const toggleSuperscript = useCallback(() => editor.chain().focus().toggleSuperscript().run(), [editor]);
+
   return (
     <Tooltip content="上标">
       <Button
         theme={isSuperscriptActive ? 'light' : 'borderless'}
         type="tertiary"
         icon={<IconSup />}
-        onClick={() => editor.chain().focus().toggleSuperscript().run()}
+        onClick={toggleSuperscript}
         disabled={isTitleActive}
       />
     </Tooltip>

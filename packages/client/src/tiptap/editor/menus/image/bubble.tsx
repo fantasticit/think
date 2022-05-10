@@ -22,6 +22,15 @@ export const ImageBubbleMenu = ({ editor }) => {
   const [width, setWidth] = useState(currentWidth);
   const [height, setHeight] = useState(currentHeight);
 
+  const shouldShow = useCallback(() => editor.isActive(Image.name) && !!editor.getAttributes(Image.name).src, [editor]);
+  const getRenderContainer = useCallback((node) => {
+    try {
+      const inner = node.querySelector('#js-resizeable-container');
+      return inner as HTMLElement;
+    } catch (e) {
+      return node;
+    }
+  }, []);
   const copyMe = useCallback(() => copyNode(Image.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(Image.name, editor), [editor]);
 
@@ -75,18 +84,11 @@ export const ImageBubbleMenu = ({ editor }) => {
       className={'bubble-menu'}
       editor={editor}
       pluginKey="image-bubble-menu"
-      shouldShow={() => editor.isActive(Image.name) && !!editor.getAttributes(Image.name).src}
+      shouldShow={shouldShow}
       tippyOptions={{
         maxWidth: 'calc(100vw - 100px)',
       }}
-      getRenderContainer={(node) => {
-        try {
-          const inner = node.querySelector('#js-resizeable-container');
-          return inner as HTMLElement;
-        } catch (e) {
-          return node;
-        }
-      }}
+      getRenderContainer={getRenderContainer}
     >
       <Space spacing={4}>
         <Tooltip content="复制">
