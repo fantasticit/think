@@ -65,7 +65,7 @@ export const KatexWrapper = ({ editor, node, updateAttributes }) => {
             <div style={{ width: 320 }}>
               <TextArea
                 ref={ref}
-                autofocus
+                autoFocus
                 placeholder="输入公式"
                 autosize
                 rows={3}
