@@ -158,7 +158,9 @@ export class BubbleMenuView {
     const { ranges } = selection;
     const from = Math.min(...ranges.map((range) => range.$from.pos));
     const to = Math.max(...ranges.map((range) => range.$to.pos));
-    const node = view.domAtPos(from).node as HTMLElement;
+    const domAtPos = view.domAtPos(from).node as HTMLElement;
+    const nodeDOM = view.nodeDOM(from) as HTMLElement;
+    const node = nodeDOM || domAtPos;
 
     const shouldShow =
       this.editor.isEditable &&
@@ -179,20 +181,24 @@ export class BubbleMenuView {
 
     this.tippy?.setProps({
       getReferenceClientRect: () => {
-        let toMountNode;
+        let toMountNode = null;
 
         if (isNodeSelection(state.selection)) {
-          if (this.getRenderContainer) {
+          if (this.getRenderContainer && node) {
             toMountNode = this.getRenderContainer(node);
           }
         }
 
-        if (this.getRenderContainer) {
+        if (this.getRenderContainer && node) {
           toMountNode = this.getRenderContainer(node);
         }
 
         if (toMountNode && toMountNode.getBoundingClientRect) {
           return toMountNode.getBoundingClientRect();
+        }
+
+        if (node && node.getBoundingClientRect) {
+          return node.getBoundingClientRect();
         }
 
         return posToDOMRect(view, from, to);
