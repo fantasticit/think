@@ -17,9 +17,8 @@ const CommentInner = ({ data, depth, replyComment, editComment, deleteComment })
       {(data || []).map((item) => {
         const hasChildren = item.children && item.children.length;
         return (
-          <>
+          <div key={item.id}>
             <CommentItem
-              key={item.id}
               comment={item}
               replyComment={replyComment}
               editComment={editComment}
@@ -35,7 +34,7 @@ const CommentInner = ({ data, depth, replyComment, editComment, deleteComment })
                 deleteComment={deleteComment}
               />
             ) : null}
-          </>
+          </div>
         );
       })}
     </div>
