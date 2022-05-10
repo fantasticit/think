@@ -6,7 +6,7 @@ export const IconDocument: React.FC<{ style?: React.CSSProperties }> = ({ style 
     <Icon
       style={style}
       svg={
-        <svg height="18" width="18" viewBox="0 0 24 24" focusable="false">
+        <svg height="16" width="16" viewBox="0 0 24 24" focusable="false">
           <g fill="currentColor" fillRule="evenodd" clipRule="evenodd">
             <path
               transform="translate(2 2)"

@@ -15,11 +15,11 @@ import {
   IconImage,
   IconCodeBlock,
   IconStatus,
-  IconInfo,
   IconAttachment,
   IconMath,
   IconCountdown,
   IconCallout,
+  IconTableOfContents,
 } from 'components/icons';
 import { createCountdown } from './countdown/service';
 import { createOrToggleLink } from './link/service';
@@ -128,7 +128,7 @@ export const QUICK_INSERT_ITEMS = [
     key: '目录',
     label: (
       <Space>
-        <IconTable />
+        <IconTableOfContents />
         目录
       </Space>
     ),

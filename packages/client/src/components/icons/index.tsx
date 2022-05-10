@@ -58,3 +58,5 @@ export * from './IconMindRight';
 export * from './IconMindSide';
 export * from './IconMindFull';
 export * from './IconMindCenter';
+
+export * from './IconTableOfContents';

@@ -15,6 +15,7 @@ import {
   IconMath,
   IconCountdown,
   IconCallout,
+  IconTableOfContents,
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
 import { useToggle } from 'hooks/use-toggle';
@@ -31,7 +32,7 @@ const COMMANDS = [
     title: '通用',
   },
   {
-    icon: <IconCodeBlock />,
+    icon: <IconTableOfContents />,
     label: '目录',
     action: (editor) => editor.chain().focus().setTableOfContents().run(),
   },
