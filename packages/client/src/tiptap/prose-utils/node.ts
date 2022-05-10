@@ -1,3 +1,4 @@
+import { Editor } from '@tiptap/core';
 import { Node } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 
@@ -66,3 +67,23 @@ export function isInTitle(state: EditorState): boolean {
 export function isInCallout(state: EditorState): boolean {
   return isInCustomNode(state, 'callout');
 }
+
+export const findNode = (editor: Editor, name: string) => {
+  const content = editor.getJSON();
+  const queue = [content];
+  const res = [];
+
+  while (queue.length) {
+    const node = queue.shift();
+
+    if (node.type === name) {
+      res.push(node);
+    }
+
+    if (node.content && node.content.length) {
+      queue.push(...node.content);
+    }
+  }
+
+  return res;
+};

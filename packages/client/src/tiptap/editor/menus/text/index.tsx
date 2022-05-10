@@ -21,6 +21,7 @@ import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { Iframe } from 'tiptap/core/extensions/iframe';
 import { Mind } from 'tiptap/core/extensions/mind';
 import { Table } from 'tiptap/core/extensions/table';
+import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 import { Katex } from 'tiptap/core/extensions/katex';
 import { DocumentReference } from 'tiptap/core/extensions/document-reference';
 import { DocumentChildren } from 'tiptap/core/extensions/document-children';
@@ -35,6 +36,7 @@ const OTHER_BUBBLE_MENU_TYPES = [
   Iframe.name,
   Mind.name,
   Table.name,
+  TableOfContents.name,
   DocumentReference.name,
   DocumentChildren.name,
   Katex.name,

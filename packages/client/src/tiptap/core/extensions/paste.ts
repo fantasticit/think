@@ -2,8 +2,15 @@ import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Schema, Fragment } from 'prosemirror-model';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
-import { handleFileEvent, isInCode, LANGUAGES, isTitleNode } from 'tiptap/prose-utils';
-import { copyNode, isMarkdown, normalizeMarkdown } from 'tiptap/prose-utils';
+import {
+  handleFileEvent,
+  isInCode,
+  LANGUAGES,
+  isTitleNode,
+  copyNode,
+  isMarkdown,
+  normalizeMarkdown,
+} from 'tiptap/prose-utils';
 import { safeJSONParse } from 'helpers/json';
 
 interface IPasteOptions {

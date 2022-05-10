@@ -31,6 +31,11 @@ const COMMANDS = [
     title: '通用',
   },
   {
+    icon: <IconCodeBlock />,
+    label: '目录',
+    action: (editor) => editor.chain().focus().setTableOfContents().run(),
+  },
+  {
     icon: <IconTable />,
     label: '表格',
     custom: (editor, runCommand) => (

@@ -1,3 +1,4 @@
+import { Toast } from '@douyinfe/semi-ui';
 // 基础扩展
 import { Document } from 'tiptap/core/extensions/document';
 import { BackgroundColor } from 'tiptap/core/extensions/background-color';
@@ -58,12 +59,11 @@ import { Mind } from 'tiptap/core/extensions/mind';
 import { QuickInsert } from 'tiptap/core/extensions/quick-insert';
 import { SearchNReplace } from 'tiptap/core/extensions/search';
 import { Status } from 'tiptap/core/extensions/status';
-
+import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 // markdown 支持
 import { markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
 import { markdownToHTML } from 'tiptap/markdown/markdown-to-prosemirror/markdown-to-html';
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
-import { debounce } from 'helpers/debounce';
 
 const DocumentWithTitle = Document.extend({
   content: 'title block+',
@@ -141,6 +141,11 @@ export const CollaborationKit = [
   QuickInsert,
   SearchNReplace,
   Status,
+  TableOfContents.configure({
+    onHasOneBeforeInsert: () => {
+      Toast.info('目录已存在');
+    },
+  }),
   Title,
   DocumentWithTitle,
 ];

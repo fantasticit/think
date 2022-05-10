@@ -125,6 +125,17 @@ export const QUICK_INSERT_ITEMS = [
   },
 
   {
+    key: '目录',
+    label: (
+      <Space>
+        <IconTable />
+        目录
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setTableOfContents().run(),
+  },
+
+  {
     key: '表格',
     label: (
       <Space>
