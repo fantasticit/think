@@ -64,7 +64,7 @@ const AllDocs = ({ wikiId }) => {
 
 const Page: NextPage<IProps> = ({ wikiId }) => {
   const { query = {} } = useRouter();
-  const { tab = 'documents' } = query as {
+  const { tab = 'tocs' } = query as {
     tab?: string;
   };
 
@@ -88,11 +88,11 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
             文档管理
           </Title>
           <Tabs type="button" activeKey={tab} onChange={(tab) => navigate(tab)}>
-            <TabPane tab="全部文档" itemKey="documents">
-              <AllDocs wikiId={wikiId} />
-            </TabPane>
             <TabPane tab="目录管理" itemKey="tocs">
               <WikiTocsManager wikiId={wikiId} />
+            </TabPane>
+            <TabPane tab="全部文档" itemKey="documents">
+              <AllDocs wikiId={wikiId} />
             </TabPane>
           </Tabs>
         </div>
