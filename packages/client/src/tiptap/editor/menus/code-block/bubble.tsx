@@ -11,9 +11,16 @@ export const CodeBlockBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(() => editor.isActive(CodeBlock.name), [editor]);
   const getRenderContainer = useCallback((node) => {
     let container = node;
+
+    // 文本节点
+    if (!container.tag) {
+      container = node.parentElement;
+    }
+
     while (container && container.classList && !container.classList.contains('node-codeBlock')) {
       container = container.parentElement;
     }
+
     return container;
   }, []);
   const copyMe = useCallback(() => copyNode(CodeBlock.name, editor), [editor]);

@@ -41,9 +41,8 @@ export class BubbleMenuView {
 
   public tippyOptions?: Partial<Props>;
 
-  // public renderContainerSelector?: string;
-  // public matchRenderContainer?: BubbleMenuPluginProps['matchRenderContainer'];
   public getRenderContainer?: BubbleMenuPluginProps['getRenderContainer'];
+
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
     const { doc, selection } = state;
     const { empty } = selection;
@@ -60,22 +59,10 @@ export class BubbleMenuView {
     return true;
   };
 
-  constructor({
-    editor,
-    element,
-    view,
-    tippyOptions = {},
-    shouldShow,
-    // renderContainerSelector,
-    // matchRenderContainer,
-    getRenderContainer,
-  }: BubbleMenuViewProps) {
+  constructor({ editor, element, view, tippyOptions = {}, shouldShow, getRenderContainer }: BubbleMenuViewProps) {
     this.editor = editor;
     this.element = element;
     this.view = view;
-    // this.renderContainerSelector = renderContainerSelector;
-    // this.matchRenderContainer = matchRenderContainer;
-
     this.getRenderContainer = getRenderContainer;
 
     if (shouldShow) {
@@ -192,44 +179,21 @@ export class BubbleMenuView {
 
     this.tippy?.setProps({
       getReferenceClientRect: () => {
+        let toMountNode;
+
         if (isNodeSelection(state.selection)) {
-          const node = view.nodeDOM(from) as HTMLElement;
-
           if (this.getRenderContainer) {
-            return this.getRenderContainer(node).getBoundingClientRect();
+            toMountNode = this.getRenderContainer(node);
           }
-
-          // if (this.matchRenderContainer) {
-          //   while (node && !this.matchRenderContainer(node)) {
-          //     node = node.firstElementChild as HTMLElement;
-          //   }
-
-          //   if (node) {
-          //     return node.getBoundingClientRect();
-          //   }
-          // }
-
-          // if (node) {
-          //   return node.getBoundingClientRect();
-          // }
         }
 
         if (this.getRenderContainer) {
-          const node = view.domAtPos(from).node as HTMLElement;
-          return this.getRenderContainer(node).getBoundingClientRect();
+          toMountNode = this.getRenderContainer(node);
         }
 
-        // if (this.matchRenderContainer) {
-        //   let node = view.domAtPos(from).node as HTMLElement;
-
-        //   while (node && !this.matchRenderContainer(node)) {
-        //     node = node.parentElement;
-        //   }
-
-        //   if (node) {
-        //     return node.getBoundingClientRect();
-        //   }
-        // }
+        if (toMountNode && toMountNode.getBoundingClientRect) {
+          return toMountNode.getBoundingClientRect();
+        }
 
         return posToDOMRect(view, from, to);
       },

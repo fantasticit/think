@@ -35,6 +35,12 @@ export const CalloutBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
   const shouldShow = useCallback(() => editor.isActive(Callout.name), [editor]);
   const getRenderContainer = useCallback((node) => {
     let container = node;
+
+    // 文本节点
+    if (!container.tag) {
+      container = node.parentElement;
+    }
+
     while (container && container.id !== 'js-callout-container') {
       container = container.parentElement;
     }

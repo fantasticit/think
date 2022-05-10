@@ -27,6 +27,10 @@ export const TableBubbleMenu = ({ editor }) => {
   }, [editor]);
   const getRenderContainer = useCallback((node) => {
     let container = node;
+    // 文本节点
+    if (!container.tag) {
+      container = node.parentElement;
+    }
     while (container.tagName !== 'TABLE') {
       container = container.parentElement;
     }
