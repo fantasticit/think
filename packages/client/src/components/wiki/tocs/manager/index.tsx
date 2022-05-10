@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Banner, Tree, Button, Toast, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
+import { Resizeable } from 'components/resizeable';
 import { useWikiTocs } from 'data/wiki';
 import styles from './index.module.scss';
 
@@ -32,7 +33,7 @@ const extractRelation = (treeData: Array<IDataNode>) => {
     });
     index++;
     if (node.children && node.children.length) {
-      data.push(...node.children.map((sub, j) => ({ ...sub, index: j })));
+      data.push(...node.children.map((sub, j) => ({ ...sub, index: j, parentDocumentId: node.id })));
     }
   }
 
@@ -50,63 +51,66 @@ export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
     setTreeData(tocs);
   }, [tocs]);
 
-  function onDrop(info) {
-    const { dropToGap, node, dragNode } = info;
-    const dropKey = node.key;
-    const dragKey = dragNode.key;
-    const dropPos = node.pos.split('-');
-    const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+  const onDrop = useCallback(
+    (info) => {
+      const { dropToGap, node, dragNode } = info;
+      const dropKey = node.key;
+      const dragKey = dragNode.key;
+      const dropPos = node.pos.split('-');
+      const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
 
-    const data = [...treeData];
-    const loop = (data, key, callback) => {
-      data.forEach((item, ind, arr) => {
-        if (item.key === key) return callback(item, ind, arr);
-        if (item.children) return loop(item.children, key, callback);
+      const data = [...treeData];
+      const loop = (data, key, callback) => {
+        data.forEach((item, ind, arr) => {
+          if (item.key === key) return callback(item, ind, arr);
+          if (item.children) return loop(item.children, key, callback);
+        });
+      };
+      let dragObj;
+      loop(data, dragKey, (item, ind, arr) => {
+        arr.splice(ind, 1);
+        dragObj = item;
       });
-    };
-    let dragObj;
-    loop(data, dragKey, (item, ind, arr) => {
-      arr.splice(ind, 1);
-      dragObj = item;
-    });
 
-    if (!dropToGap) {
-      loop(data, dropKey, (item, ind, arr) => {
-        item.children = item.children || [];
-        dragObj.parentDocumentId = item.id;
-        item.children.push(dragObj);
-      });
-    } else if (dropPosition === 1 && node.children && node.expanded) {
-      loop(data, dropKey, (item) => {
-        item.children = item.children || [];
-        dragObj.parentDocumentId = item.id;
-        item.children.unshift(dragObj);
-      });
-    } else {
-      let dropNodeInd;
-      let dropNodePosArr;
-      loop(data, dropKey, (item, ind, arr) => {
-        dropNodePosArr = arr;
-        dropNodeInd = ind;
-      });
-      dragObj.parentDocumentId = null;
-      if (dropPosition === -1) {
-        dropNodePosArr.splice(dropNodeInd, 0, dragObj);
+      if (!dropToGap) {
+        loop(data, dropKey, (item, ind, arr) => {
+          item.children = item.children || [];
+          dragObj.parentDocumentId = item.id;
+          item.children.push(dragObj);
+        });
+      } else if (dropPosition === 1 && node.children && node.expanded) {
+        loop(data, dropKey, (item) => {
+          item.children = item.children || [];
+          dragObj.parentDocumentId = item.id;
+          item.children.unshift(dragObj);
+        });
       } else {
-        dropNodePosArr.splice(dropNodeInd + 1, 0, dragObj);
+        let dropNodeInd;
+        let dropNodePosArr;
+        loop(data, dropKey, (item, ind, arr) => {
+          dropNodePosArr = arr;
+          dropNodeInd = ind;
+        });
+        dragObj.parentDocumentId = null;
+        if (dropPosition === -1) {
+          dropNodePosArr.splice(dropNodeInd, 0, dragObj);
+        } else {
+          dropNodePosArr.splice(dropNodeInd + 1, 0, dragObj);
+        }
       }
-    }
-    setTreeData(data);
-    setChanged(true);
-  }
+      setTreeData(data);
+      setChanged(true);
+    },
+    [treeData]
+  );
 
-  const submit = () => {
+  const submit = useCallback(() => {
     const data = extractRelation(treeData);
     updateTocs(data).then(() => {
       setChanged(false);
       Toast.success('目录已更新');
     });
-  };
+  }, [treeData, updateTocs]);
 
   return (
     <div className={styles.wrap}>
