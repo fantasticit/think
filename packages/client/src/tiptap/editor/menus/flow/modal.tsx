@@ -32,7 +32,7 @@ export const FlowSettingModal: React.FC<IProps> = ({ editor }) => {
       }
 
       if (evt.data == 'ready') {
-        $iframe.current.contentWindow.postMessage(initialData, '*');
+        $iframe.current && $iframe.current.contentWindow.postMessage(initialData, '*');
       } else {
         if (evt.data.length > 0) {
           const data = evt.data;
@@ -53,7 +53,7 @@ export const FlowSettingModal: React.FC<IProps> = ({ editor }) => {
       <div style={{ height: '100%', margin: '0 -24px' }}>
         <iframe
           ref={$iframe}
-          src={`${process.env.DRAWIO_URL}?embed=1&lang=zh&hide-pages=1&drafts=0&client=1&spin=0`}
+          src={`${process.env.DRAWIO_URL}?embed=1&lang=zh&hide-pages=1&drafts=0&client=1&spin=0&grid=1`}
           style={{ width: '100%', height: '100%' }}
           frameBorder={0}
         ></iframe>

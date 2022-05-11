@@ -4,4 +4,4 @@ node_modules
 **/dist/**
 .eslintrc.js
 ./packages/client/src/tiptap/wrappers/mind/mind-elixir/iconfont/iconfont.js
-./packages/client/public/drawio.embed.js
+./packages/client/public/viewer.min.js

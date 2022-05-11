@@ -5,6 +5,9 @@
   line-height: 0;
 
   .renderWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--node-border-color);
     border-radius: var(--border-radius);
 

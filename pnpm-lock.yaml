@@ -122,7 +122,6 @@ importers:
       markdown-it-sub: ^1.0.0
       markdown-it-sup: ^1.0.0
       next: 12.0.10
-      pako: ^2.0.4
       prosemirror-markdown: ^1.7.0
       prosemirror-tables: ^1.1.1
       prosemirror-utils: ^0.9.6
@@ -207,7 +206,6 @@ importers:
       markdown-it-sub: 1.0.0
       markdown-it-sup: 1.0.0
       next: 12.0.10_react-dom@17.0.2+react@17.0.2
-      pako: 2.0.4
       prosemirror-markdown: 1.7.0
       prosemirror-tables: 1.1.1
       prosemirror-utils: 0.9.6_prosemirror-tables@1.1.1
@@ -6986,10 +6984,6 @@ packages:
       degenerator: 3.0.1
       ip: 1.1.5
       netmask: 2.0.2
-    dev: false
-
-  /pako/2.0.4:
-    resolution: {integrity: sha512-v8tweI900AUkZN6heMU/4Uy4cXRc2AYNRggVmTR+dEncawDJgCdLMximOVA2p4qO57WMynangsfGRb5WD6L1Bg==}
     dev: false
 
   /parent-module/1.0.1:
