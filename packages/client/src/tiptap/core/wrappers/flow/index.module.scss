@@ -6,10 +6,11 @@
 
   .renderWrap {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: var(--semi-color-bg-1);
     border: 1px solid var(--node-border-color);
     border-radius: var(--border-radius);
+    align-items: center;
+    justify-content: center;
 
     &::after {
       background-color: transparent !important;
