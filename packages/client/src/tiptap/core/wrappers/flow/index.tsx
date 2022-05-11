@@ -9,7 +9,8 @@ import { Flow } from 'tiptap/core/extensions/flow';
 import { decode } from './decode';
 import styles from './index.module.scss';
 
-const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
+const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%', overflow: 'hidden', padding: '1rem' };
+const ICON_STYLE = { fontSize: '0.85em' };
 
 export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const $container = useRef<HTMLDivElement>();
@@ -63,6 +64,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
       graph.setTooltips(false);
       graph.setEnabled(false);
       graph.centerZoom = true;
+
       $graph.current = graph;
     }
 
@@ -85,8 +87,8 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
           ref={$container}
           id={containerId.current}
           className={cls(styles.renderWrap, 'render-wrapper')}
-          style={{ ...INHERIT_SIZE_STYLE, overflow: 'hidden' }}
-        ></div>
+          style={INHERIT_SIZE_STYLE}
+        />
         <div className={styles.toolbarWrap}>
           <Space spacing={2}>
             <Button
@@ -94,7 +96,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
               theme="borderless"
               size="small"
               onClick={center}
-              icon={<IconMindCenter style={{ fontSize: '0.85em' }} />}
+              icon={<IconMindCenter style={ICON_STYLE} />}
             />
 
             <Button
@@ -102,7 +104,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
               theme="borderless"
               size="small"
               onClick={zoomOut}
-              icon={<IconZoomOut style={{ fontSize: '0.85em' }} />}
+              icon={<IconZoomOut style={ICON_STYLE} />}
             />
 
             <Button
@@ -110,7 +112,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
               theme="borderless"
               size="small"
               onClick={zoomIn}
-              icon={<IconZoomIn style={{ fontSize: '0.85em' }} />}
+              icon={<IconZoomIn style={ICON_STYLE} />}
             />
           </Space>
         </div>
