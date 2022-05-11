@@ -20,6 +20,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const $container = useRef<HTMLElement>();
 
   const graphData = useMemo(() => {
+    if (!data) return null;
     const content = data.replace(/<!--.*?-->/gs, '').trim();
     const config = JSON.stringify({
       'lightbox': false,
@@ -90,7 +91,9 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
       <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
         <div className={cls(styles.renderWrap, 'render-wrapper')} style={INHERIT_SIZE_STYLE}>
-          <div className="mxgraph" style={{ width, height }} ref={setMxgraph} data-mxgraph={graphData}></div>
+          {graphData && (
+            <div className="mxgraph" style={{ width, height }} ref={setMxgraph} data-mxgraph={graphData}></div>
+          )}
         </div>
 
         <div className={styles.toolbarWrap}>
