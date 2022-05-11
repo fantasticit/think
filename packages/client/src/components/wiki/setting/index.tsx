@@ -4,7 +4,6 @@ import { Seo } from 'components/seo';
 import { useWikiDetail } from 'data/wiki';
 import { Base } from './base';
 import { Users } from './users';
-import { Documents } from './documents';
 import { More } from './more';
 
 interface IProps {
@@ -16,7 +15,6 @@ interface IProps {
 const TitleMap = {
   base: '基础信息',
   users: '成员管理',
-  docs: '隐私管理',
   more: '更多',
 };
 
@@ -32,9 +30,6 @@ export const WikiSetting: React.FC<IProps> = ({ wikiId, tab, onNavigate }) => {
         </TabPane>
         <TabPane tab={TitleMap['users']} itemKey="users">
           <Users wikiId={wikiId} />
-        </TabPane>
-        <TabPane tab={TitleMap['docs']} itemKey="docs">
-          <Documents wikiId={wikiId} />
         </TabPane>
         <TabPane tab={TitleMap['more']} itemKey="more">
           <More wikiId={wikiId} />

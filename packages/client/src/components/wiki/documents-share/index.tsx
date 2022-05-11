@@ -13,7 +13,7 @@ interface IProps {
   wikiId: string;
 }
 
-export const Documents: React.FC<IProps> = ({ wikiId }) => {
+export const WikiDocumentsShare: React.FC<IProps> = ({ wikiId }) => {
   const { data: wiki, loading: wikiLoading, toggleStatus: toggleWorkspaceStatus } = useWikiDetail(wikiId);
   const { data: tocs, loading } = useWikiTocs(wikiId);
   const documents = useMemo(

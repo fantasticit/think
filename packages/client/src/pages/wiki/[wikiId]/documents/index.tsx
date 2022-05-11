@@ -11,6 +11,7 @@ import { WikiTocsManager } from 'components/wiki/tocs/manager';
 import { DocumentCardPlaceholder, DocumentCard } from 'components/document/card';
 import { Empty } from 'components/empty';
 import { DocumentCreator } from 'components/document-creator';
+import { WikiDocumentsShare } from 'components/wiki/documents-share';
 import { useWikiDocs } from 'data/wiki';
 
 interface IProps {
@@ -62,6 +63,12 @@ const AllDocs = ({ wikiId }) => {
   );
 };
 
+const TitleMap = {
+  tocs: '目录管理',
+  share: '隐私管理',
+  documents: '全部文档',
+};
+
 const Page: NextPage<IProps> = ({ wikiId }) => {
   const { query = {} } = useRouter();
   const { tab = 'tocs' } = query as {
@@ -83,15 +90,15 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
       leftNode={<WikiTocs wikiId={wikiId} />}
       rightNode={
         <div style={{ padding: '16px 24px' }}>
-          <Seo title={tab === 'documents' ? '全部文档' : '目录管理'} />
-          <Title heading={3} style={{ marginBottom: 24 }}>
-            文档管理
-          </Title>
-          <Tabs type="button" activeKey={tab} onChange={(tab) => navigate(tab)}>
-            <TabPane tab="目录管理" itemKey="tocs">
+          <Seo title={TitleMap[tab]} />
+          <Tabs type="line" activeKey={tab} onChange={(tab) => navigate(tab)}>
+            <TabPane tab={TitleMap['tocs']} itemKey="tocs">
               <WikiTocsManager wikiId={wikiId} />
             </TabPane>
-            <TabPane tab="全部文档" itemKey="documents">
+            <TabPane tab={TitleMap['share']} itemKey="share">
+              <WikiDocumentsShare wikiId={wikiId} />
+            </TabPane>
+            <TabPane tab={TitleMap['documents']} itemKey="documents">
               <AllDocs wikiId={wikiId} />
             </TabPane>
           </Tabs>
