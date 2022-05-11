@@ -52,11 +52,10 @@ export * from './IconCountdown';
 export * from './IconDrawBoard';
 export * from './IconCallout';
 export * from './IconStructure';
-
 export * from './IconMindLeft';
 export * from './IconMindRight';
 export * from './IconMindSide';
 export * from './IconMindFull';
 export * from './IconMindCenter';
-
 export * from './IconTableOfContents';
+export * from './IconFlow';

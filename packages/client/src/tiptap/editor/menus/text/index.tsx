@@ -19,6 +19,7 @@ import { Image } from 'tiptap/core/extensions/image';
 import { Callout } from 'tiptap/core/extensions/callout';
 import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { Iframe } from 'tiptap/core/extensions/iframe';
+import { Flow } from 'tiptap/core/extensions/flow';
 import { Mind } from 'tiptap/core/extensions/mind';
 import { Table } from 'tiptap/core/extensions/table';
 import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
@@ -35,6 +36,7 @@ const OTHER_BUBBLE_MENU_TYPES = [
   Callout.name,
   CodeBlock.name,
   Iframe.name,
+  Flow.name,
   Mind.name,
   Table.name,
   TableOfContents.name,

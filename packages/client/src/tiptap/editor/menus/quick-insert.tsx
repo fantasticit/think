@@ -20,6 +20,7 @@ import {
   IconCountdown,
   IconCallout,
   IconTableOfContents,
+  IconFlow,
 } from 'components/icons';
 import { createCountdown } from './countdown/service';
 import { createOrToggleLink } from './link/service';
@@ -199,6 +200,17 @@ export const QUICK_INSERT_ITEMS = [
       </Space>
     ),
     command: (editor: Editor) => editor.chain().focus().setIframe({ url: '' }).run(),
+  },
+
+  {
+    key: '流程图',
+    label: (
+      <Space>
+        <IconFlow />
+        流程图
+      </Space>
+    ),
+    command: (editor: Editor) => editor.chain().focus().setFlow({ width: '100%' }).run(),
   },
 
   {

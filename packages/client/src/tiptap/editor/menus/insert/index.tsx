@@ -16,6 +16,7 @@ import {
   IconCountdown,
   IconCallout,
   IconTableOfContents,
+  IconFlow,
 } from 'components/icons';
 import { GridSelect } from 'components/grid-select';
 import { useToggle } from 'hooks/use-toggle';
@@ -94,6 +95,13 @@ const COMMANDS = [
   },
   {
     title: '卡片',
+  },
+  {
+    icon: <IconFlow />,
+    label: '流程图',
+    action: (editor) => {
+      editor.chain().focus().setFlow({ width: '100%' }).run();
+    },
   },
   {
     icon: <IconMind />,

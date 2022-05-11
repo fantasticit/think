@@ -39,6 +39,7 @@ import { CodeBlock } from 'tiptap/editor/menus/code-block';
 import { Countdonw } from 'tiptap/editor/menus/countdown';
 import { DocumentChildren } from 'tiptap/editor/menus/document-children';
 import { DocumentReference } from 'tiptap/editor/menus/document-reference';
+import { Flow } from 'tiptap/editor/menus/flow';
 import { Image } from 'tiptap/editor/menus/image';
 import { Iframe } from 'tiptap/editor/menus/iframe';
 import { Table } from 'tiptap/editor/menus/table';
@@ -106,6 +107,7 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <Countdonw editor={editor} />
         <DocumentChildren editor={editor} />
         <DocumentReference editor={editor} />
+        <Flow editor={editor} />
         <Image editor={editor} />
         <Iframe editor={editor} />
         <Table editor={editor} />

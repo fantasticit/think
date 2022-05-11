@@ -1,0 +1,31 @@
+.wrap {
+  position: relative;
+  max-width: 100%;
+  overflow: visible;
+  line-height: 0;
+
+  .renderWrap {
+    border: 1px solid var(--node-border-color);
+    border-radius: var(--border-radius);
+
+    &::after {
+      background-color: transparent !important;
+    }
+  }
+
+  .toolbarWrap {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    display: flex;
+    padding: 2px 4px;
+    overflow-x: auto;
+    color: #fff;
+    background-color: var(--semi-color-nav-bg);
+    border: 1px solid var(--semi-color-border);
+    border-radius: 3px;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+  }
+}

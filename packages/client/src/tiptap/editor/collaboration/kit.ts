@@ -52,6 +52,7 @@ import { Countdown } from 'tiptap/core/extensions/countdown';
 import { DocumentChildren } from 'tiptap/core/extensions/document-children';
 import { DocumentReference } from 'tiptap/core/extensions/document-reference';
 import { Emoji } from 'tiptap/core/extensions/emoji';
+import { Flow } from 'tiptap/core/extensions/flow';
 import { Iframe } from 'tiptap/core/extensions/iframe';
 import { Katex } from 'tiptap/core/extensions/katex';
 import { Mention } from 'tiptap/core/extensions/mention';
@@ -134,6 +135,7 @@ export const CollaborationKit = [
   DocumentChildren,
   DocumentReference,
   Emoji,
+  Flow,
   Iframe,
   Katex,
   Mention,
