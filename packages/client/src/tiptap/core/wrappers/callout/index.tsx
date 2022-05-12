@@ -1,12 +1,20 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import cls from 'classnames';
 import { EmojiPicker } from 'components/emoji-picker';
+import { convertColorToRGBA } from 'helpers/color';
+import { Theme, useTheme } from 'hooks/use-theme';
 import styles from './index.module.scss';
 
 export const CalloutWrapper = ({ editor, node, updateAttributes }) => {
   const { isEditable } = editor;
   const { emoji, textColor, borderColor, backgroundColor } = node.attrs;
+  const { theme } = useTheme();
+  const backgroundColorOpacity = useMemo(() => {
+    if (!backgroundColor) return backgroundColor;
+    if (theme === Theme.dark) return convertColorToRGBA(backgroundColor, 0.85);
+    return backgroundColor;
+  }, [backgroundColor, theme]);
 
   const onSelectEmoji = useCallback(
     (emoji) => {
@@ -21,7 +29,7 @@ export const CalloutWrapper = ({ editor, node, updateAttributes }) => {
         className={cls(styles.innerWrap, 'render-wrapper')}
         style={{
           borderColor,
-          backgroundColor,
+          backgroundColor: backgroundColorOpacity,
         }}
       >
         {isEditable ? (

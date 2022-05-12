@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export enum Theme {
   'dark' = 'dark',
@@ -8,10 +8,10 @@ export enum Theme {
 export const useTheme = () => {
   const [theme, setTheme] = useState(Theme.light);
 
-  const toggle = () => {
+  const toggle = useCallback(() => {
     const nextTheme = theme === 'dark' ? Theme.light : Theme.dark;
     setTheme(nextTheme);
-  };
+  }, [theme]);
 
   useEffect(() => {
     const body = document.body;
@@ -38,6 +38,19 @@ export const useTheme = () => {
 
     matchMode(mql);
     mql.addEventListener('change', matchMode);
+  }, []);
+
+  useEffect(() => {
+    const config = { attributes: true };
+    const callback = function () {
+      setTheme(document.body.getAttribute('theme-mode') as Theme);
+    };
+    const observer = new MutationObserver(callback);
+    observer.observe(document.body, config);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return {

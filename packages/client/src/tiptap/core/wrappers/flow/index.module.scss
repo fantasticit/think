@@ -6,7 +6,6 @@
 
   .renderWrap {
     display: flex;
-    background-color: var(--semi-color-bg-1);
     border: 1px solid var(--node-border-color);
     border-radius: var(--border-radius);
     align-items: center;
@@ -15,13 +14,17 @@
     &::after {
       background-color: transparent !important;
     }
+
+    svg {
+      background-color: transparent !important;
+    }
   }
 
   .toolbarWrap {
     position: absolute;
     right: 20px;
     bottom: 20px;
-    z-index: 1000;
+    z-index: 10;
     display: flex;
     padding: 2px 4px;
     overflow-x: auto;

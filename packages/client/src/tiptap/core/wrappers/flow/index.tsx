@@ -2,8 +2,10 @@ import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { Button, Space } from '@douyinfe/semi-ui';
 import { IconMindCenter, IconZoomOut, IconZoomIn } from 'components/icons';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Resizeable } from 'components/resizeable';
+import { convertColorToRGBA } from 'helpers/color';
+import { Theme, useTheme } from 'hooks/use-theme';
 import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 import { Flow } from 'tiptap/core/extensions/flow';
 import styles from './index.module.scss';
@@ -16,8 +18,15 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const isActive = editor.isActive(Flow.name);
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const { data, width, height } = node.attrs;
+  const { theme } = useTheme();
   const $viewer = useRef(null);
   const $container = useRef<HTMLElement>();
+  const [bgColor, setBgColor] = useState('var(--semi-color-fill-0)');
+  const bgColorOpacity = useMemo(() => {
+    if (!bgColor) return bgColor;
+    if (theme === Theme.dark) return convertColorToRGBA(bgColor, 0.85);
+    return bgColor;
+  }, [bgColor, theme]);
 
   const graphData = useMemo(() => {
     if (!data) return null;
@@ -71,6 +80,8 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
       div.innerHTML = '';
       DrawioViewer.createViewerForElement(div, (viewer) => {
         $viewer.current = viewer;
+        const background = viewer?.graph?.background;
+        background && setBgColor(background);
       });
     }
   }, []);
@@ -90,9 +101,17 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
       <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
-        <div className={cls(styles.renderWrap, 'render-wrapper')} style={INHERIT_SIZE_STYLE}>
+        <div
+          className={cls(styles.renderWrap, 'render-wrapper')}
+          style={{ ...INHERIT_SIZE_STYLE, backgroundColor: bgColorOpacity }}
+        >
           {graphData && (
-            <div className="mxgraph" style={{ width, height }} ref={setMxgraph} data-mxgraph={graphData}></div>
+            <div
+              className="mxgraph"
+              style={{ width: maxWidth, height }}
+              ref={setMxgraph}
+              data-mxgraph={graphData}
+            ></div>
           )}
         </div>
 
