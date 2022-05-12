@@ -14,6 +14,7 @@ interface IProps {
   onChange?: (arg: ISize) => void;
   onChangeEnd?: (arg: ISize) => void;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const MIN_WIDTH = 50;
@@ -42,6 +43,7 @@ export const Resizeable: React.FC<IProps> = ({
   className,
   onChange,
   onChangeEnd,
+  style = {},
   children,
 }) => {
   const $container = useRef<HTMLDivElement>(null);
@@ -126,7 +128,7 @@ export const Resizeable: React.FC<IProps> = ({
       id="js-resizeable-container"
       className={cls(className, styles.resizable)}
       ref={$container}
-      style={{ width, height }}
+      style={{ ...style, width, height }}
     >
       {isEditable && (
         <>

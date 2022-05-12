@@ -10,7 +10,7 @@ import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 import { Flow } from 'tiptap/core/extensions/flow';
 import styles from './index.module.scss';
 
-const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%', overflow: 'hidden', padding: '1rem' };
+const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%', overflow: 'hidden' };
 const ICON_STYLE = { fontSize: '0.85em' };
 
 export const FlowWrapper = ({ editor, node, updateAttributes }) => {
@@ -100,7 +100,14 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
 
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
-      <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
+      <Resizeable
+        style={{ overflow: 'hidden' }}
+        isEditable={isEditable}
+        width={width}
+        height={height}
+        maxWidth={maxWidth}
+        onChangeEnd={onResize}
+      >
         <div
           className={cls(styles.renderWrap, 'render-wrapper')}
           style={{ ...INHERIT_SIZE_STYLE, backgroundColor: bgColorOpacity }}
