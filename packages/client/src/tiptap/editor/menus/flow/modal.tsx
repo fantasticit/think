@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { Modal } from '@douyinfe/semi-ui';
 import { Editor } from 'tiptap/editor';
 import { useToggle } from 'hooks/use-toggle';
+import { Theme, useTheme } from 'hooks/use-theme';
 import { OPEN_FLOW_SETTING_MODAL, subject, cancelSubject } from '../_event';
 
 type IProps = { editor: Editor };
 
 export const FlowSettingModal: React.FC<IProps> = ({ editor }) => {
+  const { theme } = useTheme();
   const $iframe = useRef<HTMLIFrameElement>();
   const [initialData, setInitialData] = useState('');
   const [visible, toggleVisible] = useToggle(false);
@@ -53,7 +55,9 @@ export const FlowSettingModal: React.FC<IProps> = ({ editor }) => {
       <div style={{ height: '100%', margin: '0 -24px' }}>
         <iframe
           ref={$iframe}
-          src={`${process.env.DRAWIO_URL}?embed=1&lang=zh&hide-pages=1&drafts=0&client=1&spin=0&grid=1`}
+          src={`${process.env.DRAWIO_URL}?embed=1&ui=${
+            theme === Theme.dark ? 'dark' : 'atlas'
+          }&lang=zh&hide-pages=1&drafts=0&client=1&spin=1&grid=1`}
           style={{ width: '100%', height: '100%' }}
           frameBorder={0}
         ></iframe>
