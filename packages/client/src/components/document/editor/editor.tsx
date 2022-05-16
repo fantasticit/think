@@ -1,14 +1,15 @@
-import Router from 'next/router';
-import React, { useEffect, useState, useRef } from 'react';
+import { IAuthority, ILoginUser } from '@think/domains';
 import cls from 'classnames';
-import { ILoginUser, IAuthority } from '@think/domains';
-import { useToggle } from 'hooks/use-toggle';
-import { findMentions } from 'tiptap/prose-utils';
 import { useCollaborationDocument } from 'data/document';
 import { event, triggerChangeDocumentTitle, triggerJoinUser, USE_DOCUMENT_VERSION } from 'event';
+import { useToggle } from 'hooks/use-toggle';
+import Router from 'next/router';
+import React, { useEffect, useRef, useState } from 'react';
 import { CollaborationEditor, ICollaborationRefProps } from 'tiptap/editor';
-import { DocumentUserSetting } from './users';
+import { findMentions } from 'tiptap/prose-utils';
+
 import styles from './index.module.scss';
+import { DocumentUserSetting } from './users';
 
 interface IProps {
   user: ILoginUser;

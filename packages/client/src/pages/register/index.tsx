@@ -1,12 +1,13 @@
-import React from 'react';
-import Router from 'next/router';
-import Link from 'next/link';
-import { Form, Button, Layout, Space, Typography, Modal } from '@douyinfe/semi-ui';
-import { Seo } from 'components/seo';
-import { LogoImage, LogoText } from 'components/logo';
+import { Button, Form, Layout, Modal, Space, Typography } from '@douyinfe/semi-ui';
 import { Author } from 'components/author';
+import { LogoImage, LogoText } from 'components/logo';
+import { Seo } from 'components/seo';
 import { useAsyncLoading } from 'hooks/use-async-loading';
+import Link from 'next/link';
+import Router from 'next/router';
+import React from 'react';
 import { register as registerApi } from 'services/user';
+
 import styles from './index.module.scss';
 
 const { Content, Footer } = Layout;

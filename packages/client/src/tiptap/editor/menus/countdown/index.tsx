@@ -1,5 +1,6 @@
 import React from 'react';
 import { Editor } from 'tiptap/editor';
+
 import { CountdownBubbleMenu } from './bubble';
 import { CountdownSettingModal } from './modal';
 

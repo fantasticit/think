@@ -1,21 +1,21 @@
-import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { instanceToPlain } from 'class-transformer';
-import { WikiStatus, WikiUserRole, DocumentStatus, IPagination } from '@think/domains';
-import { array2tree } from '@helpers/tree.helper';
+import { CreateWikiDto } from '@dtos/create-wiki.dto';
+import { ShareWikiDto } from '@dtos/share-wiki.dto';
+import { UpdateWikiDto } from '@dtos/update-wiki.dto';
+import { WikiUserDto } from '@dtos/wiki-user.dto';
 import { WikiEntity } from '@entities/wiki.entity';
 import { WikiUserEntity } from '@entities/wiki-user.entity';
-import { UserService } from '@services/user.service';
-import { MessageService } from '@services/message.service';
+import { array2tree } from '@helpers/tree.helper';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CollectorService } from '@services/collector.service';
+import { DocumentService } from '@services/document.service';
+import { MessageService } from '@services/message.service';
+import { UserService } from '@services/user.service';
 import { OutUser } from '@services/user.service';
 import { ViewService } from '@services/view.service';
-import { DocumentService } from '@services/document.service';
-import { WikiUserDto } from '@dtos/wiki-user.dto';
-import { CreateWikiDto } from '@dtos/create-wiki.dto';
-import { UpdateWikiDto } from '@dtos/update-wiki.dto';
-import { ShareWikiDto } from '@dtos/share-wiki.dto';
+import { DocumentStatus, IPagination, WikiStatus, WikiUserRole } from '@think/domains';
+import { instanceToPlain } from 'class-transformer';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class WikiService {

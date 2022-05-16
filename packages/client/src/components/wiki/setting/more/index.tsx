@@ -1,4 +1,4 @@
-import { Button, Banner, Typography } from '@douyinfe/semi-ui';
+import { Banner, Button, Typography } from '@douyinfe/semi-ui';
 import { WorkspaceDeletor } from 'components/wiki/delete';
 
 interface IProps {

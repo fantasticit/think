@@ -1,22 +1,21 @@
-import type { NodeElement, NodeObj } from './index';
-
-import {
-  moveNodeObj,
-  removeNodeObj,
-  insertNodeObj,
-  insertBeforeNodeObj,
-  insertParentNodeObj,
-  checkMoveValid,
-  addParentLink,
-  moveUpObj,
-  moveDownObj,
-  moveNodeBeforeObj,
-  moveNodeAfterObj,
-  refreshIds,
-} from './utils/index';
-import { findEle, createExpander, shapeTpc } from './utils/dom';
-import { rgbHex } from './utils/index';
 import { LEFT, RIGHT, SIDE } from './const';
+import type { NodeElement, NodeObj } from './index';
+import { createExpander, findEle, shapeTpc } from './utils/dom';
+import {
+  addParentLink,
+  checkMoveValid,
+  insertBeforeNodeObj,
+  insertNodeObj,
+  insertParentNodeObj,
+  moveDownObj,
+  moveNodeAfterObj,
+  moveNodeBeforeObj,
+  moveNodeObj,
+  moveUpObj,
+  refreshIds,
+  removeNodeObj,
+} from './utils/index';
+import { rgbHex } from './utils/index';
 const $d = document;
 
 /**

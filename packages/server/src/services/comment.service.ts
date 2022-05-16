@@ -1,12 +1,12 @@
-import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { OutUser, UserService } from '@services/user.service';
-import { MessageService } from '@services/message.service';
-import { DocumentService } from '@services/document.service';
-import { CommentEntity } from '@entities/comment.entity';
 import { CommentDto, UpdateCommentDto } from '@dtos/comment.dto';
+import { CommentEntity } from '@entities/comment.entity';
 import { parseUserAgent } from '@helpers/ua.helper';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DocumentService } from '@services/document.service';
+import { MessageService } from '@services/message.service';
+import { OutUser, UserService } from '@services/user.service';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CommentService {

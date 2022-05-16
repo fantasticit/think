@@ -1,8 +1,8 @@
+import { clamp } from 'helpers/clamp';
+import { getStorage, setStorage } from 'helpers/storage';
+import { useWindowSize } from 'hooks/use-window-size';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
-import { useWindowSize } from 'hooks/use-window-size';
-import { setStorage, getStorage } from 'helpers/storage';
-import { clamp } from 'helpers/clamp';
 
 const key = 'dragable-menu-width';
 

@@ -1,12 +1,12 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { Button, Modal, Input, Typography, Toast } from '@douyinfe/semi-ui';
 import { IconLink } from '@douyinfe/semi-icons';
+import { Button, Input, Modal, Toast, Typography } from '@douyinfe/semi-ui';
 import { isPublicDocument } from '@think/domains';
-import { getDocumentShareURL } from 'helpers/url';
-import { ShareIllustration } from 'illustrations/share';
 import { DataRender } from 'components/data-render';
-import { useToggle } from 'hooks/use-toggle';
 import { useDocumentDetail } from 'data/document';
+import { getDocumentShareURL } from 'helpers/url';
+import { useToggle } from 'hooks/use-toggle';
+import { ShareIllustration } from 'illustrations/share';
+import React, { useEffect, useMemo, useState } from 'react';
 
 interface IProps {
   documentId: string;

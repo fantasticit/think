@@ -1,9 +1,10 @@
-import React from 'react';
-import { RadioGroup, Radio, Typography, Slider, Popover, Button } from '@douyinfe/semi-ui';
 import { IconArticle } from '@douyinfe/semi-icons';
-import { useWindowSize } from 'hooks/use-window-size';
+import { Button, Popover, Radio, RadioGroup, Slider, Typography } from '@douyinfe/semi-ui';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useToggle } from 'hooks/use-toggle';
+import { useWindowSize } from 'hooks/use-window-size';
+import React from 'react';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;

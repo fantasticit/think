@@ -1,13 +1,14 @@
+import { IconEdit, IconPlus, IconUser } from '@douyinfe/semi-icons';
+import { Avatar, Button, Modal, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
 import type { ITemplate } from '@think/domains';
-import { useCallback } from 'react';
 import cls from 'classnames';
-import Router from 'next/router';
-import { Button, Space, Typography, Tooltip, Avatar, Skeleton, Modal } from '@douyinfe/semi-ui';
-import { IconEdit, IconUser, IconPlus } from '@douyinfe/semi-icons';
 import { IconDocument } from 'components/icons/IconDocument';
 import { TemplateReader } from 'components/template/reader';
-import { useToggle } from 'hooks/use-toggle';
 import { useUser } from 'data/user';
+import { useToggle } from 'hooks/use-toggle';
+import Router from 'next/router';
+import { useCallback } from 'react';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;

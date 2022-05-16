@@ -1,5 +1,6 @@
 import { Editor } from 'tiptap/editor/react';
 import { isMarkActive } from 'tiptap/prose-utils';
+
 import { triggerOpenLinkSettingModal } from '../_event';
 
 /**

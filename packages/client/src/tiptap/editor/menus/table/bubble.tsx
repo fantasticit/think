@@ -1,24 +1,24 @@
-import React, { useCallback } from 'react';
-import { Space, Button } from '@douyinfe/semi-ui';
 import { IconCopy } from '@douyinfe/semi-icons';
+import { Button, Space } from '@douyinfe/semi-ui';
 import {
-  IconAddColumnBefore,
   IconAddColumnAfter,
-  IconDeleteColumn,
-  IconAddRowBefore,
+  IconAddColumnBefore,
   IconAddRowAfter,
+  IconAddRowBefore,
+  IconDeleteColumn,
   IconDeleteRow,
+  IconDeleteTable,
   IconMergeCell,
   IconSplitCell,
-  IconDeleteTable,
-  IconTableHeaderRow,
-  IconTableHeaderColumn,
   IconTableHeaderCell,
+  IconTableHeaderColumn,
+  IconTableHeaderRow,
 } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
+import React, { useCallback } from 'react';
 import { Divider } from 'tiptap/components/divider';
-import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
 import { Table } from 'tiptap/core/extensions/table';
+import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 export const TableBubbleMenu = ({ editor }) => {

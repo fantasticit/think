@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsOptional, MinLength, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateDocumentDto {
   @IsNotEmpty({ message: '知识库Id不能为空' })

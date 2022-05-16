@@ -1,13 +1,14 @@
+import { Button, Space } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
-import { Button, Space } from '@douyinfe/semi-ui';
-import { IconMindCenter, IconZoomOut, IconZoomIn } from 'components/icons';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
 import { convertColorToRGBA } from 'helpers/color';
 import { Theme, useTheme } from 'hooks/use-theme';
-import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Flow } from 'tiptap/core/extensions/flow';
+import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
+
 import styles from './index.module.scss';
 
 const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%', overflow: 'hidden' };

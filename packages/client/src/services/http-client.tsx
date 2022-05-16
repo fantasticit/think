@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { Toast } from '@douyinfe/semi-ui';
+import axios from 'axios';
 import Router from 'next/router';
 
 export const HttpClient = axios.create({

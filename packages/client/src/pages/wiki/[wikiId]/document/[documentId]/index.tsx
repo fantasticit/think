@@ -1,8 +1,8 @@
+import { DocumentReader } from 'components/document/reader';
+import { WikiTocs } from 'components/wiki/tocs';
+import { DoubleColumnLayout } from 'layouts/double-column';
 import { NextPage } from 'next';
 import React from 'react';
-import { DoubleColumnLayout } from 'layouts/double-column';
-import { WikiTocs } from 'components/wiki/tocs';
-import { DocumentReader } from 'components/document/reader';
 
 interface IProps {
   wikiId: string;

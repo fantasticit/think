@@ -1,6 +1,7 @@
 import { Extension } from '@tiptap/core';
-import { yCursorPlugin } from './cursor-plugin';
 import { EditorState } from 'prosemirror-state';
+
+import { yCursorPlugin } from './cursor-plugin';
 
 type CollaborationCursorStorage = {
   users: { clientId: number; [key: string]: any }[];

@@ -1,4 +1,4 @@
-import { Table, Skeleton } from '@douyinfe/semi-ui';
+import { Skeleton, Table } from '@douyinfe/semi-ui';
 
 const columns = [
   {

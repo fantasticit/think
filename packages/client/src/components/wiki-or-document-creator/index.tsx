@@ -1,11 +1,11 @@
-import React from 'react';
-import { Dropdown, Button } from '@douyinfe/semi-ui';
 import { IconChevronDown, IconPlus } from '@douyinfe/semi-icons';
-import { useWindowSize } from 'hooks/use-window-size';
-import { useToggle } from 'hooks/use-toggle';
-import { useQuery } from 'hooks/use-query';
-import { WikiCreator } from 'components/wiki/create';
+import { Button, Dropdown } from '@douyinfe/semi-ui';
 import { DocumentCreator } from 'components/document/create';
+import { WikiCreator } from 'components/wiki/create';
+import { useQuery } from 'hooks/use-query';
+import { useToggle } from 'hooks/use-toggle';
+import { useWindowSize } from 'hooks/use-window-size';
+import React from 'react';
 
 interface IProps {
   onCreateDocument?: () => void;

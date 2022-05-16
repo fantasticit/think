@@ -1,5 +1,6 @@
 import React from 'react';
 import { Editor } from 'tiptap/editor';
+
 import { FlowBubbleMenu } from './bubble';
 import { FlowSettingModal } from './modal';
 

@@ -1,7 +1,7 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { getDatasetAttribute } from 'tiptap/prose-utils';
 import { AttachmentWrapper } from 'tiptap/core/wrappers/attachment';
+import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

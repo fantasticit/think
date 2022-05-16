@@ -1,15 +1,16 @@
-import { useCallback, useEffect, useRef } from 'react';
-import cls from 'classnames';
+import { IconClose, IconDownload, IconPlayCircle } from '@douyinfe/semi-icons';
+import { Button, Collapsible, Space, Spin, Typography } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
-import { Button, Typography, Spin, Collapsible, Space } from '@douyinfe/semi-ui';
-import { IconDownload, IconPlayCircle, IconClose } from '@douyinfe/semi-icons';
+import cls from 'classnames';
 import { Tooltip } from 'components/tooltip';
 import { useToggle } from 'hooks/use-toggle';
-import { download, normalizeFileSize, extractFileExtension, extractFilename } from 'tiptap/prose-utils';
+import { useCallback, useEffect, useRef } from 'react';
 import { uploadFile } from 'services/file';
-import { Player } from './player';
+import { download, extractFileExtension, extractFilename, normalizeFileSize } from 'tiptap/prose-utils';
+
 import { getFileTypeIcon } from './file-icon';
 import styles from './index.module.scss';
+import { Player } from './player';
 
 const { Text } = Typography;
 

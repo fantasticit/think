@@ -1,6 +1,6 @@
-import { useCallback, useRef } from 'react';
-import { Button, Form, Dropdown } from '@douyinfe/semi-ui';
+import { Button, Dropdown, Form } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+import { useCallback, useRef } from 'react';
 
 type ISize = { width: number; height: number };
 

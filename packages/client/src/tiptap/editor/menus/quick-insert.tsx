@@ -1,27 +1,28 @@
-import { Editor } from 'tiptap/editor';
-import { Space } from '@douyinfe/semi-ui';
 import { IconList, IconOrderedList } from '@douyinfe/semi-icons';
+import { Space } from '@douyinfe/semi-ui';
 import {
+  IconAttachment,
+  IconCallout,
+  IconCodeBlock,
+  IconCountdown,
+  IconDocument,
+  IconFlow,
   IconHeading1,
   IconHeading2,
   IconHeading3,
-  IconLink,
-  IconQuote,
   IconHorizontalRule,
-  IconTask,
-  IconDocument,
-  IconMind,
-  IconTable,
   IconImage,
-  IconCodeBlock,
-  IconStatus,
-  IconAttachment,
+  IconLink,
   IconMath,
-  IconCountdown,
-  IconCallout,
+  IconMind,
+  IconQuote,
+  IconStatus,
+  IconTable,
   IconTableOfContents,
-  IconFlow,
+  IconTask,
 } from 'components/icons';
+import { Editor } from 'tiptap/editor';
+
 import { createCountdown } from './countdown/service';
 import { createOrToggleLink } from './link/service';
 

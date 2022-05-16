@@ -1,12 +1,12 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import { CollectDto } from '@dtos/collect.dto';
+import { CollectorEntity } from '@entities/collector.entity';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CollectType } from '@think/domains';
+import { DocumentService } from '@services/document.service';
 import { OutUser, UserService } from '@services/user.service';
 import { WikiService } from '@services/wiki.service';
-import { DocumentService } from '@services/document.service';
-import { CollectorEntity } from '@entities/collector.entity';
-import { CollectDto } from '@dtos/collect.dto';
+import { CollectType } from '@think/domains';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CollectorService {

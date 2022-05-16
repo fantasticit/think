@@ -1,6 +1,6 @@
-import React from 'react';
-import { NextPage } from 'next';
 import { DocumentPublicReader } from 'components/document/reader/public';
+import { NextPage } from 'next';
+import React from 'react';
 
 interface IProps {
   documentId: string;

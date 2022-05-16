@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import { IconDelete, IconUserAdd } from '@douyinfe/semi-icons';
 import {
-  Button,
-  Modal,
-  Spin,
-  Input,
-  Typography,
-  Tooltip,
-  Table,
-  Tabs,
-  TabPane,
-  Checkbox,
-  Toast,
-  Popconfirm,
-  AvatarGroup,
   Avatar,
+  AvatarGroup,
+  Button,
+  Checkbox,
+  Input,
+  Modal,
+  Popconfirm,
+  Spin,
+  Table,
+  TabPane,
+  Tabs,
+  Toast,
+  Tooltip,
+  Typography,
 } from '@douyinfe/semi-ui';
-import { IconUserAdd, IconDelete } from '@douyinfe/semi-icons';
-import { useUser } from 'data/user';
-import { useToggle } from 'hooks/use-toggle';
-import { useCollaborationDocument } from 'data/document';
 import { DataRender } from 'components/data-render';
 import { DocumentLinkCopyer } from 'components/document/link';
+import { useCollaborationDocument } from 'data/document';
+import { useUser } from 'data/user';
 import { event, JOIN_USER } from 'event';
+import { useToggle } from 'hooks/use-toggle';
+import React, { useEffect, useState } from 'react';
 
 interface IProps {
   wikiId: string;

@@ -1,4 +1,5 @@
 import { Editor } from 'tiptap/editor';
+
 import { triggerOpenCountSettingModal } from '../_event';
 
 /**

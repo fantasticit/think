@@ -1,23 +1,24 @@
-import Router from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Nav, Skeleton, Typography, Space, Button, Tooltip, Spin, Popover } from '@douyinfe/semi-ui';
-import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
-import { useUser } from 'data/user';
-import { useDocumentDetail } from 'data/document';
-import { useWindowSize } from 'hooks/use-window-size';
-import { SecureDocumentIllustration } from 'illustrations/secure-document';
-import { Seo } from 'components/seo';
-import { Theme } from 'components/theme';
+import { IconArticle, IconChevronLeft } from '@douyinfe/semi-icons';
+import { Button, Nav, Popover, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
+import { Divider } from 'components/divider';
+import { DocumentCollaboration } from 'components/document/collaboration';
 import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
-import { DocumentCollaboration } from 'components/document/collaboration';
 import { DocumentStyle } from 'components/document/style';
 import { DocumentVersion } from 'components/document/version';
+import { Seo } from 'components/seo';
+import { Theme } from 'components/theme';
 import { User } from 'components/user';
-import { Divider } from 'components/divider';
+import { useDocumentDetail } from 'data/document';
+import { useUser } from 'data/user';
+import { CHANGE_DOCUMENT_TITLE, event, triggerUseDocumentVersion } from 'event';
 import { useDocumentStyle } from 'hooks/use-document-style';
-import { event, CHANGE_DOCUMENT_TITLE, triggerUseDocumentVersion } from 'event';
+import { useWindowSize } from 'hooks/use-window-size';
+import { SecureDocumentIllustration } from 'illustrations/secure-document';
+import Router from 'next/router';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { Editor } from './editor';
 import styles from './index.module.scss';
 

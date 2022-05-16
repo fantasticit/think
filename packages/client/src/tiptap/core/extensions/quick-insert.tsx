@@ -1,11 +1,11 @@
-import tippy from 'tippy.js';
 import { Node } from '@tiptap/core';
 import { ReactRenderer } from '@tiptap/react';
-import { Plugin, PluginKey } from 'prosemirror-state';
 import Suggestion from '@tiptap/suggestion';
+import { Plugin, PluginKey } from 'prosemirror-state';
+import tippy from 'tippy.js';
+import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import { MenuList } from 'tiptap/core/wrappers/menu-list';
 import { QUICK_INSERT_ITEMS } from 'tiptap/editor/menus/quick-insert';
-import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 
 export const QuickInsertPluginKey = new PluginKey('quickInsert');
 

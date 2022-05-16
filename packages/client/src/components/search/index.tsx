@@ -1,19 +1,20 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { IconSearch as SemiIconSearch } from '@douyinfe/semi-icons';
+import { Button, Input, Modal, Spin, Typography } from '@douyinfe/semi-ui';
+import { IDocument } from '@think/domains';
+import { DataRender } from 'components/data-render';
+import { DocumentStar } from 'components/document/star';
+import { Empty } from 'components/empty';
+import { IconSearch } from 'components/icons';
+import { IconDocumentFill } from 'components/icons/IconDocumentFill';
+import { LocaleTime } from 'components/locale-time';
+import { useRecentDocuments } from 'data/document';
+import { useAsyncLoading } from 'hooks/use-async-loading';
+import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import Router from 'next/router';
-import { Typography, Button, Modal, Input, Spin } from '@douyinfe/semi-ui';
-import { IconSearch as SemiIconSearch } from '@douyinfe/semi-icons';
-import { IconSearch } from 'components/icons';
-import { IDocument } from '@think/domains';
-import { useRecentDocuments } from 'data/document';
-import { useToggle } from 'hooks/use-toggle';
-import { useAsyncLoading } from 'hooks/use-async-loading';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { searchDocument } from 'services/document';
-import { Empty } from 'components/empty';
-import { DataRender } from 'components/data-render';
-import { LocaleTime } from 'components/locale-time';
-import { DocumentStar } from 'components/document/star';
-import { IconDocumentFill } from 'components/icons/IconDocumentFill';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;

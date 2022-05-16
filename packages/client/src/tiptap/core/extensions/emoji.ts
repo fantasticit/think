@@ -1,7 +1,7 @@
 import { Node } from '@tiptap/core';
 import { ReactRenderer } from '@tiptap/react';
-import { Plugin, PluginKey } from 'prosemirror-state';
 import Suggestion from '@tiptap/suggestion';
+import { Plugin, PluginKey } from 'prosemirror-state';
 import tippy from 'tippy.js';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import { EmojiList } from 'tiptap/core/wrappers/emoji-list';

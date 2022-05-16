@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import Link from 'next/link';
-import { Tree as SemiTree, Button, Typography } from '@douyinfe/semi-ui';
 import { IconMore, IconPlus } from '@douyinfe/semi-icons';
-import { useToggle } from 'hooks/use-toggle';
+import { Button, Tree as SemiTree, Typography } from '@douyinfe/semi-ui';
 import { DocumentActions } from 'components/document/actions';
 import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
-import { event, CREATE_DOCUMENT, triggerCreateDocument } from 'event';
+import { CREATE_DOCUMENT, event, triggerCreateDocument } from 'event';
+import { useToggle } from 'hooks/use-toggle';
+import Link from 'next/link';
+import React, { useCallback, useEffect, useState } from 'react';
+
 import styles from './index.module.scss';
 
 const Actions = ({ node }) => {

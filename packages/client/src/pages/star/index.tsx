@@ -1,14 +1,15 @@
+import { List, Typography } from '@douyinfe/semi-ui';
+import { DataRender } from 'components/data-render';
+import { DocumentCard, DocumentCardPlaceholder } from 'components/document/card';
+import { Empty } from 'components/empty';
+import { Seo } from 'components/seo';
+import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
+import { useStaredDocuments } from 'data/document';
+import { useStaredWikis } from 'data/wiki';
+import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import React from 'react';
-import { Typography, List } from '@douyinfe/semi-ui';
-import { Seo } from 'components/seo';
-import { DataRender } from 'components/data-render';
-import { SingleColumnLayout } from 'layouts/single-column';
-import { useStaredWikis } from 'data/wiki';
-import { useStaredDocuments } from 'data/document';
-import { WikiCardPlaceholder, WikiCard } from 'components/wiki/card';
-import { DocumentCardPlaceholder, DocumentCard } from 'components/document/card';
-import { Empty } from 'components/empty';
+
 import styles from './index.module.scss';
 
 const { Title } = Typography;

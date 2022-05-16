@@ -1,6 +1,7 @@
+import { Pagination } from '@douyinfe/semi-ui';
 import React, { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { Pagination } from '@douyinfe/semi-ui';
+
 import styles from './index.module.scss';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;

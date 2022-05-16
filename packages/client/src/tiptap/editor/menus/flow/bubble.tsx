@@ -1,12 +1,13 @@
-import { useCallback } from 'react';
-import { Space, Button } from '@douyinfe/semi-ui';
-import { IconEdit, IconCopy, IconDelete } from '@douyinfe/semi-icons';
+import { IconCopy, IconDelete, IconEdit } from '@douyinfe/semi-icons';
+import { Button, Space } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
-import { Flow } from 'tiptap/core/extensions/flow';
+import { useCallback } from 'react';
 import { Divider } from 'tiptap/components/divider';
-import { copyNode, deleteNode } from 'tiptap/prose-utils';
+import { Flow } from 'tiptap/core/extensions/flow';
 import { useAttributes } from 'tiptap/editor/hooks/use-attributes';
+import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
+import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
 import { triggerOpenFlowSettingModal } from '../_event';
 
 export const FlowBubbleMenu = ({ editor }) => {

@@ -1,6 +1,6 @@
-import { createPath, createMainPath, createLinkSvg } from './utils/svg';
-import { findEle, Expander } from './utils/dom';
-import { SIDE, GAP, TURNPOINT_R, PRIMARY_NODE_HORIZONTAL_GAP, PRIMARY_NODE_VERTICAL_GAP } from './const';
+import { GAP, PRIMARY_NODE_HORIZONTAL_GAP, PRIMARY_NODE_VERTICAL_GAP, SIDE, TURNPOINT_R } from './const';
+import { Expander, findEle } from './utils/dom';
+import { createLinkSvg, createMainPath, createPath } from './utils/svg';
 
 /**
  * Link nodes with svg,

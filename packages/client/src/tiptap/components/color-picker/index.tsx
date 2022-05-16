@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
-import { Dropdown, Typography, Modal, SideSheet, Row, Col } from '@douyinfe/semi-ui';
-import styles from './style.module.scss';
-import { useWindowSize } from 'hooks/use-window-size';
+import { Col, Dropdown, Modal, Row, SideSheet, Typography } from '@douyinfe/semi-ui';
 import { useToggle } from 'hooks/use-toggle';
+import { useWindowSize } from 'hooks/use-window-size';
+import React, { useMemo } from 'react';
+
+import styles from './style.module.scss';
 
 const { Text } = Typography;
 

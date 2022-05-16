@@ -1,7 +1,7 @@
 import BuiltInTable from '@tiptap/extension-table';
-import { Decoration, DecorationSet } from 'prosemirror-view';
-import { tableEditing } from 'prosemirror-tables';
 import { Plugin } from 'prosemirror-state';
+import { tableEditing } from 'prosemirror-tables';
+import { Decoration, DecorationSet } from 'prosemirror-view';
 
 export const Table = BuiltInTable.extend({
   renderHTML() {

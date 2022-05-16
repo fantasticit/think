@@ -1,10 +1,11 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
-import Router from 'next/router';
-import { Modal, Tabs, TabPane, Checkbox } from '@douyinfe/semi-ui';
-import { useCreateDocument } from 'data/document';
-import { usePublicTemplates, useOwnTemplates } from 'data/template';
-import { TemplateList } from 'components/template/list';
+import { Checkbox, Modal, TabPane, Tabs } from '@douyinfe/semi-ui';
 import { TemplateCardEmpty } from 'components/template/card';
+import { TemplateList } from 'components/template/list';
+import { useCreateDocument } from 'data/document';
+import { useOwnTemplates, usePublicTemplates } from 'data/template';
+import Router from 'next/router';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+
 import styles from './index.module.scss';
 
 interface IProps {

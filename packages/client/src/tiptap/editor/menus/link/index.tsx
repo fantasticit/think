@@ -1,14 +1,15 @@
-import React, { useCallback } from 'react';
-import { Editor } from 'tiptap/editor';
 import { Button } from '@douyinfe/semi-ui';
-import { Tooltip } from 'components/tooltip';
 import { IconLink } from 'components/icons';
-import { useActive } from 'tiptap/editor/hooks/use-active';
-import { Title } from 'tiptap/core/extensions/title';
+import { Tooltip } from 'components/tooltip';
+import React, { useCallback } from 'react';
 import { Link as LinkExtension } from 'tiptap/core/extensions/link';
-import { createOrToggleLink } from './service';
+import { Title } from 'tiptap/core/extensions/title';
+import { Editor } from 'tiptap/editor';
+import { useActive } from 'tiptap/editor/hooks/use-active';
+
 import { LinkBubbleMenu } from './bubble';
 import { LinkSettingModal } from './modal';
+import { createOrToggleLink } from './service';
 
 export const Link: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

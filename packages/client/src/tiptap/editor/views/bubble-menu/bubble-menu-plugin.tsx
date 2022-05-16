@@ -1,4 +1,4 @@
-import { Editor, posToDOMRect, isTextSelection, isNodeSelection } from '@tiptap/core';
+import { Editor, isNodeSelection, isTextSelection, posToDOMRect } from '@tiptap/core';
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import tippy, { Instance, Props } from 'tippy.js';

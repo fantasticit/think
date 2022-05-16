@@ -1,35 +1,36 @@
-import React, { useMemo, useRef, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import cls from 'classnames';
+import { IconArticle } from '@douyinfe/semi-icons';
 import {
+  BackTop,
+  Breadcrumb,
+  Button,
+  Form,
   Layout,
   Nav,
-  Space,
-  Button,
-  Typography,
-  Skeleton,
   Popover,
-  Breadcrumb,
-  BackTop,
-  Form,
+  Skeleton,
+  Space,
+  Typography,
 } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
-import { IconArticle } from '@douyinfe/semi-icons';
-import Link from 'next/link';
-import { Seo } from 'components/seo';
-import { LogoImage, LogoText } from 'components/logo';
+import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { DocumentStyle } from 'components/document/style';
-import { User } from 'components/user';
-import { Theme } from 'components/theme';
 import { ImageViewer } from 'components/image-viewer';
-import { useDocumentStyle } from 'hooks/use-document-style';
+import { LogoImage, LogoText } from 'components/logo';
+import { Seo } from 'components/seo';
+import { Theme } from 'components/theme';
+import { User } from 'components/user';
 import { usePublicDocument } from 'data/document';
+import { useDocumentStyle } from 'hooks/use-document-style';
+import { useWindowSize } from 'hooks/use-window-size';
+import Link from 'next/link';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { DocumentSkeleton } from 'tiptap/components/skeleton';
 import { CollaborationEditor } from 'tiptap/editor';
+
 import { Author } from '../author';
 import styles from './index.module.scss';
-import { useWindowSize } from 'hooks/use-window-size';
 
 const { Header, Content } = Layout;
 const { Text } = Typography;

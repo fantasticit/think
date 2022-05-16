@@ -1,4 +1,4 @@
-import { LinkDragMoveHelper, generateUUID, getArrowPoints, calcP1, calcP4 } from './utils/index';
+import { calcP1, calcP4, generateUUID, getArrowPoints, LinkDragMoveHelper } from './utils/index';
 import { createSvgGroup } from './utils/svg';
 
 // TODO Link label

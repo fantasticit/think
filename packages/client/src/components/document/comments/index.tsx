@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
-import { Avatar, Button, Space, Typography, Banner, Pagination } from '@douyinfe/semi-ui';
-import { useToggle } from 'hooks/use-toggle';
-import { CommentKit, CommentMenuBar, useEditor, EditorContent } from 'tiptap/editor';
+import { Avatar, Banner, Button, Pagination, Space, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
-import { useUser } from 'data/user';
 import { useComments } from 'data/comment';
+import { useUser } from 'data/user';
+import { useToggle } from 'hooks/use-toggle';
+import React, { useRef, useState } from 'react';
+import { CommentKit, CommentMenuBar, EditorContent, useEditor } from 'tiptap/editor';
+
 import { Comments } from './comments';
 import { CommentItemPlaceholder } from './comments/Item';
 import styles from './index.module.scss';

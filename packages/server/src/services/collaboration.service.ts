@@ -1,14 +1,14 @@
-import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
-import { getConfig } from '@think/config';
-import * as Y from 'yjs';
+import { onAuthenticatePayload, onChangePayload, onLoadDocumentPayload, Server } from '@hocuspocus/server';
 import { TiptapTransformer } from '@hocuspocus/transformer';
-import { Server, onAuthenticatePayload, onChangePayload, onLoadDocumentPayload } from '@hocuspocus/server';
-import * as lodash from 'lodash';
-import { OutUser, UserService } from '@services/user.service';
-import { TemplateService } from '@services/template.service';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { DocumentService } from '@services/document.service';
 import { DocumentVersionService } from '@services/document-version.service';
+import { TemplateService } from '@services/template.service';
+import { OutUser, UserService } from '@services/user.service';
+import { getConfig } from '@think/config';
 import { DocumentStatus } from '@think/domains';
+import * as lodash from 'lodash';
+import * as Y from 'yjs';
 
 @Injectable()
 export class CollaborationService {
@@ -213,7 +213,7 @@ export class CollaborationService {
   }
 
   async onDisconnect(data) {
-    const { requestParameters, document } = data;
+    const { requestParameters } = data;
     const targetId = requestParameters.get('targetId');
     const docType = requestParameters.get('docType');
     const userId = requestParameters.get('userId');

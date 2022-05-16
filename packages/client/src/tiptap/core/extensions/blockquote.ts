@@ -1,6 +1,6 @@
-import { Blockquote as BuiltInBlockquote } from '@tiptap/extension-blockquote';
 import { wrappingInputRule } from '@tiptap/core';
-import { getParents, getMarkdownSource } from 'tiptap/prose-utils';
+import { Blockquote as BuiltInBlockquote } from '@tiptap/extension-blockquote';
+import { getMarkdownSource, getParents } from 'tiptap/prose-utils';
 
 export const Blockquote = BuiltInBlockquote.extend({
   addAttributes() {

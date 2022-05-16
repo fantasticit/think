@@ -1,5 +1,5 @@
-import React from 'react';
 import { Typography } from '@douyinfe/semi-ui';
+import React from 'react';
 
 interface IProps {
   illustration?: React.ReactNode;

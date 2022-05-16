@@ -1,5 +1,6 @@
-import React from 'react';
 import type { IComment } from '@think/domains';
+import React from 'react';
+
 import { CommentItem } from './Item';
 
 interface IProps {

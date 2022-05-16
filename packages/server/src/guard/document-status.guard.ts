@@ -1,7 +1,7 @@
-import { CanActivate, ExecutionContext, Injectable, SetMetadata, HttpException, HttpStatus } from '@nestjs/common';
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, SetMetadata } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { DocumentStatus } from '@think/domains';
 import { DocumentService } from '@services/document.service';
+import { DocumentStatus } from '@think/domains';
 
 const KEY = 'DocumentStatus';
 export const CheckDocumentStatus = (status: DocumentStatus) => SetMetadata(KEY, status);

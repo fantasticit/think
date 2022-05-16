@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
 import { safeJSONParse } from 'helpers/json';
-import { useEditor, EditorContent } from '../react';
+import React, { useMemo } from 'react';
+
+import { EditorContent, useEditor } from '../react';
 import { CollaborationKit } from './kit';
 
 interface IProps {

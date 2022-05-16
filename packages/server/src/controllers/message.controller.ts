@@ -1,17 +1,17 @@
+import { JwtGuard } from '@guard/jwt.guard';
 import {
+  ClassSerializerInterceptor,
   Controller,
   Get,
-  Post,
-  HttpStatus,
   HttpCode,
-  Query,
+  HttpStatus,
   Param,
+  Post,
+  Query,
   Request,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { JwtGuard } from '@guard/jwt.guard';
 import { MessageService } from '@services/message.service';
 
 @Controller('message')

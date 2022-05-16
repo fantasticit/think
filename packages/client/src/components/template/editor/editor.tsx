@@ -1,15 +1,16 @@
-import React, { useMemo, useCallback, useState, useEffect } from 'react';
-import Router from 'next/router';
-import cls from 'classnames';
-import { Button, Nav, Space, Typography, Tooltip, Switch, Popover, Popconfirm } from '@douyinfe/semi-ui';
-import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
+import { IconArticle, IconChevronLeft } from '@douyinfe/semi-icons';
+import { Button, Nav, Popconfirm, Popover, Space, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
 import { ILoginUser, ITemplate } from '@think/domains';
+import cls from 'classnames';
+import { DocumentStyle } from 'components/document/style';
 import { Theme } from 'components/theme';
 import { User } from 'components/user';
-import { DocumentStyle } from 'components/document/style';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
+import Router from 'next/router';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { CollaborationEditor } from 'tiptap/editor';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;

@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Popover, Typography, SideSheet } from '@douyinfe/semi-ui';
-import { EXPRESSIONES, GESTURES, SYMBOLS, OBJECTS, ACTIVITIES, SKY_WEATHER } from './constants';
+import { Popover, SideSheet, Typography } from '@douyinfe/semi-ui';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
 import { useToggle } from 'hooks/use-toggle';
-import styles from './index.module.scss';
 import { useWindowSize } from 'hooks/use-window-size';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { ACTIVITIES, EXPRESSIONES, GESTURES, OBJECTS, SKY_WEATHER, SYMBOLS } from './constants';
+import styles from './index.module.scss';
 
 const { Title } = Typography;
 

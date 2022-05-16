@@ -1,11 +1,12 @@
-import { NodeViewWrapper } from '@tiptap/react';
-import { useMemo, useCallback, useEffect, useRef } from 'react';
-import cls from 'classnames';
-import { Popover, TextArea, Typography, Space } from '@douyinfe/semi-ui';
 import { IconHelpCircle } from '@douyinfe/semi-icons';
-import katex from 'katex';
-import { useToggle } from 'hooks/use-toggle';
+import { Popover, Space, TextArea, Typography } from '@douyinfe/semi-ui';
+import { NodeViewWrapper } from '@tiptap/react';
+import cls from 'classnames';
 import { useUser } from 'data/user';
+import { useToggle } from 'hooks/use-toggle';
+import katex from 'katex';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;

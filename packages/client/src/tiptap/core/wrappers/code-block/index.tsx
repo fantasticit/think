@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
-import cls from 'classnames';
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
-import { Button, Select, Tooltip } from '@douyinfe/semi-ui';
 import { IconCopy } from '@douyinfe/semi-icons';
+import { Button, Select, Tooltip } from '@douyinfe/semi-ui';
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
+import cls from 'classnames';
 import { copy } from 'helpers/copy';
+import React, { useRef } from 'react';
+
 import styles from './index.module.scss';
 
 export const CodeBlockWrapper = ({ editor, node: { attrs }, updateAttributes, extension }) => {

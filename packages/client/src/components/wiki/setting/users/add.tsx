@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
-import { Modal, Typography, Button, Input, Space, Select, Banner } from '@douyinfe/semi-ui';
+import { Banner, Button, Input, Modal, Select, Space, Typography } from '@douyinfe/semi-ui';
 import { WIKI_USER_ROLES, WikiUserRole } from '@think/domains';
 import { IWikiUserOpeateData } from 'data/wiki';
+import React, { useCallback, useState } from 'react';
 
 interface IProps {
   visible: boolean;

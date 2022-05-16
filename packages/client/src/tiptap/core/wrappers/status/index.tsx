@@ -1,9 +1,10 @@
+import { Button, Collapsible, Input, Popover, Space, Tag } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
-import { Button, Collapsible, Space, Popover, Tag, Input } from '@douyinfe/semi-ui';
 import cls from 'classnames';
-import { useCallback, useEffect, useRef } from 'react';
 import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
+import { useCallback, useEffect, useRef } from 'react';
+
 import styles from './index.module.scss';
 
 const colors = [

@@ -1,16 +1,17 @@
-import React from 'react';
-import Link from 'next/link';
-import { Typography, Space, Dropdown, Tabs, TabPane, Modal } from '@douyinfe/semi-ui';
 import { IconChevronDown } from '@douyinfe/semi-icons';
+import { Dropdown, Modal, Space, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+import { DataRender } from 'components/data-render';
+import { DocumentStar } from 'components/document/star';
+import { Empty } from 'components/empty';
+import { IconDocumentFill } from 'components/icons/IconDocumentFill';
+import { LocaleTime } from 'components/locale-time';
 import { useRecentDocuments } from 'data/document';
 import { useToggle } from 'hooks/use-toggle';
-import { Empty } from 'components/empty';
-import { DataRender } from 'components/data-render';
-import { LocaleTime } from 'components/locale-time';
-import { DocumentStar } from 'components/document/star';
-import { IconDocumentFill } from 'components/icons/IconDocumentFill';
-import { Placeholder } from './placeholder';
+import Link from 'next/link';
+import React from 'react';
+
 import styles from './index.module.scss';
+import { Placeholder } from './placeholder';
 
 const { Text } = Typography;
 

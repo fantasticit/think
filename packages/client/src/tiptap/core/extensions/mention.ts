@@ -1,9 +1,9 @@
 import BulitInMention from '@tiptap/extension-mention';
 import { ReactRenderer } from '@tiptap/react';
-import tippy from 'tippy.js';
 import { getUsers } from 'services/user';
-import { getDatasetAttribute } from 'tiptap/prose-utils';
+import tippy from 'tippy.js';
 import { MentionList } from 'tiptap/core/wrappers/mention-list';
+import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 const suggestion = {
   items: async ({ query }) => {

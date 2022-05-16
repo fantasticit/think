@@ -1,8 +1,8 @@
-import React from 'react';
-import { Space, Avatar } from '@douyinfe/semi-ui';
-import { LocaleTime } from 'components/locale-time';
 import { IconUser } from '@douyinfe/semi-icons';
+import { Avatar, Space } from '@douyinfe/semi-ui';
 import { IDocument } from '@think/domains';
+import { LocaleTime } from 'components/locale-time';
+import React from 'react';
 
 interface IProps {
   document: IDocument;

@@ -1,9 +1,9 @@
-import type { IUser, ILoginUser } from '@think/domains';
-import useSWR from 'swr';
-import { useCallback, useEffect } from 'react';
-import Router, { useRouter } from 'next/router';
-import { HttpClient } from 'services/http-client';
+import type { ILoginUser, IUser } from '@think/domains';
 import { getStorage, setStorage } from 'helpers/storage';
+import Router, { useRouter } from 'next/router';
+import { useCallback, useEffect } from 'react';
+import { HttpClient } from 'services/http-client';
+import useSWR from 'swr';
 
 export const useUser = () => {
   const router = useRouter();

@@ -1,9 +1,9 @@
-import type { IUser, IDocument, IWiki, IAuthority } from '@think/domains';
-import useSWR from 'swr';
-import { useState, useCallback, useEffect } from 'react';
+import type { IAuthority, IDocument, IUser, IWiki } from '@think/domains';
 import { useAsyncLoading } from 'hooks/use-async-loading';
-import { HttpClient } from 'services/http-client';
+import { useCallback, useEffect, useState } from 'react';
 import { getPublicDocumentDetail } from 'services/document';
+import { HttpClient } from 'services/http-client';
+import useSWR from 'swr';
 
 type ICreateDocument = Partial<Pick<IDocument, 'wikiId' | 'parentDocumentId'>>;
 type IDocumentWithAuth = { document: IDocument; authority: IAuthority };

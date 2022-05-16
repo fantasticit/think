@@ -1,12 +1,12 @@
-import type { NextPage } from 'next';
-import React from 'react';
 import { List, Pagination, Typography } from '@douyinfe/semi-ui';
-import { SingleColumnLayout } from 'layouts/single-column';
-import { useAllPublicWikis } from 'data/wiki';
+import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
-import { DataRender } from 'components/data-render';
-import { WikiCardPlaceholder, WikiCard } from 'components/wiki/card';
+import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
+import { useAllPublicWikis } from 'data/wiki';
+import { SingleColumnLayout } from 'layouts/single-column';
+import type { NextPage } from 'next';
+import React from 'react';
 
 const grid = {
   gutter: 16,

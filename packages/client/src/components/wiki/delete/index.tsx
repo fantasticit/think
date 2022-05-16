@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import Router from 'next/router';
-import { Typography, Space, Modal } from '@douyinfe/semi-ui';
 import { IconDelete } from '@douyinfe/semi-icons';
+import { Modal, Space, Typography } from '@douyinfe/semi-ui';
 import { useOwnWikis } from 'data/wiki';
+import Router from 'next/router';
+import React, { useCallback } from 'react';
 
 interface IProps {
   wikiId: string;

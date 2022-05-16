@@ -1,7 +1,8 @@
+import { Space, Typography } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
-import { Typography, Space } from '@douyinfe/semi-ui';
 import Countdown from 'react-countdown';
+
 import styles from './index.module.scss';
 
 const { Text, Title } = Typography;

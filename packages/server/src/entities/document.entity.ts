@@ -1,6 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { Exclude } from 'class-transformer';
 import { DocumentStatus } from '@think/domains';
+import { Exclude } from 'class-transformer';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('document')
 export class DocumentEntity {

@@ -1,27 +1,27 @@
+import { CreateDocumentDto } from '@dtos/create-document.dto';
+import { DocAuthDto } from '@dtos/doc-auth.dto';
+import { ShareDocumentDto } from '@dtos/share-document.dto';
+import { UpdateDocumentDto } from '@dtos/update-document.dto';
+import { CheckDocumentAuthority, DocumentAuthorityGuard } from '@guard/document-auth.guard';
+import { CheckDocumentStatus, DocumentStatusGuard } from '@guard/document-status.guard';
+import { JwtGuard } from '@guard/jwt.guard';
 import {
-  Controller,
-  Get,
-  HttpStatus,
-  HttpCode,
-  Post,
   Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
   Param,
+  Post,
   Query,
   Request,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor,
-  Delete,
 } from '@nestjs/common';
-import { JwtGuard } from '@guard/jwt.guard';
-import { DocumentAuthorityGuard, CheckDocumentAuthority } from '@guard/document-auth.guard';
-import { DocumentStatusGuard, CheckDocumentStatus } from '@guard/document-status.guard';
-import { DocumentStatus } from '@think/domains';
 import { DocumentService } from '@services/document.service';
-import { DocAuthDto } from '@dtos/doc-auth.dto';
-import { CreateDocumentDto } from '@dtos/create-document.dto';
-import { UpdateDocumentDto } from '@dtos/update-document.dto';
-import { ShareDocumentDto } from '@dtos/share-document.dto';
+import { DocumentStatus } from '@think/domains';
 
 @Controller('document')
 @UseGuards(DocumentAuthorityGuard)

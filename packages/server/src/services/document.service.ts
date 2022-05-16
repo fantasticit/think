@@ -1,22 +1,22 @@
-import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { instanceToPlain } from 'class-transformer';
-import { EMPTY_DOCUMNENT } from '@think/constants';
-import { DocumentStatus, IDocument, WikiUserRole } from '@think/domains';
-import { DocumentAuthorityEntity } from '@entities/document-authority.entity';
+import { CreateDocumentDto } from '@dtos/create-document.dto';
+import { DocAuthDto } from '@dtos/doc-auth.dto';
+import { ShareDocumentDto } from '@dtos/share-document.dto';
+import { UpdateDocumentDto } from '@dtos/update-document.dto';
 import { DocumentEntity } from '@entities/document.entity';
-import { OutUser, UserService } from '@services/user.service';
-import { WikiService } from '@services/wiki.service';
-import { MessageService } from '@services/message.service';
+import { DocumentAuthorityEntity } from '@entities/document-authority.entity';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CollaborationService } from '@services/collaboration.service';
 import { DocumentVersionService } from '@services/document-version.service';
+import { MessageService } from '@services/message.service';
 import { TemplateService } from '@services/template.service';
+import { OutUser, UserService } from '@services/user.service';
 import { ViewService } from '@services/view.service';
-import { DocAuthDto } from '@dtos/doc-auth.dto';
-import { CreateDocumentDto } from '@dtos/create-document.dto';
-import { UpdateDocumentDto } from '@dtos/update-document.dto';
-import { ShareDocumentDto } from '@dtos/share-document.dto';
+import { WikiService } from '@services/wiki.service';
+import { EMPTY_DOCUMNENT } from '@think/constants';
+import { DocumentStatus, IDocument, WikiUserRole } from '@think/domains';
+import { instanceToPlain } from 'class-transformer';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class DocumentService {

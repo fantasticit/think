@@ -1,14 +1,15 @@
-import { NodeViewWrapper } from '@tiptap/react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import cls from 'classnames';
 import { Typography } from '@douyinfe/semi-ui';
-import { useChildrenDocument } from 'data/document';
+import { NodeViewWrapper } from '@tiptap/react';
+import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { IconDocument } from 'components/icons';
-import styles from './index.module.scss';
+import { useChildrenDocument } from 'data/document';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 

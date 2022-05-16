@@ -1,16 +1,17 @@
 import { sanitize } from 'dompurify';
 import markdownit from 'markdown-it';
-import sub from 'markdown-it-sub';
-import sup from 'markdown-it-sup';
 import anchor from 'markdown-it-anchor';
 import emoji from 'markdown-it-emoji';
-import katex from './markdownKatex';
-import tasklist from './markdownTaskList';
-import splitMixedLists from './markedownSplitMixedList';
-import markdownUnderline from './markdownUnderline';
+import sub from 'markdown-it-sub';
+import sup from 'markdown-it-sup';
+
 import markdownCallout from './markdownCallout';
-import { markdownItTable } from './markdownTable';
 import { createMarkdownContainer } from './markdownItContainer';
+import katex from './markdownKatex';
+import { markdownItTable } from './markdownTable';
+import tasklist from './markdownTaskList';
+import markdownUnderline from './markdownUnderline';
+import splitMixedLists from './markedownSplitMixedList';
 
 const markdownAttachment = createMarkdownContainer('attachment');
 const markdownStatus = createMarkdownContainer('status');

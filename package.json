@@ -21,8 +21,8 @@
     "pm2:server": "pnpm run --dir packages/server pm2",
     "pm2:client": "pnpm run --dir packages/client pm2",
     "lint": "concurrently 'pnpm:lint:*'",
-    "lint:client": "eslint  --fix './packages/client/**/*.{ts,tsx,js,jsx}' -c '.eslintrc.client.js'",
-    "lint:server": "eslint  --fix './packages/server/src/*.{ts,js}' -c '.eslintrc.server.js'",
+    "lint:client": "eslint --fix './packages/client/**/*.{ts,tsx,js,jsx}'",
+    "lint:server": "eslint --fix './packages/server/**/*.{ts,js}'",
     "format": "concurrently 'pnpm:format:*'",
     "format:ts": "prettier --write --parser typescript 'packages/**/*.{ts,tsx,js,jsx}'",
     "format:css": "stylelint --fix --formatter verbose --allow-empty-input 'packages/**/*.{css,scss,sass}'",
@@ -39,16 +39,6 @@
     "node": ">=16.5.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.21.0",
-    "@typescript-eslint/parser": "^5.21.0",
-    "eslint": "^8.14.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.5.0",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.4.1",
     "prettier": "^2.3.2",
@@ -64,10 +54,10 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "prettier --write",
     "./packages/client/**/*.{ts,tsx,js,jsx}": [
-      "eslint --fix -c '.eslintrc.client.js'"
+      "eslint --fix"
     ],
     "./packages/server/src/*.{ts,js}": [
-      "eslint --fix -c '.eslintrc.server.js'"
+      "eslint --fix"
     ],
     "*.{css,scss,sass}": " stylelint --fix --formatter verbose --allow-empty-input"
   }

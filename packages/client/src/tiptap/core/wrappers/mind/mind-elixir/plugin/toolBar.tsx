@@ -1,19 +1,19 @@
-import ReactDOM from 'react-dom';
-import cls from 'classnames';
+import { IconDoubleChevronLeft, IconDoubleChevronRight } from '@douyinfe/semi-icons';
 import { Button, Space, Toast } from '@douyinfe/semi-ui';
-import { IconDoubleChevronRight, IconDoubleChevronLeft } from '@douyinfe/semi-icons';
+import cls from 'classnames';
 import {
+  IconMindCenter,
+  IconMindFull,
   IconMindLeft,
   IconMindRight,
   IconMindSide,
-  IconMindFull,
-  IconMindCenter,
-  IconZoomOut,
   IconZoomIn,
+  IconZoomOut,
 } from 'components/icons';
-import { Divider } from 'tiptap/components/divider';
 import { useToggle } from 'hooks/use-toggle';
 import { useMemo } from 'react';
+import ReactDOM from 'react-dom';
+import { Divider } from 'tiptap/components/divider';
 
 function Operation({ mind }) {
   const [visible, toggleVisible] = useToggle(true);

@@ -1,6 +1,7 @@
-import React from 'react';
 import { Spin, Typography } from '@douyinfe/semi-ui';
 import { Empty } from 'illustrations/empty';
+import React from 'react';
+
 import { LoadingWrap } from './loading';
 
 type RenderProps = React.ReactNode | (() => React.ReactNode);

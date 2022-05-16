@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { ViewEntity } from '@entities/view.entity';
 import { parseUserAgent } from '@helpers/ua.helper';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { IPagination } from '@think/domains';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ViewService {

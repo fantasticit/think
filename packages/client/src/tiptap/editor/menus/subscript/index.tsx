@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
 import { Button } from '@douyinfe/semi-ui';
 import { IconSub } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import { useActive } from 'tiptap/editor/hooks/use-active';
-import { Title } from 'tiptap/core/extensions/title';
+import React, { useCallback } from 'react';
 import { Subscript as SubscriptExtension } from 'tiptap/core/extensions/subscript';
+import { Title } from 'tiptap/core/extensions/title';
+import { useActive } from 'tiptap/editor/hooks/use-active';
 
 export const Subscript: React.FC<{ editor: any }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

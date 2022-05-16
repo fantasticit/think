@@ -1,18 +1,18 @@
+import { List, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+import { DataRender } from 'components/data-render';
+import { DocumentCard, DocumentCardPlaceholder } from 'components/document/card';
+import { DocumentCreator } from 'components/document-creator';
+import { Empty } from 'components/empty';
+import { Seo } from 'components/seo';
+import { WikiDocumentsShare } from 'components/wiki/documents-share';
+import { WikiTocs } from 'components/wiki/tocs';
+import { WikiTocsManager } from 'components/wiki/tocs/manager';
+import { useWikiDocs } from 'data/wiki';
+import { CreateDocumentIllustration } from 'illustrations/create-document';
+import { DoubleColumnLayout } from 'layouts/double-column';
 import { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
-import { Typography, List, Tabs, TabPane } from '@douyinfe/semi-ui';
-import { CreateDocumentIllustration } from 'illustrations/create-document';
-import { DoubleColumnLayout } from 'layouts/double-column';
-import { Seo } from 'components/seo';
-import { DataRender } from 'components/data-render';
-import { WikiTocs } from 'components/wiki/tocs';
-import { WikiTocsManager } from 'components/wiki/tocs/manager';
-import { DocumentCardPlaceholder, DocumentCard } from 'components/document/card';
-import { Empty } from 'components/empty';
-import { DocumentCreator } from 'components/document-creator';
-import { WikiDocumentsShare } from 'components/wiki/documents-share';
-import { useWikiDocs } from 'data/wiki';
 
 interface IProps {
   wikiId: string;

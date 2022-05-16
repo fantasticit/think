@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { Dropdown, Button, Typography, Space } from '@douyinfe/semi-ui';
-import { IconMore, IconStar, IconPlus } from '@douyinfe/semi-icons';
-import { DocumentLinkCopyer } from 'components/document/link';
-import { DocumentDeletor } from 'components/document/delete';
+import { IconMore, IconPlus, IconStar } from '@douyinfe/semi-icons';
+import { Button, Dropdown, Space, Typography } from '@douyinfe/semi-ui';
 import { DocumentCreator } from 'components/document/create';
+import { DocumentDeletor } from 'components/document/delete';
+import { DocumentLinkCopyer } from 'components/document/link';
 import { DocumentStar } from 'components/document/star';
 import { useToggle } from 'hooks/use-toggle';
+import React, { useCallback } from 'react';
 
 interface IProps {
   wikiId: string;

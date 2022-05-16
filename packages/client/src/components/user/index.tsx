@@ -1,8 +1,9 @@
-import React from 'react';
-import { Dropdown, Typography, Avatar, Button } from '@douyinfe/semi-ui';
 import { IconSpin } from '@douyinfe/semi-icons';
+import { Avatar, Button, Dropdown, Typography } from '@douyinfe/semi-ui';
 import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
+import React from 'react';
+
 import { UserSetting } from './setting';
 
 const { Text } = Typography;

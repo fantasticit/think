@@ -1,10 +1,11 @@
+import { HttpResponseExceptionFilter } from '@exceptions/http-response.exception';
+import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@pipes/validation.pipe';
+import { HttpResponseTransformInterceptor } from '@transforms/http-response.transform';
 import * as express from 'express';
 import helmet from 'helmet';
-import { NestFactory } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
-import { HttpResponseExceptionFilter } from '@exceptions/http-response.exception';
-import { HttpResponseTransformInterceptor } from '@transforms/http-response.transform';
-import { ValidationPipe } from '@pipes/validation.pipe';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {

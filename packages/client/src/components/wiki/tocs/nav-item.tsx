@@ -1,7 +1,8 @@
-import type { UrlObject } from 'url';
 import cls from 'classnames';
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
+import type { UrlObject } from 'url';
+
 import styles from './index.module.scss';
 
 interface IProps {

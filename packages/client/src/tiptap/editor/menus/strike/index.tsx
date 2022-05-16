@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { Editor } from 'tiptap/editor';
-import { Button } from '@douyinfe/semi-ui';
 import { IconStrikeThrough } from '@douyinfe/semi-icons';
+import { Button } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
-import { useActive } from 'tiptap/editor/hooks/use-active';
-import { Title } from 'tiptap/core/extensions/title';
+import React, { useCallback } from 'react';
 import { Strike as StrikeExtension } from 'tiptap/core/extensions/strike';
+import { Title } from 'tiptap/core/extensions/title';
+import { Editor } from 'tiptap/editor';
+import { useActive } from 'tiptap/editor/hooks/use-active';
 
 export const Strike: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

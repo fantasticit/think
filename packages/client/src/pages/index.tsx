@@ -1,19 +1,20 @@
-import type { NextPage } from 'next';
+import { Avatar, Button, List, Table, Typography } from '@douyinfe/semi-ui';
 import type { IDocument } from '@think/domains';
+import { DataRender } from 'components/data-render';
+import { DocumentActions } from 'components/document/actions';
+import { Empty } from 'components/empty';
+import { LocaleTime } from 'components/locale-time';
+import { Seo } from 'components/seo';
+import { WikiCreator } from 'components/wiki/create';
+import { WikiPinCard, WikiPinCardPlaceholder } from 'components/wiki/pin-card';
+import { useRecentDocuments } from 'data/document';
+import { useStaredWikis } from 'data/wiki';
+import { useToggle } from 'hooks/use-toggle';
+import { SingleColumnLayout } from 'layouts/single-column';
+import type { NextPage } from 'next';
 import Link from 'next/link';
 import React, { useMemo } from 'react';
-import { Typography, Button, Table, List, Avatar } from '@douyinfe/semi-ui';
-import { useToggle } from 'hooks/use-toggle';
-import { Seo } from 'components/seo';
-import { DataRender } from 'components/data-render';
-import { SingleColumnLayout } from 'layouts/single-column';
-import { WikiCreator } from 'components/wiki/create';
-import { LocaleTime } from 'components/locale-time';
-import { DocumentActions } from 'components/document/actions';
-import { useStaredWikis } from 'data/wiki';
-import { useRecentDocuments } from 'data/document';
-import { WikiPinCardPlaceholder, WikiPinCard } from 'components/wiki/pin-card';
-import { Empty } from 'components/empty';
+
 import styles from './index.module.scss';
 
 const { Title } = Typography;

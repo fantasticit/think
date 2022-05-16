@@ -1,9 +1,10 @@
-import { useCallback, useMemo } from 'react';
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { EmojiPicker } from 'components/emoji-picker';
 import { convertColorToRGBA } from 'helpers/color';
 import { Theme, useTheme } from 'hooks/use-theme';
+import { useCallback, useMemo } from 'react';
+
 import styles from './index.module.scss';
 
 export const CalloutWrapper = ({ editor, node, updateAttributes }) => {

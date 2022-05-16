@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { mergeAttributes, Node } from '@tiptap/core';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { isInTitle } from 'tiptap/prose-utils';
 

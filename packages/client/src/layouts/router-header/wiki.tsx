@@ -1,14 +1,15 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import { Avatar, Typography, Space, Dropdown, Modal } from '@douyinfe/semi-ui';
 import { IconChevronDown } from '@douyinfe/semi-icons';
-import { useStaredWikis, useWikiDetail } from 'data/wiki';
-import { Empty } from 'components/empty';
+import { Avatar, Dropdown, Modal, Space, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
+import { Empty } from 'components/empty';
 import { WikiStar } from 'components/wiki/star';
-import { Placeholder } from './placeholder';
+import { useStaredWikis, useWikiDetail } from 'data/wiki';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
+
 import styles from './index.module.scss';
+import { Placeholder } from './placeholder';
 
 const { Text } = Typography;
 

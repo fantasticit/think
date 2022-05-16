@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Popover, Button, Typography, Input, Space, SideSheet } from '@douyinfe/semi-ui';
-import { Editor } from 'tiptap/editor';
-import { useWindowSize } from 'hooks/use-window-size';
-import { useToggle } from 'hooks/use-toggle';
-import { Tooltip } from 'components/tooltip';
+import { Button, Input, Popover, SideSheet, Space, Typography } from '@douyinfe/semi-ui';
 import { IconSearchReplace } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
+import { useToggle } from 'hooks/use-toggle';
+import { useWindowSize } from 'hooks/use-window-size';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SearchNReplace } from 'tiptap/core/extensions/search';
+import { Editor } from 'tiptap/editor';
 
 const { Text } = Typography;
 

@@ -1,8 +1,9 @@
 import { Editor } from '@tiptap/core';
 import { uploadFile } from 'services/file';
-import { Loading } from 'tiptap/core/extensions/loading';
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { Image } from 'tiptap/core/extensions/image';
+import { Loading } from 'tiptap/core/extensions/loading';
+
 import { extractFileExtension, extractFilename } from './file';
 
 export const acceptedMimes = {

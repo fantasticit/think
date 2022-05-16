@@ -1,10 +1,11 @@
-import Link from 'next/link';
-import { Space, Typography, Avatar, Skeleton } from '@douyinfe/semi-ui';
 import { IconUser } from '@douyinfe/semi-icons';
+import { Avatar, Skeleton, Space, Typography } from '@douyinfe/semi-ui';
 import { IWiki } from '@think/domains';
-import { LocaleTime } from 'components/locale-time';
 import { IconDocument } from 'components/icons/IconDocument';
+import { LocaleTime } from 'components/locale-time';
 import { WikiStar } from 'components/wiki/star';
+import Link from 'next/link';
+
 import styles from './index.module.scss';
 
 const { Text, Paragraph } = Typography;

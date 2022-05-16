@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
-import { Editor } from 'tiptap/editor';
+import { IconAlignCenter, IconAlignJustify, IconAlignLeft, IconAlignRight } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Tooltip } from '@douyinfe/semi-ui';
-import { IconAlignLeft, IconAlignCenter, IconAlignRight, IconAlignJustify } from '@douyinfe/semi-icons';
-import { useActive } from 'tiptap/editor/hooks/use-active';
+import React, { useCallback, useMemo } from 'react';
 import { Title } from 'tiptap/core/extensions/title';
+import { Editor } from 'tiptap/editor';
+import { useActive } from 'tiptap/editor/hooks/use-active';
 
 export const Align: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

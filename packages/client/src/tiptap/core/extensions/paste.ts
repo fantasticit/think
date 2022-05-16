@@ -1,17 +1,17 @@
 import { Extension } from '@tiptap/core';
+import { safeJSONParse } from 'helpers/json';
+import { Fragment, Schema } from 'prosemirror-model';
 import { Plugin, PluginKey } from 'prosemirror-state';
-import { Schema, Fragment } from 'prosemirror-model';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import {
+  copyNode,
   handleFileEvent,
   isInCode,
-  LANGUAGES,
-  isTitleNode,
-  copyNode,
   isMarkdown,
+  isTitleNode,
+  LANGUAGES,
   normalizeMarkdown,
 } from 'tiptap/prose-utils';
-import { safeJSONParse } from 'helpers/json';
 
 interface IPasteOptions {
   /**

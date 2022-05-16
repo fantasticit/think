@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
-import distanceInWords from 'date-fns/formatDistance';
 import dateFormat from 'date-fns/format';
+import distanceInWords from 'date-fns/formatDistance';
 import zh from 'date-fns/locale/zh-CN';
+import React, { useEffect, useRef, useState } from 'react';
 
 let callbacks: Array<() => void> = [];
 

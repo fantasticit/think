@@ -1,8 +1,8 @@
-import { CanActivate, ExecutionContext, Injectable, SetMetadata, HttpException, HttpStatus } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, SetMetadata } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IUser } from '@think/domains';
+import { JwtService } from '@nestjs/jwt';
 import { DocumentService } from '@services/document.service';
+import { IUser } from '@think/domains';
 
 const KEY = 'DocumentAuthority';
 export const CheckDocumentAuthority = (auth: 'readable' | 'editable' | 'createUser' | null) => SetMetadata(KEY, auth);

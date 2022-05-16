@@ -1,16 +1,17 @@
-import React, { useCallback, useEffect } from 'react';
-import Link from 'next/link';
-import { Typography, Dropdown, Badge, Button, Tabs, TabPane, Pagination, Notification, Modal } from '@douyinfe/semi-ui';
-import { IconMessage } from 'components/icons/IconMessage';
-import { useAllMessages, useReadMessages, useUnreadMessages } from 'data/message';
-import { EmptyBoxIllustration } from 'illustrations/empty-box';
+import { Badge, Button, Dropdown, Modal, Notification, Pagination, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
-import { Placeholder } from './placeholder';
-import styles from './index.module.scss';
+import { IconMessage } from 'components/icons/IconMessage';
+import { useAllMessages, useReadMessages, useUnreadMessages } from 'data/message';
 import { useUser } from 'data/user';
-import { useWindowSize } from 'hooks/use-window-size';
 import { useToggle } from 'hooks/use-toggle';
+import { useWindowSize } from 'hooks/use-window-size';
+import { EmptyBoxIllustration } from 'illustrations/empty-box';
+import Link from 'next/link';
+import React, { useCallback, useEffect } from 'react';
+
+import styles from './index.module.scss';
+import { Placeholder } from './placeholder';
 
 const { Text } = Typography;
 const PAGE_SIZE = 6;

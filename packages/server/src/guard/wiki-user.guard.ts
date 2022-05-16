@@ -1,8 +1,8 @@
-import { CanActivate, ExecutionContext, Injectable, SetMetadata, HttpException, HttpStatus } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, SetMetadata } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IUser, WikiUserRole } from '@think/domains';
+import { JwtService } from '@nestjs/jwt';
 import { WikiService } from '@services/wiki.service';
+import { IUser, WikiUserRole } from '@think/domains';
 
 const KEY = 'WIKI_USER_ROLE';
 

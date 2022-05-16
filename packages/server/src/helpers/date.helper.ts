@@ -1,10 +1,11 @@
-import * as _dateFormat from 'date-fns/format';
+import { format as dateFormatFn } from 'date-fns';
 
 export const dateFormat = (date = null, format = 'yyyy-MM-dd HH:mm:ss') => {
   if (date === null || date === undefined) {
     date = new Date(); // eslint-disable-line no-param-reassign
   }
+
   const t = date instanceof Date ? date : new Date(date);
-  // @ts-ignore
-  return _dateFormat(t, format);
+
+  return dateFormatFn(t, format);
 };

@@ -1,15 +1,16 @@
-import React, { useMemo, useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
-import { Typography, Spin } from '@douyinfe/semi-ui';
-import { IndexeddbPersistence } from 'y-indexeddb';
+import { Spin, Typography } from '@douyinfe/semi-ui';
 import { HocuspocusProvider } from '@hocuspocus/provider';
-import { useToggle } from 'hooks/use-toggle';
-import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import { DataRender } from 'components/data-render';
 import { debounce } from 'helpers/debounce';
+import { useToggle } from 'hooks/use-toggle';
+import { SecureDocumentIllustration } from 'illustrations/secure-document';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { IndexeddbPersistence } from 'y-indexeddb';
+
 import { Editor } from '../../react';
-import { ICollaborationEditorProps, ProviderStatus } from './type';
 import { EditorInstance } from './editor';
 import styles from './index.module.scss';
+import { ICollaborationEditorProps, ProviderStatus } from './type';
 
 const { Text } = Typography;
 

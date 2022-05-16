@@ -1,7 +1,7 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, BeforeInsert } from 'typeorm';
-import { Exclude } from 'class-transformer';
-import * as bcrypt from 'bcryptjs';
 import { UserRole, UserStatus } from '@think/domains';
+import * as bcrypt from 'bcryptjs';
+import { Exclude } from 'class-transformer';
+import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('user')
 export class UserEntity {

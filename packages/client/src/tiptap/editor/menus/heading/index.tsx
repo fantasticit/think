@@ -1,8 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
-import { Editor } from 'tiptap/editor';
 import { Select } from '@douyinfe/semi-ui';
-import { useActive } from 'tiptap/editor/hooks/use-active';
+import React, { useCallback, useMemo } from 'react';
 import { Title } from 'tiptap/core/extensions/title';
+import { Editor } from 'tiptap/editor';
+import { useActive } from 'tiptap/editor/hooks/use-active';
 
 export const Heading: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

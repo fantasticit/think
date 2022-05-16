@@ -1,21 +1,21 @@
-import {
-  Controller,
-  HttpStatus,
-  HttpCode,
-  Post,
-  Body,
-  Request,
-  UseGuards,
-  UseInterceptors,
-  Get,
-  Patch,
-  ClassSerializerInterceptor,
-} from '@nestjs/common';
-import { JwtGuard } from '@guard/jwt.guard';
-import { UserService } from '@services/user.service';
 import { CreateUserDto } from '@dtos/create-user.dto';
 import { LoginUserDto } from '@dtos/login-user.dto';
 import { UpdateUserDto } from '@dtos/update-user.dto';
+import { JwtGuard } from '@guard/jwt.guard';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Patch,
+  Post,
+  Request,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { UserService } from '@services/user.service';
 
 @Controller('user')
 export class UserController {

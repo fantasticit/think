@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { Editor } from 'tiptap/editor';
 import { Button } from '@douyinfe/semi-ui';
 import { IconList } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import { useActive } from 'tiptap/editor/hooks/use-active';
-import { Title } from 'tiptap/core/extensions/title';
+import React, { useCallback } from 'react';
 import { BulletList as BulletListExtension } from 'tiptap/core/extensions/bullet-list';
+import { Title } from 'tiptap/core/extensions/title';
+import { Editor } from 'tiptap/editor';
+import { useActive } from 'tiptap/editor/hooks/use-active';
 
 export const BulletList: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

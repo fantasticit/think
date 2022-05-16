@@ -1,9 +1,9 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from '@modules/user.module';
-import { MessageEntity } from '@entities/message.entity';
-import { MessageService } from '@services/message.service';
 import { MessageController } from '@controllers/message.controller';
+import { MessageEntity } from '@entities/message.entity';
+import { UserModule } from '@modules/user.module';
+import { forwardRef, Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { MessageService } from '@services/message.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MessageEntity]), forwardRef(() => UserModule)],

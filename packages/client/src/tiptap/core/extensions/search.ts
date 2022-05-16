@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core';
-import { Decoration, DecorationSet } from 'prosemirror-view';
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
 import { Node as ProsemirrorNode } from 'prosemirror-model';
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
+import { Decoration, DecorationSet } from 'prosemirror-view';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 declare module '@tiptap/core' {

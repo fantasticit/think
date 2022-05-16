@@ -1,15 +1,15 @@
-import { useCallback, useRef } from 'react';
-import { Space, Button, Modal, Form, Typography } from '@douyinfe/semi-ui';
+import { IconCopy, IconDelete, IconEdit, IconExternalOpen, IconLineHeight } from '@douyinfe/semi-icons';
+import { Button, Form, Modal, Space, Typography } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
-import { IconEdit, IconExternalOpen, IconLineHeight, IconCopy, IconDelete } from '@douyinfe/semi-icons';
-import { useToggle } from 'hooks/use-toggle';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
-import { Iframe } from 'tiptap/core/extensions/iframe';
-import { copyNode, deleteNode } from 'tiptap/prose-utils';
-import { useAttributes } from 'tiptap/editor/hooks/use-attributes';
+import { useToggle } from 'hooks/use-toggle';
+import { useCallback, useRef } from 'react';
 import { Divider } from 'tiptap/components/divider';
 import { Size } from 'tiptap/components/size';
+import { Iframe } from 'tiptap/core/extensions/iframe';
+import { useAttributes } from 'tiptap/editor/hooks/use-attributes';
+import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
+import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 const { Text } = Typography;
 

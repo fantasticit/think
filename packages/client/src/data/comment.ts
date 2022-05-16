@@ -1,7 +1,7 @@
 import type { IComment } from '@think/domains';
-import React, { useState, useCallback } from 'react';
-import useSWR from 'swr';
+import React, { useCallback, useState } from 'react';
 import { HttpClient } from 'services/http-client';
+import useSWR from 'swr';
 
 export type CreateCommentDto = Pick<IComment, 'parentCommentId' | 'html' | 'replyUserId'>;
 

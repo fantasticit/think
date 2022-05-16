@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { Avatar, Typography, Skeleton, Space } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
+import { Avatar, Skeleton, Space, Typography } from '@douyinfe/semi-ui';
+import { DataRender } from 'components/data-render';
 import { IconOverview } from 'components/icons';
-import { usePublicWikiDetail, usePublicWikiTocs } from 'data/wiki';
+import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
 import { findParents } from 'components/wiki/tocs/utils';
-import { LogoImage, LogoText } from 'components/logo';
-import { DataRender } from 'components/data-render';
-import { Tree } from './tree';
-import { NavItem } from './nav-item';
+import { usePublicWikiDetail, usePublicWikiTocs } from 'data/wiki';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+
 import styles from './index.module.scss';
+import { NavItem } from './nav-item';
+import { Tree } from './tree';
 
 interface IProps {
   wikiId: string;

@@ -1,18 +1,19 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import Router from 'next/router';
+import { IconArticle, IconChevronLeft } from '@douyinfe/semi-icons';
+import { Button, Nav, Popconfirm, Popover, Space, Spin, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
 import cls from 'classnames';
-import { Spin, Button, Nav, Space, Typography, Tooltip, Switch, Popover, Popconfirm } from '@douyinfe/semi-ui';
-import { IconChevronLeft, IconArticle } from '@douyinfe/semi-icons';
-import { useUser } from 'data/user';
-import { useTemplate } from 'data/template';
-import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
+import { DocumentStyle } from 'components/document/style';
+import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
 import { User } from 'components/user';
-import { DocumentStyle } from 'components/document/style';
+import { useTemplate } from 'data/template';
+import { useUser } from 'data/user';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
+import Router from 'next/router';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { CollaborationEditor } from 'tiptap/editor';
+
 import styles from './index.module.scss';
 
 interface IProps {

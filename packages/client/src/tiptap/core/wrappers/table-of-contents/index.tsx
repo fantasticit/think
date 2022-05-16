@@ -1,8 +1,9 @@
+import { Button, Collapsible } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Collapsible, Button } from '@douyinfe/semi-ui';
-import styles from './index.module.scss';
 import { useToggle } from 'hooks/use-toggle';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import styles from './index.module.scss';
 
 export const TableOfContentsWrapper = ({ editor }) => {
   const [items, setItems] = useState([]);

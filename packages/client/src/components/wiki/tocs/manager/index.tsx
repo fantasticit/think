@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Banner, Tree, Button, Toast, Typography } from '@douyinfe/semi-ui';
+import { Banner, Button, Toast, Tree, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { Resizeable } from 'components/resizeable';
 import { useWikiTocs } from 'data/wiki';
+import React, { useCallback, useEffect, useState } from 'react';
+
 import styles from './index.module.scss';
 
 interface IProps {

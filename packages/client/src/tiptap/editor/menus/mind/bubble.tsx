@@ -1,13 +1,13 @@
-import { useCallback } from 'react';
-import { Space, Button } from '@douyinfe/semi-ui';
-import { IconCopy, IconLineHeight, IconDelete } from '@douyinfe/semi-icons';
+import { IconCopy, IconDelete, IconLineHeight } from '@douyinfe/semi-icons';
+import { Button, Space } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
-import { Mind } from 'tiptap/core/extensions/mind';
+import { useCallback } from 'react';
 import { Divider } from 'tiptap/components/divider';
-import { getEditorContainerDOMSize, copyNode, deleteNode } from 'tiptap/prose-utils';
-import { useAttributes } from 'tiptap/editor/hooks/use-attributes';
 import { Size } from 'tiptap/components/size';
+import { Mind } from 'tiptap/core/extensions/mind';
+import { useAttributes } from 'tiptap/editor/hooks/use-attributes';
+import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
+import { copyNode, deleteNode, getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 export const MindBubbleMenu = ({ editor }) => {
   const { width: maxWidth } = getEditorContainerDOMSize(editor);

@@ -1,9 +1,10 @@
-import React from 'react';
-import cls from 'classnames';
-import { Layout as SemiLayout, Button } from '@douyinfe/semi-ui';
 import { IconChevronLeft, IconChevronRight } from '@douyinfe/semi-icons';
-import SplitPane from 'react-split-pane';
+import { Button, Layout as SemiLayout } from '@douyinfe/semi-ui';
+import cls from 'classnames';
 import { useDragableWidth } from 'hooks/use-dragable-width';
+import React from 'react';
+import SplitPane from 'react-split-pane';
+
 import styles from './index.module.scss';
 
 const { Sider, Content } = SemiLayout;

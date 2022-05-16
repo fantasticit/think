@@ -1,21 +1,20 @@
+import { CommentDto, UpdateCommentDto } from '@dtos/comment.dto';
+import { JwtGuard } from '@guard/jwt.guard';
 import {
+  Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
-  HttpStatus,
   HttpCode,
+  HttpStatus,
+  Param,
   Post,
-  Delete,
   Query,
-  Body,
   Request,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor,
-  Param,
 } from '@nestjs/common';
-import { JwtGuard } from '@guard/jwt.guard';
 import { CommentService } from '@services/comment.service';
-import { CommentDto, UpdateCommentDto } from '@dtos/comment.dto';
 
 @Controller('comment')
 export class CommentController {

@@ -1,7 +1,7 @@
 import { TableCell as BuiltInTableCell } from '@tiptap/extension-table-cell';
 import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getCellsInColumn, selectTable, isRowSelected, isTableSelected, selectRow } from 'tiptap/prose-utils';
+import { getCellsInColumn, isRowSelected, isTableSelected, selectRow, selectTable } from 'tiptap/prose-utils';
 
 export const TableCell = BuiltInTableCell.extend({
   addAttributes() {

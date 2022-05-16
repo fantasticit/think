@@ -1,4 +1,5 @@
 import { IDocument, IUser, IWiki } from '@think/domains';
+
 import { HttpClient } from './http-client';
 
 /**

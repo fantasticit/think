@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
 import { Modal } from '@douyinfe/semi-ui';
-import { Editor } from 'tiptap/editor';
-import { useToggle } from 'hooks/use-toggle';
 import { Theme, useTheme } from 'hooks/use-theme';
-import { OPEN_FLOW_SETTING_MODAL, subject, cancelSubject } from '../_event';
+import { useToggle } from 'hooks/use-toggle';
+import { useEffect, useRef, useState } from 'react';
+import { Editor } from 'tiptap/editor';
+
+import { cancelSubject, OPEN_FLOW_SETTING_MODAL, subject } from '../_event';
 
 type IProps = { editor: Editor };
 

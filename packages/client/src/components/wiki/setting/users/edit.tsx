@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
-import { Modal, Button, Select, Banner } from '@douyinfe/semi-ui';
+import { Banner, Button, Modal, Select } from '@douyinfe/semi-ui';
 import { WIKI_USER_ROLES, WikiUserRole } from '@think/domains';
+import React, { useCallback, useState } from 'react';
 
 interface IProps {
   visible: boolean;

@@ -1,11 +1,12 @@
-import tippy from 'tippy.js';
-import ReactDOM from 'react-dom';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Tooltip, Space, Dropdown, Form } from '@douyinfe/semi-ui';
-import { IconBold, IconFont, IconMark, IconLink } from '@douyinfe/semi-icons';
-import { ColorPicker } from 'tiptap/components/color-picker';
-import { findEle } from '../utils/dom';
+import { IconBold, IconFont, IconLink, IconMark } from '@douyinfe/semi-icons';
+import { Button, Dropdown, Form, Space, Tooltip } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
+import tippy from 'tippy.js';
+import { ColorPicker } from 'tiptap/components/color-picker';
+
+import { findEle } from '../utils/dom';
 
 export const Link = ({ mind, link, setLink }) => {
   const $form = useRef<FormApi>();

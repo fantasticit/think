@@ -1,5 +1,6 @@
-import Link from 'next/link';
 import { Typography } from '@douyinfe/semi-ui';
+import Link from 'next/link';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;

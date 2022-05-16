@@ -1,8 +1,8 @@
 export function array2tree(list) {
-  let map = {},
-    node,
-    roots = [],
-    i;
+  const map = {};
+  const roots = [];
+  let node;
+  let i;
 
   for (i = 0; i < list.length; i += 1) {
     map[list[i].id] = i;

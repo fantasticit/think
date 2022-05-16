@@ -1,7 +1,7 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import Redis from 'ioredis';
-import { IDocument } from '@think/domains';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { getConfig } from '@think/config';
+import { IDocument } from '@think/domains';
+import Redis from 'ioredis';
 import * as lodash from 'lodash';
 
 type VerisonDataItem = { version: string; data: string };
@@ -9,7 +9,7 @@ type VerisonDataItem = { version: string; data: string };
 @Injectable()
 export class DocumentVersionService {
   private redis: Redis;
-  private max: number = 0;
+  private max = 0;
   private error: string | null = '[think] 文档版本服务启动中';
 
   constructor() {
@@ -48,11 +48,13 @@ export class DocumentVersionService {
       redis.on('error', (e) => {
         console.error(`[think] 文档版本服务启动错误: "${e}"`);
       });
-      redis.connect().catch((e) => {
+      redis.connect().catch(() => {
         this.redis = null;
         this.error = '[think] 文档版本服务启动失败！';
       });
-    } catch (e) {}
+    } catch (e) {
+      //
+    }
   }
 
   /**

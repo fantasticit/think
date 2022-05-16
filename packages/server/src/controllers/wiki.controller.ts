@@ -1,28 +1,28 @@
+import { CreateWikiDto } from '@dtos/create-wiki.dto';
+import { ShareWikiDto } from '@dtos/share-wiki.dto';
+import { UpdateWikiDto } from '@dtos/update-wiki.dto';
+import { WikiUserDto } from '@dtos/wiki-user.dto';
+import { JwtGuard } from '@guard/jwt.guard';
+import { CheckWikiStatus, WikiStatusGuard } from '@guard/wiki-status.guard';
+import { CheckWikiUserRole, WikiUserRoleGuard } from '@guard/wiki-user.guard';
 import {
-  Controller,
-  Get,
-  HttpStatus,
-  HttpCode,
-  Post,
-  Param,
-  Query,
   Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
   Request,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor,
-  Patch,
-  Delete,
 } from '@nestjs/common';
-import { JwtGuard } from '@guard/jwt.guard';
-import { IPagination, WikiUserRole, WikiStatus } from '@think/domains';
-import { WikiUserRoleGuard, CheckWikiUserRole } from '@guard/wiki-user.guard';
-import { WikiStatusGuard, CheckWikiStatus } from '@guard/wiki-status.guard';
 import { WikiService } from '@services/wiki.service';
-import { WikiUserDto } from '@dtos/wiki-user.dto';
-import { CreateWikiDto } from '@dtos/create-wiki.dto';
-import { UpdateWikiDto } from '@dtos/update-wiki.dto';
-import { ShareWikiDto } from '@dtos/share-wiki.dto';
+import { IPagination, WikiStatus, WikiUserRole } from '@think/domains';
 
 @Controller('wiki')
 export class WikiController {

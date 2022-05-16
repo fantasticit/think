@@ -1,13 +1,14 @@
-import type { IDocument } from '@think/domains';
-import { useCallback } from 'react';
-import Router from 'next/router';
-import Link from 'next/link';
-import { Button, Space, Typography, Tooltip, Avatar, Skeleton } from '@douyinfe/semi-ui';
 import { IconEdit, IconUser } from '@douyinfe/semi-icons';
-import { LocaleTime } from 'components/locale-time';
-import { IconDocument } from 'components/icons/IconDocument';
+import { Avatar, Button, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
+import type { IDocument } from '@think/domains';
 import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
+import { IconDocument } from 'components/icons/IconDocument';
+import { LocaleTime } from 'components/locale-time';
+import Link from 'next/link';
+import Router from 'next/router';
+import { useCallback } from 'react';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;

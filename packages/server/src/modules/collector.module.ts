@@ -1,11 +1,11 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { CollectorController } from '@controllers/collector.controller';
+import { CollectorEntity } from '@entities/collector.entity';
+import { DocumentModule } from '@modules/document.module';
 import { UserModule } from '@modules/user.module';
 import { WikiModule } from '@modules/wiki.module';
-import { DocumentModule } from '@modules/document.module';
-import { CollectorEntity } from '@entities/collector.entity';
+import { forwardRef, Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { CollectorService } from '@services/collector.service';
-import { CollectorController } from '@controllers/collector.controller';
 
 @Module({
   imports: [

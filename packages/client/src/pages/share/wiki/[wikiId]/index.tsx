@@ -1,10 +1,10 @@
-import React from 'react';
-import { NextPage } from 'next';
-import { PublicDoubleColumnLayout } from 'layouts/public-double-column';
-import { usePublicWikiHomeDoc } from 'data/wiki';
 import { DataRender } from 'components/data-render';
-import { WikiPublicTocs } from 'components/wiki/tocs/public';
 import { DocumentPublicReader } from 'components/document/reader/public';
+import { WikiPublicTocs } from 'components/wiki/tocs/public';
+import { usePublicWikiHomeDoc } from 'data/wiki';
+import { PublicDoubleColumnLayout } from 'layouts/public-double-column';
+import { NextPage } from 'next';
+import React from 'react';
 
 interface IProps {
   wikiId: string;

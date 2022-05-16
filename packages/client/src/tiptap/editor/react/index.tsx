@@ -1,4 +1,5 @@
-import { EditorContent, NodeViewWrapper, NodeViewContent } from '@tiptap/react';
-import { useEditor, Editor } from './useEditor';
+import { EditorContent, NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 
-export { Editor, EditorContent, NodeViewWrapper, NodeViewContent, useEditor };
+import { Editor, useEditor } from './useEditor';
+
+export { Editor, EditorContent, NodeViewContent, NodeViewWrapper, useEditor };

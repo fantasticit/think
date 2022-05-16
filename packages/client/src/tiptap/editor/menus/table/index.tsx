@@ -1,8 +1,9 @@
 import React from 'react';
 import { Editor } from 'tiptap/editor';
+
 import { TableBubbleMenu } from './bubble';
-import { TableRowBubbleMenu } from './row-bubble';
 import { TableColBubbleMenu } from './col-bubble';
+import { TableRowBubbleMenu } from './row-bubble';
 
 export const Table: React.FC<{ editor: Editor }> = ({ editor }) => {
   return (

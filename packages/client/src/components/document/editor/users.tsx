@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
-import { Modal, Typography, Table, Checkbox } from '@douyinfe/semi-ui';
+import { Checkbox, Modal, Table, Typography } from '@douyinfe/semi-ui';
 import { IAuthority, IUser } from '@think/domains';
 import { DocAuth } from 'data/document';
+import React, { useMemo } from 'react';
 
 interface IProps {
   visible: boolean;

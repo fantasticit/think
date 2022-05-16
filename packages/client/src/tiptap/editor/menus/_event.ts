@@ -1,5 +1,5 @@
-import { Editor } from 'tiptap/editor';
 import { EventEmitter } from 'helpers/event-emitter';
+import { Editor } from 'tiptap/editor';
 
 const getEventEmitter = (editor: Editor): EventEmitter => {
   try {

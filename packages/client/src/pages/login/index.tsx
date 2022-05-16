@@ -1,10 +1,11 @@
+import { Button, Form, Layout, Space, Typography } from '@douyinfe/semi-ui';
+import { Author } from 'components/author';
+import { LogoImage, LogoText } from 'components/logo';
+import { Seo } from 'components/seo';
+import { useUser } from 'data/user';
 import Link from 'next/link';
 import React from 'react';
-import { Form, Button, Layout, Space, Typography } from '@douyinfe/semi-ui';
-import { useUser } from 'data/user';
-import { Seo } from 'components/seo';
-import { LogoImage, LogoText } from 'components/logo';
-import { Author } from 'components/author';
+
 import styles from './index.module.scss';
 
 const { Content, Footer } = Layout;

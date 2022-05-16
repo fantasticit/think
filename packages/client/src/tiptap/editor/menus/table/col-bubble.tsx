@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
-import { Space, Button } from '@douyinfe/semi-ui';
-import { IconAddColumnBefore, IconAddColumnAfter, IconDeleteColumn } from 'components/icons';
+import { Button, Space } from '@douyinfe/semi-ui';
+import { IconAddColumnAfter, IconAddColumnBefore, IconDeleteColumn } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
+import React, { useCallback } from 'react';
 import { Table } from 'tiptap/core/extensions/table';
+import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
 import { isTableSelected } from 'tiptap/prose-utils';
 
 export const TableColBubbleMenu = ({ editor }) => {

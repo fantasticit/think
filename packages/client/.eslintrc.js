@@ -1,18 +1,30 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react-hooks'],
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+  plugins: ['@typescript-eslint', 'react-hooks', 'simple-import-sort', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
   overrides: [
     {
       files: ['*.ts', '*.tsx', '.js', '.jsx'],
       parserOptions: {
         project: ['./packages/client/tsconfig.json'],
+        sourceType: 'module',
       },
     },
   ],
   settings: {
-    react: {
+    'react': {
       version: 'detect',
+    },
+    'import/resolver': {
+      node: {
+        paths: ['src'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
     },
   },
   env: {
@@ -40,6 +52,12 @@ module.exports = {
     'react/prop-types': 0,
     'testing-library/no-unnecessary-act': 0,
     'react/react-in-jsx-scope': 0,
+    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
   },
   ignorePatterns: ['dist/', 'node_modules', 'scripts', 'examples'],
 };

@@ -1,5 +1,5 @@
 import { safeJSONStringify } from './json';
-import { setStorage, getStorage } from './storage';
+import { getStorage, setStorage } from './storage';
 
 class Node {
   public key: string;

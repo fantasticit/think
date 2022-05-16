@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { Editor } from 'tiptap/editor';
 import { Button } from '@douyinfe/semi-ui';
-import { Tooltip } from 'components/tooltip';
 import { IconQuote } from 'components/icons';
-import { useActive } from 'tiptap/editor/hooks/use-active';
-import { Title } from 'tiptap/core/extensions/title';
+import { Tooltip } from 'components/tooltip';
+import React, { useCallback } from 'react';
 import { Blockquote as BlockquoteExtension } from 'tiptap/core/extensions/blockquote';
+import { Title } from 'tiptap/core/extensions/title';
+import { Editor } from 'tiptap/editor';
+import { useActive } from 'tiptap/editor/hooks/use-active';
 
 export const Blockquote: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

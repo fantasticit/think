@@ -1,10 +1,9 @@
-import * as Y from 'yjs';
-import { Decoration, DecorationSet } from 'prosemirror-view'; // eslint-disable-line
+import * as math from 'lib0/math';
 import { Plugin } from 'prosemirror-state'; // eslint-disable-line
+import { Decoration, DecorationSet } from 'prosemirror-view'; // eslint-disable-line
 import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition, setMeta } from 'y-prosemirror';
 import { yCursorPluginKey, ySyncPluginKey } from 'y-prosemirror';
-
-import * as math from 'lib0/math';
+import * as Y from 'yjs';
 
 /**
  * Default generator for a cursor element

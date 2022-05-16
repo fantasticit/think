@@ -1,16 +1,16 @@
-import { Module, Injectable, UnauthorizedException, Inject, forwardRef } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
-import { PassportModule, PassportStrategy } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { getConfig } from '@think/config';
-import { MessageModule } from '@modules/message.module';
-import { CollectorModule } from '@modules/collector.module';
-import { WikiModule } from '@modules/wiki.module';
-import { UserEntity } from '@entities/user.entity';
-import { UserService } from '@services/user.service';
 import { UserController } from '@controllers/user.controller';
+import { UserEntity } from '@entities/user.entity';
+import { CollectorModule } from '@modules/collector.module';
+import { MessageModule } from '@modules/message.module';
+import { WikiModule } from '@modules/wiki.module';
+import { forwardRef, Inject, Injectable, Module, UnauthorizedException } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule, PassportStrategy } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserService } from '@services/user.service';
+import { getConfig } from '@think/config';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 
 const config = getConfig();
 const jwtConfig = config.jwt as {

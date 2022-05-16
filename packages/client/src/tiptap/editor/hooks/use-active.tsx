@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
 import { Editor } from '@tiptap/core';
 import { useToggle } from 'hooks/use-toggle';
+import React, { useEffect } from 'react';
 
 export const useActive = (editor: Editor, ...args) => {
   const [active, toggleActive] = useToggle(false);

@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { Editor } from 'tiptap/editor';
 import { Button } from '@douyinfe/semi-ui';
 import { IconClear } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
+import React, { useCallback } from 'react';
+import { Editor } from 'tiptap/editor';
 
 export const CleadrNodeAndMarks: React.FC<{ editor: Editor }> = ({ editor }) => {
   const clear = useCallback(() => {

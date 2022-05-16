@@ -1,7 +1,7 @@
 import type { ITemplate } from '@think/domains';
 import { useCallback, useState } from 'react';
-import useSWR from 'swr';
 import { HttpClient } from 'services/http-client';
+import useSWR from 'swr';
 
 export const usePublicTemplates = () => {
   const [page, setPage] = useState(1);

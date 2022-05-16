@@ -1,4 +1,4 @@
-import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core';
+import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentChildrenWrapper } from 'tiptap/core/wrappers/document-children';
 import { getDatasetAttribute } from 'tiptap/prose-utils';

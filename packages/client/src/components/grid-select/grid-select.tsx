@@ -1,6 +1,7 @@
-import React, { useMemo, useState, useCallback } from 'react';
 import { Typography } from '@douyinfe/semi-ui';
 import { debounce } from 'helpers/debounce';
+import React, { useCallback, useMemo, useState } from 'react';
+
 import { GridCell } from './grid-cell';
 
 const { Text } = Typography;

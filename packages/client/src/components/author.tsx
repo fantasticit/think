@@ -1,5 +1,5 @@
-import { Space, Typography } from '@douyinfe/semi-ui';
 import { IconLikeHeart } from '@douyinfe/semi-icons';
+import { Space, Typography } from '@douyinfe/semi-ui';
 
 const { Text } = Typography;
 

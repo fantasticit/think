@@ -1,20 +1,20 @@
+import { TemplateDto } from '@dtos/template.dto';
+import { JwtGuard } from '@guard/jwt.guard';
 import {
+  Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
-  HttpStatus,
   HttpCode,
+  HttpStatus,
+  Param,
   Post,
   Query,
-  Body,
   Request,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor,
-  Param,
 } from '@nestjs/common';
-import { JwtGuard } from '@guard/jwt.guard';
 import { TemplateService } from '@services/template.service';
-import { TemplateDto } from '@dtos/template.dto';
 
 @Controller('template')
 export class TemplateController {

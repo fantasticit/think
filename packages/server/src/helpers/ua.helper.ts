@@ -1,5 +1,4 @@
 import * as lodash from 'lodash';
-// @ts-ignore
 import * as UAParser from 'ua-parser-js';
 
 const keys = [

@@ -1,13 +1,13 @@
-import React, { useCallback } from 'react';
-import { Editor } from 'tiptap/editor';
-import { Button } from '@douyinfe/semi-ui';
 import { IconFont } from '@douyinfe/semi-icons';
+import { Button } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
-import { useActive } from 'tiptap/editor/hooks/use-active';
-import { Title } from 'tiptap/core/extensions/title';
-import { TextStyle } from 'tiptap/core/extensions/text-style';
-import { useAttributes } from 'tiptap/editor/hooks/use-attributes';
+import React, { useCallback } from 'react';
 import { ColorPicker } from 'tiptap/components/color-picker';
+import { TextStyle } from 'tiptap/core/extensions/text-style';
+import { Title } from 'tiptap/core/extensions/title';
+import { Editor } from 'tiptap/editor';
+import { useActive } from 'tiptap/editor/hooks/use-active';
+import { useAttributes } from 'tiptap/editor/hooks/use-attributes';
 
 type Color = { color: string };
 

@@ -1,7 +1,7 @@
 import { Command, Extension } from '@tiptap/core';
-import { sinkListItem, liftListItem } from 'prosemirror-schema-list';
-import { TextSelection, AllSelection, Transaction } from 'prosemirror-state';
-import { isListActive, isListNode, clamp, getNodeType } from 'tiptap/prose-utils';
+import { liftListItem, sinkListItem } from 'prosemirror-schema-list';
+import { AllSelection, TextSelection, Transaction } from 'prosemirror-state';
+import { clamp, getNodeType, isListActive, isListNode } from 'tiptap/prose-utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

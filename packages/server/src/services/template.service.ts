@@ -1,11 +1,10 @@
-import { Injectable, HttpException, HttpStatus, Inject, forwardRef } from '@nestjs/common';
+import { TemplateDto } from '@dtos/template.dto';
+import { TemplateEntity } from '@entities/template.entity';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { OutUser, UserService } from '@services/user.service';
 import { instanceToPlain } from 'class-transformer';
 import { Repository } from 'typeorm';
-import * as lodash from 'lodash';
-import { TemplateEntity } from '@entities/template.entity';
-import { OutUser, UserService } from '@services/user.service';
-import { TemplateDto } from '@dtos/template.dto';
 
 @Injectable()
 export class TemplateService {
@@ -70,9 +69,7 @@ export class TemplateService {
     }
 
     const createUser = await this.userService.findById(template.createUserId);
-    // @ts-ignore
-    template.createUser = createUser;
-    return template;
+    return { ...template, createUser };
   }
 
   /**
@@ -136,9 +133,7 @@ export class TemplateService {
     await Promise.all(
       data.map(async (template) => {
         const createUser = await this.userService.findById(template.createUserId);
-        // @ts-ignore
-        template.createUser = createUser;
-        return template;
+        return { ...template, createUser };
       })
     );
 
@@ -164,9 +159,7 @@ export class TemplateService {
     await Promise.all(
       data.map(async (template) => {
         const createUser = await this.userService.findById(template.createUserId);
-        // @ts-ignore
-        template.createUser = createUser;
-        return template;
+        return { ...template, createUser };
       })
     );
 

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Tooltip, Button } from '@douyinfe/semi-ui';
 import { IconStar } from '@douyinfe/semi-icons';
+import { Button, Tooltip } from '@douyinfe/semi-ui';
 import { useDocumentStar } from 'data/document';
+import React from 'react';
 
 interface IProps {
   documentId: string;

@@ -1,12 +1,13 @@
-import { useCallback } from 'react';
-import { Space, Button } from '@douyinfe/semi-ui';
-import { IconEdit, IconCopy, IconDelete } from '@douyinfe/semi-icons';
+import { IconCopy, IconDelete, IconEdit } from '@douyinfe/semi-icons';
+import { Button, Space } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
-import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
-import { Countdown } from 'tiptap/core/extensions/countdown';
+import { useCallback } from 'react';
 import { Divider } from 'tiptap/components/divider';
-import { copyNode, deleteNode } from 'tiptap/prose-utils';
+import { Countdown } from 'tiptap/core/extensions/countdown';
 import { useAttributes } from 'tiptap/editor/hooks/use-attributes';
+import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
+import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
 import { triggerOpenCountSettingModal } from '../_event';
 
 export const CountdownBubbleMenu = ({ editor }) => {

@@ -1,71 +1,71 @@
+import './iconfont/iconfont.js';
+
 import { LEFT, RIGHT, SIDE } from './const';
-import { isMobile, addParentLink, getObjById, generateUUID, generateNewObj } from './utils/index';
+import { createLink, hideLinkController, removeLink, selectLink, showLinkController } from './customLink';
 import {
-  findEle,
-  createInputDiv,
-  layout,
-  Topic,
-  createChildren,
-  createGroup,
-  createTop,
-  createTopic,
-} from './utils/dom';
-import { createLinkSvg, createLine } from './utils/svg';
-import {
-  selectNode,
-  unselectNode,
-  selectNextSibling,
-  selectPrevSibling,
-  selectFirstChild,
-  selectParent,
-  getAllDataString,
+  cancelFocus,
+  disableEdit,
+  enableEdit,
+  expandNode,
+  focusNode,
   getAllData,
   getAllDataMd,
-  scale,
-  toCenter,
-  focusNode,
-  cancelFocus,
+  getAllDataString,
   initLeft,
   initRight,
   initSide,
-  setLocale,
-  enableEdit,
-  disableEdit,
-  expandNode,
   refresh,
+  scale,
+  selectFirstChild,
+  selectNextSibling,
+  selectNode,
+  selectParent,
+  selectPrevSibling,
+  setLocale,
+  toCenter,
+  unselectNode,
 } from './interact';
-import {
-  insertSibling,
-  insertBefore,
-  insertParent,
-  addChild,
-  copyNode,
-  moveNode,
-  removeNode,
-  moveUpNode,
-  moveDownNode,
-  beginEdit,
-  updateNodeStyle,
-  updateNodeTags,
-  updateNodeIcons,
-  updateNodeHyperLink,
-  processPrimaryNode,
-  setNodeTopic,
-  moveNodeBefore,
-  moveNodeAfter,
-} from './nodeOperation';
-import { createLink, removeLink, selectLink, hideLinkController, showLinkController } from './customLink';
 import linkDiv from './linkDiv';
 import initMouseEvent from './mouse';
-
+import {
+  addChild,
+  beginEdit,
+  copyNode,
+  insertBefore,
+  insertParent,
+  insertSibling,
+  moveDownNode,
+  moveNode,
+  moveNodeAfter,
+  moveNodeBefore,
+  moveUpNode,
+  processPrimaryNode,
+  removeNode,
+  setNodeTopic,
+  updateNodeHyperLink,
+  updateNodeIcons,
+  updateNodeStyle,
+  updateNodeTags,
+} from './nodeOperation';
 import contextMenu from './plugin/contextMenu';
-import toolBar from './plugin/toolBar';
-import nodeMenu from './plugin/nodeMenu';
-import nodeDraggable from './plugin/nodeDraggable';
 import keypress from './plugin/keypress';
 import mobileMenu from './plugin/mobileMenu';
+import nodeDraggable from './plugin/nodeDraggable';
+import nodeMenu from './plugin/nodeMenu';
+import toolBar from './plugin/toolBar';
+import {
+  createChildren,
+  createGroup,
+  createInputDiv,
+  createTop,
+  createTopic,
+  findEle,
+  layout,
+  Topic,
+} from './utils/dom';
+import { addParentLink, generateNewObj, generateUUID, getObjById, isMobile } from './utils/index';
 import Bus from './utils/pubsub';
-import './iconfont/iconfont.js';
+import { createLine, createLinkSvg } from './utils/svg';
 
 // TODO show up animation
 export const E = findEle;

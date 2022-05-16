@@ -1,10 +1,11 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { Transfer, Button, Banner, Typography, RadioGroup, Radio, Toast, Checkbox } from '@douyinfe/semi-ui';
 import { IconClose } from '@douyinfe/semi-icons';
-import { WIKI_STATUS_LIST, isPublicDocument, isPublicWiki } from '@think/domains';
+import { Banner, Button, Checkbox, Radio, RadioGroup, Toast, Transfer, Typography } from '@douyinfe/semi-ui';
+import { isPublicDocument, isPublicWiki, WIKI_STATUS_LIST } from '@think/domains';
+import { flattenTree2Array } from 'components/wiki/tocs/utils';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
 import { buildUrl } from 'helpers/url';
-import { flattenTree2Array } from 'components/wiki/tocs/utils';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import styles from './index.module.scss';
 
 const { Text, Title } = Typography;

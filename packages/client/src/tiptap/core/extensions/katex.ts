@@ -1,4 +1,4 @@
-import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
+import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { KatexWrapper } from 'tiptap/core/wrappers/katex';
 

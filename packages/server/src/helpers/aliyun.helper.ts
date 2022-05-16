@@ -1,5 +1,5 @@
-import * as AliyunOSS from 'ali-oss';
 import { ConfigService } from '@nestjs/config';
+import * as AliyunOSS from 'ali-oss';
 
 export class AliyunOssClient {
   configService: ConfigService;

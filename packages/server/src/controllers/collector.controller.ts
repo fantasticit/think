@@ -1,17 +1,17 @@
+import { CollectDto } from '@dtos/collect.dto';
+import { JwtGuard } from '@guard/jwt.guard';
 import {
-  Controller,
-  HttpStatus,
-  HttpCode,
-  Post,
   Body,
+  ClassSerializerInterceptor,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
   Request,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { JwtGuard } from '@guard/jwt.guard';
 import { CollectorService } from '@services/collector.service';
-import { CollectDto } from '@dtos/collect.dto';
 
 @Controller('collector')
 export class CollectorController {

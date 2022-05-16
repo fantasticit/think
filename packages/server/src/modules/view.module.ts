@@ -1,7 +1,7 @@
+import { ViewController } from '@controllers/view.controller';
+import { ViewEntity } from '@entities/view.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ViewEntity } from '@entities/view.entity';
-import { ViewController } from '@controllers/view.controller';
 import { ViewService } from '@services/view.service';
 
 @Module({

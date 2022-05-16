@@ -1,22 +1,20 @@
-import React from 'react';
-import { Editor } from 'tiptap/editor';
 import { Space } from '@douyinfe/semi-ui';
+import React from 'react';
 import { Divider } from 'tiptap/components/divider';
-
-import { Undo } from 'tiptap/editor/menus/undo';
-import { Redo } from 'tiptap/editor/menus/redo';
-import { CleadrNodeAndMarks } from 'tiptap/editor/menus/clear-node-and-marks';
-
-import { Heading } from 'tiptap/editor/menus/heading';
-import { Bold } from 'tiptap/editor/menus/bold';
-import { Italic } from 'tiptap/editor/menus/italic';
-import { Underline } from 'tiptap/editor/menus/underline';
-import { Strike } from 'tiptap/editor/menus/strike';
-import { Code } from 'tiptap/editor/menus/code';
-import { Superscript } from 'tiptap/editor/menus/superscript';
-import { Subscript } from 'tiptap/editor/menus/subscript';
-import { TextColor } from 'tiptap/editor/menus/text-color';
+import { Editor } from 'tiptap/editor';
 import { BackgroundColor } from 'tiptap/editor/menus/background-color';
+import { Bold } from 'tiptap/editor/menus/bold';
+import { CleadrNodeAndMarks } from 'tiptap/editor/menus/clear-node-and-marks';
+import { Code } from 'tiptap/editor/menus/code';
+import { Heading } from 'tiptap/editor/menus/heading';
+import { Italic } from 'tiptap/editor/menus/italic';
+import { Redo } from 'tiptap/editor/menus/redo';
+import { Strike } from 'tiptap/editor/menus/strike';
+import { Subscript } from 'tiptap/editor/menus/subscript';
+import { Superscript } from 'tiptap/editor/menus/superscript';
+import { TextColor } from 'tiptap/editor/menus/text-color';
+import { Underline } from 'tiptap/editor/menus/underline';
+import { Undo } from 'tiptap/editor/menus/undo';
 
 const _CommentMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
   return (

@@ -1,9 +1,10 @@
-import { useRef, useEffect, useState } from 'react';
-import { Form, Button, Toast } from '@douyinfe/semi-ui';
+import { Button, Form, Toast } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
-import type { IWiki } from '@think/domains';
 import { WIKI_AVATARS } from '@think/constants';
+import type { IWiki } from '@think/domains';
 import { Upload } from 'components/upload';
+import { useEffect, useRef, useState } from 'react';
+
 import styles from './index.module.scss';
 
 type IUpdateWIKI = Partial<IWiki>;

@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { CountdownWrapper } from 'tiptap/core/wrappers/countdown';
 import { getDatasetAttribute } from 'tiptap/prose-utils';

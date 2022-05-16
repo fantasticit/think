@@ -1,7 +1,7 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { TableOfContentsWrapper } from 'tiptap/core/wrappers/table-of-contents';
-import { isTitleNode, findNode } from 'tiptap/prose-utils';
+import { findNode, isTitleNode } from 'tiptap/prose-utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

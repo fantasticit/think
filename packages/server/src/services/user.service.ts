@@ -1,17 +1,17 @@
-import { Inject, Injectable, HttpException, HttpStatus, forwardRef } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { InjectRepository } from '@nestjs/typeorm';
-import { JwtService } from '@nestjs/jwt';
-import { Repository } from 'typeorm';
-import { instanceToPlain } from 'class-transformer';
-import { CollectType, UserRole, UserStatus } from '@think/domains';
-import { MessageService } from '@services/message.service';
-import { CollectorService } from '@services/collector.service';
-import { WikiService } from '@services/wiki.service';
-import { UserEntity } from '@entities/user.entity';
 import { CreateUserDto } from '@dtos/create-user.dto';
 import { LoginUserDto } from '@dtos/login-user.dto';
 import { UpdateUserDto } from '@dtos/update-user.dto';
+import { UserEntity } from '@entities/user.entity';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CollectorService } from '@services/collector.service';
+import { MessageService } from '@services/message.service';
+import { WikiService } from '@services/wiki.service';
+import { CollectType, UserStatus } from '@think/domains';
+import { instanceToPlain } from 'class-transformer';
+import { Repository } from 'typeorm';
 
 export type OutUser = Omit<UserEntity, 'comparePassword' | 'encryptPassword' | 'encrypt' | 'password'>;
 

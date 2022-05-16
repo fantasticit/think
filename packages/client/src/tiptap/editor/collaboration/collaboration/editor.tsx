@@ -1,21 +1,22 @@
-import React, { useEffect, forwardRef, useImperativeHandle, useRef, useMemo } from 'react';
-import { Toast, BackTop } from '@douyinfe/semi-ui';
+import { BackTop, Toast } from '@douyinfe/semi-ui';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import cls from 'classnames';
+import { Banner } from 'components/banner';
+import { LogoName } from 'components/logo';
+import { getRandomColor } from 'helpers/color';
+import { isAndroid, isIOS } from 'helpers/env';
 import { useNetwork } from 'hooks/use-network';
 import { useToggle } from 'hooks/use-toggle';
 import { useWindowSize } from 'hooks/use-window-size';
-import { LogoName } from 'components/logo';
-import { Banner } from 'components/banner';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import { Collaboration } from 'tiptap/core/extensions/collaboration';
 import { CollaborationCursor } from 'tiptap/core/extensions/collaboration-cursor';
-import { getRandomColor } from 'helpers/color';
-import { isAndroid, isIOS } from 'helpers/env';
-import { useEditor, EditorContent } from '../../react';
+
+import { EditorContent, useEditor } from '../../react';
 import { CollaborationKit } from '../kit';
+import styles from './index.module.scss';
 import { MenuBar } from './menubar';
 import { ICollaborationEditorProps, ProviderStatus } from './type';
-import styles from './index.module.scss';
 
 type IProps = Pick<
   ICollaborationEditorProps,

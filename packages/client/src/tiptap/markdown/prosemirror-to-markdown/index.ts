@@ -1,4 +1,4 @@
-import { MarkdownSerializer as ProseMirrorMarkdownSerializer, defaultMarkdownSerializer } from 'prosemirror-markdown';
+import { defaultMarkdownSerializer, MarkdownSerializer as ProseMirrorMarkdownSerializer } from 'prosemirror-markdown';
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { Blockquote } from 'tiptap/core/extensions/blockquote';
 import { Bold } from 'tiptap/core/extensions/bold';
@@ -13,13 +13,13 @@ import { HardBreak } from 'tiptap/core/extensions/hard-break';
 import { Heading } from 'tiptap/core/extensions/heading';
 import { HorizontalRule } from 'tiptap/core/extensions/horizontal-rule';
 import { marks } from 'tiptap/core/extensions/html-marks';
-import { Mention } from 'tiptap/core/extensions/mention';
 import { Iframe } from 'tiptap/core/extensions/iframe';
 import { Image } from 'tiptap/core/extensions/image';
 import { Italic } from 'tiptap/core/extensions/italic';
 import { Katex } from 'tiptap/core/extensions/katex';
 import { Link } from 'tiptap/core/extensions/link';
 import { ListItem } from 'tiptap/core/extensions/listItem';
+import { Mention } from 'tiptap/core/extensions/mention';
 import { Mind } from 'tiptap/core/extensions/mind';
 import { OrderedList } from 'tiptap/core/extensions/ordered-list';
 import { Paragraph } from 'tiptap/core/extensions/paragraph';
@@ -31,23 +31,24 @@ import { Table } from 'tiptap/core/extensions/table';
 import { TableCell } from 'tiptap/core/extensions/table-cell';
 import { TableHeader } from 'tiptap/core/extensions/table-header';
 import { TableRow } from 'tiptap/core/extensions/table-row';
-import { Text } from 'tiptap/core/extensions/text';
 import { TaskItem } from 'tiptap/core/extensions/task-item';
 import { TaskList } from 'tiptap/core/extensions/task-list';
+import { Text } from 'tiptap/core/extensions/text';
 import { TextStyle } from 'tiptap/core/extensions/text-style';
 import { Title } from 'tiptap/core/extensions/title';
+
 import {
+  closeTag,
   isPlainURL,
+  openTag,
+  renderCustomContainer,
   renderHardBreak,
+  renderHTMLNode,
+  renderImage,
+  renderOrderedList,
   renderTable,
   renderTableCell,
   renderTableRow,
-  openTag,
-  closeTag,
-  renderOrderedList,
-  renderImage,
-  renderCustomContainer,
-  renderHTMLNode,
 } from './helpers';
 
 const SerializerConfig = {

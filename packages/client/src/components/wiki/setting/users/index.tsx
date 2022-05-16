@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Table, Popconfirm, Button } from '@douyinfe/semi-ui';
-import { IconEdit, IconDelete } from '@douyinfe/semi-icons';
-import { useWikiUsers } from 'data/wiki';
+import { IconDelete, IconEdit } from '@douyinfe/semi-icons';
+import { Button, Popconfirm, Table } from '@douyinfe/semi-ui';
+import { getWikiUserRoleText } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
-import { getWikiUserRoleText } from '@think/domains';
+import { useWikiUsers } from 'data/wiki';
 import { useToggle } from 'hooks/use-toggle';
-import { Placeholder } from './placeholder';
+import React, { useState } from 'react';
+
 import { AddUser } from './add';
 import { EditUser } from './edit';
+import { Placeholder } from './placeholder';
 
 interface IProps {
   wikiId: string;

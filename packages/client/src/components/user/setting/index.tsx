@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useRef, useState, useEffect } from 'react';
 import { Avatar, Form, Modal, Space } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { Upload } from 'components/upload';
 import { useUser } from 'data/user';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
 interface IProps {
   visible: boolean;

@@ -1,10 +1,10 @@
+import { DataRender } from 'components/data-render';
+import { DocumentReader } from 'components/document/reader';
+import { WikiTocs } from 'components/wiki/tocs';
+import { useWikiHomeDoc } from 'data/wiki';
+import { DoubleColumnLayout } from 'layouts/double-column';
 import { NextPage } from 'next';
 import React from 'react';
-import { DoubleColumnLayout } from 'layouts/double-column';
-import { useWikiHomeDoc } from 'data/wiki';
-import { DataRender } from 'components/data-render';
-import { WikiTocs } from 'components/wiki/tocs';
-import { DocumentReader } from 'components/document/reader';
 
 interface IProps {
   wikiId: string;

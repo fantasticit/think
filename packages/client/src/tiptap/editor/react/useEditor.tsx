@@ -1,7 +1,7 @@
-import { useState, useEffect, DependencyList } from 'react';
 import { EditorOptions } from '@tiptap/core';
 import { Editor as BuiltInEditor } from '@tiptap/react';
 import { EventEmitter } from 'helpers/event-emitter';
+import { DependencyList, useEffect, useState } from 'react';
 
 function useForceUpdate() {
   const [, setValue] = useState(0);

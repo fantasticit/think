@@ -1,5 +1,5 @@
 import container from 'markdown-it-container';
-import { strToJSON, jsonToDOMDataset } from 'tiptap/prose-utils';
+import { jsonToDOMDataset, strToJSON } from 'tiptap/prose-utils';
 
 export const createMarkdownContainer = (types: string | Array<string>) => (md) => {
   if (!Array.isArray(types)) {

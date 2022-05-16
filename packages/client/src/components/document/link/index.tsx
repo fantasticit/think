@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { Typography, Space } from '@douyinfe/semi-ui';
 import { IconLink } from '@douyinfe/semi-icons';
+import { Space, Typography } from '@douyinfe/semi-ui';
 import { copy } from 'helpers/copy';
 import { buildUrl } from 'helpers/url';
+import React, { useCallback } from 'react';
 
 interface IProps {
   wikiId: string;

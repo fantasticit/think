@@ -1,5 +1,5 @@
+import { findEle as E, Group, Topic } from '../utils/dom';
 import { dragMoveHelper, throttle } from '../utils/index';
-import { findEle as E, Topic, Group } from '../utils/dom';
 
 const $d = document;
 

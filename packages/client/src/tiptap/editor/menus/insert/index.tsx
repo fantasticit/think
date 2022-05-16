@@ -1,29 +1,30 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Editor } from 'tiptap/editor';
-import { Button, Dropdown, Popover } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
-import { Tooltip } from 'components/tooltip';
-import {
-  IconDocument,
-  IconMind,
-  IconTable,
-  IconImage,
-  IconCodeBlock,
-  IconLink,
-  IconStatus,
-  IconAttachment,
-  IconMath,
-  IconCountdown,
-  IconCallout,
-  IconTableOfContents,
-  IconFlow,
-} from 'components/icons';
+import { Button, Dropdown, Popover } from '@douyinfe/semi-ui';
 import { GridSelect } from 'components/grid-select';
-import { useToggle } from 'hooks/use-toggle';
+import {
+  IconAttachment,
+  IconCallout,
+  IconCodeBlock,
+  IconCountdown,
+  IconDocument,
+  IconFlow,
+  IconImage,
+  IconLink,
+  IconMath,
+  IconMind,
+  IconStatus,
+  IconTable,
+  IconTableOfContents,
+} from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 import { useUser } from 'data/user';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
-import { useActive } from 'tiptap/editor/hooks/use-active';
+import { useToggle } from 'hooks/use-toggle';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Title } from 'tiptap/core/extensions/title';
+import { Editor } from 'tiptap/editor';
+import { useActive } from 'tiptap/editor/hooks/use-active';
+
 import { createCountdown } from '../countdown/service';
 
 const insertMenuLRUCache = createKeysLocalStorageLRUCache('TIPTAP_INSERT_MENU', 3);

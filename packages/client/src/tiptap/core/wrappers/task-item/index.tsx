@@ -1,5 +1,6 @@
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/react';
 import { Checkbox } from '@douyinfe/semi-ui';
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
+
 import styles from './index.module.scss';
 
 export const TaskItemWrapper = ({ editor, node, updateAttributes }) => {

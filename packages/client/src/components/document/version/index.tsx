@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Modal, Typography, Layout, Nav } from '@douyinfe/semi-ui';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { Button, Layout, Modal, Nav, Typography } from '@douyinfe/semi-ui';
+import { EditorContent, useEditor } from '@tiptap/react';
 import cls from 'classnames';
-import { CollaborationKit } from 'tiptap/editor';
-import { safeJSONParse } from 'helpers/json';
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
-import { useToggle } from 'hooks/use-toggle';
 import { useDocumentVersion } from 'data/document';
+import { safeJSONParse } from 'helpers/json';
+import { useToggle } from 'hooks/use-toggle';
+import React, { useCallback, useEffect, useState } from 'react';
+import { CollaborationKit } from 'tiptap/editor';
+
 import styles from './index.module.scss';
 
 interface IProps {

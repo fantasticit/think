@@ -1,14 +1,14 @@
-import type { NextPage } from 'next';
-import React from 'react';
-import { Typography, Tabs, TabPane, List } from '@douyinfe/semi-ui';
-import { SingleColumnLayout } from 'layouts/single-column';
-import { useAllWikis, useOwnWikis, useJoinWikis } from 'data/wiki';
-import { CreateWikiIllustration } from 'illustrations/create-wiki';
+import { List, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
-import { DataRender } from 'components/data-render';
-import { WikiCardPlaceholder, WikiCard } from 'components/wiki/card';
+import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
 import { WikiCreator } from 'components/wiki-creator';
+import { useAllWikis, useJoinWikis, useOwnWikis } from 'data/wiki';
+import { CreateWikiIllustration } from 'illustrations/create-wiki';
+import { SingleColumnLayout } from 'layouts/single-column';
+import type { NextPage } from 'next';
+import React from 'react';
 
 const grid = {
   gutter: 16,

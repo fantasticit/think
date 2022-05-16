@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { Form, Modal } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
-import { Editor } from 'tiptap/editor';
 import { useToggle } from 'hooks/use-toggle';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Editor } from 'tiptap/editor';
 import { isValidURL } from 'tiptap/prose-utils';
-import { OPEN_LINK_SETTING_MODAL, subject, cancelSubject } from '../_event';
+
+import { cancelSubject, OPEN_LINK_SETTING_MODAL, subject } from '../_event';
 
 type IProps = { editor: Editor };
 

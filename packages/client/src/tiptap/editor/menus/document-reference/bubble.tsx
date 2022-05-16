@@ -1,14 +1,14 @@
-import { useCallback } from 'react';
-import { useRouter } from 'next/router';
-import { Space, Button, List, Popover, Typography } from '@douyinfe/semi-ui';
-import { IconEdit, IconCopy, IconDelete } from '@douyinfe/semi-icons';
-import { Tooltip } from 'components/tooltip';
+import { IconCopy, IconDelete, IconEdit } from '@douyinfe/semi-icons';
+import { Button, List, Popover, Space, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { IconDocument } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 import { useWikiTocs } from 'data/wiki';
-import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
-import { DocumentReference } from 'tiptap/core/extensions/document-reference';
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
 import { Divider } from 'tiptap/components/divider';
+import { DocumentReference } from 'tiptap/core/extensions/document-reference';
+import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 const { Text } = Typography;

@@ -1,6 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { WikiStatus } from '@think/domains';
 import { DEFAULT_WIKI_AVATAR } from '@think/constants';
+import { WikiStatus } from '@think/domains';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('wiki')
 export class WikiEntity {

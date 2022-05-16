@@ -1,5 +1,5 @@
-import { NextPage } from 'next';
 import { TemplateEditor } from 'components/template/editor';
+import { NextPage } from 'next';
 
 interface IProps {
   templateId: string;

@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { IframeWrapper } from 'tiptap/core/wrappers/iframe';
 import { getDatasetAttribute } from 'tiptap/prose-utils';

@@ -1,6 +1,6 @@
+import { getStorage, setStorage } from 'helpers/storage';
 import { useEffect } from 'react';
 import useSWR from 'swr';
-import { setStorage, getStorage } from 'helpers/storage';
 
 export enum Width {
   'standardWidth' = 'standardWidth',

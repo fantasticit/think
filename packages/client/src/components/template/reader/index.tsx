@@ -1,9 +1,9 @@
-import React from 'react';
 import { Spin } from '@douyinfe/semi-ui';
-import { Seo } from 'components/seo';
 import { DataRender } from 'components/data-render';
-import { useTemplate } from 'data/template';
 import { ImageViewer } from 'components/image-viewer';
+import { Seo } from 'components/seo';
+import { useTemplate } from 'data/template';
+import React from 'react';
 import { ReaderEditor } from 'tiptap/editor';
 
 interface IProps {

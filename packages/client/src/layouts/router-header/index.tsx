@@ -1,18 +1,19 @@
-import React from 'react';
-import { Layout as SemiLayout, Nav, Space, Typography, Dropdown, Button } from '@douyinfe/semi-ui';
 import { IconMenu } from '@douyinfe/semi-icons';
-import Router, { useRouter } from 'next/router';
-import { User } from 'components/user';
-import { WikiOrDocumentCreator } from 'components/wiki-or-document-creator';
+import { Button, Dropdown, Layout as SemiLayout, Nav, Space, Typography } from '@douyinfe/semi-ui';
 import { LogoImage, LogoText } from 'components/logo';
-import { Theme } from 'components/theme';
 import { Message } from 'components/message';
 import { Search } from 'components/search';
-import { useWindowSize } from 'hooks/use-window-size';
+import { Theme } from 'components/theme';
+import { User } from 'components/user';
+import { WikiOrDocumentCreator } from 'components/wiki-or-document-creator';
 import { useToggle } from 'hooks/use-toggle';
+import { useWindowSize } from 'hooks/use-window-size';
+import Router, { useRouter } from 'next/router';
+import React from 'react';
+
+import styles from './index.module.scss';
 import { Recent, RecentModal } from './recent';
 import { Wiki, WikiModal } from './wiki';
-import styles from './index.module.scss';
 
 const { Header: SemiHeader } = SemiLayout;
 const { Text } = Typography;

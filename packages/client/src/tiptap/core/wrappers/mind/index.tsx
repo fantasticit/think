@@ -1,13 +1,14 @@
+import { Spin, Typography } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import clone from 'clone';
-import deepEqual from 'deep-equal';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Spin, Typography } from '@douyinfe/semi-ui';
 import { Resizeable } from 'components/resizeable';
+import deepEqual from 'deep-equal';
 import { useToggle } from 'hooks/use-toggle';
-import { getEditorContainerDOMSize, uuid } from 'tiptap/prose-utils';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Mind } from 'tiptap/core/extensions/mind';
+import { getEditorContainerDOMSize, uuid } from 'tiptap/prose-utils';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;
