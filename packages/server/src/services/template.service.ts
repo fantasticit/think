@@ -130,14 +130,14 @@ export class TemplateService {
     query.take(+pageSize);
     const [data, count] = await query.getManyAndCount();
 
-    await Promise.all(
+    const ret = await Promise.all(
       data.map(async (template) => {
         const createUser = await this.userService.findById(template.createUserId);
         return { ...template, createUser };
       })
     );
 
-    return { data, total: count };
+    return { data: ret, total: count };
   }
 
   /**
@@ -156,13 +156,13 @@ export class TemplateService {
     query.take(+pageSize);
     const [data, count] = await query.getManyAndCount();
 
-    await Promise.all(
+    const ret = await Promise.all(
       data.map(async (template) => {
         const createUser = await this.userService.findById(template.createUserId);
         return { ...template, createUser };
       })
     );
 
-    return { data, total: count };
+    return { data: ret, total: count };
   }
 }
