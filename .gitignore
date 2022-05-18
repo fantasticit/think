@@ -15,6 +15,7 @@ tsconfig.tsbuildinfo
 *.cache
 *error.log
 *debug.log
+*.conf
 
 packages/config/yaml/dev.yaml
 packages/config/yaml/prod.yaml
