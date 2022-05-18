@@ -64,6 +64,17 @@ export class WikiService {
   }
 
   /**
+   * 目标用户是否为知识库成员
+   * @param wikiId
+   * @param userId
+   * @returns
+   */
+  public async isMember(wikiId: string, userId: string) {
+    const auth = await this.wikiUserRepo.findOne({ wikiId, userId });
+    return !!auth && [WikiUserRole.admin, WikiUserRole.normal].includes(auth.userRole);
+  }
+
+  /**
    * 获取知识库成员信息
    * @param wikiId
    * @param userId

@@ -50,7 +50,8 @@ export class CollectorService {
     const withCreateUserRes = await Promise.all(
       res.map(async (wiki) => {
         const createUser = await this.userService.findById(wiki.createUserId);
-        return { createUser, ...wiki };
+        const isMember = await this.wikiService.isMember(wiki.id, user.id);
+        return { createUser, isMember, ...wiki };
       })
     );
 

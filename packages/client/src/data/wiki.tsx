@@ -9,6 +9,7 @@ export type IWikiUserOpeateData = {
   userName: Pick<IUser, 'name'>;
   userRole: Pick<IWikiUser, 'userRole'>;
 };
+export type IWikiWithIsMember = IWiki & { isMember: boolean };
 
 /**
  * 获取用户所有知识库
@@ -239,7 +240,7 @@ export const useWikiStar = (wikiId) => {
  * @returns
  */
 export const useStaredWikis = () => {
-  const { data, error, mutate } = useSWR<IWiki[]>('/collector/wikis', (url) => HttpClient.post(url), {
+  const { data, error, mutate } = useSWR<IWikiWithIsMember[]>('/collector/wikis', (url) => HttpClient.post(url), {
     revalidateOnFocus: true,
   });
   const loading = !data && !error;
