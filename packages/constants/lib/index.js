@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.EMPTY_DOCUMNENT = exports.WIKI_AVATARS = exports.DEFAULT_WIKI_AVATAR = void 0;
 exports.DEFAULT_WIKI_AVATAR = 'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default0-96.png';
 exports.WIKI_AVATARS = [
@@ -18,10 +18,10 @@ exports.WIKI_AVATARS = [
 ];
 exports.EMPTY_DOCUMNENT = {
     content: JSON.stringify({
-        default: {
+        "default": {
             type: 'doc',
-            content: [{ type: 'title', content: [{ type: 'text', text: '未命名文档' }] }],
-        },
+            content: [{ type: 'title', content: [{ type: 'text', text: '未命名文档' }] }]
+        }
     }),
     state: Buffer.from(new Uint8Array([
         1, 14, 204, 224, 154, 225, 13, 0, 7, 1, 7, 100, 101, 102, 97, 117, 108, 116, 3, 5, 116, 105, 116, 108, 101, 1, 0,
@@ -32,6 +32,5 @@ exports.EMPTY_DOCUMNENT = {
         225, 13, 14, 6, 132, 204, 224, 154, 225, 13, 20, 6, 229, 145, 189, 229, 144, 141, 129, 204, 224, 154, 225, 13, 22,
         5, 132, 204, 224, 154, 225, 13, 27, 6, 230, 150, 135, 230, 161, 163, 1, 204, 224, 154, 225, 13, 5, 1, 2, 6, 4, 11,
         3, 15, 6, 23, 5,
-    ])),
+    ]))
 };
-//# sourceMappingURL=index.js.map

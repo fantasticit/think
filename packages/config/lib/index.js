@@ -1,21 +1,20 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.getConfig = void 0;
-const fs = require("fs-extra");
-const yaml = require("js-yaml");
-const path = require("path");
-const FILE_ENV_NAME = {
+var fs = require("fs-extra");
+var yaml = require("js-yaml");
+var path = require("path");
+var FILE_ENV_NAME = {
     development: 'dev',
     test: 'test',
-    production: 'prod',
+    production: 'prod'
 };
-const env = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV || 'development';
 function getConfig() {
-    const filePath = path.join(__dirname, '../yaml/', `${FILE_ENV_NAME[env]}.yaml`);
+    var filePath = path.join(__dirname, '../yaml/', "".concat(FILE_ENV_NAME[env], ".yaml"));
     if (!fs.existsSync(filePath)) {
-        throw new Error(`Can not find config file: ${filePath}`);
+        throw new Error("Can not find config file: ".concat(filePath));
     }
     return yaml.load(fs.readFileSync(filePath, 'utf8'));
 }
 exports.getConfig = getConfig;
-//# sourceMappingURL=index.js.map

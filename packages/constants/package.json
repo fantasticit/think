@@ -12,9 +12,12 @@
   "sideEffects": false,
   "license": "MIT",
   "scripts": {
-    "build": "tsc --declaration"
+    "build": "tsc src/*.ts --outDir lib --skipLibCheck --declaration"
   },
-  "files": ["lib", "src"],
+  "files": [
+    "lib",
+    "src"
+  ],
   "devDependencies": {
     "typescript": "^4.5.5"
   }

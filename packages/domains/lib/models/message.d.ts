@@ -1,4 +1,7 @@
 import { IUser } from './user';
+/**
+ * 消息数据定义
+ */
 export interface IMessage {
     id: string;
     userId: IUser['id'];

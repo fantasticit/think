@@ -1,5 +1,8 @@
 import { IUser } from './user';
 import { IDocument } from './document';
+/**
+ * 评论
+ */
 export interface IComment {
     id: string;
     parentCommentId?: IComment['id'];
