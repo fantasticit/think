@@ -1,6 +1,6 @@
-/* eslint-env es6 */
 const semi = require('@douyinfe/semi-next').default({});
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const withOffline = require('next-offline');
 const { getConfig } = require('@think/config');
 const config = getConfig();
 
@@ -24,6 +24,26 @@ const nextConfig = semi({
   typescript: {
     ignoreBuildErrors: true,
   },
+  workboxOpts: {
+    runtimeCaching: [
+      {
+        urlPattern: /.(png|jpg|jpeg|svg|webp)$/,
+        handler: 'CacheFirst',
+      },
+      {
+        urlPattern: /api/,
+        handler: 'NetworkFirst',
+        options: {
+          cacheableResponse: {
+            statuses: [0, 200],
+            headers: {
+              'x-sw': 'true',
+            },
+          },
+        },
+      },
+    ],
+  },
 });
 
-module.exports = nextConfig;
+module.exports = withOffline(nextConfig);
