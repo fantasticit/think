@@ -1,7 +1,9 @@
-import dateFormat from 'date-fns/format';
-import distanceInWords from 'date-fns/formatDistance';
-import zh from 'date-fns/locale/zh-CN';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import * as timeagojs from 'timeago.js';
+
+type Props = {
+  date: string | number | Date;
+};
 
 let callbacks: Array<() => void> = [];
 
@@ -17,26 +19,14 @@ function eachMinute(fn: () => void) {
   };
 }
 
-type Props = {
-  date: string | number | Date;
-  format?: string;
-  timeago?: boolean;
-};
-
 const getTimeago = (date: number | string | Date) => {
-  let content = distanceInWords(new Date(date), new Date(), {
-    addSuffix: true,
-    locale: zh,
-  });
-
-  content = content.replace('about', '').replace('less than a minute ago', 'just now').replace('minute', 'min');
-
-  return content;
+  return timeagojs.format(date, 'zh_CN');
 };
 
-export const LocaleTime: React.FC<Props> = ({ date, timeago, format = 'yyyy-MM-dd HH:mm:ss' }) => {
+export const LocaleTime: React.FC<Props> = ({ date }) => {
   const [, setMinutesMounted] = useState(0);
   const callback = useRef<() => void>();
+  const formatDate = useMemo(() => new Date(date).toLocaleDateString(), [date]);
 
   useEffect(() => {
     callback.current = eachMinute(() => {
@@ -50,7 +40,5 @@ export const LocaleTime: React.FC<Props> = ({ date, timeago, format = 'yyyy-MM-d
     };
   }, []);
 
-  const formated = dateFormat(new Date(date), format);
-
-  return <time dateTime={formated}>{timeago ? getTimeago(date) : formated}</time>;
+  return <time dateTime={formatDate}>{getTimeago(date)}</time>;
 };
