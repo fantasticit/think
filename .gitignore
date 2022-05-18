@@ -19,3 +19,4 @@ tsconfig.tsbuildinfo
 
 packages/config/yaml/dev.yaml
 packages/config/yaml/prod.yaml
+scripts/update.sh
