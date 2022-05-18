@@ -113,6 +113,9 @@ importers:
       next: 12.0.10
       next-offline: ^5.0.5
       prosemirror-markdown: ^1.7.0
+      prosemirror-model: ^1.16.1
+      prosemirror-schema-list: ^1.1.6
+      prosemirror-state: ^1.3.4
       prosemirror-tables: ^1.1.1
       prosemirror-utils: ^0.9.6
       prosemirror-view: ^1.23.6
@@ -126,6 +129,7 @@ importers:
       scroll-into-view-if-needed: ^2.2.29
       swr: ^1.2.0
       tilg: ^0.1.1
+      timeago.js: ^4.0.2
       tippy.js: ^6.3.7
       toggle-selection: ^1.0.6
       tsconfig-paths-webpack-plugin: ^3.5.2
@@ -198,8 +202,11 @@ importers:
       next: 12.0.10_react-dom@17.0.2+react@17.0.2
       next-offline: 5.0.5_next@12.0.10
       prosemirror-markdown: 1.7.0
+      prosemirror-model: 1.16.1
+      prosemirror-schema-list: 1.1.6
+      prosemirror-state: 1.3.4
       prosemirror-tables: 1.1.1
-      prosemirror-utils: 0.9.6_prosemirror-tables@1.1.1
+      prosemirror-utils: 0.9.6_4f14324fc97f6af3c95cc9ca12f2bcb1
       prosemirror-view: 1.23.6
       react: 17.0.2
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
@@ -211,11 +218,12 @@ importers:
       scroll-into-view-if-needed: 2.2.29
       swr: 1.2.0_react@17.0.2
       tilg: 0.1.1_react@17.0.2
+      timeago.js: 4.0.2
       tippy.js: 6.3.7
       toggle-selection: 1.0.6
       viewerjs: 1.10.4
       y-indexeddb: 9.0.7_yjs@13.5.24
-      y-prosemirror: 1.0.14_0fedec857d2fb730ad5b02a71124bf2a
+      y-prosemirror: 1.0.14_50c74ca1ff175066b565400fd8b84eb4
       yjs: 13.5.24
     devDependencies:
       '@types/node': 17.0.13
@@ -225,7 +233,7 @@ importers:
       eslint: 8.14.0
       eslint-config-prettier: 8.5.0_eslint@8.14.0
       eslint-plugin-import: 2.26.0_eslint@8.14.0
-      eslint-plugin-prettier: 4.0.0_740be41c8168d0cc214a306089357ad0
+      eslint-plugin-prettier: 4.0.0_74ebb802163a9b4fa8f89d76ed02f62a
       eslint-plugin-react: 7.29.4_eslint@8.14.0
       eslint-plugin-react-hooks: 4.5.0_eslint@8.14.0
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.14.0
@@ -5331,6 +5339,22 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
+  /eslint-plugin-prettier/4.0.0_74ebb802163a9b4fa8f89d76ed02f62a:
+    resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
+    engines: {node: '>=6.0.0'}
+    peerDependencies:
+      eslint: '>=7.28.0'
+      eslint-config-prettier: '*'
+      prettier: '>=2.0.0'
+    peerDependenciesMeta:
+      eslint-config-prettier:
+        optional: true
+    dependencies:
+      eslint: 8.14.0
+      eslint-config-prettier: 8.5.0_eslint@8.14.0
+      prettier-linter-helpers: 1.0.0
+    dev: true
+
   /eslint-plugin-react-hooks/4.5.0_eslint@8.14.0:
     resolution: {integrity: sha512-8k1gRt7D7h03kd+SAAlzXkQwWK22BnK6GKZG+FJA6BAGy22CFvl8kCIXKpVux0cCxMWDQUPqSok0LKaZ0aOcCw==}
     engines: {node: '>=10'}
@@ -8824,13 +8848,15 @@ packages:
       prosemirror-model: 1.16.1
     dev: false
 
-  /prosemirror-utils/0.9.6_prosemirror-tables@1.1.1:
+  /prosemirror-utils/0.9.6_4f14324fc97f6af3c95cc9ca12f2bcb1:
     resolution: {integrity: sha512-UC+j9hQQ1POYfMc5p7UFxBTptRiGPR7Kkmbl3jVvU8VgQbkI89tR/GK+3QYC8n+VvBZrtAoCrJItNhWSxX3slA==}
     peerDependencies:
       prosemirror-model: ^1.0.0
       prosemirror-state: ^1.0.1
       prosemirror-tables: ^0.9.1
     dependencies:
+      prosemirror-model: 1.16.1
+      prosemirror-state: 1.3.4
       prosemirror-tables: 1.1.1
     dev: false
 
@@ -10392,6 +10418,10 @@ packages:
       react: 17.0.2
     dev: false
 
+  /timeago.js/4.0.2:
+    resolution: {integrity: sha512-a7wPxPdVlQL7lqvitHGGRsofhdwtkoSXPGATFuSOA2i1ZNQEPLrGnj68vOp2sOJTCFAQVXPeNMX/GctBaO9L2w==}
+    dev: false
+
   /tiny-invariant/1.2.0:
     resolution: {integrity: sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==}
     dev: false
@@ -11393,7 +11423,7 @@ packages:
       yjs: 13.5.24
     dev: false
 
-  /y-prosemirror/1.0.14_0fedec857d2fb730ad5b02a71124bf2a:
+  /y-prosemirror/1.0.14_50c74ca1ff175066b565400fd8b84eb4:
     resolution: {integrity: sha512-fJQn/XT+z/gks9sd64eB+Mf1UQP0d5SHQ8RwbrzIwYFW+FgU/nx8/hJm+nrBAoO9azHOY5aDeoffeLmOFXLD9w==}
     peerDependencies:
       prosemirror-model: ^1.7.1
@@ -11403,6 +11433,8 @@ packages:
       yjs: ^13.3.2
     dependencies:
       lib0: 0.2.47
+      prosemirror-model: 1.16.1
+      prosemirror-state: 1.3.4
       prosemirror-view: 1.23.6
       yjs: 13.5.24
     dev: false

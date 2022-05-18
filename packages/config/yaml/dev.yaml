@@ -3,10 +3,10 @@ server:
   prefix: '/api'
   port: 5001
   collaborationPort: 5003
-  # 最大版本记录数
-  maxDocumentVersion: 20
+  maxDocumentVersion: 20 # 最大版本记录数
 
 client:
+  port: 5002
   assetPrefix: '/'
   apiUrl: 'http://localhost:5001/api'
   collaborationUrl: 'ws://localhost:5003'

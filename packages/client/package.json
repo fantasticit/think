@@ -2,10 +2,10 @@
   "name": "@think/client",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "prebuild": "rimraf .next",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production next start -p 5002",
+    "dev": "node dev-server.js",
+    "start": "cross-env NODE_ENV=production node prod-server.js",
     "pm2": "pm2 start npm --name @think/client -- start"
   },
   "dependencies": {
@@ -72,6 +72,9 @@
     "next": "12.0.10",
     "next-offline": "^5.0.5",
     "prosemirror-markdown": "^1.7.0",
+    "prosemirror-model": "^1.16.1",
+    "prosemirror-schema-list": "^1.1.6",
+    "prosemirror-state": "^1.3.4",
     "prosemirror-tables": "^1.1.1",
     "prosemirror-utils": "^0.9.6",
     "prosemirror-view": "^1.23.6",
@@ -85,6 +88,7 @@
     "scroll-into-view-if-needed": "^2.2.29",
     "swr": "^1.2.0",
     "tilg": "^0.1.1",
+    "timeago.js": "^4.0.2",
     "tippy.js": "^6.3.7",
     "toggle-selection": "^1.0.6",
     "viewerjs": "^1.10.4",

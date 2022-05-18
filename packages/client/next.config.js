@@ -25,9 +25,7 @@ const nextConfig = semi({
     ignoreBuildErrors: true,
   },
   compiler: {
-    removeConsole: {
-      exclude: ['error'],
-    },
+    removeConsole: true,
   },
   workboxOpts: {
     runtimeCaching: [
