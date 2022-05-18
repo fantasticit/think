@@ -82,33 +82,35 @@ export const DocumentCard: React.FC<{ document: IDocument }> = ({ document }) =>
 export const DocumentCardPlaceholder = () => {
   return (
     <div className={styles.cardWrap}>
-      <header>
-        <IconDocument />
-      </header>
-      <main>
-        <div style={{ marginBottom: 12 }}>
-          <Skeleton.Title style={{ width: 160 }} />
-        </div>
-        <div>
-          <Text type="tertiary" size="small">
-            <Space>
-              <Avatar size="extra-extra-small">
-                <IconUser />
-              </Avatar>
-              创建者：
-              <Skeleton.Paragraph rows={1} style={{ width: 100 }} />
-            </Space>
-          </Text>
-        </div>
-      </main>
-      <footer>
-        <Text type="tertiary" size="small">
-          <div style={{ display: 'flex' }}>
-            更新时间：
-            <Skeleton.Paragraph rows={1} style={{ width: 100 }} />
+      <a>
+        <header>
+          <IconDocument />
+        </header>
+        <main>
+          <div style={{ marginBottom: 12 }}>
+            <Skeleton.Title style={{ width: 160 }} />
           </div>
-        </Text>
-      </footer>
+          <div>
+            <Text type="tertiary" size="small">
+              <Space>
+                <Avatar size="extra-extra-small">
+                  <IconUser />
+                </Avatar>
+                创建者：
+                <Skeleton.Paragraph rows={1} style={{ width: 100 }} />
+              </Space>
+            </Text>
+          </div>
+        </main>
+        <footer>
+          <Text type="tertiary" size="small">
+            <div style={{ display: 'flex' }}>
+              更新时间：
+              <Skeleton.Paragraph rows={1} style={{ width: 100 }} />
+            </div>
+          </Text>
+        </footer>
+      </a>
     </div>
   );
 };
