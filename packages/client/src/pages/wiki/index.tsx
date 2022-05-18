@@ -21,7 +21,7 @@ const grid = {
 
 const { Title } = Typography;
 
-const Workspaces = ({ hook }) => {
+const Wikis = ({ hook }) => {
   const { data, loading, error } = hook();
 
   return (
@@ -65,13 +65,13 @@ const Page: NextPage = () => {
         </Title>
         <Tabs type="button" style={{ marginTop: 24 }}>
           <TabPane tab="全部" itemKey="all">
-            <Workspaces hook={useAllWikis} />
+            <Wikis hook={useAllWikis} />
           </TabPane>
           <TabPane tab="我创建的" itemKey="own">
-            <Workspaces hook={useOwnWikis} />
+            <Wikis hook={useOwnWikis} />
           </TabPane>
           <TabPane tab="我参与的" itemKey="join">
-            <Workspaces hook={useJoinWikis} />
+            <Wikis hook={useJoinWikis} />
           </TabPane>
         </Tabs>
       </div>

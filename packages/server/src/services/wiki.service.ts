@@ -342,7 +342,7 @@ export class WikiService {
     const ret = await Promise.all(
       data.map(async (wiki) => {
         const createUser = await this.userService.findById(wiki.createUserId);
-        return { ...wiki, createUser };
+        return { ...wiki, createUser, isMember: true };
       })
     );
 
@@ -368,7 +368,7 @@ export class WikiService {
     const ret = await Promise.all(
       data.map(async (wiki) => {
         const createUser = await this.userService.findById(wiki.createUserId);
-        return { ...wiki, createUser };
+        return { ...wiki, createUser, isMember: true };
       })
     );
 
@@ -397,7 +397,7 @@ export class WikiService {
     const ret = await Promise.all(
       data.map(async (wiki) => {
         const createUser = await this.userService.findById(wiki.createUserId);
-        return { ...wiki, createUser };
+        return { ...wiki, createUser, isMember: true };
       })
     );
 
