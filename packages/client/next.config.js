@@ -24,6 +24,11 @@ const nextConfig = semi({
   typescript: {
     ignoreBuildErrors: true,
   },
+  compiler: {
+    removeConsole: {
+      exclude: ['error'],
+    },
+  },
   workboxOpts: {
     runtimeCaching: [
       {
