@@ -5,7 +5,7 @@ const cli = require('next/dist/cli/next-start');
 const port = (config.client && config.client.port) || 5002;
 
 try {
-  cli.nextDev(['-p', port]);
+  cli.nextStart(['-p', port]);
   console.log(`[think] 客户端已启动，端口：${port}`);
 } catch (err) {
   console.log(`[think] 客户端启动失败！${err.message || err}`);
