@@ -23,9 +23,8 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const { theme } = useTheme();
   const $viewer = useRef(null);
   const $container = useRef<HTMLElement>();
-  const doRenderRef = useRef<() => void>();
   const isEditorReady = useEditorReady(editor, () => {
-    doRenderRef.current && doRenderRef.current();
+    render($container.current);
   });
   const [bgColor, setBgColor] = useState('var(--semi-color-fill-0)');
   const bgColorOpacity = useMemo(() => {
@@ -79,26 +78,20 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
 
   const render = useCallback(
     (div) => {
-      const doRender = (div) => {
-        if (!div) return;
-        // @ts-ignore
-        const DrawioViewer = window.GraphViewer;
-        if (DrawioViewer) {
-          div.innerHTML = '';
-          DrawioViewer.createViewerForElement(div, (viewer) => {
-            $viewer.current = viewer;
-            const background = viewer?.graph?.background;
-            background && setBgColor(background);
-          });
-        }
-        doRenderRef.current = null;
-      };
-
       if (!isEditorReady) {
-        doRenderRef.current = () => doRender(div);
         return;
-      } else {
-        doRender(div);
+      }
+
+      if (!div) return;
+      // @ts-ignore
+      const DrawioViewer = window.GraphViewer;
+      if (DrawioViewer) {
+        div.innerHTML = '';
+        DrawioViewer.createViewerForElement(div, (viewer) => {
+          $viewer.current = viewer;
+          const background = viewer?.graph?.background;
+          background && setBgColor(background);
+        });
       }
     },
     [isEditorReady]
