@@ -16,6 +16,7 @@ import { DocumentChildren } from 'tiptap/core/extensions/document-children';
 import { DocumentReference } from 'tiptap/core/extensions/document-reference';
 import { Dropcursor } from 'tiptap/core/extensions/dropcursor';
 import { Emoji } from 'tiptap/core/extensions/emoji';
+import { Flow } from 'tiptap/core/extensions/flow';
 import { Focus } from 'tiptap/core/extensions/focus';
 import { FontSize } from 'tiptap/core/extensions/font-size';
 import { Gapcursor } from 'tiptap/core/extensions/gapcursor';
@@ -130,4 +131,5 @@ export const AllExtensions = [
   DocumentWithTitle,
   Title,
   Document,
+  Flow,
 ];

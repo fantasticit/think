@@ -17,6 +17,7 @@ import { CodeBlockWrapper } from './nodes/code-block-wrapper';
 import { Countdown } from './nodes/countdown';
 import { DocumentChildren } from './nodes/document-children';
 import { DocumentReference } from './nodes/document-reference';
+import { Flow } from './nodes/flow';
 import { HardBreak } from './nodes/hard-break';
 import { Heading } from './nodes/heading';
 import { HorizontalRule } from './nodes/horizontal-rule';
@@ -61,6 +62,7 @@ export class Renderer {
       Mind,
       DocumentChildren,
       DocumentReference,
+      Flow,
 
       CodeBlock,
       CodeBlockWrapper,
