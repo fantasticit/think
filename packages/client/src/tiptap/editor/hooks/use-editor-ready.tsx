@@ -3,16 +3,21 @@ import { useEffect } from 'react';
 
 import { Editor } from '../react';
 
-export const useEditorReady = (editor: Editor) => {
+export const useEditorReady = (editor: Editor, onReady?: () => void) => {
   const [isEditorReady, toggleEditorReady] = useToggle(false);
 
   useEffect(() => {
-    editor.on('create', toggleEditorReady);
+    const handler = () => {
+      toggleEditorReady();
+      onReady && onReady();
+    };
+
+    editor.on('create', handler);
 
     return () => {
-      editor.off('create', toggleEditorReady);
+      editor.off('create', handler);
     };
-  }, [editor, toggleEditorReady]);
+  }, [editor, toggleEditorReady, onReady]);
 
   return isEditorReady;
 };

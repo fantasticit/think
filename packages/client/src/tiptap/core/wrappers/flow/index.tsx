@@ -23,7 +23,10 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const { theme } = useTheme();
   const $viewer = useRef(null);
   const $container = useRef<HTMLElement>();
-  const isEditorReady = useEditorReady(editor);
+  const doRenderRef = useRef<() => void>();
+  const isEditorReady = useEditorReady(editor, () => {
+    doRenderRef.current && doRenderRef.current();
+  });
   const [bgColor, setBgColor] = useState('var(--semi-color-fill-0)');
   const bgColorOpacity = useMemo(() => {
     if (!bgColor) return bgColor;
@@ -76,18 +79,26 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
 
   const render = useCallback(
     (div) => {
-      if (!isEditorReady) return;
-      if (!div) return;
+      const doRender = (div) => {
+        if (!div) return;
+        // @ts-ignore
+        const DrawioViewer = window.GraphViewer;
+        if (DrawioViewer) {
+          div.innerHTML = '';
+          DrawioViewer.createViewerForElement(div, (viewer) => {
+            $viewer.current = viewer;
+            const background = viewer?.graph?.background;
+            background && setBgColor(background);
+          });
+        }
+        doRenderRef.current = null;
+      };
 
-      // @ts-ignore
-      const DrawioViewer = window.GraphViewer;
-      if (DrawioViewer) {
-        div.innerHTML = '';
-        DrawioViewer.createViewerForElement(div, (viewer) => {
-          $viewer.current = viewer;
-          const background = viewer?.graph?.background;
-          background && setBgColor(background);
-        });
+      if (!isEditorReady) {
+        doRenderRef.current = () => doRender(div);
+        return;
+      } else {
+        doRender(div);
       }
     },
     [isEditorReady]
@@ -96,16 +107,14 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const setMxgraph = useCallback(
     (div) => {
       $container.current = div;
-      if (!isEditorReady) return;
       render(div);
     },
-    [isEditorReady, render]
+    [render]
   );
 
   useEffect(() => {
-    if (!isEditorReady) return;
     render($container.current);
-  }, [isEditorReady, graphData, render]);
+  }, [graphData, render]);
 
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
