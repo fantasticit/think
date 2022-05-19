@@ -2,7 +2,7 @@ import { ViewEntity } from '@entities/view.entity';
 import { parseUserAgent } from '@helpers/ua.helper';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IPagination } from '@think/domains';
+import { IDocument, IPagination, IUser } from '@think/domains';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -53,5 +53,13 @@ export class ViewService {
     });
 
     return { data, total };
+  }
+
+  async getUserRecentVisitedDocuments(userId: IUser['id']): Promise<Array<IDocument['id']>> {
+    const [ret] = await this.viewRepo.findAndCount({
+      where: { userId },
+      take: 20,
+    });
+    return ret.map((item) => item.documentId);
   }
 }

@@ -592,24 +592,14 @@ export class DocumentService {
   }
 
   /**
-   * 获取用户最近更新的10篇文档
+   * 获取用户最近访问的10篇文档
    * @param user
    * @param dto
    * @returns
    */
   public async getRecentDocuments(user: OutUser) {
-    const query = await this.documentAuthorityRepo
-      .createQueryBuilder('documentAuth')
-      .where('documentAuth.userId=:userId')
-      .andWhere('documentAuth.readable=:readable')
-      .setParameter('userId', user.id)
-      .setParameter('readable', 1);
+    const documentIds = await this.viewService.getUserRecentVisitedDocuments(user.id);
 
-    query.orderBy('documentAuth.updatedAt', 'DESC');
-
-    query.take(20);
-
-    const documentIds = await (await query.getMany()).map((docAuth) => docAuth.documentId);
     const documents = await this.documentRepo.findByIds(documentIds, { order: { updatedAt: 'DESC' } });
     const docs = documents.filter((doc) => !doc.isWikiHome).map((doc) => instanceToPlain(doc));
 
