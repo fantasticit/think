@@ -34,7 +34,7 @@ export const CommentItem: React.FC<IProps> = ({ comment, replyComment, editComme
           <Space>
             <Text strong>{(createUser as IUser).name}</Text>
             <Text type="tertiary">
-              <LocaleTime date={comment.createdAt} timeago />
+              <LocaleTime date={comment.createdAt} />
             </Text>
           </Space>
         </header>

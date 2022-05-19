@@ -31,7 +31,7 @@ export const Author: React.FC<IProps> = ({ document }) => {
           </p>
           <p style={{ margin: '8px 0 0' }}>
             最近更新日期：
-            <LocaleTime date={document.updatedAt} timeago />
+            <LocaleTime date={document.updatedAt} />
             {' ⦁ '}阅读量：
             {document.views}
           </p>
