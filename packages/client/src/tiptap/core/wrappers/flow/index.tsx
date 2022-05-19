@@ -96,14 +96,16 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const setMxgraph = useCallback(
     (div) => {
       $container.current = div;
+      if (!isEditorReady) return;
       render(div);
     },
-    [render]
+    [isEditorReady, render]
   );
 
   useEffect(() => {
+    if (!isEditorReady) return;
     render($container.current);
-  }, [graphData, render]);
+  }, [isEditorReady, graphData, render]);
 
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
