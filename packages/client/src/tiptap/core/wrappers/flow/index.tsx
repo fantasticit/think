@@ -7,6 +7,7 @@ import { convertColorToRGBA } from 'helpers/color';
 import { Theme, useTheme } from 'hooks/use-theme';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Flow } from 'tiptap/core/extensions/flow';
+import { useEditorReady } from 'tiptap/editor/hooks/use-editor-ready';
 import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
@@ -22,6 +23,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const { theme } = useTheme();
   const $viewer = useRef(null);
   const $container = useRef<HTMLElement>();
+  const isEditorReady = useEditorReady(editor);
   const [bgColor, setBgColor] = useState('var(--semi-color-fill-0)');
   const bgColorOpacity = useMemo(() => {
     if (!bgColor) return bgColor;
@@ -72,20 +74,24 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
     [updateAttributes]
   );
 
-  const render = useCallback((div) => {
-    if (!div) return;
+  const render = useCallback(
+    (div) => {
+      if (!isEditorReady) return;
+      if (!div) return;
 
-    // @ts-ignore
-    const DrawioViewer = window.GraphViewer;
-    if (DrawioViewer) {
-      div.innerHTML = '';
-      DrawioViewer.createViewerForElement(div, (viewer) => {
-        $viewer.current = viewer;
-        const background = viewer?.graph?.background;
-        background && setBgColor(background);
-      });
-    }
-  }, []);
+      // @ts-ignore
+      const DrawioViewer = window.GraphViewer;
+      if (DrawioViewer) {
+        div.innerHTML = '';
+        DrawioViewer.createViewerForElement(div, (viewer) => {
+          $viewer.current = viewer;
+          const background = viewer?.graph?.background;
+          background && setBgColor(background);
+        });
+      }
+    },
+    [isEditorReady]
+  );
 
   const setMxgraph = useCallback(
     (div) => {
