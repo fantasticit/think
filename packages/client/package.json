@@ -57,6 +57,7 @@
     "axios": "^0.25.0",
     "classnames": "^2.3.1",
     "clone": "^2.1.2",
+    "cross-env": "^7.0.3",
     "deep-equal": "^2.0.5",
     "dompurify": "^2.3.5",
     "interactjs": "^1.10.11",
