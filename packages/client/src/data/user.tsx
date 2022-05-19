@@ -18,7 +18,7 @@ export const useUser = () => {
 
   const login = useCallback(
     (data) => {
-      HttpClient.post<IUser>('/user/login', data).then((res) => {
+      return HttpClient.post<IUser>('/user/login', data).then((res) => {
         const user = res as unknown as ILoginUser;
         mutate(user);
         setStorage('user', JSON.stringify(user));

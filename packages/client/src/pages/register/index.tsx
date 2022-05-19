@@ -70,7 +70,7 @@ const Page = () => {
             placeholder="确认用户密码"
             rules={[{ required: true, message: '请再次输入密码' }]}
           ></Form.Input>
-          <Button htmlType="submit" type="primary" theme="solid" block style={{ margin: '16px 0' }}>
+          <Button htmlType="submit" type="primary" theme="solid" block loading={loading} style={{ margin: '16px 0' }}>
             注册
           </Button>
           <footer>
