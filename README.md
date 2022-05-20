@@ -86,7 +86,7 @@ pnpm install
 pnpm run dev
 ```
 
-前台页面地址：`http://localhost:3000`。
+前台页面地址：`http://localhost:5002`。
 服务接口地址：`http://localhost:5001`。
 协作接口地址：`http://localhost:5003`。
 
@@ -102,13 +102,14 @@ server:
   prefix: '/api'
   port: 5001
   collaborationPort: 5003
-  # 最大版本记录数
-  maxDocumentVersion: 20
+  maxDocumentVersion: 20 # 最大版本记录数
 
 client:
+  port: 5002
   assetPrefix: '/'
   apiUrl: 'http://localhost:5001/api'
   collaborationUrl: 'ws://localhost:5003'
+  drawioUrl: 'https://embed.diagrams.net'
 
 # 数据库配置
 db:
