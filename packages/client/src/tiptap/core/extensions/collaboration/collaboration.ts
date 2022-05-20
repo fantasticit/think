@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core';
-import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey } from 'y-prosemirror';
+import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey } from 'tiptap/core/y-prosemirror/y-prosemirror';
 import { UndoManager } from 'yjs';
 
 declare module '@tiptap/core' {

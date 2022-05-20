@@ -1,14 +1,11 @@
 import * as math from 'lib0/math';
 import { Plugin } from 'prosemirror-state'; // eslint-disable-line
 import { Decoration, DecorationSet } from 'prosemirror-view'; // eslint-disable-line
-import {
-  absolutePositionToRelativePosition,
-  relativePositionToAbsolutePosition,
-  setMeta,
-  yCursorPluginKey,
-  ySyncPluginKey,
-} from 'tiptap/core/y-prosemirror/y-prosemirror';
+import { Awareness } from 'y-protocols/awareness'; // eslint-disable-line
 import * as Y from 'yjs';
+
+import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition, setMeta } from '../lib.js';
+import { yCursorPluginKey, ySyncPluginKey } from './keys.js';
 
 /**
  * Default generator for a cursor element
@@ -105,8 +102,7 @@ export const createDecorations = (state, awareness, createCursor) => {
 export const yCursorPlugin = (
   awareness,
   { cursorBuilder = defaultCursorBuilder, getSelection = (state) => state.selection } = {},
-  cursorStateField = 'cursor',
-  isEditable = false
+  cursorStateField = 'cursor'
 ) =>
   new Plugin({
     key: yCursorPluginKey,
@@ -136,8 +132,6 @@ export const yCursorPlugin = (
         }
       };
       const updateCursorInfo = () => {
-        if (!isEditable) return;
-
         const ystate = ySyncPluginKey.getState(view.state);
         // @note We make implicit checks when checking for the cursor property
         const current = awareness.getLocalState() || {};
@@ -159,8 +153,6 @@ export const yCursorPlugin = (
             awareness.setLocalStateField(cursorStateField, {
               anchor,
               head,
-              originHead: selection.head,
-              originAnchor: selection.anchor,
             });
           }
         } else if (

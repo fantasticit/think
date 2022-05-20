@@ -7,7 +7,6 @@ dist-ssr
 coverage
 test-results
 .pnpm-store
-.npmrc
 tsconfig.tsbuildinfo
 
 .env
