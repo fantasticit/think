@@ -40,19 +40,6 @@ export const useTheme = () => {
     mql.addEventListener('change', matchMode);
   }, []);
 
-  useEffect(() => {
-    const config = { attributes: true };
-    const callback = function () {
-      setTheme(document.body.getAttribute('theme-mode') as Theme);
-    };
-    const observer = new MutationObserver(callback);
-    observer.observe(document.body, config);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   return {
     theme,
     toggle,
