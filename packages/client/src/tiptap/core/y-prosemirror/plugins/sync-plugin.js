@@ -26,7 +26,7 @@ export const isVisible = (item, snapshot) =>
   snapshot === undefined
     ? !item.deleted
     : snapshot.sv.has(item.id.client) &&
-      /** @type {number} */ (snapshot.sv.get(item.id.client)) > item.id.clock &&
+      /** @type {number} */ snapshot.sv.get(item.id.client) > item.id.clock &&
       !Y.isDeleted(snapshot.ds, item.id);
 
 /**
@@ -68,7 +68,7 @@ const getUserColor = (colorMapping, colors, user) => {
     }
     colorMapping.set(user, random.oneOf(colors));
   }
-  return /** @type {ColorDef} */ (colorMapping.get(user));
+  return /** @type {ColorDef} */ colorMapping.get(user);
 };
 
 /**
@@ -283,7 +283,7 @@ export class ProsemirrorBinding {
       const fragmentContent = this.type
         .toArray()
         .map((t) =>
-          createNodeFromYElement(/** @type {Y.XmlElement} */ (t), this.prosemirrorView.state.schema, this.mapping)
+          createNodeFromYElement(/** @type {Y.XmlElement} */ t, this.prosemirrorView.state.schema, this.mapping)
         )
         .filter((n) => n !== null);
       // @ts-ignore
@@ -303,7 +303,7 @@ export class ProsemirrorBinding {
       const fragmentContent = this.type
         .toArray()
         .map((t) =>
-          createNodeFromYElement(/** @type {Y.XmlElement} */ (t), this.prosemirrorView.state.schema, this.mapping)
+          createNodeFromYElement(/** @type {Y.XmlElement} */ t, this.prosemirrorView.state.schema, this.mapping)
         )
         .filter((n) => n !== null);
       // @ts-ignore
@@ -397,7 +397,7 @@ export class ProsemirrorBinding {
         transaction.deleteSet,
         (struct) =>
           struct.constructor === Y.Item &&
-          this.mapping.delete(/** @type {Y.ContentType} */ (/** @type {Y.Item} */ (struct).content).type)
+          this.mapping.delete(/** @type {Y.ContentType} */ /** @type {Y.Item} */ struct.content.type)
       );
       transaction.changed.forEach(delType);
       transaction.changedParentTypes.forEach(delType);
@@ -405,7 +405,7 @@ export class ProsemirrorBinding {
         .toArray()
         .map((t) =>
           createNodeIfNotExists(
-            /** @type {Y.XmlElement | Y.XmlHook} */ (t),
+            /** @type {Y.XmlElement | Y.XmlHook} */ t,
             this.prosemirrorView.state.schema,
             this.mapping
           )
@@ -453,7 +453,7 @@ export class ProsemirrorBinding {
  * @return {PModel.Node | null}
  */
 const createNodeIfNotExists = (el, schema, mapping, snapshot, prevSnapshot, computeYChange) => {
-  const node = /** @type {PModel.Node} */ (mapping.get(el));
+  const node = /** @type {PModel.Node} */ mapping.get(el);
   if (node === undefined) {
     if (el instanceof Y.XmlElement) {
       return createNodeFromYElement(el, schema, mapping, snapshot, prevSnapshot, computeYChange);
@@ -501,14 +501,12 @@ const createNodeFromYElement = (el, schema, mapping, snapshot, prevSnapshot, com
   try {
     const attrs = el.getAttributes(snapshot);
     if (snapshot !== undefined) {
-      if (!isVisible(/** @type {Y.Item} */ (el._item), snapshot)) {
+      if (!isVisible(/** @type {Y.Item} */ el._item, snapshot)) {
         attrs.ychange = computeYChange
-          ? computeYChange('removed', /** @type {Y.Item} */ (el._item).id)
+          ? computeYChange('removed', /** @type {Y.Item} */ el._item.id)
           : { type: 'removed' };
-      } else if (!isVisible(/** @type {Y.Item} */ (el._item), prevSnapshot)) {
-        attrs.ychange = computeYChange
-          ? computeYChange('added', /** @type {Y.Item} */ (el._item).id)
-          : { type: 'added' };
+      } else if (!isVisible(/** @type {Y.Item} */ el._item, prevSnapshot)) {
+        attrs.ychange = computeYChange ? computeYChange('added', /** @type {Y.Item} */ el._item.id) : { type: 'added' };
       }
     }
     const node = schema.node(el.nodeName, attrs, children);
@@ -516,8 +514,8 @@ const createNodeFromYElement = (el, schema, mapping, snapshot, prevSnapshot, com
     return node;
   } catch (e) {
     // an error occured while creating the node. This is probably a result of a concurrent action.
-    /** @type {Y.Doc} */ (el.doc).transact((transaction) => {
-      /** @type {Y.Item} */ (el._item).delete(transaction);
+    /** @type {Y.Doc} */ el.doc.transact((transaction) => {
+      /** @type {Y.Item} */ el._item.delete(transaction);
     }, ySyncPluginKey);
     mapping.delete(el);
     return null;
@@ -548,8 +546,8 @@ const createTextNodesFromYText = (text, schema, mapping, snapshot, prevSnapshot,
     }
   } catch (e) {
     // an error occured while creating the node. This is probably a result of a concurrent action.
-    /** @type {Y.Doc} */ (text.doc).transact((transaction) => {
-      /** @type {Y.Item} */ (text._item).delete(transaction);
+    /** @type {Y.Doc} */ text.doc.transact((transaction) => {
+      /** @type {Y.Item} */ text._item.delete(transaction);
     }, ySyncPluginKey);
     return null;
   }
@@ -657,7 +655,7 @@ const equalYTextPText = (ytext, ptexts) => {
     delta.length === ptexts.length &&
     delta.every(
       (d, i) =>
-        d.insert === /** @type {any} */ (ptexts[i]).text &&
+        d.insert === /** @type {any} */ ptexts[i].text &&
         object.keys(d.attributes || {}).length === ptexts[i].marks.length &&
         ptexts[i].marks.every((mark) => equalAttrs(d.attributes[mark.type.name] || {}, mark.attrs))
     )
@@ -764,7 +762,7 @@ const updateYText = (ytext, ptexts, mapping) => {
   mapping.set(ytext, ptexts);
   const { nAttrs, str } = ytextTrans(ytext);
   const content = ptexts.map((p) => ({
-    insert: /** @type {any} */ (p).text,
+    insert: /** @type {any} */ p.text,
     attributes: Object.assign({}, nAttrs, marksToAttributes(p.marks)),
   }));
   const { insert, remove, index } = simpleDiff(str, content.map((c) => c.insert).join(''));
@@ -867,13 +865,13 @@ export const updateYFragment = (y, yDomFragment, pNode, mapping) => {
         if (updateLeft && updateRight) {
           // decide which which element to update
           const equalityLeft = computeChildEqualityFactor(
-            /** @type {Y.XmlElement} */ (leftY),
-            /** @type {PModel.Node} */ (leftP),
+            /** @type {Y.XmlElement} */ leftY,
+            /** @type {PModel.Node} */ leftP,
             mapping
           );
           const equalityRight = computeChildEqualityFactor(
-            /** @type {Y.XmlElement} */ (rightY),
-            /** @type {PModel.Node} */ (rightP),
+            /** @type {Y.XmlElement} */ rightY,
+            /** @type {PModel.Node} */ rightP,
             mapping
           );
           if (equalityLeft.foundMappedChild && !equalityRight.foundMappedChild) {
@@ -887,10 +885,10 @@ export const updateYFragment = (y, yDomFragment, pNode, mapping) => {
           }
         }
         if (updateLeft) {
-          updateYFragment(y, /** @type {Y.XmlFragment} */ (leftY), /** @type {PModel.Node} */ (leftP), mapping);
+          updateYFragment(y, /** @type {Y.XmlFragment} */ leftY, /** @type {PModel.Node} */ leftP, mapping);
           left += 1;
         } else if (updateRight) {
-          updateYFragment(y, /** @type {Y.XmlFragment} */ (rightY), /** @type {PModel.Node} */ (rightP), mapping);
+          updateYFragment(y, /** @type {Y.XmlFragment} */ rightY, /** @type {PModel.Node} */ rightP, mapping);
           right += 1;
         } else {
           yDomFragment.delete(left, 1);

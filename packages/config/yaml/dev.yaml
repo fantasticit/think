@@ -10,7 +10,6 @@ client:
   assetPrefix: '/'
   apiUrl: 'http://localhost:5001/api'
   collaborationUrl: 'ws://localhost:5003'
-  drawioUrl: 'https://embed.diagrams.net'
 
 # 数据库配置
 db:

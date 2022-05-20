@@ -1,7 +1,9 @@
 node_modules
+.next
+dist
+lib
+
 **/.next/**
-**/_next/**
 **/dist/**
-.eslintrc.js
-./packages/client/src/tiptap/wrappers/mind/mind-elixir/iconfont/iconfont.js
-./packages/client/public/viewer.min.js
+**/build/**
+**/public/**

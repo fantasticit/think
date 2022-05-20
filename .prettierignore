@@ -2,3 +2,8 @@ node_modules
 .next
 dist
 lib
+
+**/.next/**
+**/dist/**
+**/build/**
+**/public/**
