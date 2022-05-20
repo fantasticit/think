@@ -1,0 +1,6 @@
+node_modules
+.next
+dist
+lib
+./public/diagram.js
+./public/diagram.min.js
