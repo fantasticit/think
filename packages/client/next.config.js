@@ -11,7 +11,6 @@ const nextConfig = semi({
     SERVER_API_URL: config.client.apiUrl,
     COLLABORATION_API_URL: config.client.collaborationUrl,
     ENABLE_ALIYUN_OSS: !!config.oss.aliyun.accessKeyId,
-    DRAWIO_URL: config.client.drawioUrl || 'https://embed.diagrams.net',
   },
   webpack: (config, { dev, isServer }) => {
     config.resolve.plugins.push(new TsconfigPathsPlugin());
