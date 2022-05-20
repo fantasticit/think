@@ -1,4 +1,5 @@
-!(function (t) {
+/* eslint-disable */
+(function (t) {
   var c,
     l,
     a,

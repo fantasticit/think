@@ -60,6 +60,6 @@
     "./packages/server/src/*.{ts,js}": [
       "eslint --fix"
     ],
-    "*.{css,scss,sass}": " stylelint --fix --formatter verbose --allow-empty-input"
+    "*.{css,scss,sass}": "stylelint --fix --formatter verbose --allow-empty-input"
   }
 }

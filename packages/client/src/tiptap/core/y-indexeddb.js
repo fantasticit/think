@@ -12,7 +12,7 @@ export const PREFERRED_TRIM_SIZE = 500;
  * @param {IndexeddbPersistence} idbPersistence
  */
 export const fetchUpdates = (idbPersistence) => {
-  const [updatesStore] = idb.transact(/** @type {IDBDatabase} */ (idbPersistence.db), [updatesStoreName]); // , 'readonly')
+  const [updatesStore] = idb.transact(/** @type {IDBDatabase} */ idbPersistence.db, [updatesStoreName]); // , 'readonly')
   return idb
     .getAll(updatesStore, idb.createIDBKeyRangeLowerBound(idbPersistence._dbref, false))
     .then((updates) =>
@@ -112,7 +112,7 @@ export class IndexeddbPersistence extends Observable {
     this._storeUpdate = (update) =>
       this._mux(() => {
         if (this.db) {
-          const [updatesStore] = idb.transact(/** @type {IDBDatabase} */ (this.db), [updatesStoreName]);
+          const [updatesStore] = idb.transact(/** @type {IDBDatabase} */ this.db, [updatesStoreName]);
           idb.addAutoKey(updatesStore, update);
           if (++this._dbsize >= PREFERRED_TRIM_SIZE) {
             // debounce store call

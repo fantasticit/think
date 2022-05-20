@@ -20,7 +20,7 @@ import * as eventloop from 'lib0/eventloop';
 let viewsToUpdate = null;
 
 const updateMetas = () => {
-  const ups = /** @type {Map<EditorView, Map<any, any>>} */ (viewsToUpdate);
+  const ups = /** @type {Map<EditorView, Map<any, any>>} */ viewsToUpdate;
   viewsToUpdate = null;
   ups.forEach((metas, view) => {
     const tr = view.state.tr;
@@ -54,7 +54,7 @@ export const absolutePositionToRelativePosition = (pos, type, mapping) => {
   /**
    * @type {any}
    */
-  let n = type._first === null ? null : /** @type {Y.ContentType} */ (type._first.content).type;
+  let n = type._first === null ? null : /** @type {Y.ContentType} */ type._first.content.type;
   while (n !== null && type !== n) {
     if (n instanceof Y.XmlText) {
       if (n._length >= pos) {
@@ -63,7 +63,7 @@ export const absolutePositionToRelativePosition = (pos, type, mapping) => {
         pos -= n._length;
       }
       if (n._item !== null && n._item.next !== null) {
-        n = /** @type {Y.ContentType} */ (n._item.next.content).type;
+        n = /** @type {Y.ContentType} */ n._item.next.content.type;
       } else {
         do {
           n = n._item === null ? null : n._item.parent;
@@ -71,13 +71,13 @@ export const absolutePositionToRelativePosition = (pos, type, mapping) => {
         } while (n !== type && n !== null && n._item !== null && n._item.next === null);
         if (n !== null && n !== type) {
           // @ts-gnore we know that n.next !== null because of above loop conditition
-          n = n._item === null ? null : /** @type {Y.ContentType} */ (/** @type Y.Item */ (n._item.next).content).type;
+          n = n._item === null ? null : /** @type {Y.ContentType} */ /** @type Y.Item */ n._item.next.content.type;
         }
       }
     } else {
       const pNodeSize = /** @type {any} */ (mapping.get(n) || { nodeSize: 0 }).nodeSize;
       if (n._first !== null && pos < pNodeSize) {
-        n = /** @type {Y.ContentType} */ (n._first.content).type;
+        n = /** @type {Y.ContentType} */ n._first.content.type;
         pos--;
       } else {
         if (pos === 1 && n._length === 0 && pNodeSize > 1) {
@@ -90,7 +90,7 @@ export const absolutePositionToRelativePosition = (pos, type, mapping) => {
         }
         pos -= pNodeSize;
         if (n._item !== null && n._item.next !== null) {
-          n = /** @type {Y.ContentType} */ (n._item.next.content).type;
+          n = /** @type {Y.ContentType} */ n._item.next.content.type;
         } else {
           if (pos === 0) {
             // set to end of n.parent
@@ -102,14 +102,13 @@ export const absolutePositionToRelativePosition = (pos, type, mapping) => {
             );
           }
           do {
-            n = /** @type {Y.Item} */ (n._item).parent;
+            n = /** @type {Y.Item} */ n._item.parent;
             pos--;
-          } while (n !== type && /** @type {Y.Item} */ (n._item).next === null);
+          } while (n !== type && /** @type {Y.Item} */ n._item.next === null);
           // if n is null at this point, we have an unexpected case
           if (n !== type) {
             // We know that n._item.next is defined because of above loop condition
-            n = /** @type {Y.ContentType} */ (/** @type {Y.Item} */ (/** @type {Y.Item} */ (n._item).next).content)
-              .type;
+            n = /** @type {Y.ContentType} */ /** @type {Y.Item} */ /** @type {Y.Item} */ n._item.next.content.type;
           }
         }
       }
@@ -157,15 +156,15 @@ export const relativePositionToAbsolutePosition = (y, documentType, relPos, mapp
     let i = 0;
     while (i < type._length && i < decodedPos.index && n !== null) {
       if (!n.deleted) {
-        const t = /** @type {Y.ContentType} */ (n.content).type;
+        const t = /** @type {Y.ContentType} */ n.content.type;
         i++;
         if (t instanceof Y.XmlText) {
           pos += t._length;
         } else {
-          pos += /** @type {any} */ (mapping.get(t)).nodeSize;
+          pos += /** @type {any} */ mapping.get(t).nodeSize;
         }
       }
-      n = /** @type {Y.Item} */ (n.right);
+      n = /** @type {Y.Item} */ n.right;
     }
     pos += 1; // increase because we go out of n
   }
@@ -175,10 +174,10 @@ export const relativePositionToAbsolutePosition = (y, documentType, relPos, mapp
     // @ts-ignore
     if (parent._item === null || !parent._item.deleted) {
       pos += 1; // the start tag
-      let n = /** @type {Y.AbstractType} */ (parent)._first;
+      let n = /** @type {Y.AbstractType} */ parent._first;
       // now iterate until we found type
       while (n !== null) {
-        const contentType = /** @type {Y.ContentType} */ (n.content).type;
+        const contentType = /** @type {Y.ContentType} */ n.content.type;
         if (contentType === type) {
           break;
         }
@@ -186,13 +185,13 @@ export const relativePositionToAbsolutePosition = (y, documentType, relPos, mapp
           if (contentType instanceof Y.XmlText) {
             pos += contentType._length;
           } else {
-            pos += /** @type {any} */ (mapping.get(contentType)).nodeSize;
+            pos += /** @type {any} */ mapping.get(contentType).nodeSize;
           }
         }
         n = n.right;
       }
     }
-    type = /** @type {Y.AbstractType} */ (parent);
+    type = /** @type {Y.AbstractType} */ parent;
   }
   return pos - 1; // we don't count the most outer tag, because it is a fragment
 };
@@ -210,7 +209,7 @@ export const relativePositionToAbsolutePosition = (y, documentType, relPos, mapp
  */
 export function prosemirrorToYDoc(doc, xmlFragment = 'prosemirror') {
   const ydoc = new Y.Doc();
-  const type = /** @type {Y.XmlFragment} */ (ydoc.get(xmlFragment, Y.XmlFragment));
+  const type = /** @type {Y.XmlFragment} */ ydoc.get(xmlFragment, Y.XmlFragment);
   if (!type.doc) {
     return ydoc;
   }

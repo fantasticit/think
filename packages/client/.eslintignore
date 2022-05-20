@@ -1,9 +1,0 @@
-node_modules
-**/.next/**
-**/_next/**
-**/dist/**
-.eslintrc.js
-
-./src/tiptap/core/wrappers/mind/mind-elixir/iconfont/iconfont.js
-./public/diagram.js
-./public/diagram.min.js
