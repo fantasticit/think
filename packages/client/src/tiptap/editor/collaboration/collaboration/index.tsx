@@ -5,7 +5,7 @@ import { debounce } from 'helpers/debounce';
 import { useToggle } from 'hooks/use-toggle';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import { IndexeddbPersistence } from 'y-indexeddb';
+import { IndexeddbPersistence } from 'tiptap/core/y-indexeddb';
 
 import { Editor } from '../../react';
 import { EditorInstance } from './editor';
