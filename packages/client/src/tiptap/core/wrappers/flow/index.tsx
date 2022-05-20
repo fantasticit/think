@@ -1,17 +1,18 @@
-import { Button, Space } from '@douyinfe/semi-ui';
+import { Button, Space, Spin, Typography } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
-import { convertColorToRGBA } from 'helpers/color';
-import { Theme, useTheme } from 'hooks/use-theme';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { load, renderXml } from 'diagram';
+import { useToggle } from 'hooks/use-toggle';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Flow } from 'tiptap/core/extensions/flow';
 import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
 
-const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%', overflow: 'hidden' };
+const { Text } = Typography;
+const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
 const ICON_STYLE = { fontSize: '0.85em' };
 
 export const FlowWrapper = ({ editor, node, updateAttributes }) => {
@@ -19,48 +20,27 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const isActive = editor.isActive(Flow.name);
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const { data, width, height } = node.attrs;
-  const { theme } = useTheme();
-  const $viewer = useRef(null);
+  const $graph = useRef(null);
   const $container = useRef<HTMLElement>();
   const [bgColor, setBgColor] = useState('var(--semi-color-fill-0)');
-  const bgColorOpacity = useMemo(() => {
-    if (!bgColor) return bgColor;
-    if (theme === Theme.dark) return convertColorToRGBA(bgColor, 0.85);
-    return bgColor;
-  }, [bgColor, theme]);
-
-  const graphData = useMemo(() => {
-    if (!data) return null;
-    const content = data.replace(/<!--.*?-->/gs, '').trim();
-    const config = JSON.stringify({
-      'lightbox': false,
-      'nav': false,
-      'resize': true,
-      'xml': content,
-      'zoom': 1,
-      'auto-fit': true,
-      'allow-zoom-in': true,
-      'allow-zoom-out': true,
-      'forceCenter': true,
-    });
-    return config;
-  }, [data]);
+  const [loading, toggleLoading] = useToggle(true);
+  const [error, setError] = useState(null);
 
   const center = useCallback(() => {
-    const graph = $viewer.current && $viewer.current.graph;
+    const graph = $graph.current;
     if (!graph) return;
     graph.fit();
-    graph.center(true, false);
+    graph.center();
   }, []);
 
   const zoomOut = useCallback(() => {
-    const graph = $viewer.current && $viewer.current.graph;
+    const graph = $graph.current;
     if (!graph) return;
     graph.zoomOut();
   }, []);
 
   const zoomIn = useCallback(() => {
-    const graph = $viewer.current && $viewer.current.graph;
+    const graph = $graph.current;
     if (!graph) return;
     graph.zoomIn();
   }, []);
@@ -72,19 +52,23 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
     [updateAttributes]
   );
 
-  const render = useCallback((div) => {
-    if (!div) return;
-    // @ts-ignore
-    const DrawioViewer = window.GraphViewer;
-    if (DrawioViewer) {
-      div.innerHTML = '';
-      DrawioViewer.createViewerForElement(div, (viewer) => {
-        $viewer.current = viewer;
-        const background = viewer?.graph?.background;
-        background && setBgColor(background);
-      });
-    }
-  }, []);
+  const render = useCallback(
+    (div) => {
+      if (!div) return;
+
+      // load().then(() => {
+      if (!$graph.current) {
+        const graph = renderXml(div, data);
+        $graph.current = graph;
+      } else {
+        $graph.current.setXml(data);
+      }
+
+      $graph.current.center();
+      // });
+    },
+    [data]
+  );
 
   const setMxgraph = useCallback(
     (div) => {
@@ -95,8 +79,8 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   useEffect(() => {
-    render($container.current);
-  }, [graphData, render]);
+    load().catch(setError).finally(toggleLoading);
+  }, [toggleLoading]);
 
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
@@ -110,16 +94,18 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
       >
         <div
           className={cls(styles.renderWrap, 'render-wrapper')}
-          style={{ ...INHERIT_SIZE_STYLE, backgroundColor: bgColorOpacity }}
+          style={{ ...INHERIT_SIZE_STYLE, backgroundColor: bgColor }}
         >
-          {graphData && (
-            <div
-              className="mxgraph"
-              style={{ width: maxWidth, height }}
-              ref={setMxgraph}
-              data-mxgraph={graphData}
-            ></div>
+          {loading && (
+            <div>
+              <Spin spinning>
+                {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
+                <div></div>
+              </Spin>
+            </div>
           )}
+          {error && <Text>{(error && error.message) || '未知错误'}</Text>}
+          {!loading && !error && <div ref={setMxgraph}></div>}
         </div>
 
         <div className={styles.toolbarWrap}>

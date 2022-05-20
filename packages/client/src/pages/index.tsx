@@ -41,7 +41,7 @@ const RecentDocs = () => {
         width={200}
         render={(_, document: IDocument) => {
           return (
-            <Link href={'/wiki/[wikiId]/document/[docId]'} as={`/wiki/${document.wikiId}/document/${document.id}`}>
+            <Link href={'/wiki/[wikiId]/document/[documentId]'} as={`/wiki/${document.wikiId}/document/${document.id}`}>
               <a style={{ color: 'inherit', textDecoration: 'none' }}>{document.title}</a>
             </Link>
           );

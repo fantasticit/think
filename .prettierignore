@@ -2,3 +2,5 @@ node_modules
 .next
 dist
 lib
+./packages/client/public/diagram.js
+./packages/client/public/diagram.min.js

@@ -15,8 +15,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta name="viewport" content="viewport-fit=cover" />
-        {/* <script src="/drawio.embed.js"></script> */}
-        <script src="/viewer.min.js"></script>
       </Head>
       <Component {...pageProps} />
     </>

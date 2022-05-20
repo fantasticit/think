@@ -3,5 +3,7 @@ node_modules
 **/_next/**
 **/dist/**
 .eslintrc.js
-./packages/client/src/tiptap/wrappers/mind/mind-elixir/iconfont/iconfont.js
-./packages/client/public/viewer.min.js
+
+./src/tiptap/core/wrappers/mind/mind-elixir/iconfont/iconfont.js
+./public/diagram.js
+./public/diagram.min.js
