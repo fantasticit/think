@@ -71,7 +71,7 @@
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
     "next": "12.0.10",
-    "next-offline": "^5.0.5",
+    "next-pwa": "^5.5.2",
     "prosemirror-markdown": "^1.7.0",
     "prosemirror-model": "^1.16.1",
     "prosemirror-schema-list": "^1.1.6",
@@ -93,8 +93,6 @@
     "tippy.js": "^6.3.7",
     "toggle-selection": "^1.0.6",
     "viewerjs": "^1.10.4",
-    "y-indexeddb": "^9.0.7",
-    "y-prosemirror": "^1.0.14",
     "yjs": "^13.5.24"
   },
   "devDependencies": {
@@ -102,6 +100,7 @@
     "@types/react": "17.0.38",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
+    "copy-webpack-plugin": "11.0.0",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
@@ -109,7 +108,9 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "fs-extra": "^10.0.0",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
-    "typescript": "4.5.5"
+    "typescript": "4.5.5",
+    "workbox-webpack-plugin": "^6.5.3"
   }
 }

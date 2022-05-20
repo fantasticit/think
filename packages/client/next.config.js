@@ -1,6 +1,6 @@
 const semi = require('@douyinfe/semi-next').default({});
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const withOffline = require('next-offline');
+const withPWA = require('next-pwa');
 const { getConfig } = require('@think/config');
 const config = getConfig();
 
@@ -27,26 +27,11 @@ const nextConfig = semi({
   compiler: {
     removeConsole: true,
   },
-  workboxOpts: {
-    runtimeCaching: [
-      {
-        urlPattern: /.(png|jpg|jpeg|svg|webp)$/,
-        handler: 'CacheFirst',
-      },
-      {
-        urlPattern: /api/,
-        handler: 'NetworkFirst',
-        options: {
-          cacheableResponse: {
-            statuses: [0, 200],
-            headers: {
-              'x-sw': 'true',
-            },
-          },
-        },
-      },
-    ],
+  pwa: {
+    disable: process.env.NODE_ENV !== 'production',
+    dest: '.next',
+    sw: 'service-worker.js',
   },
 });
 
-module.exports = withOffline(nextConfig);
+module.exports = withPWA(nextConfig);

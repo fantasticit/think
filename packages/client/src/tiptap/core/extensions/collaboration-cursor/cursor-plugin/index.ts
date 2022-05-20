@@ -1,8 +1,13 @@
 import * as math from 'lib0/math';
 import { Plugin } from 'prosemirror-state'; // eslint-disable-line
 import { Decoration, DecorationSet } from 'prosemirror-view'; // eslint-disable-line
-import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition, setMeta } from 'y-prosemirror';
-import { yCursorPluginKey, ySyncPluginKey } from 'y-prosemirror';
+import {
+  absolutePositionToRelativePosition,
+  relativePositionToAbsolutePosition,
+  setMeta,
+  yCursorPluginKey,
+  ySyncPluginKey,
+} from 'tiptap/core/y-prosemirror/y-prosemirror';
 import * as Y from 'yjs';
 
 /**
