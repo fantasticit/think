@@ -1,6 +1,7 @@
 import { onAuthenticatePayload, onChangePayload, onLoadDocumentPayload, Server } from '@hocuspocus/server';
 import { TiptapTransformer } from '@hocuspocus/transformer';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { DocumentService } from '@services/document.service';
 import { DocumentVersionService } from '@services/document-version.service';
 import { TemplateService } from '@services/template.service';
@@ -26,12 +27,18 @@ export class CollaborationService {
   constructor(
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
+
     @Inject(forwardRef(() => DocumentService))
     private readonly documentService: DocumentService,
+
     @Inject(forwardRef(() => TemplateService))
     private readonly templateService: TemplateService,
+
     @Inject(forwardRef(() => DocumentVersionService))
-    private readonly documentVersionService: DocumentVersionService
+    private readonly documentVersionService: DocumentVersionService,
+
+    @Inject(forwardRef(() => ConfigService))
+    private readonly configService: ConfigService
   ) {
     this.initServer();
   }
@@ -73,8 +80,9 @@ export class CollaborationService {
         onDisconnect: this.onDisconnect.bind(this),
       });
       this.server = server;
-      await this.server.listen(lodash.get(getConfig(), 'server.collaborationPort', 5003));
-      console.log('[think] 协作服务启动成功');
+      const port = this.configService.get('server.collaborationPort') || 5003;
+      await this.server.listen(port);
+      console.log(`[think] 协作服务启动成功，端口：${port}`);
     } catch (err) {
       console.error('[think] 协作服务启动失败：', err.message);
     }

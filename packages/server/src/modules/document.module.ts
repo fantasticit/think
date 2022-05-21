@@ -8,12 +8,14 @@ import { UserModule } from '@modules/user.module';
 import { ViewModule } from '@modules/view.module';
 import { WikiModule } from '@modules/wiki.module';
 import { forwardRef, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DocumentService } from '@services/document.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([DocumentAuthorityEntity, DocumentEntity]),
+    forwardRef(() => ConfigModule),
     forwardRef(() => UserModule),
     forwardRef(() => WikiModule),
     forwardRef(() => MessageModule),

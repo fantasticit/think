@@ -5,6 +5,7 @@ import { UpdateDocumentDto } from '@dtos/update-document.dto';
 import { DocumentEntity } from '@entities/document.entity';
 import { DocumentAuthorityEntity } from '@entities/document-authority.entity';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CollaborationService } from '@services/collaboration.service';
 import { DocumentVersionService } from '@services/document-version.service';
@@ -30,6 +31,9 @@ export class DocumentService {
     @InjectRepository(DocumentEntity)
     public readonly documentRepo: Repository<DocumentEntity>,
 
+    @Inject(forwardRef(() => ConfigService))
+    private readonly configService: ConfigService,
+
     @Inject(forwardRef(() => MessageService))
     private readonly messageService: MessageService,
 
@@ -50,7 +54,8 @@ export class DocumentService {
       this.userService,
       this,
       this.templateService,
-      this.documentVersionService
+      this.documentVersionService,
+      this.configService
     );
   }
 
