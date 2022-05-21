@@ -1,4 +1,4 @@
-import { IconCopy, IconDelete, IconLineHeight } from '@douyinfe/semi-icons';
+import { IconCopy, IconDelete, IconEdit, IconLineHeight } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
 import { useCallback } from 'react';
@@ -9,7 +9,10 @@ import { useAttributes } from 'tiptap/editor/hooks/use-attributes';
 import { BubbleMenu } from 'tiptap/editor/views/bubble-menu';
 import { copyNode, deleteNode, getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
+import { triggerOpenMindSettingModal } from '../_event';
+
 export const MindBubbleMenu = ({ editor }) => {
+  const attrs = useAttributes(editor, Mind.name, {});
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const { width, height } = useAttributes(editor, Mind.name, { width: 0, height: 0 });
 
@@ -30,6 +33,9 @@ export const MindBubbleMenu = ({ editor }) => {
   }, []);
   const copyMe = useCallback(() => copyNode(Mind.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(Mind.name, editor), [editor]);
+  const openEditLinkModal = useCallback(() => {
+    triggerOpenMindSettingModal(editor, attrs);
+  }, [editor, attrs]);
 
   return (
     <BubbleMenu
@@ -43,6 +49,10 @@ export const MindBubbleMenu = ({ editor }) => {
       <Space spacing={4}>
         <Tooltip content="复制">
           <Button onClick={copyMe} icon={<IconCopy />} type="tertiary" theme="borderless" size="small" />
+        </Tooltip>
+
+        <Tooltip content="编辑">
+          <Button size="small" type="tertiary" theme="borderless" icon={<IconEdit />} onClick={openEditLinkModal} />
         </Tooltip>
 
         <Size width={width} maxWidth={maxWidth} height={height} onOk={setSize}>

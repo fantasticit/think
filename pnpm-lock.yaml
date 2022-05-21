@@ -107,6 +107,7 @@ importers:
       fs-extra: ^10.0.0
       interactjs: ^1.10.11
       katex: ^0.15.2
+      kity: ^2.0.4
       lib0: ^0.2.47
       lowlight: ^2.5.0
       markdown-it: ^12.3.2
@@ -196,6 +197,7 @@ importers:
       dompurify: 2.3.5
       interactjs: 1.10.11
       katex: 0.15.2
+      kity: 2.0.4
       lib0: 0.2.47
       lowlight: 2.5.0
       markdown-it: 12.3.2
@@ -237,7 +239,7 @@ importers:
       eslint: 8.14.0
       eslint-config-prettier: 8.5.0_eslint@8.14.0
       eslint-plugin-import: 2.26.0_eslint@8.14.0
-      eslint-plugin-prettier: 4.0.0_74ebb802163a9b4fa8f89d76ed02f62a
+      eslint-plugin-prettier: 4.0.0_740be41c8168d0cc214a306089357ad0
       eslint-plugin-react: 7.29.4_eslint@8.14.0
       eslint-plugin-react-hooks: 4.5.0_eslint@8.14.0
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.14.0
@@ -5191,22 +5193,6 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-prettier/4.0.0_74ebb802163a9b4fa8f89d76ed02f62a:
-    resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
-    engines: {node: '>=6.0.0'}
-    peerDependencies:
-      eslint: '>=7.28.0'
-      eslint-config-prettier: '*'
-      prettier: '>=2.0.0'
-    peerDependenciesMeta:
-      eslint-config-prettier:
-        optional: true
-    dependencies:
-      eslint: 8.14.0
-      eslint-config-prettier: 8.5.0_eslint@8.14.0
-      prettier-linter-helpers: 1.0.0
-    dev: true
-
   /eslint-plugin-react-hooks/4.5.0_eslint@8.14.0:
     resolution: {integrity: sha512-8k1gRt7D7h03kd+SAAlzXkQwWK22BnK6GKZG+FJA6BAGy22CFvl8kCIXKpVux0cCxMWDQUPqSok0LKaZ0aOcCw==}
     engines: {node: '>=10'}
@@ -7224,6 +7210,10 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /kity/2.0.4:
+    resolution: {integrity: sha512-u6jPit9N44gPTMzB7EiX3szurI7JB6HPswJESQiS0UnrNiceOeLxGRAm0mgGRuRnkGXwmA3Pzn7hZ1rauINpOA==}
+    dev: false
 
   /kleur/3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
