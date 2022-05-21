@@ -19,3 +19,5 @@ tsconfig.tsbuildinfo
 **/prod.yaml
 
 scripts/update.sh
+
+output
