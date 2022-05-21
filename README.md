@@ -59,7 +59,7 @@ CREATE DATABASE  `think` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_c
 
 #### 可选：Redis
 
-如果需要文档版本服务，请在 `@think/config` 的 `yaml` 配置中进行 `db.redis` 的配置。
+如果需要文档版本服务，请在根目录 `yaml` 配置中进行 `db.redis` 的配置。
 
 ```
 docker pull redis:latest
@@ -98,18 +98,19 @@ pnpm run dev
 
 ```yaml
 # 开发环境配置
+# 开发环境配置
+client:
+  port: 5001
+  assetPrefix: '/'
+  apiUrl: 'http://localhost:5002/api'
+  collaborationUrl: 'ws://localhost:5003'
+
 server:
   prefix: '/api'
-  port: 5001
+  port: 5002
   collaborationPort: 5003
   maxDocumentVersion: 20 # 最大版本记录数
-
-client:
-  port: 5002
-  assetPrefix: '/'
-  apiUrl: 'http://localhost:5001/api'
-  collaborationUrl: 'ws://localhost:5003'
-  drawioUrl: 'https://embed.diagrams.net'
+  logRetainDays: 3 # 日志保留天数，比如只保留近三天日志
 
 # 数据库配置
 db:

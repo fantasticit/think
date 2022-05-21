@@ -11,7 +11,7 @@ var FILE_ENV_NAME = {
 };
 var env = process.env.NODE_ENV || 'development';
 function getConfig() {
-    var filePath = path.join(__dirname, '../yaml/', "".concat(FILE_ENV_NAME[env], ".yaml"));
+    var filePath = path.join(__dirname, '../../../', "".concat(FILE_ENV_NAME[env], ".yaml"));
     if (!fs.existsSync(filePath)) {
         throw new Error("Can not find config file: ".concat(filePath));
     }
