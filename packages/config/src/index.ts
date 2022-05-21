@@ -11,7 +11,7 @@ const FILE_ENV_NAME = {
 const env = process.env.NODE_ENV || 'development';
 
 export function getConfig() {
-  const filePath = path.join(__dirname, '../../../', `${FILE_ENV_NAME[env]}.yaml`);
+  const filePath = path.join(__dirname, '../../../config', `${FILE_ENV_NAME[env]}.yaml`);
 
   if (!fs.existsSync(filePath)) {
     throw new Error(`Can not find config file: ${filePath}`);

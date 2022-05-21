@@ -90,11 +90,11 @@ pnpm run dev
 - 服务接口地址：`http://localhost:5002`。
 - 协作接口地址：`http://localhost:5003`。
 
-如需修改配置，可在 `dev.yaml` 中进行配置。
+如需修改配置，可在 `config/dev.yaml` 中进行配置。
 
 ### 配置文件
 
-默认加载 `dev.yaml` 中的配置（生产环境使用 `prod.yaml` ）。
+默认加载 `config/dev.yaml` 中的配置（生产环境使用 `config/prod.yaml` ）。
 
 ```yaml
 # 开发环境配置
