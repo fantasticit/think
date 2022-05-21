@@ -48,6 +48,10 @@ define(function (require, exports, module) {
    * v1.1.3 => v1.2.0
    * */
   function c_113_120(json) {
+    if (!json.data) {
+      json.data = {};
+    }
+
     // 原本的布局风格
     var ocs = json.data.currentstyle;
     delete json.data.currentstyle;
