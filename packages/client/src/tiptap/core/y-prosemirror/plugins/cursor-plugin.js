@@ -1,10 +1,10 @@
 import * as math from 'lib0/math';
 import { Plugin } from 'prosemirror-state'; // eslint-disable-line
 import { Decoration, DecorationSet } from 'prosemirror-view'; // eslint-disable-line
-import { Awareness } from 'y-protocols/awareness'; // eslint-disable-line
 import * as Y from 'yjs';
 
 import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition, setMeta } from '../lib.js';
+import { Awareness } from './awareness'; // eslint-disable-line
 import { yCursorPluginKey, ySyncPluginKey } from './keys.js';
 
 /**
