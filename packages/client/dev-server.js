@@ -2,7 +2,7 @@ const { getConfig } = require('@think/config');
 const config = getConfig();
 const cli = require('next/dist/cli/next-dev');
 
-const port = (config.client && config.client.port) || 5002;
+const port = (config.client && config.client.port) || 5001;
 
 try {
   cli.nextDev(['-p', port]);
