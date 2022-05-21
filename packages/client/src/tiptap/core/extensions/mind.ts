@@ -1,12 +1,13 @@
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { Plugin, PluginKey } from 'prosemirror-state';
 import { MindWrapper } from 'tiptap/core/wrappers/mind';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 const DEFAULT_MIND_DATA = {
-  nodeData: { topic: '中心节点', root: true, children: [] },
-  linkData: {},
+  root: { data: { text: '中心节点' }, children: [] },
+  template: 'default',
+  theme: 'fresh-purple',
+  version: '1.4.43',
 };
 
 export interface IMindAttrs {
@@ -36,7 +37,7 @@ export const Mind = Node.create({
   addAttributes() {
     return {
       width: {
-        default: null,
+        default: '100%',
         parseHTML: getDatasetAttribute('width'),
       },
       height: {
@@ -46,18 +47,6 @@ export const Mind = Node.create({
       data: {
         default: DEFAULT_MIND_DATA,
         parseHTML: getDatasetAttribute('data', true),
-      },
-      template: {
-        default: 'default',
-        parseHTML: getDatasetAttribute('template'),
-      },
-      theme: {
-        default: 'classic',
-        parseHTML: getDatasetAttribute('theme'),
-      },
-      zoom: {
-        default: 100,
-        parseHTML: getDatasetAttribute('zoom'),
       },
     };
   },
@@ -120,23 +109,6 @@ export const Mind = Node.create({
         type: this.type,
         getAttributes: (match) => {
           return { type: match[1] };
-        },
-      }),
-    ];
-  },
-
-  addProseMirrorPlugins() {
-    const { editor } = this;
-
-    return [
-      new Plugin({
-        key: new PluginKey('mind'),
-        props: {
-          handleKeyDown(view, event) {
-            if (editor.isActive('mind')) {
-              return true;
-            }
-          },
         },
       }),
     ];
