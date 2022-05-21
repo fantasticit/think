@@ -358,7 +358,10 @@ export class DocumentService {
   async deleteDocument(user: OutUser, documentId) {
     const document = await this.documentRepo.findOne(documentId);
     if (document.isWikiHome) {
-      throw new HttpException('该文档作为知识库首页使用，无法删除', HttpStatus.FORBIDDEN);
+      const isWikiExist = await this.wikiService.findById(document.wikiId);
+      if (isWikiExist) {
+        throw new HttpException('该文档作为知识库首页使用，无法删除', HttpStatus.FORBIDDEN);
+      }
     }
     const children = await this.documentRepo.find({
       parentDocumentId: document.id,

@@ -458,9 +458,10 @@ export class WikiService {
     if (user.id !== wiki.createUserId) {
       throw new HttpException('您不是创建者，无法删除该知识库', HttpStatus.FORBIDDEN);
     }
+    await this.wikiRepo.remove(wiki);
     await this.documentService.deleteWikiDocuments(user, wikiId);
     const users = await this.wikiUserRepo.find({ wikiId });
-    await Promise.all([this.wikiRepo.remove(wiki), this.wikiUserRepo.remove(users)]);
+    await Promise.all([this.wikiUserRepo.remove(users)]);
     return wiki;
   }
 
