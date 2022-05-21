@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf .next",
-    "build": "next build",
+    "build": "next build && node copy-diagram-resources.js",
     "dev": "node dev-server.js",
     "start": "cross-env NODE_ENV=production node prod-server.js",
     "pm2": "pm2 start npm --name @think/client -- start"
