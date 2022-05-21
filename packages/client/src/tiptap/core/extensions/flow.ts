@@ -22,7 +22,6 @@ export const Flow = Node.create({
   group: 'block',
   selectable: true,
   atom: true,
-  inline: false,
 
   addAttributes() {
     return {

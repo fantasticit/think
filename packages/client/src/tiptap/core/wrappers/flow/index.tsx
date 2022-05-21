@@ -56,7 +56,6 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
     (div) => {
       if (!div) return;
 
-      // load().then(() => {
       if (!$graph.current) {
         const graph = renderXml(div, data);
         $graph.current = graph;
@@ -64,8 +63,9 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
         $graph.current.setXml(data);
       }
 
+      $graph.current.fit();
+      $graph.current.zoom(0.8);
       $graph.current.center();
-      // });
     },
     [data]
   );
@@ -79,22 +79,17 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   useEffect(() => {
-    load().catch(setError).finally(toggleLoading);
-  }, [toggleLoading]);
+    load()
+      .catch(setError)
+      .finally(() => toggleLoading(false));
+  }, [toggleLoading, data]);
 
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
-      <Resizeable
-        style={{ overflow: 'hidden' }}
-        isEditable={isEditable}
-        width={width}
-        height={height}
-        maxWidth={maxWidth}
-        onChangeEnd={onResize}
-      >
+      <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
         <div
           className={cls(styles.renderWrap, 'render-wrapper')}
-          style={{ ...INHERIT_SIZE_STYLE, backgroundColor: bgColor }}
+          style={{ ...INHERIT_SIZE_STYLE, overflow: 'hidden', backgroundColor: bgColor }}
         >
           {loading && (
             <div>
@@ -105,7 +100,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
             </div>
           )}
           {error && <Text>{(error && error.message) || '未知错误'}</Text>}
-          {!loading && !error && <div ref={setMxgraph}></div>}
+          {!loading && !error && <div style={{ maxHeight: '100%' }} ref={setMxgraph}></div>}
         </div>
 
         <div className={styles.toolbarWrap}>

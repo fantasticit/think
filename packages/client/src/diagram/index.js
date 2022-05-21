@@ -12,7 +12,6 @@ export function createEditor(div) {
 
     try {
       editorUi.editor.graph.model.clear();
-      editorUi.editor.graph.view.scale = 1;
       editorUi.editor.updateGraphComponents();
       codec.decode(xmlDoc.documentElement, editorUi.editor.graph.getModel());
     } finally {
