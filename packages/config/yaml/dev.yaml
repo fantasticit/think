@@ -4,6 +4,7 @@ server:
   port: 5001
   collaborationPort: 5003
   maxDocumentVersion: 20 # 最大版本记录数
+  logRetainDays: 3 # 日志保留天数，比如只保留近三天日志
 
 client:
   port: 5002

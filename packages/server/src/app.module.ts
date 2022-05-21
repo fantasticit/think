@@ -8,6 +8,7 @@ import { UserEntity } from '@entities/user.entity';
 import { ViewEntity } from '@entities/view.entity';
 import { WikiEntity } from '@entities/wiki.entity';
 import { WikiUserEntity } from '@entities/wiki-user.entity';
+import { getLogFileName } from '@helpers/log.helper';
 import { CollectorModule } from '@modules/collector.module';
 import { CommentModule } from '@modules/comment.module';
 import { DocumentModule } from '@modules/document.module';
@@ -17,10 +18,15 @@ import { TemplateModule } from '@modules/template.module';
 import { UserModule } from '@modules/user.module';
 import { ViewModule } from '@modules/view.module';
 import { WikiModule } from '@modules/wiki.module';
-import { Module } from '@nestjs/common';
+import { forwardRef, Inject, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Cron, ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { getConfig } from '@think/config';
+import * as fs from 'fs-extra';
+import { LoggerModule } from 'nestjs-pino';
+import * as path from 'path';
+import pino from 'pino';
 
 const ENTITIES = [
   UserEntity,
@@ -47,6 +53,8 @@ const MODULES = [
   ViewModule,
 ];
 
+const ONE_DAY = 24 * 60 * 60 * 1000;
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -54,6 +62,18 @@ const MODULES = [
       load: [getConfig],
       isGlobal: true,
     }),
+    ScheduleModule.forRoot(),
+    process.env.NODE_ENV === 'production' &&
+      LoggerModule.forRoot({
+        pinoHttp: {
+          stream: pino.destination({
+            dest: `./logs/${getLogFileName(new Date())}`,
+            minLength: 4096,
+            mkdir: true,
+            sync: false,
+          }),
+        },
+      }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -67,8 +87,28 @@ const MODULES = [
       },
     }),
     ...MODULES,
-  ],
+  ].filter(Boolean),
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    @Inject(forwardRef(() => ConfigService))
+    private readonly configService: ConfigService
+  ) {}
+
+  /**
+   * 每天早上9点，清理日志
+   */
+  @Cron('0 0 9 * * *')
+  deleteLog() {
+    let retainDays = this.configService.get('server.logRetainDays');
+    const startDate = new Date(new Date().valueOf() - retainDays * ONE_DAY).valueOf();
+
+    do {
+      const filepath = path.join(__dirname, '../logs', getLogFileName(startDate, retainDays));
+      fs.removeSync(filepath);
+      retainDays -= 1;
+    } while (retainDays > 0);
+  }
+}
