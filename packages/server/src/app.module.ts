@@ -8,7 +8,7 @@ import { UserEntity } from '@entities/user.entity';
 import { ViewEntity } from '@entities/view.entity';
 import { WikiEntity } from '@entities/wiki.entity';
 import { WikiUserEntity } from '@entities/wiki-user.entity';
-import { getLogFileName } from '@helpers/log.helper';
+import { getLogFileName, ONE_DAY } from '@helpers/log.helper';
 import { CollectorModule } from '@modules/collector.module';
 import { CommentModule } from '@modules/comment.module';
 import { DocumentModule } from '@modules/document.module';
@@ -52,8 +52,6 @@ const MODULES = [
   TemplateModule,
   ViewModule,
 ];
-
-const ONE_DAY = 24 * 60 * 60 * 1000;
 
 @Module({
   imports: [
