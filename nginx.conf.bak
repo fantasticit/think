@@ -82,4 +82,21 @@ server {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   }
+
+  # 静态文件
+  location ^~ /_next {
+    alias /apps/think/packages/client/.next;
+    autoindex on;
+  }
+
+  # next-pwa 生成的静态文件（service-worker.js, workbox-*.js）
+  location ~ /*\.js$ {
+    add_header Content-Type "application/javascript; charset=UTF-8";
+    root /apps/think/packages/client/.next;
+  }
+  
+  # 自定义流程图编辑器的文件
+  location ~ /*\.(gif|png|jpg|jpeg|xml|txt)$ {
+    root /apps/think/packages/client/.next;
+  }
 }

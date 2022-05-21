@@ -28,7 +28,6 @@
       "helpers/*": ["helpers/*"],
       "tiptap/*": ["tiptap/*"],
       "event/*": ["event/*"],
-      "diagram/*": ["diagram/*"],
       "thirtypart/*": ["thirtypart/*"]
     }
   },

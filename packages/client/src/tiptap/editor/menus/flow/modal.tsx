@@ -1,7 +1,7 @@
 import { Modal, Spin, Typography } from '@douyinfe/semi-ui';
-import { createEditor, load } from 'diagram';
 import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createEditor, load } from 'thirtypart/diagram';
 import { Editor } from 'tiptap/editor';
 
 import { cancelSubject, OPEN_FLOW_SETTING_MODAL, subject } from '../_event';
@@ -58,7 +58,16 @@ export const FlowSettingModal: React.FC<IProps> = ({ editor }) => {
   }, [editor, toggleVisible]);
 
   return (
-    <Modal centered title="流程图" fullScreen visible={visible} onCancel={toggleVisible} onOk={save}>
+    <Modal
+      centered
+      title="流程图"
+      fullScreen
+      visible={visible}
+      onCancel={toggleVisible}
+      onOk={save}
+      okText="保存"
+      cancelText="退出"
+    >
       <div style={{ height: '100%', margin: '0 -24px', border: '1px solid var(--semi-color-border)' }}>
         {loading && (
           <Spin spinning>

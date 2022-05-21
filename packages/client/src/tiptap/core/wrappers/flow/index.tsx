@@ -3,9 +3,9 @@ import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
-import { load, renderXml } from 'diagram';
 import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { load, renderXml } from 'thirtypart/diagram';
 import { Flow } from 'tiptap/core/extensions/flow';
 import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
