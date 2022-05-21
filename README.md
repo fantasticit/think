@@ -86,11 +86,11 @@ pnpm install
 pnpm run dev
 ```
 
-前台页面地址：`http://localhost:5002`。
-服务接口地址：`http://localhost:5001`。
-协作接口地址：`http://localhost:5003`。
+- 前台页面地址：`http://localhost:5001`。
+- 服务接口地址：`http://localhost:5002`。
+- 协作接口地址：`http://localhost:5003`。
 
-如需修改配置，可在 `packages/config/yaml` 下进行配置。
+如需修改配置，可在 `dev.yaml` 中进行配置。
 
 ### 配置文件
 
