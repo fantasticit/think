@@ -1,5 +1,6 @@
 import type { IAuthority, IDocument, IUser, IWiki } from '@think/domains';
 import { useAsyncLoading } from 'hooks/use-async-loading';
+import { string } from 'lib0';
 import { useCallback, useEffect, useState } from 'react';
 import { getPublicDocumentDetail } from 'services/document';
 import { HttpClient } from 'services/http-client';
@@ -94,7 +95,9 @@ export const useDocumentVersion = (documentId) => {
  * @returns
  */
 export const useRecentDocuments = () => {
-  const { data, error, mutate } = useSWR<IDocument[]>('/document/recent', (url) => HttpClient.get(url));
+  const { data, error, mutate } = useSWR<Array<IDocument & { visitedAt: string }>>('/document/recent', (url) =>
+    HttpClient.get(url)
+  );
   const loading = !data && !error;
   return { data, error, loading, refresh: mutate };
 };

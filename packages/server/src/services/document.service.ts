@@ -606,15 +606,19 @@ export class DocumentService {
    * @returns
    */
   public async getRecentDocuments(user: OutUser) {
-    const documentIds = await this.viewService.getUserRecentVisitedDocuments(user.id);
+    const records = await this.viewService.getUserRecentVisitedDocuments(user.id);
+    const documentIds = records.map((r) => r.documentId);
+    const visitedAtMap = records.reduce((a, c) => {
+      return (a[c.documentId] = c.visitedAt);
+    }, {});
 
-    const documents = await this.documentRepo.findByIds(documentIds, { order: { updatedAt: 'DESC' } });
+    const documents = await this.documentRepo.findByIds(documentIds);
     const docs = documents.filter((doc) => !doc.isWikiHome).map((doc) => instanceToPlain(doc));
 
     const res = await Promise.all(
       docs.map(async (doc) => {
         const views = await this.viewService.getDocumentTotalViews(doc.id);
-        return { ...doc, views } as IDocument & { views: number };
+        return { ...doc, views, visitedAt: visitedAtMap[doc.id] } as IDocument & { views: number; visitedAt: Date };
       })
     );
 

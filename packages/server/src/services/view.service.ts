@@ -55,11 +55,20 @@ export class ViewService {
     return { data, total };
   }
 
-  async getUserRecentVisitedDocuments(userId: IUser['id']): Promise<Array<IDocument['id']>> {
+  async getUserRecentVisitedDocuments(userId: IUser['id']): Promise<
+    Array<{
+      documentId: IDocument['id'];
+      visitedAt: Date;
+    }>
+  > {
     const [ret] = await this.viewRepo.findAndCount({
       where: { userId },
       take: 20,
+      order: { createdAt: 'DESC' },
     });
-    return ret.map((item) => item.documentId);
+    return ret.map((item) => ({
+      documentId: item.documentId,
+      visitedAt: item.createdAt,
+    }));
   }
 }
