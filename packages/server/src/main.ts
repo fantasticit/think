@@ -13,6 +13,7 @@ async function bootstrap() {
     logger: false,
   });
   const config = app.get(ConfigService);
+  const port = config.get('server.port') || 5002;
 
   app.enableCors();
   app.use(helmet());
@@ -22,8 +23,9 @@ async function bootstrap() {
   app.useGlobalInterceptors(new HttpResponseTransformInterceptor());
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix(config.get('server.prefix') || '/');
-  await app.listen(config.get('server.port') || 4000);
-  console.log('[think] 主服务启动成功');
+
+  await app.listen(port);
+  console.log(`[think] 主服务启动成功，端口：${port}`);
 }
 
 bootstrap();
