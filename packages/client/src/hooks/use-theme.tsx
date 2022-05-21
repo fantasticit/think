@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export enum Theme {
+import { createGlobalHook } from './create-global-hook';
+
+export enum ThemeEnum {
   'dark' = 'dark',
   'light' = 'light',
 }
 
-export const useTheme = () => {
-  const [theme, setTheme] = useState(Theme.light);
+const useThemeHook = () => {
+  const [theme, setTheme] = useState(ThemeEnum.light);
 
   const toggle = useCallback(() => {
-    const nextTheme = theme === 'dark' ? Theme.light : Theme.dark;
+    const nextTheme = theme === 'dark' ? ThemeEnum.light : ThemeEnum.dark;
     setTheme(nextTheme);
   }, [theme]);
 
@@ -30,14 +32,18 @@ export const useTheme = () => {
 
     function matchMode(e) {
       if (e.matches) {
-        setTheme(Theme.dark);
+        setTheme(ThemeEnum.dark);
       } else {
-        setTheme(Theme.light);
+        setTheme(ThemeEnum.light);
       }
     }
 
     matchMode(mql);
     mql.addEventListener('change', matchMode);
+
+    return () => {
+      mql.removeEventListener('change', matchMode);
+    };
   }, []);
 
   return {
@@ -45,3 +51,5 @@ export const useTheme = () => {
     toggle,
   };
 };
+
+export const Theme = createGlobalHook<{ theme: ThemeEnum; toggle: () => void }>(useThemeHook);

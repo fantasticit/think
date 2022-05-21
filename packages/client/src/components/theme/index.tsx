@@ -1,11 +1,11 @@
 import { IconMoon, IconSun } from '@douyinfe/semi-icons';
 import { Button } from '@douyinfe/semi-ui';
 import { Tooltip } from 'components/tooltip';
-import { useTheme } from 'hooks/use-theme';
+import { Theme as ThemeState } from 'hooks/use-theme';
 import React from 'react';
 
 export const Theme = () => {
-  const { theme, toggle } = useTheme();
+  const { theme, toggle } = ThemeState.useHook();
   const Icon = theme === 'dark' ? IconSun : IconMoon;
   const text = theme === 'dark' ? '切换到亮色模式' : '切换到深色模式';
 

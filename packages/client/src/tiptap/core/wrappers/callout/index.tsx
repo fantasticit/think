@@ -2,7 +2,7 @@ import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { EmojiPicker } from 'components/emoji-picker';
 import { convertColorToRGBA } from 'helpers/color';
-import { Theme, useTheme } from 'hooks/use-theme';
+import { Theme, ThemeEnum } from 'hooks/use-theme';
 import { useCallback, useMemo } from 'react';
 
 import styles from './index.module.scss';
@@ -10,10 +10,10 @@ import styles from './index.module.scss';
 export const CalloutWrapper = ({ editor, node, updateAttributes }) => {
   const { isEditable } = editor;
   const { emoji, textColor, borderColor, backgroundColor } = node.attrs;
-  const { theme } = useTheme();
+  const { theme } = Theme.useHook();
   const backgroundColorOpacity = useMemo(() => {
     if (!backgroundColor) return backgroundColor;
-    if (theme === Theme.dark) return convertColorToRGBA(backgroundColor, 0.85);
+    if (theme === ThemeEnum.dark) return convertColorToRGBA(backgroundColor, 0.75);
     return backgroundColor;
   }, [backgroundColor, theme]);
 
