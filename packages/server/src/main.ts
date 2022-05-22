@@ -1,4 +1,5 @@
 import { HttpResponseExceptionFilter } from '@exceptions/http-response.exception';
+import { IS_PRODUCTION } from '@helpers/env.helper';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@pipes/validation.pipe';
@@ -8,6 +9,7 @@ import * as express from 'express';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
+import { AppClusterService } from './app-cluster.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -30,4 +32,4 @@ async function bootstrap() {
   console.log(`[think] 主服务启动成功，端口：${port}`);
 }
 
-bootstrap();
+IS_PRODUCTION ? AppClusterService.clusterize(bootstrap) : bootstrap();

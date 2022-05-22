@@ -8,6 +8,7 @@ import { UserEntity } from '@entities/user.entity';
 import { ViewEntity } from '@entities/view.entity';
 import { WikiEntity } from '@entities/wiki.entity';
 import { WikiUserEntity } from '@entities/wiki-user.entity';
+import { IS_PRODUCTION } from '@helpers/env.helper';
 import { getLogFileName, ONE_DAY } from '@helpers/log.helper';
 import { CollectorModule } from '@modules/collector.module';
 import { CommentModule } from '@modules/comment.module';
@@ -61,7 +62,7 @@ const MODULES = [
       isGlobal: true,
     }),
     ScheduleModule.forRoot(),
-    process.env.NODE_ENV === 'production' &&
+    IS_PRODUCTION &&
       LoggerModule.forRoot({
         pinoHttp: {
           stream: pino.destination({

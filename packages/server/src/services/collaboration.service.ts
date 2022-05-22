@@ -6,7 +6,6 @@ import { DocumentService } from '@services/document.service';
 import { DocumentVersionService } from '@services/document-version.service';
 import { TemplateService } from '@services/template.service';
 import { OutUser, UserService } from '@services/user.service';
-import { getConfig } from '@think/config';
 import { DocumentStatus } from '@think/domains';
 import * as lodash from 'lodash';
 import * as Y from 'yjs';
