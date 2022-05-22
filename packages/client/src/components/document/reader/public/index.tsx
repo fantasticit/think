@@ -1,4 +1,3 @@
-import { IconArticle } from '@douyinfe/semi-icons';
 import {
   BackTop,
   Breadcrumb,
@@ -6,7 +5,6 @@ import {
   Form,
   Layout,
   Nav,
-  Popover,
   Skeleton,
   Space,
   Typography,
@@ -22,7 +20,7 @@ import { Theme } from 'components/theme';
 import { User } from 'components/user';
 import { usePublicDocument } from 'data/document';
 import { useDocumentStyle } from 'hooks/use-document-style';
-import { useWindowSize } from 'hooks/use-window-size';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import Link from 'next/link';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -44,7 +42,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
   const $form = useRef<FormApi>();
   const { data, loading, error, query } = usePublicDocument(documentId);
   const { width, fontSize } = useDocumentStyle();
-  const { isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);

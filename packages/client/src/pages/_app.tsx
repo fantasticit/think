@@ -3,12 +3,18 @@ import 'viewerjs/dist/viewer.css';
 import 'styles/globals.scss';
 import 'tiptap/core/styles/index.scss';
 
+import { isMobile } from 'helpers/env';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { Theme } from 'hooks/use-theme';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 
-function MyApp({ Component, pageProps }: AppProps) {
+type P = AppProps<{ isMobile?: boolean }>;
+
+function MyApp(props: AppProps & { isMobile?: boolean }) {
+  const { Component, pageProps, isMobile } = props;
+
   return (
     <>
       <Head>
@@ -40,10 +46,20 @@ function MyApp({ Component, pageProps }: AppProps) {
         ))}
       </Head>
       <Theme.Provider>
-        <Component {...pageProps} />
+        <IsOnMobile.Provider initialState={isMobile}>
+          <Component {...pageProps} />
+        </IsOnMobile.Provider>
       </Theme.Provider>
     </>
   );
 }
+
+MyApp.getInitialProps = async (appContext) => {
+  const request = appContext?.ctx?.req;
+
+  return {
+    isMobile: isMobile(request?.headers['user-agent']),
+  };
+};
 
 export default MyApp;

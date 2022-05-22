@@ -1,8 +1,8 @@
 import { IconArticle } from '@douyinfe/semi-icons';
 import { Button, Popover, Radio, RadioGroup, Slider, Typography } from '@douyinfe/semi-ui';
 import { useDocumentStyle } from 'hooks/use-document-style';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import { useWindowSize } from 'hooks/use-window-size';
 import React from 'react';
 
 import styles from './index.module.scss';
@@ -10,7 +10,7 @@ import styles from './index.module.scss';
 const { Text } = Typography;
 
 export const DocumentStyle = () => {
-  const { isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
   const { width, fontSize, setWidth, setFontSize } = useDocumentStyle();
   const [visible, toggleVisible] = useToggle(false);
 

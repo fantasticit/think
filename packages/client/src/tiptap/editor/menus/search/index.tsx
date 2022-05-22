@@ -1,8 +1,8 @@
 import { Button, Input, Popover, SideSheet, Space, Typography } from '@douyinfe/semi-ui';
 import { IconSearchReplace } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import { useWindowSize } from 'hooks/use-window-size';
 import React, { useCallback, useEffect, useState } from 'react';
 import { SearchNReplace } from 'tiptap/core/extensions/search';
 import { Editor } from 'tiptap/editor';
@@ -10,7 +10,7 @@ import { Editor } from 'tiptap/editor';
 const { Text } = Typography;
 
 export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
-  const { isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
   const [visible, toggleVisible] = useToggle(false);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [results, setResults] = useState([]);

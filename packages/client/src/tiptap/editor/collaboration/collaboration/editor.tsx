@@ -6,8 +6,8 @@ import { LogoName } from 'components/logo';
 import { getRandomColor } from 'helpers/color';
 import { isAndroid, isIOS } from 'helpers/env';
 import { useNetwork } from 'hooks/use-network';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import { useWindowSize } from 'hooks/use-window-size';
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import { Collaboration } from 'tiptap/core/extensions/collaboration';
 import { CollaborationCursor } from 'tiptap/core/extensions/collaboration-cursor';
@@ -30,7 +30,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
   const { hocuspocusProvider, editable, user, onTitleUpdate, status, menubar, renderInEditorPortal } = props;
   const $headerContainer = useRef<HTMLDivElement>();
   const $mainContainer = useRef<HTMLDivElement>();
-  const { isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
   const { online } = useNetwork();
   const [created, toggleCreated] = useToggle(false);
   const editor = useEditor(

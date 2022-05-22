@@ -1,6 +1,6 @@
-import { Col, Dropdown, Modal, Row, SideSheet, Typography } from '@douyinfe/semi-ui';
+import { Dropdown, SideSheet, Typography } from '@douyinfe/semi-ui';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import { useWindowSize } from 'hooks/use-window-size';
 import React, { useMemo } from 'react';
 
 import styles from './style.module.scss';
@@ -85,7 +85,7 @@ export const ColorPicker: React.FC<{
   onSetColor: (arg: string) => void;
   disabled?: boolean;
 }> = ({ children, title = '颜色管理', onSetColor, disabled = false }) => {
-  const { isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
   const [visible, toggleVisible] = useToggle(false);
 
   const content = useMemo(

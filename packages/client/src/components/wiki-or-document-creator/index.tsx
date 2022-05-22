@@ -2,9 +2,9 @@ import { IconChevronDown, IconPlus } from '@douyinfe/semi-icons';
 import { Button, Dropdown } from '@douyinfe/semi-ui';
 import { DocumentCreator } from 'components/document/create';
 import { WikiCreator } from 'components/wiki/create';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useQuery } from 'hooks/use-query';
 import { useToggle } from 'hooks/use-toggle';
-import { useWindowSize } from 'hooks/use-window-size';
 import React from 'react';
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 export const WikiOrDocumentCreator: React.FC<IProps> = ({ onCreateDocument, children }) => {
-  const { isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
   const { wikiId, docId } = useQuery<{ wikiId?: string; docId?: string }>();
   const [dropdownVisible, toggleDropdownVisible] = useToggle(false);
   const [visible, toggleVisible] = useToggle(false);

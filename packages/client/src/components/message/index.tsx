@@ -4,8 +4,8 @@ import { Empty } from 'components/empty';
 import { IconMessage } from 'components/icons/IconMessage';
 import { useAllMessages, useReadMessages, useUnreadMessages } from 'data/message';
 import { useUser } from 'data/user';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import { useWindowSize } from 'hooks/use-window-size';
 import { EmptyBoxIllustration } from 'illustrations/empty-box';
 import Link from 'next/link';
 import React, { useCallback, useEffect } from 'react';
@@ -87,7 +87,7 @@ const MessagesRender = ({ messageData, loading, error, onClick = null, page = 1,
 };
 
 const MessageBox = () => {
-  const { isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
   const [visible, toggleVisible] = useToggle(false);
   const { data: allMsgs, loading: allLoading, error: allError, page: allPage, setPage: allSetPage } = useAllMessages();
   const {

@@ -14,6 +14,7 @@ import { useDocumentDetail } from 'data/document';
 import { useUser } from 'data/user';
 import { CHANGE_DOCUMENT_TITLE, event, triggerUseDocumentVersion } from 'event';
 import { useDocumentStyle } from 'hooks/use-document-style';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import Router from 'next/router';
@@ -29,7 +30,8 @@ interface IProps {
 }
 
 export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
-  const { width: windowWith, isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
+  const { width: windowWith } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;

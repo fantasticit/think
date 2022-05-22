@@ -14,6 +14,7 @@ import { useDocumentDetail } from 'data/document';
 import { useUser } from 'data/user';
 import { triggerJoinUser } from 'event';
 import { useDocumentStyle } from 'hooks/use-document-style';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
 import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -44,8 +45,9 @@ interface IProps {
 }
 
 export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
+  const { isMobile } = IsOnMobile.useHook();
   const [container, setContainer] = useState<HTMLDivElement>();
-  const { width: windowWidth, isMobile } = useWindowSize();
+  const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;

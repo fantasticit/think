@@ -6,6 +6,7 @@ import { Search } from 'components/search';
 import { Theme } from 'components/theme';
 import { User } from 'components/user';
 import { WikiOrDocumentCreator } from 'components/wiki-or-document-creator';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import { useWindowSize } from 'hooks/use-window-size';
 import Router, { useRouter } from 'next/router';
@@ -67,7 +68,8 @@ const menus = [
 
 export const RouterHeader: React.FC = () => {
   const { pathname } = useRouter();
-  const { width, isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
+  const { width } = useWindowSize();
   const [dropdownVisible, toggleDropdownVisible] = useToggle(false);
   const [recentModalVisible, toggleRecentModalVisible] = useToggle(false);
   const [wikiModalVisible, toggleWikiModalVisible] = useToggle(false);

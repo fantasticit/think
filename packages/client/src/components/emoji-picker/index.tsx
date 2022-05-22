@@ -1,7 +1,7 @@
 import { Popover, SideSheet, Typography } from '@douyinfe/semi-ui';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import { useWindowSize } from 'hooks/use-window-size';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ACTIVITIES, EXPRESSIONES, GESTURES, OBJECTS, SKY_WEATHER, SYMBOLS } from './constants';
@@ -43,7 +43,7 @@ interface IProps {
 }
 
 export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
-  const { isMobile } = useWindowSize();
+  const { isMobile } = IsOnMobile.useHook();
   const [recentUsed, setRecentUsed] = useState([]);
   const [visible, toggleVisible] = useToggle(false);
   const renderedList = useMemo(

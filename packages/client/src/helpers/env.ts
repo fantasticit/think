@@ -1,9 +1,23 @@
-export function isIOS() {
-  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-  return /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
+const getUserAgent = (ua = null) => {
+  if (!ua) {
+    if (typeof window !== 'undefined') {
+      ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+    }
+  }
+  return ua;
+};
+
+export function isIOS(ua = null) {
+  const userAgent = getUserAgent(ua);
+  return userAgent && /iPad|iPhone|iPod/.test(userAgent);
 }
 
-export function isAndroid() {
-  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-  return /android/i.test(userAgent);
+export function isAndroid(ua = null) {
+  const userAgent = getUserAgent(ua);
+  return userAgent && /Android/i.test(userAgent);
+}
+
+export function isMobile(ua = null) {
+  const userAgent = getUserAgent(ua);
+  return userAgent && /(iPhone|iPod|iPad|Android|BlackBerry)/i.test(userAgent);
 }
