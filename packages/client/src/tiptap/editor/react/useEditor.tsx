@@ -22,13 +22,15 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
 
     setEditor(instance);
 
-    // instance.on('transaction', () => {
-    //   requestAnimationFrame(() => {
-    //     requestAnimationFrame(() => {
-    //       forceUpdate();
-    //     });
-    //   });
-    // });
+    if (!options.editable) {
+      instance.on('transaction', () => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            forceUpdate();
+          });
+        });
+      });
+    }
 
     return () => {
       instance.destroy();
