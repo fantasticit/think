@@ -7,3 +7,4 @@ lib
 **/dist/**
 **/build/**
 **/public/**
+**/diagram.js
