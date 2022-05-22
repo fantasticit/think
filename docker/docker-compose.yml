@@ -2,7 +2,7 @@ version: "3"
 services:
   mrdoc:
     build:
-      context: think
+      context: .
       args:
         EIP: x.x.x.x  # api接口IP,必须设置,可以是 IP 或者域名.
     image: think
