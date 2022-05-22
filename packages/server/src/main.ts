@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@pipes/validation.pipe';
 import { HttpResponseTransformInterceptor } from '@transforms/http-response.transform';
+import * as compression from 'compression';
 import * as express from 'express';
 import helmet from 'helmet';
 
@@ -16,6 +17,7 @@ async function bootstrap() {
   const port = config.get('server.port') || 5002;
 
   app.enableCors();
+  app.use(compression());
   app.use(helmet());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
