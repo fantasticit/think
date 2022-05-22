@@ -12,10 +12,13 @@ import {
   Patch,
   Post,
   Request,
+  Res,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from '@services/user.service';
+import { wrapResponse } from '@transforms/http-response.transform';
+import { Response as ExpressResponse } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -31,9 +34,16 @@ export class UserController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async login(@Body() user: LoginUserDto) {
-    const res = await this.userService.login(user);
-    return res;
+  async login(@Body() user: LoginUserDto, @Res({ passthrough: true }) response: ExpressResponse) {
+    const { user: data, token } = await this.userService.login(user);
+    response.cookie('token', token, { httpOnly: true, sameSite: 'none', secure: true });
+    return response.send(wrapResponse({ data: { ...data, token }, statusCode: HttpStatus.OK }));
+  }
+
+  @Get('logout')
+  async logout(@Res({ passthrough: true }) response: ExpressResponse) {
+    response.cookie('token', '', { expires: new Date() });
+    return;
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

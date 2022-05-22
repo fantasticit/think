@@ -111,7 +111,7 @@ export class UserService {
    * @param user
    * @returns
    */
-  async login(user: LoginUserDto): Promise<OutUser & { token: string }> {
+  async login(user: LoginUserDto): Promise<{ user: OutUser; token: string }> {
     const { name, password } = user;
     const existUser = await this.userRepo.findOne({ where: { name } });
 
@@ -125,7 +125,7 @@ export class UserService {
 
     const res = instanceToPlain(existUser) as OutUser;
     const token = this.jwtService.sign(res);
-    return Object.assign(res, { token });
+    return { user: res, token };
   }
 
   async validateUser(user: UserEntity) {
