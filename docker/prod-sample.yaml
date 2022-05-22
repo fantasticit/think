@@ -1,0 +1,49 @@
+# 生产环境docker示例配置
+client:
+  port: 5001
+  assetPrefix: '/'
+  apiUrl: 'http://localhost:5002/api'
+  collaborationUrl: 'ws://localhost:5003'
+  # 以下为页面 meta 配置
+  seoAppName: '云策文档'
+  seoDescription: '云策文档是一款开源知识管理工具。通过独立的知识库空间，结构化地组织在线协作文档，实现知识的积累与沉淀，促进知识的复用与流通。'
+  seoKeywords: '云策文档,协作,文档,前端面试题,fantasticit,https://github.com/fantasticit/think'
+  # 预先连接的来源，空格分割（比如图片存储服务器）
+  dnsPrefetch: '//wipi.oss-cn-shanghai.aliyuncs.com'
+
+server:
+  prefix: '/api'
+  port: 5002
+  collaborationPort: 5003
+  maxDocumentVersion: 20 # 最大版本记录数
+  logRetainDays: 3 # 日志保留天数，比如只保留近三天日志
+
+# 数据库配置
+db:
+  mysql:
+    host: 'mysql-with-think'
+    username: 'jonnyan404'
+    password: 'www.mrdoc.fun'
+    database: 'think'
+    port: 3306
+    charset: 'utf8mb4'
+    timezone: '+08:00'
+    synchronize: true
+  redis:
+    host: '127.0.0.1'
+    port: '6379'
+    password: ''
+
+# oss 文件存储服务
+oss:
+  aliyun:
+    accessKeyId: ''
+    accessKeySecret: ''
+    bucket: ''
+    https: true
+    region: ''
+
+# jwt 配置
+jwt:
+  secretkey: 'zA_Think+KNOWLEDGE+WIKI+DOCUMENTS@2022'
+  expiresIn: '6h'
