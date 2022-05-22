@@ -1,4 +1,5 @@
 import { ViewEntity } from '@entities/view.entity';
+import { ONE_DAY } from '@helpers/log.helper';
 import { parseUserAgent } from '@helpers/ua.helper';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -28,6 +29,11 @@ export class ViewService {
     const ret = await this.viewRepo.save(res);
 
     return ret;
+  }
+
+  async deleteViews(documentId) {
+    const records = await this.viewRepo.find({ documentId });
+    await this.viewRepo.remove(records);
   }
 
   async getDocumentTotalViews(documentId) {
@@ -61,14 +67,41 @@ export class ViewService {
       visitedAt: Date;
     }>
   > {
-    const [ret] = await this.viewRepo.findAndCount({
-      where: { userId },
-      take: 20,
-      order: { createdAt: 'DESC' },
+    const now = Date.now();
+    const queryBuilder = this.viewRepo.createQueryBuilder('view');
+
+    queryBuilder.where('view.userId=:userId', { userId }).andWhere('view.createdAt BETWEEN :start AND :end', {
+      start: new Date(now - 3 * ONE_DAY),
+      end: new Date(now),
     });
-    return ret.map((item) => ({
-      documentId: item.documentId,
-      visitedAt: item.createdAt,
-    }));
+
+    const ret = await queryBuilder.getMany();
+
+    const map = {};
+
+    ret.forEach((item) => {
+      const key = item.documentId;
+      if (!map[key]) {
+        map[key] = item;
+      }
+      const mapItem = map[key];
+      const isGreaterThan = new Date(mapItem.createdAt).valueOf() < new Date(item.createdAt).valueOf();
+      if (isGreaterThan) {
+        map[key] = item;
+      }
+    });
+
+    const res = Object.keys(map).map((documentId) => {
+      return {
+        documentId,
+        visitedAt: map[documentId].createdAt,
+      };
+    });
+
+    res.sort((a, b) => {
+      return -new Date(a.visitedAt).valueOf() + new Date(b.visitedAt).valueOf();
+    });
+
+    return res.slice(0, 20);
   }
 }

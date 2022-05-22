@@ -385,6 +385,7 @@ export class DocumentService {
     }
     const auths = await this.documentAuthorityRepo.find({ documentId });
     await this.documentAuthorityRepo.remove(auths);
+    await this.viewService.deleteViews(documentId);
     return this.documentRepo.remove(document);
   }
 
@@ -609,27 +610,33 @@ export class DocumentService {
     const records = await this.viewService.getUserRecentVisitedDocuments(user.id);
     const documentIds = records.map((r) => r.documentId);
     const visitedAtMap = records.reduce((a, c) => {
-      return (a[c.documentId] = c.visitedAt);
+      a[c.documentId] = c.visitedAt;
+      return a;
     }, {});
 
-    const documents = await this.documentRepo.findByIds(documentIds);
-    const docs = documents.filter((doc) => !doc.isWikiHome).map((doc) => instanceToPlain(doc));
+    const ret = await Promise.all(
+      documentIds.map(async (documentId) => {
+        const doc = await this.findById(documentId);
 
-    const res = await Promise.all(
-      docs.map(async (doc) => {
-        const views = await this.viewService.getDocumentTotalViews(doc.id);
-        return { ...doc, views, visitedAt: visitedAtMap[doc.id] } as IDocument & { views: number; visitedAt: Date };
+        if (!doc) {
+          return null;
+        }
+
+        const [views, createUser] = await Promise.all([
+          await this.viewService.getDocumentTotalViews(documentId),
+          doc && doc.createUserId ? await this.userService.findById(doc.createUserId) : null,
+        ]);
+
+        return {
+          ...instanceToPlain(doc),
+          views,
+          visitedAt: visitedAtMap[documentId],
+          createUser,
+        };
       })
     );
 
-    const withCreateUserRes = await Promise.all(
-      res.map(async (doc) => {
-        const createUser = await this.userService.findById(doc.createUserId);
-        return { createUser, ...doc };
-      })
-    );
-
-    return withCreateUserRes;
+    return ret.filter(Boolean);
   }
 
   /**
