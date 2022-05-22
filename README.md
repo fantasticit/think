@@ -104,6 +104,12 @@ client:
   assetPrefix: '/'
   apiUrl: 'http://localhost:5002/api'
   collaborationUrl: 'ws://localhost:5003'
+  # 以下为页面 meta 配置
+  seoAppName: '云策文档'
+  seoDescription: '云策文档是一款开源知识管理工具。通过独立的知识库空间，结构化地组织在线协作文档，实现知识的积累与沉淀，促进知识的复用与流通。'
+  seoKeywords: '云策文档,协作,文档,前端面试题,fantasticit,https://github.com/fantasticit/think'
+  # 预先连接的来源，空格分割（比如图片存储服务器）
+  dnsPrefetch: '//wipi.oss-cn-shanghai.aliyuncs.com'
 
 server:
   prefix: '/api'

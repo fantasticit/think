@@ -11,6 +11,10 @@ const nextConfig = semi({
     SERVER_API_URL: config.client.apiUrl,
     COLLABORATION_API_URL: config.client.collaborationUrl,
     ENABLE_ALIYUN_OSS: !!config.oss.aliyun.accessKeyId,
+    DNS_PREFETCH: (config.client.dnsPrefetch || '').split(' '),
+    SEO_APPNAME: config.client.seoAppName,
+    SEO_DESCRIPTION: config.client.seoDescription,
+    SEO_KEYWORDS: config.client.seoKeywords,
   },
   webpack: (config, { dev, isServer }) => {
     config.resolve.plugins.push(new TsconfigPathsPlugin());
