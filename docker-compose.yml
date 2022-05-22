@@ -21,7 +21,7 @@ services:
     container_name: mysql-with-think
     #restart: always
     volumes:
-      - /path/to/you/dir:/var/lib/mysql # 请注意修改 /path/to/you/dir 为您要存储mysql数据的目录绝对路径.
+      - /path/to/you/dir/mysql:/var/lib/mysql # 请注意修改 /path/to/you/dir 为您要存储mysql数据的目录绝对路径.
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ROOT_PASSWORD=Jonnyan404!
