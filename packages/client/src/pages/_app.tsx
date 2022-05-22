@@ -10,11 +10,8 @@ import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 
-class MyApp extends App<{ isMobile: boolean }, unknown> {
-  state = {
-    locale: '',
-    user: null,
-  };
+class MyApp extends App<{ isMobile: boolean }> {
+  state = {};
 
   static getInitialProps = async ({ Component, ctx }) => {
     const request = ctx?.req;
