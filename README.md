@@ -25,7 +25,7 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 ![协作](http://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-20/YN67GM4VQMBTZFZ88TYQ8X/image.png)
 ![收藏](http://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-20/YN67GM4VQMBTZFZ88TYPHX/image.png)
 
-## 项目运行
+## 项目结构
 
 本项目依赖 pnpm 使用 monorepo 形式进行代码组织，分包如下：
 
@@ -35,26 +35,25 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 - `@think/server`：服务端
 - `@think/client`：客户端
 
-### pnpm
+## 项目依赖
 
-项目依赖 pnpm，请安装后运行（`npm i -g pnpm`）。
+- nodejs ≥ 16.5
+- pnpm
+- pm2
+- mysql ≥ 5.7
+- redis (可选)
 
-### 数据库
+依赖安装命令: `npm i -g pm2 @nestjs/cli pnpm`
+
+
+#### 数据库
 
 首先安装 `MySQL`，推荐使用 docker 进行安装。
 
 ```bash
 docker image pull mysql:5.7
 # m1 的 mac 可以用：docker image pull --platform linux/x86_64 mysql:5.7
-docker run -d --restart=always --name think -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7
-```
-
-然后在 `MySQL` 中创建数据库。
-
-```bash
-docker container exec -it think bash;
-mysql -u root -p;
-CREATE DATABASE  `think` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+docker run -d --restart=always --name think -p 3306:3306 -e MYSQL_DATABASE=think -e MYSQL_ROOT_PASSWORD=root mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
 #### 可选：Redis
@@ -66,102 +65,59 @@ docker pull redis:latest
 docker run --name think-redis -p 6379:6379 -d redis --appendonly yes --requirepass "root"
 ```
 
-### 本地运行
+## Docker-compose 一键构建安装
 
-首先，clone 项目。
+- 实测腾讯轻量云 2C4G 机器构建需 8 分钟左右
 
-```bash
-git clone --depth=1 https://github.com/fantasticit/think.git your-project-name
+**请注意修改 `docker-compose.yml` 中的 `EIP` 参数,否则无法正常使用!!!**
+
+
+```
+# 首次安装
+git clone  https://github.com/fantasticit/think.git
+cd think
+docker-compose up -d
+
+#二次更新升级
+cd think
+git pull
+docker-compose build
+docker-compose up -d
 ```
 
-然后，安装项目依赖。
+然后访问 `http://ip:5001` 即可.
+
+
+
+## 手动安装教程
+
+- 前台页面地址：`http://localhost:5001`
+- 服务接口地址：`http://localhost:5002`
+- 协作接口地址：`http://localhost:5003`
+
+如需修改配置，开发环境编辑 `config/dev.yaml`。生产环境编辑 `config/prod.yaml` (如没有,可复制开发环境的配置修改即可.)
+
+### 本地源代码运行(开发环境)
+
 
 ```bash
+git clone  https://github.com/fantasticit/think.git
+cd think
 pnpm install
-```
-
-- 启动项目
-
-```bash
 pnpm run dev
 ```
 
-- 前台页面地址：`http://localhost:5001`。
-- 服务接口地址：`http://localhost:5002`。
-- 协作接口地址：`http://localhost:5003`。
+然后访问 `http://ip:5001` 即可.
 
-如需修改配置，可在 `config/dev.yaml` 中进行配置。
 
-### 配置文件
 
-默认加载 `config/dev.yaml` 中的配置（生产环境使用 `config/prod.yaml` ）。
-
-```yaml
-# 开发环境配置
-# 开发环境配置
-client:
-  port: 5001
-  assetPrefix: '/'
-  apiUrl: 'http://localhost:5002/api'
-  collaborationUrl: 'ws://localhost:5003'
-  # 以下为页面 meta 配置
-  seoAppName: '云策文档'
-  seoDescription: '云策文档是一款开源知识管理工具。通过独立的知识库空间，结构化地组织在线协作文档，实现知识的积累与沉淀，促进知识的复用与流通。'
-  seoKeywords: '云策文档,协作,文档,前端面试题,fantasticit,https://github.com/fantasticit/think'
-  # 预先连接的来源，空格分割（比如图片存储服务器）
-  dnsPrefetch: '//wipi.oss-cn-shanghai.aliyuncs.com'
-
-server:
-  prefix: '/api'
-  port: 5002
-  collaborationPort: 5003
-  maxDocumentVersion: 20 # 最大版本记录数
-  logRetainDays: 3 # 日志保留天数，比如只保留近三天日志
-
-# 数据库配置
-db:
-  mysql:
-    host: '127.0.0.1'
-    username: 'root'
-    password: 'root'
-    database: 'think'
-    port: 3306
-    charset: 'utf8mb4'
-    timezone: '+08:00'
-    synchronize: true
-  redis:
-    host: '127.0.0.1'
-    port: '6379'
-    password: 'root'
-
-# oss 文件存储服务
-oss:
-  aliyun:
-    accessKeyId: ''
-    accessKeySecret: ''
-    bucket: ''
-    https: true
-    region: ''
-
-# jwt 配置
-jwt:
-  secretkey: 'zA_Think+KNOWLEDGE+WIKI+DOCUMENTS@2022'
-  expiresIn: '6h'
-```
-
-### 项目部署
+### 本地源代码运行(生产环境)
 
 生产环境部署的脚本如下：
 
 ```bash
-
-node -v
-npm -v
-
-npm config set registry http://registry.npmjs.org
-
-npm i -g pm2 @nestjs/cli pnpm
-
+git clone  https://github.com/fantasticit/think.git
+cd think
 pnpm install
 pnpm run build
 pnpm run pm2
@@ -170,7 +126,7 @@ pm2 startup
 pm2 save
 ```
 
-### nginx 配置
+### nginx 配置参考
 
 采用反向代理进行 `nginx` 配置，**同时设置 `proxy_set_header X-Real-IP $remote_addr;` 以便服务端获取到真实 ip 地址**。
 
