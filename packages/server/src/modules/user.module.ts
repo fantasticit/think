@@ -10,6 +10,7 @@ import { PassportModule, PassportStrategy } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from '@services/user.service';
 import { getConfig } from '@think/config';
+import { Request as RequestType } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 const config = getConfig();
@@ -25,8 +26,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly userService: UserService
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
       secretOrKey: jwtConfig.secretkey,
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: RequestType) => {
+          const token = request?.cookies['token'];
+          return token;
+        },
+      ]),
     });
   }
 

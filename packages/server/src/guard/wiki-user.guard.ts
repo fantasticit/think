@@ -23,15 +23,8 @@ export class WikiUserRoleGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const targetUserRole = this.reflector.get<WikiUserRole | null>(KEY, context.getHandler());
-
     const request = context.switchToHttp().getRequest();
-
-    let token = request.headers.authorization;
-
-    if (/Bearer/.test(token)) {
-      token = token.split(' ').pop();
-    }
-
+    const token = request?.cookies['token'];
     const user = this.jwtService.decode(token) as IUser;
 
     if (!user) {

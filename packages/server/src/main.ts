@@ -5,6 +5,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@pipes/validation.pipe';
 import { HttpResponseTransformInterceptor } from '@transforms/http-response.transform';
 import * as compression from 'compression';
+import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import helmet from 'helmet';
 
@@ -18,7 +19,13 @@ async function bootstrap() {
   const config = app.get(ConfigService);
   const port = config.get('server.port') || 5002;
 
-  app.enableCors();
+  app.enableCors({
+    // TODO: fixme
+    origin: 'http://localhost:5001',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+  app.use(cookieParser());
   app.use(compression());
   app.use(helmet());
   app.use(express.json());

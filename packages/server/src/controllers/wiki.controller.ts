@@ -253,6 +253,10 @@ export class WikiController {
   @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async getWikiTocs(@Request() req, @Param('id') wikiId) {
+    const sleep = (v) => {
+      return new Promise((r) => setTimeout(r, v * 1000));
+    };
+    await sleep(4);
     return await this.wikiService.getWikiTocs(req.user, wikiId);
   }
 
