@@ -2,6 +2,7 @@ import { JwtGuard } from '@guard/jwt.guard';
 import { Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileService } from '@services/file.service';
+import { FileApiDefinition } from '@think/domains';
 
 @Controller('file')
 export class FileController {
@@ -11,7 +12,7 @@ export class FileController {
    * 上传文件
    * @param file
    */
-  @Post('upload')
+  @Post(FileApiDefinition.upload.server)
   @UseInterceptors(
     FileInterceptor('file', {
       limits: {
