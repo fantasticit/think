@@ -25,9 +25,8 @@ const { Text } = Typography;
 export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
   const { user } = useUser();
   const { data, loading, error, updateTemplate, deleteTemplate } = useTemplate(templateId);
-
   const { width: windowWidth } = useWindowSize();
-  const [title, setTitle] = useState(data.title);
+  const [title, setTitle] = useState(data && data.title);
   const [isPublic, setPublic] = useState(false);
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
@@ -47,6 +46,7 @@ export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
   useEffect(() => {
     if (!data) return;
     setPublic(data.isPublic);
+    setTitle(data.title);
   }, [data]);
 
   return (
