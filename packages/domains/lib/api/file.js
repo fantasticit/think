@@ -6,7 +6,7 @@ exports.FileApiDefinition = {
      * 上传文件
      */
     upload: {
-        method: 'Post',
+        method: 'post',
         server: 'upload',
         client: function () { return '/file/upload'; }
     }

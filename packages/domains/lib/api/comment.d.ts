@@ -4,7 +4,7 @@ export declare const CommentApiDefinition: {
      * 新建评论
      */
     add: {
-        method: "Post";
+        method: "post";
         server: "add";
         client: () => string;
     };
@@ -12,7 +12,7 @@ export declare const CommentApiDefinition: {
      * 更新评论
      */
     update: {
-        method: "Patch";
+        method: "patch";
         server: "update";
         client: () => string;
     };
@@ -20,7 +20,7 @@ export declare const CommentApiDefinition: {
      * 删除评论
      */
     delete: {
-        method: "Delete";
+        method: "delete";
         server: "delete/:id";
         client: (id: IComment['id']) => string;
     };
@@ -28,7 +28,7 @@ export declare const CommentApiDefinition: {
      * 获取指定文档评论
      */
     documents: {
-        method: "Get";
+        method: "get";
         server: "document/:documentId";
         client: (documentId: IDocument['id']) => string;
     };

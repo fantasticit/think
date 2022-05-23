@@ -9,9 +9,12 @@ import { Theme } from 'hooks/use-theme';
 import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 
 class MyApp extends App<{ isMobile: boolean }> {
-  state = {};
+  state = {
+    queryClient: new QueryClient(),
+  };
 
   static getInitialProps = async ({ Component, ctx }) => {
     const request = ctx?.req;
@@ -26,6 +29,7 @@ class MyApp extends App<{ isMobile: boolean }> {
 
   render() {
     const { Component, pageProps, isMobile } = this.props;
+    const { queryClient } = this.state;
 
     return (
       <>
@@ -57,11 +61,15 @@ class MyApp extends App<{ isMobile: boolean }> {
             <link key={url} rel="dns-prefetch" href={url} />
           ))}
         </Head>
-        <Theme.Provider>
-          <IsOnMobile.Provider initialState={isMobile}>
-            <Component {...pageProps} />
-          </IsOnMobile.Provider>
-        </Theme.Provider>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Theme.Provider>
+              <IsOnMobile.Provider initialState={isMobile}>
+                <Component {...pageProps} />
+              </IsOnMobile.Provider>
+            </Theme.Provider>
+          </Hydrate>
+        </QueryClientProvider>
       </>
     );
   }

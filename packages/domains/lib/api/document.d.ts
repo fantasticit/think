@@ -4,7 +4,7 @@ export declare const DocumentApiDefinition: {
      * 搜索文档
      */
     search: {
-        method: "Get";
+        method: "get";
         server: "search";
         client: () => string;
     };
@@ -12,7 +12,7 @@ export declare const DocumentApiDefinition: {
      * 获取用户最近访问的文档
      */
     recent: {
-        method: "Get";
+        method: "get";
         server: "recent";
         client: () => string;
     };
@@ -20,7 +20,7 @@ export declare const DocumentApiDefinition: {
      * 新建文档
      */
     create: {
-        method: "Post";
+        method: "post";
         server: "create";
         client: () => string;
     };
@@ -28,7 +28,7 @@ export declare const DocumentApiDefinition: {
      * 获取文档详情
      */
     getDetailById: {
-        method: "Get";
+        method: "get";
         server: "detail/:id";
         client: (id: IDocument['id']) => string;
     };
@@ -36,7 +36,7 @@ export declare const DocumentApiDefinition: {
      * 更新文档
      */
     updateById: {
-        method: "Patch";
+        method: "patch";
         server: "update/:id";
         client: (id: IDocument['id']) => string;
     };
@@ -44,7 +44,7 @@ export declare const DocumentApiDefinition: {
      * 获取文档版本记录
      */
     getVersionById: {
-        method: "Get";
+        method: "get";
         server: "version/:id";
         client: (id: IDocument['id']) => string;
     };
@@ -52,7 +52,7 @@ export declare const DocumentApiDefinition: {
      * 获取文档成员
      */
     getMemberById: {
-        method: "Get";
+        method: "get";
         server: "member/:id";
         client: (id: IDocument['id']) => string;
     };
@@ -60,7 +60,7 @@ export declare const DocumentApiDefinition: {
      * 添加文档成员
      */
     addMemberById: {
-        method: "Post";
+        method: "post";
         server: "member/:id/add";
         client: (id: IDocument['id']) => string;
     };
@@ -68,7 +68,7 @@ export declare const DocumentApiDefinition: {
      * 更新文档成员
      */
     updateMemberById: {
-        method: "Patch";
+        method: "patch";
         server: "member/:id/update";
         client: (id: IDocument['id']) => string;
     };
@@ -76,7 +76,7 @@ export declare const DocumentApiDefinition: {
      * 删除文档成员
      */
     deleteMemberById: {
-        method: "Post";
+        method: "post";
         server: "member/:id/delete";
         client: (id: IDocument['id']) => string;
     };
@@ -84,7 +84,7 @@ export declare const DocumentApiDefinition: {
      * 获取子文档
      */
     getChildren: {
-        method: "Get";
+        method: "get";
         server: "children";
         client: () => string;
     };
@@ -92,7 +92,7 @@ export declare const DocumentApiDefinition: {
      * 删除文档
      */
     deleteById: {
-        method: "Delete";
+        method: "delete";
         server: "delete/:id";
         client: (id: IDocument['id']) => string;
     };
@@ -100,7 +100,7 @@ export declare const DocumentApiDefinition: {
      * 分享文档
      */
     shareById: {
-        method: "Post";
+        method: "post";
         server: "share/:id";
         client: (id: IDocument['id']) => string;
     };
@@ -108,7 +108,7 @@ export declare const DocumentApiDefinition: {
      * 获取公开文档详情
      */
     getPublicDetailById: {
-        method: "Get";
+        method: "get";
         server: "public/detail/:id";
         client: (id: IDocument['id']) => string;
     };
@@ -116,7 +116,7 @@ export declare const DocumentApiDefinition: {
      * 获取公开文档的子文档
      */
     getPublicChildren: {
-        method: "Get";
+        method: "get";
         server: "public/children";
         client: () => string;
     };

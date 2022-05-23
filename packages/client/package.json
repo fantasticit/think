@@ -86,6 +86,7 @@
     "react-helmet": "^6.1.0",
     "react-lazy-load-image-component": "^1.5.4",
     "react-pdf": "^5.7.2",
+    "react-query": "^3.39.0",
     "react-split-pane": "^0.1.92",
     "scroll-into-view-if-needed": "^2.2.29",
     "swr": "^1.2.0",

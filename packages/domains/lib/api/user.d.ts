@@ -3,7 +3,7 @@ export declare const UserApiDefinition: {
      * 获取用户
      */
     getAllUsers: {
-        method: "Get";
+        method: "get";
         server: "/";
         client: () => string;
     };
@@ -11,7 +11,7 @@ export declare const UserApiDefinition: {
      * 注册
      */
     register: {
-        method: "Post";
+        method: "post";
         server: "register";
         client: () => string;
     };
@@ -19,7 +19,7 @@ export declare const UserApiDefinition: {
      * 登录
      */
     login: {
-        method: "Post";
+        method: "post";
         server: "login";
         client: () => string;
     };
@@ -27,7 +27,7 @@ export declare const UserApiDefinition: {
      * 登出
      */
     logout: {
-        method: "Post";
+        method: "post";
         server: "logout";
         client: () => string;
     };
@@ -35,7 +35,7 @@ export declare const UserApiDefinition: {
      * 更新
      */
     update: {
-        method: "Patch";
+        method: "patch";
         server: "update";
         client: () => string;
     };

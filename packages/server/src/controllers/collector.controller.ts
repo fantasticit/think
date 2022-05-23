@@ -34,7 +34,7 @@ export class CollectorController {
    * 检测是否收藏
    */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post(CollectorApiDefinition.toggle.server)
+  @Post(CollectorApiDefinition.check.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
   async checkStar(@Request() req, @Body() dto: CollectDto) {

@@ -1,14 +1,20 @@
 import { List, Typography } from '@douyinfe/semi-ui';
+import { CollectorApiDefinition } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentCard, DocumentCardPlaceholder } from 'components/document/card';
 import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
 import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
-import { useStaredDocuments } from 'data/document';
-import { useStaredWikis } from 'data/wiki';
+import {
+  getCollectedDocuments,
+  getCollectedWikis,
+  useCollectedDocuments,
+  useCollectedWikis,
+} from 'data/refactor/collector';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import React from 'react';
+import { serverPrefetcher } from 'services/server-prefetcher';
 
 import styles from './index.module.scss';
 
@@ -24,7 +30,7 @@ const grid = {
 };
 
 const StarDocs = () => {
-  const { data: docs, loading, error } = useStaredDocuments();
+  const { data: docs, loading, error } = useCollectedDocuments();
 
   return (
     <DataRender
@@ -58,7 +64,7 @@ const StarDocs = () => {
 };
 
 const StarWikis = () => {
-  const { data, loading, error } = useStaredWikis();
+  const { data, loading, error } = useCollectedWikis();
 
   return (
     <DataRender
@@ -112,6 +118,14 @@ const Page: NextPage = () => {
       </div>
     </SingleColumnLayout>
   );
+};
+
+Page.getInitialProps = async (ctx) => {
+  const props = await serverPrefetcher(ctx, [
+    { url: CollectorApiDefinition.wikis.client(), action: (cookie) => getCollectedWikis(cookie) },
+    { url: CollectorApiDefinition.documents.client(), action: (cookie) => getCollectedDocuments(cookie) },
+  ]);
+  return props;
 };
 
 export default Page;

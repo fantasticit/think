@@ -4,7 +4,7 @@ export declare const MessageApiDefinition: {
      * 获取未读消息
      */
     getUnread: {
-        method: "Get";
+        method: "get";
         server: "unread";
         client: () => string;
     };
@@ -12,7 +12,7 @@ export declare const MessageApiDefinition: {
      * 获取已读消息
      */
     getRead: {
-        method: "Get";
+        method: "get";
         server: "read";
         client: () => string;
     };
@@ -20,7 +20,7 @@ export declare const MessageApiDefinition: {
      * 获取所有消息
      */
     getAll: {
-        method: "Get";
+        method: "get";
         server: "all";
         client: () => string;
     };
@@ -28,7 +28,7 @@ export declare const MessageApiDefinition: {
      * 将消息标记为已读
      */
     readMessage: {
-        method: "Post";
+        method: "post";
         server: "read/:id";
         client: (id: IMessage['id']) => string;
     };

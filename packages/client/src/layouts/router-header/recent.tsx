@@ -6,7 +6,6 @@ import { Empty } from 'components/empty';
 import { IconDocumentFill } from 'components/icons/IconDocumentFill';
 import { LocaleTime } from 'components/locale-time';
 import { useRecentDocuments } from 'data/document';
-import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import React from 'react';
 

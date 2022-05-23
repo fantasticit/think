@@ -1,14 +1,16 @@
 import { List, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+import { WikiApiDefinition } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
 import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
 import { WikiCreator } from 'components/wiki-creator';
-import { useAllWikis, useJoinWikis, useOwnWikis } from 'data/wiki';
+import { getAllWikis, getJoinWikis, getOwnWikis, useAllWikis, useJoinWikis, useOwnWikis } from 'data/refactor/wiki';
 import { CreateWikiIllustration } from 'illustrations/create-wiki';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import React from 'react';
+import { serverPrefetcher } from 'services/server-prefetcher';
 
 const grid = {
   gutter: 16,
@@ -77,6 +79,15 @@ const Page: NextPage = () => {
       </div>
     </SingleColumnLayout>
   );
+};
+
+Page.getInitialProps = async (ctx) => {
+  const props = await serverPrefetcher(ctx, [
+    { url: WikiApiDefinition.getAllWikis.client(), action: (cookie) => getAllWikis(cookie) },
+    { url: WikiApiDefinition.getJoinWikis.client(), action: (cookie) => getJoinWikis(cookie) },
+    { url: WikiApiDefinition.getOwnWikis.client(), action: (cookie) => getOwnWikis(cookie) },
+  ]);
+  return props;
 };
 
 export default Page;

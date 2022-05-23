@@ -250,5 +250,6 @@ const MessageBox = () => {
 
 export const Message = () => {
   const { loading, error } = useUser();
-  return <DataRender loading={loading} error={error} normalContent={() => <MessageBox />} />;
+  return null;
+  // return <DataRender loading={loading} error={error} normalContent={() => <MessageBox />} />;
 };

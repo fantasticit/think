@@ -6,7 +6,7 @@ exports.CollectorApiDefinition = {
      * 收藏（或取消收藏）
      */
     toggle: {
-        method: 'Post',
+        method: 'post',
         server: 'toggle',
         client: function () { return '/collector/toggle'; }
     },
@@ -14,7 +14,7 @@ exports.CollectorApiDefinition = {
      * 检测是否收藏
      */
     check: {
-        method: 'Post',
+        method: 'post',
         server: 'check',
         client: function () { return '/collector/check'; }
     },
@@ -22,7 +22,7 @@ exports.CollectorApiDefinition = {
      * 获取收藏的知识库
      */
     wikis: {
-        method: 'Post',
+        method: 'get',
         server: 'wikis',
         client: function () { return '/collector/wikis'; }
     },
@@ -30,7 +30,7 @@ exports.CollectorApiDefinition = {
      * 获取收藏的文档
      */
     documents: {
-        method: 'Post',
+        method: 'get',
         server: 'documents',
         client: function () { return '/collector/documents'; }
     }

@@ -6,7 +6,7 @@ exports.UserApiDefinition = {
      * 获取用户
      */
     getAllUsers: {
-        method: 'Get',
+        method: 'get',
         server: '/',
         client: function () { return '/user'; }
     },
@@ -14,7 +14,7 @@ exports.UserApiDefinition = {
      * 注册
      */
     register: {
-        method: 'Post',
+        method: 'post',
         server: 'register',
         client: function () { return '/user/register'; }
     },
@@ -22,7 +22,7 @@ exports.UserApiDefinition = {
      * 登录
      */
     login: {
-        method: 'Post',
+        method: 'post',
         server: 'login',
         client: function () { return '/user/login'; }
     },
@@ -30,7 +30,7 @@ exports.UserApiDefinition = {
      * 登出
      */
     logout: {
-        method: 'Post',
+        method: 'post',
         server: 'logout',
         client: function () { return '/user/logout'; }
     },
@@ -38,7 +38,7 @@ exports.UserApiDefinition = {
      * 更新
      */
     update: {
-        method: 'Patch',
+        method: 'patch',
         server: 'update',
         client: function () { return "/user/update"; }
     }

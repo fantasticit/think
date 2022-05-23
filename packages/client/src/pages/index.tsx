@@ -1,5 +1,5 @@
 import { Avatar, Button, List, Table, Typography } from '@douyinfe/semi-ui';
-import type { IDocument } from '@think/domains';
+import { CollectorApiDefinition, DocumentApiDefinition, IDocument } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentActions } from 'components/document/actions';
 import { Empty } from 'components/empty';
@@ -7,13 +7,14 @@ import { LocaleTime } from 'components/locale-time';
 import { Seo } from 'components/seo';
 import { WikiCreator } from 'components/wiki/create';
 import { WikiPinCard, WikiPinCardPlaceholder } from 'components/wiki/pin-card';
-import { useRecentDocuments } from 'data/document';
-import { useStaredWikis } from 'data/wiki';
+import { getCollectedWikis, useCollectedWikis } from 'data/refactor/collector';
+import { getRecentVisitedDocuments, useRecentDocuments } from 'data/refactor/document';
 import { useToggle } from 'hooks/use-toggle';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import React, { useMemo } from 'react';
+import { serverPrefetcher } from 'services/server-prefetcher';
 
 import styles from './index.module.scss';
 
@@ -112,7 +113,7 @@ const RecentDocs = () => {
 
 const Page: NextPage = () => {
   const [visible, toggleVisible] = useToggle(false);
-  const { data: staredWikis, loading, error } = useStaredWikis();
+  const { data: staredWikis, loading, error } = useCollectedWikis();
 
   return (
     <SingleColumnLayout>
@@ -158,6 +159,14 @@ const Page: NextPage = () => {
       </div>
     </SingleColumnLayout>
   );
+};
+
+Page.getInitialProps = async (ctx) => {
+  const props = await serverPrefetcher(ctx, [
+    { url: CollectorApiDefinition.wikis.client(), action: (cookie) => getCollectedWikis(cookie) },
+    { url: DocumentApiDefinition.recent.client(), action: (cookie) => getRecentVisitedDocuments(cookie) },
+  ]);
+  return props;
 };
 
 export default Page;

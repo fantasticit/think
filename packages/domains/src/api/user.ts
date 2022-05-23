@@ -5,7 +5,7 @@ export const UserApiDefinition = {
    * 获取用户
    */
   getAllUsers: {
-    method: 'Get' as const,
+    method: 'get' as const,
     server: '/' as const,
     client: () => '/user',
   },
@@ -14,7 +14,7 @@ export const UserApiDefinition = {
    * 注册
    */
   register: {
-    method: 'Post' as const,
+    method: 'post' as const,
     server: 'register' as const,
     client: () => '/user/register',
   },
@@ -23,7 +23,7 @@ export const UserApiDefinition = {
    * 登录
    */
   login: {
-    method: 'Post' as const,
+    method: 'post' as const,
     server: 'login' as const,
     client: () => '/user/login',
   },
@@ -32,7 +32,7 @@ export const UserApiDefinition = {
    * 登出
    */
   logout: {
-    method: 'Post' as const,
+    method: 'post' as const,
     server: 'logout' as const,
     client: () => '/user/logout',
   },
@@ -41,7 +41,7 @@ export const UserApiDefinition = {
    * 更新
    */
   update: {
-    method: 'Patch' as const,
+    method: 'patch' as const,
     server: 'update' as const,
     client: () => `/user/update`,
   },

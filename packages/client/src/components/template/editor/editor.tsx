@@ -1,5 +1,5 @@
-import { IconArticle, IconChevronLeft } from '@douyinfe/semi-icons';
-import { Button, Nav, Popconfirm, Popover, Space, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { IconChevronLeft } from '@douyinfe/semi-icons';
+import { Button, Nav, Popconfirm, Space, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
 import { ILoginUser, ITemplate } from '@think/domains';
 import cls from 'classnames';
 import { DocumentStyle } from 'components/document/style';

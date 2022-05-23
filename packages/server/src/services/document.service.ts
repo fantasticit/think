@@ -15,8 +15,9 @@ import { OutUser, UserService } from '@services/user.service';
 import { ViewService } from '@services/view.service';
 import { WikiService } from '@services/wiki.service';
 import { EMPTY_DOCUMNENT } from '@think/constants';
-import { DocumentStatus, IDocument, WikiUserRole } from '@think/domains';
+import { DocumentStatus, WikiUserRole } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
+import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -636,7 +637,9 @@ export class DocumentService {
       })
     );
 
-    return ret.filter(Boolean);
+    return ret.filter(Boolean).map((item) => {
+      return lodash.omit(item, ['state', 'content', 'index', 'createUserId']);
+    });
   }
 
   /**

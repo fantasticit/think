@@ -5,7 +5,7 @@ export const TemplateApiDefinition = {
    * 获取公开模板
    */
   public: {
-    method: 'Get' as const,
+    method: 'get' as const,
     server: 'public' as const,
     client: () => '/template/public',
   },
@@ -14,7 +14,7 @@ export const TemplateApiDefinition = {
    * 获取个人创建模板
    */
   own: {
-    method: 'Get' as const,
+    method: 'get' as const,
     server: 'own' as const,
     client: () => '/template/own',
   },
@@ -23,7 +23,7 @@ export const TemplateApiDefinition = {
    * 新建模板
    */
   add: {
-    method: 'Post' as const,
+    method: 'post' as const,
     server: 'add' as const,
     client: () => '/template/add',
   },
@@ -32,7 +32,7 @@ export const TemplateApiDefinition = {
    * 更新模板
    */
   updateById: {
-    method: 'Patch' as const,
+    method: 'patch' as const,
     server: 'update/:id' as const,
     client: (id: ITemplate['id']) => `/template/update/${id}`,
   },
@@ -41,7 +41,7 @@ export const TemplateApiDefinition = {
    * 获取模板详情
    */
   getDetailById: {
-    method: 'Get' as const,
+    method: 'get' as const,
     server: 'detail/:id' as const,
     client: (id: ITemplate['id']) => `/template/detail/${id}`,
   },
@@ -50,7 +50,7 @@ export const TemplateApiDefinition = {
    * 删除模板
    */
   deleteById: {
-    method: 'Delete' as const,
+    method: 'delete' as const,
     server: 'delete/:id' as const,
     client: (id: ITemplate['id']) => `/template/delete/${id}`,
   },

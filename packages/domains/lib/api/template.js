@@ -6,7 +6,7 @@ exports.TemplateApiDefinition = {
      * 获取公开模板
      */
     public: {
-        method: 'Get',
+        method: 'get',
         server: 'public',
         client: function () { return '/template/public'; }
     },
@@ -14,7 +14,7 @@ exports.TemplateApiDefinition = {
      * 获取个人创建模板
      */
     own: {
-        method: 'Get',
+        method: 'get',
         server: 'own',
         client: function () { return '/template/own'; }
     },
@@ -22,7 +22,7 @@ exports.TemplateApiDefinition = {
      * 新建模板
      */
     add: {
-        method: 'Post',
+        method: 'post',
         server: 'add',
         client: function () { return '/template/add'; }
     },
@@ -30,7 +30,7 @@ exports.TemplateApiDefinition = {
      * 更新模板
      */
     updateById: {
-        method: 'Patch',
+        method: 'patch',
         server: 'update/:id',
         client: function (id) { return "/template/update/".concat(id); }
     },
@@ -38,7 +38,7 @@ exports.TemplateApiDefinition = {
      * 获取模板详情
      */
     getDetailById: {
-        method: 'Get',
+        method: 'get',
         server: 'detail/:id',
         client: function (id) { return "/template/detail/".concat(id); }
     },
@@ -46,7 +46,7 @@ exports.TemplateApiDefinition = {
      * 删除模板
      */
     deleteById: {
-        method: 'Delete',
+        method: 'delete',
         server: 'delete/:id',
         client: function (id) { return "/template/delete/".concat(id); }
     }

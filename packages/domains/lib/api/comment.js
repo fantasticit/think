@@ -6,7 +6,7 @@ exports.CommentApiDefinition = {
      * 新建评论
      */
     add: {
-        method: 'Post',
+        method: 'post',
         server: 'add',
         client: function () { return '/comment/add'; }
     },
@@ -14,7 +14,7 @@ exports.CommentApiDefinition = {
      * 更新评论
      */
     update: {
-        method: 'Patch',
+        method: 'patch',
         server: 'update',
         client: function () { return '/comment/update'; }
     },
@@ -22,7 +22,7 @@ exports.CommentApiDefinition = {
      * 删除评论
      */
     "delete": {
-        method: 'Delete',
+        method: 'delete',
         server: 'delete/:id',
         client: function (id) { return "/comment/delete/".concat(id); }
     },
@@ -30,7 +30,7 @@ exports.CommentApiDefinition = {
      * 获取指定文档评论
      */
     documents: {
-        method: 'Get',
+        method: 'get',
         server: 'document/:documentId',
         client: function (documentId) { return "/comment/document/".concat(documentId); }
     }

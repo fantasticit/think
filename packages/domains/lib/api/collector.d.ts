@@ -18,7 +18,7 @@ export declare const CollectorApiDefinition: {
      * 收藏（或取消收藏）
      */
     toggle: {
-        method: "Post";
+        method: "post";
         server: "toggle";
         client: () => string;
     };
@@ -26,7 +26,7 @@ export declare const CollectorApiDefinition: {
      * 检测是否收藏
      */
     check: {
-        method: "Post";
+        method: "post";
         server: "check";
         client: () => string;
     };
@@ -34,7 +34,7 @@ export declare const CollectorApiDefinition: {
      * 获取收藏的知识库
      */
     wikis: {
-        method: "Post";
+        method: "get";
         server: "wikis";
         client: () => string;
     };
@@ -42,7 +42,7 @@ export declare const CollectorApiDefinition: {
      * 获取收藏的文档
      */
     documents: {
-        method: "Post";
+        method: "get";
         server: "documents";
         client: () => string;
     };

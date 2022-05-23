@@ -1,12 +1,12 @@
-import { IconArticle, IconChevronLeft } from '@douyinfe/semi-icons';
-import { Button, Nav, Popconfirm, Popover, Space, Spin, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { IconChevronLeft } from '@douyinfe/semi-icons';
+import { Button, Nav, Popconfirm, Space, Spin, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { DocumentStyle } from 'components/document/style';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
 import { User } from 'components/user';
-import { useTemplate } from 'data/template';
+import { useTemplate } from 'data/refactor/template';
 import { useUser } from 'data/user';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useWindowSize } from 'hooks/use-window-size';
@@ -25,9 +25,8 @@ const { Text } = Typography;
 export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
   const { user } = useUser();
   const { data, loading, error, updateTemplate, deleteTemplate } = useTemplate(templateId);
-
   const { width: windowWidth } = useWindowSize();
-  const [title, setTitle] = useState(data.title);
+  const [title, setTitle] = useState(data && data.title);
   const [isPublic, setPublic] = useState(false);
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
@@ -47,6 +46,7 @@ export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
   useEffect(() => {
     if (!data) return;
     setPublic(data.isPublic);
+    setTitle(data.title);
   }, [data]);
 
   return (

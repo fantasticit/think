@@ -4,6 +4,7 @@ import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nest
 import { InjectRepository } from '@nestjs/typeorm';
 import { OutUser, UserService } from '@services/user.service';
 import { instanceToPlain } from 'class-transformer';
+import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -57,7 +58,7 @@ export class TemplateService {
   }
 
   /**
-   * 更新模板
+   * 获取模板
    * @param id
    * @param tag
    */
@@ -69,7 +70,7 @@ export class TemplateService {
     }
 
     const createUser = await this.userService.findById(template.createUserId);
-    return { ...template, createUser };
+    return lodash.omit({ ...template, createUser }, ['state']);
   }
 
   /**
