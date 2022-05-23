@@ -17,7 +17,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from '@services/user.service';
-import { wrapResponse } from '@transforms/http-response.transform';
 import { Response as ExpressResponse } from 'express';
 
 @Controller('user')
@@ -36,8 +35,8 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   async login(@Body() user: LoginUserDto, @Res({ passthrough: true }) response: ExpressResponse) {
     const { user: data, token } = await this.userService.login(user);
-    response.cookie('token', token, { httpOnly: true, sameSite: 'none', secure: true });
-    return response.send(wrapResponse({ data: { ...data, token }, statusCode: HttpStatus.OK }));
+    response.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'lax' });
+    return { ...data, token };
   }
 
   @Get('logout')
