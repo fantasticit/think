@@ -1,4 +1,5 @@
 import { ViewEntity } from '@entities/view.entity';
+import { convertDateToMysqlTimestamp } from '@helpers/date.helper';
 import { ONE_DAY } from '@helpers/log.helper';
 import { parseUserAgent } from '@helpers/ua.helper';
 import { Injectable } from '@nestjs/common';
@@ -68,43 +69,20 @@ export class ViewService {
     }>
   > {
     const now = Date.now();
-    const queryBuilder = this.viewRepo.createQueryBuilder('view');
+    const from = convertDateToMysqlTimestamp(now - 3 * ONE_DAY);
+    const end = convertDateToMysqlTimestamp(now);
+    const count = 20;
 
-    queryBuilder
-      .where('view.userId=:userId', { userId })
-      .andWhere('view.createdAt BETWEEN :start AND :end', {
-        start: new Date(now - 3 * ONE_DAY),
-        end: new Date(now),
-      })
-      .orderBy('view.createdAt', 'DESC');
-
-    const ret = await queryBuilder.getMany();
-
-    // const map = {};
-
-    // ret.forEach((item) => {
-    //   const key = item.documentId;
-    //   if (!map[key]) {
-    //     map[key] = item;
-    //   }
-    //   const mapItem = map[key];
-    //   const isGreaterThan = new Date(mapItem.createdAt).valueOf() < new Date(item.createdAt).valueOf();
-    //   if (isGreaterThan) {
-    //     map[key] = item;
-    //   }
-    // });
-
-    const res = ret.slice(0, 20).map((item) => {
-      return {
-        documentId: item.documentId,
-        visitedAt: item.createdAt,
-      };
-    });
-
-    // res.sort((a, b) => {
-    //   return -new Date(a.visitedAt).valueOf() + new Date(b.visitedAt).valueOf();
-    // });
-
-    return res;
+    const ret = await this.viewRepo.query(
+      `SELECT documentId, ANY_VALUE(created_at) as visitedAt
+       FROM view 
+       WHERE view.userId = '${userId}'
+       AND (view.created_at BETWEEN '${from}' AND '${end}')
+       GROUP BY documentId
+       LIMIT ${count}
+      `
+    );
+    ret.sort((a, b) => -new Date(a.visitedAt).getTime() + new Date(b.visitedAt).getTime());
+    return ret;
   }
 }

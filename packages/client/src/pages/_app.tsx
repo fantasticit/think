@@ -16,7 +16,7 @@ class MyApp extends App<{ isMobile: boolean }> {
     queryClient: new QueryClient({
       defaultOptions: {
         queries: {
-          refetchOnMount: true,
+          refetchOnMount: false,
           refetchOnWindowFocus: true,
           retry: false,
           staleTime: 30000,
