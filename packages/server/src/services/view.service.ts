@@ -70,38 +70,41 @@ export class ViewService {
     const now = Date.now();
     const queryBuilder = this.viewRepo.createQueryBuilder('view');
 
-    queryBuilder.where('view.userId=:userId', { userId }).andWhere('view.createdAt BETWEEN :start AND :end', {
-      start: new Date(now - 3 * ONE_DAY),
-      end: new Date(now),
-    });
+    queryBuilder
+      .where('view.userId=:userId', { userId })
+      .andWhere('view.createdAt BETWEEN :start AND :end', {
+        start: new Date(now - 3 * ONE_DAY),
+        end: new Date(now),
+      })
+      .orderBy('view.createdAt', 'DESC');
 
     const ret = await queryBuilder.getMany();
 
-    const map = {};
+    // const map = {};
 
-    ret.forEach((item) => {
-      const key = item.documentId;
-      if (!map[key]) {
-        map[key] = item;
-      }
-      const mapItem = map[key];
-      const isGreaterThan = new Date(mapItem.createdAt).valueOf() < new Date(item.createdAt).valueOf();
-      if (isGreaterThan) {
-        map[key] = item;
-      }
-    });
+    // ret.forEach((item) => {
+    //   const key = item.documentId;
+    //   if (!map[key]) {
+    //     map[key] = item;
+    //   }
+    //   const mapItem = map[key];
+    //   const isGreaterThan = new Date(mapItem.createdAt).valueOf() < new Date(item.createdAt).valueOf();
+    //   if (isGreaterThan) {
+    //     map[key] = item;
+    //   }
+    // });
 
-    const res = Object.keys(map).map((documentId) => {
+    const res = ret.slice(0, 20).map((item) => {
       return {
-        documentId,
-        visitedAt: map[documentId].createdAt,
+        documentId: item.documentId,
+        visitedAt: item.createdAt,
       };
     });
 
-    res.sort((a, b) => {
-      return -new Date(a.visitedAt).valueOf() + new Date(b.visitedAt).valueOf();
-    });
+    // res.sort((a, b) => {
+    //   return -new Date(a.visitedAt).valueOf() + new Date(b.visitedAt).valueOf();
+    // });
 
-    return res.slice(0, 20);
+    return res;
   }
 }

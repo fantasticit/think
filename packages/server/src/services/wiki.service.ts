@@ -15,6 +15,7 @@ import { OutUser } from '@services/user.service';
 import { ViewService } from '@services/view.service';
 import { DocumentStatus, IPagination, WikiStatus, WikiUserRole } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
+import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -424,7 +425,7 @@ export class WikiService {
    */
   async getWikiHomeDocument(user: OutUser, wikiId) {
     const res = await this.documentService.documentRepo.findOne({ wikiId, isWikiHome: true });
-    return instanceToPlain(res);
+    return lodash.omit(instanceToPlain(res), ['state']);
   }
 
   /**
@@ -539,11 +540,6 @@ export class WikiService {
     });
     documents.sort((a, b) => a.index - b.index);
 
-    documents.forEach((doc) => {
-      delete doc.content;
-      delete doc.state;
-    });
-
     const docs = documents
       .filter((doc) => !doc.isWikiHome)
       .map((doc) => {
@@ -551,6 +547,9 @@ export class WikiService {
         res.key = res.id;
         res.label = res.title;
         return res;
+      })
+      .map((item) => {
+        return lodash.omit(item, ['content', 'state']);
       });
 
     const docsWithCreateUser = await Promise.all(
@@ -602,9 +601,6 @@ export class WikiService {
     const ids = records.map((record) => record.documentId);
 
     const documents = await this.documentService.documentRepo.findByIds(ids);
-    documents.forEach((doc) => {
-      delete doc.state;
-    });
 
     const docs = documents
       .filter((doc) => !doc.isWikiHome)
@@ -612,6 +608,9 @@ export class WikiService {
         const res = instanceToPlain(doc);
         res.key = res.id;
         return res;
+      })
+      .map((item) => {
+        return lodash.omit(item, ['content', 'state']);
       });
 
     const docsWithCreateUser = await Promise.all(
@@ -651,12 +650,10 @@ export class WikiService {
         res.key = res.id;
         res.label = res.title;
         return res;
+      })
+      .map((item) => {
+        return lodash.omit(item, ['content', 'state']);
       });
-
-    docs.forEach((doc) => {
-      delete doc.state;
-      delete doc.content;
-    });
 
     return array2tree(docs);
   }
@@ -676,7 +673,7 @@ export class WikiService {
       userAgent,
     });
     const views = await this.viewService.getDocumentTotalViews(res.id);
-    return { ...instanceToPlain(res), views };
+    return { ...lodash.omit(instanceToPlain(res), ['state']), views };
   }
 
   /**

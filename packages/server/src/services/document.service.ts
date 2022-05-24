@@ -524,10 +524,6 @@ export class DocumentService {
       }
     );
 
-    documents.forEach((doc) => {
-      delete doc.state;
-    });
-
     const docs = documents
       .filter((doc) => !doc.isWikiHome)
       .map((doc) => {
@@ -535,6 +531,9 @@ export class DocumentService {
         res.key = res.id;
         res.label = res.title;
         return res;
+      })
+      .map((item) => {
+        return lodash.omit(item, ['content', 'state']);
       });
 
     const docsWithCreateUser = await Promise.all(
@@ -579,10 +578,6 @@ export class DocumentService {
       }
     );
 
-    documents.forEach((doc) => {
-      delete doc.state;
-    });
-
     const docs = documents
       .filter((doc) => !doc.isWikiHome)
       .map((doc) => {
@@ -590,6 +585,9 @@ export class DocumentService {
         res.key = res.id;
         res.label = res.title;
         return res;
+      })
+      .map((item) => {
+        return lodash.omit(item, ['content', 'state']);
       });
 
     const docsWithCreateUser = await Promise.all(
