@@ -10,6 +10,9 @@ client:
   seoKeywords: '云策文档,协作,文档,前端面试题,fantasticit,https://github.com/fantasticit/think'
   # 预先连接的来源，空格分割（比如图片存储服务器）
   dnsPrefetch: '//wipi.oss-cn-shanghai.aliyuncs.com'
+  # 站点地址（如：http://think.codingit.cn/），一定要设置，否则会出现 cookie、跨域等问题
+  siteUrl: 'http://localhost:5001'
+  siteDomain: ''
 
 server:
   prefix: '/api'

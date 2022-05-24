@@ -15,8 +15,9 @@ import { OutUser, UserService } from '@services/user.service';
 import { ViewService } from '@services/view.service';
 import { WikiService } from '@services/wiki.service';
 import { EMPTY_DOCUMNENT } from '@think/constants';
-import { DocumentStatus, IDocument, WikiUserRole } from '@think/domains';
+import { DocumentStatus, WikiUserRole } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
+import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -424,7 +425,7 @@ export class DocumentService {
     // 5. 生成响应
     const doc = instanceToPlain(document);
     const createUser = await this.userService.findById(doc.createUserId);
-    return { document: { ...doc, views, createUser }, authority };
+    return { document: lodash.omit({ ...doc, views, createUser }, ['state']), authority };
   }
 
   /**
@@ -452,6 +453,7 @@ export class DocumentService {
     const newData = await this.documentRepo.merge(document, {
       status: nextStatus,
       ...dto,
+      sharePassword: dto.sharePassword || '',
     });
     const ret = await this.documentRepo.save(newData);
     return ret;
@@ -468,7 +470,7 @@ export class DocumentService {
       throw new HttpException('输入密码后查看内容', HttpStatus.BAD_REQUEST);
     }
 
-    if (document.sharePassword !== dto.sharePassword) {
+    if (document.sharePassword && document.sharePassword !== dto.sharePassword) {
       throw new HttpException('密码错误，请重新输入', HttpStatus.BAD_REQUEST);
     }
 
@@ -636,7 +638,9 @@ export class DocumentService {
       })
     );
 
-    return ret.filter(Boolean);
+    return ret.filter(Boolean).map((item) => {
+      return lodash.omit(item, ['state', 'content', 'index', 'createUserId']);
+    });
   }
 
   /**

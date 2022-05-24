@@ -1,6 +1,6 @@
 import { IAuthority, ILoginUser } from '@think/domains';
 import cls from 'classnames';
-import { useCollaborationDocument } from 'data/document';
+import { useDoumentMembers } from 'data/document';
 import { event, triggerChangeDocumentTitle, triggerJoinUser, USE_DOCUMENT_VERSION } from 'event';
 import { useToggle } from 'hooks/use-toggle';
 import Router from 'next/router';
@@ -22,7 +22,7 @@ interface IProps {
 export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, authority, className, style }) => {
   const $hasShowUserSettingModal = useRef(false);
   const $editor = useRef<ICollaborationRefProps>();
-  const { users, addUser, updateUser } = useCollaborationDocument(documentId);
+  const { users, addUser, updateUser } = useDoumentMembers(documentId);
   const [mentionUsersSettingVisible, toggleMentionUsersSettingVisible] = useToggle(false);
   const [mentionUsers, setMentionUsers] = useState([]);
 

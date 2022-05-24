@@ -5,6 +5,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@pipes/validation.pipe';
 import { HttpResponseTransformInterceptor } from '@transforms/http-response.transform';
 import * as compression from 'compression';
+import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import helmet from 'helmet';
 
@@ -12,13 +13,16 @@ import { AppModule } from './app.module';
 import { AppClusterService } from './app-cluster.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: false,
-  });
+  const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
   const port = config.get('server.port') || 5002;
 
-  app.enableCors();
+  app.enableCors({
+    origin: config.get('client.siteUrl'),
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+  app.use(cookieParser());
   app.use(compression());
   app.use(helmet());
   app.use(express.json());

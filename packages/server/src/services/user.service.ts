@@ -111,7 +111,7 @@ export class UserService {
    * @param user
    * @returns
    */
-  async login(user: LoginUserDto): Promise<OutUser & { token: string }> {
+  async login(user: LoginUserDto): Promise<{ user: OutUser; token: string; domain: string; expiresIn: number }> {
     const { name, password } = user;
     const existUser = await this.userRepo.findOne({ where: { name } });
 
@@ -125,7 +125,11 @@ export class UserService {
 
     const res = instanceToPlain(existUser) as OutUser;
     const token = this.jwtService.sign(res);
-    return Object.assign(res, { token });
+    const domain = this.confifgService.get('client.siteDomain');
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const expiresIn = this.jwtService.decode(token, { complete: true }).payload.exp;
+    return { user: res, token, domain, expiresIn };
   }
 
   async validateUser(user: UserEntity) {

@@ -1,45 +1,56 @@
-import type { ILoginUser, IUser } from '@think/domains';
+import { ILoginUser, IUser, UserApiDefinition } from '@think/domains';
 import { getStorage, setStorage } from 'helpers/storage';
 import Router, { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
+import { useQuery } from 'react-query';
 import { HttpClient } from 'services/http-client';
-import useSWR from 'swr';
 
 export const useUser = () => {
   const router = useRouter();
-  const { data, error, mutate } = useSWR<ILoginUser>('user', getStorage);
+  const { data, error, refetch } = useQuery<ILoginUser>('user', () => {
+    return getStorage('user');
+  });
 
   const logout = useCallback(() => {
     window.localStorage.removeItem('user');
     window.localStorage.removeItem('token');
-    mutate(null);
-    Router.replace('/login');
-  }, [mutate]);
+    refetch();
+    HttpClient.request({
+      method: UserApiDefinition.logout.method,
+      url: UserApiDefinition.logout.client(),
+    }).then(() => {
+      Router.replace('/login');
+    });
+  }, [refetch]);
 
   const login = useCallback(
     (data) => {
-      return HttpClient.post<IUser>('/user/login', data).then((res) => {
+      return HttpClient.request({
+        method: UserApiDefinition.login.method,
+        url: UserApiDefinition.login.client(),
+        data,
+      }).then((res) => {
         const user = res as unknown as ILoginUser;
-        mutate(user);
+        refetch();
         setStorage('user', JSON.stringify(user));
-        user.token && setStorage('token', user.token);
+        user.token && setStorage('token,', user.token);
         const next = router.query?.redirect || '/';
         Router.replace(next as string);
       });
     },
-    [mutate, router.query?.redirect]
+    [refetch, router.query?.redirect]
   );
 
   const updateUser = async (patch: Pick<IUser, 'email' | 'avatar'>) => {
     const res = await HttpClient.patch('/user/update', patch);
     const ret = { ...data, ...res } as unknown as ILoginUser;
     setStorage('user', JSON.stringify(ret));
-    mutate(ret);
+    refetch();
   };
 
   useEffect(() => {
-    mutate();
-  }, [mutate]);
+    refetch();
+  }, [refetch]);
 
   return {
     user: data,

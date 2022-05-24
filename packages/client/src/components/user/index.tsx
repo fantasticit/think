@@ -45,7 +45,7 @@ export const User: React.FC = () => {
               <Avatar size="extra-extra-small" src={user.avatar}></Avatar>
             ) : (
               <Avatar size="extra-extra-small" color="orange">
-                {user && user.name[0]}
+                {user && user.name && user.name[0]}
               </Avatar>
             )
           }

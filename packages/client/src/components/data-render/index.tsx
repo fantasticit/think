@@ -8,7 +8,7 @@ type RenderProps = React.ReactNode | (() => React.ReactNode);
 
 interface IProps {
   loading: boolean;
-  error: Error | null;
+  error: Error | null | unknown;
   empty?: boolean;
   loadingContent?: RenderProps;
   errorContent?: RenderProps;

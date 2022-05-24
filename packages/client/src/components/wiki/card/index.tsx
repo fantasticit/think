@@ -3,7 +3,7 @@ import { Avatar, Skeleton, Space, Typography } from '@douyinfe/semi-ui';
 import { IconDocument } from 'components/icons/IconDocument';
 import { LocaleTime } from 'components/locale-time';
 import { WikiStar } from 'components/wiki/star';
-import { IWikiWithIsMember } from 'data/wiki';
+import { IWikiWithIsMember } from 'data/collector';
 import Link from 'next/link';
 
 import styles from './index.module.scss';

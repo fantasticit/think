@@ -4,9 +4,13 @@ export const buildUrl = (url) => {
 };
 
 export const getWikiShareURL = (wikiId) => {
-  return window.location.origin + '/share/wiki/' + wikiId;
+  const url = '/share/wiki/' + wikiId;
+  if (typeof window === 'undefined') return url;
+  return window.location.origin + url;
 };
 
 export const getDocumentShareURL = (documentId) => {
-  return window.location.origin + '/share/document/' + documentId;
+  const url = '/share/document/' + documentId;
+  if (typeof window === 'undefined') return url;
+  return window.location.origin + url;
 };

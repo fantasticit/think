@@ -3,7 +3,7 @@ import { Button, Popconfirm, Table } from '@douyinfe/semi-ui';
 import { getWikiUserRoleText } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
-import { useWikiUsers } from 'data/wiki';
+import { useWikiMembers } from 'data/wiki';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useState } from 'react';
 
@@ -21,7 +21,7 @@ export const Users: React.FC<IProps> = ({ wikiId }) => {
   const [visible, toggleVisible] = useToggle(false);
   const [editVisible, toggleEditVisible] = useToggle(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const { data: users, loading, error, addUser, updateUser, deleteUser } = useWikiUsers(wikiId);
+  const { users, loading, error, addUser, updateUser, deleteUser } = useWikiMembers(wikiId);
 
   const editUser = (user) => {
     setCurrentUser(user);

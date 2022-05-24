@@ -1,5 +1,5 @@
-import { IconArticle, IconChevronLeft } from '@douyinfe/semi-icons';
-import { Button, Nav, Popconfirm, Popover, Space, Spin, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { IconChevronLeft } from '@douyinfe/semi-icons';
+import { Button, Nav, Popconfirm, Space, Spin, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { DocumentStyle } from 'components/document/style';
@@ -9,6 +9,7 @@ import { User } from 'components/user';
 import { useTemplate } from 'data/template';
 import { useUser } from 'data/user';
 import { useDocumentStyle } from 'hooks/use-document-style';
+import { useMount } from 'hooks/use-mount';
 import { useWindowSize } from 'hooks/use-window-size';
 import Router from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -24,6 +25,7 @@ const { Text } = Typography;
 
 export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
   const { user } = useUser();
+  const mounted = useMount();
   const { data, loading, error, updateTemplate, deleteTemplate } = useTemplate(templateId);
   const { width: windowWidth } = useWindowSize();
   const [title, setTitle] = useState(data && data.title);
@@ -81,7 +83,7 @@ export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
                     <Space>
                       <DocumentStyle />
                       <Tooltip position="bottom" content={isPublic ? '公开模板' : '个人模板'}>
-                        <Switch onChange={(v) => updateTemplate({ isPublic: v })}></Switch>
+                        <Switch checked={isPublic} onChange={(v) => updateTemplate({ isPublic: v })}></Switch>
                       </Tooltip>
                       <Popconfirm title="删除模板" content="模板删除后不可恢复，谨慎操作！" onConfirm={handleDelte}>
                         <Button type="danger">删除</Button>
@@ -95,14 +97,16 @@ export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
               <main className={styles.contentWrap}>
                 <div className={styles.editorWrap}>
                   <div className={cls(styles.contentWrap, editorWrapClassNames)} style={{ fontSize }}>
-                    <CollaborationEditor
-                      menubar
-                      editable
-                      user={user}
-                      id={data.id}
-                      type="template"
-                      onTitleUpdate={setTitle}
-                    />
+                    {mounted && (
+                      <CollaborationEditor
+                        menubar
+                        editable
+                        user={user}
+                        id={data.id}
+                        type="template"
+                        onTitleUpdate={setTitle}
+                      />
+                    )}
                   </div>
                 </div>
               </main>

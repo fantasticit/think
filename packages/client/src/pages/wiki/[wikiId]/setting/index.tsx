@@ -1,9 +1,12 @@
+import { IWiki, WikiApiDefinition } from '@think/domains';
 import { WikiSetting } from 'components/wiki/setting';
 import { WikiTocs } from 'components/wiki/tocs';
+import { getWikiMembers, getWikiTocs } from 'data/wiki';
 import { DoubleColumnLayout } from 'layouts/double-column';
 import { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
+import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {
   wikiId: string;
@@ -41,7 +44,16 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
 
 Page.getInitialProps = async (ctx) => {
   const { wikiId } = ctx.query;
-  return { wikiId } as IProps;
+  const res = await serverPrefetcher(ctx, [
+    {
+      url: WikiApiDefinition.getTocsById.client(wikiId as IWiki['id']),
+      action: (cookie) => getWikiTocs(wikiId, cookie),
+    },
+    {
+      url: WikiApiDefinition.getMemberById.client(wikiId as IWiki['id']),
+      action: (cookie) => getWikiMembers(wikiId, cookie),
+    },
+  ]);
+  return { ...res, wikiId } as IProps;
 };
-
 export default Page;

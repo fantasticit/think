@@ -2,7 +2,7 @@ import { clamp } from 'helpers/clamp';
 import { getStorage, setStorage } from 'helpers/storage';
 import { useWindowSize } from 'hooks/use-window-size';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import useSWR from 'swr';
+import { useQuery } from 'react-query';
 
 const key = 'dragable-menu-width';
 
@@ -21,7 +21,7 @@ export const useDragableWidth = () => {
   const { width: windowWidth } = useWindowSize();
   const [minWidth, setMinWidth] = useState(DEFAULT_MOBILE_MIN_WIDTH);
   const [maxWidth, setMaxWidth] = useState(DEFAULT_MOBILE_MAX_WIDTH);
-  const { data: currentWidth, mutate } = useSWR<number>(key, () => {
+  const { data: currentWidth, refetch } = useQuery<number>(key, () => {
     const nextWidth = getStorage(key, minWidth);
 
     if (nextWidth <= COLLAPSED_WIDTH) {
@@ -41,9 +41,9 @@ export const useDragableWidth = () => {
       }
       setStorage(key, size);
       prevWidthRef.current = size;
-      mutate();
+      refetch();
     },
-    [mutate, windowWidth, minWidth, maxWidth]
+    [refetch, windowWidth, minWidth, maxWidth]
   );
 
   const toggleCollapsed = useCallback(() => {
@@ -65,15 +65,15 @@ export const useDragableWidth = () => {
 
       setStorage(key, nextWidth);
     }
-    mutate();
-  }, [mutate, currentWidth, minWidth, maxWidth]);
+    refetch();
+  }, [refetch, currentWidth, minWidth, maxWidth]);
 
   useEffect(() => {
     const min = windowWidth <= PC_MOBILE_CRITICAL_WIDTH ? DEFAULT_MOBILE_MIN_WIDTH : DEFAULT_PC_MIN_WIDTH;
     const max = windowWidth <= PC_MOBILE_CRITICAL_WIDTH ? DEFAULT_MOBILE_MAX_WIDTH : DEFAULT_PC_MAX_WIDTH;
     setMinWidth(min);
     setMaxWidth(max);
-  }, [windowWidth, mutate, currentWidth]);
+  }, [windowWidth, refetch, currentWidth]);
 
   return {
     minWidth,

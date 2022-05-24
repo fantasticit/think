@@ -117,7 +117,7 @@ export const RouterHeader: React.FC = () => {
           <Space>
             <WikiOrDocumentCreator />
             <Search />
-            <Message />
+            {/* <Message /> */}
             <Theme />
             <User />
           </Space>

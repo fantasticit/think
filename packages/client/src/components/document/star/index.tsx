@@ -1,6 +1,6 @@
 import { IconStar } from '@douyinfe/semi-icons';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
-import { useDocumentStar } from 'data/document';
+import { useDocumentCollectToggle } from 'data/collector';
 import React from 'react';
 
 interface IProps {
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export const DocumentStar: React.FC<IProps> = ({ documentId, render }) => {
-  const { data, toggleStar } = useDocumentStar(documentId);
+  const { data, toggle: toggleStar } = useDocumentCollectToggle(documentId);
   const text = data ? '取消收藏' : '收藏文档';
 
   return (

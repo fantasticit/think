@@ -1,10 +1,12 @@
+import { IWiki, WikiApiDefinition } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentPublicReader } from 'components/document/reader/public';
 import { WikiPublicTocs } from 'components/wiki/tocs/public';
-import { usePublicWikiHomeDoc } from 'data/wiki';
+import { getPublicWikiDetail, getPublicWikiHomeDocument, getPublicWikiTocs, usePublicWikiHomeDoc } from 'data/wiki';
 import { PublicDoubleColumnLayout } from 'layouts/public-double-column';
 import { NextPage } from 'next';
 import React from 'react';
+import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {
   wikiId: string;
@@ -31,7 +33,24 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
 
 Page.getInitialProps = async (ctx) => {
   const { wikiId } = ctx.query;
-  return { wikiId } as IProps;
+  const res = await serverPrefetcher(ctx, [
+    {
+      url: WikiApiDefinition.getPublicDetailById.client(wikiId as IWiki['id']),
+      action: () => getPublicWikiDetail(wikiId),
+      ignoreCookie: true,
+    },
+    {
+      url: WikiApiDefinition.getPublicHomeDocumentById.client(wikiId as IWiki['id']),
+      action: () => getPublicWikiHomeDocument(wikiId),
+      ignoreCookie: true,
+    },
+    {
+      url: WikiApiDefinition.getPublicTocsById.client(wikiId as IWiki['id']),
+      action: () => getPublicWikiTocs(wikiId),
+      ignoreCookie: true,
+    },
+  ]);
+  return { wikiId, ...res } as IProps;
 };
 
 export default Page;

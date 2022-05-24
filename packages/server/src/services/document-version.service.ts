@@ -31,7 +31,7 @@ export class DocumentVersionService {
       return;
     }
 
-    this.max = lodash.get(config, 'server.maxDocumentVersion', 0);
+    this.max = lodash.get(config, 'server.maxDocumentVersion', 0) as number;
 
     try {
       const redis = new Redis({

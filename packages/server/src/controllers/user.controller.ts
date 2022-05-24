@@ -12,43 +12,74 @@ import {
   Patch,
   Post,
   Request,
+  Res,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from '@services/user.service';
+import { UserApiDefinition } from '@think/domains';
+import { Response as ExpressResponse } from 'express';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  /**
+   * 获取用户
+   */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('register')
+  @Get(UserApiDefinition.getAllUsers.server)
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtGuard)
+  async getUsers() {
+    return this.userService.getUsers();
+  }
+
+  /**
+   * 注册
+   */
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post(UserApiDefinition.register.server)
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() user: CreateUserDto) {
     return await this.userService.createUser(user);
   }
 
+  /**
+   * 登录
+   */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('login')
+  @Post(UserApiDefinition.login.server)
   @HttpCode(HttpStatus.OK)
-  async login(@Body() user: LoginUserDto) {
-    const res = await this.userService.login(user);
-    return res;
+  async login(@Body() user: LoginUserDto, @Res({ passthrough: true }) response: ExpressResponse) {
+    const { user: data, token, domain, expiresIn } = await this.userService.login(user);
+    response.cookie('token', token, {
+      domain,
+      expires: new Date(new Date().getTime() + expiresIn),
+      httpOnly: true,
+      sameSite: 'lax',
+    });
+    return { ...data, token };
   }
 
+  /**
+   * 登出
+   */
+  @Post(UserApiDefinition.logout.server)
+  @HttpCode(HttpStatus.OK)
+  async logout(@Res({ passthrough: true }) response: ExpressResponse) {
+    response.cookie('token', '', { expires: new Date() });
+    return;
+  }
+
+  /**
+   * 更新
+   */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Patch('update')
+  @Patch(UserApiDefinition.update.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
   async updateUser(@Request() req, @Body() dto: UpdateUserDto) {
     return await this.userService.updateUser(req.user, dto);
-  }
-
-  @UseInterceptors(ClassSerializerInterceptor)
-  @Get('/')
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtGuard)
-  async getUsers() {
-    return this.userService.getUsers();
   }
 }

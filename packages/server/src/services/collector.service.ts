@@ -6,6 +6,7 @@ import { DocumentService } from '@services/document.service';
 import { OutUser, UserService } from '@services/user.service';
 import { WikiService } from '@services/wiki.service';
 import { CollectType } from '@think/domains';
+import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -28,7 +29,8 @@ export class CollectorService {
     };
     const record = await this.collectorRepo.findOne(data);
     if (record) {
-      return await this.collectorRepo.remove(record);
+      await this.collectorRepo.remove(record);
+      return;
     } else {
       const res = await this.collectorRepo.create(data);
       const ret = await this.collectorRepo.save(res);
@@ -71,6 +73,8 @@ export class CollectorService {
       })
     );
 
-    return withCreateUserRes;
+    return withCreateUserRes.map((document) => {
+      return lodash.omit(document, ['state', 'content', 'index', 'createUserId']);
+    });
   }
 }

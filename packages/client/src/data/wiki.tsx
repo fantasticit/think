@@ -1,7 +1,7 @@
-import { CollectType, IDocument, IUser, IWiki, IWikiUser } from '@think/domains';
+import { IDocument, IUser, IWiki, IWikiUser, WikiApiDefinition } from '@think/domains';
 import { useCallback, useState } from 'react';
+import { useQuery } from 'react-query';
 import { HttpClient } from 'services/http-client';
-import useSWR from 'swr';
 
 export type ICreateWiki = Pick<IWiki, 'name' | 'description'>;
 export type IUpdateWiki = Partial<IWiki>;
@@ -15,14 +15,35 @@ export type IWikiWithIsMember = IWiki & { isMember: boolean };
  * 获取用户所有知识库
  * @returns
  */
-export const useAllWikis = () => {
-  const { data, error } = useSWR<{ data: IWiki[]; total: number }>('/wiki/list/all', (url) => HttpClient.get(url));
+export const getAllWikis = (cookie = null): Promise<{ data: IWiki[]; total: number }> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getAllWikis.method,
+    url: WikiApiDefinition.getAllWikis.client(),
+    cookie,
+  });
+};
 
-  const loading = !data && !error;
+/**
+ * 获取用户所有知识库
+ * @returns
+ */
+export const useAllWikis = () => {
+  const { data, error, isLoading } = useQuery(WikiApiDefinition.getAllWikis.client(), getAllWikis);
   const list = (data && data.data) || [];
   const total = (data && data.total) || 0;
+  return { data: list, total, error, loading: isLoading };
+};
 
-  return { data: list, total, error, loading };
+/**
+ * 获取用户参与的知识库
+ * @returns
+ */
+export const getJoinWikis = (cookie = null): Promise<{ data: IWiki[]; total: number }> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getJoinWikis.method,
+    url: WikiApiDefinition.getJoinWikis.client(),
+    cookie,
+  });
 };
 
 /**
@@ -30,13 +51,23 @@ export const useAllWikis = () => {
  * @returns
  */
 export const useJoinWikis = () => {
-  const { data, error } = useSWR<{ data: IWiki[]; total: number }>('/wiki/list/join', (url) => HttpClient.get(url));
-
-  const loading = !data && !error;
+  const { data, error, isLoading } = useQuery(WikiApiDefinition.getJoinWikis.client(), getJoinWikis);
   const list = (data && data.data) || [];
   const total = (data && data.total) || 0;
 
-  return { data: list, total, error, loading };
+  return { data: list, total, error, loading: isLoading };
+};
+
+/**
+ * 获取用户创建的知识库
+ * @returns
+ */
+export const getOwnWikis = (cookie = null): Promise<{ data: IWiki[]; total: number }> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getOwnWikis.method,
+    url: WikiApiDefinition.getOwnWikis.client(),
+    cookie,
+  });
 };
 
 /**
@@ -44,17 +75,19 @@ export const useJoinWikis = () => {
  * @returns
  */
 export const useOwnWikis = () => {
-  const { data, error, mutate } = useSWR<{ data: IWiki[]; total: number }>('/wiki/list/own', (url) =>
-    HttpClient.get(url)
-  );
+  const { data, error, refetch } = useQuery(WikiApiDefinition.getOwnWikis.client(), getOwnWikis);
 
   const createWiki = useCallback(
     async (data: ICreateWiki) => {
-      const res = await HttpClient.post<IWiki>('/wiki/create', data);
-      mutate();
+      const res = await HttpClient.request({
+        method: WikiApiDefinition.add.method,
+        url: WikiApiDefinition.add.client(),
+        data,
+      });
+      refetch();
       return res;
     },
-    [mutate]
+    [refetch]
   );
 
   /**
@@ -64,11 +97,14 @@ export const useOwnWikis = () => {
    */
   const deletWiki = useCallback(
     async (id) => {
-      const res = await HttpClient.delete<IWiki>('/wiki/delete/' + id);
-      mutate();
+      const res = await HttpClient.request({
+        method: WikiApiDefinition.deleteById.method,
+        url: WikiApiDefinition.deleteById.client(id),
+      });
+      refetch();
       return res;
     },
-    [mutate]
+    [refetch]
   );
 
   const loading = !data && !error;
@@ -79,49 +115,80 @@ export const useOwnWikis = () => {
 };
 
 /**
+ * 获取所有公开文档
+ * @param documentId
+ * @returns
+ */
+export const getAllPublicWikis = (
+  page = 1,
+  cookie = null
+): Promise<{
+  data: Array<IWiki>;
+  total: number;
+}> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getPublicWikis.method,
+    url: WikiApiDefinition.getPublicWikis.client(),
+    cookie,
+    params: {
+      page,
+    },
+  });
+};
+
+/**
+ * 获取所有公开文档
+ * @param documentId
+ * @returns
+ */
+export const useAllPublicWikis = () => {
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading } = useQuery(`${WikiApiDefinition.getPublicWikis.client()}?page=${page}`, () =>
+    getAllPublicWikis(page)
+  );
+
+  return {
+    data,
+    loading: isLoading,
+    error,
+    setPage,
+  };
+};
+
+/**
  * 获取知识库首页文档
  * @returns
  */
-export const useWikiHomeDoc = (wikiId) => {
-  const { data, error } = useSWR<IDocument>('/wiki/homedoc/' + wikiId, (url) => HttpClient.get(url));
-  const loading = !data && !error;
-  return { data, error, loading };
+export const getWikiHomeDocument = (wikiId, cookie = null): Promise<IDocument> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getHomeDocumentById.method,
+    url: WikiApiDefinition.getHomeDocumentById.client(wikiId),
+    cookie,
+  });
 };
 
 /**
- * 获取知识库文档目录
- * @param workspaceId
+ * 获取知识库首页文档
  * @returns
  */
-export const useWikiTocs = (wikiId) => {
-  const { data, error, mutate } = useSWR<Array<IDocument & { createUser: IUser }>>(`/wiki/tocs/${wikiId}`, (url) =>
-    wikiId ? HttpClient.get(url) : null
+export const useWikiHomeDocument = (wikiId) => {
+  const { data, error, isLoading } = useQuery(WikiApiDefinition.getHomeDocumentById.client(wikiId), () =>
+    getWikiHomeDocument(wikiId)
   );
-  const loading = !data && !error;
-
-  const update = useCallback(
-    async (relations: Array<{ id: string; parentDocumentId: string }>) => {
-      const res = await HttpClient.post(`/wiki/tocs/${wikiId}/update`, relations);
-      mutate();
-      return res;
-    },
-    [mutate, wikiId]
-  );
-
-  return { data, loading, error, refresh: mutate, update };
+  return { data, error, loading: isLoading };
 };
 
 /**
- * 获取知识库文档
- * @param workspaceId
+ * 获取知识库详情
+ * @param wikiId
  * @returns
  */
-export const useWikiDocs = (wikiId) => {
-  const { data, error, mutate } = useSWR<Array<IDocument & { createUser: IUser }>>(`/wiki/docs/${wikiId}`, (url) =>
-    HttpClient.get(url)
-  );
-  const loading = !data && !error;
-  return { data, loading, error, refresh: mutate };
+export const getWikiDetail = (wikiId, cookie = null): Promise<IWiki> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getDetailById.method,
+    url: WikiApiDefinition.getDetailById.client(wikiId),
+    cookie,
+  });
 };
 
 /**
@@ -130,8 +197,9 @@ export const useWikiDocs = (wikiId) => {
  * @returns
  */
 export const useWikiDetail = (wikiId) => {
-  const { data, error, mutate } = useSWR<IWiki>(wikiId ? `/wiki/detail/${wikiId}` : null, (url) => HttpClient.get(url));
-  const loading = !data && !error;
+  const { data, error, isLoading, refetch } = useQuery(WikiApiDefinition.getDetailById.client(wikiId), () =>
+    wikiId ? getWikiDetail(wikiId) : null
+  );
 
   /**
    * 更新知识库
@@ -140,11 +208,15 @@ export const useWikiDetail = (wikiId) => {
    */
   const update = useCallback(
     async (data: IUpdateWiki) => {
-      const res = await HttpClient.patch('/wiki/update/' + wikiId, data);
-      mutate();
+      const res = await HttpClient.request({
+        method: WikiApiDefinition.updateById.method,
+        url: WikiApiDefinition.updateById.client(wikiId),
+        data,
+      });
+      refetch();
       return res;
     },
-    [mutate, wikiId]
+    [refetch, wikiId]
   );
 
   /**
@@ -154,98 +226,161 @@ export const useWikiDetail = (wikiId) => {
    */
   const toggleStatus = useCallback(
     async (data) => {
-      const res = await HttpClient.post('/wiki/share/' + wikiId, data);
-      mutate();
+      const res = await HttpClient.request({
+        method: WikiApiDefinition.shareById.method,
+        url: WikiApiDefinition.shareById.client(wikiId),
+        data,
+      });
+      refetch();
       return res;
     },
-    [mutate, wikiId]
+    [refetch, wikiId]
   );
 
-  return { data, loading, error, update, toggleStatus };
+  return { data, loading: isLoading, error, update, toggleStatus };
 };
 
 /**
- * 知识库成员
+ * 获取知识库文档目录
+ * @param workspaceId
+ * @returns
+ */
+export const getWikiTocs = (wikiId, cookie = null): Promise<Array<IDocument & { createUser: IUser }>> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getTocsById.method,
+    url: WikiApiDefinition.getTocsById.client(wikiId),
+    cookie,
+  });
+};
+
+/**
+ * 获取知识库文档目录
+ * @param workspaceId
+ * @returns
+ */
+export const useWikiTocs = (wikiId) => {
+  const { data, error, refetch } = useQuery(WikiApiDefinition.getTocsById.client(wikiId), () =>
+    wikiId ? getWikiTocs(wikiId) : null
+  );
+  const loading = !data && !error;
+
+  const update = useCallback(
+    async (relations: Array<{ id: string; parentDocumentId: string }>) => {
+      const res = await HttpClient.request({
+        method: WikiApiDefinition.updateTocsById.method,
+        url: WikiApiDefinition.updateTocsById.client(wikiId),
+        data: relations,
+      });
+      refetch();
+      return res;
+    },
+    [refetch, wikiId]
+  );
+
+  return { data, loading, error, refresh: refetch, update };
+};
+
+/**
+ * 获取知识库文档目录
+ * @param workspaceId
+ * @returns
+ */
+export const getWikiDocuments = (wikiId, cookie = null): Promise<Array<IDocument & { createUser: IUser }>> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getDocumentsById.method,
+    url: WikiApiDefinition.getDocumentsById.client(wikiId),
+    cookie,
+  });
+};
+
+/**
+ * 获取知识库文档
+ * @param workspaceId
+ * @returns
+ */
+export const useWikiDocuments = (wikiId) => {
+  const { data, error, isLoading, refetch } = useQuery(WikiApiDefinition.getDocumentsById.client(wikiId), () =>
+    getWikiDocuments(wikiId)
+  );
+  return { data, loading: isLoading, error, refresh: refetch };
+};
+
+/**
+ * 获取知识库成员
+ * @param wikiId
+ * @param cookie
+ * @returns
+ */
+export const getWikiMembers = (wikiId, cookie = null): Promise<IWikiUser[]> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getMemberById.method,
+    url: WikiApiDefinition.getMemberById.client(wikiId),
+    cookie,
+  });
+};
+
+/**
+ * 知识库成员管理
  * @param wikiId
  * @returns
  */
-export const useWikiUsers = (wikiId) => {
-  const { data, error, mutate } = useSWR<IWikiUser[]>('/wiki/user/' + wikiId, (url) => HttpClient.get(url));
-  const loading = !data && !error;
+export const useWikiMembers = (wikiId) => {
+  const { data, error, isLoading, refetch } = useQuery(WikiApiDefinition.getMemberById.client(wikiId), () =>
+    getWikiMembers(wikiId)
+  );
 
   const addUser = useCallback(
     async (data: IWikiUserOpeateData) => {
-      const ret = await HttpClient.post(`/wiki/user/${wikiId}/add`, data);
-      mutate();
+      const ret = await HttpClient.request({
+        method: WikiApiDefinition.addMemberById.method,
+        url: WikiApiDefinition.addMemberById.client(wikiId),
+        data,
+      });
+      refetch();
       return ret;
     },
-    [mutate, wikiId]
+    [refetch, wikiId]
   );
 
   const updateUser = useCallback(
     async (data: IWikiUserOpeateData) => {
-      const ret = await HttpClient.post(`/wiki/user/${wikiId}/update`, data);
-      mutate();
+      const ret = await HttpClient.request({
+        method: WikiApiDefinition.updateMemberById.method,
+        url: WikiApiDefinition.updateMemberById.client(wikiId),
+        data,
+      });
+      refetch();
       return ret;
     },
-    [mutate, wikiId]
+    [refetch, wikiId]
   );
 
   const deleteUser = useCallback(
     async (data: IWikiUserOpeateData) => {
-      const ret = await HttpClient.post(`/wiki/user/${wikiId}/delete`, data);
-      mutate();
+      const ret = await HttpClient.request({
+        method: WikiApiDefinition.deleteMemberById.method,
+        url: WikiApiDefinition.deleteMemberById.client(wikiId),
+        data,
+      });
+      refetch();
       return ret;
     },
-    [mutate, wikiId]
+    [refetch, wikiId]
   );
 
-  return {
-    data,
-    error,
-    loading,
-    refresh: mutate,
-    addUser,
-    updateUser,
-    deleteUser,
-  };
+  return { users: data, loading: isLoading, error, addUser, updateUser, deleteUser };
 };
 
 /**
- * 收藏知识库
- * @param wikiId
+ * 获取公开知识库首页文档
  * @returns
  */
-export const useWikiStar = (wikiId) => {
-  const { data, error, mutate } = useSWR<boolean>(`/collector/check/${wikiId}`, () =>
-    HttpClient.post(`/collector/check`, {
-      type: CollectType.wiki,
-      targetId: wikiId,
-    })
-  );
-
-  const toggleStar = useCallback(async () => {
-    await HttpClient.post('/collector/toggle/', {
-      type: CollectType.wiki,
-      targetId: wikiId,
-    });
-    mutate();
-  }, [mutate, wikiId]);
-
-  return { data, error, toggleStar };
-};
-
-/**
- * 获取用户收藏的文档
- * @returns
- */
-export const useStaredWikis = () => {
-  const { data, error, mutate } = useSWR<IWikiWithIsMember[]>('/collector/wikis', (url) => HttpClient.post(url), {
-    revalidateOnFocus: true,
+export const getPublicWikiHomeDocument = (wikiId, cookie = null): Promise<IDocument> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getPublicHomeDocumentById.method,
+    url: WikiApiDefinition.getPublicHomeDocumentById.client(wikiId),
+    cookie,
   });
-  const loading = !data && !error;
-
-  return { data, error, loading, refresh: mutate };
 };
 
 /**
@@ -253,9 +388,26 @@ export const useStaredWikis = () => {
  * @returns
  */
 export const usePublicWikiHomeDoc = (wikiId) => {
-  const { data, error } = useSWR<IDocument>('/wiki/public/homedoc/' + wikiId, (url) => HttpClient.get(url));
+  const { data, error } = useQuery(
+    WikiApiDefinition.getPublicHomeDocumentById.client(wikiId),
+    () => getPublicWikiHomeDocument(wikiId),
+    { retry: 0 }
+  );
   const loading = !data && !error;
   return { data, error, loading };
+};
+
+/**
+ * 获取公开知识库详情
+ * @param wikiId
+ * @returns
+ */
+export const getPublicWikiDetail = (wikiId, cookie = null): Promise<IWiki> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getPublicDetailById.method,
+    url: WikiApiDefinition.getPublicDetailById.client(wikiId),
+    cookie,
+  });
 };
 
 /**
@@ -264,8 +416,10 @@ export const usePublicWikiHomeDoc = (wikiId) => {
  * @returns
  */
 export const usePublicWikiDetail = (wikiId) => {
-  const { data, error, mutate } = useSWR<IWiki>(wikiId ? `/wiki/public/detail/${wikiId}` : null, (url) =>
-    HttpClient.post(url)
+  const { data, error } = useQuery(
+    WikiApiDefinition.getPublicDetailById.client(wikiId),
+    () => getPublicWikiDetail(wikiId),
+    { retry: 0 }
   );
   const loading = !data && !error;
   return { data, loading, error };
@@ -276,32 +430,26 @@ export const usePublicWikiDetail = (wikiId) => {
  * @param workspaceId
  * @returns
  */
-export const usePublicWikiTocs = (wikiId) => {
-  const { data, error, mutate } = useSWR<Array<IDocument>>(`/wiki/public/tocs/${wikiId}`, (url) =>
-    HttpClient.post(url)
-  );
-  const loading = !data && !error;
-
-  return { data, loading, error, refresh: mutate };
+export const getPublicWikiTocs = (wikiId, cookie = null): Promise<Array<IDocument & { createUser: IUser }>> => {
+  return HttpClient.request({
+    method: WikiApiDefinition.getPublicTocsById.method,
+    url: WikiApiDefinition.getPublicTocsById.client(wikiId),
+    cookie,
+  });
 };
 
 /**
- * 文档评论
- * @param documentId
+ * 获取公开知识库文档目录
+ * @param workspaceId
  * @returns
  */
-export const useAllPublicWikis = () => {
-  const [page, setPage] = useState(1);
-  const { data, error, mutate } = useSWR<{
-    data: Array<IWiki>;
-    total: number;
-  }>(`/wiki/public/wikis?page=${page}`, (url) => HttpClient.get(url));
+export const usePublicWikiTocs = (wikiId) => {
+  const { data, error, refetch } = useQuery(
+    WikiApiDefinition.getPublicTocsById.client(wikiId),
+    () => getPublicWikiTocs(wikiId),
+    { retry: 0 }
+  );
   const loading = !data && !error;
 
-  return {
-    data,
-    loading,
-    error,
-    setPage,
-  };
+  return { data, loading, error, refresh: refetch };
 };

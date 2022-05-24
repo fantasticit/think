@@ -1,21 +1,29 @@
 import { Toast } from '@douyinfe/semi-ui';
-import axios from 'axios';
+import axios, { Axios, AxiosRequestConfig, AxiosResponse } from 'axios';
 import Router from 'next/router';
+
+type WithCookieAxiosRequestConfig = AxiosRequestConfig & { cookie?: string };
+
+interface AxiosInstance extends Axios {
+  request<T = any, R = AxiosResponse<T>>(config: WithCookieAxiosRequestConfig): Promise<R>;
+}
 
 export const HttpClient = axios.create({
   baseURL: process.env.SERVER_API_URL,
   timeout: 60000,
-});
+  withCredentials: true,
+}) as AxiosInstance;
 
 const isBrowser = typeof window !== 'undefined';
 
 HttpClient.interceptors.request.use(
-  (config) => {
-    if (isBrowser) {
-      const token = window.localStorage.getItem('token');
-      if (config && config.headers && token) {
-        config.headers.Authorization = `Bearer ${token}`;
+  (config: WithCookieAxiosRequestConfig) => {
+    const cookie = config.cookie;
+    if (cookie) {
+      if (typeof window === 'undefined' && !config.headers.cookie) {
+        config.headers.cookie = cookie;
       }
+      delete config.cookie;
     }
     return config;
   },
