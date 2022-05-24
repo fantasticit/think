@@ -142,7 +142,7 @@ export const toggleCollectDocument = (documentId, cookie = null): Promise<boolea
  * @returns
  */
 export const useDocumentCollectToggle = (documentId) => {
-  const { data, error, refetch } = useQuery(`${CollectorApiDefinition.check.client()}?documentId=${documentId}`, () =>
+  const { data, error, refetch } = useQuery([CollectorApiDefinition.check.client(), documentId], () =>
     getDocumentIsCollected(documentId)
   );
 

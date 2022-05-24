@@ -22,7 +22,7 @@ export const getPublicTemplates = (
 
 export const usePublicTemplates = () => {
   const [page, setPage] = useState(1);
-  const { data, error, isLoading } = useQuery(`${TemplateApiDefinition.public.client()}?page=${page}`, () =>
+  const { data, error, isLoading } = useQuery([TemplateApiDefinition.public.client(), page], () =>
     getPublicTemplates(page)
   );
 
@@ -62,7 +62,7 @@ export const useOwnTemplates = () => {
     error,
     isLoading,
     refetch: mutate,
-  } = useQuery(`${TemplateApiDefinition.own.client()}?page=${page}`, () => getOwnTemplates(page));
+  } = useQuery([TemplateApiDefinition.own.client(), page], () => getOwnTemplates(page));
 
   const addTemplate = useCallback(
     async (data): Promise<ITemplate> => {

@@ -143,7 +143,7 @@ export const getAllPublicWikis = (
  */
 export const useAllPublicWikis = () => {
   const [page, setPage] = useState(1);
-  const { data, error, isLoading } = useQuery(`${WikiApiDefinition.getPublicWikis.client()}?page=${page}`, () =>
+  const { data, error, isLoading } = useQuery([WikiApiDefinition.getPublicWikis.client(), page], () =>
     getAllPublicWikis(page)
   );
 
