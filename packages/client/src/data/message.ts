@@ -61,7 +61,7 @@ export const useUnreadMessages = () => {
   const { data, error, isLoading, refetch } = useQuery(
     [MessageApiDefinition.getUnread.client(), page],
     () => getMessagesApi('getUnread')(page),
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchInterval: 500 }
   );
 
   const readMessage = useCallback(

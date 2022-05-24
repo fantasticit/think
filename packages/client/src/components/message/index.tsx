@@ -8,7 +8,7 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import { EmptyBoxIllustration } from 'illustrations/empty-box';
 import Link from 'next/link';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 
 import styles from './index.module.scss';
 import { Placeholder } from './placeholder';
@@ -250,6 +250,5 @@ const MessageBox = () => {
 
 export const Message = () => {
   const { loading, error } = useUser();
-  return null;
-  // return <DataRender loading={loading} error={error} normalContent={() => <MessageBox />} />;
+  return <DataRender loading={loading} error={error} normalContent={() => <MessageBox />} />;
 };
