@@ -154,6 +154,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                         user={user}
                         id={documentId}
                         type="document"
+                        initialContent={document.content}
                         renderInEditorPortal={renderAuthor}
                         onAwarenessUpdate={triggerJoinUser}
                       />

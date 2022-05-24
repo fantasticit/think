@@ -29,6 +29,12 @@ export interface ICollaborationEditorProps {
   user: ILoginUser | null;
 
   /**
+   * 初始内容
+   * websocket 连接比较耗时，可以先用初始内容展现
+   */
+  initialContent?: string;
+
+  /**
    * 文档标题变动
    */
   onTitleUpdate?: (arg: string) => void;

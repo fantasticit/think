@@ -8,6 +8,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, use
 import { IndexeddbPersistence } from 'tiptap/core/y-indexeddb';
 
 import { Editor } from '../../react';
+import { ReaderEditor } from '../reader';
 import { EditorInstance } from './editor';
 import styles from './index.module.scss';
 import { ICollaborationEditorProps, ProviderStatus } from './type';
@@ -26,6 +27,7 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
     onTitleUpdate,
     user,
     menubar,
+    initialContent,
     renderInEditorPortal,
     onAwarenessUpdate,
   } = props;
@@ -98,12 +100,16 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
       <DataRender
         loading={loading}
         loadingContent={
-          <div style={{ width: 174, margin: 'auto' }}>
-            <Spin tip="正在为您加载编辑器中...">
-              {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
-              <div></div>
-            </Spin>
-          </div>
+          initialContent ? (
+            <ReaderEditor content={initialContent} />
+          ) : (
+            <div style={{ width: 174, margin: 'auto' }}>
+              <Spin tip="正在为您加载编辑器中...">
+                {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
+                <div></div>
+              </Spin>
+            </div>
+          )
         }
         error={error}
         errorContent={(error) => (
