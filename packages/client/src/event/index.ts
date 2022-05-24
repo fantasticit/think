@@ -5,6 +5,9 @@ export const event = new EventEmitter();
 
 export const REFRESH_TOCS = `REFRESH_TOCS`; // 刷新知识库目录
 export const CREATE_DOCUMENT = `CREATE_DOCUMENT`;
+export const TOGGLE_COLLECT_WIKI = `TOGGLE_COLLECT_WIKI`; // 收藏或取消收藏知识库
+export const TOGGLE_COLLECT_DOUCMENT = `TOGGLE_COLLECT_DOUCMENT`; // 收藏或取消收藏文档
+
 /**
  * 刷新知识库目录
  */
@@ -48,4 +51,12 @@ type CollaborationUser = {
  */
 export const triggerJoinUser = (users: Array<CollaborationUser>) => {
   event.emit(JOIN_USER, users);
+};
+
+export const triggerToggleCollectWiki = () => {
+  event.emit(TOGGLE_COLLECT_WIKI);
+};
+
+export const triggerToggleCollectDocument = () => {
+  event.emit(TOGGLE_COLLECT_DOUCMENT);
 };

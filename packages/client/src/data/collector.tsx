@@ -1,5 +1,12 @@
 import { CollectorApiDefinition, CollectType, IDocument, IWiki } from '@think/domains';
-import { useCallback } from 'react';
+import {
+  event,
+  TOGGLE_COLLECT_DOUCMENT,
+  TOGGLE_COLLECT_WIKI,
+  triggerToggleCollectDocument,
+  triggerToggleCollectWiki,
+} from 'event';
+import { useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { HttpClient } from 'services/http-client';
 
@@ -22,7 +29,18 @@ export const getCollectedWikis = (cookie = null): Promise<IWikiWithIsMember[]> =
  * @returns
  */
 export const useCollectedWikis = () => {
-  const { data, error, isLoading, refetch } = useQuery(CollectorApiDefinition.wikis.client(), getCollectedWikis);
+  const { data, error, isLoading, refetch } = useQuery(CollectorApiDefinition.wikis.client(), getCollectedWikis, {
+    staleTime: 0,
+  });
+
+  useEffect(() => {
+    event.on(TOGGLE_COLLECT_WIKI, refetch);
+
+    return () => {
+      event.off(TOGGLE_COLLECT_WIKI, refetch);
+    };
+  }, [refetch]);
+
   return { data, error, loading: isLoading, refresh: refetch };
 };
 
@@ -73,6 +91,7 @@ export const useWikiCollectToggle = (wikiId) => {
   const toggle = useCallback(async () => {
     await toggleCollectWiki(wikiId);
     refetch();
+    triggerToggleCollectWiki();
   }, [refetch, wikiId]);
 
   return { data, error, toggle };
@@ -97,8 +116,16 @@ export const getCollectedDocuments = (cookie = null): Promise<IDocument[]> => {
 export const useCollectedDocuments = () => {
   const { data, error, isLoading, refetch } = useQuery(
     CollectorApiDefinition.documents.client(),
-    getCollectedDocuments
+    getCollectedDocuments,
+    { staleTime: 0 }
   );
+  useEffect(() => {
+    event.on(TOGGLE_COLLECT_DOUCMENT, refetch);
+
+    return () => {
+      event.off(TOGGLE_COLLECT_DOUCMENT, refetch);
+    };
+  }, [refetch]);
   return { data, error, loading: isLoading, refresh: refetch };
 };
 
@@ -149,6 +176,7 @@ export const useDocumentCollectToggle = (documentId) => {
   const toggle = useCallback(async () => {
     await toggleCollectDocument(documentId);
     refetch();
+    triggerToggleCollectDocument();
   }, [refetch, documentId]);
 
   return { data, error, toggle };
