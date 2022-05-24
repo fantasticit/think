@@ -13,7 +13,15 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 
 class MyApp extends App<{ isMobile: boolean }> {
   state = {
-    queryClient: new QueryClient(),
+    queryClient: new QueryClient({
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: true,
+          retry: false,
+          staleTime: 30000,
+        },
+      },
+    }),
   };
 
   static getInitialProps = async ({ Component, ctx }) => {

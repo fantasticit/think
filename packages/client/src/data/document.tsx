@@ -296,7 +296,11 @@ export const getDocumentChildren = (data, cookie = null): Promise<Array<IDocumen
  */
 export const useChildrenDocument = ({ wikiId, documentId, isShare = false }) => {
   const { data, error, refetch } = useQuery(
-    isShare ? DocumentApiDefinition.getPublicChildren.client() : DocumentApiDefinition.getChildren.client(),
+    [
+      isShare ? DocumentApiDefinition.getPublicChildren.client() : DocumentApiDefinition.getChildren.client(),
+      wikiId,
+      documentId,
+    ],
     () => getDocumentChildren({ wikiId, documentId, isShare })
   );
   const loading = !data && !error;

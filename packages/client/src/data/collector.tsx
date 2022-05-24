@@ -66,7 +66,7 @@ export const toggleCollectWiki = (wikiId, cookie = null): Promise<boolean> => {
  * @returns
  */
 export const useWikiCollectToggle = (wikiId) => {
-  const { data, error, refetch } = useQuery(`${CollectorApiDefinition.check.client()}?wikiId=${wikiId}`, () =>
+  const { data, error, refetch } = useQuery([CollectorApiDefinition.check.client(), wikiId], () =>
     getWikiIsCollected(wikiId)
   );
 

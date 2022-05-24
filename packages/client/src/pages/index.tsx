@@ -65,7 +65,6 @@ const RecentDocs = () => {
         }}
       />,
       <Column title="访问时间" dataIndex="visitedAt" key="visitedAt" render={(date) => <LocaleTime date={date} />} />,
-      <Column title="更新时间" dataIndex="updatedAt" key="updatedAt" render={(date) => <LocaleTime date={date} />} />,
       <Column
         title="操作"
         dataIndex="operate"
