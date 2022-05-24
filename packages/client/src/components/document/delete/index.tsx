@@ -1,7 +1,7 @@
 import { IconDelete } from '@douyinfe/semi-icons';
 import { Modal, Space, Typography } from '@douyinfe/semi-ui';
 import { useDeleteDocument } from 'data/document';
-import { triggerRefreshTocs } from 'event';
+import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
 import React, { useCallback } from 'react';
 
@@ -14,6 +14,8 @@ interface IProps {
 const { Text } = Typography;
 
 export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, onDelete }) => {
+  const { wikiId: currentWikiId, documentId: currentDocumentId } =
+    useRouterQuery<{ wikiId?: string; documentId?: string }>();
   const { deleteDocument: api, loading } = useDeleteDocument(documentId);
 
   const deleteAction = useCallback(() => {
@@ -22,18 +24,22 @@ export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, onDelete
       content: <Text>文档删除后不可恢复！</Text>,
       onOk: () => {
         api().then(() => {
-          onDelete
-            ? onDelete()
-            : Router.push({
-                pathname: `/wiki/${wikiId}`,
-              });
-          triggerRefreshTocs();
+          const navigate = () => {
+            if (wikiId !== currentWikiId || documentId !== currentDocumentId) {
+              return;
+            }
+            Router.push({
+              pathname: `/wiki/${wikiId}`,
+            });
+          };
+
+          onDelete ? onDelete() : navigate();
         });
       },
       okButtonProps: { loading, type: 'danger' },
       style: { maxWidth: '96vw' },
     });
-  }, [wikiId, api, loading, onDelete]);
+  }, [wikiId, documentId, api, loading, onDelete, currentWikiId, currentDocumentId]);
 
   return (
     <Text type="danger" onClick={deleteAction}>

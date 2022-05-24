@@ -3,7 +3,7 @@ import { Button, Dropdown } from '@douyinfe/semi-ui';
 import { DocumentCreator } from 'components/document/create';
 import { WikiCreator } from 'components/wiki/create';
 import { IsOnMobile } from 'hooks/use-on-mobile';
-import { useQuery } from 'hooks/use-query';
+import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
 import React from 'react';
 
@@ -13,7 +13,7 @@ interface IProps {
 
 export const WikiOrDocumentCreator: React.FC<IProps> = ({ onCreateDocument, children }) => {
   const { isMobile } = IsOnMobile.useHook();
-  const { wikiId, docId } = useQuery<{ wikiId?: string; docId?: string }>();
+  const { wikiId, documentId } = useRouterQuery<{ wikiId?: string; documentId?: string }>();
   const [dropdownVisible, toggleDropdownVisible] = useToggle(false);
   const [visible, toggleVisible] = useToggle(false);
   const [createDocumentModalVisible, toggleCreateDocumentModalVisible] = useToggle(false);
@@ -44,7 +44,7 @@ export const WikiOrDocumentCreator: React.FC<IProps> = ({ onCreateDocument, chil
       {wikiId && (
         <DocumentCreator
           wikiId={wikiId}
-          parentDocumentId={docId}
+          parentDocumentId={documentId}
           visible={createDocumentModalVisible}
           toggleVisible={toggleCreateDocumentModalVisible}
           onCreate={onCreateDocument}

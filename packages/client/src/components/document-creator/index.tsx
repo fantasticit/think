@@ -1,6 +1,6 @@
 import { Button } from '@douyinfe/semi-ui';
 import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
-import { useQuery } from 'hooks/use-query';
+import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
 import React from 'react';
 
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export const DocumentCreator: React.FC<IProps> = ({ onCreateDocument, children }) => {
-  const { wikiId, docId } = useQuery<{ wikiId?: string; docId?: string }>();
+  const { wikiId, documentId } = useRouterQuery<{ wikiId?: string; documentId?: string }>();
   const [visible, toggleVisible] = useToggle(false);
 
   return (
@@ -22,7 +22,7 @@ export const DocumentCreator: React.FC<IProps> = ({ onCreateDocument, children }
       {wikiId && (
         <DocumenCreatorForm
           wikiId={wikiId}
-          parentDocumentId={docId}
+          parentDocumentId={documentId}
           visible={visible}
           toggleVisible={toggleVisible}
           onCreate={onCreateDocument}

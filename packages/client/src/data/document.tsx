@@ -1,4 +1,5 @@
 import { DocumentApiDefinition, IAuthority, IDocument, IUser, IWiki } from '@think/domains';
+import { triggerRefreshTocs } from 'event';
 import { useAsyncLoading } from 'hooks/use-async-loading';
 import { useCallback, useState } from 'react';
 import { useQuery } from 'react-query';
@@ -28,7 +29,8 @@ export const getRecentVisitedDocuments = (cookie = null): Promise<IDocumentWithV
 export const useRecentDocuments = () => {
   const { data, error, isLoading, refetch } = useQuery(
     DocumentApiDefinition.recent.client(),
-    getRecentVisitedDocuments
+    getRecentVisitedDocuments,
+    { staleTime: 0 }
   );
   return { data, error, loading: isLoading, refresh: refetch };
 };
@@ -134,8 +136,10 @@ export const getDocumentDetail = (documentId, cookie = null): Promise<IDocumentW
  * @returns
  */
 export const useDocumentDetail = (documentId) => {
-  const { data, error, isLoading, refetch } = useQuery(DocumentApiDefinition.getDetailById.client(documentId), (url) =>
-    getDocumentDetail(documentId)
+  const { data, error, isLoading, refetch } = useQuery(
+    DocumentApiDefinition.getDetailById.client(documentId),
+    () => getDocumentDetail(documentId),
+    { staleTime: 3000 }
   );
 
   /**
@@ -212,6 +216,9 @@ export const useDeleteDocument = (documentId) => {
     return HttpClient.request({
       method: DocumentApiDefinition.deleteById.method,
       url: DocumentApiDefinition.deleteById.client(documentId),
+    }).then((res) => {
+      triggerRefreshTocs();
+      return res as unknown as IDocument;
     });
   });
   return { deleteDocument, loading };
@@ -227,6 +234,9 @@ export const useCreateDocument = () => {
       method: DocumentApiDefinition.create.method,
       url: DocumentApiDefinition.create.client(),
       data,
+    }).then((res) => {
+      triggerRefreshTocs();
+      return res as unknown as IDocument;
     });
   });
   return { create, loading };
@@ -260,7 +270,7 @@ export const usePublicDocumentDetail = (documentId) => {
   const { data, error, isLoading, refetch } = useQuery(
     DocumentApiDefinition.getPublicDetailById.client(documentId),
     () => getPublicDocumentDetail(documentId, { sharePassword }),
-    { retry: 0, refetchOnWindowFocus: true, refetchOnReconnect: false }
+    { retry: 0, refetchOnWindowFocus: true, refetchOnReconnect: false, staleTime: 3000 }
   );
 
   const query = useCallback(

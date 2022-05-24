@@ -5,7 +5,7 @@ import { DataRender } from 'components/data-render';
 import { IconDocument, IconGlobe, IconOverview, IconSetting } from 'components/icons';
 import { findParents } from 'components/wiki/tocs/utils';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
-import { event, REFRESH_TOCS, triggerCreateDocument } from 'event';
+import { triggerCreateDocument } from 'event';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -18,7 +18,6 @@ interface IProps {
   documentId?: string;
   docAsLink?: string;
   getDocLink?: (arg: string) => string;
-  // pageTitle: string;
 }
 
 const { Text } = Typography;
@@ -40,15 +39,6 @@ export const WikiTocs: React.FC<IProps> = ({
     const parentIds = findParents(tocs, documentId);
     setParentIds(parentIds);
   }, [tocs, documentId]);
-
-  useEffect(() => {
-    const handler = () => refresh();
-    event.on(REFRESH_TOCS, handler);
-
-    return () => {
-      event.off(REFRESH_TOCS, handler);
-    };
-  }, [refresh]);
 
   return (
     <div className={styles.wrap}>

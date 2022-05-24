@@ -1,5 +1,6 @@
 import { IDocument, IUser, IWiki, IWikiUser, WikiApiDefinition } from '@think/domains';
-import { useCallback, useState } from 'react';
+import { event, REFRESH_TOCS } from 'event';
+import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { HttpClient } from 'services/http-client';
 
@@ -259,8 +260,10 @@ export const getWikiTocs = (wikiId, cookie = null): Promise<Array<IDocument & { 
  * @returns
  */
 export const useWikiTocs = (wikiId) => {
-  const { data, error, refetch } = useQuery(WikiApiDefinition.getTocsById.client(wikiId), () =>
-    wikiId ? getWikiTocs(wikiId) : null
+  const { data, error, refetch } = useQuery(
+    WikiApiDefinition.getTocsById.client(wikiId),
+    () => (wikiId ? getWikiTocs(wikiId) : null),
+    { staleTime: 3000 }
   );
   const loading = !data && !error;
 
@@ -276,6 +279,14 @@ export const useWikiTocs = (wikiId) => {
     },
     [refetch, wikiId]
   );
+
+  useEffect(() => {
+    event.on(REFRESH_TOCS, refetch);
+
+    return () => {
+      event.off(REFRESH_TOCS, refetch);
+    };
+  }, [refetch]);
 
   return { data, loading, error, refresh: refetch, update };
 };

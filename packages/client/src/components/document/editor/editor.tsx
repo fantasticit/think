@@ -2,6 +2,7 @@ import { IAuthority, ILoginUser } from '@think/domains';
 import cls from 'classnames';
 import { useDoumentMembers } from 'data/document';
 import { event, triggerChangeDocumentTitle, triggerJoinUser, USE_DOCUMENT_VERSION } from 'event';
+import { useMount } from 'hooks/use-mount';
 import { useToggle } from 'hooks/use-toggle';
 import Router from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
@@ -22,6 +23,7 @@ interface IProps {
 export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, authority, className, style }) => {
   const $hasShowUserSettingModal = useRef(false);
   const $editor = useRef<ICollaborationRefProps>();
+  const mounted = useMount();
   const { users, addUser, updateUser } = useDoumentMembers(documentId);
   const [mentionUsersSettingVisible, toggleMentionUsersSettingVisible] = useToggle(false);
   const [mentionUsers, setMentionUsers] = useState([]);
@@ -91,16 +93,18 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
 
   return (
     <div className={cls(styles.editorWrap, className)} style={style}>
-      <CollaborationEditor
-        ref={$editor}
-        menubar
-        editable={authority && authority.editable}
-        user={currentUser}
-        id={documentId}
-        type="document"
-        onTitleUpdate={triggerChangeDocumentTitle}
-        onAwarenessUpdate={triggerJoinUser}
-      />
+      {mounted && (
+        <CollaborationEditor
+          ref={$editor}
+          menubar
+          editable={authority && authority.editable}
+          user={currentUser}
+          id={documentId}
+          type="document"
+          onTitleUpdate={triggerChangeDocumentTitle}
+          onAwarenessUpdate={triggerJoinUser}
+        />
+      )}
       <DocumentUserSetting
         visible={mentionUsersSettingVisible}
         toggleVisible={toggleMentionUsersSettingVisible}

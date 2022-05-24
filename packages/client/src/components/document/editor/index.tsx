@@ -13,6 +13,7 @@ import { User } from 'components/user';
 import { useDocumentDetail } from 'data/document';
 import { useUser } from 'data/user';
 import { CHANGE_DOCUMENT_TITLE, event, triggerUseDocumentVersion } from 'event';
+import { triggerRefreshTocs } from 'event';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
@@ -44,6 +45,8 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   const goback = useCallback(() => {
     Router.push({
       pathname: `/wiki/${document.wikiId}/document/${documentId}`,
+    }).then(() => {
+      triggerRefreshTocs();
     });
   }, [document, documentId]);
 
