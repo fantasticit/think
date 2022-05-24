@@ -4,12 +4,15 @@ import { dehydrate, QueryClient } from 'react-query';
 type PrefetchActions = Array<{
   url: string;
   action: (cookie: string) => void;
+  ignoreCookie?: boolean;
 }>;
 
 export async function serverPrefetcher(ctx: NextPageContext, actions: PrefetchActions) {
   const cookie = ctx.req?.headers?.cookie;
 
-  if (!cookie) return {};
+  if (!cookie && !actions.filter((action) => action.ignoreCookie === true).length) {
+    return {};
+  }
 
   const queryClient = new QueryClient();
 

@@ -86,7 +86,7 @@ exports.DocumentApiDefinition = {
      * 获取子文档
      */
     getChildren: {
-        method: 'get',
+        method: 'post',
         server: 'children',
         client: function () { return "/document/children"; }
     },
@@ -110,7 +110,7 @@ exports.DocumentApiDefinition = {
      * 获取公开文档详情
      */
     getPublicDetailById: {
-        method: 'get',
+        method: 'post',
         server: 'public/detail/:id',
         client: function (id) { return "/document/public/detail/".concat(id); }
     },
@@ -118,7 +118,7 @@ exports.DocumentApiDefinition = {
      * 获取公开文档的子文档
      */
     getPublicChildren: {
-        method: 'get',
+        method: 'post',
         server: 'public/children',
         client: function () { return "/document/public/children"; }
     }

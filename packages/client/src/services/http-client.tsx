@@ -2,8 +2,10 @@ import { Toast } from '@douyinfe/semi-ui';
 import axios, { Axios, AxiosRequestConfig, AxiosResponse } from 'axios';
 import Router from 'next/router';
 
+type WithCookieAxiosRequestConfig = AxiosRequestConfig & { cookie?: string };
+
 interface AxiosInstance extends Axios {
-  request<T = any, R = AxiosResponse<T>>(config: AxiosRequestConfig): Promise<R>;
+  request<T = any, R = AxiosResponse<T>>(config: WithCookieAxiosRequestConfig): Promise<R>;
 }
 
 export const HttpClient = axios.create({
@@ -15,7 +17,14 @@ export const HttpClient = axios.create({
 const isBrowser = typeof window !== 'undefined';
 
 HttpClient.interceptors.request.use(
-  (config) => {
+  (config: WithCookieAxiosRequestConfig) => {
+    const cookie = config.cookie;
+    if (cookie) {
+      if (typeof window === 'undefined' && !config.headers.cookie) {
+        config.headers.cookie = cookie;
+      }
+      delete config.cookie;
+    }
     return config;
   },
   () => {

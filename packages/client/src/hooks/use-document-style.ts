@@ -1,6 +1,6 @@
 import { getStorage, setStorage } from 'helpers/storage';
 import { useEffect } from 'react';
-import useSWR from 'swr';
+import { useQuery } from 'react-query';
 
 export enum Width {
   'standardWidth' = 'standardWidth',
@@ -13,7 +13,7 @@ const DEFAULT_WIDTH = Width.standardWidth;
 const DEFAULT_FONT_SIZE = 16;
 
 export const useDocumentStyle = () => {
-  const { data, mutate } = useSWR(`/fe/mock/${WIDTH_KEY}/${FONT_SIZE_KEY}`, () => {
+  const { data, refetch } = useQuery(`/fe/mock/${WIDTH_KEY}/${FONT_SIZE_KEY}`, () => {
     if (typeof window !== 'undefined') {
       return {
         width: getStorage(WIDTH_KEY) || DEFAULT_WIDTH,
@@ -29,17 +29,17 @@ export const useDocumentStyle = () => {
 
   const setWidth = (width: Width) => {
     setStorage(WIDTH_KEY, width);
-    mutate();
+    refetch();
   };
 
   const setFontSize = (fontSize: number) => {
     setStorage(FONT_SIZE_KEY, fontSize);
-    mutate();
+    refetch();
   };
 
   useEffect(() => {
-    mutate();
-  }, [mutate]);
+    refetch();
+  }, [refetch]);
 
   return {
     width: (data && data.width) || DEFAULT_WIDTH,

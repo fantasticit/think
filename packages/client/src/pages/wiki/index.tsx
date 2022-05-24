@@ -5,7 +5,7 @@ import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
 import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
 import { WikiCreator } from 'components/wiki-creator';
-import { getAllWikis, getJoinWikis, getOwnWikis, useAllWikis, useJoinWikis, useOwnWikis } from 'data/refactor/wiki';
+import { getAllWikis, getJoinWikis, getOwnWikis, useAllWikis, useJoinWikis, useOwnWikis } from 'data/wiki';
 import { CreateWikiIllustration } from 'illustrations/create-wiki';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';

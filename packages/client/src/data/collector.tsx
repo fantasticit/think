@@ -1,4 +1,4 @@
-import { CollectorApiDefinition, CollectorApiTypeDefinition, CollectType, IDocument, IWiki } from '@think/domains';
+import { CollectorApiDefinition, CollectType, IDocument, IWiki } from '@think/domains';
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';
 import { HttpClient } from 'services/http-client';
@@ -13,9 +13,7 @@ export const getCollectedWikis = (cookie = null): Promise<IWikiWithIsMember[]> =
   return HttpClient.request({
     method: CollectorApiDefinition.wikis.method,
     url: CollectorApiDefinition.wikis.client(),
-    headers: {
-      cookie,
-    },
+    cookie,
   });
 };
 
@@ -37,9 +35,7 @@ export const getWikiIsCollected = (wikiId, cookie = null): Promise<boolean> => {
   return HttpClient.request({
     method: CollectorApiDefinition.check.method,
     url: CollectorApiDefinition.check.client(),
-    headers: {
-      cookie,
-    },
+    cookie,
     data: {
       type: CollectType.wiki,
       targetId: wikiId,
@@ -56,9 +52,7 @@ export const toggleCollectWiki = (wikiId, cookie = null): Promise<boolean> => {
   return HttpClient.request({
     method: CollectorApiDefinition.toggle.method,
     url: CollectorApiDefinition.toggle.client(),
-    headers: {
-      cookie,
-    },
+    cookie,
     data: {
       type: CollectType.wiki,
       targetId: wikiId,
@@ -92,9 +86,7 @@ export const getCollectedDocuments = (cookie = null): Promise<IDocument[]> => {
   return HttpClient.request({
     method: CollectorApiDefinition.documents.method,
     url: CollectorApiDefinition.documents.client(),
-    headers: {
-      cookie,
-    },
+    cookie,
   });
 };
 
@@ -119,9 +111,7 @@ export const getDocumentIsCollected = (documentId, cookie = null): Promise<boole
   return HttpClient.request({
     method: CollectorApiDefinition.check.method,
     url: CollectorApiDefinition.check.client(),
-    headers: {
-      cookie,
-    },
+    cookie,
     data: {
       type: CollectType.document,
       targetId: documentId,
@@ -138,9 +128,7 @@ export const toggleCollectDocument = (documentId, cookie = null): Promise<boolea
   return HttpClient.request({
     method: CollectorApiDefinition.toggle.method,
     url: CollectorApiDefinition.toggle.client(),
-    headers: {
-      cookie,
-    },
+    cookie,
     data: {
       type: CollectType.document,
       targetId: documentId,

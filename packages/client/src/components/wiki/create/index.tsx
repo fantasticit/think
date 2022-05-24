@@ -1,7 +1,7 @@
 import { Form, Modal } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import type { IWiki } from '@think/domains';
-import { ICreateWiki, useOwnWikis } from 'data/refactor/wiki';
+import { ICreateWiki, useOwnWikis } from 'data/wiki';
 import Router from 'next/router';
 import { Dispatch, SetStateAction, useRef } from 'react';
 

@@ -4,7 +4,7 @@ import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
 import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
-import { getAllPublicWikis, useAllPublicWikis } from 'data/refactor/wiki';
+import { getAllPublicWikis, useAllPublicWikis } from 'data/wiki';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import React from 'react';

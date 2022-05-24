@@ -89,7 +89,6 @@
     "react-query": "^3.39.0",
     "react-split-pane": "^0.1.92",
     "scroll-into-view-if-needed": "^2.2.29",
-    "swr": "^1.2.0",
     "timeago.js": "^4.0.2",
     "tippy.js": "^6.3.7",
     "toggle-selection": "^1.0.6",

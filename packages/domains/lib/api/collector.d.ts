@@ -1,18 +1,3 @@
-import { IDocument, IWiki, CollectType } from '../models';
-export declare type CollectorApiTypeDefinition = {
-    toggle: {
-        request: {
-            targetId: IDocument['id'] | IWiki['id'];
-            type: CollectType;
-        };
-    };
-    check: {
-        request: {
-            targetId: IDocument['id'] | IWiki['id'];
-            type: CollectType;
-        };
-    };
-};
 export declare const CollectorApiDefinition: {
     /**
      * 收藏（或取消收藏）

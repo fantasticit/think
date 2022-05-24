@@ -52,15 +52,21 @@ export class UserController {
   @Post(UserApiDefinition.login.server)
   @HttpCode(HttpStatus.OK)
   async login(@Body() user: LoginUserDto, @Res({ passthrough: true }) response: ExpressResponse) {
-    const { user: data, token } = await this.userService.login(user);
-    response.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'lax' });
+    const { user: data, token, domain, expiresIn } = await this.userService.login(user);
+    response.cookie('token', token, {
+      domain,
+      expires: new Date(new Date().getTime() + expiresIn),
+      httpOnly: true,
+      sameSite: 'lax',
+    });
     return { ...data, token };
   }
 
   /**
    * 登出
    */
-  @Get(UserApiDefinition.logout.server)
+  @Post(UserApiDefinition.logout.server)
+  @HttpCode(HttpStatus.OK)
   async logout(@Res({ passthrough: true }) response: ExpressResponse) {
     response.cookie('token', '', { expires: new Date() });
     return;

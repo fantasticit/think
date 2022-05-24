@@ -64,7 +64,7 @@ export class CommentController {
   @Get(CommentApiDefinition.documents.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getArticleComments(@Param('id') documentId, @Query() qurey) {
+  async getArticleComments(@Param('documentId') documentId, @Query() qurey) {
     return this.commentService.getDocumentComments(documentId, qurey);
   }
 }

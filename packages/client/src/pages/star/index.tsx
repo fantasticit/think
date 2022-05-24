@@ -5,12 +5,7 @@ import { DocumentCard, DocumentCardPlaceholder } from 'components/document/card'
 import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
 import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
-import {
-  getCollectedDocuments,
-  getCollectedWikis,
-  useCollectedDocuments,
-  useCollectedWikis,
-} from 'data/refactor/collector';
+import { getCollectedDocuments, getCollectedWikis, useCollectedDocuments, useCollectedWikis } from 'data/collector';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import React from 'react';

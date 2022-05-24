@@ -1,6 +1,9 @@
+import { DocumentApiDefinition, IDocument } from '@think/domains';
 import { DocumentEditor } from 'components/document/editor';
+import { getDocumentDetail } from 'data/document';
 import { NextPage } from 'next';
 import React from 'react';
+import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {
   wikiId: string;
@@ -13,7 +16,14 @@ const Page: NextPage<IProps> = ({ wikiId, documentId }) => {
 
 Page.getInitialProps = async (ctx) => {
   const { wikiId, documentId } = ctx.query;
-  return { wikiId, documentId } as IProps;
+
+  const res = await serverPrefetcher(ctx, [
+    {
+      url: DocumentApiDefinition.getDetailById.client(documentId as IDocument['id']),
+      action: (cookie) => getDocumentDetail(documentId, cookie),
+    },
+  ]);
+  return { ...res, wikiId, documentId } as IProps;
 };
 
 export default Page;

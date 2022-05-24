@@ -18,8 +18,9 @@ import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
 import { User } from 'components/user';
-import { usePublicDocument } from 'data/document';
+import { usePublicDocumentDetail } from 'data/document';
 import { useDocumentStyle } from 'hooks/use-document-style';
+import { useMount } from 'hooks/use-mount';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import Link from 'next/link';
 import React, { useCallback, useMemo, useRef } from 'react';
@@ -40,7 +41,8 @@ interface IProps {
 
 export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = true }) => {
   const $form = useRef<FormApi>();
-  const { data, loading, error, query } = usePublicDocument(documentId);
+  const mounted = useMount()
+  const { data, loading, error, query } = usePublicDocumentDetail(documentId);
   const { width, fontSize } = useDocumentStyle();
   const { isMobile } = IsOnMobile.useHook();
   const editorWrapClassNames = useMemo(() => {
@@ -148,14 +150,14 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
                 style={{ fontSize }}
               >
                 <Seo title={data.title} />
-                <CollaborationEditor
+                {mounted && <CollaborationEditor
                   menubar={false}
                   editable={false}
                   user={null}
                   id={documentId}
                   type="document"
                   renderInEditorPortal={renderAuthor}
-                />
+                />}
                 <ImageViewer containerSelector="#js-share-document-editor-container" />
                 <BackTop
                   style={{ bottom: 65, right: isMobile ? 16 : 100 }}

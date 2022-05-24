@@ -1,17 +1,19 @@
+import { IWiki, WikiApiDefinition } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentReader } from 'components/document/reader';
 import { WikiTocs } from 'components/wiki/tocs';
-import { useWikiHomeDoc } from 'data/wiki';
+import { getWikiDetail, getWikiHomeDocument, getWikiTocs, useWikiHomeDocument } from 'data/wiki';
 import { DoubleColumnLayout } from 'layouts/double-column';
 import { NextPage } from 'next';
 import React from 'react';
+import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {
   wikiId: string;
 }
 
 const Page: NextPage<IProps> = ({ wikiId }) => {
-  const { data: doc, loading, error } = useWikiHomeDoc(wikiId);
+  const { data: doc, loading, error } = useWikiHomeDocument(wikiId);
 
   return (
     <DoubleColumnLayout
@@ -29,7 +31,21 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
 
 Page.getInitialProps = async (ctx) => {
   const { wikiId } = ctx.query;
-  return { wikiId } as IProps;
+  const res = await serverPrefetcher(ctx, [
+    {
+      url: WikiApiDefinition.getHomeDocumentById.client(wikiId as IWiki['id']),
+      action: (cookie) => getWikiHomeDocument(cookie),
+    },
+    {
+      url: WikiApiDefinition.getDetailById.client(wikiId as IWiki['id']),
+      action: (cookie) => getWikiDetail(wikiId, cookie),
+    },
+    {
+      url: WikiApiDefinition.getTocsById.client(wikiId as IWiki['id']),
+      action: (cookie) => getWikiTocs(wikiId, cookie),
+    },
+  ]);
+  return { ...res, wikiId } as IProps;
 };
 
 export default Page;

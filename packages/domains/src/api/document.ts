@@ -95,7 +95,7 @@ export const DocumentApiDefinition = {
    * 获取子文档
    */
   getChildren: {
-    method: 'get' as const,
+    method: 'post' as const,
     server: 'children' as const,
     client: () => `/document/children`,
   },
@@ -122,7 +122,7 @@ export const DocumentApiDefinition = {
    * 获取公开文档详情
    */
   getPublicDetailById: {
-    method: 'get' as const,
+    method: 'post' as const,
     server: 'public/detail/:id' as const,
     client: (id: IDocument['id']) => `/document/public/detail/${id}`,
   },
@@ -131,7 +131,7 @@ export const DocumentApiDefinition = {
    * 获取公开文档的子文档
    */
   getPublicChildren: {
-    method: 'get' as const,
+    method: 'post' as const,
     server: 'public/children' as const,
     client: () => `/document/public/children`,
   },

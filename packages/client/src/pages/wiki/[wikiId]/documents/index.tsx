@@ -1,4 +1,5 @@
 import { List, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+import { IWiki, WikiApiDefinition } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentCard, DocumentCardPlaceholder } from 'components/document/card';
 import { DocumentCreator } from 'components/document-creator';
@@ -7,12 +8,13 @@ import { Seo } from 'components/seo';
 import { WikiDocumentsShare } from 'components/wiki/documents-share';
 import { WikiTocs } from 'components/wiki/tocs';
 import { WikiTocsManager } from 'components/wiki/tocs/manager';
-import { useWikiDocs } from 'data/wiki';
+import { getWikiTocs, useWikiDocuments } from 'data/wiki';
 import { CreateDocumentIllustration } from 'illustrations/create-document';
 import { DoubleColumnLayout } from 'layouts/double-column';
 import { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
+import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {
   wikiId: string;
@@ -31,7 +33,7 @@ const grid = {
 };
 
 const AllDocs = ({ wikiId }) => {
-  const { data: docs, loading, error } = useWikiDocs(wikiId);
+  const { data: docs, loading, error } = useWikiDocuments(wikiId);
   return (
     <DataRender
       loading={loading}
@@ -110,7 +112,13 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
 
 Page.getInitialProps = async (ctx) => {
   const { wikiId } = ctx.query;
-  return { wikiId } as IProps;
+  const res = await serverPrefetcher(ctx, [
+    {
+      url: WikiApiDefinition.getTocsById.client(wikiId as IWiki['id']),
+      action: (cookie) => getWikiTocs(wikiId, cookie),
+    },
+  ]);
+  return { ...res, wikiId } as IProps;
 };
 
 export default Page;

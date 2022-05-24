@@ -311,7 +311,7 @@ export class WikiController {
    */
   @UseInterceptors(ClassSerializerInterceptor)
   @HttpCode(HttpStatus.OK)
-  @Post(WikiApiDefinition.getPublicTocsById.server)
+  @Get(WikiApiDefinition.getPublicTocsById.server)
   @CheckWikiStatus(WikiStatus.public)
   @UseGuards(WikiStatusGuard)
   async getPublicWikiTocs(@Param('id') wikiId) {
@@ -324,7 +324,7 @@ export class WikiController {
    * @returns
    */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post(WikiApiDefinition.getPublicDetailById.server)
+  @Get(WikiApiDefinition.getPublicDetailById.server)
   @CheckWikiStatus(WikiStatus.public)
   @UseGuards(WikiStatusGuard)
   @HttpCode(HttpStatus.OK)

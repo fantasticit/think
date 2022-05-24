@@ -27,12 +27,7 @@ export class WikiStatusGuard implements CanActivate {
       throw new HttpException('目标知识库不存在', HttpStatus.NOT_FOUND);
     }
     if (wiki.status !== targetStatus) {
-      throw new HttpException(
-        targetStatus === WikiStatus.private
-          ? '私有知识库，无法查看内容'
-          : '公共知识库，无法查看内容，请提 issue 到 GitHub 仓库反馈',
-        HttpStatus.FORBIDDEN
-      );
+      throw new HttpException('私有知识库，无法查看内容', HttpStatus.FORBIDDEN);
     }
 
     return true;

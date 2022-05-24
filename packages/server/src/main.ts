@@ -13,15 +13,12 @@ import { AppModule } from './app.module';
 import { AppClusterService } from './app-cluster.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: false,
-  });
+  const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
   const port = config.get('server.port') || 5002;
 
   app.enableCors({
-    // TODO: fixme
-    origin: 'http://localhost:5001',
+    origin: config.get('client.siteUrl'),
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });

@@ -1,6 +1,6 @@
 import { IconStar } from '@douyinfe/semi-icons';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
-import { useDocumentCollectToggle } from 'data/refactor/collector';
+import { useDocumentCollectToggle } from 'data/collector';
 import React from 'react';
 
 interface IProps {

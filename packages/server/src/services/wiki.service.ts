@@ -540,6 +540,7 @@ export class WikiService {
     documents.sort((a, b) => a.index - b.index);
 
     documents.forEach((doc) => {
+      delete doc.content;
       delete doc.state;
     });
 
@@ -654,6 +655,7 @@ export class WikiService {
 
     docs.forEach((doc) => {
       delete doc.state;
+      delete doc.content;
     });
 
     return array2tree(docs);

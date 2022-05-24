@@ -1,83 +1,87 @@
-import type { IMessage } from '@think/domains';
-import React, { useCallback, useState } from 'react';
+import { IMessage, MessageApiDefinition } from '@think/domains';
+import { useCallback, useState } from 'react';
+import { useQuery } from 'react-query';
 import { HttpClient } from 'services/http-client';
-import useSWR from 'swr';
 
-/**
- * 所有消息
- * @returns
- */
+const getMessagesApi =
+  (apiKey) =>
+  (
+    page = 1,
+    cookie = null
+  ): Promise<{
+    data: Array<IMessage>;
+    total: number;
+  }> => {
+    return HttpClient.request({
+      method: MessageApiDefinition[apiKey].method,
+      url: MessageApiDefinition[apiKey].client(),
+      cookie,
+      params: {
+        page,
+      },
+    });
+  };
+
 export const useAllMessages = () => {
   const [page, setPage] = useState(1);
-  const { data, error, mutate } = useSWR<{
-    data: Array<IMessage>;
-    total: number;
-  }>(`/message/all?page=${page}`, (url) => HttpClient.get(url), {
-    refreshInterval: 200,
-  });
-  const loading = !data && !error;
-
-  return {
-    data,
-    loading,
-    error,
-    page,
-    setPage,
-  };
-};
-
-/**
- * 所有已读消息
- * @returns
- */
-export const useReadMessages = () => {
-  const [page, setPage] = useState(1);
-  const { data, error, mutate } = useSWR<{
-    data: Array<IMessage>;
-    total: number;
-  }>(`/message/read?page=${page}`, (url) => HttpClient.get(url), {
-    refreshInterval: 200,
-  });
-  const loading = !data && !error;
-
-  return {
-    data,
-    loading,
-    error,
-    page,
-    setPage,
-  };
-};
-
-/**
- * 所有未读消息
- * @returns
- */
-export const useUnreadMessages = () => {
-  const [page, setPage] = useState(1);
-  const { data, error, mutate } = useSWR<{
-    data: Array<IMessage>;
-    total: number;
-  }>(`/message/unread?page=${page}`, (url) => HttpClient.get(url), {
-    refreshInterval: 200,
-  });
-  const loading = !data && !error;
-
-  const readMessage = useCallback(
-    async (messageId) => {
-      const ret = await HttpClient.post(`/message/read/${messageId}`);
-      mutate();
-      return ret;
-    },
-    [mutate]
+  const { data, error, isLoading } = useQuery(
+    [MessageApiDefinition.getAll.client(), page],
+    () => getMessagesApi('getAll')(page),
+    { keepPreviousData: true }
   );
 
   return {
     data,
-    loading,
+    loading: isLoading,
     error,
     page,
     setPage,
+  };
+};
+
+export const useReadMessages = () => {
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading } = useQuery(
+    [MessageApiDefinition.getRead.client(), page],
+    () => getMessagesApi('getRead')(page),
+    { keepPreviousData: true }
+  );
+
+  return {
+    data,
+    loading: isLoading,
+    error,
+    page,
+    setPage,
+  };
+};
+
+export const useUnreadMessages = () => {
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading, refetch } = useQuery(
+    [MessageApiDefinition.getUnread.client(), page],
+    () => getMessagesApi('getUnread')(page),
+    { keepPreviousData: true }
+  );
+
+  const readMessage = useCallback(
+    async (messageId) => {
+      const ret = await HttpClient.request({
+        method: MessageApiDefinition.readMessage.method,
+        url: MessageApiDefinition.readMessage.client(messageId),
+      });
+      refetch();
+      return ret;
+    },
+    [refetch]
+  );
+
+  return {
+    data,
+    loading: isLoading,
+    error,
     readMessage,
+    page,
+    setPage,
   };
 };

@@ -1,8 +1,12 @@
+import { DocumentApiDefinition, IDocument, IWiki, WikiApiDefinition } from '@think/domains';
 import { DocumentPublicReader } from 'components/document/reader/public';
 import { WikiPublicTocs } from 'components/wiki/tocs/public';
+import { getPublicWikiTocs } from 'data/wiki';
 import { PublicDoubleColumnLayout } from 'layouts/public-double-column';
 import { NextPage } from 'next';
 import React from 'react';
+import { getPublicDocumentDetail } from 'services/document';
+import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {
   wikiId: string;
@@ -20,7 +24,20 @@ const Page: NextPage<IProps> = ({ wikiId, documentId }) => {
 
 Page.getInitialProps = async (ctx) => {
   const { wikiId, documentId } = ctx.query;
-  return { wikiId, documentId } as IProps;
+  const res = await serverPrefetcher(ctx, [
+    {
+      url: WikiApiDefinition.getPublicTocsById.client(wikiId as IWiki['id']),
+      action: () => getPublicWikiTocs(wikiId),
+      ignoreCookie: true,
+    },
+    {
+      url: DocumentApiDefinition.getPublicDetailById.client(documentId as IDocument['id']),
+      // 默认无密码公开文档，如果有密码，客户端重新获取
+      action: () => getPublicDocumentDetail(documentId as IDocument['id'], { sharePassword: '' }),
+      ignoreCookie: true,
+    },
+  ]);
+  return { ...res, wikiId, documentId } as IProps;
 };
 
 export default Page;

@@ -36,12 +36,7 @@ export class DocumentStatusGuard implements CanActivate {
     }
 
     if (document.status !== targetStatus) {
-      throw new HttpException(
-        targetStatus === DocumentStatus.private
-          ? '私有文档，无法查看内容'
-          : '公共文档，无法查看内容，请提 issue 到 GitHub 仓库反馈',
-        HttpStatus.FORBIDDEN
-      );
+      throw new HttpException('私有文档，无法查看内容', HttpStatus.FORBIDDEN);
     }
 
     return true;

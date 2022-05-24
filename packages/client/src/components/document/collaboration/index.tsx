@@ -17,7 +17,7 @@ import {
 } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { DocumentLinkCopyer } from 'components/document/link';
-import { useCollaborationDocument } from 'data/document';
+import { useDoumentMembers } from 'data/document';
 import { useUser } from 'data/user';
 import { event, JOIN_USER } from 'event';
 import { useToggle } from 'hooks/use-toggle';
@@ -48,7 +48,7 @@ const renderChecked = (onChange, authKey: 'readable' | 'editable') => (checked, 
 export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) => {
   const { user: currentUser } = useUser();
   const [visible, toggleVisible] = useToggle(false);
-  const { users, loading, error, addUser, updateUser, deleteUser } = useCollaborationDocument(documentId);
+  const { users, loading, error, addUser, updateUser, deleteUser } = useDoumentMembers(documentId);
   const [inviteUser, setInviteUser] = useState('');
   const [collaborationUsers, setCollaborationUsers] = useState([]);
 

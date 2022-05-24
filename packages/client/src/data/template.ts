@@ -1,22 +1,54 @@
-import type { ITemplate } from '@think/domains';
+import { ITemplate, TemplateApiDefinition } from '@think/domains';
 import { useCallback, useState } from 'react';
+import { useQuery } from 'react-query';
 import { HttpClient } from 'services/http-client';
-import useSWR from 'swr';
+
+export const getPublicTemplates = (
+  page = 1,
+  cookie = null
+): Promise<{
+  data: Array<ITemplate>;
+  total: number;
+}> => {
+  return HttpClient.request({
+    method: TemplateApiDefinition.public.method,
+    url: TemplateApiDefinition.public.client(),
+    cookie,
+    params: {
+      page,
+    },
+  });
+};
 
 export const usePublicTemplates = () => {
   const [page, setPage] = useState(1);
-  const { data, error, mutate } = useSWR<{
-    data: Array<ITemplate>;
-    total: number;
-  }>(`/template/public?page=${page}`, (url) => HttpClient.get(url));
-  const loading = !data && !error;
+  const { data, error, isLoading } = useQuery(`${TemplateApiDefinition.public.client()}?page=${page}`, () =>
+    getPublicTemplates(page)
+  );
 
   return {
     data,
-    loading,
+    loading: isLoading,
     error,
     setPage,
   };
+};
+
+export const getOwnTemplates = (
+  page = 1,
+  cookie = null
+): Promise<{
+  data: Array<ITemplate>;
+  total: number;
+}> => {
+  return HttpClient.request({
+    method: TemplateApiDefinition.own.method,
+    url: TemplateApiDefinition.own.client(),
+    cookie,
+    params: {
+      page,
+    },
+  });
 };
 
 /**
@@ -25,15 +57,16 @@ export const usePublicTemplates = () => {
  */
 export const useOwnTemplates = () => {
   const [page, setPage] = useState(1);
-  const { data, error, mutate } = useSWR<{
-    data: Array<ITemplate>;
-    total: number;
-  }>(`/template/own?page=${page}`, (url) => HttpClient.get(url));
-  const loading = !data && !error;
+  const {
+    data,
+    error,
+    isLoading,
+    refetch: mutate,
+  } = useQuery(`${TemplateApiDefinition.own.client()}?page=${page}`, () => getOwnTemplates(page));
 
   const addTemplate = useCallback(
     async (data): Promise<ITemplate> => {
-      const ret = await HttpClient.post(`/template/add`, data);
+      const ret = await HttpClient.post(TemplateApiDefinition.add.client(), data);
       mutate();
       return ret as unknown as ITemplate;
     },
@@ -42,31 +75,59 @@ export const useOwnTemplates = () => {
 
   return {
     data,
-    loading,
+    loading: isLoading,
     error,
     setPage,
     addTemplate,
   };
 };
 
+/**
+ * 获取模板详情
+ * @param templateId
+ * @param cookie
+ * @returns
+ */
+export const getTemplateDetail = (templateId, cookie = null): Promise<ITemplate> => {
+  return HttpClient.request({
+    method: TemplateApiDefinition.getDetailById.method,
+    url: TemplateApiDefinition.getDetailById.client(templateId),
+    cookie,
+  });
+};
+
+/**
+ * 获取模板详情
+ * @param templateId
+ * @returns
+ */
 export const useTemplate = (templateId) => {
-  const { data, error, mutate } = useSWR<ITemplate>(`/template/detail/${templateId}`, (url) => HttpClient.get(url));
+  const { data, error, refetch } = useQuery(TemplateApiDefinition.getDetailById.client(templateId), () =>
+    getTemplateDetail(templateId)
+  );
   const loading = !data && !error;
 
   const updateTemplate = useCallback(
     async (data): Promise<ITemplate> => {
-      const ret = await HttpClient.post(`/template/update`, {
-        id: templateId,
-        ...data,
+      const ret = await HttpClient.request({
+        method: TemplateApiDefinition.updateById.method,
+        url: TemplateApiDefinition.updateById.client(templateId),
+        data: {
+          id: templateId,
+          ...data,
+        },
       });
-      mutate();
+      refetch();
       return ret as unknown as ITemplate;
     },
-    [mutate, templateId]
+    [refetch, templateId]
   );
 
   const deleteTemplate = useCallback(async () => {
-    await HttpClient.post(`/template/delete/${templateId}`);
+    await HttpClient.request({
+      method: TemplateApiDefinition.deleteById.method,
+      url: TemplateApiDefinition.deleteById.client(templateId),
+    });
   }, [templateId]);
 
   return {
