@@ -48,11 +48,12 @@ const RecentDocs = () => {
           );
         }}
       />,
-      <Column title="阅读量" dataIndex="views" key="views" />,
+      <Column width={100} title="阅读量" dataIndex="views" key="views" />,
       <Column
         title="创建者"
         dataIndex="createUser"
         key="createUser"
+        width={160}
         render={(createUser) => {
           return (
             <span>
@@ -64,11 +65,18 @@ const RecentDocs = () => {
           );
         }}
       />,
-      <Column title="访问时间" dataIndex="visitedAt" key="visitedAt" render={(date) => <LocaleTime date={date} />} />,
+      <Column
+        width={120}
+        title="访问时间"
+        dataIndex="visitedAt"
+        key="visitedAt"
+        render={(date) => <LocaleTime date={date} />}
+      />,
       <Column
         title="操作"
         dataIndex="operate"
         key="operate"
+        width={80}
         render={(_, document) => (
           <DocumentActions
             wikiId={document.wikiId}
