@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { Callout } from 'tiptap/core/extensions/callout';
 import { CodeBlock } from 'tiptap/core/extensions/code-block';
+import { Countdown } from 'tiptap/core/extensions/countdown';
 import { DocumentChildren } from 'tiptap/core/extensions/document-children';
 import { DocumentReference } from 'tiptap/core/extensions/document-reference';
 import { Flow } from 'tiptap/core/extensions/flow';
@@ -31,6 +32,7 @@ const OTHER_BUBBLE_MENU_TYPES = [
   Title.name,
   Link.name,
   Attachment.name,
+  Countdown.name,
   Image.name,
   Callout.name,
   CodeBlock.name,
