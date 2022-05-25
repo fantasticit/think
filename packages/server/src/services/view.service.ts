@@ -19,21 +19,12 @@ export class ViewService {
    * @returns
    */
   async create({ userId = 'public', documentId, userAgent }) {
-    const old = await this.viewRepo.findOne({ documentId, userId });
-    let data;
-
-    if (old) {
-      data = await this.viewRepo.merge(old, {
-        updatedAt: convertDateToMysqlTimestamp(Date.now()),
-      });
-    } else {
-      data = await this.viewRepo.create({
-        userId,
-        documentId,
-        originUserAgent: userAgent,
-        parsedUserAgent: parseUserAgent(userAgent).text,
-      });
-    }
+    const data = await this.viewRepo.create({
+      userId,
+      documentId,
+      originUserAgent: userAgent,
+      parsedUserAgent: parseUserAgent(userAgent).text,
+    });
     const ret = await this.viewRepo.save(data);
     return ret;
   }
@@ -80,12 +71,17 @@ export class ViewService {
     const count = 20;
 
     const ret = await this.viewRepo.query(
-      `SELECT documentId, ANY_VALUE(updated_at) as visitedAt
-       FROM view 
-       WHERE view.userId = '${userId}'
-       AND (view.updated_at BETWEEN '${from}' AND '${end}')
-       GROUP BY documentId
-       LIMIT ${count}
+      `
+      SELECT v.documentId, v.visitedAt FROM (
+        SELECT ANY_VALUE(documentId) as documentId, ANY_VALUE(created_at) as visitedAt
+             FROM view 
+             WHERE view.userId = '${userId}'
+             AND (view.created_at BETWEEN '${from}' AND '${end}')
+             GROUP BY visitedAt
+             ORDER BY visitedAt DESC
+      ) v
+      GROUP BY v.documentId
+      LIMIT ${count}
       `
     );
     ret.sort((a, b) => -new Date(a.visitedAt).getTime() + new Date(b.visitedAt).getTime());
