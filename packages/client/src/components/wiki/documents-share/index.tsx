@@ -1,22 +1,21 @@
 import { IconClose } from '@douyinfe/semi-icons';
-import { Banner, Button, Checkbox, Radio, RadioGroup, Toast, Transfer, Typography } from '@douyinfe/semi-ui';
-import { isPublicDocument, isPublicWiki, WIKI_STATUS_LIST } from '@think/domains';
+import { Banner, Button, Checkbox, Toast, Transfer, Typography } from '@douyinfe/semi-ui';
+import { isPublicDocument } from '@think/domains';
 import { flattenTree2Array } from 'components/wiki/tocs/utils';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
-import { buildUrl } from 'helpers/url';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import styles from './index.module.scss';
 
-const { Text, Title } = Typography;
+const { Title, Text } = Typography;
 
 interface IProps {
   wikiId: string;
 }
 
 export const WikiDocumentsShare: React.FC<IProps> = ({ wikiId }) => {
-  const { data: wiki, loading: wikiLoading, toggleStatus: toggleWorkspaceStatus } = useWikiDetail(wikiId);
-  const { data: tocs, loading } = useWikiTocs(wikiId);
+  const { toggleStatus: toggleWorkspaceStatus } = useWikiDetail(wikiId);
+  const { data: tocs } = useWikiTocs(wikiId);
   const documents = useMemo(
     () =>
       flattenTree2Array(tocs).map((d) => {
@@ -26,15 +25,13 @@ export const WikiDocumentsShare: React.FC<IProps> = ({ wikiId }) => {
       }),
     [tocs]
   );
-  const [nextStatus, setNextStatus] = useState('');
-  const isPublic = useMemo(() => wiki && isPublicWiki(wiki.status), [wiki]);
   const [publicDocumentIds, setPublicDocumentIds] = useState([]); // 公开的
   const privateDocumentIds = useMemo(() => {
     return documents.filter((doc) => !publicDocumentIds.includes(doc.id)).map((doc) => doc.id);
   }, [documents, publicDocumentIds]);
 
   const submit = () => {
-    const data = { nextStatus, publicDocumentIds, privateDocumentIds };
+    const data = { publicDocumentIds, privateDocumentIds };
     toggleWorkspaceStatus(data).then((res) => {
       const ret = res as unknown as any & {
         documentOperateMessage?: string;
@@ -73,11 +70,6 @@ export const WikiDocumentsShare: React.FC<IProps> = ({ wikiId }) => {
   }, []);
 
   useEffect(() => {
-    if (!wiki) return;
-    setNextStatus(wiki.status);
-  }, [wiki]);
-
-  useEffect(() => {
     if (!documents.length) return;
     const activeIds = documents.filter((doc) => isPublicDocument(doc.status)).map((doc) => doc.id);
     setPublicDocumentIds(activeIds);
@@ -85,48 +77,14 @@ export const WikiDocumentsShare: React.FC<IProps> = ({ wikiId }) => {
 
   return (
     <div className={styles.wrap}>
-      {isPublic && (
-        <Banner
-          fullMode={false}
-          type="info"
-          bordered
-          icon={null}
-          style={{ marginTop: 16 }}
-          title={<div style={{ fontWeight: 600, fontSize: '14px', lineHeight: '20px' }}>当前知识库已经公开</div>}
-          description={
-            isPublic && (
-              <div>
-                您可以点击该链接进行查看：
-                <Text
-                  link={{
-                    href: buildUrl(`/share/wiki/${wikiId}`),
-                    target: '_blank',
-                  }}
-                  copyable={{
-                    content: buildUrl(`/share/wiki/${wikiId}`),
-                  }}
-                >
-                  知识库
-                </Text>
-              </div>
-            )
-          }
-        />
-      )}
-      <div className={styles.statusWrap}>
-        <Title className={styles.title} heading={6}>
-          是否公开知识库？
-        </Title>
-        <RadioGroup direction="vertical" value={nextStatus} onChange={(e) => setNextStatus(e.target.value)}>
-          {WIKI_STATUS_LIST.map((status) => {
-            return (
-              <Radio key={status.value} value={status.value}>
-                {status.label}
-              </Radio>
-            );
-          })}
-        </RadioGroup>
-      </div>
+      <Banner
+        fullMode={false}
+        type="info"
+        icon={null}
+        closeIcon={null}
+        title={<Title heading={5}>隐私管理</Title>}
+        description={<Text>在下方进行选择以公开（或取消）文档</Text>}
+      />
       <div className={styles.transferWrap}>
         <Transfer
           style={{ width: '100%', marginTop: 16 }}

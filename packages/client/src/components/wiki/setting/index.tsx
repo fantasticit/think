@@ -5,6 +5,7 @@ import React from 'react';
 
 import { Base } from './base';
 import { More } from './more';
+import { Privacy } from './privacy';
 import { Users } from './users';
 
 interface IProps {
@@ -15,6 +16,7 @@ interface IProps {
 
 const TitleMap = {
   base: '基础信息',
+  privacy: '隐私管理',
   users: '成员管理',
   more: '更多',
 };
@@ -31,6 +33,9 @@ export const WikiSetting: React.FC<IProps> = ({ wikiId, tab, onNavigate }) => {
         </TabPane>
         <TabPane tab={TitleMap['users']} itemKey="users">
           <Users wikiId={wikiId} />
+        </TabPane>
+        <TabPane tab={TitleMap['privacy']} itemKey="privacy">
+          <Privacy wikiId={wikiId} />
         </TabPane>
         <TabPane tab={TitleMap['more']} itemKey="more">
           <More wikiId={wikiId} />
