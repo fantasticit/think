@@ -16,10 +16,10 @@ class MyApp extends App<{ isMobile: boolean }> {
     queryClient: new QueryClient({
       defaultOptions: {
         queries: {
-          refetchOnMount: false,
+          refetchOnMount: true,
           refetchOnWindowFocus: true,
           retry: false,
-          staleTime: 30000,
+          staleTime: 10 * 1000, // 默认 10s 数据过期
         },
       },
     }),
