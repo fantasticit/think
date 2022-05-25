@@ -21,19 +21,19 @@ export const Author: React.FC<IProps> = ({ document }) => {
       }}
     >
       <Space>
-        <Avatar size="small" src={document.createUser && document.createUser.avatar}>
+        <Avatar size="small" src={document && document.createUser && document.createUser.avatar}>
           <IconUser />
         </Avatar>
         <div>
           <p style={{ margin: 0 }}>
             创建者：
-            {document.createUser && document.createUser.name}
+            {document && document.createUser && document.createUser.name}
           </p>
           <p style={{ margin: '8px 0 0' }}>
             最近更新日期：
-            <LocaleTime date={document.updatedAt} />
+            <LocaleTime date={document && document.updatedAt} />
             {' ⦁ '}阅读量：
-            {document.views}
+            {document && document.views}
           </p>
         </div>
       </Space>

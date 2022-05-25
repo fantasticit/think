@@ -25,7 +25,6 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import Link from 'next/link';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { DocumentSkeleton } from 'tiptap/components/skeleton';
 import { CollaborationEditor } from 'tiptap/editor';
 
 import { Author } from '../author';
@@ -72,6 +71,57 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
 
   if (!documentId) return null;
 
+  const content = useMemo(() => {
+    if (error) {
+      // @ts-ignore
+      if (error.statusCode === 400) {
+        return (
+          <div>
+            <Seo title={'输入密码后查看'} />
+            <Form
+              style={{ width: 320, maxWidth: 'calc(100vw - 160px)', margin: '10vh auto' }}
+              initValues={{ password: '' }}
+              getFormApi={(formApi) => ($form.current = formApi)}
+              labelPosition="left"
+              onSubmit={handleOk}
+              layout="horizontal"
+            >
+              <Form.Input autofocus label="密码" field="password" placeholder="请输入密码" />
+              <Button type="primary" theme="solid" htmlType="submit">
+                提交
+              </Button>
+            </Form>
+          </div>
+        );
+      }
+      // @ts-ignore
+      return <Text>{error.message || error || '未知错误'}</Text>;
+    }
+
+    return (
+      <div
+          id="js-share-document-editor-container"
+          className={cls(styles.editorWrap, editorWrapClassNames)}
+          style={{ fontSize }}
+        >
+          {data && <Seo title={data.title} />}
+          {mounted && <CollaborationEditor
+            menubar={false}
+            editable={false}
+            user={null}
+            id={documentId}
+            type="document"
+            renderInEditorPortal={renderAuthor}
+          />}
+          <ImageViewer containerSelector="#js-share-document-editor-container" />
+          <BackTop
+            style={{ bottom: 65, right: isMobile ? 16 : 100 }}
+            target={() => document.querySelector('#js-share-document-editor-container').parentNode}
+          />
+        </div>
+    )
+  }, [error, data, mounted])
+
   return (
     <Layout className={styles.wrap}>
       <Header className={styles.headerWrap}>
@@ -111,62 +161,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
         </Nav>
       </Header>
       <Content className={styles.contentWrap}>
-        <DataRender
-          loading={loading}
-          error={error}
-          errorContent={(error) => {
-            if (error.statusCode === 400) {
-              return (
-                <div>
-                  <Seo title={'输入密码后查看'} />
-                  <Form
-                    style={{ width: 320, maxWidth: 'calc(100vw - 160px)', margin: '10vh auto' }}
-                    initValues={{ password: '' }}
-                    getFormApi={(formApi) => ($form.current = formApi)}
-                    labelPosition="left"
-                    onSubmit={handleOk}
-                    layout="horizontal"
-                  >
-                    <Form.Input autofocus label="密码" field="password" placeholder="请输入密码" />
-                    <Button type="primary" theme="solid" htmlType="submit">
-                      提交
-                    </Button>
-                  </Form>
-                </div>
-              );
-            }
-            return <Text>{error.message || error || '未知错误'}</Text>;
-          }}
-          loadingContent={
-            <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
-              <DocumentSkeleton />
-            </div>
-          }
-          normalContent={() => {
-            return (
-              <div
-                id="js-share-document-editor-container"
-                className={cls(styles.editorWrap, editorWrapClassNames)}
-                style={{ fontSize }}
-              >
-                <Seo title={data.title} />
-                {mounted && <CollaborationEditor
-                  menubar={false}
-                  editable={false}
-                  user={null}
-                  id={documentId}
-                  type="document"
-                  renderInEditorPortal={renderAuthor}
-                />}
-                <ImageViewer containerSelector="#js-share-document-editor-container" />
-                <BackTop
-                  style={{ bottom: 65, right: isMobile ? 16 : 100 }}
-                  target={() => document.querySelector('#js-share-document-editor-container').parentNode}
-                />
-              </div>
-            );
-          }}
-        />
+         {content}
       </Content>
     </Layout>
   );
