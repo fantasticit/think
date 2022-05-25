@@ -47,6 +47,9 @@ export class DocumentAuthorityGuard implements CanActivate {
         throw new HttpException('您不是该文档的创建者，无法操作', HttpStatus.FORBIDDEN);
       }
     } else if (needAuth) {
+      if (!user) {
+        throw new HttpException('请登录后使用', HttpStatus.UNAUTHORIZED);
+      }
       const authority = await this.documentService.getDocumentAuthority(documentId, user.id);
       if (!authority || !authority[needAuth]) {
         throw new HttpException('您无权操作此文档', HttpStatus.FORBIDDEN);
