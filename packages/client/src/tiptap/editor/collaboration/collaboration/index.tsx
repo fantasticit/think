@@ -26,6 +26,7 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
     onTitleUpdate,
     user,
     menubar,
+    renderOnMount,
     renderInEditorPortal,
     onAwarenessUpdate,
   } = props;
@@ -94,45 +95,48 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
   }, [hocuspocusProvider]);
 
   return (
-    <div className={styles.wrap}>
-      <DataRender
-        loading={loading}
-        loadingContent={
-          <div style={{ margin: 'auto' }}>
-            <Spin />
-          </div>
-        }
-        error={error}
-        errorContent={(error) => (
-          <div
-            style={{
-              margin: '10%',
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <SecureDocumentIllustration />
-            <Text style={{ marginTop: 12 }} type="danger">
-              {(error && error.message) || '未知错误'}
-            </Text>
-          </div>
-        )}
-        normalContent={() => (
-          <EditorInstance
-            ref={$editor}
-            editable={editable}
-            menubar={menubar}
-            hocuspocusProvider={hocuspocusProvider}
-            onTitleUpdate={onTitleUpdate}
-            user={user}
-            status={status}
-            renderInEditorPortal={renderInEditorPortal}
-          />
-        )}
-      />
-    </div>
+    <>
+      <div className={styles.wrap}>
+        <DataRender
+          loading={loading}
+          loadingContent={
+            <div style={{ margin: 'auto' }}>
+              <Spin />
+            </div>
+          }
+          error={error}
+          errorContent={(error) => (
+            <div
+              style={{
+                margin: '10%',
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <SecureDocumentIllustration />
+              <Text style={{ marginTop: 12 }} type="danger">
+                {(error && error.message) || '未知错误'}
+              </Text>
+            </div>
+          )}
+          normalContent={() => (
+            <EditorInstance
+              ref={$editor}
+              editable={editable}
+              menubar={menubar}
+              hocuspocusProvider={hocuspocusProvider}
+              onTitleUpdate={onTitleUpdate}
+              user={user}
+              status={status}
+              renderInEditorPortal={renderInEditorPortal}
+            />
+          )}
+        />
+      </div>
+      {loading || !!error ? null : renderOnMount}
+    </>
   );
 });
 

@@ -133,9 +133,9 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
         <div ref={setContainer}>
           <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
             <div id="js-reader-container">
-              {document && <Seo title={document.title} />}
-              {user &&
-                (docAuthLoading ? (
+              <DataRender
+                loading={docAuthLoading}
+                loadingContent={
                   <div
                     style={{
                       minHeight: 240,
@@ -147,29 +147,36 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                   >
                     <Spin />
                   </div>
-                ) : (
-                  <CollaborationEditor
-                    editable={false}
-                    user={user}
-                    id={documentId}
-                    type="document"
-                    renderInEditorPortal={renderAuthor}
-                    onAwarenessUpdate={triggerJoinUser}
-                  />
-                ))}
-              {user &&
-                (docAuthLoading ? null : (
-                  <div className={styles.commentWrap}>
-                    <CommentEditor documentId={documentId} />
-                  </div>
-                ))}
-              {!isMobile && authority && authority.editable && container && (
-                <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
-                  <IconEdit />
-                </BackTop>
-              )}
-              <ImageViewer containerSelector="#js-reader-container" />
-              {container && <BackTop style={{ bottom: 65, right: isMobile ? 16 : 100 }} target={() => container} />}
+                }
+                error={docAuthError}
+                normalContent={() => (
+                  <>
+                    <Seo title={document.title} />
+                    <CollaborationEditor
+                      editable={false}
+                      user={user}
+                      id={documentId}
+                      type="document"
+                      renderInEditorPortal={renderAuthor}
+                      onAwarenessUpdate={triggerJoinUser}
+                      renderOnMount={
+                        <div className={styles.commentWrap}>
+                          <CommentEditor documentId={documentId} />
+                        </div>
+                      }
+                    />
+                    {!isMobile && authority && authority.editable && container && (
+                      <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
+                        <IconEdit />
+                      </BackTop>
+                    )}
+                    <ImageViewer containerSelector="#js-reader-container" />
+                    {container && (
+                      <BackTop style={{ bottom: 65, right: isMobile ? 16 : 100 }} target={() => container} />
+                    )}
+                  </>
+                )}
+              />
             </div>
           </div>
         </div>

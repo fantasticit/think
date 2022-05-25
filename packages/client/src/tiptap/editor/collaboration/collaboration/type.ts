@@ -43,6 +43,11 @@ export interface ICollaborationEditorProps {
    * @element 编辑器渲染父节点
    */
   renderInEditorPortal?: (element: HTMLElement) => React.ReactNode;
+
+  /**
+   * 子节点，在编辑器渲染后才会加载
+   */
+  renderOnMount?: React.ReactNode;
 }
 
 export type ProviderStatus = 'connecting' | 'connected' | 'disconnected' | 'loadCacheSuccess';

@@ -100,25 +100,25 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
 
     return (
       <div
-          id="js-share-document-editor-container"
-          className={cls(styles.editorWrap, editorWrapClassNames)}
-          style={{ fontSize }}
-        >
-          {data && <Seo title={data.title} />}
-          {mounted && <CollaborationEditor
-            menubar={false}
-            editable={false}
-            user={null}
-            id={documentId}
-            type="document"
-            renderInEditorPortal={renderAuthor}
-          />}
-          <ImageViewer containerSelector="#js-share-document-editor-container" />
-          <BackTop
-            style={{ bottom: 65, right: isMobile ? 16 : 100 }}
-            target={() => document.querySelector('#js-share-document-editor-container').parentNode}
-          />
-        </div>
+        id="js-share-document-editor-container"
+        className={cls(styles.editorWrap, editorWrapClassNames)}
+        style={{ fontSize }}
+      >
+        {data && <Seo title={data.title} />}
+        {mounted && <CollaborationEditor
+          menubar={false}
+          editable={false}
+          user={null}
+          id={documentId}
+          type="document"
+          renderInEditorPortal={renderAuthor}
+        />}
+        <ImageViewer containerSelector="#js-share-document-editor-container" />
+        <BackTop
+          style={{ bottom: 65, right: isMobile ? 16 : 100 }}
+          target={() => document.querySelector('#js-share-document-editor-container').parentNode}
+        />
+      </div>
     )
   }, [error, data, mounted, editorWrapClassNames, fontSize])
 
@@ -161,7 +161,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
         </Nav>
       </Header>
       <Content className={styles.contentWrap}>
-         {content}
+        {content}
       </Content>
     </Layout>
   );
