@@ -425,7 +425,7 @@ export class DocumentService {
     // 5. 生成响应
     const doc = instanceToPlain(document);
     const createUser = await this.userService.findById(doc.createUserId);
-    return { document: lodash.omit({ ...doc, views, createUser }, ['state']), authority };
+    return { document: lodash.omit({ ...doc, views, createUser }, ['state', 'content']), authority };
   }
 
   /**
