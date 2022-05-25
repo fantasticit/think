@@ -38,7 +38,7 @@ interface IProps {
   hideLogo?: boolean;
 }
 
-export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = true }) => {
+export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = false }) => {
   const $form = useRef<FormApi>();
   const mounted = useMount()
   const { data, loading, error, query } = usePublicDocumentDetail(documentId);
@@ -120,7 +120,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           />
         </div>
     )
-  }, [error, data, mounted])
+  }, [error, data, mounted, editorWrapClassNames, fontSize])
 
   return (
     <Layout className={styles.wrap}>
@@ -128,7 +128,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
         <Nav
           mode="horizontal"
           header={
-            !hideLogo ? (
+            !hideLogo && !isMobile ? (
               <>
                 <LogoImage />
                 <LogoText />
