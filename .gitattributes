@@ -1,0 +1,2 @@
+# 第三方依赖太多，导致项目主语言被冲散
+*.js linguist-language=typescript
