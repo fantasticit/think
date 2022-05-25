@@ -1,7 +1,6 @@
 import { IconChevronLeft } from '@douyinfe/semi-icons';
-import { Button, Nav, Popconfirm, Space, Spin, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { Button, Nav, Popconfirm, Space, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
 import cls from 'classnames';
-import { DataRender } from 'components/data-render';
 import { DocumentStyle } from 'components/document/style';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
@@ -52,68 +51,55 @@ export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
   }, [data]);
 
   return (
-    <DataRender
-      loading={loading}
-      loadingContent={
-        <div style={{ margin: 24 }}>
-          <Spin></Spin>
-        </div>
-      }
-      error={error}
-      normalContent={() => {
-        return (
-          <>
-            <Seo title={data.title} />
-            <div className={styles.wrap}>
-              <header>
-                <Nav
-                  style={{ overflow: 'auto' }}
-                  mode="horizontal"
-                  header={
-                    <>
-                      <Tooltip content="返回" position="bottom">
-                        <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
-                      </Tooltip>
-                      <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
-                        {title}
-                      </Text>
-                    </>
-                  }
-                  footer={
-                    <Space>
-                      <DocumentStyle />
-                      <Tooltip position="bottom" content={isPublic ? '公开模板' : '个人模板'}>
-                        <Switch checked={isPublic} onChange={(v) => updateTemplate({ isPublic: v })}></Switch>
-                      </Tooltip>
-                      <Popconfirm title="删除模板" content="模板删除后不可恢复，谨慎操作！" onConfirm={handleDelte}>
-                        <Button type="danger">删除</Button>
-                      </Popconfirm>
-                      <Theme />
-                      <User />
-                    </Space>
-                  }
-                ></Nav>
-              </header>
-              <main className={styles.contentWrap}>
-                <div className={styles.editorWrap}>
-                  <div className={cls(styles.contentWrap, editorWrapClassNames)} style={{ fontSize }}>
-                    {mounted && (
-                      <CollaborationEditor
-                        menubar
-                        editable
-                        user={user}
-                        id={data.id}
-                        type="template"
-                        onTitleUpdate={setTitle}
-                      />
-                    )}
-                  </div>
-                </div>
-              </main>
+    <>
+      {data && <Seo title={data.title} />}
+      <div className={styles.wrap}>
+        <header>
+          <Nav
+            style={{ overflow: 'auto' }}
+            mode="horizontal"
+            header={
+              <>
+                <Tooltip content="返回" position="bottom">
+                  <Button onClick={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
+                </Tooltip>
+                <Text strong ellipsis={{ showTooltip: true }} style={{ width: ~~(windowWidth / 4) }}>
+                  {title}
+                </Text>
+              </>
+            }
+            footer={
+              <Space>
+                <DocumentStyle />
+                <Tooltip position="bottom" content={isPublic ? '公开模板' : '个人模板'}>
+                  <Switch checked={isPublic} onChange={(v) => updateTemplate({ isPublic: v })}></Switch>
+                </Tooltip>
+                <Popconfirm title="删除模板" content="模板删除后不可恢复，谨慎操作！" onConfirm={handleDelte}>
+                  <Button type="danger">删除</Button>
+                </Popconfirm>
+                <Theme />
+                <User />
+              </Space>
+            }
+          ></Nav>
+        </header>
+        <main className={styles.contentWrap}>
+          <div className={styles.editorWrap}>
+            <div className={cls(styles.contentWrap, editorWrapClassNames)} style={{ fontSize }}>
+              {mounted && data && (
+                <CollaborationEditor
+                  menubar
+                  editable
+                  user={user}
+                  id={data.id}
+                  type="template"
+                  onTitleUpdate={setTitle}
+                />
+              )}
             </div>
-          </>
-        );
-      }}
-    />
+          </div>
+        </main>
+      </div>
+    </>
   );
 };

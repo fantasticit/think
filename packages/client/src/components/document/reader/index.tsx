@@ -76,33 +76,30 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   }, [document]);
 
   const actions = useMemo(
-    () =>
-      docAuthLoading ? null : (
-        <Space>
-          {document && authority.readable && (
-            <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
-          )}
-          {authority && authority.editable && (
-            <Tooltip key="edit" content="编辑" position="bottom">
-              <Button icon={<IconEdit />} onMouseDown={gotoEdit} />
-            </Tooltip>
-          )}
-          {authority && authority.readable && (
-            <>
-              <DocumentShare key="share" documentId={documentId} />
-              <DocumentVersion key="version" documentId={documentId} />
-              <DocumentStar key="star" documentId={documentId} />
-            </>
-          )}
-          <DocumentStyle />
-        </Space>
-      ),
-    [docAuthLoading, document, documentId, authority, gotoEdit]
+    () => (
+      <Space>
+        {document && authority.readable && (
+          <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
+        )}
+        {authority && authority.editable && (
+          <Tooltip key="edit" content="编辑" position="bottom">
+            <Button icon={<IconEdit />} onMouseDown={gotoEdit} />
+          </Tooltip>
+        )}
+        {authority && authority.readable && (
+          <>
+            <DocumentShare key="share" documentId={documentId} />
+            <DocumentVersion key="version" documentId={documentId} />
+            <DocumentStar key="star" documentId={documentId} />
+          </>
+        )}
+        <DocumentStyle />
+      </Space>
+    ),
+    [document, documentId, authority, gotoEdit]
   );
 
   const editBtnStyle = useMemo(() => getEditBtnStyle(isMobile ? 16 : 100), [isMobile]);
-
-  if (!documentId) return null;
 
   return (
     <div className={styles.wrap}>
@@ -134,50 +131,31 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
       <Layout className={styles.contentWrap}>
         <div ref={setContainer}>
           <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
-            <DataRender
-              loading={docAuthLoading}
-              error={docAuthError}
-              loadingContent={
-                <div style={{ margin: '10vh auto' }}>
-                  <Spin tip="正在为您读取文档中...">
-                    {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
-                    <div></div>
-                  </Spin>
+            <div id="js-reader-container">
+              {document && <Seo title={document.title} />}
+              {user && (
+                <CollaborationEditor
+                  editable={false}
+                  user={user}
+                  id={documentId}
+                  type="document"
+                  renderInEditorPortal={renderAuthor}
+                  onAwarenessUpdate={triggerJoinUser}
+                />
+              )}
+              {user && (
+                <div className={styles.commentWrap}>
+                  <CommentEditor documentId={documentId} />
                 </div>
-              }
-              normalContent={() => {
-                return (
-                  <div id="js-reader-container">
-                    <Seo title={document.title} />
-                    {user && (
-                      <CollaborationEditor
-                        editable={false}
-                        user={user}
-                        id={documentId}
-                        type="document"
-                        initialContent={document.content}
-                        renderInEditorPortal={renderAuthor}
-                        onAwarenessUpdate={triggerJoinUser}
-                      />
-                    )}
-                    {user && (
-                      <div className={styles.commentWrap}>
-                        <CommentEditor documentId={document.id} />
-                      </div>
-                    )}
-                    {!isMobile && authority && authority.editable && container && (
-                      <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
-                        <IconEdit />
-                      </BackTop>
-                    )}
-                    <ImageViewer containerSelector="#js-reader-container" />
-                    {container && (
-                      <BackTop style={{ bottom: 65, right: isMobile ? 16 : 100 }} target={() => container} />
-                    )}
-                  </div>
-                );
-              }}
-            />
+              )}
+              {!isMobile && authority && authority.editable && container && (
+                <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
+                  <IconEdit />
+                </BackTop>
+              )}
+              <ImageViewer containerSelector="#js-reader-container" />
+              {container && <BackTop style={{ bottom: 65, right: isMobile ? 16 : 100 }} target={() => container} />}
+            </div>
           </div>
         </div>
       </Layout>

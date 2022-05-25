@@ -51,19 +51,18 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   }, [document, documentId]);
 
   const actions = useMemo(
-    () =>
-      docAuthLoading ? null : (
-        <Space>
-          {document && authority.readable && (
-            <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
-          )}
-          <DocumentShare key="share" documentId={documentId} />
-          <DocumentVersion key="version" documentId={documentId} onSelect={triggerUseDocumentVersion} />
-          <DocumentStar key="star" documentId={documentId} />
-          <DocumentStyle />
-        </Space>
-      ),
-    [docAuthLoading, documentId, document, authority]
+    () => (
+      <Space>
+        {document && authority.readable && (
+          <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
+        )}
+        <DocumentShare key="share" documentId={documentId} />
+        <DocumentVersion key="version" documentId={documentId} onSelect={triggerUseDocumentVersion} />
+        <DocumentStar key="star" documentId={documentId} />
+        <DocumentStyle />
+      </Space>
+    ),
+    [documentId, document, authority]
   );
 
   useEffect(() => {
@@ -120,36 +119,18 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         {isMobile && <div className={styles.mobileToolbar}>{actions}</div>}
       </header>
       <main className={styles.contentWrap}>
-        <DataRender
-          loading={docAuthLoading}
-          loadingContent={
-            <div style={{ margin: '10vh auto' }}>
-              <Spin tip="正在为您读取文档中...">
-                {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
-                <div></div>
-              </Spin>
-            </div>
-          }
-          error={docAuthError}
-          errorContent={
-            <div style={{ margin: '10vh', textAlign: 'center' }}>
-              <SecureDocumentIllustration />
-            </div>
-          }
-          normalContent={() => {
-            return (
-              <>
-                <Seo title={document.title} />
-                <Editor
-                  user={user}
-                  documentId={document.id}
-                  authority={authority}
-                  className={editorWrapClassNames}
-                  style={{ fontSize }}
-                />
-              </>
-            );
-          }}
+        {docAuthError && (
+          <div style={{ margin: '10vh', textAlign: 'center' }}>
+            <SecureDocumentIllustration />
+          </div>
+        )}
+        {document && <Seo title={document.title} />}
+        <Editor
+          user={user}
+          documentId={documentId}
+          authority={authority}
+          className={editorWrapClassNames}
+          style={{ fontSize }}
         />
       </main>
     </div>
