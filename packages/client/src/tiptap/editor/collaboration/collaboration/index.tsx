@@ -98,11 +98,8 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
       <DataRender
         loading={loading}
         loadingContent={
-          <div style={{ width: 174, margin: 'auto' }}>
-            <Spin tip="正在加载中...">
-              {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
-              <div></div>
-            </Spin>
+          <div style={{ margin: 'auto' }}>
+            <Spin />
           </div>
         }
         error={error}

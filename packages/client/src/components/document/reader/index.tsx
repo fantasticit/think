@@ -1,5 +1,5 @@
 import { IconEdit } from '@douyinfe/semi-icons';
-import { BackTop, Button, Layout, Nav, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { BackTop, Button, Layout, Nav, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { DocumentCollaboration } from 'components/document/collaboration';
@@ -79,7 +79,6 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   }, [document]);
 
   const actions = useMemo(() => {
-    console.log({ readable, editable });
     return (
       <Space>
         {document && (
@@ -135,21 +134,35 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
           <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
             <div id="js-reader-container">
               {document && <Seo title={document.title} />}
-              {user && readable && (
-                <CollaborationEditor
-                  editable={false}
-                  user={user}
-                  id={documentId}
-                  type="document"
-                  renderInEditorPortal={renderAuthor}
-                  onAwarenessUpdate={triggerJoinUser}
-                />
-              )}
-              {user && (
-                <div className={styles.commentWrap}>
-                  <CommentEditor documentId={documentId} />
-                </div>
-              )}
+              {user &&
+                (docAuthLoading ? (
+                  <div
+                    style={{
+                      minHeight: 240,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      margin: 'auto',
+                    }}
+                  >
+                    <Spin />
+                  </div>
+                ) : (
+                  <CollaborationEditor
+                    editable={false}
+                    user={user}
+                    id={documentId}
+                    type="document"
+                    renderInEditorPortal={renderAuthor}
+                    onAwarenessUpdate={triggerJoinUser}
+                  />
+                ))}
+              {user &&
+                (docAuthLoading ? null : (
+                  <div className={styles.commentWrap}>
+                    <CommentEditor documentId={documentId} />
+                  </div>
+                ))}
               {!isMobile && authority && authority.editable && container && (
                 <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
                   <IconEdit />

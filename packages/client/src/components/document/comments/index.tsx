@@ -1,4 +1,4 @@
-import { Avatar, Banner, Button, Pagination, Space, Typography } from '@douyinfe/semi-ui';
+import { Avatar, Banner, Button, Pagination, Space, Spin, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { useComments } from 'data/comment';
 import { useUser } from 'data/user';
@@ -90,13 +90,7 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
       <DataRender
         loading={loading}
         error={error}
-        loadingContent={
-          <>
-            {Array.from({ length: 3 }, (_, i) => i).map((i) => (
-              <CommentItemPlaceholder key={i} />
-            ))}
-          </>
-        }
+        loadingContent={null}
         normalContent={() => (
           <>
             {commentsData.total > 0 && (

@@ -65,20 +65,25 @@ export const CommentItem: React.FC<IProps> = ({ comment, replyComment, editComme
 
 export const CommentItemPlaceholder = () => {
   return (
-    <div className={styles.wrap}>
-      <div className={styles.leftWrap}>
-        <Skeleton.Avatar size="small" />
-      </div>
-      <div className={styles.rightWrap}>
-        <header>
-          <Skeleton.Title style={{ width: 120 }} />
-        </header>
-        <main>
-          <div>
-            <Skeleton.Paragraph style={{ width: '100%' }} rows={3} />
+    <Skeleton
+      active
+      placeholder={
+        <div className={styles.wrap}>
+          <div className={styles.leftWrap}>
+            <Skeleton.Avatar size="small" />
           </div>
-        </main>
-      </div>
-    </div>
+          <div className={styles.rightWrap}>
+            <header>
+              <Skeleton.Title style={{ width: 120 }} />
+            </header>
+            <main>
+              <div>
+                <Skeleton.Paragraph style={{ width: '100%' }} rows={3} />
+              </div>
+            </main>
+          </div>
+        </div>
+      }
+    ></Skeleton>
   );
 };
