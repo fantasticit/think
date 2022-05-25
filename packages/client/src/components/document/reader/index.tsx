@@ -14,6 +14,7 @@ import { useDocumentDetail } from 'data/document';
 import { useUser } from 'data/user';
 import { triggerJoinUser } from 'event';
 import { useDocumentStyle } from 'hooks/use-document-style';
+import { useMount } from 'hooks/use-mount';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
 import Router from 'next/router';
@@ -46,6 +47,7 @@ interface IProps {
 
 export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   const { isMobile } = IsOnMobile.useHook();
+  const mounted = useMount();
   const [container, setContainer] = useState<HTMLDivElement>();
   const { width: windowWidth } = useWindowSize();
   const { width, fontSize } = useDocumentStyle();
@@ -152,19 +154,21 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                 normalContent={() => (
                   <>
                     <Seo title={document.title} />
-                    <CollaborationEditor
-                      editable={false}
-                      user={user}
-                      id={documentId}
-                      type="document"
-                      renderInEditorPortal={renderAuthor}
-                      onAwarenessUpdate={triggerJoinUser}
-                      renderOnMount={
-                        <div className={styles.commentWrap}>
-                          <CommentEditor documentId={documentId} />
-                        </div>
-                      }
-                    />
+                    {mounted && (
+                      <CollaborationEditor
+                        editable={false}
+                        user={user}
+                        id={documentId}
+                        type="document"
+                        renderInEditorPortal={renderAuthor}
+                        onAwarenessUpdate={triggerJoinUser}
+                        renderOnMount={
+                          <div className={styles.commentWrap}>
+                            <CommentEditor documentId={documentId} />
+                          </div>
+                        }
+                      />
+                    )}
                     {!isMobile && authority && authority.editable && container && (
                       <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
                         <IconEdit />
