@@ -263,7 +263,7 @@ export const useWikiTocs = (wikiId) => {
   const { data, error, refetch } = useQuery(
     WikiApiDefinition.getTocsById.client(wikiId),
     () => (wikiId ? getWikiTocs(wikiId) : null),
-    { staleTime: 3000 }
+    { staleTime: 2000 }
   );
   const loading = !data && !error;
 

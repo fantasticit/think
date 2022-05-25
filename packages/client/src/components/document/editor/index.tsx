@@ -1,5 +1,5 @@
-import { IconArticle, IconChevronLeft } from '@douyinfe/semi-icons';
-import { Button, Nav, Popover, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { IconChevronLeft } from '@douyinfe/semi-icons';
+import { Button, Nav, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { Divider } from 'components/divider';
 import { DocumentCollaboration } from 'components/document/collaboration';
@@ -50,16 +50,20 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
     });
   }, [document, documentId]);
 
-  const actions = (
-    <Space>
-      {document && authority.readable && (
-        <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
-      )}
-      <DocumentShare key="share" documentId={documentId} />
-      <DocumentVersion key="version" documentId={documentId} onSelect={triggerUseDocumentVersion} />
-      <DocumentStar key="star" documentId={documentId} />
-      <DocumentStyle />
-    </Space>
+  const actions = useMemo(
+    () =>
+      docAuthLoading ? null : (
+        <Space>
+          {document && authority.readable && (
+            <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
+          )}
+          <DocumentShare key="share" documentId={documentId} />
+          <DocumentVersion key="version" documentId={documentId} onSelect={triggerUseDocumentVersion} />
+          <DocumentStar key="star" documentId={documentId} />
+          <DocumentStyle />
+        </Space>
+      ),
+    [docAuthLoading, documentId, document, authority]
   );
 
   useEffect(() => {

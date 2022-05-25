@@ -76,27 +76,28 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   }, [document]);
 
   const actions = useMemo(
-    () => (
-      <Space>
-        {document && authority.readable && (
-          <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
-        )}
-        {authority && authority.editable && (
-          <Tooltip key="edit" content="编辑" position="bottom">
-            <Button icon={<IconEdit />} onMouseDown={gotoEdit} />
-          </Tooltip>
-        )}
-        {authority && authority.readable && (
-          <>
-            <DocumentShare key="share" documentId={documentId} />
-            <DocumentVersion key="version" documentId={documentId} />
-            <DocumentStar key="star" documentId={documentId} />
-          </>
-        )}
-        <DocumentStyle />
-      </Space>
-    ),
-    [document, documentId, authority, gotoEdit]
+    () =>
+      docAuthLoading ? null : (
+        <Space>
+          {document && authority.readable && (
+            <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
+          )}
+          {authority && authority.editable && (
+            <Tooltip key="edit" content="编辑" position="bottom">
+              <Button icon={<IconEdit />} onMouseDown={gotoEdit} />
+            </Tooltip>
+          )}
+          {authority && authority.readable && (
+            <>
+              <DocumentShare key="share" documentId={documentId} />
+              <DocumentVersion key="version" documentId={documentId} />
+              <DocumentStar key="star" documentId={documentId} />
+            </>
+          )}
+          <DocumentStyle />
+        </Space>
+      ),
+    [docAuthLoading, document, documentId, authority, gotoEdit]
   );
 
   const editBtnStyle = useMemo(() => getEditBtnStyle(isMobile ? 16 : 100), [isMobile]);
