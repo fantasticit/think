@@ -26,18 +26,8 @@
       top: 1rem;
       right: 0;
       z-index: 100;
-      opacity: 0;
+      opacity: 1;
       transform: translate(50%);
-
-      &.isCollapsed {
-        opacity: 1;
-      }
-    }
-
-    &:hover {
-      .collapseBtn {
-        opacity: 1;
-      }
     }
   }
 

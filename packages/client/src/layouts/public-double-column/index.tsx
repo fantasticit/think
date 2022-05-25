@@ -24,7 +24,7 @@ export const PublicDoubleColumnLayout: React.FC<IProps> = ({ leftNode, rightNode
           <Button
             size="small"
             icon={isCollapsed ? <IconChevronRight /> : <IconChevronLeft />}
-            className={cls(styles.collapseBtn, isCollapsed && styles.isCollapsed)}
+            className={cls(styles.collapseBtn)}
             onClick={toggleCollapsed}
           />
           <div

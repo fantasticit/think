@@ -35,16 +35,6 @@
         right: 0;
         z-index: 100;
         transform: translate(50%);
-
-        &.isCollapsed {
-          opacity: 1;
-        }
-      }
-
-      &:hover {
-        .collapseBtn {
-          opacity: 1;
-        }
       }
     }
 
