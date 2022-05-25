@@ -139,7 +139,7 @@ export const useDocumentDetail = (documentId) => {
   const { data, error, isLoading, refetch } = useQuery(
     DocumentApiDefinition.getDetailById.client(documentId),
     () => getDocumentDetail(documentId),
-    { staleTime: 3000 }
+    { staleTime: 3000, refetchOnReconnect: true, refetchOnMount: true, refetchOnWindowFocus: true }
   );
 
   /**

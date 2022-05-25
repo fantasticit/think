@@ -14,13 +14,14 @@ import styles from './index.module.scss';
 
 interface IProps {
   documentId: string;
+  disabled?: boolean;
   onSelect?: (data) => void;
 }
 
 const { Sider, Content } = Layout;
 const { Title } = Typography;
 
-export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
+export const DocumentVersion: React.FC<IProps> = ({ documentId, disabled = false, onSelect }) => {
   const [visible, toggleVisible] = useToggle(false);
   const { data, loading, error, refresh } = useDocumentVersion(documentId);
   const [selectedVersion, setSelectedVersion] = useState(null);
@@ -65,7 +66,7 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
 
   return (
     <>
-      <Button type="primary" theme="light" onClick={toggleVisible}>
+      <Button type="primary" theme="light" disabled={disabled} onClick={toggleVisible}>
         文档版本
       </Button>
       <Modal
@@ -87,7 +88,7 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, onSelect }) => {
                 theme="light"
                 type="primary"
                 style={{ marginRight: 8 }}
-                disabled={loading || error}
+                disabled={loading || !!error}
                 loading={loading}
                 onClick={() => refresh()}
               >

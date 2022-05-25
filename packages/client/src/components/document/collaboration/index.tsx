@@ -15,17 +15,19 @@ import {
   Tooltip,
   Typography,
 } from '@douyinfe/semi-ui';
+import { IUser } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentLinkCopyer } from 'components/document/link';
 import { useDoumentMembers } from 'data/document';
 import { useUser } from 'data/user';
 import { event, JOIN_USER } from 'event';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface IProps {
   wikiId: string;
   documentId: string;
+  disabled?: boolean;
 }
 
 const { Paragraph } = Typography;
@@ -45,7 +47,8 @@ const renderChecked = (onChange, authKey: 'readable' | 'editable') => (checked, 
   return <Checkbox style={{ display: 'inline-block' }} checked={checked} onChange={handle} />;
 };
 
-export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) => {
+export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, disabled = false }) => {
+  const toastedUsersRef = useRef<Array<IUser['id']>>([]);
   const { user: currentUser } = useUser();
   const [visible, toggleVisible] = useToggle(false);
   const { users, loading, error, addUser, updateUser, deleteUser } = useDoumentMembers(documentId);
@@ -84,8 +87,9 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
       }
 
       newCollaborationUsers.forEach((newUser) => {
-        if (currentUser && newUser.name !== currentUser.name) {
+        if (currentUser && newUser.name !== currentUser.name && !toastedUsersRef.current.includes(newUser.id)) {
           Toast.info(`${newUser.name}加入文档`);
+          toastedUsersRef.current.push(newUser.id);
         }
       });
 
@@ -95,6 +99,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
     event.on(JOIN_USER, handler);
 
     return () => {
+      toastedUsersRef.current = [];
       event.off(JOIN_USER, handler);
     };
   }, [collaborationUsers, currentUser]);
@@ -120,7 +125,13 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId }) 
         })}
       </AvatarGroup>
       <Tooltip content="邀请他人协作" position="bottom">
-        <Button theme="borderless" type="tertiary" icon={<IconUserAdd />} onClick={toggleVisible}></Button>
+        <Button
+          theme="borderless"
+          type="tertiary"
+          disabled={disabled}
+          icon={<IconUserAdd />}
+          onClick={toggleVisible}
+        ></Button>
       </Tooltip>
       <Modal
         title={'文档协作'}

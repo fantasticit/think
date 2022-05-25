@@ -10,12 +10,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 interface IProps {
   documentId: string;
-  render?: (arg: { isPublic: boolean; toggleVisible: (arg: boolean) => void }) => React.ReactNode;
+  disabled?: boolean;
+  render?: (arg: { isPublic: boolean; disabled: boolean; toggleVisible: (arg: boolean) => void }) => React.ReactNode;
 }
 
 const { Text } = Typography;
 
-export const DocumentShare: React.FC<IProps> = ({ documentId, render }) => {
+export const DocumentShare: React.FC<IProps> = ({ documentId, disabled = false, render }) => {
   const [visible, toggleVisible] = useToggle(false);
   const { data, loading, error, toggleStatus } = useDocumentDetail(documentId);
   const [sharePassword, setSharePassword] = useState('');
@@ -34,9 +35,9 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, render }) => {
   return (
     <>
       {render ? (
-        render({ isPublic, toggleVisible })
+        render({ isPublic, disabled, toggleVisible })
       ) : (
-        <Button type="primary" theme="light" onClick={toggleVisible}>
+        <Button disabled={disabled} type="primary" theme="light" onClick={toggleVisible}>
           {isPublic ? '分享中' : '分享'}
         </Button>
       )}

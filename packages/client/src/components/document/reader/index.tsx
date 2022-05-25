@@ -1,5 +1,5 @@
-import { IconArticle, IconEdit } from '@douyinfe/semi-icons';
-import { BackTop, Button, Layout, Nav, Popover, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { IconEdit } from '@douyinfe/semi-icons';
+import { BackTop, Button, Layout, Nav, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { DocumentCollaboration } from 'components/document/collaboration';
@@ -55,11 +55,14 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   const { user } = useUser();
   const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
   const { document, authority } = documentAndAuth || {};
+  const [readable, editable] = useMemo(() => {
+    if (!authority) return [false, false];
+    return [authority.readable, authority.editable];
+  }, [authority]);
 
   const renderAuthor = useCallback(
     (element) => {
       if (!document) return null;
-
       const target = element && element.querySelector('.ProseMirror .title');
 
       if (target) {
@@ -75,29 +78,28 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
     Router.push(`/wiki/${document.wikiId}/document/${document.id}/edit`);
   }, [document]);
 
-  const actions = useMemo(
-    () => (
+  const actions = useMemo(() => {
+    console.log({ readable, editable });
+    return (
       <Space>
-        {document && authority.readable && (
-          <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
+        {document && (
+          <DocumentCollaboration
+            disabled={!readable}
+            key="collaboration"
+            wikiId={document.wikiId}
+            documentId={documentId}
+          />
         )}
-        {authority && authority.editable && (
-          <Tooltip key="edit" content="编辑" position="bottom">
-            <Button icon={<IconEdit />} onMouseDown={gotoEdit} />
-          </Tooltip>
-        )}
-        {authority && authority.readable && (
-          <>
-            <DocumentShare key="share" documentId={documentId} />
-            <DocumentVersion key="version" documentId={documentId} />
-            <DocumentStar key="star" documentId={documentId} />
-          </>
-        )}
+        <Tooltip key="edit" content="编辑" position="bottom">
+          <Button disabled={!editable} icon={<IconEdit />} onMouseDown={gotoEdit} />
+        </Tooltip>
+        <DocumentShare disabled={!readable} key="share" documentId={documentId} />
+        <DocumentVersion disabled={!readable} key="version" documentId={documentId} />
+        <DocumentStar disabled={!readable} key="star" documentId={documentId} />
         <DocumentStyle />
       </Space>
-    ),
-    [document, documentId, authority, gotoEdit]
-  );
+    );
+  }, [document, documentId, readable, editable, gotoEdit]);
 
   const editBtnStyle = useMemo(() => getEditBtnStyle(isMobile ? 16 : 100), [isMobile]);
 
@@ -133,7 +135,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
           <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
             <div id="js-reader-container">
               {document && <Seo title={document.title} />}
-              {user && (
+              {user && readable && (
                 <CollaborationEditor
                   editable={false}
                   user={user}

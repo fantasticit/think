@@ -5,17 +5,23 @@ import React from 'react';
 
 interface IProps {
   documentId: string;
-  render?: (arg: { star: boolean; text: string; toggleStar: () => Promise<void> }) => React.ReactNode;
+  disabled?: boolean;
+  render?: (arg: {
+    star: boolean;
+    disabled: boolean;
+    text: string;
+    toggleStar: () => Promise<void>;
+  }) => React.ReactNode;
 }
 
-export const DocumentStar: React.FC<IProps> = ({ documentId, render }) => {
+export const DocumentStar: React.FC<IProps> = ({ documentId, disabled = false, render }) => {
   const { data, toggle: toggleStar } = useDocumentCollectToggle(documentId);
   const text = data ? '取消收藏' : '收藏文档';
 
   return (
     <>
       {render ? (
-        render({ star: data, toggleStar, text })
+        render({ star: data, disabled, toggleStar, text })
       ) : (
         <Tooltip content={text} position="bottom">
           <Button
@@ -24,6 +30,7 @@ export const DocumentStar: React.FC<IProps> = ({ documentId, render }) => {
             style={{
               color: data ? 'rgba(var(--semi-amber-4), 1)' : 'rgba(var(--semi-grey-3), 1)',
             }}
+            disabled={disabled}
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
