@@ -9,20 +9,3 @@ export const dateFormat = (date = null, format = 'yyyy-MM-dd HH:mm:ss') => {
 
   return dateFormatFn(t, format);
 };
-
-export const convertDateToMysqlTimestamp = (time) => {
-  const date = new Date(time);
-  return (
-    date.getUTCFullYear() +
-    '-' +
-    ('00' + (date.getUTCMonth() + 1)).slice(-2) +
-    '-' +
-    ('00' + date.getUTCDate()).slice(-2) +
-    ' ' +
-    ('00' + date.getUTCHours()).slice(-2) +
-    ':' +
-    ('00' + date.getUTCMinutes()).slice(-2) +
-    ':' +
-    ('00' + date.getUTCSeconds()).slice(-2)
-  );
-};

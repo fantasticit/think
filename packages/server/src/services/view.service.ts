@@ -1,6 +1,4 @@
 import { ViewEntity } from '@entities/view.entity';
-import { convertDateToMysqlTimestamp } from '@helpers/date.helper';
-import { ONE_DAY } from '@helpers/log.helper';
 import { parseUserAgent } from '@helpers/ua.helper';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -65,9 +63,6 @@ export class ViewService {
       visitedAt: Date;
     }>
   > {
-    const now = Date.now();
-    const from = convertDateToMysqlTimestamp(now - 3 * ONE_DAY);
-    const end = convertDateToMysqlTimestamp(now);
     const count = 20;
 
     const ret = await this.viewRepo.query(
@@ -76,7 +71,6 @@ export class ViewService {
         SELECT ANY_VALUE(documentId) as documentId, ANY_VALUE(created_at) as visitedAt
              FROM view 
              WHERE view.userId = '${userId}'
-             AND (view.created_at BETWEEN '${from}' AND '${end}')
              GROUP BY visitedAt
              ORDER BY visitedAt DESC
       ) v
