@@ -206,7 +206,7 @@ export const getDocumentVersion = (
  */
 export const useDocumentVersion = (
   documentId,
-  options: UseQueryOptions<Array<{ version: string; data: string; createUser: IUser }>>
+  options: UseQueryOptions<Array<{ version: string; data: string; createUser: IUser }>> = {}
 ) => {
   const { data, error, isLoading, refetch } = useQuery(
     DocumentApiDefinition.getVersionById.client(documentId),
