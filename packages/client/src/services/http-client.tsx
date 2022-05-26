@@ -61,7 +61,9 @@ HttpClient.interceptors.response.use(
             Router.replace(`/login?redirect=${window.location.pathname}`);
           }
           break;
-
+        case 429:
+          Toast.error('请求过于频繁，请稍候再试！');
+          break;
         default:
           isBrowser && Toast.error((err.response && err.response.data && err.response.data.message) || '未知错误!');
       }
