@@ -211,7 +211,7 @@ export const useDocumentVersion = (
     () => getDocumentVersion(documentId),
     options
   );
-  return { data: data || [], loading: isLoading, error, refresh: refetch };
+  return { data: data || [], loading: isLoading, error, refresh: () => refetch() };
 };
 
 /**
