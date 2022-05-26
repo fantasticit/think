@@ -18,7 +18,7 @@ const { Text } = Typography;
 
 export const DocumentShare: React.FC<IProps> = ({ documentId, disabled = false, render }) => {
   const [visible, toggleVisible] = useToggle(false);
-  const { data, loading, error, toggleStatus } = useDocumentDetail(documentId);
+  const { data, loading, error, toggleStatus } = useDocumentDetail(documentId, { enabled: visible });
   const [sharePassword, setSharePassword] = useState('');
   const isPublic = useMemo(() => data && isPublicDocument(data.document.status), [data]);
   const shareUrl = useMemo(() => data && getDocumentShareURL(data.document.id), [data]);

@@ -59,9 +59,11 @@ export const getDocumentMembers = (documentId, cookie = null): Promise<Array<{ u
  * @param documentId
  * @returns
  */
-export const useDoumentMembers = (documentId) => {
-  const { data, error, isLoading, refetch } = useQuery(DocumentApiDefinition.getMemberById.client(documentId), () =>
-    getDocumentMembers(documentId)
+export const useDoumentMembers = (documentId, options?: UseQueryOptions<Array<{ user: IUser; auth: IAuthority }>>) => {
+  const { data, error, isLoading, refetch } = useQuery(
+    DocumentApiDefinition.getMemberById.client(documentId),
+    () => getDocumentMembers(documentId),
+    options
   );
 
   const addUser = useCallback(
@@ -135,11 +137,11 @@ export const getDocumentDetail = (documentId, cookie = null): Promise<IDocumentW
  * @param documentId
  * @returns
  */
-export const useDocumentDetail = (documentId) => {
+export const useDocumentDetail = (documentId, options: UseQueryOptions<IDocumentWithAuth> = {}) => {
   const { data, error, isLoading, refetch } = useQuery(
     DocumentApiDefinition.getDetailById.client(documentId),
     () => getDocumentDetail(documentId),
-    { staleTime: 3000, refetchOnReconnect: true, refetchOnMount: true, refetchOnWindowFocus: true }
+    { ...options, staleTime: 3000 }
   );
 
   /**

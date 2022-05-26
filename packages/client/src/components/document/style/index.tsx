@@ -17,6 +17,7 @@ export const DocumentStyle = () => {
   return (
     <Popover
       key="style"
+      trigger="click"
       zIndex={1061}
       position={isMobile ? 'topRight' : 'bottomLeft'}
       visible={visible}
