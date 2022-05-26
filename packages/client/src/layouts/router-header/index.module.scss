@@ -40,16 +40,3 @@
     }
   }
 }
-
-.mobileHeader {
-  display: flex;
-  width: 100%;
-  height: 60px;
-  padding-right: 24px;
-  padding-left: 24px;
-  border-right: none;
-  border-bottom: 1px solid var(--semi-color-border);
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-between;
-}

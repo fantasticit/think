@@ -12,7 +12,6 @@ import { useWindowSize } from 'hooks/use-window-size';
 import Router, { useRouter } from 'next/router';
 import React from 'react';
 
-import styles from './index.module.scss';
 import { Recent, RecentModal } from './recent';
 import { Wiki, WikiModal } from './wiki';
 
@@ -77,51 +76,55 @@ export const RouterHeader: React.FC = () => {
   return (
     <SemiHeader>
       {isMobile ? (
-        <div className={styles.mobileHeader}>
-          <Space>
-            <LogoImage />
-            <LogoText />
-            <RecentModal visible={recentModalVisible} toggleVisible={toggleRecentModalVisible} />
-            <WikiModal visible={wikiModalVisible} toggleVisible={toggleWikiModalVisible} />
-            <Dropdown
-              trigger="click"
-              position="bottomRight"
-              visible={dropdownVisible}
-              onVisibleChange={toggleDropdownVisible}
-              render={
-                // @ts-ignore
-                <Dropdown.Menu onClick={toggleDropdownVisible}>
-                  {menus.slice(0, 1).map((menu) => {
-                    return (
-                      <Dropdown.Item key={menu.itemKey} onClick={menu.onClick}>
-                        {menu.text}
-                      </Dropdown.Item>
-                    );
-                  })}
-                  <Dropdown.Item onClick={toggleRecentModalVisible}>最近</Dropdown.Item>
-                  <Dropdown.Item onClick={toggleWikiModalVisible}>知识库</Dropdown.Item>
-                  {menus.slice(3).map((menu) => {
-                    return (
-                      <Dropdown.Item key={menu.itemKey} onClick={menu.onClick}>
-                        {menu.text}
-                      </Dropdown.Item>
-                    );
-                  })}
-                </Dropdown.Menu>
-              }
-            >
-              <Button icon={<IconMenu />} type="tertiary" theme="borderless" onMouseDown={toggleDropdownVisible} />
-            </Dropdown>
-          </Space>
-
-          <Space>
-            <WikiOrDocumentCreator />
-            <Search />
-            <Message />
-            <Theme />
-            <User />
-          </Space>
-        </div>
+        <Nav
+          mode="horizontal"
+          style={{ overflow: 'auto' }}
+          header={
+            <Space>
+              <LogoImage />
+              <RecentModal visible={recentModalVisible} toggleVisible={toggleRecentModalVisible} />
+              <WikiModal visible={wikiModalVisible} toggleVisible={toggleWikiModalVisible} />
+              <Dropdown
+                trigger="click"
+                position="bottomRight"
+                visible={dropdownVisible}
+                onVisibleChange={toggleDropdownVisible}
+                render={
+                  // @ts-ignore
+                  <Dropdown.Menu onClick={toggleDropdownVisible}>
+                    {menus.slice(0, 1).map((menu) => {
+                      return (
+                        <Dropdown.Item key={menu.itemKey} onClick={menu.onClick}>
+                          {menu.text}
+                        </Dropdown.Item>
+                      );
+                    })}
+                    <Dropdown.Item onClick={toggleRecentModalVisible}>最近</Dropdown.Item>
+                    <Dropdown.Item onClick={toggleWikiModalVisible}>知识库</Dropdown.Item>
+                    {menus.slice(3).map((menu) => {
+                      return (
+                        <Dropdown.Item key={menu.itemKey} onClick={menu.onClick}>
+                          {menu.text}
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </Dropdown.Menu>
+                }
+              >
+                <Button icon={<IconMenu />} type="tertiary" theme="borderless" onMouseDown={toggleDropdownVisible} />
+              </Dropdown>
+            </Space>
+          }
+          footer={
+            <Space>
+              <WikiOrDocumentCreator />
+              <Search />
+              <Message />
+              <Theme />
+              <User />
+            </Space>
+          }
+        ></Nav>
       ) : (
         <Nav
           mode="horizontal"
