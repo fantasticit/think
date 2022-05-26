@@ -23,11 +23,14 @@ export class DocumentVersionService {
 
   private async withUser(data: Array<Omit<VerisonDataItem, 'createUser'>>): Promise<VerisonDataItem[]> {
     return await Promise.all(
-      data.filter(Boolean).map(async (record) => {
-        const { userId } = record;
-        const createUser = await this.userService.findById(userId);
-        return { ...record, createUser };
-      })
+      data
+        .filter(Boolean)
+        .filter((record) => record.userId)
+        .map(async (record) => {
+          const { userId } = record;
+          const createUser = await this.userService.findById(userId);
+          return { ...record, createUser };
+        })
     );
   }
 
