@@ -41,26 +41,7 @@ export class WikiService {
 
     @Inject(forwardRef(() => ViewService))
     private readonly viewService: ViewService
-  ) {
-    this.fixWikiData();
-  }
-
-  // 修正脚本
-  async fixWikiData() {
-    const wikis = await this.wikiRepo.find();
-    const needFixWikis = wikis.filter((wiki) => !wiki.homeDocumentId);
-
-    await Promise.all(
-      needFixWikis.map(async (wiki) => {
-        const doc = await this.documentService.findWikiHomeDocument(wiki.id);
-        const homeDocumentId = doc.id;
-        const withHomeDocumentIdWiki = await this.wikiRepo.merge(wiki, { homeDocumentId });
-        await this.wikiRepo.save(withHomeDocumentIdWiki);
-      })
-    );
-
-    console.log('修正完成');
-  }
+  ) {}
 
   /**
    * 按 id 查取知识库
