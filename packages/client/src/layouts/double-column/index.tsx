@@ -1,8 +1,9 @@
 import { IconChevronLeft, IconChevronRight } from '@douyinfe/semi-icons';
 import { Button, Layout as SemiLayout } from '@douyinfe/semi-ui';
 import cls from 'classnames';
+import { debounce } from 'helpers/debounce';
 import { useDragableWidth } from 'hooks/use-dragable-width';
-import React from 'react';
+import React, { useMemo } from 'react';
 import SplitPane from 'react-split-pane';
 
 import { RouterHeader } from '../router-header';
@@ -17,12 +18,13 @@ interface IProps {
 
 export const DoubleColumnLayout: React.FC<IProps> = ({ leftNode, rightNode }) => {
   const { minWidth, maxWidth, width, isCollapsed, updateWidth, toggleCollapsed } = useDragableWidth();
+  const debounceUpdate = useMemo(() => debounce(updateWidth, 200), [updateWidth]);
 
   return (
     <SemiLayout className={styles.wrap}>
       <RouterHeader />
       <SemiLayout className={styles.contentWrap}>
-        <SplitPane minSize={minWidth} maxSize={maxWidth} size={width} onChange={updateWidth}>
+        <SplitPane minSize={minWidth} maxSize={maxWidth} size={width} onChange={debounceUpdate}>
           <Sider style={{ width: '100%', height: '100%' }} className={styles.leftWrap}>
             <Button
               size="small"
