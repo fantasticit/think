@@ -1,5 +1,4 @@
 import { Typography } from '@douyinfe/semi-ui';
-import { debounce } from 'helpers/debounce';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { GridCell } from './grid-cell';

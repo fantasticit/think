@@ -1,7 +1,7 @@
 import { Spin, Typography } from '@douyinfe/semi-ui';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { DataRender } from 'components/data-render';
-import { debounce } from 'helpers/debounce';
+import { throttle } from 'helpers/throttle';
 import { useToggle } from 'hooks/use-toggle';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
@@ -46,7 +46,7 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
         docType: type,
       },
       maxAttempts: 1,
-      onAwarenessUpdate: debounce(({ states }) => {
+      onAwarenessUpdate: throttle(({ states }) => {
         const users = states.map((state) => ({ clientId: state.clientId, user: state.user }));
         onAwarenessUpdate && onAwarenessUpdate(users);
       }, 200),
