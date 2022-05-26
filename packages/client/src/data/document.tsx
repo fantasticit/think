@@ -2,7 +2,7 @@ import { DocumentApiDefinition, IAuthority, IDocument, IUser, IWiki } from '@thi
 import { triggerRefreshTocs } from 'event';
 import { useAsyncLoading } from 'hooks/use-async-loading';
 import { useCallback, useState } from 'react';
-import { useQuery } from 'react-query';
+import { QueriesOptions, useQuery, UseQueryOptions } from 'react-query';
 import { HttpClient } from 'services/http-client';
 
 type IDocumentWithVisitedAt = IDocument & { visitedAt: string };
@@ -186,7 +186,10 @@ export const useDocumentDetail = (documentId) => {
  * @param documentId
  * @returns
  */
-export const getDocumentVersion = (documentId, cookie = null): Promise<Array<{ version: string; data: string }>> => {
+export const getDocumentVersion = (
+  documentId,
+  cookie = null
+): Promise<Array<{ version: string; data: string; createUser: IUser }>> => {
   return HttpClient.request({
     method: DocumentApiDefinition.getVersionById.method,
     url: DocumentApiDefinition.getVersionById.client(documentId),
@@ -199,9 +202,14 @@ export const getDocumentVersion = (documentId, cookie = null): Promise<Array<{ v
  * @param documentId
  * @returns
  */
-export const useDocumentVersion = (documentId) => {
-  const { data, error, isLoading, refetch } = useQuery(DocumentApiDefinition.getVersionById.client(documentId), () =>
-    getDocumentVersion(documentId)
+export const useDocumentVersion = (
+  documentId,
+  options: UseQueryOptions<Array<{ version: string; data: string; createUser: IUser }>>
+) => {
+  const { data, error, isLoading, refetch } = useQuery(
+    DocumentApiDefinition.getVersionById.client(documentId),
+    () => getDocumentVersion(documentId),
+    options
   );
   return { data: data || [], loading: isLoading, error, refresh: refetch };
 };

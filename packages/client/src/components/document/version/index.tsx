@@ -1,11 +1,12 @@
 import { IconChevronLeft } from '@douyinfe/semi-icons';
-import { Button, Layout, Modal, Nav, Typography } from '@douyinfe/semi-ui';
+import { Button, Modal, Typography } from '@douyinfe/semi-ui';
 import { EditorContent, useEditor } from '@tiptap/react';
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
 import { useDocumentVersion } from 'data/document';
 import { safeJSONParse } from 'helpers/json';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useState } from 'react';
 import { CollaborationKit } from 'tiptap/editor';
@@ -18,12 +19,12 @@ interface IProps {
   onSelect?: (data) => void;
 }
 
-const { Sider, Content } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export const DocumentVersion: React.FC<IProps> = ({ documentId, disabled = false, onSelect }) => {
+  const { isMobile } = IsOnMobile.useHook();
   const [visible, toggleVisible] = useToggle(false);
-  const { data, loading, error, refresh } = useDocumentVersion(documentId);
+  const { data, loading, error, refresh } = useDocumentVersion(documentId, { enabled: visible });
   const [selectedVersion, setSelectedVersion] = useState(null);
 
   const editor = useEditor({
@@ -84,21 +85,21 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, disabled = false
               </Title>
             </div>
             <div>
+              <Button type="primary" theme="solid" disabled={!onSelect || !selectedVersion} onClick={restore}>
+                恢复此记录
+              </Button>
+            </div>
+            <div>
               <Button
                 theme="light"
                 type="primary"
                 style={{ marginRight: 8 }}
                 disabled={loading || !!error}
                 loading={loading}
-                onClick={() => refresh()}
+                onClick={refresh}
               >
                 刷新
               </Button>
-              {onSelect && (
-                <Button type="primary" theme="solid" disabled={!selectedVersion} onClick={restore}>
-                  恢复此记录
-                </Button>
-              )}
             </div>
           </div>
         }
@@ -109,40 +110,35 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, disabled = false
           error={error}
           empty={!loading && !data.length}
           normalContent={() => (
-            <Layout className={styles.contentWrap}>
-              <Sider style={{ backgroundColor: 'var(--semi-color-bg-1)' }}>
-                <Nav
-                  style={{ maxWidth: 200, height: '100%' }}
-                  bodyStyle={{ height: '100%' }}
-                  selectedKeys={[selectedVersion]}
-                  footer={{
-                    collapseButton: true,
-                  }}
-                >
-                  {data.map(({ version, data }) => {
-                    return (
-                      <Nav.Item
-                        key={version}
-                        itemKey={version}
-                        className={cls(selectedVersion && selectedVersion.version === version && styles.selected)}
-                        text={<LocaleTime date={+version} />}
-                        onClick={() => select({ version, data })}
-                      />
-                    );
-                  })}
-                </Nav>
-              </Sider>
-              <Content
-                style={{
-                  padding: 16,
-                  backgroundColor: 'var(--semi-color-bg-0)',
-                }}
-              >
+            <div className={styles.contentWrap}>
+              <main className={cls(isMobile && styles.isMobile)}>
                 <div className={'container'}>
                   <EditorContent editor={editor} />
                 </div>
-              </Content>
-            </Layout>
+              </main>
+              <aside className={cls(isMobile && styles.isMobile)}>
+                {data.map(({ version, data, createUser }) => {
+                  return (
+                    <div
+                      key={version}
+                      className={cls(
+                        styles.item,
+                        isMobile && styles.isMobile,
+                        selectedVersion && selectedVersion.version === version && styles.selected
+                      )}
+                      onClick={() => select({ version, data })}
+                    >
+                      <p>
+                        <LocaleTime date={+version} />
+                      </p>
+                      <p>
+                        <Text>{createUser && createUser.name}</Text>
+                      </p>
+                    </div>
+                  );
+                })}
+              </aside>
+            </div>
           )}
         />
       </Modal>

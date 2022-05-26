@@ -50,7 +50,7 @@ export class DocumentService {
     @Inject(forwardRef(() => ViewService))
     private readonly viewService: ViewService
   ) {
-    this.documentVersionService = new DocumentVersionService();
+    this.documentVersionService = new DocumentVersionService(this.userService);
     this.collaborationService = new CollaborationService(
       this.userService,
       this,

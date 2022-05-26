@@ -176,13 +176,18 @@ export class CollaborationService {
 
     const targetId = requestParameters.get('targetId');
     const docType = requestParameters.get('docType');
+    const userId = requestParameters.get('userId');
 
     const updateDocument = async (user: OutUser, documentId: string, data) => {
       await this.documentService.updateDocument(user, documentId, data);
       this.debounce(
         `onStoreDocumentVersion-${documentId}`,
         () => {
-          this.documentVersionService.storeDocumentVersion(documentId, data.content);
+          this.documentVersionService.storeDocumentVersion({
+            documentId,
+            data: data.content,
+            userId,
+          });
         },
         this.debounceTime * 2
       );
