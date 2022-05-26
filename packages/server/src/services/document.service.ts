@@ -624,7 +624,7 @@ export class DocumentService {
 
         const [views, createUser] = await Promise.all([
           await this.viewService.getDocumentTotalViews(documentId),
-          doc && doc.createUserId ? await this.userService.findById(doc.createUserId) : null,
+          await this.userService.findById(doc.createUserId),
         ]);
 
         return {

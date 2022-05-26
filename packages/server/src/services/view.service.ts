@@ -33,8 +33,17 @@ export class ViewService {
   }
 
   async getDocumentTotalViews(documentId) {
-    const [, total] = await this.viewRepo.findAndCount({ documentId });
-    return total;
+    try {
+      const count = await this.viewRepo.query(
+        `SELECT COUNT(1)
+        FROM view 
+        WHERE view.documentId = '${documentId}'
+        `
+      );
+      return count[0]['COUNT(1)'];
+    } catch (e) {
+      return 0;
+    }
   }
 
   async getDocumentViews(documentId, pagination: IPagination) {
@@ -64,15 +73,14 @@ export class ViewService {
     }>
   > {
     const count = 20;
-
     const ret = await this.viewRepo.query(
       `
       SELECT v.documentId, v.visitedAt FROM (
         SELECT ANY_VALUE(documentId) as documentId, ANY_VALUE(created_at) as visitedAt
-             FROM view 
-             WHERE view.userId = '${userId}'
-             GROUP BY visitedAt
-             ORDER BY visitedAt DESC
+          FROM view 
+          WHERE view.userId = '${userId}'
+          GROUP BY visitedAt
+          ORDER BY visitedAt DESC
       ) v
       GROUP BY v.documentId
       LIMIT ${count}
