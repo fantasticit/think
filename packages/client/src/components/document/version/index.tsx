@@ -24,7 +24,7 @@ const { Title, Text } = Typography;
 export const DocumentVersion: React.FC<IProps> = ({ documentId, disabled = false, onSelect }) => {
   const { isMobile } = IsOnMobile.useHook();
   const [visible, toggleVisible] = useToggle(false);
-  const { data, loading, error, refresh } = useDocumentVersion(documentId);
+  const { data, loading, error, refresh } = useDocumentVersion(documentId, { enabled: visible });
   const [selectedVersion, setSelectedVersion] = useState(null);
 
   const editor = useEditor({
@@ -51,12 +51,6 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, disabled = false
     onSelect(safeJSONParse(selectedVersion.data, { default: {} }).default);
     close();
   }, [selectedVersion, close, onSelect]);
-
-  useEffect(() => {
-    if (visible) {
-      refresh();
-    }
-  }, [visible, refresh]);
 
   useEffect(() => {
     if (!editor) return;
