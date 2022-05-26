@@ -20,6 +20,9 @@ server:
   collaborationPort: 5003
   maxDocumentVersion: 20 # 最大版本记录数
   logRetainDays: 3 # 日志保留天数，比如只保留近三天日志
+  enableRateLimit: true # 是否限流
+  rateLimitWindowMs: 60000 # 限流时间
+  rateLimitMax: 1000 # 单位限流时间内单个 up 最大访问数量
 
 # 数据库配置
 db:

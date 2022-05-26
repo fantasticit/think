@@ -7,6 +7,7 @@ import { HttpResponseTransformInterceptor } from '@transforms/http-response.tran
 import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
+import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
@@ -22,6 +23,14 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
+
+  config.get('server.enableRateLimit') &&
+    app.use(
+      rateLimit({
+        windowMs: config.get('server.rateLimitWindowMs'),
+        max: config.get('server.rateLimitMax'),
+      })
+    );
   app.use(cookieParser());
   app.use(compression());
   app.use(helmet());
