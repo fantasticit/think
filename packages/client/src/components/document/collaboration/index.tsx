@@ -51,7 +51,9 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
   const toastedUsersRef = useRef<Array<IUser['id']>>([]);
   const { user: currentUser } = useUser();
   const [visible, toggleVisible] = useToggle(false);
-  const { users, loading, error, addUser, updateUser, deleteUser } = useDoumentMembers(documentId);
+  const { users, loading, error, addUser, updateUser, deleteUser } = useDoumentMembers(documentId, {
+    enabled: visible,
+  });
   const [inviteUser, setInviteUser] = useState('');
   const [collaborationUsers, setCollaborationUsers] = useState([]);
 

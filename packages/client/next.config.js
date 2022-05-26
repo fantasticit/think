@@ -3,6 +3,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const withPWA = require('next-pwa');
 const { getConfig } = require('@think/config');
 const config = getConfig();
+const pwaRuntimeCaching = require('./pwa-cache');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = semi({
@@ -34,6 +35,7 @@ const nextConfig = semi({
     disable: process.env.NODE_ENV !== 'production',
     dest: '.next',
     sw: 'service-worker.js',
+    runtimeCaching: pwaRuntimeCaching,
   },
 });
 
