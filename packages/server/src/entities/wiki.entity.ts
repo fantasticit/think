@@ -23,6 +23,9 @@ export class WikiEntity {
   @Column({ type: 'varchar', comment: '创建用户 Id' })
   public createUserId: string;
 
+  @Column({ type: 'varchar', comment: '知识库首页文档Id', default: '' })
+  public homeDocumentId: string;
+
   @Column({
     type: 'enum',
     enum: WikiStatus,

@@ -1,4 +1,5 @@
 import { IUser } from './user';
+import { IDocument } from './document';
 
 /**
  * 知识库状态枚举
@@ -36,6 +37,7 @@ export interface IWiki {
   createUserId: IUser['id'];
   createUser: IUser;
   status: WikiStatus;
+  homeDocumentId: IDocument['id'];
   createdAt: Date;
   updatedAt: Date;
 }

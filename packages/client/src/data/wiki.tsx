@@ -157,29 +157,6 @@ export const useAllPublicWikis = () => {
 };
 
 /**
- * 获取知识库首页文档
- * @returns
- */
-export const getWikiHomeDocument = (wikiId, cookie = null): Promise<IDocument> => {
-  return HttpClient.request({
-    method: WikiApiDefinition.getHomeDocumentById.method,
-    url: WikiApiDefinition.getHomeDocumentById.client(wikiId),
-    cookie,
-  });
-};
-
-/**
- * 获取知识库首页文档
- * @returns
- */
-export const useWikiHomeDocument = (wikiId) => {
-  const { data, error, isLoading } = useQuery(WikiApiDefinition.getHomeDocumentById.client(wikiId), () =>
-    getWikiHomeDocument(wikiId)
-  );
-  return { data, error, loading: isLoading };
-};
-
-/**
  * 获取知识库详情
  * @param wikiId
  * @returns

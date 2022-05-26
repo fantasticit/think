@@ -13,7 +13,7 @@ import { MessageService } from '@services/message.service';
 import { UserService } from '@services/user.service';
 import { OutUser } from '@services/user.service';
 import { ViewService } from '@services/view.service';
-import { DocumentStatus, IPagination, WikiStatus, WikiUserRole } from '@think/domains';
+import { CollectType, DocumentStatus, IPagination, WikiStatus, WikiUserRole } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
@@ -41,7 +41,26 @@ export class WikiService {
 
     @Inject(forwardRef(() => ViewService))
     private readonly viewService: ViewService
-  ) {}
+  ) {
+    this.fixWikiData();
+  }
+
+  // 修正脚本
+  async fixWikiData() {
+    const wikis = await this.wikiRepo.find();
+    const needFixWikis = wikis.filter((wiki) => !wiki.homeDocumentId);
+
+    await Promise.all(
+      needFixWikis.map(async (wiki) => {
+        const doc = await this.documentService.findWikiHomeDocument(wiki.id);
+        const homeDocumentId = doc.id;
+        const withHomeDocumentIdWiki = await this.wikiRepo.merge(wiki, { homeDocumentId });
+        await this.wikiRepo.save(withHomeDocumentIdWiki);
+      })
+    );
+
+    console.log('修正完成');
+  }
 
   /**
    * 按 id 查取知识库
@@ -310,16 +329,23 @@ export class WikiService {
       targetUserRole: WikiUserRole.admin,
     });
     // 知识库首页文档
-    await this.documentService.createDocument(
-      user,
-      {
-        wikiId: wiki.id,
-        parentDocumentId: null,
-        title: wiki.name,
-      },
-      true
-    );
-    return wiki;
+    const [doc] = await Promise.all([
+      await this.documentService.createDocument(
+        user,
+        {
+          wikiId: wiki.id,
+          parentDocumentId: null,
+          title: wiki.name,
+        },
+        true
+      ),
+      await this.collectorService.toggleStar(user, { type: CollectType.wiki, targetId: wiki.id }),
+    ]);
+    const homeDocumentId = doc.id;
+    const withHomeDocumentIdWiki = await this.wikiRepo.merge(wiki, { homeDocumentId });
+    await this.wikiRepo.save(withHomeDocumentIdWiki);
+
+    return withHomeDocumentIdWiki;
   }
 
   /**

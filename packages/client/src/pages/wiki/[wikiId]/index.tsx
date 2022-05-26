@@ -1,8 +1,9 @@
+import { Spin } from '@douyinfe/semi-ui';
 import { IWiki, WikiApiDefinition } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentReader } from 'components/document/reader';
 import { WikiTocs } from 'components/wiki/tocs';
-import { getWikiDetail, getWikiHomeDocument, getWikiTocs, useWikiHomeDocument } from 'data/wiki';
+import { getWikiDetail, getWikiTocs, useWikiDetail } from 'data/wiki';
 import { DoubleColumnLayout } from 'layouts/double-column';
 import { NextPage } from 'next';
 import React from 'react';
@@ -13,7 +14,7 @@ interface IProps {
 }
 
 const Page: NextPage<IProps> = ({ wikiId }) => {
-  const { data: doc, loading, error } = useWikiHomeDocument(wikiId);
+  const { data: wiki, loading, error } = useWikiDetail(wikiId);
 
   return (
     <DoubleColumnLayout
@@ -21,21 +22,30 @@ const Page: NextPage<IProps> = ({ wikiId }) => {
       rightNode={
         <DataRender
           loading={loading}
+          loadingContent={
+            <div
+              style={{
+                minHeight: 240,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 'auto',
+              }}
+            >
+              <Spin />
+            </div>
+          }
           error={error}
-          normalContent={() => <DocumentReader key={doc.id} documentId={doc.id} />}
+          normalContent={() => <DocumentReader key={wiki.homeDocumentId} documentId={wiki.homeDocumentId} />}
         />
       }
-    ></DoubleColumnLayout>
+    />
   );
 };
 
 Page.getInitialProps = async (ctx) => {
   const { wikiId } = ctx.query;
   const res = await serverPrefetcher(ctx, [
-    {
-      url: WikiApiDefinition.getHomeDocumentById.client(wikiId as IWiki['id']),
-      action: (cookie) => getWikiHomeDocument(cookie),
-    },
     {
       url: WikiApiDefinition.getDetailById.client(wikiId as IWiki['id']),
       action: (cookie) => getWikiDetail(wikiId, cookie),
