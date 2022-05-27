@@ -7,21 +7,28 @@ import React, { useCallback } from 'react';
 interface IProps {
   wikiId: string;
   documentId: string;
+  render?: (arg: { copy: () => void; children: React.ReactNode }) => React.ReactNode;
 }
 
 const { Text } = Typography;
 
-export const DocumentLinkCopyer: React.FC<IProps> = ({ wikiId, documentId }) => {
+export const DocumentLinkCopyer: React.FC<IProps> = ({ wikiId, documentId, render }) => {
   const handle = useCallback(() => {
     copy(buildUrl(`/wiki/${wikiId}/document/${documentId}`));
   }, [wikiId, documentId]);
 
-  return (
+  const content = (
+    <Space>
+      <IconLink />
+      复制链接
+    </Space>
+  );
+
+  return render ? (
+    <>{render({ copy: handle, children: content })}</>
+  ) : (
     <Text onClick={handle} style={{ cursor: 'pointer' }}>
-      <Space>
-        <IconLink />
-        复制链接
-      </Space>
+      {content}
     </Text>
   );
 };

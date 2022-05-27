@@ -1,52 +1,61 @@
 import { IconDelete } from '@douyinfe/semi-icons';
-import { Modal, Space, Typography } from '@douyinfe/semi-ui';
+import { Modal, Popconfirm, Space, Typography } from '@douyinfe/semi-ui';
 import { useDeleteDocument } from 'data/document';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 interface IProps {
   wikiId: string;
   documentId: string;
   onDelete?: () => void;
+  render?: (arg: { children: React.ReactNode }) => React.ReactNode;
 }
 
 const { Text } = Typography;
 
-export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, onDelete }) => {
+export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, render, onDelete }) => {
   const { wikiId: currentWikiId, documentId: currentDocumentId } =
     useRouterQuery<{ wikiId?: string; documentId?: string }>();
   const { deleteDocument: api, loading } = useDeleteDocument(documentId);
 
   const deleteAction = useCallback(() => {
-    Modal.error({
-      title: '确定删除吗？',
-      content: <Text>文档删除后不可恢复！</Text>,
-      onOk: () => {
-        api().then(() => {
-          const navigate = () => {
-            if (wikiId !== currentWikiId || documentId !== currentDocumentId) {
-              return;
-            }
-            Router.push({
-              pathname: `/wiki/${wikiId}`,
-            });
-          };
-
-          onDelete ? onDelete() : navigate();
+    api().then(() => {
+      const navigate = () => {
+        if (wikiId !== currentWikiId || documentId !== currentDocumentId) {
+          return;
+        }
+        Router.push({
+          pathname: `/wiki/${wikiId}`,
         });
-      },
-      okButtonProps: { loading, type: 'danger' },
-      style: { maxWidth: '96vw' },
+      };
+
+      onDelete ? onDelete() : navigate();
     });
-  }, [wikiId, documentId, api, loading, onDelete, currentWikiId, currentDocumentId]);
+  }, [wikiId, documentId, api, onDelete, currentWikiId, currentDocumentId]);
+
+  const content = useMemo(
+    () => (
+      <Text type="danger">
+        <Space>
+          <IconDelete />
+          删除
+        </Space>
+      </Text>
+    ),
+    []
+  );
 
   return (
-    <Text type="danger" onClick={deleteAction}>
-      <Space>
-        <IconDelete />
-        删除
-      </Space>
-    </Text>
+    <Popconfirm
+      title="确定删除吗？"
+      content="文档删除后不可恢复！"
+      onConfirm={deleteAction}
+      okButtonProps={{ loading }}
+      zIndex={1070}
+      showArrow
+    >
+      {render ? render({ children: content }) : content}
+    </Popconfirm>
   );
 };

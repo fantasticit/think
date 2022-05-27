@@ -1,5 +1,5 @@
 import { IconMore, IconPlus, IconStar } from '@douyinfe/semi-icons';
-import { Button, Dropdown, Space, Typography } from '@douyinfe/semi-ui';
+import { Button, Dropdown, Popover, Space, Typography } from '@douyinfe/semi-ui';
 import { DocumentCreator } from 'components/document/create';
 import { DocumentDeletor } from 'components/document/delete';
 import { DocumentLinkCopyer } from 'components/document/link';
@@ -29,22 +29,40 @@ export const DocumentActions: React.FC<IProps> = ({
   showCreateDocument,
   children,
 }) => {
-  const [visible, toggleVisible] = useToggle(false);
+  const [popoverVisible, togglePopoverVisible] = useToggle(false);
+  const [createVisible, toggleCreateVisible] = useToggle(false);
 
-  const prevent = useCallback((e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }, []);
+  const create = useCallback(() => {
+    togglePopoverVisible(false);
+    toggleCreateVisible(true);
+  }, [togglePopoverVisible, toggleCreateVisible]);
+
+  const wrapedOnDelete = useCallback(() => {
+    togglePopoverVisible(false);
+    onDelete && onDelete();
+  }, [onDelete, togglePopoverVisible]);
+
+  const wrapOnVisibleChange = useCallback(
+    (visible) => {
+      togglePopoverVisible(visible);
+      onVisibleChange && onVisibleChange();
+    },
+    [onVisibleChange, togglePopoverVisible]
+  );
 
   return (
     <>
-      <Dropdown
-        onVisibleChange={onVisibleChange}
-        render={
+      <Popover
+        showArrow
+        style={{ padding: 0 }}
+        trigger="click"
+        visible={popoverVisible}
+        onVisibleChange={wrapOnVisibleChange}
+        content={
           <Dropdown.Menu>
             {showCreateDocument && (
-              <Dropdown.Item onClick={prevent}>
-                <Text onClick={toggleVisible}>
+              <Dropdown.Item onClick={create}>
+                <Text>
                   <Space>
                     <IconPlus />
                     新建子文档
@@ -52,15 +70,16 @@ export const DocumentActions: React.FC<IProps> = ({
                 </Text>
               </Dropdown.Item>
             )}
-            <Dropdown.Item onClick={prevent}>
-              <DocumentStar
-                documentId={documentId}
-                render={({ star, toggleStar, text }) => (
-                  <Text
-                    onClick={() => {
-                      toggleStar().then(onStar);
-                    }}
-                  >
+
+            <DocumentStar
+              documentId={documentId}
+              render={({ star, toggleStar, text }) => (
+                <Dropdown.Item
+                  onClick={() => {
+                    toggleStar().then(onStar);
+                  }}
+                >
+                  <Text>
                     <Space>
                       <IconStar
                         style={{
@@ -70,27 +89,40 @@ export const DocumentActions: React.FC<IProps> = ({
                       {text}
                     </Space>
                   </Text>
-                )}
-              />
-            </Dropdown.Item>
-            <Dropdown.Item onClick={prevent}>
-              <DocumentLinkCopyer wikiId={wikiId} documentId={documentId} />
-            </Dropdown.Item>
+                </Dropdown.Item>
+              )}
+            />
+
+            <DocumentLinkCopyer
+              wikiId={wikiId}
+              documentId={documentId}
+              render={({ copy, children }) => {
+                return <Dropdown.Item onClick={copy}>{children}</Dropdown.Item>;
+              }}
+            />
+
             <Dropdown.Divider />
-            <Dropdown.Item onClick={prevent}>
-              <DocumentDeletor wikiId={wikiId} documentId={documentId} onDelete={onDelete} />
-            </Dropdown.Item>
+
+            <DocumentDeletor
+              wikiId={wikiId}
+              documentId={documentId}
+              onDelete={wrapedOnDelete}
+              render={({ children }) => {
+                return <Dropdown.Item>{children}</Dropdown.Item>;
+              }}
+            />
           </Dropdown.Menu>
         }
       >
-        {children || <Button onClick={prevent} icon={<IconMore />} theme="borderless" type="tertiary" />}
-      </Dropdown>
+        {children || <Button icon={<IconMore />} theme="borderless" type="tertiary" />}
+      </Popover>
+
       {showCreateDocument && (
         <DocumentCreator
           wikiId={wikiId}
           parentDocumentId={documentId}
-          visible={visible}
-          toggleVisible={toggleVisible}
+          visible={createVisible}
+          toggleVisible={toggleCreateVisible}
           onCreate={onCreate}
         />
       )}
