@@ -10,7 +10,7 @@ interface AxiosInstance extends Axios {
 
 export const HttpClient = axios.create({
   baseURL: process.env.SERVER_API_URL,
-  timeout: 60000,
+  timeout: 10 * 1000,
   withCredentials: true,
 }) as AxiosInstance;
 
