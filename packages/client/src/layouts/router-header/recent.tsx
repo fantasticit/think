@@ -6,16 +6,23 @@ import { Empty } from 'components/empty';
 import { IconDocumentFill } from 'components/icons/IconDocumentFill';
 import { LocaleTime } from 'components/locale-time';
 import { useRecentDocuments } from 'data/document';
+import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styles from './index.module.scss';
 import { Placeholder } from './placeholder';
 
 const { Text } = Typography;
 
-export const RecentDocs = () => {
-  const { data: recentDocs, loading, error } = useRecentDocuments();
+export const RecentDocs = ({ visible }) => {
+  const { data: recentDocs, loading, error, refresh } = useRecentDocuments();
+
+  useEffect(() => {
+    if (visible) {
+      refresh();
+    }
+  }, [visible, refresh]);
 
   return (
     <Tabs type="line" size="small">
@@ -27,7 +34,7 @@ export const RecentDocs = () => {
           normalContent={() => {
             return (
               <div className={styles.itemsWrap} style={{ margin: '0 -16px' }}>
-                {recentDocs.length ? (
+                {recentDocs && recentDocs.length ? (
                   recentDocs.map((doc) => {
                     return (
                       <div className={styles.itemWrap} key={doc.id}>
@@ -85,7 +92,7 @@ export const RecentModal = ({ visible, toggleVisible }) => {
       style={{ maxWidth: '96vw' }}
     >
       <div style={{ paddingBottom: 24 }}>
-        <RecentDocs />
+        <RecentDocs visible={visible} />
       </div>
     </Modal>
   );
@@ -96,14 +103,18 @@ export const RecentMobileTrigger = ({ toggleVisible }) => {
 };
 
 export const Recent = () => {
+  const [visible, toggleVisible] = useToggle(false);
+
   return (
     <span>
       <Dropdown
         trigger="click"
         spacing={16}
+        visible={visible}
+        onVisibleChange={toggleVisible}
         content={
           <div style={{ width: 300, padding: '16px 16px 0' }}>
-            <RecentDocs />
+            <RecentDocs visible={visible} />
           </div>
         }
       >

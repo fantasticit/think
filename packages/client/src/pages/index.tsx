@@ -13,7 +13,7 @@ import { useToggle } from 'hooks/use-toggle';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 import styles from './index.module.scss';
@@ -78,18 +78,16 @@ const RecentDocs = () => {
         key="operate"
         width={80}
         render={(_, document) => (
-          <DocumentActions
-            wikiId={document.wikiId}
-            documentId={document.id}
-            onStar={refresh}
-            onDelete={refresh}
-            showCreateDocument
-          />
+          <DocumentActions wikiId={document.wikiId} documentId={document.id} onDelete={refresh} showCreateDocument />
         )}
       />,
     ],
     [refresh]
   );
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
 
   return (
     <>

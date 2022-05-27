@@ -30,7 +30,7 @@ export const useRecentDocuments = () => {
   const { data, error, isLoading, refetch } = useQuery(
     DocumentApiDefinition.recent.client(),
     getRecentVisitedDocuments,
-    { staleTime: 3000 }
+    { refetchOnWindowFocus: false, enabled: false }
   );
   return { data, error, loading: isLoading, refresh: refetch };
 };

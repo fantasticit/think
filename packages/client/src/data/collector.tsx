@@ -30,7 +30,7 @@ export const getCollectedWikis = (cookie = null): Promise<IWikiWithIsMember[]> =
  */
 export const useCollectedWikis = () => {
   const { data, error, isLoading, refetch } = useQuery(CollectorApiDefinition.wikis.client(), getCollectedWikis, {
-    staleTime: 0,
+    staleTime: 500,
   });
 
   useEffect(() => {
@@ -117,7 +117,7 @@ export const useCollectedDocuments = () => {
   const { data, error, isLoading, refetch } = useQuery(
     CollectorApiDefinition.documents.client(),
     getCollectedDocuments,
-    { staleTime: 0 }
+    { staleTime: 500 }
   );
   useEffect(() => {
     event.on(TOGGLE_COLLECT_DOUCMENT, refetch);

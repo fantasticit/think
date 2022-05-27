@@ -66,7 +66,7 @@ const List: React.FC<{ data: IDocument[] }> = ({ data }) => {
 
 export const Search = () => {
   const [visible, toggleVisible] = useToggle(false);
-  const { data: recentDocs } = useRecentDocuments();
+  // const { data: recentDocs } = useRecentDocuments();
   const [searchApi, loading] = useAsyncLoading(searchDocument, 10);
   const [keyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
@@ -143,10 +143,10 @@ export const Search = () => {
               error={error}
               normalContent={() => <List data={searchDocs} />}
             />
-            <div style={{ marginTop: 16 }}>
+            {/* <div style={{ marginTop: 16 }}>
               <Text type="tertiary">最近访问的文档</Text>
               <List data={recentDocs} />
-            </div>
+            </div> */}
           </div>
         </div>
       </Modal>
