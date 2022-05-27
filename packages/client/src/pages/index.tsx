@@ -118,7 +118,11 @@ const RecentDocs = () => {
 
 const Page: NextPage = () => {
   const [visible, toggleVisible] = useToggle(false);
-  const { data: staredWikis, loading, error } = useCollectedWikis();
+  const { data: staredWikis, loading, error, refresh } = useCollectedWikis();
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
 
   return (
     <SingleColumnLayout>

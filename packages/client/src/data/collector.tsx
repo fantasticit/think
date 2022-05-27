@@ -31,6 +31,7 @@ export const getCollectedWikis = (cookie = null): Promise<IWikiWithIsMember[]> =
 export const useCollectedWikis = () => {
   const { data, error, isLoading, refetch } = useQuery(CollectorApiDefinition.wikis.client(), getCollectedWikis, {
     staleTime: 500,
+    enabled: false,
   });
 
   useEffect(() => {
