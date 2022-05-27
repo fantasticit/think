@@ -22,6 +22,7 @@ const markdownIframe = createMarkdownContainer('iframe');
 const markdownMention = createMarkdownContainer('mention');
 const markdownMind = createMarkdownContainer('mind');
 const markdownFlow = createMarkdownContainer('flow');
+const markdownTableOfContents = createMarkdownContainer('tableOfContents');
 
 const markdown = markdownit('commonmark')
   .enable('strikethrough')
@@ -44,7 +45,8 @@ const markdown = markdownit('commonmark')
   .use(markdownMind)
   .use(markdownDocumentReference)
   .use(markdownDocumentChildren)
-  .use(markdownFlow);
+  .use(markdownFlow)
+  .use(markdownTableOfContents);
 
 export const markdownToHTML = (rawMarkdown) => {
   return sanitize(markdown.render(rawMarkdown), {});

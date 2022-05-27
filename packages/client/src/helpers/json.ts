@@ -1,4 +1,6 @@
 export const safeJSONParse = (str, defaultValue = {}) => {
+  if (typeof str === 'object') return str;
+
   try {
     return JSON.parse(str);
   } catch (e) {

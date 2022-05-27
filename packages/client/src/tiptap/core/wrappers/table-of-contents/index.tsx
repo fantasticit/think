@@ -51,8 +51,6 @@ export const TableOfContentsWrapper = ({ editor }) => {
     setItems(headings);
   }, [editor]);
 
-  useEffect(handleUpdate, [handleUpdate]);
-
   useEffect(() => {
     if (!editor) {
       return null;

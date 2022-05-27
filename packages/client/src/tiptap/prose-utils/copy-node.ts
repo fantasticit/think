@@ -3,10 +3,10 @@ import { copy } from 'helpers/copy';
 import { safeJSONStringify } from 'helpers/json';
 import { Fragment, Node } from 'prosemirror-model';
 
-export function copyNode(nodeOrNodeName: Node);
+export function copyNode(nodeOrNodeName: Node | Fragment<any>);
 export function copyNode(nodeOrNodeName: string, editor: Editor);
-export function copyNode(nodeOrNodeName: string | Node, editor?: Editor) {
-  let targetNode: null | Node = null;
+export function copyNode(nodeOrNodeName: string | Node | Fragment<any>, editor?: Editor) {
+  let targetNode = null;
 
   if (typeof nodeOrNodeName === 'string') {
     const { state } = editor;

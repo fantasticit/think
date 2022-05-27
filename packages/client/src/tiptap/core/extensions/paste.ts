@@ -195,20 +195,29 @@ export const Paste = Extension.create<IPasteOptions>({
             return false;
           },
           clipboardTextSerializer: (slice) => {
-            const isText = isPureText(slice.content.toJSON());
+            const json = slice.content.toJSON();
+            const isSelectAll = slice.openStart === slice.openEnd && slice.openEnd === 0;
 
-            if (isText) {
-              return slice.content.textBetween(0, slice.content.size, '\n\n');
-            }
+            if (typeof json === 'object' || isSelectAll) {
+              return extensionThis.options.prosemirrorToMarkdown({
+                content: slice.content,
+              });
+            } else {
+              const isText = isPureText(json) && !isSelectAll;
 
-            const doc = slice.content;
-            if (!doc) {
-              return '';
+              if (isText) {
+                return slice.content.textBetween(0, slice.content.size, '\n\n');
+              }
+
+              const doc = slice.content;
+              if (!doc) {
+                return '';
+              }
+              const content = extensionThis.options.prosemirrorToMarkdown({
+                content: doc,
+              });
+              return content;
             }
-            const content = extensionThis.options.prosemirrorToMarkdown({
-              content: doc,
-            });
-            return content;
           },
         },
       }),

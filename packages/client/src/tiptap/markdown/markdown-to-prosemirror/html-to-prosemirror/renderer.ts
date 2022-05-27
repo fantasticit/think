@@ -34,6 +34,7 @@ import { Status } from './nodes/status';
 import { Table } from './nodes/table';
 import { TableCell } from './nodes/table-cell';
 import { TableHeader } from './nodes/table-header';
+import { TableOfContents } from './nodes/table-of-contents';
 import { TableRow } from './nodes/table-row';
 // 列表
 import { TaskList } from './nodes/task-list';
@@ -82,6 +83,7 @@ export class Renderer {
       TableHeader,
       TableRow,
       TableCell,
+      TableOfContents,
 
       // 列表
       TaskList,

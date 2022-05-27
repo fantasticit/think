@@ -31,6 +31,7 @@ import { Superscript } from 'tiptap/core/extensions/superscript';
 import { Table } from 'tiptap/core/extensions/table';
 import { TableCell } from 'tiptap/core/extensions/table-cell';
 import { TableHeader } from 'tiptap/core/extensions/table-header';
+import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 import { TableRow } from 'tiptap/core/extensions/table-row';
 import { TaskItem } from 'tiptap/core/extensions/task-item';
 import { TaskList } from 'tiptap/core/extensions/task-list';
@@ -147,6 +148,7 @@ const SerializerConfig = {
     [Table.name]: renderTable,
     [TableCell.name]: renderTableCell,
     [TableHeader.name]: renderTableCell,
+    [TableOfContents.name]: renderCustomContainer('tableOfContents'),
     [TableRow.name]: renderTableRow,
     [TaskItem.name]: (state, node) => {
       state.write(`[${node.attrs.checked ? 'x' : ' '}] `);

@@ -32,6 +32,7 @@ export const markdownToProsemirror = ({ schema, content, hasTitle }) => {
 
   const parser = new DOMParser();
   const { body } = parser.parseFromString(extractImage(html), 'text/html');
+
   body.append(document.createComment(content));
   const node = htmlToPromsemirror(body, !hasTitle);
 
