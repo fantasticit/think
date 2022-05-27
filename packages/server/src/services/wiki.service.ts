@@ -559,14 +559,14 @@ export class WikiService {
         return lodash.omit(item, ['content', 'state']);
       });
 
-    const docsWithCreateUser = await Promise.all(
-      docs.map(async (doc) => {
-        const createUser = await this.userService.findById(doc.createUserId);
-        return { ...doc, createUser };
-      })
-    );
+    // const docsWithCreateUser = await Promise.all(
+    //   docs.map(async (doc) => {
+    //     const createUser = await this.userService.findById(doc.createUserId);
+    //     return { ...doc, createUser };
+    //   })
+    // );
 
-    return array2tree(docsWithCreateUser);
+    return array2tree(docs);
   }
 
   /**
@@ -576,6 +576,8 @@ export class WikiService {
    * @param relations
    */
   public async orderWikiTocs(relations: Array<{ id: string; parentDocumentId?: string; index: number }>) {
+    if (!relations.length) return;
+
     await Promise.all(
       relations.map(async (relation) => {
         const { id, parentDocumentId, index } = relation;

@@ -175,12 +175,13 @@ export class DocumentService {
    * @returns
    */
   async addDocUser(user: OutUser, dto: DocAuthDto) {
-    const doc = await this.documentRepo.findOne(dto.documentId);
     const targetUser = await this.userService.findOne({ name: dto.userName });
 
     if (!targetUser) {
       throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST);
     }
+
+    const doc = await this.documentRepo.findOne(dto.documentId);
 
     await this.wikiService.addWikiUser(user, doc.wikiId, {
       userName: targetUser.name,
@@ -250,6 +251,7 @@ export class DocumentService {
    */
   async getDocUsers(user: OutUser, documentId) {
     const doc = await this.documentRepo.findOne({ id: documentId });
+
     if (!doc) {
       throw new HttpException('文档不存在', HttpStatus.BAD_REQUEST);
     }
@@ -411,21 +413,19 @@ export class DocumentService {
    * @returns
    */
   public async getDocumentDetail(user: OutUser, documentId: string, userAgent) {
-    // 1. 记录访问
-    await this.viewService.create({ userId: user.id, documentId, userAgent });
-    // 2. 查询文档
-    const document = await this.documentRepo.findOne(documentId);
-    // 3. 查询权限
-    const authority = await this.documentAuthorityRepo.findOne({
-      documentId,
-      userId: user.id,
-    });
-    // 4. 查询访问
-    const views = await this.viewService.getDocumentTotalViews(documentId);
-    // 5. 生成响应
-    const doc = instanceToPlain(document);
+    // 异步记录访问
+    this.viewService.create({ userId: user.id, documentId, userAgent });
+    const [document, authority, views] = await Promise.all([
+      this.documentRepo.findOne(documentId),
+      this.documentAuthorityRepo.findOne({
+        documentId,
+        userId: user.id,
+      }),
+      this.viewService.getDocumentTotalViews(documentId),
+    ]);
+    const doc = lodash.omit(instanceToPlain(document), ['state', 'content']);
     const createUser = await this.userService.findById(doc.createUserId);
-    return { document: lodash.omit({ ...doc, views, createUser }, ['state', 'content']), authority };
+    return { document: { ...doc, views, createUser }, authority };
   }
 
   /**
@@ -474,12 +474,16 @@ export class DocumentService {
       throw new HttpException('密码错误，请重新输入', HttpStatus.BAD_REQUEST);
     }
 
-    await this.viewService.create({ userId: 'public', documentId, userAgent });
-    const views = await this.viewService.getDocumentTotalViews(documentId);
-    const createUser = await this.userService.findById(document.createUserId);
-    const wiki = await this.wikiService.getPublicWikiDetail(document.wikiId);
+    const doc = lodash.omit(document, ['state']);
+    const [views, createUser, wiki] = await Promise.all([
+      this.viewService.getDocumentTotalViews(documentId),
+      this.userService.findById(document.createUserId),
+      this.wikiService.getPublicWikiDetail(document.wikiId),
+    ]);
+    // 异步创建
+    this.viewService.create({ userId: 'public', documentId, userAgent });
 
-    return { ...document, views, wiki, createUser };
+    return { ...doc, views, wiki, createUser };
   }
 
   /**
@@ -536,14 +540,14 @@ export class DocumentService {
         return lodash.omit(item, ['content', 'state']);
       });
 
-    const docsWithCreateUser = await Promise.all(
-      docs.map(async (doc) => {
-        const createUser = await this.userService.findById(doc.createUserId);
-        return { ...doc, createUser };
-      })
-    );
+    // const docsWithCreateUser = await Promise.all(
+    //   docs.map(async (doc) => {
+    //     const createUser = await this.userService.findById(doc.createUserId);
+    //     return { ...doc, createUser };
+    //   })
+    // );
 
-    return docsWithCreateUser;
+    return docs;
   }
 
   async getShareChildrenDocuments(data: { wikiId: string; documentId?: string }) {
@@ -590,14 +594,14 @@ export class DocumentService {
         return lodash.omit(item, ['content', 'state']);
       });
 
-    const docsWithCreateUser = await Promise.all(
-      docs.map(async (doc) => {
-        const createUser = await this.userService.findById(doc.createUserId);
-        return { ...doc, createUser };
-      })
-    );
+    // const docsWithCreateUser = await Promise.all(
+    //   docs.map(async (doc) => {
+    //     const createUser = await this.userService.findById(doc.createUserId);
+    //     return { ...doc, createUser };
+    //   })
+    // );
 
-    return docsWithCreateUser;
+    return docs;
   }
 
   /**
@@ -627,8 +631,10 @@ export class DocumentService {
           await this.userService.findById(doc.createUserId),
         ]);
 
+        const optimizedDoc = lodash.omit(doc, ['state', 'content', 'index', 'createUserId']);
+
         return {
-          ...instanceToPlain(doc),
+          ...optimizedDoc,
           views,
           visitedAt: visitedAtMap[documentId],
           createUser,
@@ -636,9 +642,7 @@ export class DocumentService {
       })
     );
 
-    return ret.filter(Boolean).map((item) => {
-      return lodash.omit(item, ['state', 'content', 'index', 'createUserId']);
-    });
+    return ret.filter(Boolean);
   }
 
   /**
@@ -664,13 +668,13 @@ export class DocumentService {
 
     const data = ret.filter(Boolean);
 
-    const withCreateUserRes = await Promise.all(
-      data.map(async (doc) => {
-        const createUser = await this.userService.findById(doc.createUserId);
-        return { createUser, ...doc };
-      })
-    );
+    // const withCreateUserRes = await Promise.all(
+    //   data.map(async (doc) => {
+    //     const createUser = await this.userService.findById(doc.createUserId);
+    //     return { createUser, ...doc };
+    //   })
+    // );
 
-    return withCreateUserRes;
+    return data;
   }
 }

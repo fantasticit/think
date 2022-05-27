@@ -175,8 +175,10 @@ export const getWikiDetail = (wikiId, cookie = null): Promise<IWiki> => {
  * @returns
  */
 export const useWikiDetail = (wikiId) => {
-  const { data, error, isLoading, refetch } = useQuery(WikiApiDefinition.getDetailById.client(wikiId), () =>
-    wikiId ? getWikiDetail(wikiId) : null
+  const { data, error, isLoading, refetch } = useQuery(
+    WikiApiDefinition.getDetailById.client(wikiId),
+    () => (wikiId ? getWikiDetail(wikiId) : null),
+    { staleTime: 3000 }
   );
 
   /**
