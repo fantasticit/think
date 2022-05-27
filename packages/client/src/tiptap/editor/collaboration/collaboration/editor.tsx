@@ -8,9 +8,10 @@ import { isAndroid, isIOS } from 'helpers/env';
 import { useNetwork } from 'hooks/use-network';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Collaboration } from 'tiptap/core/extensions/collaboration';
 import { CollaborationCursor } from 'tiptap/core/extensions/collaboration-cursor';
+import { Tocs } from 'tiptap/editor/tocs';
 
 import { EditorContent, useEditor } from '../../react';
 import { CollaborationKit } from '../kit';
@@ -70,6 +71,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     },
     [editable, user, onTitleUpdate, hocuspocusProvider]
   );
+  const [headings, setHeadings] = useState([]);
 
   useImperativeHandle(ref, () => editor);
 
@@ -137,6 +139,21 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     };
   }, [isMobile]);
 
+  useEffect(() => {
+    if (!editor) return;
+
+    const collectHeadings = (headings) => {
+      console.log({ headings });
+      setHeadings(headings);
+    };
+
+    editor.eventEmitter.on('TableOfContents', collectHeadings);
+
+    return () => {
+      editor.eventEmitter.off('TableOfContents', collectHeadings);
+    };
+  }, [editor]);
+
   return (
     <>
       {(!online || status === 'disconnected') && (
@@ -159,6 +176,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
 
       <main ref={$mainContainer}>
         <EditorContent editor={editor} />
+        {editor && <Tocs tocs={headings} editor={editor} />}
         {protals}
       </main>
 

@@ -1,0 +1,13 @@
+.wrapper {
+  position: fixed;
+  right: 16px;
+  z-index: 4;
+  background-color: var(--semi-color-nav-bg);
+
+  > header {
+    margin-bottom: 12px;
+    font-weight: 600;
+    line-height: 22px;
+    color: var(--main-text-color);
+  }
+}

@@ -5,6 +5,48 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import styles from './index.module.scss';
 
+const arrToTree = (tocs) => {
+  const data = [...tocs, { level: Infinity }];
+  const res = [];
+
+  const makeChildren = (item, flattenChildren) => {
+    if (!flattenChildren.length) return;
+
+    const stopAt = flattenChildren.findIndex((d) => d.level !== item.level + 1);
+
+    if (stopAt > -1) {
+      const children = flattenChildren.slice(0, stopAt);
+      item.children = children;
+
+      const remain = flattenChildren.slice(stopAt + 1);
+
+      if (remain.length) {
+        makeChildren(children[children.length - 1], remain);
+      }
+    } else {
+      item.children = flattenChildren;
+    }
+  };
+
+  let i = 0;
+
+  while (i < data.length) {
+    const item = data[i];
+    const stopAt = data.slice(i + 1).findIndex((d) => d.level !== item.level + 1);
+
+    if (stopAt > -1) {
+      makeChildren(item, data.slice(i + 1).slice(0, stopAt));
+      i += 1 + stopAt;
+    } else {
+      i += 1;
+    }
+
+    res.push(item);
+  }
+
+  return res.slice(0, -1);
+};
+
 export const TableOfContentsWrapper = ({ editor }) => {
   const [items, setItems] = useState([]);
   const [visible, toggleVisible] = useToggle(true);
@@ -49,11 +91,18 @@ export const TableOfContentsWrapper = ({ editor }) => {
     editor.view.dispatch(transaction);
 
     setItems(headings);
+
+    return headings;
   }, [editor]);
 
   useEffect(() => {
     if (!editor) {
-      return null;
+      return;
+    }
+
+    if (!editor.options.editable) {
+      editor.eventEmitter.emit('TableOfContents', arrToTree(handleUpdate()));
+      return;
     }
 
     editor.on('update', handleUpdate);
