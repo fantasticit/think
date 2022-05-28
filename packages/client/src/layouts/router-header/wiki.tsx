@@ -78,7 +78,7 @@ const WikiContent = () => {
         normalContent={() => {
           return (
             <div className={styles.itemsWrap}>
-              {starWikis.length ? (
+              {starWikis && starWikis.length ? (
                 starWikis.map((wiki) => {
                   return (
                     <div className={styles.itemWrap} key={wiki.id}>

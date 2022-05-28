@@ -46,5 +46,10 @@
     display: flex;
     flex: 1;
     overflow: auto;
+
+    > div:first-of-type {
+      flex: 1;
+      width: 100%;
+    }
   }
 }

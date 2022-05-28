@@ -38,18 +38,20 @@ const Toc = ({ toc, collapsed }) => {
 
 export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [], editor }) => {
   const [hasToc, toggleHasToc] = useToggle(false);
-  const { width } = useDocumentStyle((width) => {
-    if (width === Width.fullWidth) {
-      toggleCollapsed(true);
-    } else {
-      toggleCollapsed(false);
-    }
-  });
+  const { width } = useDocumentStyle();
   const [collapsed, toggleCollapsed] = useToggle(width === Width.fullWidth);
 
   const getContainer = useCallback(() => {
     return document.querySelector(`#js-tocs-container`);
   }, []);
+
+  useEffect(() => {
+    if (width === Width.fullWidth) {
+      toggleCollapsed(true);
+    } else {
+      toggleCollapsed(false);
+    }
+  }, [width, toggleCollapsed]);
 
   useEffect(() => {
     const listener = () => {

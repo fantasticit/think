@@ -12,7 +12,7 @@ const FONT_SIZE_KEY = 'document-style-font-size';
 const DEFAULT_WIDTH = Width.standardWidth;
 const DEFAULT_FONT_SIZE = 16;
 
-export const useDocumentStyle = (onChange = null) => {
+export const useDocumentStyle = () => {
   const { data, refetch } = useQuery(`/fe/mock/${WIDTH_KEY}/${FONT_SIZE_KEY}`, () => {
     if (typeof window !== 'undefined') {
       return {
@@ -31,9 +31,8 @@ export const useDocumentStyle = (onChange = null) => {
     (width: Width) => {
       setStorage(WIDTH_KEY, width);
       refetch();
-      onChange && onChange(width);
     },
-    [refetch, onChange]
+    [refetch]
   );
 
   const setFontSize = useCallback(
