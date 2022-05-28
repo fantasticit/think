@@ -5,14 +5,22 @@ import { useCallback, useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
 const arrToTree = (tocs) => {
-  const levels = [{ children: [] }];
-  tocs.forEach(function (o) {
-    levels.length = o.level;
-    levels[o.level - 1].children = levels[o.level - 1].children || [];
-    levels[o.level - 1].children.push(o);
-    levels[o.level] = o;
+  const result = [];
+  const levels = [result];
+
+  tocs.forEach((o) => {
+    let offset = -1;
+    let parent = levels[o.level + offset];
+
+    while (!parent) {
+      offset -= 1;
+      parent = levels[o.level + offset];
+    }
+
+    parent.push({ ...o, children: (levels[o.level] = []) });
   });
-  return levels[0].children;
+
+  return result;
 };
 
 export const TableOfContentsWrapper = ({ editor }) => {
@@ -45,6 +53,8 @@ export const TableOfContentsWrapper = ({ editor }) => {
     transaction.setMeta('addToHistory', false);
     transaction.setMeta('preventUpdate', true);
     editor.view.dispatch(transaction);
+    console.log(headings, arrToTree(headings));
+
     setItems(headings);
     editor.eventEmitter.emit('TableOfContents', arrToTree(headings));
   }, [editor]);

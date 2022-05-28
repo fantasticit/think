@@ -143,8 +143,9 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     if (!editor) return;
 
     const collectHeadings = (headings) => {
-      console.log({ headings });
-      setHeadings(headings);
+      if (headings && headings.length) {
+        setHeadings(headings);
+      }
     };
 
     editor.eventEmitter.on('TableOfContents', collectHeadings);
@@ -176,7 +177,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
 
       <main ref={$mainContainer} id={editable ? 'js-tocs-container' : ''}>
         <EditorContent editor={editor} />
-        {!isMobile && editor ? <Tocs tocs={headings} editor={editor} /> : null}
+        {!isMobile && editor && headings.length ? <Tocs tocs={headings} editor={editor} /> : null}
         {protals}
       </main>
 

@@ -1,5 +1,5 @@
 import { getStorage, setStorage } from 'helpers/storage';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 export enum Width {
@@ -12,7 +12,7 @@ const FONT_SIZE_KEY = 'document-style-font-size';
 const DEFAULT_WIDTH = Width.standardWidth;
 const DEFAULT_FONT_SIZE = 16;
 
-export const useDocumentStyle = () => {
+export const useDocumentStyle = (onChange = null) => {
   const { data, refetch } = useQuery(`/fe/mock/${WIDTH_KEY}/${FONT_SIZE_KEY}`, () => {
     if (typeof window !== 'undefined') {
       return {
@@ -27,15 +27,22 @@ export const useDocumentStyle = () => {
     };
   });
 
-  const setWidth = (width: Width) => {
-    setStorage(WIDTH_KEY, width);
-    refetch();
-  };
+  const setWidth = useCallback(
+    (width: Width) => {
+      setStorage(WIDTH_KEY, width);
+      refetch();
+      onChange && onChange(width);
+    },
+    [refetch, onChange]
+  );
 
-  const setFontSize = (fontSize: number) => {
-    setStorage(FONT_SIZE_KEY, fontSize);
-    refetch();
-  };
+  const setFontSize = useCallback(
+    (fontSize: number) => {
+      setStorage(FONT_SIZE_KEY, fontSize);
+      refetch();
+    },
+    [refetch]
+  );
 
   useEffect(() => {
     refetch();
