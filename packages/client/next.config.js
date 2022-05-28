@@ -7,7 +7,6 @@ const pwaRuntimeCaching = require('./pwa-cache');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = semi({
-  swcMinify: true,
   experimental: {
     scrollRestoration: true,
     legacyBrowsers: false,
