@@ -1,12 +1,12 @@
 import { IconDoubleChevronLeft, IconDoubleChevronRight } from '@douyinfe/semi-icons';
 import { Anchor, Button } from '@douyinfe/semi-ui';
+import { Editor } from '@tiptap/core';
 import { useDocumentStyle, Width } from 'hooks/use-document-style';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect } from 'react';
 import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 import { findNode } from 'tiptap/prose-utils';
 
-import { Editor } from '../react';
 import styles from './index.module.scss';
 
 interface IToc {
@@ -39,7 +39,7 @@ const Toc = ({ toc, collapsed }) => {
 export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [], editor }) => {
   const [hasToc, toggleHasToc] = useToggle(false);
   const { width } = useDocumentStyle();
-  const [collapsed, toggleCollapsed] = useToggle(width === Width.fullWidth);
+  const [collapsed, toggleCollapsed] = useToggle(true);
 
   const getContainer = useCallback(() => {
     return document.querySelector(`#js-tocs-container`);
@@ -81,7 +81,12 @@ export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [
         ></Button>
       </header>
       <main>
-        <Anchor maxHeight={500} getContainer={getContainer} maxWidth={collapsed ? 56 : 180}>
+        <Anchor
+          railTheme={'muted'}
+          maxHeight={'calc(100vh - 360px)'}
+          getContainer={getContainer}
+          maxWidth={collapsed ? 56 : 180}
+        >
           {tocs.length && tocs.map((toc) => <Toc key={toc.text} toc={toc} collapsed={collapsed} />)}
         </Anchor>
       </main>
