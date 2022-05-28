@@ -7,6 +7,12 @@ const pwaRuntimeCaching = require('./pwa-cache');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = semi({
+  swcMinify: true,
+  experimental: {
+    scrollRestoration: true,
+    legacyBrowsers: false,
+    browsersListForSwc: true,
+  },
   assetPrefix: config.assetPrefix,
   env: {
     SERVER_API_URL: config.client.apiUrl,
