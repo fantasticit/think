@@ -1,11 +1,14 @@
 .toc {
   width: max-content;
   max-width: 100%;
-  padding: 0.75rem;
-  margin: 0.75em 0;
   background: var(--semi-color-fill-1);
   border-radius: 0.5rem;
   opacity: 0.75;
+
+  &.visible {
+    padding: 0.75rem;
+    margin: 0.75em 0;
+  }
 
   .list {
     padding: 0;

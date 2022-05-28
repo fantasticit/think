@@ -1,13 +1,32 @@
 .wrapper {
   position: fixed;
-  right: 16px;
-  z-index: 4;
+  right: 0;
   background-color: var(--semi-color-nav-bg);
 
   > header {
     margin-bottom: 12px;
-    font-weight: 600;
     line-height: 22px;
     color: var(--main-text-color);
+    opacity: 0;
+  }
+
+  &:hover {
+    > header {
+      opacity: 1;
+    }
+  }
+
+  .collapsedItem {
+    position: relative;
+    height: 2px;
+    background-color: #d8d8d8;
+  }
+
+  :global {
+    .semi-anchor-link-title-active {
+      .collapsedItem {
+        background-color: var(--semi-color-primary);
+      }
+    }
   }
 }

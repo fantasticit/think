@@ -174,9 +174,9 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
         </header>
       )}
 
-      <main ref={$mainContainer}>
+      <main ref={$mainContainer} id={editable ? 'js-tocs-container' : ''}>
         <EditorContent editor={editor} />
-        {editor && <Tocs tocs={headings} editor={editor} />}
+        {!isMobile && editor ? <Tocs tocs={headings} editor={editor} /> : null}
         {protals}
       </main>
 

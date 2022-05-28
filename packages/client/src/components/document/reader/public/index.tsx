@@ -160,9 +160,9 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           />
         </Nav>
       </Header>
-      <Content className={styles.contentWrap}>
+      <div className={styles.contentWrap} id="js-tocs-container">
         {content}
-      </Content>
+      </div>
     </Layout>
   );
 };

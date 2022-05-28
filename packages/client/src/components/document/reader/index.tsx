@@ -132,9 +132,9 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
         ></Nav>
       </Header>
       <Layout className={styles.contentWrap}>
-        <div ref={setContainer} id="js-reader-container">
+        <div ref={setContainer} id="js-tocs-container">
           <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
-            <div>
+            <div id="js-reader-container">
               <DataRender
                 loading={docAuthLoading}
                 loadingContent={
