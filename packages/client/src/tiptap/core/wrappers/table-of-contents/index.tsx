@@ -53,7 +53,6 @@ export const TableOfContentsWrapper = ({ editor }) => {
     transaction.setMeta('addToHistory', false);
     transaction.setMeta('preventUpdate', true);
     editor.view.dispatch(transaction);
-    console.log(headings, arrToTree(headings));
 
     setItems(headings);
     editor.eventEmitter.emit('TableOfContents', arrToTree(headings));
