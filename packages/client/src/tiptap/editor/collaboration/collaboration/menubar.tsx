@@ -25,6 +25,7 @@ import { Iframe } from 'tiptap/editor/menus/iframe';
 import { Image } from 'tiptap/editor/menus/image';
 import { Insert } from 'tiptap/editor/menus/insert';
 import { Italic } from 'tiptap/editor/menus/italic';
+import { Katex } from 'tiptap/editor/menus/katex';
 import { Link } from 'tiptap/editor/menus/link';
 import { Mind } from 'tiptap/editor/menus/mind';
 import { OrderedList } from 'tiptap/editor/menus/ordered-list';
@@ -35,7 +36,6 @@ import { Subscript } from 'tiptap/editor/menus/subscript';
 import { Superscript } from 'tiptap/editor/menus/superscript';
 import { Table } from 'tiptap/editor/menus/table';
 import { TaskList } from 'tiptap/editor/menus/task-list';
-import { Text } from 'tiptap/editor/menus/text';
 import { TextColor } from 'tiptap/editor/menus/text-color';
 import { Underline } from 'tiptap/editor/menus/underline';
 import { Undo } from 'tiptap/editor/menus/undo';
@@ -105,7 +105,7 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <Image editor={editor} />
         <Iframe editor={editor} />
         <Table editor={editor} />
-        {/* <Text editor={editor} /> */}
+        <Katex editor={editor} />
         <Mind editor={editor} />
       </Space>
     </div>

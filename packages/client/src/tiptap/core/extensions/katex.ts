@@ -20,8 +20,7 @@ export const KatexInputRegex = /^\$\$(.+)?\$\$$/;
 
 export const Katex = Node.create({
   name: 'katex',
-  group: 'inline',
-  inline: true,
+  group: 'block',
   selectable: true,
   atom: true,
 

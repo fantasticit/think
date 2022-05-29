@@ -1,9 +1,7 @@
 .wrap {
-  display: inline-flex;
-  padding: 2px 8px;
-  font-size: 12px;
-  line-height: 16px;
+  display: flex;
+  padding: 1rem 4px;
+  font-size: 1em;
   cursor: pointer;
-  transform: translateY(1px);
   justify-content: center;
 }
