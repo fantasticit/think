@@ -1,4 +1,4 @@
-import { Badge, Button, Dropdown, Modal, Notification, Pagination, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+import { Badge, Button, Dropdown, Modal, Pagination, Popover, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { IconMessage } from 'components/icons/IconMessage';
@@ -119,46 +119,6 @@ const MessageBox = () => {
     toggleVisible(true);
   }, [isMobile, toggleVisible]);
 
-  // useEffect(() => {
-  //   if (!unreadMsgs || !unreadMsgs.total) return;
-
-  //   const msg = unreadMsgs.data[0];
-
-  //   Notification.info({
-  //     title: '消息通知',
-  //     content: (
-  //       <>
-  //         <div>
-  //           <Text
-  //             ellipsis={{
-  //               showTooltip: {
-  //                 opts: { content: msg.message },
-  //               },
-  //             }}
-  //             style={{ width: 240 }}
-  //           >
-  //             {msg.title}
-  //           </Text>
-  //         </div>
-  //         <div>
-  //           <Text link>
-  //             <Link href={msg.url}>
-  //               <a className={styles.item} target="_blank">
-  //                 查看详情
-  //               </a>
-  //             </Link>
-  //           </Text>
-  //         </div>
-  //       </>
-  //     ),
-  //     duration: 3,
-  //     showClose: true,
-  //     onHookClose() {
-  //       readMessage(msg.id);
-  //     },
-  //   });
-  // }, [unreadMsgs, readMessage]);
-
   const content = (
     <Tabs
       type="line"
@@ -236,13 +196,15 @@ const MessageBox = () => {
           {btn}
         </>
       ) : (
-        <Dropdown
+        <Popover
+          showArrow
+          style={{ padding: 0 }}
           position="bottomRight"
           trigger="click"
           content={<div style={{ width: 300, padding: '16px 16px 0' }}>{content}</div>}
         >
           {btn}
-        </Dropdown>
+        </Popover>
       )}
     </span>
   );

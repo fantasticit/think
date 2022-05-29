@@ -23,11 +23,13 @@ export const DocumentStyle = () => {
   return (
     <Popover
       key="style"
+      showArrow
       trigger="click"
       zIndex={1061}
       position={isMobile ? 'topRight' : 'bottomLeft'}
       visible={visible}
       onVisibleChange={toggleVisible}
+      style={{ padding: 0 }}
       content={
         <div className={styles.wrap}>
           <div className={styles.item}>
