@@ -9,28 +9,7 @@
   }
 
   .contentWrap {
-    position: relative;
-    z-index: 1;
     flex: 1;
-    padding: 24px 24px 48px;
-    overflow: auto;
-
-    .editorWrap {
-      min-height: 100%;
-      padding-bottom: 24px;
-
-      &.isStandardWidth {
-        width: 96%;
-        max-width: 750px;
-        margin: 0 auto;
-        overflow: auto;
-      }
-
-      &.isFullWidth {
-        width: 100%;
-        margin: 0 auto;
-        overflow: auto;
-      }
-    }
+    overflow: hidden;
   }
 }

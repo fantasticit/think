@@ -9,34 +9,7 @@
   }
 
   .contentWrap {
-    flex: 1;
     overflow: hidden;
-
-    > div {
-      height: 100%;
-      padding: 24px 16px 48px;
-      overflow: auto;
-    }
-
-    .editorWrap {
-      min-height: 100%;
-      padding-bottom: 24px;
-      margin: 0 auto;
-
-      &.isStandardWidth {
-        width: 96%;
-        max-width: 750px;
-      }
-
-      &.isFullWidth {
-        width: 100%;
-      }
-    }
-
-    .commentWrap {
-      padding: 16px 0 32px;
-      border-top: 1px solid var(--semi-color-border);
-    }
   }
 
   .mobileToolbar {

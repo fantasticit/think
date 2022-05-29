@@ -26,7 +26,7 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
     onTitleUpdate,
     user,
     menubar,
-    renderOnMount,
+    hideComment,
     renderInEditorPortal,
     onAwarenessUpdate,
   } = props;
@@ -124,18 +124,19 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
           normalContent={() => (
             <EditorInstance
               ref={$editor}
+              documentId={documentId}
               editable={editable}
               menubar={menubar}
               hocuspocusProvider={hocuspocusProvider}
               onTitleUpdate={onTitleUpdate}
               user={user}
               status={status}
+              hideComment={hideComment}
               renderInEditorPortal={renderInEditorPortal}
             />
           )}
         />
       </div>
-      {loading || !!error ? null : renderOnMount}
     </>
   );
 });

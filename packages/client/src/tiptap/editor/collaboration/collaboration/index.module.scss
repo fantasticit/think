@@ -7,7 +7,6 @@
   flex-direction: column;
 
   > header {
-    position: relative;
     z-index: 110;
     display: flex;
     justify-content: center;
@@ -43,13 +42,32 @@
   }
 
   > main {
+    position: relative;
     display: flex;
-    flex: 1;
     overflow: auto;
+    flex: 1;
+    justify-content: center;
+    flex-wrap: nowrap;
 
-    > div:first-of-type {
-      flex: 1;
+    .contentWrap {
       width: 100%;
+
+      &.isStandardWidth {
+        max-width: 750px;
+      }
+
+      &.isFullWidth {
+        max-width: 100%;
+      }
+
+      .commentWrap {
+        padding: 16px 0 32px;
+        border-top: 1px solid var(--semi-color-border);
+      }
+    }
+
+    .tocsWrap {
+      position: relative;
     }
   }
 }

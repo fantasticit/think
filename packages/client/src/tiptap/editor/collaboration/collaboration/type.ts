@@ -29,6 +29,11 @@ export interface ICollaborationEditorProps {
   user: ILoginUser | null;
 
   /**
+   * 是否需要评论
+   */
+  hideComment?: boolean;
+
+  /**
    * 文档标题变动
    */
   onTitleUpdate?: (arg: string) => void;

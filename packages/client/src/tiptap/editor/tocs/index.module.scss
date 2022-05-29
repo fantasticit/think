@@ -1,7 +1,8 @@
 .wrapper {
   position: fixed;
-  right: 0;
-  background-color: var(--semi-color-nav-bg);
+  padding-top: 1rem;
+  padding-right: 1rem;
+  padding-left: 2rem;
 
   > header {
     margin-bottom: 12px;
@@ -18,15 +19,9 @@
 
   .collapsedItem {
     position: relative;
-    height: 2px;
+    width: 10px;
+    height: 10px;
     background-color: #d8d8d8;
-  }
-
-  :global {
-    .semi-anchor-link-title-active {
-      .collapsedItem {
-        background-color: var(--semi-color-primary);
-      }
-    }
+    border-radius: 50%;
   }
 }

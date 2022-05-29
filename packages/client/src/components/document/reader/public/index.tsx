@@ -1,5 +1,4 @@
 import {
-  BackTop,
   Breadcrumb,
   Button,
   Form,
@@ -10,10 +9,8 @@ import {
   Typography,
 } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
-import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { DocumentStyle } from 'components/document/style';
-import { ImageViewer } from 'components/image-viewer';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
@@ -30,7 +27,7 @@ import { CollaborationEditor } from 'tiptap/editor';
 import { Author } from '../author';
 import styles from './index.module.scss';
 
-const { Header, Content } = Layout;
+const { Header } = Layout;
 const { Text } = Typography;
 
 interface IProps {
@@ -99,11 +96,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
     }
 
     return (
-      <div
-        id="js-share-document-editor-container"
-        className={cls(styles.editorWrap, editorWrapClassNames)}
-        style={{ fontSize }}
-      >
+      <>
         {data && <Seo title={data.title} />}
         {mounted && <CollaborationEditor
           menubar={false}
@@ -111,14 +104,10 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           user={null}
           id={documentId}
           type="document"
+          hideComment
           renderInEditorPortal={renderAuthor}
         />}
-        <ImageViewer containerSelector="#js-share-document-editor-container" />
-        <BackTop
-          style={{ bottom: 65, right: isMobile ? 16 : 100 }}
-          target={() => document.querySelector('#js-share-document-editor-container').parentNode}
-        />
-      </div>
+      </>
     )
   }, [error, data, mounted, editorWrapClassNames, fontSize])
 

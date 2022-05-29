@@ -16,11 +16,9 @@ interface IProps {
   user: ILoginUser;
   documentId: string;
   authority: IAuthority;
-  className: string;
-  style: React.CSSProperties;
 }
 
-export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, authority, className, style }) => {
+export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, authority }) => {
   const $hasShowUserSettingModal = useRef(false);
   const $editor = useRef<ICollaborationRefProps>();
   const mounted = useMount();
@@ -92,7 +90,7 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
   }, [users, currentUser, toggleMentionUsersSettingVisible]);
 
   return (
-    <div className={cls(styles.editorWrap, className)} style={style}>
+    <div className={cls(styles.editorWrap)}>
       {mounted && (
         <CollaborationEditor
           ref={$editor}

@@ -1,6 +1,7 @@
 import { IconDoubleChevronLeft, IconDoubleChevronRight } from '@douyinfe/semi-icons';
-import { Anchor, Button } from '@douyinfe/semi-ui';
+import { Anchor, Button, Tooltip } from '@douyinfe/semi-ui';
 import { Editor } from '@tiptap/core';
+import { throttle } from 'helpers/throttle';
 import { useDocumentStyle, Width } from 'hooks/use-document-style';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect } from 'react';
@@ -15,19 +16,20 @@ interface IToc {
   text: string;
 }
 
-const MAX_LEVEL = 6;
-
 const Toc = ({ toc, collapsed }) => {
   return (
     <Anchor.Link
       href={`#${toc.id}`}
       title={
         collapsed ? (
-          <div style={{ width: 8 * (MAX_LEVEL - toc.level + 1) }} className={styles.collapsedItem}></div>
+          <Tooltip content={toc.text} position="right">
+            <div className={styles.collapsedItem}></div>
+          </Tooltip>
         ) : (
           toc.text
         )
       }
+      style={{ paddingLeft: collapsed ? 16 : 8 }}
     >
       {toc.children && toc.children.length
         ? toc.children.map((toc) => <Toc key={toc.text} toc={toc} collapsed={collapsed} />)
@@ -36,10 +38,12 @@ const Toc = ({ toc, collapsed }) => {
   );
 };
 
+const FULL_WIDTH = 1200;
+
 export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [], editor }) => {
   const [hasToc, toggleHasToc] = useToggle(false);
-  const { width } = useDocumentStyle();
   const [collapsed, toggleCollapsed] = useToggle(true);
+  const { width } = useDocumentStyle();
 
   const getContainer = useCallback(() => {
     return document.querySelector(`#js-tocs-container`);
@@ -57,7 +61,6 @@ export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [
     const listener = () => {
       const nodes = findNode(editor, TableOfContents.name);
       const hasTocNow = !!(nodes && nodes.length);
-
       if (hasTocNow !== hasToc) {
         toggleHasToc(hasTocNow);
       }
@@ -69,6 +72,19 @@ export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [
       editor.off('transaction', listener);
     };
   }, [editor, hasToc, toggleHasToc]);
+
+  useEffect(() => {
+    const el = document.querySelector(`#js-tocs-container`) as HTMLDivElement;
+    const handler = throttle(() => {
+      toggleCollapsed(el.offsetWidth <= FULL_WIDTH);
+    }, 200);
+
+    window.addEventListener('resize', handler);
+
+    return () => {
+      window.removeEventListener('resize', handler);
+    };
+  }, [toggleCollapsed]);
 
   return (
     <div className={styles.wrapper} style={{ display: hasToc ? 'block' : 'none' }}>
@@ -82,7 +98,7 @@ export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [
       </header>
       <main>
         <Anchor
-          railTheme={'muted'}
+          railTheme={collapsed ? 'muted' : 'tertiary'}
           maxHeight={'calc(100vh - 360px)'}
           getContainer={getContainer}
           maxWidth={collapsed ? 56 : 180}

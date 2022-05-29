@@ -132,58 +132,45 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
         ></Nav>
       </Header>
       <Layout className={styles.contentWrap}>
-        <div ref={setContainer} id="js-tocs-container">
-          <div className={cls(styles.editorWrap, editorWrapClassNames)} style={{ fontSize }}>
-            <div id="js-reader-container">
-              <DataRender
-                loading={docAuthLoading}
-                loadingContent={
-                  <div
-                    style={{
-                      minHeight: 240,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      margin: 'auto',
-                    }}
-                  >
-                    <Spin />
-                  </div>
-                }
-                error={docAuthError}
-                normalContent={() => (
-                  <>
-                    <Seo title={document.title} />
-                    {mounted && (
-                      <CollaborationEditor
-                        editable={false}
-                        user={user}
-                        id={documentId}
-                        type="document"
-                        renderInEditorPortal={renderAuthor}
-                        onAwarenessUpdate={triggerJoinUser}
-                        renderOnMount={
-                          <div className={styles.commentWrap}>
-                            <CommentEditor documentId={documentId} />
-                          </div>
-                        }
-                      />
-                    )}
-                    {!isMobile && authority && authority.editable && container && (
-                      <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
-                        <IconEdit />
-                      </BackTop>
-                    )}
-                    <ImageViewer containerSelector="#js-reader-container" />
-                    {container && (
-                      <BackTop style={{ bottom: 65, right: isMobile ? 16 : 100 }} target={() => container} />
-                    )}
-                  </>
-                )}
-              />
+        <DataRender
+          loading={docAuthLoading}
+          loadingContent={
+            <div
+              style={{
+                minHeight: 240,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 'auto',
+              }}
+            >
+              <Spin />
             </div>
-          </div>
-        </div>
+          }
+          error={docAuthError}
+          normalContent={() => (
+            <>
+              <Seo title={document.title} />
+              {mounted && (
+                <CollaborationEditor
+                  editable={false}
+                  user={user}
+                  id={documentId}
+                  type="document"
+                  renderInEditorPortal={renderAuthor}
+                  onAwarenessUpdate={triggerJoinUser}
+                />
+              )}
+              {/* {!isMobile && authority && authority.editable && container && (
+                <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
+                  <IconEdit />
+                </BackTop>
+              )}
+              <ImageViewer containerSelector="#js-reader-container" />
+              {container && <BackTop style={{ bottom: 65, right: isMobile ? 16 : 100 }} target={() => container} />} */}
+            </>
+          )}
+        />
       </Layout>
       {isMobile && <div className={styles.mobileToolbar}>{actions}</div>}
     </div>

@@ -2,9 +2,11 @@ import { BackTop, Toast } from '@douyinfe/semi-ui';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import cls from 'classnames';
 import { Banner } from 'components/banner';
+import { CommentEditor } from 'components/document/comments';
 import { LogoName } from 'components/logo';
 import { getRandomColor } from 'helpers/color';
 import { isAndroid, isIOS } from 'helpers/env';
+import { useDocumentStyle } from 'hooks/use-document-style';
 import { useNetwork } from 'hooks/use-network';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
@@ -21,14 +23,25 @@ import { ICollaborationEditorProps, ProviderStatus } from './type';
 
 type IProps = Pick<
   ICollaborationEditorProps,
-  'editable' | 'user' | 'onTitleUpdate' | 'menubar' | 'renderInEditorPortal'
+  'editable' | 'user' | 'onTitleUpdate' | 'menubar' | 'renderInEditorPortal' | 'hideComment'
 > & {
   hocuspocusProvider: HocuspocusProvider;
   status: ProviderStatus;
+  documentId: string;
 };
 
 export const EditorInstance = forwardRef((props: IProps, ref) => {
-  const { hocuspocusProvider, editable, user, onTitleUpdate, status, menubar, renderInEditorPortal } = props;
+  const {
+    hocuspocusProvider,
+    documentId,
+    editable,
+    user,
+    hideComment,
+    status,
+    menubar,
+    renderInEditorPortal,
+    onTitleUpdate,
+  } = props;
   const $headerContainer = useRef<HTMLDivElement>();
   const $mainContainer = useRef<HTMLDivElement>();
   const { isMobile } = IsOnMobile.useHook();
@@ -72,6 +85,10 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     [editable, user, onTitleUpdate, hocuspocusProvider]
   );
   const [headings, setHeadings] = useState([]);
+  const { width, fontSize } = useDocumentStyle();
+  const editorWrapClassNames = useMemo(() => {
+    return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
+  }, [width]);
 
   useImperativeHandle(ref, () => editor);
 
@@ -175,9 +192,28 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
         </header>
       )}
 
-      <main ref={$mainContainer} id={editable ? 'js-tocs-container' : ''}>
-        <EditorContent editor={editor} />
-        {!isMobile && editor && headings.length ? <Tocs tocs={headings} editor={editor} /> : null}
+      <main
+        ref={$mainContainer}
+        id={'js-tocs-container'}
+        style={{
+          padding: isMobile ? '0 24px' : '0 6rem',
+        }}
+      >
+        <div className={cls(styles.contentWrap, editorWrapClassNames)}>
+          <div style={{ fontSize }}>
+            <EditorContent editor={editor} />
+          </div>
+          {!editable && !hideComment && (
+            <div className={styles.commentWrap}>
+              <CommentEditor documentId={documentId} />
+            </div>
+          )}
+        </div>
+        {!isMobile && editor && headings.length ? (
+          <div className={styles.tocsWrap}>
+            <Tocs tocs={headings} editor={editor} />
+          </div>
+        ) : null}
         {protals}
       </main>
 

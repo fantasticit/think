@@ -28,37 +28,6 @@
 }
 
 .editorWrap {
-  display: flex;
-  flex-direction: column;
   height: 100%;
   overflow: hidden;
-
-  > div {
-    > main {
-      padding: 24px 24px 96px;
-    }
-  }
-
-  &.isStandardWidth {
-    > div {
-      > main {
-        > div:first-of-type {
-          width: 96%;
-          max-width: 750px;
-          margin: 0 auto;
-        }
-      }
-    }
-  }
-
-  &.isFullWidth {
-    width: 100%;
-    margin: 0 auto;
-
-    > div {
-      > header {
-        justify-content: flex-start;
-      }
-    }
-  }
 }

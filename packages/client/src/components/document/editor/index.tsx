@@ -1,5 +1,5 @@
 import { IconChevronLeft } from '@douyinfe/semi-icons';
-import { Button, Nav, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { Button, Nav, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { Divider } from 'components/divider';
 import { DocumentCollaboration } from 'components/document/collaboration';
@@ -14,7 +14,6 @@ import { useDocumentDetail } from 'data/document';
 import { useUser } from 'data/user';
 import { CHANGE_DOCUMENT_TITLE, event, triggerUseDocumentVersion } from 'event';
 import { triggerRefreshTocs } from 'event';
-import { useDocumentStyle } from 'hooks/use-document-style';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
@@ -33,10 +32,6 @@ interface IProps {
 export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   const { isMobile } = IsOnMobile.useHook();
   const { width: windowWith } = useWindowSize();
-  const { width, fontSize } = useDocumentStyle();
-  const editorWrapClassNames = useMemo(() => {
-    return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
-  }, [width]);
   const [title, setTitle] = useState('');
   const { user } = useUser();
   const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
@@ -125,13 +120,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
           </div>
         )}
         {document && <Seo title={document.title} />}
-        <Editor
-          user={user}
-          documentId={documentId}
-          authority={authority}
-          className={editorWrapClassNames}
-          style={{ fontSize }}
-        />
+        <Editor user={user} documentId={documentId} authority={authority} />
       </main>
     </div>
   );
