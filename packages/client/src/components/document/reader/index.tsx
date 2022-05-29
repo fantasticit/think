@@ -48,12 +48,7 @@ interface IProps {
 export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   const { isMobile } = IsOnMobile.useHook();
   const mounted = useMount();
-  const [container, setContainer] = useState<HTMLDivElement>();
   const { width: windowWidth } = useWindowSize();
-  const { width, fontSize } = useDocumentStyle();
-  const editorWrapClassNames = useMemo(() => {
-    return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
-  }, [width]);
   const { user } = useUser();
   const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
   const { document, authority } = documentAndAuth || {};
@@ -102,8 +97,6 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
     );
   }, [document, documentId, readable, editable, gotoEdit]);
 
-  const editBtnStyle = useMemo(() => getEditBtnStyle(isMobile ? 16 : 100), [isMobile]);
-
   return (
     <div className={styles.wrap}>
       <Header className={styles.headerWrap}>
@@ -121,7 +114,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                   ellipsis={{
                     showTooltip: { opts: { content: document.title, style: { wordBreak: 'break-all' } } },
                   }}
-                  style={{ width: isMobile ? windowWidth - 100 : ~~(windowWidth / 4) }}
+                  style={{ width: isMobile ? windowWidth - 100 : ~~(windowWidth / 3) }}
                 >
                   {document.title}
                 </Text>
@@ -161,13 +154,6 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
                   onAwarenessUpdate={triggerJoinUser}
                 />
               )}
-              {/* {!isMobile && authority && authority.editable && container && (
-                <BackTop style={editBtnStyle} onClick={gotoEdit} target={() => container} visibilityHeight={200}>
-                  <IconEdit />
-                </BackTop>
-              )}
-              <ImageViewer containerSelector="#js-reader-container" />
-              {container && <BackTop style={{ bottom: 65, right: isMobile ? 16 : 100 }} target={() => container} />} */}
             </>
           )}
         />
