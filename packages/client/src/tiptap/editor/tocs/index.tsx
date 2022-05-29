@@ -2,6 +2,7 @@ import { IconDoubleChevronLeft, IconDoubleChevronRight } from '@douyinfe/semi-ic
 import { Anchor, Button, Tooltip } from '@douyinfe/semi-ui';
 import { Editor } from '@tiptap/core';
 import { throttle } from 'helpers/throttle';
+import { flattenTree2Array } from 'helpers/tree';
 import { useDocumentStyle, Width } from 'hooks/use-document-style';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect } from 'react';
@@ -79,6 +80,8 @@ export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [
       toggleCollapsed(el.offsetWidth <= FULL_WIDTH);
     }, 200);
 
+    handler();
+
     window.addEventListener('resize', handler);
 
     return () => {
@@ -97,14 +100,31 @@ export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [
         ></Button>
       </header>
       <main>
-        <Anchor
-          railTheme={collapsed ? 'muted' : 'tertiary'}
-          maxHeight={'calc(100vh - 360px)'}
-          getContainer={getContainer}
-          maxWidth={collapsed ? 56 : 180}
-        >
-          {tocs.length && tocs.map((toc) => <Toc key={toc.text} toc={toc} collapsed={collapsed} />)}
-        </Anchor>
+        {collapsed ? (
+          <div
+            className={styles.dotWrap}
+            style={{
+              maxHeight: 'calc(100vh - 360px)',
+            }}
+          >
+            {flattenTree2Array(tocs).map((toc) => {
+              return (
+                <Tooltip key={toc.text} content={toc.text} position="right">
+                  <div className={styles.dot}></div>
+                </Tooltip>
+              );
+            })}
+          </div>
+        ) : (
+          <Anchor
+            railTheme={collapsed ? 'muted' : 'tertiary'}
+            maxHeight={'calc(100vh - 360px)'}
+            getContainer={getContainer}
+            maxWidth={collapsed ? 56 : 180}
+          >
+            {tocs.length && tocs.map((toc) => <Toc key={toc.text} toc={toc} collapsed={collapsed} />)}
+          </Anchor>
+        )}
       </main>
     </div>
   );

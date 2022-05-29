@@ -55,7 +55,7 @@ export const TableOfContentsWrapper = ({ editor }) => {
     editor.view.dispatch(transaction);
 
     setItems(headings);
-    editor.eventEmitter.emit('TableOfContents', arrToTree(headings));
+    editor.eventEmitter && editor.eventEmitter.emit('TableOfContents', arrToTree(headings));
   }, [editor]);
 
   useEffect(() => {

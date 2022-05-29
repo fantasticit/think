@@ -17,11 +17,22 @@
     }
   }
 
-  .collapsedItem {
-    position: relative;
-    width: 10px;
-    height: 10px;
-    background-color: #d8d8d8;
-    border-radius: 50%;
+  .dotWrap {
+    display: flex;
+    flex-direction: column;
+    padding-left: 12px;
+
+    .dot {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      cursor: pointer;
+      background-color: var(--semi-color-text-3);
+      border-radius: 50%;
+
+      & + .dot {
+        margin-top: 10px;
+      }
+    }
   }
 }
