@@ -105,7 +105,7 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <Image editor={editor} />
         <Iframe editor={editor} />
         <Table editor={editor} />
-        <Text editor={editor} />
+        {/* <Text editor={editor} /> */}
         <Mind editor={editor} />
       </Space>
     </div>
