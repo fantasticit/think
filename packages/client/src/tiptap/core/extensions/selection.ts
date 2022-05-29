@@ -72,7 +72,7 @@ export const SelectionExtension = Extension.create({
               if (isInCallout(view.state)) {
                 // @ts-ignore
                 const { path = [] } = $head;
-                startPos = path[2];
+                startPos = path[2] + 1;
                 endPos = startPos + path[3].content.size;
               }
 
