@@ -83,30 +83,24 @@
     padding-left: 10px;
     border-left: 2px solid var(--semi-color-fill-2);
     margin: 0.75rem 0;
+    color: var(--semi-color-text-2);
   }
 
   hr {
     position: relative;
-    height: 2px;
-    background: var(--semi-color-border);
+    height: 24px;
+    background-color: transparent;
     border: 0;
 
-    &::before,
     &::after {
       position: absolute;
+      top: 11px;
       left: 0;
       display: block;
       width: 100%;
-      height: 12px;
+      height: 2px;
+      background: var(--semi-color-border);
       content: '';
-    }
-
-    &::before {
-      top: 0;
-    }
-
-    &::after {
-      bottom: 0;
     }
   }
 }

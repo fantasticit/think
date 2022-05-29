@@ -1,7 +1,9 @@
 /* stylelint-disable */
 .ProseMirror {
   hr.selected-node {
-    background-color: var(--node-selected-border-color);
+    &::after {
+      background-color: var(--node-selected-border-color);
+    }
   }
 
   .tableWrapper {
