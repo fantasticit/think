@@ -38,7 +38,7 @@ const Toc = ({ toc, collapsed }) => {
   );
 };
 
-const FULL_WIDTH = 1000;
+const TOCS_WIDTH = 198; // 目录展开的宽度
 
 export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }> = ({ editor, getContainer }) => {
   const [collapsed, toggleCollapsed] = useToggle(true);
@@ -51,7 +51,8 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
     if (!el) return;
 
     const handler = throttle(() => {
-      toggleCollapsed(el.offsetWidth <= FULL_WIDTH);
+      const diffWidth = el.offsetWidth - (el.firstChild as HTMLDivElement).offsetWidth;
+      toggleCollapsed(diffWidth <= TOCS_WIDTH);
     }, 200);
 
     handler();
