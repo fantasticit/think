@@ -1,4 +1,5 @@
 import { BackTop } from '@douyinfe/semi-ui';
+import { ImageViewer } from 'components/image-viewer';
 import { isMobile } from 'helpers/env';
 import { safeJSONParse } from 'helpers/json';
 import React, { useCallback, useMemo, useRef } from 'react';
@@ -38,6 +39,7 @@ export const ReaderEditor: React.FC<IProps> = ({ content }) => {
         <div className={styles.tocsWrap}>
           <Tocs editor={editor} getContainer={getTocsContainer} />
         </div>
+        <ImageViewer container={$mainContainer.current} />
       </main>
       <BackTop
         target={() => $mainContainer.current}

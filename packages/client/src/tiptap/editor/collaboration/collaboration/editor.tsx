@@ -3,6 +3,7 @@ import { HocuspocusProvider } from '@hocuspocus/provider';
 import cls from 'classnames';
 import { Banner } from 'components/banner';
 import { CommentEditor } from 'components/document/comments';
+import { ImageViewer } from 'components/image-viewer';
 import { LogoName } from 'components/logo';
 import { getRandomColor } from 'helpers/color';
 import { isAndroid, isIOS } from 'helpers/env';
@@ -197,6 +198,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
           <Tocs editor={editor} getContainer={getTocsContainer} />
         </div>
         {protals}
+        <ImageViewer container={$mainContainer.current} />
       </main>
       <BackTop
         target={() => $mainContainer.current}
