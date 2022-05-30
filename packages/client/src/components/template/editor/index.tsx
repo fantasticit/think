@@ -1,6 +1,5 @@
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { Button, Nav, Popconfirm, Space, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
-import cls from 'classnames';
 import { DocumentStyle } from 'components/document/style';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
@@ -84,20 +83,9 @@ export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
           ></Nav>
         </header>
         <main className={styles.contentWrap}>
-          <div className={styles.editorWrap}>
-            <div className={cls(styles.contentWrap, editorWrapClassNames)} style={{ fontSize }}>
-              {mounted && data && (
-                <CollaborationEditor
-                  menubar
-                  editable
-                  user={user}
-                  id={data.id}
-                  type="template"
-                  onTitleUpdate={setTitle}
-                />
-              )}
-            </div>
-          </div>
+          {mounted && data && (
+            <CollaborationEditor menubar editable user={user} id={data.id} type="template" onTitleUpdate={setTitle} />
+          )}
         </main>
       </div>
     </>

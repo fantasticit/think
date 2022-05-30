@@ -1,6 +1,5 @@
 import { Spin } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
-import { ImageViewer } from 'components/image-viewer';
 import { Seo } from 'components/seo';
 import { useTemplate } from 'data/template';
 import React from 'react';
@@ -27,7 +26,6 @@ export const TemplateReader: React.FC<IProps> = ({ templateId }) => {
           <div id="js-template-reader" className="container">
             <Seo title={data.title} />
             <ReaderEditor content={data.content} />
-            <ImageViewer containerSelector={`#js-template-reader`} />
           </div>
         );
       }}

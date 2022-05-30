@@ -130,7 +130,7 @@ export const RouterHeader: React.FC = () => {
           mode="horizontal"
           style={{ overflow: 'auto' }}
           header={
-            <Space>
+            <Space style={{ marginRight: 12 }}>
               <LogoImage />
               {width >= 890 && <LogoText />}
             </Space>
