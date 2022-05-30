@@ -51,17 +51,19 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
 
     if (!el) return;
 
-    const handler = throttle(() => {
+    const handler = () => {
       const diffWidth = el.offsetWidth - (el.firstChild as HTMLDivElement).offsetWidth;
       toggleCollapsed(diffWidth <= TOCS_WIDTH);
-    }, 200);
+    };
 
     handler();
     const observer = new MutationObserver(handler);
     observer.observe(el, { attributes: true, childList: true, subtree: true });
+    window.addEventListener('resize', handler);
 
     return () => {
       observer.disconnect();
+      window.removeEventListener('resize', handler);
     };
   }, [getContainer, toggleCollapsed]);
 
