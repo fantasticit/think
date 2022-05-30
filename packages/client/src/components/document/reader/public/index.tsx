@@ -118,10 +118,10 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           mode="horizontal"
           header={
             !hideLogo && !isMobile ? (
-              <>
+              <Space style={{ marginRight: 12 }}>
                 <LogoImage />
                 <LogoText />
-              </>
+              </Space>
             ) : null
           }
           footer={
@@ -137,7 +137,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
             error={error}
             loadingContent={<Skeleton active placeholder={<Skeleton.Title style={{ width: 80 }} />} loading={true} />}
             normalContent={() => (
-              <Breadcrumb>
+              <Breadcrumb >
                 <Breadcrumb.Item>
                   <Link href="/share/wiki/[wikiId]" as={`/share/wiki/${data.wikiId}`}>
                     <a>{data?.wiki?.name}</a>
