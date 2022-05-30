@@ -1,4 +1,5 @@
 import { Anchor, Tooltip } from '@douyinfe/semi-ui';
+import cls from 'classnames';
 import { throttle } from 'helpers/throttle';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -122,7 +123,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
   if (!headings || !headings.length) return null;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cls(styles.wrapper, 'hidden-scrollbar ')}>
       <Anchor
         railTheme={collapsed ? 'muted' : 'tertiary'}
         maxHeight={'calc(100vh - 360px)'}
