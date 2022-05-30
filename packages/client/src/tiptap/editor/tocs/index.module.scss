@@ -1,38 +1,10 @@
 .wrapper {
   position: fixed;
-  padding-top: 1rem;
+  padding-top: 2rem;
   padding-right: 1rem;
   padding-left: 2rem;
 
-  > header {
-    margin-bottom: 12px;
-    line-height: 22px;
-    color: var(--main-text-color);
-    opacity: 0;
-  }
-
-  &:hover {
-    > header {
-      opacity: 1;
-    }
-  }
-
-  .dotWrap {
-    display: flex;
-    flex-direction: column;
-    padding-left: 12px;
-
-    .dot {
-      position: relative;
-      width: 10px;
-      height: 10px;
-      cursor: pointer;
-      background-color: var(--semi-color-text-3);
-      border-radius: 50%;
-
-      & + .dot {
-        margin-top: 10px;
-      }
-    }
+  .dot {
+    font-size: 8px;
   }
 }

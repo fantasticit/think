@@ -1,0 +1,33 @@
+.wrap {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  overflow: hidden;
+  flex-direction: column;
+
+  > main {
+    position: relative;
+    display: flex;
+    overflow: auto;
+    flex: 1;
+    justify-content: center;
+    flex-wrap: nowrap;
+
+    .contentWrap {
+      width: 100%;
+
+      &.isStandardWidth {
+        max-width: 750px;
+      }
+
+      &.isFullWidth {
+        max-width: 100%;
+      }
+    }
+
+    .tocsWrap {
+      position: relative;
+    }
+  }
+}

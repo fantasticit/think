@@ -1,20 +1,19 @@
-import { IconDoubleChevronLeft, IconDoubleChevronRight } from '@douyinfe/semi-icons';
-import { Anchor, Button, Tooltip } from '@douyinfe/semi-ui';
-import { Editor } from '@tiptap/core';
+import { Anchor, Tooltip } from '@douyinfe/semi-ui';
 import { throttle } from 'helpers/throttle';
-import { flattenTree2Array } from 'helpers/tree';
-import { useDocumentStyle, Width } from 'hooks/use-document-style';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
+import { Editor } from 'tiptap/editor/react';
 import { findNode } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
+import { flattenHeadingsToTree } from './util';
 
-interface IToc {
+interface IHeading {
   level: number;
   id: string;
   text: string;
+  children?: IHeading[];
 }
 
 const Toc = ({ toc, collapsed }) => {
@@ -39,93 +38,112 @@ const Toc = ({ toc, collapsed }) => {
   );
 };
 
-const FULL_WIDTH = 1200;
+const FULL_WIDTH = 1000;
 
-export const Tocs: React.FC<{ tocs: Array<IToc>; editor: Editor }> = ({ tocs = [], editor }) => {
-  const [hasToc, toggleHasToc] = useToggle(false);
+export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }> = ({ editor, getContainer }) => {
   const [collapsed, toggleCollapsed] = useToggle(true);
-  const { width } = useDocumentStyle();
-
-  const getContainer = useCallback(() => {
-    return document.querySelector(`#js-tocs-container`);
-  }, []);
+  const [headings, setHeadings] = useState<IHeading[]>([]);
+  const [nestedHeadings, setNestedHeadings] = useState<IHeading[]>([]);
 
   useEffect(() => {
-    if (width === Width.fullWidth) {
-      toggleCollapsed(true);
-    } else {
-      toggleCollapsed(false);
-    }
-  }, [width, toggleCollapsed]);
+    const el = getContainer();
 
-  useEffect(() => {
-    const listener = () => {
-      const nodes = findNode(editor, TableOfContents.name);
-      const hasTocNow = !!(nodes && nodes.length);
-      if (hasTocNow !== hasToc) {
-        toggleHasToc(hasTocNow);
-      }
-    };
+    if (!el) return;
 
-    editor.on('transaction', listener);
-
-    return () => {
-      editor.off('transaction', listener);
-    };
-  }, [editor, hasToc, toggleHasToc]);
-
-  useEffect(() => {
-    const el = document.querySelector(`#js-tocs-container`) as HTMLDivElement;
     const handler = throttle(() => {
       toggleCollapsed(el.offsetWidth <= FULL_WIDTH);
     }, 200);
 
     handler();
-
-    window.addEventListener('resize', handler);
+    const observer = new MutationObserver(handler);
+    observer.observe(el, { attributes: true, childList: true, subtree: true });
 
     return () => {
-      window.removeEventListener('resize', handler);
+      observer.disconnect();
     };
-  }, [toggleCollapsed]);
+  }, [getContainer, toggleCollapsed]);
+
+  const getTocs = useCallback(() => {
+    if (!editor) return;
+    const nodes = findNode(editor, TableOfContents.name);
+    if (!nodes || !nodes.length) {
+      setHeadings([]);
+      setNestedHeadings([]);
+      return;
+    }
+
+    const headings = [];
+    const transaction = editor.state.tr;
+
+    editor.state.doc.descendants((node, pos) => {
+      if (node.type.name === 'heading') {
+        const id = `heading-${headings.length + 1}`;
+
+        if (node.attrs.id !== id) {
+          transaction.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
+            id,
+          });
+        }
+
+        headings.push({
+          level: node.attrs.level,
+          text: node.textContent,
+          id,
+        });
+      }
+    });
+
+    transaction.setMeta('addToHistory', false);
+    transaction.setMeta('preventUpdate', true);
+    editor.view.dispatch(transaction);
+
+    setHeadings(headings);
+    setNestedHeadings(flattenHeadingsToTree(headings));
+  }, [editor]);
+
+  useEffect(() => {
+    if (!editor) {
+      return;
+    }
+
+    editor.on('update', getTocs);
+
+    return () => {
+      editor.off('update', getTocs);
+    };
+  }, [editor, getTocs]);
+
+  useEffect(() => {
+    getTocs();
+  }, [getTocs]);
+
+  if (!headings || !headings.length) return null;
 
   return (
-    <div className={styles.wrapper} style={{ display: hasToc ? 'block' : 'none' }}>
-      <header>
-        <Button
-          type="tertiary"
-          theme="borderless"
-          icon={!collapsed ? <IconDoubleChevronRight /> : <IconDoubleChevronLeft />}
-          onClick={toggleCollapsed}
-        ></Button>
-      </header>
-      <main>
-        {collapsed ? (
-          <div
-            className={styles.dotWrap}
-            style={{
-              maxHeight: 'calc(100vh - 360px)',
-            }}
-          >
-            {flattenTree2Array(tocs).map((toc) => {
+    <div className={styles.wrapper}>
+      <Anchor
+        railTheme={collapsed ? 'muted' : 'tertiary'}
+        maxHeight={'calc(100vh - 360px)'}
+        getContainer={getContainer}
+        maxWidth={collapsed ? 56 : 150}
+      >
+        {collapsed
+          ? headings.map((toc) => {
               return (
-                <Tooltip key={toc.text} content={toc.text} position="right">
-                  <div className={styles.dot}></div>
-                </Tooltip>
+                <Anchor.Link
+                  key={toc.text}
+                  href={`#${toc.id}`}
+                  title={
+                    <Tooltip key={toc.text} content={toc.text} position="right">
+                      <span className={styles.dot}>●</span>
+                    </Tooltip>
+                  }
+                />
               );
-            })}
-          </div>
-        ) : (
-          <Anchor
-            railTheme={collapsed ? 'muted' : 'tertiary'}
-            maxHeight={'calc(100vh - 360px)'}
-            getContainer={getContainer}
-            maxWidth={collapsed ? 56 : 180}
-          >
-            {tocs.length && tocs.map((toc) => <Toc key={toc.text} toc={toc} collapsed={collapsed} />)}
-          </Anchor>
-        )}
-      </main>
+            })
+          : nestedHeadings.map((toc) => <Toc key={toc.text} toc={toc} collapsed={collapsed} />)}
+      </Anchor>
     </div>
   );
 };

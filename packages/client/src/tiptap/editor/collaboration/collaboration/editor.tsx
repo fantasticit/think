@@ -10,7 +10,7 @@ import { useDocumentStyle } from 'hooks/use-document-style';
 import { useNetwork } from 'hooks/use-network';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Collaboration } from 'tiptap/core/extensions/collaboration';
 import { CollaborationCursor } from 'tiptap/core/extensions/collaboration-cursor';
 import { Tocs } from 'tiptap/editor/tocs';
@@ -84,11 +84,11 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     },
     [editable, user, onTitleUpdate, hocuspocusProvider]
   );
-  const [headings, setHeadings] = useState([]);
   const { width, fontSize } = useDocumentStyle();
   const editorWrapClassNames = useMemo(() => {
     return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
   }, [width]);
+  const getTocsContainer = useCallback(() => $mainContainer.current, []);
 
   useImperativeHandle(ref, () => editor);
 
@@ -156,22 +156,6 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     };
   }, [isMobile]);
 
-  useEffect(() => {
-    if (!editor) return;
-
-    const collectHeadings = (headings) => {
-      if (headings && headings.length) {
-        setHeadings(headings);
-      }
-    };
-
-    editor.eventEmitter.on('TableOfContents', collectHeadings);
-
-    return () => {
-      editor.eventEmitter.off('TableOfContents', collectHeadings);
-    };
-  }, [editor]);
-
   return (
     <>
       {(!online || status === 'disconnected') && (
@@ -209,21 +193,16 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
             </div>
           )}
         </div>
-        {!isMobile && editor && headings.length ? (
-          <div className={styles.tocsWrap}>
-            <Tocs tocs={headings} editor={editor} />
-          </div>
-        ) : null}
+        <div className={styles.tocsWrap}>
+          <Tocs editor={editor} getContainer={getTocsContainer} />
+        </div>
         {protals}
       </main>
-
-      {editable && menubar && (
-        <BackTop
-          target={() => $mainContainer.current}
-          style={{ right: isMobile ? 16 : 100, bottom: 65 }}
-          visibilityHeight={200}
-        />
-      )}
+      <BackTop
+        target={() => $mainContainer.current}
+        style={{ right: isMobile ? 16 : 100, bottom: 65 }}
+        visibilityHeight={200}
+      />
     </>
   );
 });
