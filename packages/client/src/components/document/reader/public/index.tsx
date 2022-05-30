@@ -19,6 +19,7 @@ import { usePublicDocumentDetail } from 'data/document';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useMount } from 'hooks/use-mount';
 import { IsOnMobile } from 'hooks/use-on-mobile';
+import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import Link from 'next/link';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -92,7 +93,20 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
         );
       }
       // @ts-ignore
-      return <Text>{error.message || error || '未知错误'}</Text>;
+      return (<div
+        style={{
+          margin: '10%',
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <SecureDocumentIllustration />
+        <Text style={{ marginTop: 12 }} type="danger">
+          {(error && (error as Error).message) || '未知错误'}
+        </Text>
+      </div>);
     }
 
     return (
