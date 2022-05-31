@@ -15,8 +15,8 @@ window.RESOURCES_PATH = '/diagram/resources';
 // window.RESOURCE_BASE = window.RESOURCE_BASE || window.RESOURCES_PATH + '/grapheditor';
 window.STENCIL_PATH = '/diagram/stencils';
 window.IMAGE_PATH = '/diagram/images';
-// window.STYLE_PATH = window.STYLE_PATH || 'styles';
-// window.CSS_PATH = window.CSS_PATH || 'styles';
+window.STYLE_PATH = '/diagram/styles';
+window.CSS_PATH = '/diagram/styles';
 // window.OPEN_FORM = window.OPEN_FORM || 'open.html';
 
 var HoverIcons = function () {};
@@ -16958,7 +16958,10 @@ function mxWindow(title, content, x, y, width, height, minimizable, movable, rep
     if (replaceNode != null && replaceNode.parentNode != null) {
       replaceNode.parentNode.replaceChild(this.div, replaceNode);
     } else {
-      document.body.appendChild(this.div);
+      // FIXME: 这里无法承载多个编辑器
+      // 或许类似于 this.container 会好点
+      const parent = document.querySelector('.geEditor') || document.body;
+      parent.appendChild(this.div);
     }
   }
 }
@@ -48052,8 +48055,8 @@ mxStylesheet.prototype.createDefaultVertexStyle = function () {
   style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
   style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
   style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
-  style[mxConstants.STYLE_FILLCOLOR] = '#C3D9FF';
-  style[mxConstants.STYLE_STROKECOLOR] = '#6482B9';
+  style[mxConstants.STYLE_FILLCOLOR] = 'rgb(255, 255, 255)';
+  style[mxConstants.STYLE_STROKECOLOR] = 'rgb(0, 0, 0)';
   style[mxConstants.STYLE_FONTCOLOR] = '#774400';
 
   return style;
@@ -48071,7 +48074,7 @@ mxStylesheet.prototype.createDefaultEdgeStyle = function () {
   style[mxConstants.STYLE_ENDARROW] = mxConstants.ARROW_CLASSIC;
   style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
   style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
-  style[mxConstants.STYLE_STROKECOLOR] = '#6482B9';
+  style[mxConstants.STYLE_STROKECOLOR] = 'rgb(0, 0, 0)';
   style[mxConstants.STYLE_FONTCOLOR] = '#446299';
 
   return style;
@@ -97189,53 +97192,53 @@ Sidebar.prototype.init = function () {
   );
   this.setCurrentSearchEntryLibrary();
 
-  this.setCurrentSearchEntryLibrary('clipart');
-  this.addImagePalette(
-    'clipart',
-    mxResources.get('clipart'),
-    dir + '/clipart/',
-    '_128x128.png',
-    [
-      'Earth_globe',
-      'Empty_Folder',
-      'Full_Folder',
-      'Gear',
-      'Lock',
-      'Software',
-      'Virus',
-      'Email',
-      'Database',
-      'Router_Icon',
-      'iPad',
-      'iMac',
-      'Laptop',
-      'MacBook',
-      'Monitor_Tower',
-      'Printer',
-      'Server_Tower',
-      'Workstation',
-      'Firewall_02',
-      'Wireless_Router_N',
-      'Credit_Card',
-      'Piggy_Bank',
-      'Graph',
-      'Safe',
-      'Shopping_Cart',
-      'Suit1',
-      'Suit2',
-      'Suit3',
-      'Pilot1',
-      'Worker1',
-      'Soldier1',
-      'Doctor1',
-      'Tech1',
-      'Security1',
-      'Telesales1',
-    ],
-    null,
-    { Wireless_Router_N: 'wireless router switch wap wifi access point wlan', Router_Icon: 'router switch' }
-  );
-  this.setCurrentSearchEntryLibrary();
+  // this.setCurrentSearchEntryLibrary('clipart');
+  // this.addImagePalette(
+  //   'clipart',
+  //   mxResources.get('clipart'),
+  //   dir + '/clipart/',
+  //   '_128x128.png',
+  //   [
+  //     'Earth_globe',
+  //     'Empty_Folder',
+  //     'Full_Folder',
+  //     'Gear',
+  //     'Lock',
+  //     'Software',
+  //     'Virus',
+  //     'Email',
+  //     'Database',
+  //     'Router_Icon',
+  //     'iPad',
+  //     'iMac',
+  //     'Laptop',
+  //     'MacBook',
+  //     'Monitor_Tower',
+  //     'Printer',
+  //     'Server_Tower',
+  //     'Workstation',
+  //     'Firewall_02',
+  //     'Wireless_Router_N',
+  //     'Credit_Card',
+  //     'Piggy_Bank',
+  //     'Graph',
+  //     'Safe',
+  //     'Shopping_Cart',
+  //     'Suit1',
+  //     'Suit2',
+  //     'Suit3',
+  //     'Pilot1',
+  //     'Worker1',
+  //     'Soldier1',
+  //     'Doctor1',
+  //     'Tech1',
+  //     'Security1',
+  //     'Telesales1',
+  //   ],
+  //   null,
+  //   { Wireless_Router_N: 'wireless router switch wap wifi access point wlan', Router_Icon: 'router switch' }
+  // );
+  // this.setCurrentSearchEntryLibrary();
 };
 
 /**
@@ -98097,6 +98100,21 @@ Sidebar.prototype.insertSearchHint = function (div, searchTerm, count, page, res
 Sidebar.prototype.addGeneralPalette = function (expand) {
   var lineTags = 'line lines connector connectors connection connections arrow arrows ';
   this.setCurrentSearchEntryLibrary('general', 'general');
+  var sb = this;
+
+  var temp = parseInt(this.editorUi.editor.graph.defaultVertexStyle['fontSize']);
+  var fontSize = !isNaN(temp) ? 'fontSize=' + Math.min(16, temp) + ';' : '';
+
+  // Reusable cells
+  var field = new mxCell(
+    'List Item',
+    new mxGeometry(0, 0, 80, 30),
+    'text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;' +
+      'spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];' +
+      'portConstraint=eastwest;rotatable=0;' +
+      fontSize
+  );
+  field.vertex = true;
 
   var fns = [
     this.createVertexTemplateEntry(
@@ -98122,8 +98140,8 @@ Sidebar.prototype.addGeneralPalette = function (expand) {
     // Explicit strokecolor/fillcolor=none is a workaround to maintain transparent background regardless of current style
     this.createVertexTemplateEntry(
       'text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;',
-      40,
-      20,
+      60,
+      30,
       'Text',
       'Text',
       null,
@@ -98295,6 +98313,58 @@ Sidebar.prototype.addGeneralPalette = function (expand) {
       '',
       'Data Storage'
     ),
+    this.createVertexTemplateEntry(
+      'swimlane;startSize=0;',
+      200,
+      200,
+      '',
+      'Container',
+      null,
+      null,
+      'container swimlane lane pool group'
+    ),
+    this.createVertexTemplateEntry(
+      'swimlane;',
+      200,
+      200,
+      'Vertical Container',
+      'Container',
+      null,
+      null,
+      'container swimlane lane pool group'
+    ),
+    this.createVertexTemplateEntry(
+      'swimlane;horizontal=0;',
+      200,
+      200,
+      'Horizontal Container',
+      'Horizontal Container',
+      null,
+      null,
+      'container swimlane lane pool group'
+    ),
+    this.addEntry('list group erd table', function () {
+      var cell = new mxCell(
+        'List',
+        new mxGeometry(0, 0, 140, 120),
+        'swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;' +
+          'resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;'
+      );
+      cell.vertex = true;
+      cell.insert(sb.cloneCell(field, 'Item 1'));
+      cell.insert(sb.cloneCell(field, 'Item 2'));
+      cell.insert(sb.cloneCell(field, 'Item 3'));
+
+      return sb.createVertexTemplateFromCells([cell], cell.geometry.width, cell.geometry.height, 'List');
+    }),
+    this.addEntry('list item entry value group erd table', function () {
+      return sb.createVertexTemplateFromCells(
+        [sb.cloneCell(field, 'List Item')],
+        field.geometry.width,
+        field.geometry.height,
+        'List Item'
+      );
+    }),
     this.addEntry(
       'curve',
       mxUtils.bind(this, function () {
@@ -98310,8 +98380,8 @@ Sidebar.prototype.addGeneralPalette = function (expand) {
     ),
     this.createEdgeTemplateEntry(
       'shape=flexArrow;endArrow=classic;startArrow=classic;html=1;',
-      50,
-      50,
+      100,
+      100,
       '',
       'Bidirectional Arrow',
       null,
@@ -98429,7 +98499,7 @@ Sidebar.prototype.addGeneralPalette = function (expand) {
     this.addEntry(
       lineTags + 'edge title multiplicity',
       mxUtils.bind(this, function () {
-        var edge = new mxCell('Label', new mxGeometry(0, 0, 0, 0), 'endArrow=classic;html=1;');
+        var edge = new mxCell('', new mxGeometry(0, 0, 0, 0), 'endArrow=classic;html=1;');
         edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
         edge.geometry.setTerminalPoint(new mxPoint(160, 0), false);
         edge.geometry.relative = true;
@@ -98530,35 +98600,35 @@ Sidebar.prototype.addMiscPalette = function (expand) {
       180,
       120,
       'Table 1',
-      '7ZjJTsMwEIafJleUhZZybVgucAFewDTT2pLjiewpaXl6xolLVQFqWBJArZRKns2xv5H7y4myvFxdW1HJWyxAR9lllOUWkdpRucpB6yiNVRFlF1GaxvyL0qsPokkTjSthwVCXgrQteBJ6Ca2ndTha6+BwUlR+SOLRu6aSSl7mRcLDWiqC+0rMfLzmTbDPkbB0r569K2Z7hoaEMmBDzQy1FpVTzWRthlS6uBFrXNLmNRtrGpYHlmD14RYbV9jfNWAJZNecUquCZMiYtBhiCWohN2WBTSxc61i81m6J8SBAex9g1h0gL5mU0HcwI2EWXVi+ZVVYrB6EXQAFR4XKENjLJ6bhgm+utM5Ro0du0PgXEVYhqGG+qX1EIiyDYQOY10kbKKMpP4wpj09G0Yh3k7OdbG1+fLqlHI0jy432c4BwVIPr3MD0aw08/YH+nfbbP2N89rZ/324NMsq5xppNqYoCTFfG2V7G454Qjw4c8WoX7wDEx0fiO3/wAyA/O+pAbzqw3m3TELIwOZQTdPZrsnB+4IiHl4UkPiIfWheS5CgMfQvDZEBhSD5xY/7fZyjZf63u7dD0fKv++5B/QRwO5ia8h3mP6sDm9tNeE9v58vcC'
+      '7ZjBTuMwEIafJteVnVDoXpuycGAvsC9g6mltyfFE9kAann7txN2qqIgU0aCllRJpZjxO7G9i/3KyoqzWN07U6jdKMFlxnRWlQ6TeqtYlGJPlTMusmGd5zsKd5b/eaOVdK6uFA0tDOuR9h2dhnqCP9AFPrUkBr0QdTRKPMTRTVIVhznkwG6UJHmqxiO1NmESIeRKOHvRLDLHgL9CS0BZc6rNAY0TtdfewPkNpI+9Ei0+0ec3Gm6XhgSNYvznFLpTmdwNYAbk2pDRakkoZ0x4DU6BXatMtsWHC94HVv75bYsFI0PYDLA4EeI9NZIhOv0QwJjF4Tc03ujLCwi0I+So0Q9mmEGGdLANLSuYjEmGVHJemy/aSlw7rP8KtYJOy1MaUaDAWy6KN5a5RW+oATWbhCshK9mOSTcLMyuDzrR+umO6oROvJhaLHx4Lw1IAfXMz8Y8W8+IRaXgyvZRgxaWHuYUHCroasi7AObMze0t8D+7CCYkC5NPGDmistJdihjIt3GV8eCfHkxBGvd/GOQPzyTHxnsx8B+dVZE0bRhHa3ZGNIxPRUVtPVl0nEzxNHPL5EcHZGPrZGcH4WiTFFYjqiSPADTtX/93ri7x+9j7aADjh5f0/IXyAU3+GE3O1L4K6fod+e+CfV4YjqEdztL8GubeeP4V8='
     ),
     this.addDataEntry(
       'table',
       180,
       120,
       'Table 2',
-      '7ZjBbqMwEIafhmuFISTptbTbS/eyrfbuBie2ZDzITEqyT79jMMlGWVTUBlqVSkTyjGeM+SbDLxPEab67t7yQPyETOojvgji1ANiM8l0qtA6iUGVBfBtEUUi/IPrRMcvq2bDgVhjskxA1CS9cb0XjaRwl7rV3lJIXboj82bluJOa0zVtGw0oqFI8FX7n5ih6CfCVyi4/qj3OFZK/AIFdGWJ+zAq15Uap6sSZCKp098D1ssb1Na7nobW4eKL/00Raqf02/f2FR7DoZ1C4P4F5ALtDuKaRSGUofsWw4hVKojWzTPLyQl41jc8g9IqWBp/p/wnF/wrRlVFz/EivkZtMH9jnMzELxxO1GoHcUoAwKe/dCNFpoa6V1ChpcTQwYdyOEwk9qsW5znwER8ha8B3NYtIaS3NBFmNLwKgkSepqUbHa06XLhFlMwJVr6J7g1BC+xEiX2LWD0tgLOLlC/2Vn9ftfDKGQXLaQxLvpYyHfXCIjpWkNFplRZJkxf2PGrsOcDsU46WV+2aT49690p5xHQzzvRx5NEf3j3j8B+8S0Rg0nE/rRMYyjGsrOVZl+0lRYfphjXnayTabEeXzFY2Ml+Pkn2Y0oGY9+aMbRmLEfUDHZ+EG+bafFFm4m9fiofrHvOD+Ut7eXEaH+AbnSfqK+nCX9A4SDz+DGxnjv51vgX'
+      '7ZhRb5swEMc/Da+TDSFJX0O27qF7aae9u8EJlowP2ZcR+ulng1maJlbTaaEPIBHpfL5z8O/v0wlHSVYe7jWrih+QcxklX6Mk0wDYWeUh41JGMRF5lKyjOCb2F8XfArO0nSUV01zhNQlxl/CbyT3vPJ3DYCO9wxSsciayZ+daFVja11xTa9aFQP5UsY2br+0mrM8g0/gkXpyL2PEGFDKhuPY5G5CSVUa0i3URhZD5A2tgj/3f9CMXvS/Vg803PlpD/Xro359r5Icgg9blAdxzKDnqxobUIsfCRyw7TqTgYlf0aR4eYaZz7P7mHpFaw1O9TDj5IOFHqB1k0OLFkZN+n2+xmlqUkin+nbP8jWsFeeNdCJW3JN+iN58BEcoep98uuShNrqH6yfSO9yFbIWUGEpyaCpQ7DxUIhS2gdGUfiywjX9IotTvL7Jgex/Zx4RozUAa1PRVuWc4M1tzgtWLG/ybm7D9oOTvT8ldrxoQGRbWvjoLJR75BpnbXVJCtGOWijzJcoP4xZcEy3Up3staFyHOu3KL2ePkDReNr4Sfvwp/fiH0aZB8uqFGwP5xyH0CKeVCKZJLidd8YQIvF1F4GaS/NqWRDdJtlsMxmIymzxad1m7sg+3Tc7IfvNpQEtZhPWgzcbiid+s2Q/WY5YL+h55cBfaEtRlJo9P2bgptV1vlFQU9/OXL6n9Bzwl/6d5MYN246dni8AG3nTu5H/wA='
     ),
     this.addDataEntry(
       'table title',
       180,
-      120,
+      150,
       'Table with Title 1',
-      '7ZhRb6MwDMc/Da8nAmPdvZbu9nJ7WfcFMnAhUohR4o12n34OpKumrmqlDXa6VqJS/Lcdkp8bWSFK82Z9Z2Vb32MJOkpvozS3iDSMmnUOWkdJrMooXURJEvMvSv4c8IreG7fSgqFTEpIh4UXqZxiUR/mkYVAdbXRQXS1bP6Tem85ranitC8HDrlYEy1YW3t/xTlhzJC0t1auX0piFAg1JZcCGpAK1lq1T/WyLPqJWuvwrN/hM2/dsrfmKs5dhMT5balUZHhe8Sz/lPOwCLMH6IIleChjuABsgu+GQTpVUh4ibgVZcg6rqbVoWROkGoXrP3YHlQWD7Oed0j/NBxLxkUlI/QEHSVKfQ3odZWmwfpa2AgtCi8qhuX5iGC9pKaZ2jRl8Tg8a/iLANTg2rbe4TEmETDBvAvE/aQ8nm/DCmPP6VRRnvJmdb7Gx+fLilHI0jy/8EPwdIRx04OrWAyecF3ATEoUzH6nn1DeW8GrecxvjoXTm/XClksiuNHZu1KkswpyJPj56Z65EQZ2eOeP0R7wTEry/E+4RkOuSzS1sYuy3MJmwLN+dygmY/1hZ+nzni6duCiC/Ip+4LQlwaw9iNQYgJO4PYv2j/p4dIHL9mj3ZqRr5l//uQf6A7nM1V+AjzEdsDm7svgr3vwwfDNw=='
+      '7ZjBbtswDEC/xtfBsuumu8bZusN2afoDasxYAmjJkNk57tePkpVlXdMlBRYXaAI4AEmRcvgogpCTvGw2t0626oetAJP8S5KXzloapWZTAmKSpbpK8kWSZSn/kuzrK6sirKatdGDomIBsDPgp8RFGy718QBitHQ0YrZ2SrRcprObzjqSjpX7ytjxlw8oaktqAY4MIOqJsOx3cF8FDaay+y8E+0najrTZfc/Qyvs1HS9S1YXnFafgt5/FvgiPYvJpqMMU8b8E2QG5gl15XpKLHzYgjVaBrtQ0rolF2o6H+Hbsjx0KEtx9k/gLkvxne2Z7TUtbpJ08OI6Q/uQa91w1KA99AVn+Z5rYaoolsGyWENUXxwRLZJiouppvuLU3lbHsvXQ1bl7VGLC1aX01jja94a7WhAKiY88PIyvRTkRScWcm62On8eHdHpTUdOT4VfluQHfXQ0bHFzPYXc4i4Y8kO1fbqP5T26vjScgKkJd7BiqSpQ6coajCe6l5pgmUrV961554f+8Z4710x9rB/W30tk12jP18LpasKzLHI84P9c30ixMWZI948xzsB8esL8RCQTYd8dhkRU46I2YQj4uZcumn2biPi85kjnn5EiPSCfOoZIcRlSEw5JISYcEqIl7ftD9pQ4vBV/GQd9Iab+MeE/A6T4myuyAeYn3BUsLr7LBjWnn01/AU='
     ),
     this.addDataEntry(
       'table title',
       180,
       150,
       'Table with Title 2',
-      '7Zhdb5swFIZ/DbcTHyVrbiFdb7Kbptq9Cw5YMj7IPi1kv37HYJK1FDWbQoOmSUSyz4dt3id+L/CitGrvNavL75Bz6UV3XpRqAOxHVZtyKb3QF7kXbbww9Onnhd8mskGX9WumucJzGsK+4YXJZ95HHtmT5H3U4EG6qClZbYfYZaOkxIrOuglo2JQC+a5mmc039CYUM8g07sRPG4p8CmSgkAnFtWvKQEpWG9GttukqSiHzLTvAMw77DLNkL1qeP0BjXLeGZkuLGde6p8V37qw2zaQoFI0zEsHumLiX5Bp5OylUF3Iq3XOoOOoDlTQix9JV3PZi+iUXRTm0xS7ITB8ojr0n3WngpH8fQzTCMEmAjoyCyQeeIVPFOTDGWuca6kemC44uUIOwUt29kBpHVYWUKUiwyBQouxFC7ZKS74feJ0CEaiDjhDku2okSJ/SQTKn/JfZiepuU5sFpTo8t15iCMqjpj2LX4Mxgww2eCzB8H+DBSewwfcQzugDOmxHO4KI8lbLVJ55/jMp/gwpI2r2EhqalyHOuztU8+vDS3MykcTzS+Ec3DP2Faz24U1+bGNpQqGLbd65mgNG+BvH7BZgLzupf8LO34JblZ6tP9LOvI5yX5bkcP1tdzc9uJ/1s4VrP52cTMK7gZ+v/fja3n60/0c8Cf8QzWvYl++s7tL6aoQXBpKMtXOz5HG2CxvyORtPTR4Uu9+qbwy8='
+      '7VhLc5swEP41XDs8ghtfwWl6cC9xpnfFLKAZITHSJpj8+q6EqJPaJG5aPw6ZwTP7lNnv034HgiRvNreatfUPVYAIkpsgybVSOFjNJgchgjjkRZAsgjgO6RfE3yaykcuGLdMg8ZCGeGh4YuIRhsg9exAwRA32wkdNzVprossmmUGmccWfbSwJKbBWEhmXoCkQOV8I1hruyheuouaiWLJePeJ40OhlJd9Acac647u16pZ0mPGtJR2+8i9j0/6lQSNsJgd3IT/1LagGUPdU0vECa19xPYAT1sCremxLfZCZIVD97t3iSIaHcj+syQ6sbyNKo9NYtdL82eIo/NwvUXZ+xxvBJHwHVvwRylTR+xCq1lsCSvTmg0JUjXe0HzfcS1ShVXvPdAVjScmFyJVQlluppOW/VVyiAyjN6CHI8vBLGqQ0WU5+tPXpseUacyUNaroj9lhgBjsweCiZ8X4yew+3p+w9bpP/QO3VDrXRJLc0AXIm7mCNTFZucWpshL/FXc0RVi1b29KOJGBYI2mrt2zsAf/vCFYEbSnsBVvUvChAjvSBvnmCgcWDlyp5d6mujoR7uoP7T2fG4YXjzwSvCPPFUJsZ+kMuq+XQOZsg6F/I2Lwm4uVSHIuc2afenVLvZifUu6871E5zexH79uF1mp1N264nte3CsT6etk2QcQZtm39q2ym1bX5CbYvCHW6Ty164D+/T/GziFkWT6nbhYB9P3SbYOL66kbv9uOByr749/AI='
     ),
     this.addDataEntry(
       'crossfunctional cross-functional cross functional flowchart swimlane table',
       400,
       400,
       'Cross-Functional Flowchart',
-      '7ZhRb5swEMc/DY+bMCRt97jQpi+tVC2fwINbbMnYyD4C6aefjaHpBrTRlNCoTALJPp9t+P25O5kgTvL6XtOCPaoMRBDfBXGilULfyusEhAiikGdBfBtEUWjvIFqPjJJmNCyoBonHTIj8hB0VJXiL3dyYL+tSpsiVpM55LVSVMqrROxvci9bZMFq4JtKfzrRKGRfZA92rEjtr11tpVT1wCcYOhM5ViTKXry0G7RYb/uwWXDgDw9wCuSW2WTGOsClo6gYri8uvIGhheLN1s4KGtNSG7+AHGL+Os0JdUJm1nUJxiaDvdhZQt/EvJXHTvpTbjAq+lbadgnO1hhYSaIR6FHRjainfg8oB9d66VDxD5j0WoRcjZMC3DP8yUuMN25e5B91so5VuWMa4J+P3FJW2JtLXrOK5oNLJxZTmz/blqXhNp3mO5cpe9smS8OsyWNp5ie2TQ99ezl1joqRBTXmDAajBCgxejprHKBcNK7fvBPIz3hOSRCcQctET8olRA+8JmSopIW2j8GOD6Sji8TDxepT4C9yTE1+OEo/mQ5xcTYn8ahR5PB/k0c2UyK9HC8SbX/mnLBAnqAlD8XK+onDTE+/fw+TiQF9fTin4Nl/O0xYAEs6X9LR5n5Ae6S7xv1lr/yf+4cQ/pN75Ej/pH88/UZyQkRPzR6R+0j9Bz4f0xMm/f8adD+qzZn/bPfw5bMb++LH4Gw=='
+      '7ZjRatswFIafxpcDy87a7nJJlvZig9HuBVT7JBLIOkZSGrtPPymS2622Gwc6z6WGXBz9HBnxfxz+cKJ0VVTXipbsB+YgovRblMTul64Uonk+N2pRrUAIW/M8StdR4vQkSjYDOsmxMy6pAmnOvZz4yw9U7MEr9oFaf9rsZWY4SuqaNwIPGaPK+GZtahGaNaOlKw29d9IyY1zk32mNe9OozWmpjf3CHX90/YvYNaMQtNT8eHXtFAXZXmn+ALegfaNToSqpzMNhi9LchQcQew7vB2Wg6vXjKL0w49mSa8ACjKrt+cBzw/ydRexdjBnwHTMvRKq9sHu62224FYPnp1mkLRZfM4PKSuR142/xYJ1gqPijdcci81a1DNcHXggq4QZoY2cjLTGvg2SwDJWArQnlPRqDRYMpGOLqXGH5i6odNMKWC7FCYd+driVKGBV0MhR03fD03zjFnST/kPuixf0noxq6uQdeg2n+aaMfOikhC/PaB+w/jmo6lGDVS/AJ1mgEP/cSTGaCpwiSiykgvOhFmM4ITyFMrqaA8LI3PzumcM7Pt8jPrtkdP0CvWuAnMLLjTuzle4zNLzO3c7lNIyxJPJM7l9w0MpKQ3pDs+J8zh+RbhGQX+fFDkrRXPR9uZsngRdCUYpK0F0MzuXcSlO3dzoxuUkl5FJudfOj4a3H/Gw=='
     ),
     this.createVertexTemplateEntry(
       'text;html=1;strokeColor=#c0c0c0;fillColor=#ffffff;overflow=fill;rounded=0;',
@@ -98758,7 +98828,14 @@ Sidebar.prototype.addMiscPalette = function (expand) {
       20,
       120,
       '',
-      'Curly Bracket'
+      'Left Curly Bracket'
+    ),
+    this.createVertexTemplateEntry(
+      'shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;',
+      20,
+      120,
+      '',
+      'Right Curly Bracket'
     ),
     this.createVertexTemplateEntry('line;strokeWidth=2;html=1;', 160, 10, '', 'Horizontal Line'),
     this.createVertexTemplateEntry('line;strokeWidth=2;direction=south;html=1;', 10, 160, '', 'Vertical Line'),
@@ -98787,7 +98864,17 @@ Sidebar.prototype.addMiscPalette = function (expand) {
       120,
       20,
       '',
-      'Crossbar',
+      'Horizontal Crossbar',
+      false,
+      null,
+      'crossbar distance measure dimension unit'
+    ),
+    this.createVertexTemplateEntry(
+      'shape=crossbar;whiteSpace=wrap;html=1;rounded=1;direction=south;',
+      20,
+      120,
+      '',
+      'Vertical Crossbar',
       false,
       null,
       'crossbar distance measure dimension unit'
@@ -98866,11 +98953,32 @@ Sidebar.prototype.addMiscPalette = function (expand) {
       'Partial Rectangle'
     ),
     this.createVertexTemplateEntry(
+      'shape=partialRectangle;whiteSpace=wrap;html=1;bottom=0;top=0;fillColor=none;',
+      120,
+      60,
+      '',
+      'Partial Rectangle'
+    ),
+    this.createVertexTemplateEntry(
+      'shape=partialRectangle;whiteSpace=wrap;html=1;bottom=0;right=0;fillColor=none;',
+      120,
+      60,
+      '',
+      'Partial Rectangle'
+    ),
+    this.createVertexTemplateEntry(
       'shape=partialRectangle;whiteSpace=wrap;html=1;bottom=1;right=1;left=1;top=0;fillColor=none;routingCenterX=-0.5;',
       120,
       60,
       '',
       'Partial Rectangle'
+    ),
+    this.createVertexTemplateEntry(
+      'shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;',
+      40,
+      40,
+      '',
+      'Waypoint'
     ),
     this.createEdgeTemplateEntry(
       'edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;',
@@ -109158,6 +109266,8 @@ if (typeof mxVertexHandler != 'undefined') {
      * Loads the stylesheet for this graph.
      */
     Graph.prototype.loadStylesheet = function () {
+      console.log('STYLE_PATH', STYLE_PATH + '/default.xml');
+
       var node =
         this.themes != null
           ? this.themes[this.defaultThemeName]
