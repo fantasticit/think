@@ -2,7 +2,7 @@ import { List, Pagination } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { IProps as ITemplateCardProps, TemplateCard, TemplateCardPlaceholder } from 'components/template/card';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 const grid = {
   gutter: 16,
@@ -29,8 +29,7 @@ export const TemplateList: React.FC<IProps> = ({
   onClosePreview,
   pageSize = 5,
 }) => {
-  const { data, loading, error } = hook();
-
+  const { data, loading, error, refresh } = hook();
   const [page, onPageChange] = useState(1);
 
   const arr = useMemo(() => {
@@ -39,6 +38,10 @@ export const TemplateList: React.FC<IProps> = ({
     const end = page * pageSize;
     return arr.slice(start, end);
   }, [data, page, pageSize]);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
 
   return (
     <DataRender
