@@ -23,13 +23,12 @@ interface IProps {
 const { Text } = Typography;
 
 export const WikiTocs: React.FC<IProps> = ({
-  // pageTitle,
   wikiId,
   documentId = null,
   docAsLink = '/wiki/[wikiId]/document/[documentId]',
   getDocLink = (documentId) => `/wiki/${wikiId}/document/${documentId}`,
 }) => {
-  const { pathname } = useRouter();
+  const { pathname, query } = useRouter();
   const { data: wiki, loading: wikiLoading, error: wikiError } = useWikiDetail(wikiId);
   const { data: tocs, loading: tocsLoading, error: tocsError, refresh } = useWikiTocs(wikiId);
   const [parentIds, setParentIds] = useState<Array<string>>([]);
@@ -91,7 +90,7 @@ export const WikiTocs: React.FC<IProps> = ({
           pathname: `/wiki/[wikiId]`,
           query: { wikiId },
         }}
-        isActive={pathname === '/wiki/[wikiId]'}
+        isActive={pathname === '/wiki/[wikiId]' || (query && wiki && query.documentId === wiki.homeDocumentId)}
       />
 
       <NavItem
