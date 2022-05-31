@@ -28,7 +28,7 @@ export const FlowSettingModal: React.FC<IProps> = ({ editor }) => {
           editor.setXml(initialData);
         })
         .catch(setError)
-        .finally(toggleLoading);
+        .finally(() => toggleLoading(false));
     },
     [toggleLoading, initialData]
   );
