@@ -8,8 +8,12 @@
   .content {
     position: relative;
     z-index: 10;
+    display: flex;
     padding: 10vh 24px;
     flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     .form {
       width: 100%;
