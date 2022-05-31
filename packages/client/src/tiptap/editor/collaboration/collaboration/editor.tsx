@@ -198,7 +198,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
           <Tocs editor={editor} getContainer={getTocsContainer} />
         </div>
         {protals}
-        <ImageViewer container={$mainContainer.current} />
+        {!editable && <ImageViewer container={$mainContainer.current} />}
       </main>
       <BackTop
         target={() => $mainContainer.current}
