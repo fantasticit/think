@@ -1,4 +1,4 @@
-import { Button, Popover, SideSheet, Typography } from '@douyinfe/semi-ui';
+import { Button, Popover, SideSheet, TabPane, Tabs } from '@douyinfe/semi-ui';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
@@ -6,8 +6,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ACTIVITIES, EXPRESSIONES, GESTURES, OBJECTS, SKY_WEATHER, SYMBOLS } from './constants';
 import styles from './index.module.scss';
-
-const { Title } = Typography;
 
 const emojiLocalStorageLRUCache = createKeysLocalStorageLRUCache('EMOJI_PICKER', 20);
 
@@ -39,10 +37,11 @@ const LIST = [
 ];
 
 interface IProps {
+  showClear?: boolean;
   onSelectEmoji: (arg: string) => void;
 }
 
-export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
+export const EmojiPicker: React.FC<IProps> = ({ showClear = false, onSelectEmoji, children }) => {
   const { isMobile } = IsOnMobile.useHook();
   const [recentUsed, setRecentUsed] = useState([]);
   const [visible, toggleVisible] = useToggle(false);
@@ -67,26 +66,36 @@ export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
   const content = useMemo(
     () => (
       <div className={styles.wrap} style={{ padding: isMobile ? '24px 0' : 0 }}>
-        <Button onClick={clear}>清除</Button>
-        {renderedList.map((item, index) => {
-          return (
-            <div key={item.title}>
-              <Title heading={6} style={{ margin: `${index === 0 ? 0 : 16}px 0 6px` }}>
-                {item.title}
-              </Title>
-              <ul className={styles.listWrap}>
-                {(item.data || []).map((ex) => (
-                  <li key={ex} onClick={() => selectEmoji(ex)}>
-                    {ex}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
+        <Tabs
+          size="small"
+          lazyRender
+          keepDOM
+          tabBarExtraContent={
+            showClear ? (
+              <Button size="small" onClick={clear}>
+                清除
+              </Button>
+            ) : null
+          }
+          collapsible
+        >
+          {renderedList.map((list) => {
+            return (
+              <TabPane key={list.title} tab={list.title} itemKey={list.title} style={{ height: 250, overflow: 'auto' }}>
+                <ul className={styles.listWrap}>
+                  {(list.data || []).map((ex) => (
+                    <li key={ex} onClick={() => selectEmoji(ex)}>
+                      {ex}
+                    </li>
+                  ))}
+                </ul>
+              </TabPane>
+            );
+          })}
+        </Tabs>
       </div>
     ),
-    [isMobile, renderedList, selectEmoji, clear]
+    [isMobile, showClear, renderedList, selectEmoji, clear]
   );
 
   useEffect(() => {
@@ -120,7 +129,7 @@ export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
           position="bottomLeft"
           visible={visible}
           onVisibleChange={toggleVisible}
-          content={<div style={{ width: 320 }}>{content}</div>}
+          content={<div style={{ width: 320, maxWidth: '96vw' }}>{content}</div>}
         >
           {children}
         </Popover>
