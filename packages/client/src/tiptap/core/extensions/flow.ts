@@ -17,6 +17,9 @@ declare module '@tiptap/core' {
   }
 }
 
+const DEFAULT_XML =
+  '<mxGraphModel dx="605" dy="327" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169"><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="4" value="开始节点" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1"><mxGeometry x="260" y="140" width="120" height="60" as="geometry"/></mxCell></root></mxGraphModel>';
+
 export const Flow = Node.create({
   name: 'flow',
   group: 'block',
@@ -34,7 +37,7 @@ export const Flow = Node.create({
         parseHTML: getDatasetAttribute('height'),
       },
       data: {
-        default: '',
+        default: DEFAULT_XML,
         parseHTML: getDatasetAttribute('data'),
       },
     };
@@ -66,7 +69,7 @@ export const Flow = Node.create({
         (options) =>
         ({ tr, commands, chain, editor }) => {
           options = options || {};
-          options.data = options.data || '';
+          options.data = options.data || DEFAULT_XML;
 
           // @ts-ignore
           if (tr.selection?.node?.type?.name == this.name) {
