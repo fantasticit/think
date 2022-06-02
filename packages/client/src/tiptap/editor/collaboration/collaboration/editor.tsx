@@ -202,7 +202,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
       </main>
       <BackTop
         target={() => $mainContainer.current}
-        style={{ right: isMobile ? 16 : 100, bottom: 65 }}
+        style={{ right: isMobile ? 16 : 36, bottom: 65 }}
         visibilityHeight={200}
       />
     </>

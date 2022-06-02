@@ -43,7 +43,7 @@ export const ReaderEditor: React.FC<IProps> = ({ content }) => {
       </main>
       <BackTop
         target={() => $mainContainer.current}
-        style={{ right: isMobile ? 16 : 100, bottom: 65 }}
+        style={{ right: isMobile ? 16 : 36, bottom: 65 }}
         visibilityHeight={200}
       />
     </div>
