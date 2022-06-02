@@ -39,7 +39,7 @@ const Toc = ({ toc, collapsed }) => {
   );
 };
 
-const TOCS_WIDTH = 198; // 目录展开的宽度
+const TOCS_WIDTH = 156 + 16 * 2; // 目录展开的宽度
 
 export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }> = ({ editor, getContainer }) => {
   const [collapsed, toggleCollapsed] = useToggle(true);
@@ -52,7 +52,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
     if (!el) return;
 
     const handler = () => {
-      const diffWidth = el.offsetWidth - (el.firstChild as HTMLDivElement).offsetWidth;
+      const diffWidth = (el.offsetWidth - (el.firstChild as HTMLDivElement).offsetWidth) / 2;
       toggleCollapsed(diffWidth <= TOCS_WIDTH);
     };
 
@@ -130,7 +130,9 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
         railTheme={collapsed ? 'muted' : 'tertiary'}
         maxHeight={'calc(100vh - 360px)'}
         getContainer={getContainer}
-        maxWidth={collapsed ? 56 : 150}
+        style={{
+          width: collapsed ? 56 : 156,
+        }}
       >
         {collapsed
           ? headings.map((toc) => {
