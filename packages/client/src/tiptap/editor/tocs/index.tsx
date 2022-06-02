@@ -2,7 +2,8 @@ import { Anchor, Tooltip } from '@douyinfe/semi-ui';
 import cls from 'classnames';
 import { throttle } from 'helpers/throttle';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import scrollIntoView from 'scroll-into-view-if-needed';
 import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 import { Editor } from 'tiptap/editor/react';
 import { findNode } from 'tiptap/prose-utils';
@@ -42,6 +43,7 @@ const Toc = ({ toc, collapsed }) => {
 const TOCS_WIDTH = 156 + 16 * 2; // 目录展开的宽度
 
 export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }> = ({ editor, getContainer }) => {
+  const $container = useRef<HTMLDivElement>();
   const [collapsed, toggleCollapsed] = useToggle(true);
   const [headings, setHeadings] = useState<IHeading[]>([]);
   const [nestedHeadings, setNestedHeadings] = useState<IHeading[]>([]);
@@ -51,19 +53,36 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
 
     if (!el) return;
 
-    const handler = () => {
+    const handler = throttle(() => {
       const diffWidth = (el.offsetWidth - (el.firstChild as HTMLDivElement).offsetWidth) / 2;
       toggleCollapsed(diffWidth <= TOCS_WIDTH);
-    };
+    }, 200);
 
     handler();
     const observer = new MutationObserver(handler);
     observer.observe(el, { attributes: true, childList: true, subtree: true });
+    const resizeObserver = new ResizeObserver(handler);
+    resizeObserver.observe(el);
     window.addEventListener('resize', handler);
+
+    const scrollHandler = throttle(() => {
+      const container = $container.current;
+      if (!container) return;
+
+      const activeAnchor = container.querySelector('.semi-anchor-link-title-active');
+      if (!activeAnchor) return;
+
+      scrollIntoView(activeAnchor, { behavior: 'smooth', scrollMode: 'if-needed' });
+    }, 200);
+
+    el.addEventListener('scroll', scrollHandler);
 
     return () => {
       observer.disconnect();
+      resizeObserver.disconnect();
       window.removeEventListener('resize', handler);
+
+      el.removeEventListener('scroll', scrollHandler);
     };
   }, [getContainer, toggleCollapsed]);
 
@@ -125,7 +144,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
   if (!headings || !headings.length) return null;
 
   return (
-    <div className={cls(styles.wrapper, 'hidden-scrollbar ')}>
+    <div className={cls(styles.wrapper, 'hidden-scrollbar ')} ref={$container}>
       <Anchor
         railTheme={collapsed ? 'muted' : 'tertiary'}
         maxHeight={'calc(100vh - 360px)'}
@@ -134,6 +153,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
           width: collapsed ? 56 : 156,
           overflow: 'auto',
         }}
+        scrollMotion
       >
         {collapsed
           ? headings.map((toc) => {
