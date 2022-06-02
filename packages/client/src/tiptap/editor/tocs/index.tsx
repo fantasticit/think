@@ -132,6 +132,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
         getContainer={getContainer}
         style={{
           width: collapsed ? 56 : 156,
+          overflow: 'auto',
         }}
       >
         {collapsed
