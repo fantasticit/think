@@ -1,9 +1,17 @@
 .imgItem {
+  position: relative;
   width: 100%;
   height: 60px;
   cursor: pointer;
-  border-radius: 0.25rem;
-  object-fit: cover;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.25rem;
+  }
 }
 
 .uploadWrap {
@@ -15,6 +23,5 @@
     max-height: 200px;
     margin: 12px auto;
     border-radius: 0.25rem;
-    object-fit: cover;
   }
 }

@@ -1,5 +1,6 @@
 import { Button, ButtonGroup, Col, Popover, Row, SideSheet, Skeleton, Space, TabPane, Tabs } from '@douyinfe/semi-ui';
 import { Upload } from 'components/upload';
+import { chunk } from 'helpers/chunk';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -71,26 +72,26 @@ export const ImageUploader: React.FC<IProps> = ({ images, selectImage, children 
       images.map((image) => {
         return (
           <TabPane key={image.key} tab={image.title} itemKey={image.key}>
-            <Row gutter={6}>
-              {image.images.map((url) => {
-                return (
-                  <Col span={6} key={url}>
-                    <LazyLoadImage
-                      className={styles.imgItem}
-                      src={url}
-                      delayTime={300}
-                      placeholder={
-                        <Skeleton
-                          loading
-                          placeholder={<Skeleton.Image className={styles.imgItem} style={{ height: 60 }} />}
-                        />
-                      }
-                      onClick={setImage(url)}
-                    />
-                  </Col>
-                );
-              })}
-            </Row>
+            {chunk(image.images, 4).map((chunk, index) => {
+              return (
+                <Row gutter={6} key={index} style={{ marginTop: index === 0 ? 0 : 6 }}>
+                  {chunk.map((url) => {
+                    return (
+                      <Col span={6} key={url}>
+                        <div className={styles.imgItem}>
+                          <LazyLoadImage
+                            src={url}
+                            delayTime={300}
+                            placeholder={<Skeleton loading placeholder={<Skeleton.Image style={{ height: 60 }} />} />}
+                            onClick={setImage(url)}
+                          />
+                        </div>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              );
+            })}
           </TabPane>
         );
       }),
