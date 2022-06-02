@@ -1,7 +1,10 @@
 .wrap {
+  overflow: auto;
+
   .coverWrap {
     position: relative;
     height: 280px;
+    margin-top: 14px;
     margin-bottom: 12px;
     overflow: hidden;
 
