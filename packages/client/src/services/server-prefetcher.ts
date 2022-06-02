@@ -14,15 +14,19 @@ export async function serverPrefetcher(ctx: NextPageContext, actions: PrefetchAc
     return {};
   }
 
-  const queryClient = new QueryClient();
+  try {
+    const queryClient = new QueryClient();
 
-  await Promise.all(
-    actions.map((action) => {
-      return queryClient.prefetchQuery(action.url, () => action.action(cookie));
-    })
-  );
+    await Promise.all(
+      actions.map((action) => {
+        return queryClient.prefetchQuery(action.url, () => action.action(cookie));
+      })
+    );
 
-  return {
-    dehydratedState: dehydrate(queryClient),
-  };
+    return {
+      dehydratedState: dehydrate(queryClient),
+    };
+  } catch (err) {
+    return {};
+  }
 }
