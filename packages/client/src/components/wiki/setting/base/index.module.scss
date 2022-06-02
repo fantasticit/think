@@ -1,70 +1,15 @@
-.coverWrap {
-  display: flex;
-  flex-wrap: nowrap;
+.cover {
+  margin-bottom: 12px;
 
-  .cover {
-    margin-right: 24px;
-
-    img {
-      width: 104px;
-      height: 96px;
-      margin-bottom: 16px;
-      border-radius: 4px;
-    }
-  }
-
-  .right {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: auto;
-
-    .placeholderWrapper {
-      display: flex;
-      flex-wrap: nowrap;
-
-      .coverPlaceholder {
-        flex-shrink: 0;
-        width: 96px;
-        height: 96px;
-        cursor: pointer;
-
-        & + .coverPlaceholder {
-          margin-left: 16px;
-        }
-
-        img {
-          width: 96px;
-          height: 96px;
-          border-radius: 4px;
-        }
-      }
-    }
+  img {
+    width: 104px;
+    height: 96px;
+    border-radius: 4px;
   }
 }
 
 @media (max-width: 768px) {
-  .coverWrap {
-    flex-wrap: wrap;
-
-    .cover {
-      width: 100%;
-      margin-right: 0;
-    }
-  }
-
-  .right {
+  .cover {
     width: 100%;
-
-    .placeholderWrapper {
-      width: 100%;
-      margin: 16px 0;
-      overflow: auto;
-
-      .coverPlaceholder {
-        flex-shrink: 0;
-      }
-    }
   }
 }

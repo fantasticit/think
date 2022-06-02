@@ -1,11 +1,19 @@
-import { Button, Form, Toast } from '@douyinfe/semi-ui';
+import { Avatar, Button, Form, Toast } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { WIKI_AVATARS } from '@think/constants';
 import type { IWiki } from '@think/domains';
-import { Upload } from 'components/upload';
+import { ImageUploader } from 'components/image-uploader';
 import { useEffect, useRef, useState } from 'react';
 
 import styles from './index.module.scss';
+
+const images = [
+  {
+    key: 'placeholers',
+    title: '图库',
+    images: WIKI_AVATARS,
+  },
+];
 
 type IUpdateWIKI = Partial<IWiki>;
 
@@ -60,23 +68,22 @@ export const Base: React.FC<IProps> = ({ wiki, update }) => {
         rules={[{ required: true, message: '请输入知识库简介' }]}
       ></Form.TextArea>
       <Form.Slot label="封面">
-        <div className={styles.coverWrap}>
-          <div className={styles.cover}>
-            <img src={currentCover} />
-          </div>
-          <div className={styles.right}>
-            <div className={styles.placeholderWrapper}>
-              {WIKI_AVATARS.map((cover) => {
-                return (
-                  <div key={cover} className={styles.coverPlaceholder} onClick={() => setCover(cover)}>
-                    <img src={cover} alt="系统默认图片" />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+        <div className={styles.cover}>
+          <Avatar
+            shape="square"
+            src={currentCover}
+            style={{
+              width: 96,
+              height: 96,
+              borderRadius: 4,
+            }}
+          >
+            {wiki && wiki.name.charAt(0)}
+          </Avatar>
         </div>
-        <Upload onOK={setCover}></Upload>
+        <ImageUploader images={images} selectImage={setCover}>
+          <Button>更换封面</Button>
+        </ImageUploader>
       </Form.Slot>
       <div
         style={{
