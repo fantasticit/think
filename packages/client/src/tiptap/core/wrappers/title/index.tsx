@@ -43,7 +43,7 @@ export const TitleWrapper = ({ editor, node }) => {
     <NodeViewWrapper className={cls(styles.wrap, 'title')}>
       {cover ? (
         <div className={styles.coverWrap} contentEditable={false}>
-          <LazyLoadImage src={cover} alt="cover" />
+          <img src={cover} alt="cover" />
           {isEditable ? (
             <div className={styles.toolbar}>
               <ImageUploader images={images} selectImage={setCover}>
