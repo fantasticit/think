@@ -1,4 +1,4 @@
-import { Popover, SideSheet, Typography } from '@douyinfe/semi-ui';
+import { Button, Popover, SideSheet, Typography } from '@douyinfe/semi-ui';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
@@ -60,9 +60,14 @@ export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
     [onSelectEmoji]
   );
 
+  const clear = useCallback(() => {
+    onSelectEmoji('');
+  }, [onSelectEmoji]);
+
   const content = useMemo(
     () => (
       <div className={styles.wrap} style={{ padding: isMobile ? '24px 0' : 0 }}>
+        <Button onClick={clear}>清除</Button>
         {renderedList.map((item, index) => {
           return (
             <div key={item.title}>
@@ -81,7 +86,7 @@ export const EmojiPicker: React.FC<IProps> = ({ onSelectEmoji, children }) => {
         })}
       </div>
     ),
-    [isMobile, renderedList, selectEmoji]
+    [isMobile, renderedList, selectEmoji, clear]
   );
 
   useEffect(() => {

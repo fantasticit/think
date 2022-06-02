@@ -1,0 +1,39 @@
+.wrap {
+  .coverWrap {
+    position: relative;
+    height: 280px;
+    margin-bottom: 12px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-position: center 50%;
+      object-fit: cover;
+    }
+
+    .toolbar {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      z-index: 2;
+      font-size: 1rem;
+    }
+  }
+
+  .emoji {
+    display: inline-block;
+    width: 78px;
+    height: 78px;
+    font-size: 78px;
+    font-weight: normal;
+    line-height: 78px;
+    cursor: pointer;
+
+    &:hover,
+    &:focus,
+    &:focus-within {
+      background-color: var(--semi-color-fill-1);
+    }
+  }
+}

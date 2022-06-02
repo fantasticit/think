@@ -5,3 +5,4 @@ export declare const EMPTY_DOCUMNENT: {
     content: string;
     state: Buffer;
 };
+export declare const DOCUMENT_COVERS: string[];

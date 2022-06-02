@@ -27,7 +27,11 @@ export const Upload: React.FC<IProps> = ({ onOK, accept, style = {}, children })
       beforeUpload={beforeUpload}
       previewFile={() => null}
       fileList={[]}
-      style={style}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        ...style,
+      }}
       action={''}
       accept={accept}
     >

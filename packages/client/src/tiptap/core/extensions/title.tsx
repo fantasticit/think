@@ -1,6 +1,9 @@
 import { mergeAttributes, Node } from '@tiptap/core';
+import { ReactNodeViewRenderer } from '@tiptap/react';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
-import { isInTitle } from 'tiptap/prose-utils';
+import { getDatasetAttribute, isInTitle } from 'tiptap/prose-utils';
+
+import { TitleWrapper } from '../wrappers/title';
 
 export interface TitleOptions {
   HTMLAttributes: Record<string, any>;
@@ -27,16 +30,29 @@ export const Title = Node.create<TitleOptions>({
     };
   },
 
+  addAttributes() {
+    return {
+      cover: {
+        default: '',
+        parseHTML: getDatasetAttribute('cover'),
+      },
+    };
+  },
+
   parseHTML() {
     return [
       {
-        tag: 'p[class=title]',
+        tag: 'div[class=title]',
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['p', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(TitleWrapper);
   },
 
   addProseMirrorPlugins() {
