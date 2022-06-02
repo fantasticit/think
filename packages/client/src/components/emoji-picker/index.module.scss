@@ -5,14 +5,13 @@
 
 .listWrap {
   display: flex;
-  height: 250px;
   padding: 0;
   margin: 0;
   overflow: auto;
   list-style: none;
   flex-wrap: wrap;
 
-  > li {
+  > div {
     display: flex;
     justify-content: center;
     align-items: center;

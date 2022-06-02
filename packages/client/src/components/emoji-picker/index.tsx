@@ -82,13 +82,13 @@ export const EmojiPicker: React.FC<IProps> = ({ showClear = false, onSelectEmoji
           {renderedList.map((list) => {
             return (
               <TabPane key={list.title} tab={list.title} itemKey={list.title} style={{ height: 250, overflow: 'auto' }}>
-                <ul className={styles.listWrap}>
+                <div className={styles.listWrap}>
                   {(list.data || []).map((ex) => (
-                    <li key={ex} onClick={() => selectEmoji(ex)}>
+                    <div key={ex} onClick={() => selectEmoji(ex)}>
                       {ex}
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </TabPane>
             );
           })}
@@ -114,7 +114,7 @@ export const EmojiPicker: React.FC<IProps> = ({ showClear = false, onSelectEmoji
             title={'表情'}
             visible={visible}
             onCancel={toggleVisible}
-            height={370}
+            height={400}
             mask={false}
           >
             {content}
