@@ -10,6 +10,7 @@ import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { preload } from 'tiptap/preload';
 
 class MyApp extends App<{ isMobile: boolean }> {
   state = {
@@ -35,6 +36,10 @@ class MyApp extends App<{ isMobile: boolean }> {
       isMobile: isMobile(request?.headers['user-agent']),
     };
   };
+
+  componentDidMount() {
+    preload();
+  }
 
   render() {
     const { Component, pageProps, isMobile } = this.props;
