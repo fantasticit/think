@@ -4,6 +4,7 @@ import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { ImageUploader } from 'components/image-uploader';
 import { useCallback } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import styles from './index.module.scss';
 
@@ -42,7 +43,7 @@ export const TitleWrapper = ({ editor, node }) => {
     <NodeViewWrapper className={cls(styles.wrap, 'title')}>
       {cover ? (
         <div className={styles.coverWrap} contentEditable={false}>
-          <img src={cover} alt="cover" />
+          <LazyLoadImage src={cover} alt="cover" />
           {isEditable ? (
             <div className={styles.toolbar}>
               <ImageUploader images={images} selectImage={setCover}>
