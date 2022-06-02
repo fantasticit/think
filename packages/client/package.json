@@ -88,6 +88,8 @@
     "react-pdf": "^5.7.2",
     "react-query": "^3.39.0",
     "react-split-pane": "^0.1.92",
+    "requestidlecallback-polyfill": "^1.0.2",
+    "resize-observer-polyfill": "^1.5.1",
     "scroll-into-view-if-needed": "^2.2.29",
     "timeago.js": "^4.0.2",
     "tippy.js": "^6.3.7",

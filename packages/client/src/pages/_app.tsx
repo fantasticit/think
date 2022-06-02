@@ -29,7 +29,9 @@ class MyApp extends App<{ isMobile: boolean }> {
   static getInitialProps = async ({ Component, ctx }) => {
     const request = ctx?.req;
     const getPagePropsPromise = Component.getInitialProps ? Component.getInitialProps(ctx) : Promise.resolve({});
-    const [pageProps] = await Promise.all([getPagePropsPromise]);
+    const [pageProps] = await Promise.all([getPagePropsPromise]).catch((err) => {
+      return [{}];
+    });
 
     return {
       pageProps,
@@ -38,7 +40,13 @@ class MyApp extends App<{ isMobile: boolean }> {
   };
 
   componentDidMount() {
-    preload();
+    Promise.all([
+      import('resize-observer-polyfill'),
+      // @ts-ignore
+      import('requestidlecallback-polyfill'),
+    ]).then(() => {
+      preload();
+    });
   }
 
   render() {

@@ -34,7 +34,7 @@ const nextConfig = semi({
     ignoreBuildErrors: true,
   },
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    // removeConsole: process.env.NODE_ENV === 'production',
   },
   pwa: {
     disable: process.env.NODE_ENV !== 'production',

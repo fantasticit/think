@@ -133,6 +133,8 @@ importers:
       react-pdf: ^5.7.2
       react-query: ^3.39.0
       react-split-pane: ^0.1.92
+      requestidlecallback-polyfill: ^1.0.2
+      resize-observer-polyfill: ^1.5.1
       scroll-into-view-if-needed: ^2.2.29
       timeago.js: ^4.0.2
       tippy.js: ^6.3.7
@@ -221,6 +223,8 @@ importers:
       react-pdf: 5.7.2_react-dom@17.0.2+react@17.0.2
       react-query: 3.39.0_react-dom@17.0.2+react@17.0.2
       react-split-pane: 0.1.92_react-dom@17.0.2+react@17.0.2
+      requestidlecallback-polyfill: 1.0.2
+      resize-observer-polyfill: 1.5.1
       scroll-into-view-if-needed: 2.2.29
       timeago.js: 4.0.2
       tippy.js: 6.3.7
@@ -236,7 +240,7 @@ importers:
       eslint: 8.14.0
       eslint-config-prettier: 8.5.0_eslint@8.14.0
       eslint-plugin-import: 2.26.0_eslint@8.14.0
-      eslint-plugin-prettier: 4.0.0_74ebb802163a9b4fa8f89d76ed02f62a
+      eslint-plugin-prettier: 4.0.0_740be41c8168d0cc214a306089357ad0
       eslint-plugin-react: 7.29.4_eslint@8.14.0
       eslint-plugin-react-hooks: 4.5.0_eslint@8.14.0
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.14.0
@@ -5443,22 +5447,6 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-prettier/4.0.0_74ebb802163a9b4fa8f89d76ed02f62a:
-    resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
-    engines: {node: '>=6.0.0'}
-    peerDependencies:
-      eslint: '>=7.28.0'
-      eslint-config-prettier: '*'
-      prettier: '>=2.0.0'
-    peerDependenciesMeta:
-      eslint-config-prettier:
-        optional: true
-    dependencies:
-      eslint: 8.14.0
-      eslint-config-prettier: 8.5.0_eslint@8.14.0
-      prettier-linter-helpers: 1.0.0
-    dev: true
-
   /eslint-plugin-react-hooks/4.5.0_eslint@8.14.0:
     resolution: {integrity: sha512-8k1gRt7D7h03kd+SAAlzXkQwWK22BnK6GKZG+FJA6BAGy22CFvl8kCIXKpVux0cCxMWDQUPqSok0LKaZ0aOcCw==}
     engines: {node: '>=10'}
@@ -9459,6 +9447,10 @@ packages:
 
   /remove-accents/0.4.2:
     resolution: {integrity: sha1-CkPTqq4egNuRngeuJUsoXZ4ce7U=}
+    dev: false
+
+  /requestidlecallback-polyfill/1.0.2:
+    resolution: {integrity: sha512-zzkRzvMe7UdV0M7AIU70vl2fh4rFnNYDL8U0ISwWiOX/5MowBV1ESYCWSQP/KsgJNUOC/AS6X3DApOmxoyE6MA==}
     dev: false
 
   /require-directory/2.1.1:
