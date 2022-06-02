@@ -185,7 +185,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
         }}
       >
         <div className={cls(styles.contentWrap, editorWrapClassNames)}>
-          <div style={{ fontSize, paddingBottom: 96 }}>
+          <div style={{ fontSize, paddingBottom: editable ? 96 : 24 }}>
             <EditorContent editor={editor} />
           </div>
           {!editable && !hideComment && (
