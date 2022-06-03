@@ -69,7 +69,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
       pathname: currentWikiId ? '/share/document/[documentId]' : '/share/wiki/[wikiId]/document/[documentId]',
       query: currentWikiId ? { documentId } : { wikiId: data.wikiId, documentId },
     });
-  }, [currentWikiId, documentId, data.wikiId]);
+  }, [currentWikiId, documentId, data]);
 
   const content = useMemo(() => {
     if (error) {
