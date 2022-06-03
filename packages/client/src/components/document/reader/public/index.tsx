@@ -1,5 +1,5 @@
 import { Breadcrumb, Button, Form, Layout, Nav, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
-import { IconExport, IconImport } from '@douyinfe/semi-icons';
+import { IconRoute } from '@douyinfe/semi-icons';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { DataRender } from 'components/data-render';
 import { Divider } from 'components/divider';
@@ -69,7 +69,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
       pathname: currentWikiId ? '/share/document/[documentId]' : '/share/wiki/[wikiId]/document/[documentId]',
       query: currentWikiId ? { documentId } : { wikiId: data.wikiId, documentId },
     });
-  }, [data, currentWikiId]);
+  }, [currentWikiId, documentId, data.wikiId]);
 
   const content = useMemo(() => {
     if (error) {
@@ -128,7 +128,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
         )}
       </>
     );
-  }, [error, data, mounted, editorWrapClassNames, fontSize]);
+  }, [error, data, mounted, documentId, renderAuthor, handleOk]);
 
   return (
     <Layout className={styles.wrap}>
@@ -148,25 +148,9 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           }
           footer={
             <Space>
-              {currentWikiId ? (
-                <Tooltip content="独立模式">
-                  <Button
-                    theme="borderless"
-                    type="tertiary"
-                    icon={<IconExport />}
-                    onClick={toPublicWikiOrDocumentURL}
-                  />
-                </Tooltip>
-              ) : (
-                <Tooltip content="嵌入模式">
-                  <Button
-                    theme="borderless"
-                    type="tertiary"
-                    icon={<IconImport />}
-                    onClick={toPublicWikiOrDocumentURL}
-                  />
-                </Tooltip>
-              )}
+              <Tooltip content={currentWikiId ? '独立模式' : '嵌入模式'}>
+                <Button theme="borderless" type="tertiary" icon={<IconRoute />} onClick={toPublicWikiOrDocumentURL} />
+              </Tooltip>
 
               <DocumentStyle />
               <Theme />
