@@ -4,8 +4,8 @@ import { Theme as ThemeState, ThemeEnum } from 'hooks/use-theme';
 import React, { useCallback } from 'react';
 
 export const Theme = () => {
-  const { userPrefer, toggle } = ThemeState.useHook();
-  const Icon = userPrefer === 'dark' ? IconSun : IconMoon;
+  const { userPrefer, theme, toggle } = ThemeState.useHook();
+  const Icon = theme === 'dark' ? IconMoon : IconSun;
 
   const setLight = useCallback(() => {
     toggle(ThemeEnum.light);
