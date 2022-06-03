@@ -107,7 +107,7 @@ export const Search = () => {
             suffix={<SemiIconSearch onClick={search} style={{ cursor: 'pointer' }} />}
           />
         </div>
-        <div style={{ height: 'calc(68vh - 40px)', paddingBottom: 36, overflow: 'auto' }}>
+        <div style={{ height: '40vh', paddingBottom: 36, overflow: 'auto' }}>
           <DataRender
             loading={loading}
             loadingContent={
@@ -163,7 +163,7 @@ export const Search = () => {
           visible={visible}
           onVisibleChange={toggleVisible}
           content={
-            <div style={{ width: 360, maxWidth: '96vw', maxHeight: '70vh', overflow: 'auto', padding: '16px 16px 0' }}>
+            <div style={{ width: 320, maxWidth: '96vw', maxHeight: '70vh', overflow: 'auto', padding: '16px 16px 0' }}>
               {content}
             </div>
           }
