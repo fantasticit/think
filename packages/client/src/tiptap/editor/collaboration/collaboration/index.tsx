@@ -5,9 +5,9 @@ import { throttle } from 'helpers/throttle';
 import { useToggle } from 'hooks/use-toggle';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import { IndexeddbPersistence } from 'tiptap/core/y-indexeddb';
+import { Editor } from 'tiptap/core';
+import { IndexeddbPersistence } from 'tiptap/core/thritypart/y-indexeddb';
 
-import { Editor } from '../../react';
 import { EditorInstance } from './editor';
 import styles from './index.module.scss';
 import { ICollaborationEditorProps, ProviderStatus } from './type';

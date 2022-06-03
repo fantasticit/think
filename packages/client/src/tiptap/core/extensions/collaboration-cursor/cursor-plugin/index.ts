@@ -7,7 +7,7 @@ import {
   setMeta,
   yCursorPluginKey,
   ySyncPluginKey,
-} from 'tiptap/core/y-prosemirror/y-prosemirror';
+} from 'tiptap/core/thritypart/y-prosemirror/y-prosemirror';
 import * as Y from 'yjs';
 
 /**

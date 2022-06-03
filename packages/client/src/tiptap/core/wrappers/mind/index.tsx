@@ -9,7 +9,7 @@ import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { load, renderMind } from 'thirtypart/kityminder';
 import { Mind } from 'tiptap/core/extensions/mind';
-import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from 'tiptap/editor/menus/mind/constant';
+import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from 'tiptap/core/menus/mind/constant';
 import { clamp, getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';

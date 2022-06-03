@@ -12,11 +12,11 @@ import { useNetwork } from 'hooks/use-network';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { EditorContent, useEditor } from 'tiptap/core';
 import { Collaboration } from 'tiptap/core/extensions/collaboration';
 import { CollaborationCursor } from 'tiptap/core/extensions/collaboration-cursor';
 import { Tocs } from 'tiptap/editor/tocs';
 
-import { EditorContent, useEditor } from '../../react';
 import { CollaborationKit } from '../kit';
 import styles from './index.module.scss';
 import { MenuBar } from './menubar';

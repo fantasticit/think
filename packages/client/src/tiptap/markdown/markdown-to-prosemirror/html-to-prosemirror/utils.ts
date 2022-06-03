@@ -1,4 +1,4 @@
-import { AllExtensions } from './all-kit';
+import { AllExtensions } from 'tiptap/core/all-kit';
 
 /**
  * 通过 tiptap extension 的配置从 DOM 节点上获取属性值

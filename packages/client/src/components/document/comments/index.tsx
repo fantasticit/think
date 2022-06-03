@@ -4,7 +4,8 @@ import { useComments } from 'data/comment';
 import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useRef, useState } from 'react';
-import { CommentKit, CommentMenuBar, EditorContent, useEditor } from 'tiptap/editor';
+import { EditorContent, useEditor } from 'tiptap/core';
+import { CommentKit, CommentMenuBar } from 'tiptap/editor';
 
 import { Comments } from './comments';
 import styles from './index.module.scss';
