@@ -44,6 +44,8 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
   }, [replaceValue, editor]);
 
   useEffect(() => {
+    if (!editor) return;
+
     const searchExtension = editor.extensionManager.extensions.find((ext) => ext.name === SearchNReplace.name);
 
     if (!searchExtension) return;
@@ -55,11 +57,11 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
       setResults(results);
     };
 
-    editor.eventEmitter.on(ON_SEARCH_RESULTS, listener);
+    editor.eventEmitter && editor.eventEmitter.on(ON_SEARCH_RESULTS, listener);
 
     return () => {
       if (!searchExtension) return;
-      editor.eventEmitter.off(ON_SEARCH_RESULTS, listener);
+      editor.eventEmitter && editor.eventEmitter.off(ON_SEARCH_RESULTS, listener);
     };
   }, [editor]);
 

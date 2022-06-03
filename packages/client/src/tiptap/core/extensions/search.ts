@@ -232,11 +232,8 @@ export const SearchNReplace = Extension.create<SearchOptions>({
           this.options.searchTerm = searchTerm;
           this.options.results = [];
           this.options.currentIndex = 0;
-
-          (editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
-
+          (editor as Editor).eventEmitter && (editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
           updateView(state, dispatch);
-
           return false;
         },
       setReplaceTerm:
@@ -316,6 +313,7 @@ export const SearchNReplace = Extension.create<SearchOptions>({
   addProseMirrorPlugins() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const extensionThis = this;
+    const editor = this.editor as Editor;
 
     return [
       new Plugin({
@@ -337,7 +335,7 @@ export const SearchNReplace = Extension.create<SearchOptions>({
                 searchResultClass
               );
               extensionThis.options.results = results;
-              (extensionThis.editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
+              editor.eventEmitter && editor.eventEmitter.emit(ON_SEARCH_RESULTS);
               if (ctx.getMeta('directDecoration')) {
                 const { fromPos, toPos, attrs } = ctx.getMeta('directDecoration');
                 decorationsToReturn.push(Decoration.inline(fromPos, toPos, attrs));
