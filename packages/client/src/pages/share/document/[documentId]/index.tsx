@@ -1,8 +1,8 @@
 import { DocumentApiDefinition, IDocument } from '@think/domains';
 import { DocumentPublicReader } from 'components/document/reader/public';
+import { getPublicDocumentDetail } from 'data/document';
 import { NextPage } from 'next';
 import React from 'react';
-import { getPublicDocumentDetail } from 'services/document';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {

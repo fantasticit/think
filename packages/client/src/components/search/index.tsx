@@ -7,17 +7,20 @@ import { Empty } from 'components/empty';
 import { IconSearch } from 'components/icons';
 import { IconDocumentFill } from 'components/icons/IconDocumentFill';
 import { LocaleTime } from 'components/locale-time';
-import { useRecentDocuments } from 'data/document';
 import { useAsyncLoading } from 'hooks/use-async-loading';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import Router from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { searchDocument } from 'services/document';
+import React, { useCallback, useEffect, useState } from 'react';
+import { HttpClient } from 'services/http-client';
 
 import styles from './index.module.scss';
 
 const { Text } = Typography;
+
+const searchDocument = (keyword: string): Promise<IDocument[]> => {
+  return HttpClient.get('/document/search', { params: { keyword } });
+};
 
 const List: React.FC<{ data: IDocument[] }> = ({ data }) => {
   return (

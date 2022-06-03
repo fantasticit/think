@@ -1,11 +1,11 @@
 import { DocumentApiDefinition, IDocument, IWiki, WikiApiDefinition } from '@think/domains';
 import { DocumentPublicReader } from 'components/document/reader/public';
 import { WikiPublicTocs } from 'components/wiki/tocs/public';
+import { getPublicDocumentDetail } from 'data/document';
 import { getPublicWikiTocs } from 'data/wiki';
 import { PublicDoubleColumnLayout } from 'layouts/public-double-column';
 import { NextPage } from 'next';
 import React from 'react';
-import { getPublicDocumentDetail } from 'services/document';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {
