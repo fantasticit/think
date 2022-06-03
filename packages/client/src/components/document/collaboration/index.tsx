@@ -8,7 +8,6 @@ import {
   Input,
   Modal,
   Popconfirm,
-  Popover,
   Spin,
   Table,
   TabPane,
@@ -169,7 +168,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
 
       newCollaborationUsers.forEach((newUser) => {
         if (currentUser && newUser.name !== currentUser.name && !toastedUsersRef.current.includes(newUser.id)) {
-          Toast.info(`${newUser.name}加入文档`);
+          Toast.info(`${newUser.name}-${newUser.clientId}加入文档`);
           toastedUsersRef.current.push(newUser.id);
         }
       });
