@@ -65,7 +65,7 @@ export const EmojiPicker: React.FC<IProps> = ({ showClear = false, onSelectEmoji
 
   const content = useMemo(
     () => (
-      <div className={styles.wrap} style={{ padding: isMobile ? '24px 0' : 0 }}>
+      <div className={styles.wrap}>
         <Tabs
           size="small"
           lazyRender
@@ -95,7 +95,7 @@ export const EmojiPicker: React.FC<IProps> = ({ showClear = false, onSelectEmoji
         </Tabs>
       </div>
     ),
-    [isMobile, showClear, renderedList, selectEmoji, clear]
+    [showClear, renderedList, selectEmoji, clear]
   );
 
   useEffect(() => {

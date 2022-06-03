@@ -71,7 +71,7 @@ export const ImageUploader: React.FC<IProps> = ({ images, selectImage, children 
     () =>
       images.map((image) => {
         return (
-          <TabPane key={image.key} tab={image.title} itemKey={image.key}>
+          <TabPane key={image.key} tab={image.title} itemKey={image.key} style={{ height: 250, overflow: 'auto' }}>
             {chunk(image.images, 4).map((chunk, index) => {
               return (
                 <Row gutter={6} key={index} style={{ marginTop: index === 0 ? 0 : 6 }}>
@@ -100,7 +100,7 @@ export const ImageUploader: React.FC<IProps> = ({ images, selectImage, children 
 
   const content = useMemo(
     () => (
-      <div className={styles.wrap} style={{ padding: isMobile ? '24px 0' : 0 }}>
+      <div className={styles.wrap}>
         <Tabs
           size="small"
           lazyRender
@@ -112,13 +112,13 @@ export const ImageUploader: React.FC<IProps> = ({ images, selectImage, children 
           }
         >
           {imageTabs}
-          <TabPane tab="上传" itemKey="upload" style={{ textAlign: 'center' }}>
+          <TabPane tab="上传" itemKey="upload" style={{ textAlign: 'center', height: 250, overflow: 'auto' }}>
             <UploadTab selectImage={(url) => selectImage(url)} />
           </TabPane>
         </Tabs>
       </div>
     ),
-    [isMobile, imageTabs, selectImage, clear]
+    [imageTabs, selectImage, clear]
   );
 
   return (
