@@ -1,5 +1,6 @@
 import { CommentDto, UpdateCommentDto } from '@dtos/comment.dto';
 import { JwtGuard } from '@guard/jwt.guard';
+import { UserGuard } from '@guard/user.guard';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -63,8 +64,9 @@ export class CommentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(CommentApiDefinition.documents.server)
   @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtGuard)
-  async getArticleComments(@Param('documentId') documentId, @Query() qurey) {
-    return this.commentService.getDocumentComments(documentId, qurey);
+  @UseGuards(UserGuard)
+  async getArticleComments(@Request() req, @Param('documentId') documentId, @Query() qurey) {
+    const user = req.user;
+    return this.commentService.getDocumentComments(user, documentId, qurey);
   }
 }

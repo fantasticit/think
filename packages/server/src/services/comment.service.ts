@@ -92,7 +92,9 @@ export class CommentService {
    * @param documentId
    * @param queryParams
    */
-  async getDocumentComments(documentId, queryParams) {
+  async getDocumentComments(user, documentId, queryParams) {
+    const hasLogin = user ? !!(await this.userService.validateUser(user)) : false;
+
     const query = this.commentRepo
       .createQueryBuilder('comment')
       .where('comment.documentId=:documentId')
@@ -116,9 +118,19 @@ export class CommentService {
 
     const getCreateUser = async (comment) => {
       try {
-        const createUser = await this.userService.findById(comment.createUserId);
-        comment.createUser = createUser;
+        if (hasLogin) {
+          const createUser = await this.userService.findById(comment.createUserId);
+          comment.createUser = createUser;
+        } else {
+          comment.createUser = {
+            id: comment.createUserId,
+            name: `用户${comment.createUserId.split('-').shift()}`,
+            role: 'normal',
+            status: 'normal',
+          };
+        }
       } catch (e) {
+        console.log('error', e);
         comment.createUser = null;
       }
     };
