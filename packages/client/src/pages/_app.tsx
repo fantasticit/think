@@ -10,7 +10,7 @@ import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
-import { preload } from 'tiptap/preload';
+import { preloadTiptapResources } from 'tiptap/preload';
 
 class MyApp extends App<{ isMobile: boolean }> {
   state = {
@@ -45,7 +45,7 @@ class MyApp extends App<{ isMobile: boolean }> {
       // @ts-ignore
       import('requestidlecallback-polyfill'),
     ]).then(() => {
-      preload();
+      preloadTiptapResources();
     });
   }
 
