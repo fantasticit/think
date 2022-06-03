@@ -36,9 +36,11 @@ export const ReaderEditor: React.FC<IProps> = ({ content }) => {
         <div className={styles.contentWrap}>
           <EditorContent editor={editor} />
         </div>
-        <div className={styles.tocsWrap}>
-          <Tocs editor={editor} getContainer={getTocsContainer} />
-        </div>
+        {!isMobile && (
+          <div className={styles.tocsWrap}>
+            <Tocs editor={editor} getContainer={getTocsContainer} />
+          </div>
+        )}
         <ImageViewer container={$mainContainer.current} />
       </main>
       <BackTop

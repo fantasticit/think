@@ -1,5 +1,5 @@
 import { IconLink } from '@douyinfe/semi-icons';
-import { Button, Input, Popover, Space, Toast, Typography } from '@douyinfe/semi-ui';
+import { Button, Dropdown, Input, Modal, Space, Toast, Typography } from '@douyinfe/semi-ui';
 import { isPublicDocument } from '@think/domains';
 import { useDocumentDetail } from 'data/document';
 import { getDocumentShareURL } from 'helpers/url';
@@ -28,6 +28,7 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, disabled = false, 
   const copyable = useMemo(
     () => ({
       onCopy: () => Toast.success({ content: '复制文本成功' }),
+      successTip: '已复制',
     }),
     []
   );
@@ -44,6 +45,73 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, disabled = false, 
     toggleStatus({ sharePassword: isPublic ? '' : sharePassword });
   }, [isPublic, sharePassword, toggleStatus]);
 
+  const content = useMemo(
+    () => (
+      <div
+        style={{
+          maxWidth: '96vw',
+          overflow: 'auto',
+        }}
+        onClick={prevent}
+      >
+        <div style={{ textAlign: 'center' }}>
+          <ShareIllustration />
+        </div>
+        {isPublic ? (
+          <Text
+            ellipsis
+            icon={<IconLink />}
+            copyable={copyable}
+            style={{
+              width: 280,
+            }}
+          >
+            {shareUrl}
+          </Text>
+        ) : (
+          <Input
+            ref={ref}
+            mode="password"
+            placeholder="设置访问密码"
+            value={sharePassword}
+            onChange={setSharePassword}
+          ></Input>
+        )}
+        <div style={{ marginTop: 16 }}>
+          <Text type="tertiary">
+            {isPublic
+              ? '分享开启后，该页面包含的所有内容均可访问，请谨慎开启'
+              : '  分享关闭后，非协作成员将不能继续访问该页面'}
+          </Text>
+        </div>
+        <Space style={{ width: '100%', justifyContent: 'end', margin: '12px 0' }}>
+          <Button onClick={() => toggleVisible(false)}>取消</Button>
+          <Button theme="solid" type={isPublic ? 'danger' : 'primary'} onClick={handleOk}>
+            {isPublic ? '关闭分享' : '开启分享'}
+          </Button>
+          {isPublic && (
+            <Button theme="solid" type="primary" onClick={viewUrl}>
+              查看文档
+            </Button>
+          )}
+        </Space>
+      </div>
+    ),
+    [copyable, handleOk, isPublic, prevent, sharePassword, shareUrl, toggleVisible, viewUrl]
+  );
+
+  const btn = useMemo(
+    () =>
+      render ? (
+        render({ isPublic, disabled, toggleVisible })
+      ) : (
+        <Button disabled={disabled} type="primary" theme="light" onClick={toggleVisible}>
+          {isPublic ? '分享中' : '分享'}
+        </Button>
+      ),
+    [disabled, isPublic, render, toggleVisible]
+  );
+
   useEffect(() => {
     if (loading || !data) return;
     setSharePassword(data.document && data.document.sharePassword);
@@ -56,72 +124,42 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, disabled = false, 
   }, [visible]);
 
   return (
-    <Popover
-      showArrow
-      visible={visible}
-      onVisibleChange={toggleVisible}
-      trigger="click"
-      position={isMobile ? 'top' : 'bottomLeft'}
-      style={{ width: 376, maxWidth: '80vw' }}
-      content={
-        <div
-          style={{
-            maxHeight: '70vh',
-            overflow: 'auto',
-          }}
-          onClick={prevent}
-        >
-          <div style={{ textAlign: 'center' }}>
-            <ShareIllustration />
-          </div>
-          {isPublic ? (
-            <Text
-              ellipsis
-              icon={<IconLink />}
-              copyable={copyable}
+    <>
+      {isMobile ? (
+        <>
+          <Modal
+            centered
+            title="文档分享"
+            visible={visible}
+            footer={null}
+            onCancel={toggleVisible}
+            style={{ maxWidth: '96vw' }}
+          >
+            {content}
+          </Modal>
+          {btn}
+        </>
+      ) : (
+        <Dropdown
+          visible={visible}
+          onVisibleChange={toggleVisible}
+          trigger="click"
+          position="bottomRight"
+          content={
+            <div
               style={{
-                width: 240,
+                width: 412,
+                maxWidth: '96vw',
+                padding: '0 24px',
               }}
             >
-              {shareUrl}
-            </Text>
-          ) : (
-            <Input
-              ref={ref}
-              mode="password"
-              placeholder="设置访问密码"
-              value={sharePassword}
-              onChange={setSharePassword}
-            ></Input>
-          )}
-          <div style={{ marginTop: 16 }}>
-            <Text type="tertiary">
-              {isPublic
-                ? '分享开启后，该页面包含的所有内容均可访问，请谨慎开启'
-                : '  分享关闭后，其他人将不能继续访问该页面'}
-            </Text>
-          </div>
-          <Space style={{ width: '100%', justifyContent: 'end', margin: '12px 0' }}>
-            <Button onClick={() => toggleVisible(false)}>取消</Button>
-            <Button theme="solid" type={isPublic ? 'danger' : 'primary'} onClick={handleOk}>
-              {isPublic ? '关闭分享' : '开启分享'}
-            </Button>
-            {isPublic && (
-              <Button theme="solid" type="primary" onClick={viewUrl}>
-                查看文档
-              </Button>
-            )}
-          </Space>
-        </div>
-      }
-    >
-      {render ? (
-        render({ isPublic, disabled, toggleVisible })
-      ) : (
-        <Button disabled={disabled} type="primary" theme="light" onClick={toggleVisible}>
-          {isPublic ? '分享中' : '分享'}
-        </Button>
+              {content}
+            </div>
+          }
+        >
+          {btn}
+        </Dropdown>
       )}
-    </Popover>
+    </>
   );
 };

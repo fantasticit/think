@@ -194,9 +194,11 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
             </div>
           )}
         </div>
-        <div className={styles.tocsWrap}>
-          <Tocs editor={editor} getContainer={getTocsContainer} />
-        </div>
+        {!isMobile && (
+          <div className={styles.tocsWrap}>
+            <Tocs editor={editor} getContainer={getTocsContainer} />
+          </div>
+        )}
         {protals}
         {!editable && <ImageViewer container={$mainContainer.current} />}
       </main>

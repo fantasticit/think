@@ -1,4 +1,4 @@
-import { Badge, Button, Dropdown, Modal, Pagination, Popover, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+import { Badge, Button, Dropdown, Modal, Pagination, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { IconMessage } from 'components/icons/IconMessage';
@@ -196,15 +196,13 @@ const MessageBox = () => {
           {btn}
         </>
       ) : (
-        <Popover
-          showArrow
-          style={{ padding: 0 }}
+        <Dropdown
           position="bottomRight"
           trigger="click"
           content={<div style={{ width: 300, padding: '16px 16px 0' }}>{content}</div>}
         >
           {btn}
-        </Popover>
+        </Dropdown>
       )}
     </span>
   );

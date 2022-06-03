@@ -4,6 +4,7 @@ import {
   AvatarGroup,
   Button,
   Checkbox,
+  Dropdown,
   Input,
   Modal,
   Popconfirm,
@@ -24,7 +25,7 @@ import { useUser } from 'data/user';
 import { event, JOIN_USER } from 'event';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 interface IProps {
   wikiId: string;
@@ -77,6 +78,71 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
       deleteUser(data);
     },
     [deleteUser]
+  );
+
+  const content = useMemo(
+    () => (
+      <Tabs type="line">
+        <TabPane tab="添加成员" itemKey="add">
+          <div style={{ marginTop: 16 }}>
+            <Input ref={ref} placeholder="输入对方用户名" value={inviteUser} onChange={setInviteUser}></Input>
+            <Paragraph style={{ marginTop: 16 }}>
+              邀请成功后，请将该链接发送给对方。
+              <span style={{ verticalAlign: 'middle' }}>
+                <DocumentLinkCopyer wikiId={wikiId} documentId={documentId} />
+              </span>
+            </Paragraph>
+            <Button theme="solid" block style={{ margin: '24px 0' }} disabled={!inviteUser} onClick={handleOk}>
+              添加用户
+            </Button>
+          </div>
+        </TabPane>
+        <TabPane tab="协作成员" itemKey="list">
+          <DataRender
+            loading={loading}
+            error={error}
+            loadingContent={<Spin />}
+            normalContent={() => (
+              <Table dataSource={users} size="small" pagination>
+                <Column title="用户名" dataIndex="user.name" key="name" />
+                <Column
+                  title="是否可读"
+                  dataIndex="auth.readable"
+                  key="readable"
+                  render={renderChecked(updateUser, 'readable')}
+                  align="center"
+                />
+                <Column
+                  title="是否可编辑"
+                  dataIndex="auth.editable"
+                  key="editable"
+                  render={renderChecked(updateUser, 'editable')}
+                  align="center"
+                />
+                <Column
+                  title="操作"
+                  dataIndex="operate"
+                  key="operate"
+                  render={(_, document) => (
+                    <Popconfirm showArrow title="确认删除该成员？" onConfirm={() => handleDelete(document)}>
+                      <Button type="tertiary" theme="borderless" icon={<IconDelete />} />
+                    </Popconfirm>
+                  )}
+                />
+              </Table>
+            )}
+          />
+        </TabPane>
+      </Tabs>
+    ),
+    [documentId, error, handleDelete, handleOk, inviteUser, loading, updateUser, users, wikiId]
+  );
+
+  const btn = useMemo(
+    () => (
+      <Button theme="borderless" type="tertiary" disabled={disabled} icon={<IconUserAdd />} onClick={toggleVisible} />
+    ),
+    [disabled, toggleVisible]
   );
 
   useEffect(() => {
@@ -139,70 +205,41 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
           );
         })}
       </AvatarGroup>
-      <Popover
-        showArrow
-        visible={visible}
-        onVisibleChange={toggleVisible}
-        trigger="click"
-        position={isMobile ? 'topRight' : 'bottomLeft'}
-        style={{ width: 376, maxWidth: '80vw' }}
-        content={
-          <Tabs type="line">
-            <TabPane tab="添加成员" itemKey="add">
-              <div style={{ marginTop: 16 }}>
-                <Input ref={ref} placeholder="输入对方用户名" value={inviteUser} onChange={setInviteUser}></Input>
-                <Paragraph style={{ marginTop: 16 }}>
-                  邀请成功后，请将该链接发送给对方。
-                  <span style={{ verticalAlign: 'middle' }}>
-                    <DocumentLinkCopyer wikiId={wikiId} documentId={documentId} />
-                  </span>
-                </Paragraph>
-                <Button theme="solid" block style={{ margin: '24px 0' }} disabled={!inviteUser} onClick={handleOk}>
-                  添加用户
-                </Button>
-              </div>
-            </TabPane>
-            <TabPane tab="协作成员" itemKey="list">
-              <DataRender
-                loading={loading}
-                error={error}
-                loadingContent={<Spin />}
-                normalContent={() => (
-                  <Table dataSource={users} size="small" pagination>
-                    <Column title="用户名" dataIndex="user.name" key="name" />
-                    <Column
-                      title="是否可读"
-                      dataIndex="auth.readable"
-                      key="readable"
-                      render={renderChecked(updateUser, 'readable')}
-                      align="center"
-                    />
-                    <Column
-                      title="是否可编辑"
-                      dataIndex="auth.editable"
-                      key="editable"
-                      render={renderChecked(updateUser, 'editable')}
-                      align="center"
-                    />
-                    <Column
-                      title="操作"
-                      dataIndex="operate"
-                      key="operate"
-                      render={(_, document) => (
-                        <Popconfirm showArrow title="确认删除该成员？" onConfirm={() => handleDelete(document)}>
-                          <Button type="tertiary" theme="borderless" icon={<IconDelete />} />
-                        </Popconfirm>
-                      )}
-                    />
-                  </Table>
-                )}
-              />
-            </TabPane>
-          </Tabs>
-        }
-      >
-        <Button theme="borderless" type="tertiary" disabled={disabled} icon={<IconUserAdd />} />
-      </Popover>
+      {isMobile ? (
+        <>
+          <Modal
+            centered
+            title="文档协作"
+            visible={visible}
+            footer={null}
+            onCancel={toggleVisible}
+            style={{ maxWidth: '96vw' }}
+          >
+            {content}
+          </Modal>
+          {btn}
+        </>
+      ) : (
+        <Dropdown
+          visible={visible}
+          onVisibleChange={toggleVisible}
+          trigger="click"
+          position="bottomRight"
+          content={
+            <div
+              style={{
+                width: 412,
+                maxWidth: '96vw',
+                padding: '0 24px',
+              }}
+            >
+              {content}
+            </div>
+          }
+        >
+          {btn}
+        </Dropdown>
+      )}
     </>
   );
 };

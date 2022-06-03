@@ -1,5 +1,5 @@
 import { IconArticle } from '@douyinfe/semi-icons';
-import { Button, Popover, Radio, RadioGroup, Slider, Typography } from '@douyinfe/semi-ui';
+import { Button, Dropdown, Radio, RadioGroup, Slider, Typography } from '@douyinfe/semi-ui';
 import { throttle } from 'helpers/throttle';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { IsOnMobile } from 'hooks/use-on-mobile';
@@ -21,15 +21,14 @@ export const DocumentStyle = () => {
   }, [setWidth]);
 
   return (
-    <Popover
+    <Dropdown
       key="style"
-      showArrow
       trigger="click"
       zIndex={1061}
       position={isMobile ? 'topRight' : 'bottomLeft'}
       visible={visible}
       onVisibleChange={toggleVisible}
-      style={{ padding: 0 }}
+      onClickOutSide={toggleVisible}
       content={
         <div className={styles.wrap}>
           <div className={styles.item}>
@@ -50,6 +49,6 @@ export const DocumentStyle = () => {
       }
     >
       <Button icon={<IconArticle />} theme="borderless" type="tertiary" onMouseDown={toggleVisible} />
-    </Popover>
+    </Dropdown>
   );
 };

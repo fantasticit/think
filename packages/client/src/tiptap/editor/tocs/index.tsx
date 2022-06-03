@@ -4,8 +4,8 @@ import { throttle } from 'helpers/throttle';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import { Editor } from 'tiptap/core';
 import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
-import { Editor } from 'tiptap/editor/react';
 import { findNode } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';

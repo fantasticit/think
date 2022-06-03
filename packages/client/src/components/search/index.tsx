@@ -1,5 +1,5 @@
 import { IconSearch as SemiIconSearch } from '@douyinfe/semi-icons';
-import { Button, Input, Modal, Spin, Typography } from '@douyinfe/semi-ui';
+import { Button, Dropdown, Input, Modal, Spin, Typography } from '@douyinfe/semi-ui';
 import { IDocument } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentStar } from 'components/document/star';
@@ -8,10 +8,11 @@ import { IconSearch } from 'components/icons';
 import { IconDocumentFill } from 'components/icons/IconDocumentFill';
 import { LocaleTime } from 'components/locale-time';
 import { useAsyncLoading } from 'hooks/use-async-loading';
+import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import Router from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { HttpClient } from 'services/http-client';
 
 import styles from './index.module.scss';
@@ -68,6 +69,8 @@ const List: React.FC<{ data: IDocument[] }> = ({ data }) => {
 };
 
 export const Search = () => {
+  const ref = useRef<HTMLInputElement>();
+  const { isMobile } = IsOnMobile.useHook();
   const [visible, toggleVisible] = useToggle(false);
   const [searchApi, loading] = useAsyncLoading(searchDocument, 10);
   const [keyword, setKeyword] = useState('');
@@ -85,6 +88,60 @@ export const Search = () => {
       });
   }, [searchApi, keyword]);
 
+  const onKeywordChange = useCallback((val) => {
+    setSearchDocs([]);
+    setKeyword(val);
+  }, []);
+
+  const content = useMemo(
+    () => (
+      <div style={{ paddingBottom: 24 }}>
+        <div>
+          <Input
+            showClear
+            ref={ref}
+            placeholder={'搜索文档'}
+            value={keyword}
+            onChange={onKeywordChange}
+            onEnterPress={search}
+            suffix={<SemiIconSearch onClick={search} style={{ cursor: 'pointer' }} />}
+          />
+        </div>
+        <div style={{ height: 'calc(68vh - 40px)', paddingBottom: 36, overflow: 'auto' }}>
+          <DataRender
+            loading={loading}
+            loadingContent={
+              <div
+                style={{
+                  paddingTop: 30,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Spin />
+              </div>
+            }
+            error={error}
+            normalContent={() => <List data={searchDocs} />}
+          />
+        </div>
+      </div>
+    ),
+    [error, keyword, loading, onKeywordChange, search, searchDocs]
+  );
+
+  const btn = useMemo(
+    () => <Button type="tertiary" theme="borderless" icon={<IconSearch />} onClick={toggleVisible} />,
+    [toggleVisible]
+  );
+
+  useEffect(() => {
+    if (visible) {
+      setTimeout(() => ref.current?.focus(), 100);
+    }
+  }, [visible]);
+
   useEffect(() => {
     const fn = () => {
       toggleVisible(false);
@@ -99,56 +156,39 @@ export const Search = () => {
 
   return (
     <>
-      <Button type="tertiary" theme="borderless" icon={<IconSearch />} onClick={toggleVisible} />
-      <Modal
-        visible={visible}
-        title="文档搜索"
-        footer={null}
-        onCancel={toggleVisible}
-        style={{
-          maxWidth: '96vw',
-        }}
-        bodyStyle={{
-          height: '68vh',
-        }}
-      >
-        <div style={{ paddingBottom: 24 }}>
-          <div>
-            <Input
-              autofocus
-              placeholder={'搜索文档'}
-              size="large"
-              value={keyword}
-              onChange={(val) => {
-                setSearchDocs([]);
-                setKeyword(val);
-              }}
-              onEnterPress={search}
-              suffix={<SemiIconSearch onClick={search} style={{ cursor: 'pointer' }} />}
-              showClear
-            />
-          </div>
-          <div style={{ height: 'calc(68vh - 40px)', paddingBottom: 36, overflow: 'auto' }}>
-            <DataRender
-              loading={loading}
-              loadingContent={
-                <div
-                  style={{
-                    paddingTop: 30,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Spin />
-                </div>
-              }
-              error={error}
-              normalContent={() => <List data={searchDocs} />}
-            />
-          </div>
-        </div>
-      </Modal>
+      {!isMobile ? (
+        <Dropdown
+          position="bottomRight"
+          trigger="click"
+          visible={visible}
+          onVisibleChange={toggleVisible}
+          content={
+            <div style={{ width: 360, maxWidth: '96vw', maxHeight: '70vh', overflow: 'auto', padding: '16px 16px 0' }}>
+              {content}
+            </div>
+          }
+        >
+          {btn}
+        </Dropdown>
+      ) : (
+        <>
+          <Modal
+            visible={visible}
+            title="文档搜索"
+            footer={null}
+            onCancel={toggleVisible}
+            style={{
+              maxWidth: '96vw',
+            }}
+            bodyStyle={{
+              height: '68vh',
+            }}
+          >
+            {content}
+          </Modal>
+          {btn}
+        </>
+      )}
     </>
   );
 };
