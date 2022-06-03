@@ -3,6 +3,7 @@ import { Node as ProsemirrorNode } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import { Editor } from 'tiptap/core';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -203,6 +204,8 @@ const gotoSearchResult = ({ view, tr, searchResults, searchResultCurrentClass, g
   return false;
 };
 
+export const ON_SEARCH_RESULTS = 'ON_SEARCH_RESULTS';
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const SearchNReplace = Extension.create<SearchOptions>({
   name: 'search',
@@ -225,10 +228,12 @@ export const SearchNReplace = Extension.create<SearchOptions>({
     return {
       setSearchTerm:
         (searchTerm: string) =>
-        ({ state, dispatch }) => {
+        ({ state, dispatch, editor }) => {
           this.options.searchTerm = searchTerm;
           this.options.results = [];
           this.options.currentIndex = 0;
+
+          (editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
 
           updateView(state, dispatch);
 
@@ -332,11 +337,7 @@ export const SearchNReplace = Extension.create<SearchOptions>({
                 searchResultClass
               );
               extensionThis.options.results = results;
-
-              if (results.length && searchTerm) {
-                extensionThis.options.onChange && extensionThis.options.onChange();
-              }
-
+              (extensionThis.editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
               if (ctx.getMeta('directDecoration')) {
                 const { fromPos, toPos, attrs } = ctx.getMeta('directDecoration');
                 decorationsToReturn.push(Decoration.inline(fromPos, toPos, attrs));

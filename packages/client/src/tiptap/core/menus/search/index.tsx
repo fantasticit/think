@@ -5,7 +5,7 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Editor } from 'tiptap/core';
-import { SearchNReplace } from 'tiptap/core/extensions/search';
+import { ON_SEARCH_RESULTS, SearchNReplace } from 'tiptap/core/extensions/search';
 
 const { Text } = Typography;
 
@@ -55,11 +55,11 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
       setResults(results);
     };
 
-    searchExtension.options.onChange = listener;
+    editor.eventEmitter.on(ON_SEARCH_RESULTS, listener);
 
     return () => {
       if (!searchExtension) return;
-      delete searchExtension.options.onChange;
+      editor.eventEmitter.off(ON_SEARCH_RESULTS, listener);
     };
   }, [editor]);
 
