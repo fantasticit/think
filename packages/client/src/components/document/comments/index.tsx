@@ -3,11 +3,10 @@ import { DataRender } from 'components/data-render';
 import { useComments } from 'data/comment';
 import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { CommentKit, CommentMenuBar, EditorContent, useEditor } from 'tiptap/editor';
 
 import { Comments } from './comments';
-import { CommentItemPlaceholder } from './comments/Item';
 import styles from './index.module.scss';
 
 interface IProps {
@@ -17,7 +16,7 @@ interface IProps {
 const { Text, Paragraph } = Typography;
 
 export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
-  const { user } = useUser();
+  const { user, logout } = useUser();
   const {
     data: commentsData,
     loading,
@@ -37,18 +36,21 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
     extensions: CommentKit,
   });
 
-  const openEditor = () => {
+  const openEditor = useCallback(() => {
+    if (!user) {
+      return logout();
+    }
     toggleIsEdit(true);
     editor.chain().focus();
-  };
+  }, [editor, logout, toggleIsEdit, user]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setReplyComment(null);
     setEditComment(null);
     toggleIsEdit(false);
-  };
+  }, [toggleIsEdit]);
 
-  const save = () => {
+  const save = useCallback(() => {
     const html = editor.getHTML();
 
     if (editComment) {
@@ -71,19 +73,25 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
       editor.commands.clearContent();
       handleClose();
     });
-  };
+  }, [addComment, editComment, editor, handleClose, replyComment, updateComment]);
 
-  const handleReplyComment = (comment) => {
-    setReplyComment(comment);
-    setEditComment(null);
-    openEditor();
-  };
+  const handleReplyComment = useCallback(
+    (comment) => {
+      setReplyComment(comment);
+      setEditComment(null);
+      openEditor();
+    },
+    [openEditor]
+  );
 
-  const handleEditComment = (comment) => {
-    setReplyComment(null);
-    setEditComment(comment);
-    openEditor();
-  };
+  const handleEditComment = useCallback(
+    (comment) => {
+      setReplyComment(null);
+      setEditComment(comment);
+      openEditor();
+    },
+    [openEditor]
+  );
 
   return (
     <div ref={$container}>

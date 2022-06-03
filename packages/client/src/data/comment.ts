@@ -34,7 +34,7 @@ export const useComments = (documentId) => {
   const { data, error, isLoading, refetch } = useQuery(
     [CommentApiDefinition.documents.client(documentId), page],
     () => getComments(documentId, page),
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnMount: true, refetchOnWindowFocus: true }
   );
 
   const addComment = useCallback(

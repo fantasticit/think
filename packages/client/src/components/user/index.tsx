@@ -9,14 +9,14 @@ import { UserSetting } from './setting';
 const { Text } = Typography;
 
 export const User: React.FC = () => {
-  const { user, loading, error, gotoLogin, logout } = useUser();
+  const { user, loading, error, toLogin, logout } = useUser();
   const [visible, toggleVisible] = useToggle(false);
 
   if (loading) return <Button icon={<IconSpin />} theme="borderless" type="tertiary" />;
 
   if (error || !user) {
     return (
-      <Button theme="solid" type="primary" size="small" onClick={gotoLogin}>
+      <Button theme="solid" type="primary" size="small" onClick={toLogin}>
         登录
       </Button>
     );

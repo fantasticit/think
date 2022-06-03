@@ -5,12 +5,26 @@ import { useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { HttpClient } from 'services/http-client';
 
+/**
+ * 直接去登录页
+ */
+export const toLogin = () => {
+  const currentPath = Router.asPath;
+  const isInLogin = currentPath.startsWith('login');
+  if (!isInLogin) {
+    Router.push(`/login?redirect=${currentPath}`);
+  }
+};
+
 export const useUser = () => {
   const router = useRouter();
   const { data, error, refetch } = useQuery<ILoginUser>('user', () => {
     return getStorage('user');
   });
 
+  /**
+   * 清除用户信息后跳到登录页
+   */
   const logout = useCallback(() => {
     window.localStorage.removeItem('user');
     window.localStorage.removeItem('token');
@@ -19,7 +33,9 @@ export const useUser = () => {
       method: UserApiDefinition.logout.method,
       url: UserApiDefinition.logout.client(),
     }).then(() => {
-      Router.replace('/login');
+      const isInShare = Router.asPath.startsWith('/share');
+      if (isInShare) return;
+      toLogin();
     });
   }, [refetch]);
 
@@ -56,7 +72,7 @@ export const useUser = () => {
     user: data,
     loading: false,
     error: data ? null : error,
-    gotoLogin: logout,
+    toLogin,
     login,
     logout,
     updateUser,

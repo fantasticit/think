@@ -1,6 +1,6 @@
 import { Toast } from '@douyinfe/semi-ui';
 import axios, { Axios, AxiosRequestConfig, AxiosResponse } from 'axios';
-import Router from 'next/router';
+import { toLogin } from 'data/user';
 
 type WithCookieAxiosRequestConfig = AxiosRequestConfig & { cookie?: string };
 
@@ -58,7 +58,7 @@ HttpClient.interceptors.response.use(
           break;
         case 401:
           if (isBrowser) {
-            Router.replace(`/login?redirect=${window.location.pathname}`);
+            toLogin();
           }
           break;
         case 429:
