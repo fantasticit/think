@@ -10,7 +10,6 @@ import {
 } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { DataRender } from 'components/data-render';
-import { CommentEditor } from 'components/document/comments';
 import { DocumentStyle } from 'components/document/style';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';

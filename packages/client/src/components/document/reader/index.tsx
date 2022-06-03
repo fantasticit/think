@@ -1,24 +1,20 @@
 import { IconEdit } from '@douyinfe/semi-icons';
-import { BackTop, Button, Layout, Nav, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
-import cls from 'classnames';
+import { Button, Layout, Nav, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { DocumentCollaboration } from 'components/document/collaboration';
-import { CommentEditor } from 'components/document/comments';
 import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
 import { DocumentStyle } from 'components/document/style';
 import { DocumentVersion } from 'components/document/version';
-import { ImageViewer } from 'components/image-viewer';
 import { Seo } from 'components/seo';
 import { useDocumentDetail } from 'data/document';
 import { useUser } from 'data/user';
 import { triggerJoinUser } from 'event';
-import { useDocumentStyle } from 'hooks/use-document-style';
 import { useMount } from 'hooks/use-mount';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
 import Router from 'next/router';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { CollaborationEditor } from 'tiptap/editor';
 
@@ -27,19 +23,6 @@ import styles from './index.module.scss';
 
 const { Header } = Layout;
 const { Text } = Typography;
-const getEditBtnStyle = (right = 16) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: 30,
-  width: 30,
-  borderRadius: '100%',
-  backgroundColor: '#0077fa',
-  color: '#fff',
-  right,
-  bottom: 70,
-  transform: 'translateY(-50px)',
-});
 
 interface IProps {
   documentId: string;
