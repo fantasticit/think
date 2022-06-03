@@ -1,13 +1,5 @@
-import {
-  Breadcrumb,
-  Button,
-  Form,
-  Layout,
-  Nav,
-  Skeleton,
-  Space,
-  Typography,
-} from '@douyinfe/semi-ui';
+import { Breadcrumb, Button, Form, Layout, Nav, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
+import { IconExport, IconImport } from '@douyinfe/semi-icons';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { DataRender } from 'components/data-render';
 import { Divider } from 'components/divider';
@@ -28,6 +20,9 @@ import { CollaborationEditor } from 'tiptap/editor';
 
 import { Author } from '../author';
 import styles from './index.module.scss';
+import Router from 'next/router';
+import { useRouterQuery } from 'hooks/use-router-query';
+import { IDocument, IWiki } from '@think/domains';
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -39,7 +34,8 @@ interface IProps {
 
 export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = false }) => {
   const $form = useRef<FormApi>();
-  const mounted = useMount()
+  const mounted = useMount();
+  const { wikiId: currentWikiId } = useRouterQuery<{ wikiId: IWiki['id']; documentId: IDocument['id'] }>();
   const { data, loading, error, query } = usePublicDocumentDetail(documentId);
   const { width, fontSize } = useDocumentStyle();
   const { isMobile } = IsOnMobile.useHook();
@@ -68,7 +64,12 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
     });
   }, [query]);
 
-  if (!documentId) return null;
+  const toPublicWikiOrDocumentURL = useCallback(() => {
+    Router.push({
+      pathname: currentWikiId ? '/share/document/[documentId]' : '/share/wiki/[wikiId]/document/[documentId]',
+      query: currentWikiId ? { documentId } : { wikiId: data.wikiId, documentId },
+    });
+  }, [data, currentWikiId]);
 
   const content = useMemo(() => {
     if (error) {
@@ -94,36 +95,40 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
         );
       }
       // @ts-ignore
-      return (<div
-        style={{
-          margin: '10%',
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <SecureDocumentIllustration />
-        <Text style={{ marginTop: 12 }} type="danger">
-          {(error && (error as Error).message) || '未知错误'}
-        </Text>
-      </div>);
+      return (
+        <div
+          style={{
+            margin: '10%',
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <SecureDocumentIllustration />
+          <Text style={{ marginTop: 12 }} type="danger">
+            {(error && (error as Error).message) || '未知错误'}
+          </Text>
+        </div>
+      );
     }
 
     return (
       <>
         {data && <Seo title={data.title} />}
-        {mounted && <CollaborationEditor
-          menubar={false}
-          editable={false}
-          user={null}
-          id={documentId}
-          type="document"
-          renderInEditorPortal={renderAuthor}
-        />}
+        {mounted && (
+          <CollaborationEditor
+            menubar={false}
+            editable={false}
+            user={null}
+            id={documentId}
+            type="document"
+            renderInEditorPortal={renderAuthor}
+          />
+        )}
       </>
-    )
-  }, [error, data, mounted, editorWrapClassNames, fontSize])
+    );
+  }, [error, data, mounted, editorWrapClassNames, fontSize]);
 
   return (
     <Layout className={styles.wrap}>
@@ -143,6 +148,26 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           }
           footer={
             <Space>
+              {currentWikiId ? (
+                <Tooltip content="独立模式">
+                  <Button
+                    theme="borderless"
+                    type="tertiary"
+                    icon={<IconExport />}
+                    onClick={toPublicWikiOrDocumentURL}
+                  />
+                </Tooltip>
+              ) : (
+                <Tooltip content="嵌入模式">
+                  <Button
+                    theme="borderless"
+                    type="tertiary"
+                    icon={<IconImport />}
+                    onClick={toPublicWikiOrDocumentURL}
+                  />
+                </Tooltip>
+              )}
+
               <DocumentStyle />
               <Theme />
               <User />
@@ -154,7 +179,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
             error={error}
             loadingContent={<Skeleton active placeholder={<Skeleton.Title style={{ width: 80 }} />} loading={true} />}
             normalContent={() => (
-              <Breadcrumb >
+              <Breadcrumb>
                 <Breadcrumb.Item>
                   <Link href="/share/wiki/[wikiId]" as={`/share/wiki/${data.wikiId}`}>
                     <a>{data?.wiki?.name}</a>
