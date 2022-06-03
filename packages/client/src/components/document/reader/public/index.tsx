@@ -10,6 +10,7 @@ import {
 } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { DataRender } from 'components/data-render';
+import { Divider } from 'components/divider';
 import { DocumentStyle } from 'components/document/style';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
@@ -131,10 +132,13 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           mode="horizontal"
           header={
             !hideLogo && !isMobile ? (
-              <Space style={{ marginRight: 12 }}>
-                <LogoImage />
-                <LogoText />
-              </Space>
+              <>
+                <Space>
+                  <LogoImage />
+                  <LogoText />
+                </Space>
+                <Divider margin={12} />
+              </>
             ) : null
           }
           footer={
