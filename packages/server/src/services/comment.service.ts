@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DocumentService } from '@services/document.service';
 import { MessageService } from '@services/message.service';
 import { OutUser, UserService } from '@services/user.service';
+import { DocumentStatus } from '@think/domains';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -46,14 +47,18 @@ export class CommentService {
   async create(user: OutUser, userAgent: string, dto: CommentDto) {
     const { documentId, html, replyUserId } = dto;
 
-    const docAuth = await this.documentService.getDocumentAuthority(documentId, user.id);
+    const doc = await this.documentService.findById(documentId);
 
-    if (!docAuth) {
-      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-    }
+    if (doc.status !== DocumentStatus.public) {
+      const docAuth = await this.documentService.getDocumentAuthority(documentId, user.id);
 
-    if (!docAuth.readable) {
-      throw new HttpException('权限不足，无法评论', HttpStatus.FORBIDDEN);
+      if (!docAuth) {
+        throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
+      }
+
+      if (!docAuth.readable) {
+        throw new HttpException('权限不足，无法评论', HttpStatus.FORBIDDEN);
+      }
     }
 
     const { text: uaText } = parseUserAgent(userAgent);
@@ -62,7 +67,6 @@ export class CommentService {
       documentId,
       parentCommentId: dto.parentCommentId,
       createUserId: user.id,
-      //   TODO: XSS 过滤
       html,
       replyUserId,
       userAgent: uaText,
@@ -71,8 +75,7 @@ export class CommentService {
     const res = await this.commentRepo.create(comment);
     const ret = await this.commentRepo.save(res);
 
-    const doc = await this.documentService.findById(documentId);
-    const wikiUsersAuth = await this.documentService.getDocUsers(user, documentId);
+    const wikiUsersAuth = await this.documentService.getDocUsersWithoutAuthCheck(user, documentId);
 
     await Promise.all(
       wikiUsersAuth.map(async (userAuth) => {
@@ -174,7 +177,7 @@ export class CommentService {
     const newData = await this.commentRepo.merge(old, { html: dto.html });
 
     const doc = await this.documentService.findById(old.documentId);
-    const wikiUsersAuth = await this.documentService.getDocUsers(user, old.documentId);
+    const wikiUsersAuth = await this.documentService.getDocUsersWithoutAuthCheck(user, old.documentId);
 
     await Promise.all(
       wikiUsersAuth.map(async (userAuth) => {

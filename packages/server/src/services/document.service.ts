@@ -273,6 +273,29 @@ export class DocumentService {
   }
 
   /**
+   * 获取文档成员
+   * 忽略权限检查
+   * @param userId
+   * @param wikiId
+   */
+  async getDocUsersWithoutAuthCheck(user: OutUser, documentId) {
+    const doc = await this.documentRepo.findOne({ id: documentId });
+
+    if (!doc) {
+      throw new HttpException('文档不存在', HttpStatus.BAD_REQUEST);
+    }
+
+    const data = await this.documentAuthorityRepo.find({ documentId });
+
+    return await Promise.all(
+      data.map(async (auth) => {
+        const user = await this.userService.findById(auth.userId);
+        return { auth, user };
+      })
+    );
+  }
+
+  /**
    * 创建文档
    * @param user
    * @param dto
