@@ -64,7 +64,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
           provider: hocuspocusProvider,
           user: {
             ...(user || {
-              name: '匿名用户正在阅读文章...',
+              name: '访客',
             }),
             color: getRandomColor(),
           },
