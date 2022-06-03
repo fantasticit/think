@@ -158,7 +158,7 @@ const SerializerConfig = {
       state.renderList(node, '  ', () => (node.attrs.bullet || '*') + ' ');
     },
     [Text.name]: defaultMarkdownSerializer.nodes.text,
-    [Title.name]: renderCustomContainer('title'),
+    [Title.name]: renderHTMLNode('div', false, true, { class: 'title' }),
   },
 };
 

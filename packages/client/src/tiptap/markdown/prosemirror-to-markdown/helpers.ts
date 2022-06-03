@@ -132,7 +132,9 @@ export function openTag(tagName, attrs) {
   str += Object.entries(attrs || {})
     .map(([key, value]) => {
       if ((ignoreAttrs[tagName] || []).includes(key) || defaultAttrs[tagName]?.[key] === value) return '';
-
+      if (!['class', 'id'].includes(key) && !key.startsWith('data-')) {
+        key = `data-${key}`;
+      }
       return ` ${key}="${htmlEncode(value?.toString())}"`;
     })
     .join('');

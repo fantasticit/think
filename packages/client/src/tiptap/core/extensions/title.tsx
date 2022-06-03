@@ -74,7 +74,7 @@ export const Title = Node.create<TitleOptions>({
 
               const $head = state.selection.$head;
               const titleNode = $head.node($head.depth);
-              const endPos = titleNode.firstChild.nodeSize + 1;
+              const endPos = ((titleNode.firstChild && titleNode.firstChild.nodeSize) || 0) + 1;
 
               dispatch(state.tr.insert(endPos, paragraph.create()));
 
