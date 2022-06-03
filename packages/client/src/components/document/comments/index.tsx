@@ -17,7 +17,7 @@ interface IProps {
 const { Text, Paragraph } = Typography;
 
 export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
-  const { user, logout } = useUser();
+  const { user, toLogin } = useUser();
   const {
     data: commentsData,
     loading,
@@ -39,11 +39,11 @@ export const CommentEditor: React.FC<IProps> = ({ documentId }) => {
 
   const openEditor = useCallback(() => {
     if (!user) {
-      return logout();
+      return toLogin();
     }
     toggleIsEdit(true);
     editor.chain().focus();
-  }, [editor, logout, toggleIsEdit, user]);
+  }, [editor, toLogin, toggleIsEdit, user]);
 
   const handleClose = useCallback(() => {
     setReplyComment(null);
