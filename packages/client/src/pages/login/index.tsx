@@ -3,6 +3,7 @@ import { Author } from 'components/author';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
 import { useUser } from 'data/user';
+import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import React, { useCallback } from 'react';
@@ -14,6 +15,7 @@ const { Title, Text } = Typography;
 
 const Page = () => {
   const { login } = useUser();
+  const query = useRouterQuery();
   const [loading, toggleLoading] = useToggle(false);
 
   const toLogin = useCallback(
@@ -66,7 +68,12 @@ const Page = () => {
           </Button>
           <footer>
             <Text link style={{ textAlign: 'center' }}>
-              <Link href="/register">
+              <Link
+                href={{
+                  pathname: '/register',
+                  query,
+                }}
+              >
                 <a>注册用户以登录</a>
               </Link>
             </Text>

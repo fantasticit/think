@@ -1,6 +1,6 @@
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 
-export function useRouterQuery<T>() {
+export function useRouterQuery<T extends Router['query']>() {
   const router = useRouter();
-  return router.query as unknown as T;
+  return router.query as T;
 }

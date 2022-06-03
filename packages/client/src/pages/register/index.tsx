@@ -3,6 +3,7 @@ import { Author } from 'components/author';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
 import { useAsyncLoading } from 'hooks/use-async-loading';
+import { useRouterQuery } from 'hooks/use-router-query';
 import Link from 'next/link';
 import Router from 'next/router';
 import React from 'react';
@@ -14,6 +15,7 @@ const { Content, Footer } = Layout;
 const { Title, Text } = Typography;
 
 const Page = () => {
+  const query = useRouterQuery();
   const [registerWithLoading, loading] = useAsyncLoading(registerApi);
 
   const onFinish = (values) => {
@@ -75,7 +77,12 @@ const Page = () => {
           </Button>
           <footer>
             <Text link style={{ textAlign: 'center' }}>
-              <Link href="/login">
+              <Link
+                href={{
+                  pathname: '/login',
+                  query,
+                }}
+              >
                 <a>使用其他账户登录</a>
               </Link>
             </Text>
