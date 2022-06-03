@@ -69,11 +69,13 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
       const container = $container.current;
       if (!container) return;
 
-      const activeAnchor = container.querySelector('.semi-anchor-link-title-active');
-      if (!activeAnchor) return;
-
-      scrollIntoView(activeAnchor, { behavior: 'smooth', scrollMode: 'if-needed' });
-    }, 200);
+      let target = container.querySelector('.semi-anchor-link-title-active');
+      if (!target) {
+        target = container.querySelector('.semi-anchor-link-title:first-of-type');
+      }
+      if (!target) return;
+      scrollIntoView(target, { scrollMode: 'if-needed' });
+    }, 100);
 
     el.addEventListener('scroll', scrollHandler);
 

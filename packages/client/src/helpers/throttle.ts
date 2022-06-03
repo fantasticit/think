@@ -3,7 +3,7 @@ export function throttle(func, wait, options?: { leading: boolean; trailing: boo
   let timeout = null;
   let previous = 0;
 
-  if (!options) options = { leading: true, trailing: true };
+  if (!options) options = { leading: false, trailing: true };
 
   const later = function () {
     previous = options.leading === false ? 0 : Date.now();
