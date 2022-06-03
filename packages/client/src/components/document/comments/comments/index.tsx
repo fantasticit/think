@@ -1,7 +1,7 @@
 import type { IComment } from '@think/domains';
 import React from 'react';
 
-import { CommentItem } from './Item';
+import { CommentItem } from './item';
 
 interface IProps {
   comments: Array<IComment>;
