@@ -198,8 +198,7 @@ export class CommentService {
       throw new HttpException('您不是评论创建者，无法删除', HttpStatus.FORBIDDEN);
     }
     const doc = await this.documentService.findById(data.documentId);
-    const wikiUsersAuth = await this.documentService.getDocUsers(user, data.documentId);
-
+    const wikiUsersAuth = await this.documentService.getDocUsersWithoutAuthCheck(user, data.documentId);
     await Promise.all(
       wikiUsersAuth.map(async (userAuth) => {
         await this.messageService.notify(userAuth.user, {
