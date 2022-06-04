@@ -1,3 +1,4 @@
+import { IUser } from '@think/domains';
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { FlowWrapper } from 'tiptap/core/wrappers/flow';
@@ -7,6 +8,8 @@ export interface IFlowAttrs {
   width?: number | string;
   height?: number;
   data?: string;
+  defaultShowPicker?: boolean;
+  createUser?: IUser['id'];
 }
 
 declare module '@tiptap/core' {
@@ -39,6 +42,12 @@ export const Flow = Node.create({
       data: {
         default: DEFAULT_XML,
         parseHTML: getDatasetAttribute('data'),
+      },
+      defaultShowPicker: {
+        default: false,
+      },
+      createUser: {
+        default: null,
       },
     };
   },

@@ -114,8 +114,8 @@ export const COMMANDS: ICommand[] = [
   {
     icon: <IconFlow />,
     label: '流程图',
-    action: (editor) => {
-      editor.chain().focus().setFlow({ width: '100%' }).run();
+    action: (editor, user) => {
+      editor.chain().focus().setFlow({ width: '100%', defaultShowPicker: true, createUser: user.id }).run();
     },
   },
   {

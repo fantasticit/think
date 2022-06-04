@@ -2,16 +2,22 @@ import { IconCopy, IconDelete, IconEdit } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
 import { Divider } from 'components/divider';
 import { Tooltip } from 'components/tooltip';
-import { useCallback } from 'react';
+import { useUser } from 'data/user';
+import { useCallback, useEffect } from 'react';
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
-import { Flow } from 'tiptap/core/extensions/flow';
+import { Flow, IFlowAttrs } from 'tiptap/core/extensions/flow';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 import { triggerOpenFlowSettingModal } from '../_event';
 
 export const FlowBubbleMenu = ({ editor }) => {
-  const attrs = useAttributes(editor, Flow.name, {});
+  const attrs = useAttributes<IFlowAttrs>(editor, Flow.name, {
+    defaultShowPicker: false,
+    createUser: '',
+  });
+  const { defaultShowPicker, createUser } = attrs;
+  const { user } = useUser();
 
   const openEditLinkModal = useCallback(() => {
     triggerOpenFlowSettingModal(editor, attrs);
@@ -19,6 +25,13 @@ export const FlowBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(() => editor.isActive(Flow.name), [editor]);
   const copyMe = useCallback(() => copyNode(Flow.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(Flow.name, editor), [editor]);
+
+  useEffect(() => {
+    if (defaultShowPicker && user && createUser === user.id) {
+      openEditLinkModal();
+      editor.chain().updateAttributes(Flow.name, { defaultShowPicker: false }).focus().run();
+    }
+  }, [createUser, defaultShowPicker, editor, openEditLinkModal, user]);
 
   return (
     <BubbleMenu

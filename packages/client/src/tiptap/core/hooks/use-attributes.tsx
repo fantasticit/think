@@ -8,12 +8,7 @@ function mapSelf<T>(d: T): T {
   return d;
 }
 
-export function useAttributes<T extends Record<string, unknown>, R>(
-  editor: Editor,
-  attrbute: string,
-  defaultValue?: T,
-  map?: (arg: T) => R
-) {
+export function useAttributes<T, R = T>(editor: Editor, attrbute: string, defaultValue?: T, map?: (arg: T) => R) {
   const mapFn = (map || mapSelf) as MapFn<T, R>;
   const [value, setValue] = useState<R>(mapFn(defaultValue));
   const prevValueCache = useRef<R>(value);
