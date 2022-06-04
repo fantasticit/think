@@ -1,3 +1,4 @@
+import { IUser } from '@think/domains';
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { MindWrapper } from 'tiptap/core/wrappers/mind';
@@ -11,6 +12,8 @@ const DEFAULT_MIND_DATA = {
 };
 
 export interface IMindAttrs {
+  defaultShowPicker?: boolean;
+  createUser?: IUser['id'];
   width?: number | string;
   height?: number;
   data?: Record<string, unknown>;
@@ -36,6 +39,12 @@ export const Mind = Node.create({
 
   addAttributes() {
     return {
+      defaultShowPicker: {
+        default: false,
+      },
+      createUser: {
+        default: null,
+      },
       width: {
         default: '100%',
         parseHTML: getDatasetAttribute('width'),

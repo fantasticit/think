@@ -121,8 +121,8 @@ export const COMMANDS: ICommand[] = [
   {
     icon: <IconMind />,
     label: '思维导图',
-    action: (editor) => {
-      editor.chain().focus().setMind({ width: '100%' }).run();
+    action: (editor, user) => {
+      editor.chain().focus().setMind({ width: '100%', defaultShowPicker: true, createUser: user.id }).run();
     },
   },
   {

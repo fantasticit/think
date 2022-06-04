@@ -3,16 +3,23 @@ import { Button, Space } from '@douyinfe/semi-ui';
 import { Divider } from 'components/divider';
 import { SizeSetter } from 'components/size-setter';
 import { Tooltip } from 'components/tooltip';
-import { useCallback } from 'react';
+import { useUser } from 'data/user';
+import { useCallback, useEffect } from 'react';
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
-import { Mind } from 'tiptap/core/extensions/mind';
+import { IMindAttrs, Mind } from 'tiptap/core/extensions/mind';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { copyNode, deleteNode, getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import { triggerOpenMindSettingModal } from '../_event';
 
 export const MindBubbleMenu = ({ editor }) => {
-  const attrs = useAttributes(editor, Mind.name, {});
+  const attrs = useAttributes<IMindAttrs>(editor, Mind.name, {
+    defaultShowPicker: false,
+    createUser: '',
+  });
+  const { defaultShowPicker, createUser } = attrs;
+  const { user } = useUser();
+
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const { width, height } = useAttributes(editor, Mind.name, { width: 0, height: 0 });
 
@@ -36,6 +43,13 @@ export const MindBubbleMenu = ({ editor }) => {
   const openEditLinkModal = useCallback(() => {
     triggerOpenMindSettingModal(editor, attrs);
   }, [editor, attrs]);
+
+  useEffect(() => {
+    if (defaultShowPicker && user && createUser === user.id) {
+      openEditLinkModal();
+      editor.chain().updateAttributes(Mind.name, { defaultShowPicker: false }).focus().run();
+    }
+  }, [createUser, defaultShowPicker, editor, openEditLinkModal, user]);
 
   return (
     <BubbleMenu
