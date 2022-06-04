@@ -25,7 +25,7 @@ export class AliyunOssClient extends BaseOssClient {
       this.client = new AliyunOSS(config);
       return this.client;
     } catch (err) {
-      console.log('无法启动阿里云存储服务，请检查阿里云 OSS 配置是否正确');
+      console.log('无法启动阿里云存储服务，请检查阿里云 OSS 配置是否正确', err.message);
     }
   }
 
