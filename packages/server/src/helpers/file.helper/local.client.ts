@@ -24,7 +24,7 @@ export class LocalOssClient extends BaseOssClient {
    * @param md5
    * @returns
    */
-  protected storeFilePath(md5: string): {
+  protected getStoreDir(md5: string): {
     relative: string;
     absolute: string;
   } {
@@ -57,7 +57,7 @@ export class LocalOssClient extends BaseOssClient {
    */
   async uploadFile(file: Express.Multer.File, query: FileQuery): Promise<string> {
     const { filename, md5 } = query;
-    const { absolute, relative } = this.storeFilePath(md5);
+    const { absolute, relative } = this.getStoreDir(md5);
     const absoluteFilepath = path.join(absolute, filename);
     const relativeFilePath = path.join(relative, filename);
 
@@ -80,7 +80,7 @@ export class LocalOssClient extends BaseOssClient {
       throw new Error('请指定 chunkIndex');
     }
 
-    const { absolute, relative } = this.storeFilePath(md5);
+    const { absolute, relative } = this.getStoreDir(md5);
     const absoluteFilepath = path.join(absolute, filename);
 
     if (fs.existsSync(absoluteFilepath)) {
@@ -100,7 +100,7 @@ export class LocalOssClient extends BaseOssClient {
    */
   async mergeChunk(query: FileQuery): Promise<string> {
     const { filename, md5 } = query;
-    const { absolute, relative } = this.storeFilePath(md5);
+    const { absolute, relative } = this.getStoreDir(md5);
     const absoluteFilepath = path.join(absolute, filename);
     const relativeFilePath = path.join(relative, filename);
 
