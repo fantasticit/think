@@ -5,6 +5,7 @@ lib
 
 **/.next/**
 **/dist/**
+**/static/**
 **/build/**
 **/public/**
 **/diagram.js

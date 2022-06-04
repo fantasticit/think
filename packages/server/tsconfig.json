@@ -23,5 +23,8 @@
       "@controllers/*": ["src/controllers/*"],
       "@modules/*": ["src/modules/*"]
     }
+  },
+  "watchOptions": {
+    "excludeFiles": ["static"]
   }
 }

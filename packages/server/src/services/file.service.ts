@@ -1,25 +1,24 @@
-import { AliyunOssClient } from '@helpers/aliyun.helper';
-import { dateFormat } from '@helpers/date.helper';
-import { uniqueid } from '@helpers/uniqueid.helper';
+import { getOssClient, OssClient } from '@helpers/file.helper';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FileService {
-  private ossClient: AliyunOssClient;
+  private ossClient: OssClient;
 
   constructor(private readonly configService: ConfigService) {
-    this.ossClient = new AliyunOssClient(this.configService);
+    this.ossClient = getOssClient(this.configService);
   }
 
-  /**
-   * 上传文件
-   * @param file
-   */
-  async uploadFile(file) {
-    const { originalname, buffer } = file;
-    const filename = `/${dateFormat(new Date(), 'yyyy-MM-dd')}/${uniqueid()}/${originalname}`;
-    const url = await this.ossClient.putFile(filename, buffer);
-    return url;
+  async uploadFile(file, query) {
+    return this.ossClient.uploadFile(file, query);
+  }
+
+  async uploadChunk(file, query) {
+    return this.ossClient.uploadChunk(file, query);
+  }
+
+  async mergeChunk(query) {
+    return this.ossClient.mergeChunk(query);
   }
 }

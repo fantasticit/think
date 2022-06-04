@@ -7,4 +7,24 @@ export const FileApiDefinition = {
     server: 'upload' as const,
     client: () => '/file/upload',
   },
+
+  /**
+   * 上传分块文件
+   */
+  uploadChunk: {
+    method: 'post' as const,
+    server: 'upload/chunk' as const,
+    client: () => '/file/upload/chunk',
+  },
+
+  /**
+   * 上传分块文件
+   */
+  mergeChunk: {
+    method: 'post' as const,
+    server: 'merge/chunk' as const,
+    client: () => '/file/merge/chunk',
+  },
 };
+
+export const FILE_CHUNK_SIZE = 2 * 1024 * 1024;

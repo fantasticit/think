@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.FileApiDefinition = void 0;
+exports.FILE_CHUNK_SIZE = exports.FileApiDefinition = void 0;
 exports.FileApiDefinition = {
     /**
      * 上传文件
@@ -9,5 +9,22 @@ exports.FileApiDefinition = {
         method: 'post',
         server: 'upload',
         client: function () { return '/file/upload'; }
+    },
+    /**
+     * 上传分块文件
+     */
+    uploadChunk: {
+        method: 'post',
+        server: 'upload/chunk',
+        client: function () { return '/file/upload/chunk'; }
+    },
+    /**
+     * 上传分块文件
+     */
+    mergeChunk: {
+        method: 'post',
+        server: 'merge/chunk',
+        client: function () { return '/file/merge/chunk'; }
     }
 };
+exports.FILE_CHUNK_SIZE = 2 * 1024 * 1024;
