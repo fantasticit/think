@@ -4,7 +4,7 @@ import Suggestion from '@tiptap/suggestion';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import tippy from 'tippy.js';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
-import { QUICK_INSERT_ITEMS } from 'tiptap/core/menus/quick-insert';
+import { insertMenuLRUCache, QUICK_INSERT_COMMANDS, transformToCommands } from 'tiptap/core/menus/commands';
 import { MenuList } from 'tiptap/core/wrappers/menu-list';
 
 export const QuickInsertPluginKey = new PluginKey('quickInsert');
@@ -25,7 +25,8 @@ export const QuickInsert = Node.create({
           const $from = state.selection.$from;
           const tr = state.tr.deleteRange($from.start(), $from.pos);
           dispatch(tr);
-          props?.command(editor, props.user);
+          props?.action(editor, props.user);
+          insertMenuLRUCache.put(props.label);
           editor?.view?.focus();
         },
       },
@@ -33,57 +34,26 @@ export const QuickInsert = Node.create({
   },
 
   addProseMirrorPlugins() {
-    const { editor } = this;
-
     return [
       Suggestion({
         editor: this.editor,
         ...this.options.suggestion,
       }),
-
       new Plugin({
         key: new PluginKey('evokeMenuPlaceholder'),
-        props: {
-          // decorations: (state) => {
-          //   if (!editor.isEditable) return;
-          //   const parent = findParentNode((node) => node.type.name === 'paragraph')(state.selection);
-          //   if (!parent) {
-          //     return;
-          //   }
-          //   const decorations: Decoration[] = [];
-          //   const isEmpty = parent && parent.node.content.size === 0;
-          //   const isSlash = parent && parent.node.textContent === '/';
-          //   const isTopLevel = state.selection.$from.depth === 1;
-          //   const hasOtherChildren = parent && parent.node.content.childCount > 1;
-          //   if (isTopLevel) {
-          //     if (isEmpty) {
-          //       decorations.push(
-          //         Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
-          //           'class': 'is-empty',
-          //           'data-placeholder': '输入 / 唤起更多',
-          //         })
-          //       );
-          //     }
-          //     if (isSlash && !hasOtherChildren) {
-          //       decorations.push(
-          //         Decoration.node(parent.pos, parent.pos + parent.node.nodeSize, {
-          //           'class': 'is-empty',
-          //           'data-placeholder': `  继续输入进行过滤`,
-          //         })
-          //       );
-          //     }
-          //     return DecorationSet.create(state.doc, decorations);
-          //   }
-          //   return null;
-          // },
-        },
       }),
     ];
   },
 }).configure({
   suggestion: {
     items: ({ query }) => {
-      return QUICK_INSERT_ITEMS.filter((command) => command.key.startsWith(query));
+      const recentUsed = insertMenuLRUCache.get() as string[];
+      const restCommands = QUICK_INSERT_COMMANDS.filter((command) => {
+        return !('title' in command) && !('custom' in command) && !recentUsed.includes(command.label);
+      });
+      return [...transformToCommands(recentUsed), ...restCommands].filter(
+        (command) => !('title' in command) && command.label && command.label.startsWith(query)
+      );
     },
     render: () => {
       let component;
@@ -130,9 +100,8 @@ export const QuickInsert = Node.create({
           return component.ref?.onKeyDown(props);
         },
 
-        onExit(props) {
+        onExit() {
           if (!isEditable) return;
-
           popup[0].destroy();
           component.destroy();
         },

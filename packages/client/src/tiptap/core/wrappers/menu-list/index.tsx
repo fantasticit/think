@@ -1,15 +1,17 @@
+import { Space } from '@douyinfe/semi-ui';
 import { Editor } from '@tiptap/core';
 import cls from 'classnames';
 import { useUser } from 'data/user';
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import { ILabelRenderCommand } from 'tiptap/core/menus/commands';
 
 import styles from './index.module.scss';
 
 interface IProps {
   editor: Editor;
-  items: Array<{ label: React.ReactNode | ((editor: Editor) => React.ReactNode) }>;
-  command: any;
+  items: ILabelRenderCommand[];
+  command: (command: ILabelRenderCommand) => void;
 }
 
 export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
@@ -18,12 +20,12 @@ export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selectItem = (index) => {
-    const item = props.items[index];
+    const command = props.items[index];
 
-    if (item) {
-      // @ts-ignore
-      item.user = user; // 注入用户信息
-      props.command(item);
+    if (command) {
+      // 注入用户信息
+      command.user = user;
+      props.command(command);
     }
   };
 
@@ -72,15 +74,20 @@ export const MenuList: React.FC<IProps> = forwardRef((props, ref) => {
     <div className={styles.items}>
       <div ref={$container}>
         {props.items.length ? (
-          props.items.map((item, index) => (
-            <span
-              className={cls(styles.item, index === selectedIndex ? styles['is-selected'] : '')}
-              key={index}
-              onClick={() => selectItem(index)}
-            >
-              {typeof item.label === 'function' ? item.label(props.editor) : item.label}
-            </span>
-          ))
+          props.items.map((item, index) => {
+            return (
+              <span
+                className={cls(styles.item, index === selectedIndex ? styles['is-selected'] : '')}
+                key={index}
+                onClick={() => selectItem(index)}
+              >
+                <Space>
+                  {item.icon}
+                  {item.label}
+                </Space>
+              </span>
+            );
+          })
         ) : (
           <div className={styles.item}>没有找到结果</div>
         )}
