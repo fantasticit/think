@@ -1,69 +1,37 @@
-import { Button, Collapsible, Input, Popover, Space, Tag } from '@douyinfe/semi-ui';
+import { IconTick } from '@douyinfe/semi-icons';
+import { Input, Popover, Space, Tag } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import styles from './index.module.scss';
 
-const colors = [
-  '#F5222D',
-  '#FA541C',
-  '#FA8C16',
-  '#FADB14',
-  '#52C41A',
-  '#13C2C2',
-  '#1890FF',
-  '#2F54EB',
-  '#722ED1',
-  '#EB2F96',
-  '#FFE8E6',
-  '#FFECE0',
-  '#FFEFD1',
-  '#DEE8FC',
-  '#EFE1FA',
-  '#FAE1EB',
-  '#FFA39E',
-  '#FFBB96',
-  '#FFD591',
-  '#FFFB8F',
-  '#B7EB8F',
-  '#87E8DE',
-  '#91D5FF',
-  '#ADC6FF',
-  '#D3ADF7',
-  '#FFADD2',
-  '#FF4D4F',
-  '#FF7A45',
-  '#FFA940',
-  '#FFEC3D',
-  '#73D13D',
-  '#36CFC9',
-  '#40A9FF',
-  '#597EF7',
-  '#9254DE',
-  '#F759AB',
-  '#CF1322',
-  '#D4380D',
-  '#D46B08',
-  '#D4B106',
-  '#389E0D',
-  '#08979C',
+export const STATUS_COLORS = [
+  // 按钮背景 文字颜色 背景颜色 边框颜色
+  ['rgb(223, 225, 230)', '#42526E', '#DFE1E6', 'rgb(80, 95, 121)'],
+  ['rgb(234, 230, 255)', '#403294', '#EAE6FF', 'rgb(82, 67, 170)'],
+  ['rgb(222, 235, 255)', '#0747A6', '#DEEBFF', 'rgb(0, 82, 204)'],
+  ['rgb(255, 235, 230)', '#BF2600', '#FFECE6', 'rgb(222, 53, 11)'],
+  ['rgb(255, 240, 179)', '#172B4D', '#FFF0B3', 'rgb(255, 153, 31)'],
+  ['rgb(227, 252, 239)', '#006644', '#E3FCEF', 'rgb(0, 135, 90)'],
 ];
 
 export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
-  const { color, text, defaultShowPicker, createUser } = node.attrs;
+  const { color: currentTextColor, bgcolor, borderColor, text, defaultShowPicker, createUser } = node.attrs;
   const { user } = useUser();
   const ref = useRef<HTMLInputElement>();
   const [visible, toggleVisible] = useToggle(false);
-  const [isOpen, toggleOpen] = useToggle(false);
 
-  const content = (
-    <Tag className="render-wrapper" style={{ backgroundColor: color }}>
-      {text || '点击设置状态'}
-    </Tag>
+  const content = useMemo(
+    () => (
+      <Tag className="render-wrapper" style={{ backgroundColor: bgcolor, border: `1px solid ${borderColor}` }}>
+        <span style={{ color: currentTextColor }}>{text || '点击设置状态'}</span>
+      </Tag>
+    ),
+    [bgcolor, borderColor, currentTextColor, text]
   );
 
   const onVisibleChange = useCallback(
@@ -74,6 +42,16 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
       }
     },
     [defaultShowPicker, toggleVisible, updateAttributes, createUser, user]
+  );
+
+  const setColor = useCallback(
+    (color) => () => {
+      updateAttributes({
+        color: color[1],
+        bgcolor: color[2],
+      });
+    },
+    [updateAttributes]
   );
 
   useEffect(() => {
@@ -98,29 +76,30 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
           visible={visible}
           onVisibleChange={onVisibleChange}
           content={
-            <div style={{ width: 216 }}>
+            <div style={{ width: 184, height: 65 }}>
               <div style={{ marginBottom: 8 }}>
                 <Input ref={ref} placeholder="输入状态" onChange={(v) => updateAttributes({ text: v })} />
               </div>
-              <Collapsible isOpen={isOpen} collapseHeight={28}>
-                <Space wrap={true}>
-                  {colors.map((color) => {
-                    return (
-                      <Tag
-                        key={color}
-                        style={{ width: 24, height: 24, cursor: 'pointer', background: color }}
-                        type="solid"
-                        onClick={() => updateAttributes({ color })}
-                      />
-                    );
-                  })}
-                </Space>
-              </Collapsible>
-              <div style={{ textAlign: 'right', marginTop: 8 }}>
-                <Button size={'small'} onClick={toggleOpen}>
-                  {isOpen ? '收起' : '更多'}
-                </Button>
-              </div>
+              <Space>
+                {STATUS_COLORS.map((color) => {
+                  return (
+                    <Tag
+                      key={color[0]}
+                      style={{
+                        width: 24,
+                        height: 24,
+                        cursor: 'pointer',
+                        background: color[0],
+                        border: `1px solid ${color[3]}`,
+                      }}
+                      type="solid"
+                      onClick={setColor(color)}
+                    >
+                      {currentTextColor === color[1] ? <IconTick style={{ color: color[1] }} /> : null}
+                    </Tag>
+                  );
+                })}
+              </Space>
             </div>
           }
           trigger="click"

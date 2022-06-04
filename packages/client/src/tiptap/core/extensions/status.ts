@@ -1,6 +1,6 @@
 import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { StatusWrapper } from 'tiptap/core/wrappers/status';
+import { STATUS_COLORS, StatusWrapper } from 'tiptap/core/wrappers/status';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 type IStatusAttrs = {
@@ -27,19 +27,27 @@ export const Status = Node.create({
 
   addAttributes() {
     return {
-      color: {
-        default: '#FFA39E',
-        parseHTML: getDatasetAttribute('color'),
-      },
-      text: {
-        default: '请设置状态内容',
-        parseHTML: getDatasetAttribute('text'),
-      },
       defaultShowPicker: {
         default: false,
       },
       createUser: {
         default: null,
+      },
+      color: {
+        default: STATUS_COLORS[0][1],
+        parseHTML: getDatasetAttribute('color'),
+      },
+      bgcolor: {
+        default: STATUS_COLORS[0][2],
+        parseHTML: getDatasetAttribute('bgcolor'),
+      },
+      borderColor: {
+        default: STATUS_COLORS[0][3],
+        parseHTML: getDatasetAttribute('borderColor'),
+      },
+      text: {
+        default: '请设置状态内容',
+        parseHTML: getDatasetAttribute('text'),
       },
     };
   },
