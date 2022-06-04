@@ -85,7 +85,6 @@ const MODULES = [
         } as TypeOrmModuleOptions;
       },
     }),
-
     ...MODULES,
   ].filter(Boolean),
   controllers: [],
