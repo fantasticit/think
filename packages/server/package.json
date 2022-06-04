@@ -38,6 +38,7 @@
     "class-validator": "^0.13.2",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
+    "cos-nodejs-sdk-v5": "^2.11.9",
     "date-fns": "^2.28.0",
     "express": "^4.17.2",
     "express-rate-limit": "^6.2.0",
