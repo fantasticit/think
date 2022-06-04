@@ -132,6 +132,7 @@ export class TencentOssClient extends BaseOssClient {
         } else {
           const uploadId = data.UploadId;
           this.uploadIdMap.set(inOssFileName, uploadId);
+          this.uploadChunkEtagMap.set(uploadId, []);
           resolve(uploadId);
         }
       });
@@ -161,9 +162,6 @@ export class TencentOssClient extends BaseOssClient {
         if (err) {
           reject(err);
         } else {
-          if (!this.uploadChunkEtagMap.has(uploadId)) {
-            this.uploadChunkEtagMap.set(uploadId, []);
-          }
           this.uploadChunkEtagMap.get(uploadId).push({
             PartNumber: chunkIndex,
             ETag: data.ETag,
