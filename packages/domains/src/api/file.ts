@@ -9,6 +9,15 @@ export const FileApiDefinition = {
   },
 
   /**
+   * 初始分块上传
+   */
+  initChunk: {
+    method: 'post' as const,
+    server: 'upload/initChunk' as const,
+    client: () => '/file/upload/initChunk',
+  },
+
+  /**
    * 上传分块文件
    */
   uploadChunk: {

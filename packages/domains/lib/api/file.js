@@ -13,6 +13,14 @@ exports.FileApiDefinition = {
     /**
      * 上传分块文件
      */
+    initChunk: {
+        method: 'post',
+        server: 'upload/initChunk',
+        client: function () { return '/file/upload/initChunk'; }
+    },
+    /**
+     * 上传分块文件
+     */
     uploadChunk: {
         method: 'post',
         server: 'upload/chunk',
