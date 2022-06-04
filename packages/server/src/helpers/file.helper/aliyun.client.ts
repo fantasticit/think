@@ -96,16 +96,29 @@ export class AliyunOssClient extends BaseOssClient {
    * @param query
    * @returns
    */
-  async uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<string | void> {
-    const { md5, filename, chunkIndex } = query;
-
-    if (!('chunkIndex' in query)) {
-      throw new Error('请指定 chunkIndex');
-    }
+  async initChunk(query: FileQuery): Promise<string | void> {
+    const { md5, filename } = query;
 
     const maybeOssURL = await this.checkIfAlreadyInOss(md5, filename);
     if (maybeOssURL) {
       return maybeOssURL;
+    }
+
+    return '';
+  }
+
+  /**
+   * 将切片临时存储到服务器
+   * FIXME: 阿里云的文档没看懂，故做成这种服务器中转的蠢模式
+   * @param file
+   * @param query
+   * @returns
+   */
+  async uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void> {
+    const { md5, chunkIndex } = query;
+
+    if (!('chunkIndex' in query)) {
+      throw new Error('请指定 chunkIndex');
     }
 
     const dir = this.getStoreDir(md5);

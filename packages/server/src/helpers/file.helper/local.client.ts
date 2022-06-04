@@ -69,16 +69,12 @@ export class LocalOssClient extends BaseOssClient {
   }
 
   /**
-   * 文件分块上传
+   * 文件分块初始化
    * @param file
    * @param query
    */
-  async uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void | string> {
-    const { filename, md5, chunkIndex } = query;
-
-    if (!('chunkIndex' in query)) {
-      throw new Error('请指定 chunkIndex');
-    }
+  async initChunk(query: FileQuery): Promise<void | string> {
+    const { filename, md5 } = query;
 
     const { absolute, relative } = this.getStoreDir(md5);
     const absoluteFilepath = path.join(absolute, filename);
@@ -88,6 +84,22 @@ export class LocalOssClient extends BaseOssClient {
       return this.serveFilePath(relativeFilePath);
     }
 
+    return '';
+  }
+
+  /**
+   * 文件分块上传
+   * @param file
+   * @param query
+   */
+  async uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void> {
+    const { md5, chunkIndex } = query;
+
+    if (!('chunkIndex' in query)) {
+      throw new Error('请指定 chunkIndex');
+    }
+
+    const { absolute } = this.getStoreDir(md5);
     const chunksDir = path.join(absolute, 'chunks');
     fs.ensureDirSync(chunksDir);
     fs.writeFileSync(path.join(chunksDir, '' + chunkIndex), file.buffer);

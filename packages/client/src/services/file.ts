@@ -83,37 +83,26 @@ export const uploadFile = async (
     const unitPercent = 1 / chunks.length;
     const progressMap = {};
 
-    /**
-     * 先上传一块分块，如果文件已上传，即无需上传后续分块
-     */
-    let url = await uploadFileToServer({
-      filename,
-      file: chunks[0],
-      chunkIndex: 1,
-      md5,
-      isChunk: true,
-      onUploadProgress: (progress) => {
-        progressMap[1] = progress * unitPercent;
-        wraponUploadProgress(
-          Object.keys(progressMap).reduce((a, c) => {
-            return (a += progressMap[c]);
-          }, 0)
-        );
+    let url = await HttpClient.request<string | undefined>({
+      method: FileApiDefinition.initChunk.method,
+      url: FileApiDefinition.initChunk.client(),
+      params: {
+        filename,
+        md5,
       },
     });
 
     if (!url) {
       await Promise.all(
-        chunks.slice(1).map((chunk, index) => {
-          const currentIndex = 1 + index + 1;
+        chunks.map((chunk, index) => {
           return uploadFileToServer({
             filename,
             file: chunk,
-            chunkIndex: currentIndex,
+            chunkIndex: index + 1,
             md5,
             isChunk: true,
             onUploadProgress: (progress) => {
-              progressMap[currentIndex] = progress * unitPercent;
+              progressMap[index] = progress * unitPercent;
               wraponUploadProgress(
                 Math.min(
                   Object.keys(progressMap).reduce((a, c) => {
@@ -136,9 +125,7 @@ export const uploadFile = async (
         },
       });
     }
-
     wraponUploadProgress(1);
-
     return url;
   }
 };

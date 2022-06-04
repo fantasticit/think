@@ -14,6 +14,10 @@ export class FileService {
     return this.ossClient.uploadFile(file, query);
   }
 
+  async initChunk(query) {
+    return this.ossClient.initChunk(query);
+  }
+
   async uploadChunk(file, query) {
     return this.ossClient.uploadChunk(file, query);
   }

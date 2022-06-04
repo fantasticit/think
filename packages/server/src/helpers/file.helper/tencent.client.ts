@@ -1,17 +1,34 @@
 import * as TencentCos from 'cos-nodejs-sdk-v5';
+import * as fs from 'fs-extra';
+import * as os from 'os';
+import * as path from 'path';
 
 import { BaseOssClient, FileQuery } from './oss.client';
 
+/**
+ * 生产环境会以集群方式运行，通过文件来确保 uploadId 只被初始化一次
+ * @param inOssFileName
+ * @param uploadId
+ * @returns
+ */
+function initUploadId(inOssFileName, uploadId) {
+  const uploadIdFile = path.join(os.tmpdir(), inOssFileName);
+  fs.ensureFileSync(uploadIdFile);
+  return fs.writeFileSync(uploadIdFile, uploadId);
+}
+
+function getUploadId(inOssFileName) {
+  const uploadIdFile = path.join(os.tmpdir(), inOssFileName);
+  return fs.readFileSync(uploadIdFile, 'utf-8');
+}
+
+function deleteUploadId(inOssFileName) {
+  const uploadIdFile = path.join(os.tmpdir(), inOssFileName);
+  return fs.removeSync(uploadIdFile);
+}
+
 export class TencentOssClient extends BaseOssClient {
   private client: TencentCos | null;
-  private uploadIdMap: Map<string, string> = new Map();
-  private uploadChunkEtagMap: Map<
-    string,
-    {
-      PartNumber: number;
-      ETag: string;
-    }[]
-  > = new Map();
 
   /**
    * 构建客户端
@@ -110,36 +127,6 @@ export class TencentOssClient extends BaseOssClient {
   }
 
   /**
-   * 初始化分块上传
-   * @param inOssFileName
-   * @returns
-   */
-  private getUploadChunkId(inOssFileName): Promise<string> {
-    if (this.uploadIdMap.has(inOssFileName)) {
-      return Promise.resolve(this.uploadIdMap.get(inOssFileName));
-    }
-
-    return new Promise((resolve, reject) => {
-      const params = {
-        Bucket: this.configService.get('oss.tencent.config.Bucket'),
-        Region: this.configService.get('oss.tencent.config.Region'),
-        Key: inOssFileName,
-      };
-      this.ensureOssClient();
-      this.client.multipartInit(params, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          const uploadId = data.UploadId;
-          this.uploadIdMap.set(inOssFileName, uploadId);
-          this.uploadChunkEtagMap.set(uploadId, []);
-          resolve(uploadId);
-        }
-      });
-    });
-  }
-
-  /**
    * 上传分片
    * @param uploadId
    * @param inOssFileName
@@ -158,14 +145,10 @@ export class TencentOssClient extends BaseOssClient {
         Body: file.buffer,
       };
       this.ensureOssClient();
-      this.client.multipartUpload(params, (err, data) => {
+      this.client.multipartUpload(params, (err) => {
         if (err) {
           reject(err);
         } else {
-          this.uploadChunkEtagMap.get(uploadId).push({
-            PartNumber: chunkIndex,
-            ETag: data.ETag,
-          });
           resolve();
         }
       });
@@ -188,26 +171,38 @@ export class TencentOssClient extends BaseOssClient {
         Key: inOssFileName,
       };
       this.ensureOssClient();
-      const parts = this.uploadChunkEtagMap.get(uploadId);
-      parts.sort((a, b) => a.PartNumber - b.PartNumber);
 
-      this.client.multipartComplete(
+      this.client.multipartListPart(
         {
           ...params,
           UploadId: uploadId,
-          Parts: parts,
         },
-        (err) => {
+        (err, data) => {
           if (err) {
             reject(err);
           } else {
-            this.client.getObjectUrl(params, (err, data) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve(data.Url);
+            const parts = data.Part;
+
+            this.client.multipartComplete(
+              {
+                ...params,
+                UploadId: uploadId,
+                Parts: parts,
+              },
+              (err) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  this.client.getObjectUrl(params, (err, data) => {
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(data.Url);
+                    }
+                  });
+                }
               }
-            });
+            );
           }
         }
       );
@@ -235,12 +230,51 @@ export class TencentOssClient extends BaseOssClient {
   }
 
   /**
+   * 初始分片
+   * @param file
+   * @param query
+   * @returns
+   */
+  async initChunk(query: FileQuery): Promise<string | void> {
+    const { md5, filename } = query;
+    this.ensureOssClient();
+
+    const inOssFileName = this.getInOssFileName(md5, filename);
+    const maybeOssURL = await this.checkIfAlreadyInOss(inOssFileName);
+
+    if (maybeOssURL) {
+      return maybeOssURL as string;
+    }
+
+    const params = {
+      Bucket: this.configService.get('oss.tencent.config.Bucket'),
+      Region: this.configService.get('oss.tencent.config.Region'),
+      Key: inOssFileName,
+    };
+
+    const promise = new Promise((resolve, reject) => {
+      this.client.multipartInit(params, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          const uploadId = data.UploadId;
+          initUploadId(inOssFileName, uploadId);
+          resolve(uploadId);
+        }
+      });
+    });
+
+    await promise;
+    return '';
+  }
+
+  /**
    * 上传分片
    * @param file
    * @param query
    * @returns
    */
-  async uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<string | void> {
+  async uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void> {
     const { md5, filename, chunkIndex } = query;
 
     if (!('chunkIndex' in query)) {
@@ -249,15 +283,8 @@ export class TencentOssClient extends BaseOssClient {
 
     this.ensureOssClient();
     const inOssFileName = this.getInOssFileName(md5, filename);
-
-    const maybeOssURL = await this.checkIfAlreadyInOss(inOssFileName);
-    if (maybeOssURL) {
-      return maybeOssURL as string;
-    }
-
-    const uploadId = await this.getUploadChunkId(inOssFileName);
+    const uploadId = getUploadId(inOssFileName);
     await this.uploadChunkToCos(uploadId, inOssFileName, chunkIndex, file);
-    return '';
   }
 
   /**
@@ -268,10 +295,9 @@ export class TencentOssClient extends BaseOssClient {
   async mergeChunk(query: FileQuery): Promise<string> {
     const { filename, md5 } = query;
     const inOssFileName = this.getInOssFileName(md5, filename);
-    const uploadId = await this.getUploadChunkId(inOssFileName);
+    const uploadId = getUploadId(inOssFileName);
     const data = await this.completeUploadChunkToCos(uploadId, inOssFileName);
-    this.uploadIdMap.delete(inOssFileName);
-    this.uploadChunkEtagMap.delete(uploadId);
+    deleteUploadId(inOssFileName);
     return data;
   }
 }

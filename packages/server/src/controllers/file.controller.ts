@@ -27,6 +27,16 @@ export class FileController {
   }
 
   /**
+   * 初始分块文件
+   * @param file
+   */
+  @Post(FileApiDefinition.initChunk.server)
+  @UseGuards(JwtGuard)
+  initChunk(@Query() query: FileQuery) {
+    return this.fileService.initChunk(query);
+  }
+
+  /**
    * 上传分块文件
    * @param file
    */
