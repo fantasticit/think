@@ -128,13 +128,12 @@ export const COMMANDS: ICommand[] = [
   {
     icon: <IconMath />,
     label: '数学公式',
-    action: (editor, user) => editor.chain().focus().setKatex({ defaultShowPicker: true, createUser: user.name }).run(),
+    action: (editor, user) => editor.chain().focus().setKatex({ defaultShowPicker: true, createUser: user.id }).run(),
   },
   {
     icon: <IconStatus />,
     label: '状态',
-    action: (editor, user) =>
-      editor.chain().focus().setStatus({ defaultShowPicker: true, createUser: user.name }).run(),
+    action: (editor, user) => editor.chain().focus().setStatus({ defaultShowPicker: true, createUser: user.id }).run(),
   },
   {
     icon: <IconCallout />,

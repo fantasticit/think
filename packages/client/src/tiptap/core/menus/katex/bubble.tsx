@@ -41,10 +41,11 @@ export const KatexBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
   }, [editor, createUser]);
 
   useEffect(() => {
-    if (defaultShowPicker && user && createUser === user.name) {
+    if (defaultShowPicker && user && createUser === user.id) {
       toggleVisible(true);
+      editor.chain().updateAttributes(Katex.name, { defaultShowPicker: false }).focus().run();
     }
-  }, [defaultShowPicker, toggleVisible, createUser, user]);
+  }, [editor, defaultShowPicker, toggleVisible, createUser, user]);
 
   useEffect(() => {
     if (visible) {

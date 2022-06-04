@@ -69,7 +69,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   const onVisibleChange = useCallback(
     (value) => {
       toggleVisible(value);
-      if (defaultShowPicker && user && user.name === createUser) {
+      if (defaultShowPicker && user && user.id === createUser) {
         updateAttributes({ defaultShowPicker: false });
       }
     },
@@ -77,7 +77,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   useEffect(() => {
-    if (defaultShowPicker && user && user.name === createUser) {
+    if (defaultShowPicker && user && user.id === createUser) {
       toggleVisible(true);
       setTimeout(() => ref.current?.focus(), 100);
     }
