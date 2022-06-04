@@ -7,20 +7,14 @@ import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef } from 'react';
 import { Editor } from 'tiptap/core';
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
-import { Katex } from 'tiptap/core/extensions/katex';
+import { IKatexAttrs, Katex } from 'tiptap/core/extensions/katex';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 const { Text } = Typography;
 
-type KatexAttrs = {
-  text: string;
-  defaultShowPicker: boolean;
-  createUser: string;
-};
-
 export const KatexBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
-  const attrs = useAttributes<KatexAttrs, KatexAttrs>(editor, Katex.name, {
+  const attrs = useAttributes<IKatexAttrs>(editor, Katex.name, {
     text: '',
     defaultShowPicker: false,
     createUser: '',

@@ -3,7 +3,7 @@ import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentReferenceWrapper } from 'tiptap/core/wrappers/document-reference';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
 
-type IDocumentReferenceAttrs = {
+export type IDocumentReferenceAttrs = {
   defaultShowPicker?: boolean;
   createUser: string;
 };

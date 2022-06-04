@@ -2,7 +2,7 @@ import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { KatexWrapper } from 'tiptap/core/wrappers/katex';
 
-type IKatexAttrs = {
+export type IKatexAttrs = {
   text?: string;
   defaultShowPicker?: boolean;
   createUser: string;

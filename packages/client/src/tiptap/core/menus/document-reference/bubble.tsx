@@ -10,19 +10,14 @@ import { useToggle } from 'hooks/use-toggle';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
-import { DocumentReference } from 'tiptap/core/extensions/document-reference';
+import { DocumentReference, IDocumentReferenceAttrs } from 'tiptap/core/extensions/document-reference';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 const { Text } = Typography;
 
-type DocumentReferenceAttrs = {
-  defaultShowPicker: boolean;
-  createUser: string;
-};
-
 export const DocumentReferenceBubbleMenu = ({ editor }) => {
-  const attrs = useAttributes<DocumentReferenceAttrs, DocumentReferenceAttrs>(editor, DocumentReference.name, {
+  const attrs = useAttributes<IDocumentReferenceAttrs>(editor, DocumentReference.name, {
     defaultShowPicker: false,
     createUser: '',
   });
