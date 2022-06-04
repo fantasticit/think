@@ -7,7 +7,7 @@ const resolveImageEl = (element) => (element.nodeName === 'IMG' ? element : elem
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     iamge: {
-      setEmptyImage: () => ReturnType;
+      setEmptyImage: (arg: { width?: number | string }) => ReturnType;
     };
   }
 }

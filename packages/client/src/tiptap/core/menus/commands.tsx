@@ -91,7 +91,6 @@ export const COMMANDS: ICommand[] = [
   {
     icon: <IconImage />,
     label: '图片',
-    // @ts-ignore
     action: (editor) => editor.chain().focus().setEmptyImage({ width: '100%' }).run(),
   },
   {
@@ -123,7 +122,6 @@ export const COMMANDS: ICommand[] = [
     icon: <IconMind />,
     label: '思维导图',
     action: (editor) => {
-      // @ts-ignore
       editor.chain().focus().setMind({ width: '100%' }).run();
     },
   },

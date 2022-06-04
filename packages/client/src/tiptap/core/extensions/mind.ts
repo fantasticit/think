@@ -11,7 +11,7 @@ const DEFAULT_MIND_DATA = {
 };
 
 export interface IMindAttrs {
-  width?: number;
+  width?: number | string;
   height?: number;
   data?: Record<string, unknown>;
   template?: string;
