@@ -43,7 +43,7 @@ db:
 # oss 文件存储服务
 oss:
   local:
-    enable: false
+    enable: true
     # 线上更改为服务端地址（如：https://api.codingit.cn）
     server: 'http://localhost:5002'
   # 以下为各厂商 sdk 配置，不要修改字段，填入值即可
