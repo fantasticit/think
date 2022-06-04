@@ -143,7 +143,7 @@ export const ImageUploader: React.FC<IProps> = ({ images, selectImage, children 
           showArrow
           zIndex={10000}
           trigger="click"
-          position="bottomLeft"
+          position="bottomRight"
           visible={visible}
           onVisibleChange={toggleVisible}
           content={<div style={{ width: 360, maxWidth: '96vw' }}>{content}</div>}
