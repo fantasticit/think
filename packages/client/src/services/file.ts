@@ -115,9 +115,13 @@ export const uploadFile = async (
             onUploadProgress: (progress) => {
               progressMap[currentIndex] = progress * unitPercent;
               wraponUploadProgress(
-                Object.keys(progressMap).reduce((a, c) => {
-                  return (a += progressMap[c]);
-                }, 0)
+                Math.min(
+                  Object.keys(progressMap).reduce((a, c) => {
+                    return (a += progressMap[c]);
+                  }, 0),
+                  // 剩下的 5% 交给 merge
+                  0.95
+                )
               );
             },
           });
@@ -131,9 +135,9 @@ export const uploadFile = async (
           md5,
         },
       });
-    } else {
-      wraponUploadProgress(1);
     }
+
+    wraponUploadProgress(1);
 
     return url;
   }
