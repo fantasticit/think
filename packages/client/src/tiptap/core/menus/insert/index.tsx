@@ -199,7 +199,7 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
             ) : command.custom ? (
               command.custom(editor, runCommand)
             ) : (
-              <Dropdown.Item key={command.label} onClick={runCommand(command)}>
+              <Dropdown.Item key={index + '-' + command.label} onClick={runCommand(command)}>
                 {command.icon}
                 {command.label}
               </Dropdown.Item>
