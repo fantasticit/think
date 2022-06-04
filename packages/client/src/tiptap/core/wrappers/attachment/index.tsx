@@ -1,5 +1,5 @@
 import { IconClose, IconDownload, IconPlayCircle } from '@douyinfe/semi-icons';
-import { Button, Collapsible, Progress, Space, Spin, Typography } from '@douyinfe/semi-ui';
+import { Button, Collapsible, Progress, Space, Spin, Toast, Typography } from '@douyinfe/semi-ui';
 import { FILE_CHUNK_SIZE } from '@think/domains';
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
@@ -46,7 +46,9 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
       }
 
       try {
-        const url = await uploadFile(file, setUploadProgress);
+        const url = await uploadFile(file, setUploadProgress, () => {
+          Toast.info('文件较大，文件将在后台进行上传处理，您可继续其他操作');
+        });
         updateAttributes({ ...fileInfo, url });
         toggleLoading(false);
         setUploadProgress(0);

@@ -4,40 +4,22 @@ import SparkMD5 from 'spark-md5';
 import { HttpClient } from './http-client';
 
 const splitBigFile = (file: File): Promise<{ chunks: File[]; md5: string }> => {
-  return new Promise((resolve, reject) => {
-    const spark = new SparkMD5.ArrayBuffer();
-    const fileReader = new FileReader();
+  return new Promise((resolve) => {
     const chunks = [];
     const len = Math.ceil(file.size / FILE_CHUNK_SIZE);
-    let current = 0;
-
-    fileReader.onload = (e) => {
-      current++;
-
-      const chunk = e.target.result;
-      spark.append(chunk);
-
-      if (current < len) {
-        loadChunk();
-      } else {
-        resolve({ chunks, md5: spark.end() });
-      }
+    const sparkWorker = new Worker(new URL('./spark-md5.js', import.meta.url));
+    sparkWorker.onmessage = (evt) => {
+      resolve({ md5: evt.data.md5, chunks });
     };
 
-    fileReader.onerror = (err) => {
-      reject(err);
-    };
-
-    const loadChunk = () => {
-      const start = current * FILE_CHUNK_SIZE;
+    for (let i = 0; i < len; i++) {
+      const start = i * FILE_CHUNK_SIZE;
       const end = Math.min(start + FILE_CHUNK_SIZE, file.size);
       const chunk = file.slice(start, end);
-
       chunks.push(chunk);
-      fileReader.readAsArrayBuffer(chunk);
-    };
+    }
 
-    loadChunk();
+    sparkWorker.postMessage({ chunks });
   });
 };
 
@@ -74,12 +56,21 @@ const uploadFileToServer = (arg: {
   });
 };
 
-export const uploadFile = async (file: File, onUploadProgress?: (progress: number) => void) => {
+export const uploadFile = async (
+  file: File,
+  onUploadProgress?: (progress: number) => void,
+  onTooLarge?: () => void
+) => {
   const wraponUploadProgress = (percent) => {
     return onUploadProgress && onUploadProgress(Math.ceil(percent * 100));
   };
 
   const filename = file.name;
+
+  if (file.size > FILE_CHUNK_SIZE * 5) {
+    onTooLarge && onTooLarge();
+  }
+
   if (file.size <= FILE_CHUNK_SIZE) {
     const spark = new SparkMD5.ArrayBuffer();
     spark.append(file);
@@ -91,33 +82,57 @@ export const uploadFile = async (file: File, onUploadProgress?: (progress: numbe
     const unitPercent = 1 / chunks.length;
     const progressMap = {};
 
-    await Promise.all(
-      chunks.map((chunk, index) =>
-        uploadFileToServer({
-          filename,
-          file: chunk,
-          chunkIndex: index + 1,
-          md5,
-          isChunk: true,
-          onUploadProgress: (progress) => {
-            progressMap[index] = progress * unitPercent;
-            wraponUploadProgress(
-              Object.keys(progressMap).reduce((a, c) => {
-                return (a += progressMap[c]);
-              }, 0)
-            );
-          },
-        })
-      )
-    );
-    const url = await HttpClient.request({
-      method: FileApiDefinition.mergeChunk.method,
-      url: FileApiDefinition.mergeChunk.client(),
-      params: {
-        filename,
-        md5,
+    /**
+     * 先上传一块分块，如果文件已上传，即无需上传后续分块
+     */
+    let url = await uploadFileToServer({
+      filename,
+      file: chunks[0],
+      chunkIndex: 1,
+      md5,
+      isChunk: true,
+      onUploadProgress: (progress) => {
+        progressMap[0] = progress * unitPercent;
+        wraponUploadProgress(
+          Object.keys(progressMap).reduce((a, c) => {
+            return (a += progressMap[c]);
+          }, 0)
+        );
       },
     });
+
+    if (!url) {
+      await Promise.all(
+        chunks.slice(1).map((chunk, index) =>
+          uploadFileToServer({
+            filename,
+            file: chunk,
+            chunkIndex: index + 1 + 1,
+            md5,
+            isChunk: true,
+            onUploadProgress: (progress) => {
+              progressMap[index + 1] = progress * unitPercent;
+              wraponUploadProgress(
+                Object.keys(progressMap).reduce((a, c) => {
+                  return (a += progressMap[c]);
+                }, 0)
+              );
+            },
+          })
+        )
+      );
+      url = await HttpClient.request({
+        method: FileApiDefinition.mergeChunk.method,
+        url: FileApiDefinition.mergeChunk.client(),
+        params: {
+          filename,
+          md5,
+        },
+      });
+    } else {
+      wraponUploadProgress(1);
+    }
+
     return url;
   }
 };
