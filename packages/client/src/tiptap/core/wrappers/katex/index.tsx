@@ -29,7 +29,7 @@ export const KatexWrapper = ({ node }) => {
       text.trim() ? (
         <span contentEditable={false} dangerouslySetInnerHTML={{ __html: formatText }}></span>
       ) : (
-        <span contentEditable={false}>点击输入公式</span>
+        <span contentEditable={false}>用户未输入公式</span>
       ),
     [text, formatText]
   );
