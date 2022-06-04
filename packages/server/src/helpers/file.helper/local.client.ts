@@ -7,7 +7,7 @@ import { BaseOssClient, FileQuery } from './oss.client';
 export const FILE_DEST = '/' + 'static';
 export const FILE_ROOT_PATH = path.join(__dirname, '../../../', FILE_DEST);
 
-const pipeWriteStream = (filepath, writeStream): Promise<void> => {
+export const pipeWriteStream = (filepath, writeStream): Promise<void> => {
   return new Promise((resolve) => {
     const readStream = fs.createReadStream(filepath);
     readStream.on('end', () => {
