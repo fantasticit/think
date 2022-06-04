@@ -4,17 +4,33 @@ import { DataRender } from 'components/data-render';
 import { Divider } from 'components/divider';
 import { IconDocument } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
+import { useUser } from 'data/user';
 import { useWikiTocs } from 'data/wiki';
+import { useToggle } from 'hooks/use-toggle';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { DocumentReference } from 'tiptap/core/extensions/document-reference';
+import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 const { Text } = Typography;
 
+type DocumentReferenceAttrs = {
+  defaultShowPicker: boolean;
+  createUser: string;
+};
+
 export const DocumentReferenceBubbleMenu = ({ editor }) => {
+  const attrs = useAttributes<DocumentReferenceAttrs, DocumentReferenceAttrs>(editor, DocumentReference.name, {
+    defaultShowPicker: false,
+    createUser: '',
+  });
+  const { defaultShowPicker, createUser } = attrs;
+  const { user } = useUser();
   const { pathname, query } = useRouter();
+  const [visible, toggleVisible] = useToggle(false);
+
   const wikiIdFromUrl = query?.wikiId;
   const isShare = pathname.includes('share');
   const { data: tocs, loading, error } = useWikiTocs(isShare ? null : wikiIdFromUrl);
@@ -36,6 +52,13 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
   const copyMe = useCallback(() => copyNode(DocumentReference.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(DocumentReference.name, editor), [editor]);
 
+  useEffect(() => {
+    if (defaultShowPicker && user && createUser === user.id) {
+      toggleVisible(true);
+      editor.chain().updateAttributes(DocumentReference.name, { defaultShowPicker: false }).focus().run();
+    }
+  }, [editor, defaultShowPicker, toggleVisible, createUser, user]);
+
   return (
     <BubbleMenu
       className={'bubble-menu'}
@@ -51,6 +74,8 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
 
         <Popover
           spacing={15}
+          visible={visible}
+          onVisibleChange={toggleVisible}
           content={
             <DataRender
               loading={loading}

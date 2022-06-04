@@ -147,7 +147,8 @@ export const COMMANDS: ICommand[] = [
   {
     icon: <IconDocument />,
     label: '文档',
-    action: (editor) => editor.chain().focus().setDocumentReference().run(),
+    action: (editor, user) =>
+      editor.chain().focus().setDocumentReference({ defaultShowPicker: true, createUser: user.id }).run(),
   },
   {
     icon: <IconDocument />,

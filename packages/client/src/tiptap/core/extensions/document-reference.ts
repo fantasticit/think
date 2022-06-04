@@ -3,10 +3,15 @@ import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentReferenceWrapper } from 'tiptap/core/wrappers/document-reference';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
 
+type IDocumentReferenceAttrs = {
+  defaultShowPicker?: boolean;
+  createUser: string;
+};
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     documentReference: {
-      setDocumentReference: () => ReturnType;
+      setDocumentReference: (arg?: IDocumentReferenceAttrs) => ReturnType;
     };
   }
 }
@@ -31,6 +36,12 @@ export const DocumentReference = Node.create({
       title: {
         default: '',
         parseHTML: getDatasetAttribute('title'),
+      },
+      defaultShowPicker: {
+        default: false,
+      },
+      createUser: {
+        default: null,
       },
     };
   },
@@ -58,11 +69,11 @@ export const DocumentReference = Node.create({
   addCommands() {
     return {
       setDocumentReference:
-        () =>
+        (attrs) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,
-            attrs: {},
+            attrs,
           });
         },
     };
