@@ -50,7 +50,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
 
       try {
         const src = await uploadFile(file);
-        const size = await getImageWidthHeight(file);
+        const size = await getImageWidthHeight(src);
         updateAttributes({ ...fileInfo, ...size, src });
         toggleLoading(false);
       } catch (error) {
