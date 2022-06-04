@@ -1,3 +1,4 @@
+import { IUser } from '@think/domains';
 import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { STATUS_COLORS, StatusWrapper } from 'tiptap/core/wrappers/status';
@@ -7,7 +8,7 @@ type IStatusAttrs = {
   color?: string;
   text?: string;
   defaultShowPicker?: boolean;
-  createUser: string;
+  createUser?: IUser['id'];
 };
 
 declare module '@tiptap/core' {

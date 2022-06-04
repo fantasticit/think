@@ -1,3 +1,4 @@
+import { IUser } from '@think/domains';
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentReferenceWrapper } from 'tiptap/core/wrappers/document-reference';
@@ -5,7 +6,7 @@ import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 export type IDocumentReferenceAttrs = {
   defaultShowPicker?: boolean;
-  createUser: string;
+  createUser?: IUser['id'];
 };
 
 declare module '@tiptap/core' {

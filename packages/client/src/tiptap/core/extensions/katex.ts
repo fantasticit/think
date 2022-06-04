@@ -1,3 +1,4 @@
+import { IUser } from '@think/domains';
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { KatexWrapper } from 'tiptap/core/wrappers/katex';
@@ -5,7 +6,7 @@ import { KatexWrapper } from 'tiptap/core/wrappers/katex';
 export type IKatexAttrs = {
   text?: string;
   defaultShowPicker?: boolean;
-  createUser: string;
+  createUser?: IUser['id'];
 };
 
 declare module '@tiptap/core' {
