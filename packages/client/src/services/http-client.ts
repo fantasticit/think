@@ -5,7 +5,7 @@ import { toLogin } from 'data/user';
 type WithCookieAxiosRequestConfig = AxiosRequestConfig & { cookie?: string };
 
 interface AxiosInstance extends Axios {
-  request<T = any, R = AxiosResponse<T>>(config: WithCookieAxiosRequestConfig): Promise<R>;
+  request<T>(config: WithCookieAxiosRequestConfig): Promise<T>;
 }
 
 export const HttpClient = axios.create({

@@ -1,4 +1,5 @@
 import { FILE_CHUNK_SIZE, FileApiDefinition } from '@think/domains';
+import { string } from 'lib0';
 import SparkMD5 from 'spark-md5';
 
 import { HttpClient } from './http-client';
@@ -37,7 +38,7 @@ const uploadFileToServer = (arg: {
   const formData = new FormData();
   formData.append('file', file);
 
-  return HttpClient.request({
+  return HttpClient.request<string>({
     method: FileApiDefinition[api].method,
     url: FileApiDefinition[api].client(),
     data: formData,
@@ -60,7 +61,7 @@ export const uploadFile = async (
   file: File,
   onUploadProgress?: (progress: number) => void,
   onTooLarge?: () => void
-) => {
+): Promise<string> => {
   const wraponUploadProgress = (percent) => {
     return onUploadProgress && onUploadProgress(Math.ceil(percent * 100));
   };
