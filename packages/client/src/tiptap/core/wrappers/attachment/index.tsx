@@ -1,10 +1,11 @@
 import { IconClose, IconDownload, IconPlayCircle } from '@douyinfe/semi-icons';
-import { Button, Collapsible, Space, Spin, Typography } from '@douyinfe/semi-ui';
+import { Button, Collapsible, Progress, Space, Spin, Typography } from '@douyinfe/semi-ui';
+import { FILE_CHUNK_SIZE } from '@think/domains';
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { Tooltip } from 'components/tooltip';
 import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { uploadFile } from 'services/file';
 import { download, extractFileExtension, extractFilename, normalizeFileSize } from 'tiptap/prose-utils';
 
@@ -20,6 +21,8 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   const { hasTrigger, fileName, fileSize, fileExt, fileType, url, error } = node.attrs;
   const [loading, toggleLoading] = useToggle(false);
   const [visible, toggleVisible] = useToggle(false);
+  const [showProgress, toggleShowProgress] = useToggle(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const selectFile = useCallback(() => {
     if (!isEditable || url) return;
@@ -29,6 +32,7 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   const handleFile = useCallback(
     async (e) => {
       const file = e.target.files && e.target.files[0];
+      if (!file) return;
       const fileInfo = {
         fileName: extractFilename(file.name),
         fileSize: file.size,
@@ -36,16 +40,26 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
         fileExt: extractFileExtension(file.name),
       };
       toggleLoading(true);
+
+      if (file.size > FILE_CHUNK_SIZE) {
+        toggleShowProgress(true);
+      }
+
       try {
-        const url = await uploadFile(file);
+        const url = await uploadFile(file, setUploadProgress);
         updateAttributes({ ...fileInfo, url });
         toggleLoading(false);
+        setUploadProgress(0);
+        toggleShowProgress(false);
       } catch (error) {
         updateAttributes({ error: '文件上传失败：' + (error && error.message) || '未知错误' });
         toggleLoading(false);
+        setUploadProgress(0);
+        toggleShowProgress(false);
+        $upload.current.value = '';
       }
     },
-    [toggleLoading, updateAttributes]
+    [toggleLoading, toggleShowProgress, updateAttributes]
   );
 
   useEffect(() => {
@@ -61,7 +75,21 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
         <div className={cls(styles.wrap, 'render-wrapper')}>
           <Spin spinning={loading}>
             <Text style={{ cursor: 'pointer' }} onClick={selectFile}>
-              {loading ? '正在上传中' : '请选择文件'}
+              {loading ? (
+                showProgress ? (
+                  <Progress
+                    percent={uploadProgress}
+                    showInfo
+                    style={{
+                      margin: '10px 0',
+                    }}
+                  />
+                ) : (
+                  '正在上传中'
+                )
+              ) : (
+                '请选择文件'
+              )}
             </Text>
             <input ref={$upload} type="file" hidden onChange={handleFile} />
           </Spin>

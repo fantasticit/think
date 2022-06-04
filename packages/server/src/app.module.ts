@@ -25,6 +25,7 @@ import { Cron, ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { getConfig } from '@think/config';
 import * as fs from 'fs-extra';
+import * as lodash from 'lodash';
 import { LoggerModule } from 'nestjs-pino';
 import * as path from 'path';
 import pino from 'pino';
@@ -53,6 +54,8 @@ const MODULES = [
   TemplateModule,
   ViewModule,
 ];
+
+console.log(lodash.get(getConfig(), 'oss.local.enable'));
 
 @Module({
   imports: [
@@ -85,6 +88,7 @@ const MODULES = [
         } as TypeOrmModuleOptions;
       },
     }),
+
     ...MODULES,
   ].filter(Boolean),
   controllers: [],

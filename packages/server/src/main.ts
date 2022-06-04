@@ -1,5 +1,6 @@
 import { HttpResponseExceptionFilter } from '@exceptions/http-response.exception';
 import { IS_PRODUCTION } from '@helpers/env.helper';
+import { FILE_DEST, FILE_ROOT_PATH } from '@helpers/file.helper/local.client';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@pipes/validation.pipe';
@@ -31,6 +32,7 @@ async function bootstrap() {
         max: config.get('server.rateLimitMax'),
       })
     );
+
   app.use(cookieParser());
   app.use(compression());
   app.use(helmet());
@@ -41,7 +43,16 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix(config.get('server.prefix') || '/');
 
+  if (config.get('oss.local.enable')) {
+    const serverStatic = express.static(FILE_ROOT_PATH);
+    app.use(FILE_DEST, (req, res, next) => {
+      res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+      return serverStatic(req, res, next);
+    });
+  }
+
   await app.listen(port);
+
   console.log(`[think] 主服务启动成功，端口：${port}`);
 }
 

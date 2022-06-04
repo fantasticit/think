@@ -42,12 +42,17 @@ db:
 
 # oss 文件存储服务
 oss:
+  local:
+    enable: true
+    server: 'http://localhost:5002'
   aliyun:
-    accessKeyId: ''
-    accessKeySecret: ''
-    bucket: ''
-    https: true
-    region: ''
+    enable: false
+    config:
+      accessKeyId: ''
+      accessKeySecret: ''
+      bucket: ''
+      https: true
+      region: ''
 
 # jwt 配置
 jwt:

@@ -91,6 +91,7 @@
     "requestidlecallback-polyfill": "^1.0.2",
     "resize-observer-polyfill": "^1.5.1",
     "scroll-into-view-if-needed": "^2.2.29",
+    "spark-md5": "^3.0.2",
     "timeago.js": "^4.0.2",
     "tippy.js": "^6.3.7",
     "toggle-selection": "^1.0.6",
