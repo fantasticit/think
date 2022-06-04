@@ -92,7 +92,7 @@ export const uploadFile = async (
       md5,
       isChunk: true,
       onUploadProgress: (progress) => {
-        progressMap[0] = progress * unitPercent;
+        progressMap[1] = progress * unitPercent;
         wraponUploadProgress(
           Object.keys(progressMap).reduce((a, c) => {
             return (a += progressMap[c]);
@@ -103,23 +103,24 @@ export const uploadFile = async (
 
     if (!url) {
       await Promise.all(
-        chunks.slice(1).map((chunk, index) =>
-          uploadFileToServer({
+        chunks.slice(1).map((chunk, index) => {
+          const currentIndex = 1 + index + 1;
+          return uploadFileToServer({
             filename,
             file: chunk,
-            chunkIndex: index + 1 + 1,
+            chunkIndex: currentIndex,
             md5,
             isChunk: true,
             onUploadProgress: (progress) => {
-              progressMap[index + 1] = progress * unitPercent;
+              progressMap[currentIndex] = progress * unitPercent;
               wraponUploadProgress(
                 Object.keys(progressMap).reduce((a, c) => {
                   return (a += progressMap[c]);
                 }, 0)
               );
             },
-          })
-        )
+          });
+        })
       );
       url = await HttpClient.request({
         method: FileApiDefinition.mergeChunk.method,
