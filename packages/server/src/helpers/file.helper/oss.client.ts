@@ -8,7 +8,7 @@ export type FileQuery = {
 
 export abstract class OssClient {
   abstract uploadFile(file: Express.Multer.File, query: FileQuery): Promise<string>;
-  abstract uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void>;
+  abstract uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void | string>;
   abstract mergeChunk(query: FileQuery): Promise<string>;
 }
 
@@ -25,7 +25,7 @@ export class BaseOssClient implements OssClient {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void> {
+  uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void | string> {
     throw new Error('Method not implemented.');
   }
 

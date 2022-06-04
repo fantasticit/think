@@ -11,7 +11,7 @@ const pipeWriteStream = (filepath, writeStream): Promise<void> => {
   return new Promise((resolve) => {
     const readStream = fs.createReadStream(filepath);
     readStream.on('end', () => {
-      fs.removeSync(filepath);
+      fs.unlinkSync(filepath);
       resolve();
     });
     readStream.pipe(writeStream);
@@ -73,14 +73,21 @@ export class LocalOssClient extends BaseOssClient {
    * @param file
    * @param query
    */
-  async uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void> {
-    const { md5, chunkIndex } = query;
+  async uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void | string> {
+    const { filename, md5, chunkIndex } = query;
 
     if (!('chunkIndex' in query)) {
       throw new Error('请指定 chunkIndex');
     }
 
-    const { absolute } = this.storeFilePath(md5);
+    const { absolute, relative } = this.storeFilePath(md5);
+    const absoluteFilepath = path.join(absolute, filename);
+
+    if (fs.existsSync(absoluteFilepath)) {
+      const relativeFilePath = path.join(relative, filename);
+      return this.serveFilePath(relativeFilePath);
+    }
+
     const chunksDir = path.join(absolute, 'chunks');
     fs.ensureDirSync(chunksDir);
     fs.writeFileSync(path.join(chunksDir, '' + chunkIndex), file.buffer);
@@ -104,19 +111,17 @@ export class LocalOssClient extends BaseOssClient {
 
       await Promise.all(
         chunks.map((chunk, index) => {
-          const writeStream = fs.createWriteStream(absoluteFilepath, {
-            start: index * FILE_CHUNK_SIZE,
-          });
-
-          if (index === chunks.length - 1) {
-            writeStream.on('finish', () => {
-              fs.removeSync(chunksDir);
-            });
-          }
-
-          pipeWriteStream(path.join(chunksDir, chunk), writeStream);
+          return pipeWriteStream(
+            path.join(chunksDir, chunk),
+            fs.createWriteStream(absoluteFilepath, {
+              start: index * FILE_CHUNK_SIZE,
+              end: (index + 1) * FILE_CHUNK_SIZE,
+            })
+          );
         })
       );
+
+      fs.removeSync(chunksDir);
     }
 
     return this.serveFilePath(relativeFilePath);
