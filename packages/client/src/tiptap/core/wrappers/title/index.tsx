@@ -19,6 +19,7 @@ const images = [
 export const TitleWrapper = ({ editor, node }) => {
   const isEditable = editor.isEditable;
   const { cover } = node.attrs;
+  const hasTitleContent = node.content.size > 0;
 
   const setCover = useCallback(
     (cover) => {
@@ -62,6 +63,7 @@ export const TitleWrapper = ({ editor, node }) => {
           </ButtonGroup>
         </div>
       ) : null}
+      {!isEditable && !hasTitleContent && <span className={styles.emptyTitle}>未命名文档</span>}
       <NodeViewContent></NodeViewContent>
     </NodeViewWrapper>
   );
