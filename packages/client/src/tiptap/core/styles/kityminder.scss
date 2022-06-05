@@ -97,6 +97,7 @@
   position: relative;
   z-index: 2;
   overflow: hidden;
+  background-color: var(--semi-color-bg-3) !important;
 }
 
 .km-editor > .mask {
