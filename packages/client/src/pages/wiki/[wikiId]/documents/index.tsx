@@ -1,4 +1,4 @@
-import { List, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+import { List, TabPane, Tabs } from '@douyinfe/semi-ui';
 import { IWiki, WikiApiDefinition } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentCard, DocumentCardPlaceholder } from 'components/document/card';
@@ -19,8 +19,6 @@ import { serverPrefetcher } from 'services/server-prefetcher';
 interface IProps {
   wikiId: string;
 }
-
-const { Title } = Typography;
 
 const grid = {
   gutter: 16,

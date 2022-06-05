@@ -292,6 +292,15 @@ export const useWikiDocuments = (wikiId) => {
   const { data, error, isLoading, refetch } = useQuery(WikiApiDefinition.getDocumentsById.client(wikiId), () =>
     getWikiDocuments(wikiId)
   );
+
+  useEffect(() => {
+    event.on(REFRESH_TOCS, refetch);
+
+    return () => {
+      event.off(REFRESH_TOCS, refetch);
+    };
+  }, [refetch]);
+
   return { data, loading: isLoading, error, refresh: refetch };
 };
 
