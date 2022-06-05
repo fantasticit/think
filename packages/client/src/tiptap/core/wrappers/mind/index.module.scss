@@ -13,10 +13,28 @@
     }
   }
 
+  .title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+
+    .icon {
+      display: flex;
+      width: 18px;
+      height: 18px;
+      color: #fff;
+      background-color: #f80;
+      border-radius: 2px;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
   .mindHandlerWrap {
     position: absolute;
-    right: 20px;
-    bottom: 20px;
+    right: 10px;
+    bottom: 10px;
     z-index: 2;
     padding: 2px 4px;
     background-color: var(--semi-color-bg-2);

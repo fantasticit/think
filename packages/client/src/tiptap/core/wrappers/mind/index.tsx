@@ -1,7 +1,7 @@
-import { Button, Spin, Typography } from '@douyinfe/semi-ui';
+import { Button, Space, Spin, Typography } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
-import { IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
+import { IconMind, IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
 import { Tooltip } from 'components/tooltip';
 import deepEqual from 'deep-equal';
@@ -110,33 +110,30 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
             <div style={{ height: '100%', maxHeight: '100%', overflow: 'hidden' }} ref={setMind}></div>
           )}
 
+          <div className={styles.title}>
+            <Space>
+              <span className={styles.icon}>
+                <IconMind />
+              </span>
+              思维导图
+            </Space>
+          </div>
+
           <div className={styles.mindHandlerWrap}>
             <Tooltip content="居中">
-              <Button
-                size="small"
-                theme="borderless"
-                type="tertiary"
-                icon={<IconMindCenter style={{ fontSize: '0.85em' }} />}
-                onClick={setCenter}
-              />
+              <Button size="small" theme="borderless" type="tertiary" icon={<IconMindCenter />} onClick={setCenter} />
             </Tooltip>
             <Tooltip content="缩小">
               <Button
                 size="small"
                 theme="borderless"
                 type="tertiary"
-                icon={<IconZoomOut style={{ fontSize: '0.85em' }} />}
+                icon={<IconZoomOut />}
                 onClick={setZoom('minus')}
               />
             </Tooltip>
             <Tooltip content="放大">
-              <Button
-                size="small"
-                theme="borderless"
-                type="tertiary"
-                icon={<IconZoomIn style={{ fontSize: '0.85em' }} />}
-                onClick={setZoom('plus')}
-              />
+              <Button size="small" theme="borderless" type="tertiary" icon={<IconZoomIn />} onClick={setZoom('plus')} />
             </Tooltip>
           </div>
         </div>

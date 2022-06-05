@@ -1,7 +1,7 @@
 import { Button, Space, Spin, Typography } from '@douyinfe/semi-ui';
 import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
-import { IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
+import { IconFlow, IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
 import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -13,7 +13,6 @@ import styles from './index.module.scss';
 
 const { Text } = Typography;
 const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
-const ICON_STYLE = { fontSize: '0.85em' };
 
 export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
@@ -22,7 +21,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   const { data, width, height } = node.attrs;
   const $graph = useRef(null);
   const $container = useRef<HTMLElement>();
-  const [bgColor, setBgColor] = useState('var(--semi-color-fill-0)');
+  const [bgColor, setBgColor] = useState('var(--semi-color-bg-3)');
   const [loading, toggleLoading] = useToggle(true);
   const [error, setError] = useState(null);
 
@@ -103,31 +102,20 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
           {!loading && !error && <div style={{ maxHeight: '100%' }} ref={setMxgraph}></div>}
         </div>
 
+        <div className={styles.title}>
+          <Space>
+            <span className={styles.icon}>
+              <IconFlow />
+            </span>
+            流程图
+          </Space>
+        </div>
+
         <div className={styles.toolbarWrap}>
           <Space spacing={2}>
-            <Button
-              type="tertiary"
-              theme="borderless"
-              size="small"
-              onClick={center}
-              icon={<IconMindCenter style={ICON_STYLE} />}
-            />
-
-            <Button
-              type="tertiary"
-              theme="borderless"
-              size="small"
-              onClick={zoomOut}
-              icon={<IconZoomOut style={ICON_STYLE} />}
-            />
-
-            <Button
-              type="tertiary"
-              theme="borderless"
-              size="small"
-              onClick={zoomIn}
-              icon={<IconZoomIn style={ICON_STYLE} />}
-            />
+            <Button type="tertiary" theme="borderless" size="small" onClick={center} icon={<IconMindCenter />} />
+            <Button type="tertiary" theme="borderless" size="small" onClick={zoomOut} icon={<IconZoomOut />} />
+            <Button type="tertiary" theme="borderless" size="small" onClick={zoomIn} icon={<IconZoomIn />} />
           </Space>
         </div>
       </Resizeable>
