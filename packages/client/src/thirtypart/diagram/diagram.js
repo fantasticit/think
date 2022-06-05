@@ -98177,7 +98177,7 @@ Sidebar.prototype.addGeneralPalette = function (expand) {
       'text textbox textarea'
     ),
     this.createVertexTemplateEntry(
-      'ellipse;whiteSpace=wrap;html=1;',
+      'ellipse;shape=ellipse;whiteSpace=wrap;html=1;aspect=fixed;',
       120,
       80,
       '',
@@ -98188,7 +98188,7 @@ Sidebar.prototype.addGeneralPalette = function (expand) {
     ),
     this.createVertexTemplateEntry('whiteSpace=wrap;html=1;aspect=fixed;', 80, 80, '', 'Square', null, null, 'square'),
     this.createVertexTemplateEntry(
-      'ellipse;whiteSpace=wrap;html=1;aspect=fixed;',
+      'ellipse;shape=ellipse;whiteSpace=wrap;html=1;aspect=fixed;',
       80,
       80,
       '',
@@ -98208,7 +98208,7 @@ Sidebar.prototype.addGeneralPalette = function (expand) {
       'process task'
     ),
     this.createVertexTemplateEntry(
-      'rhombus;whiteSpace=wrap;html=1;',
+      'html=1;whiteSpace=wrap;aspect=fixed;shape=isoRectangle;',
       80,
       80,
       '',
@@ -98235,7 +98235,7 @@ Sidebar.prototype.addGeneralPalette = function (expand) {
       'hexagon preparation'
     ),
     this.createVertexTemplateEntry(
-      'triangle;whiteSpace=wrap;html=1;',
+      'triangle;shape=triangle;whiteSpace=wrap;html=1;',
       60,
       80,
       '',
@@ -109284,8 +109284,6 @@ if (typeof mxVertexHandler != 'undefined') {
      * Loads the stylesheet for this graph.
      */
     Graph.prototype.loadStylesheet = function () {
-      console.log('STYLE_PATH', STYLE_PATH + '/default.xml');
-
       var node =
         this.themes != null
           ? this.themes[this.defaultThemeName]
@@ -134219,6 +134217,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   };
 };
 
+/** eslint-disable */
 // S 草图支持
 function rotatePoints(points, center, degrees) {
   if (points && points.length) {
