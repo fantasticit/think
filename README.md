@@ -18,12 +18,9 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 
 ## 预览
 
-![首页](http://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-20/YN67GM4VQMBTZFZ88TYOZX/image.png)
 ![知识库](http://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-20/YN67GM4VQMBTZFZ88TYP8X/image.png)
 ![新建文档](http://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-20/YN67GM4VQMBTZFZ88TYPQX/image.png)
 ![编辑器](http://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-20/YN67GM4VQMBTZFZ88TYPZX/image.png)
-![协作](http://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-20/YN67GM4VQMBTZFZ88TYQ8X/image.png)
-![收藏](http://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-20/YN67GM4VQMBTZFZ88TYPHX/image.png)
 
 ## 项目结构
 
