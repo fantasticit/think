@@ -13,15 +13,15 @@ import { copyNode, deleteNode, getEditorContainerDOMSize } from 'tiptap/prose-ut
 import { triggerOpenMindSettingModal } from '../_event';
 
 export const MindBubbleMenu = ({ editor }) => {
+  const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const attrs = useAttributes<IMindAttrs>(editor, Mind.name, {
     defaultShowPicker: false,
     createUser: '',
+    width: 0,
+    height: 0,
   });
-  const { defaultShowPicker, createUser } = attrs;
+  const { defaultShowPicker, createUser, width, height } = attrs;
   const { user } = useUser();
-
-  const { width: maxWidth } = getEditorContainerDOMSize(editor);
-  const { width, height } = useAttributes(editor, Mind.name, { width: 0, height: 0 });
 
   const setSize = useCallback(
     (size) => {
