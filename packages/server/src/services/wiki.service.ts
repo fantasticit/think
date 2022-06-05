@@ -622,6 +622,8 @@ export class WikiService {
         return lodash.omit(item, ['content', 'state']);
       });
 
+    docs.sort((a, b) => a.index - b.index);
+
     const docsWithCreateUser = await Promise.all(
       docs.map(async (doc) => {
         const createUser = await this.userService.findById(doc.createUserId);
