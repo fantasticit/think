@@ -75,11 +75,15 @@ git clone  https://github.com/fantasticit/think.git
 cd think
 docker-compose up -d
 
-#二次更新升级
+# 二次更新升级
 cd think
 git pull
 docker-compose build
 docker-compose up -d
+
+# FAQ
+如遇二次更新有问题,请更新代码重新构建,然后删除本地配置文件并重启容器.
+如果还不能解决,1.有能力可自行解决|2.等待更新|3.去mrdoc.fun站点留言
 ```
 
 然后访问 `http://ip:5001` 即可.

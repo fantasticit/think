@@ -10,6 +10,9 @@ client:
   seoKeywords: '云策文档,协作,文档,前端面试题,fantasticit,https://github.com/fantasticit/think'
   # 预先连接的来源，空格分割（比如图片存储服务器）
   dnsPrefetch: '//wipi.oss-cn-shanghai.aliyuncs.com'
+  # 站点地址（如：http://think.codingit.cn/），一定要设置，否则会出现 cookie、跨域等问题
+  siteUrl: 'http://localhost:5001'
+  siteDomain: ''
 
 server:
   prefix: '/api'
@@ -17,6 +20,9 @@ server:
   collaborationPort: 5003
   maxDocumentVersion: 20 # 最大版本记录数
   logRetainDays: 3 # 日志保留天数，比如只保留近三天日志
+  enableRateLimit: true # 是否限流
+  rateLimitWindowMs: 60000 # 限流时间
+  rateLimitMax: 1000 # 单位限流时间内单个 ip 最大访问数量
 
 # 数据库配置
 db:
@@ -36,12 +42,26 @@ db:
 
 # oss 文件存储服务
 oss:
+  local:
+    enable: true
+    # 线上更改为服务端地址（如：https://api.codingit.cn）
+    server: 'http://localhost:5002'
+  # 以下为各厂商 sdk 配置，不要修改字段，填入值即可
+  tencent:
+    enable: false
+    config:
+      SecretId: ''
+      SecretKey: ''
+      Bucket: ''
+      Region: ''
   aliyun:
-    accessKeyId: ''
-    accessKeySecret: ''
-    bucket: ''
-    https: true
-    region: ''
+    enable: false
+    config:
+      accessKeyId: ''
+      accessKeySecret: ''
+      bucket: ''
+      https: true
+      region: ''
 
 # jwt 配置
 jwt:

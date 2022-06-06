@@ -10,6 +10,7 @@ services:
     #restart: always
     volumes:
       - /path/to/you/dir/config:/app/config  # 请注意修改 /path/to/you/dir 为云策文档配置文件目录.
+      - /path/to/you/dir/static:/app/packages/server/static  # 请注意修改 /path/to/you/dir 为云策文档附件存储目录.
     environment:
       - TZ=Asia/Shanghai
     ports:
