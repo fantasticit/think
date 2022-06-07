@@ -1,3 +1,3 @@
 export function isValidURL(str: string) {
-  return str.startsWith('http');
+  return str && str.startsWith('http');
 }
