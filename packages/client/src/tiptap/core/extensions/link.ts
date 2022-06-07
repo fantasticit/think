@@ -42,6 +42,7 @@ export const Link = BuiltInLink.extend({
       }),
     ];
   },
+
   addAttributes() {
     return {
       ...this.parent?.(),
@@ -53,13 +54,10 @@ export const Link = BuiltInLink.extend({
         title: null,
         parseHTML: (element) => element.getAttribute('title'),
       },
-      hasTrigger: {
-        default: false,
-      },
     };
   },
 }).configure({
   openOnClick: false,
   linkOnPaste: true,
-  autolink: true,
+  autolink: false,
 });
