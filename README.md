@@ -7,7 +7,6 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 - `MySQL`：数据存储
 - `next.js`：前端页面框架
 - `nest.js`：服务端框架
-- `AliyunOSS`：对象存储
 - `tiptap`：编辑器及文档协作
 
 可访问[云策文档帮助中心](https://think.codingit.cn/share/wiki/eb520cdf-aa4b-4af2-ae4a-7140e21403ab)，查看更多功能文档。
