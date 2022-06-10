@@ -106,7 +106,8 @@ export const COMMANDS: ICommand[] = [
   {
     icon: <IconLink />,
     label: '外链',
-    action: (editor) => editor.chain().focus().setIframe({ url: '' }).run(),
+    action: (editor, user) =>
+      editor.chain().focus().setIframe({ url: '', defaultShowPicker: true, createUser: user.id }).run(),
   },
   {
     title: '卡片',

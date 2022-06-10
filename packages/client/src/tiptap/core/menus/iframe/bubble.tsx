@@ -4,10 +4,11 @@ import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { Divider } from 'components/divider';
 import { SizeSetter } from 'components/size-setter';
 import { Tooltip } from 'components/tooltip';
+import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
-import { Iframe } from 'tiptap/core/extensions/iframe';
+import { Iframe, IIframeAttrs } from 'tiptap/core/extensions/iframe';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
@@ -17,8 +18,15 @@ const EXAMPLE_LINK =
   'https://proxy.tencentsuite.com/openapi/proxy/v2/addon?uid=144115212008575217&creator=144115212008575217&redirect=https%3A%2F%2Fi.y.qq.com%2Fn2%2Fm%2Foutchain%2Fplayer%2Findex.html%3Fsongid%3D5408217&docType=1&docID=300000000$RwqOunTcpXjs&addonID=0b69e1b9517e44a4aee35d33ee021b55&packageID=817&nonce=m3rqxn';
 
 export const IframeBubbleMenu = ({ editor }) => {
-  const { width, height, url } = useAttributes(editor, Iframe.name, { width: 0, height: 0, url: '' });
+  const { width, height, url, defaultShowPicker, createUser } = useAttributes<IIframeAttrs>(editor, Iframe.name, {
+    width: 0,
+    height: 0,
+    url: '',
+    defaultShowPicker: false,
+    createUser: null,
+  });
   const $form = useRef<FormApi>();
+  const { user } = useUser();
   const [visible, toggleVisible] = useToggle(false);
 
   const useExample = useCallback(() => {
@@ -60,6 +68,13 @@ export const IframeBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(() => editor.isActive(Iframe.name), [editor]);
   const copyMe = useCallback(() => copyNode(Iframe.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(Iframe.name, editor), [editor]);
+
+  useEffect(() => {
+    if (defaultShowPicker && user && createUser === user.id) {
+      toggleVisible(true);
+      editor.chain().updateAttributes(Iframe.name, { defaultShowPicker: false }).focus().run();
+    }
+  }, [createUser, defaultShowPicker, editor, toggleVisible, user]);
 
   return (
     <BubbleMenu

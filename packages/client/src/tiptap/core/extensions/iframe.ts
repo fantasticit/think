@@ -1,12 +1,21 @@
+import { IUser } from '@think/domains';
 import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { IframeWrapper } from 'tiptap/core/wrappers/iframe';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
 
+export interface IIframeAttrs {
+  width?: number | string;
+  height?: number;
+  url?: string;
+  defaultShowPicker?: boolean;
+  createUser?: IUser['id'];
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     iframe: {
-      setIframe: (attrs) => ReturnType;
+      setIframe: (attrs: IIframeAttrs) => ReturnType;
     };
   }
 }
@@ -41,6 +50,12 @@ export const Iframe = Node.create({
         default: null,
         parseHTML: getDatasetAttribute('url'),
       },
+      defaultShowPicker: {
+        default: false,
+      },
+      createUser: {
+        default: null,
+      },
     };
   },
 
@@ -66,7 +81,7 @@ export const Iframe = Node.create({
             return commands.updateAttributes(this.name, options);
           }
 
-          const { url } = options || { url: '' };
+          const attrs = options || { url: '' };
           const { selection } = editor.state;
           const pos = selection.$head;
 
@@ -74,7 +89,7 @@ export const Iframe = Node.create({
             .insertContentAt(pos.before(), [
               {
                 type: this.name,
-                attrs: { url },
+                attrs,
               },
             ])
             .run();
