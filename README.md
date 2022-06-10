@@ -25,7 +25,7 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 
 本项目依赖 pnpm 使用 monorepo 形式进行代码组织，分包如下：
 
-- `@think/config`: 客户端、服务端、OSS、MYSQL、Redis 等配置管理
+- `@think/config`: 客户端、服务端、OSS、MySQL、Redis 等配置管理
 - `@think/domains`：领域模型数据定义
 - `@think/constants`：常量配置
 - `@think/server`：服务端
