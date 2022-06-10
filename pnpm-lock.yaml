@@ -118,6 +118,7 @@ importers:
       markdown-it-sup: ^1.0.0
       next: 12.1.0
       next-pwa: ^5.5.2
+      prosemirror-codemark: ^0.3.6
       prosemirror-commands: ^1.3.0
       prosemirror-markdown: ^1.7.0
       prosemirror-model: ^1.16.1
@@ -210,6 +211,7 @@ importers:
       markdown-it-sup: 1.0.0
       next: 12.1.0_react-dom@17.0.2+react@17.0.2
       next-pwa: 5.5.2_next@12.1.0
+      prosemirror-codemark: 0.3.6_4cf2d6daa1edf7cc132d3e7b74beaf4d
       prosemirror-commands: 1.3.0
       prosemirror-markdown: 1.7.0
       prosemirror-model: 1.16.1
@@ -9144,6 +9146,19 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
+
+  /prosemirror-codemark/0.3.6_4cf2d6daa1edf7cc132d3e7b74beaf4d:
+    resolution: {integrity: sha512-uLUvIGfIEFdWEOR/wR2XgnccnyaUYNV/Degv/Dd5t8j1qKdbWbSkfqHgGi7sp5CcuBoZ/Q2hM6wbMc558T/Iag==}
+    peerDependencies:
+      prosemirror-inputrules: ^1.1.3
+      prosemirror-model: ^1.15.0
+      prosemirror-state: ^1.3.4
+      prosemirror-view: ^1.20.3
+    dependencies:
+      prosemirror-model: 1.16.1
+      prosemirror-state: 1.3.4
+      prosemirror-view: 1.23.6
+    dev: false
 
   /prosemirror-commands/1.3.0:
     resolution: {integrity: sha512-BwBbZ5OAScPcm0x7H8SPbqjuEJnCU2RJT9LDyOiiIl/3NbL1nJZI4SFNHwU2e/tRr2Xe7JsptpzseqvZvToLBQ==}

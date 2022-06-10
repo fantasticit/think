@@ -6,7 +6,7 @@ import { Blockquote } from 'tiptap/core/extensions/blockquote';
 import { Bold } from 'tiptap/core/extensions/bold';
 import { BulletList } from 'tiptap/core/extensions/bullet-list';
 import { Callout } from 'tiptap/core/extensions/callout';
-import { Code } from 'tiptap/core/extensions/code';
+import { Code, CodeMarkPlugin } from 'tiptap/core/extensions/code';
 import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { Color } from 'tiptap/core/extensions/color';
 import { ColorHighlighter } from 'tiptap/core/extensions/color-highlighter';
@@ -89,6 +89,7 @@ export const CollaborationKit = [
   Bold,
   BulletList,
   Code,
+  CodeMarkPlugin,
   CodeBlock,
   Color,
   ColorHighlighter,
