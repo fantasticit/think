@@ -1,5 +1,6 @@
 import { Extension } from '@tiptap/core';
 import { safeJSONParse } from 'helpers/json';
+import { toggleMark } from 'prosemirror-commands';
 import { Fragment, Schema } from 'prosemirror-model';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
@@ -9,6 +10,7 @@ import {
   isInCode,
   isMarkdown,
   isTitleNode,
+  isValidURL,
   LANGUAGES,
   normalizeMarkdown,
 } from 'tiptap/prose-utils';
@@ -76,7 +78,9 @@ export const Paste = Extension.create<IPasteOptions>({
             if (view.props.editable && !view.props.editable(view.state)) {
               return false;
             }
+
             if (!event.clipboardData) return false;
+
             // 文件
             const files = Array.from(event.clipboardData.files);
             if (files.length) {
@@ -87,19 +91,39 @@ export const Paste = Extension.create<IPasteOptions>({
               return true;
             }
 
-            const { markdownToProsemirror } = extensionThis.options;
             const text = event.clipboardData.getData('text/plain');
             const html = event.clipboardData.getData('text/html');
             const vscode = event.clipboardData.getData('vscode-editor-data');
             const node = event.clipboardData.getData('text/node');
             const markdownText = event.clipboardData.getData('text/markdown');
+            const { state, dispatch } = view;
+
+            const { markdownToProsemirror } = extensionThis.options;
 
             // 直接复制节点
             if (node) {
-              const doc = safeJSONParse(node);
+              const json = safeJSONParse(node);
               const tr = view.state.tr;
               const selection = tr.selection;
-              view.dispatch(tr.insert(selection.from - 1, view.state.schema.nodeFromJSON(doc)).scrollIntoView());
+              view.dispatch(tr.insert(selection.from - 1, view.state.schema.nodeFromJSON(json)).scrollIntoView());
+              return true;
+            }
+
+            // 链接
+            if (isValidURL(text)) {
+              if (!state.selection.empty) {
+                toggleMark(this.editor.schema.marks.link, { href: text })(state, dispatch);
+                return true;
+              }
+
+              const transaction = view.state.tr
+                .insertText(text, state.selection.from, state.selection.to)
+                .addMark(
+                  state.selection.from,
+                  state.selection.to + text.length,
+                  state.schema.marks.link.create({ href: text })
+                );
+              view.dispatch(transaction);
               return true;
             }
 
@@ -116,14 +140,19 @@ export const Paste = Extension.create<IPasteOptions>({
             if (pasteCodeLanguage && pasteCodeLanguage !== 'markdown') {
               event.preventDefault();
               view.dispatch(
-                view.state.tr.replaceSelectionWith(
-                  view.state.schema.nodes.codeBlock.create({
-                    language: Object.keys(LANGUAGES).includes(vscodeMeta.mode) ? vscodeMeta.mode : null,
-                  })
-                )
+                view.state.tr
+                  .replaceSelectionWith(
+                    view.state.schema.nodes.codeBlock.create({
+                      language: Object.keys(LANGUAGES).includes(vscodeMeta.mode) ? vscodeMeta.mode : null,
+                    })
+                  )
+                  .insertText(text)
               );
-              view.dispatch(view.state.tr.insertText(text).scrollIntoView());
               return true;
+            }
+
+            if (html?.includes('data-pm-slice')) {
+              return false;
             }
 
             // 处理 markdown
@@ -147,11 +176,13 @@ export const Paste = Extension.create<IPasteOptions>({
               view.dispatch(tr.scrollIntoView());
               return true;
             }
+
             if (text.length !== 0) {
               event.preventDefault();
               view.dispatch(view.state.tr.insertText(text));
               return true;
             }
+
             return false;
           },
           handleDrop: (view, event: any) => {
