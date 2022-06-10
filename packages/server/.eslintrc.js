@@ -1,11 +1,16 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: './packages/server/tsconfig.json',
-    sourceType: 'module',
-  },
   plugins: ['@typescript-eslint', 'simple-import-sort', 'prettier'],
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx', '.js', '.jsx'],
+      parserOptions: {
+        project: ['./tsconfig.json'],
+        sourceType: 'module',
+      },
+    },
+  ],
   root: true,
   env: {
     node: true,
