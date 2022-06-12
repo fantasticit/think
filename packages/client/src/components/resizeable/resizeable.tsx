@@ -57,12 +57,12 @@ export const Resizeable: React.FC<IProps> = ({
   const $bottomRight = useRef<HTMLDivElement>(null);
 
   useClickOutside($container, {
-    in: () => $container.current.classList.add(styles.isActive),
-    out: () => $container.current.classList.remove(styles.isActive),
+    in: () => $container.current && $container.current.classList.add(styles.isActive),
+    out: () => $container.current && $container.current.classList.remove(styles.isActive),
   });
 
   useEffect(() => {
-    if (!isEditable) return;
+    if (!isEditable || !$container.current) return;
 
     interact($container.current).resizable({
       edges: {
