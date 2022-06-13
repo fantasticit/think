@@ -3,6 +3,7 @@ import { BackgroundColor } from 'tiptap/core/extensions/background-color';
 import { Blockquote } from 'tiptap/core/extensions/blockquote';
 import { Bold } from 'tiptap/core/extensions/bold';
 import { BulletList } from 'tiptap/core/extensions/bullet-list';
+import { Clipboard } from 'tiptap/core/extensions/clipboard';
 import { Code } from 'tiptap/core/extensions/code';
 import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { Color } from 'tiptap/core/extensions/color';
@@ -18,6 +19,7 @@ import { HardBreak } from 'tiptap/core/extensions/hard-break';
 import { Heading } from 'tiptap/core/extensions/heading';
 import { HorizontalRule } from 'tiptap/core/extensions/horizontal-rule';
 import { HTMLMarks } from 'tiptap/core/extensions/html-marks';
+import { Image } from 'tiptap/core/extensions/image';
 import { Indent } from 'tiptap/core/extensions/indent';
 import { Italic } from 'tiptap/core/extensions/italic';
 import { Katex } from 'tiptap/core/extensions/katex';
@@ -53,6 +55,9 @@ export const CommentKit = [
   Blockquote,
   Bold,
   BulletList,
+  Clipboard.configure({
+    prosemirrorToMarkdown,
+  }),
   Code,
   CodeBlock,
   Color,
@@ -70,6 +75,7 @@ export const CommentKit = [
   HorizontalRule,
   ...HTMLMarks,
   Indent,
+  Image,
   Italic,
   Katex,
   Link,

@@ -6,6 +6,7 @@ import { Blockquote } from 'tiptap/core/extensions/blockquote';
 import { Bold } from 'tiptap/core/extensions/bold';
 import { BulletList } from 'tiptap/core/extensions/bullet-list';
 import { Callout } from 'tiptap/core/extensions/callout';
+import { Clipboard } from 'tiptap/core/extensions/clipboard';
 import { Code, CodeMarkPlugin } from 'tiptap/core/extensions/code';
 import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { Color } from 'tiptap/core/extensions/color';
@@ -88,6 +89,9 @@ export const CollaborationKit = [
   Blockquote,
   Bold,
   BulletList,
+  Clipboard.configure({
+    prosemirrorToMarkdown,
+  }),
   Code,
   CodeMarkPlugin,
   CodeBlock,

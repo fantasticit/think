@@ -5,7 +5,6 @@ import { Fragment, Schema } from 'prosemirror-model';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import {
-  copyNode,
   handleFileEvent,
   isInCode,
   isMarkdown,
@@ -35,22 +34,6 @@ interface IPasteOptions {
    */
   prosemirrorToMarkdown: (arg: { content: Fragment }) => string;
 }
-
-const isPureText = (content): boolean => {
-  if (!content) return false;
-
-  if (Array.isArray(content)) {
-    if (content.length > 1) return false;
-    return isPureText(content[0]);
-  }
-
-  const child = content['content'];
-  if (child) {
-    return isPureText(child);
-  }
-
-  return content['type'] === 'text';
-};
 
 export const Paste = Extension.create<IPasteOptions>({
   name: 'paste',
@@ -101,13 +84,6 @@ export const Paste = Extension.create<IPasteOptions>({
             const { state, dispatch } = view;
 
             const { markdownToProsemirror } = extensionThis.options;
-
-            console.log('p', {
-              text,
-              html,
-              node,
-              markdownText,
-            });
 
             // 直接复制节点
             if (node) {
@@ -178,7 +154,6 @@ export const Paste = Extension.create<IPasteOptions>({
                 content: normalizeMarkdown(markdownText || text),
                 needTitle: hasTitleExtension && !hasTitle,
               });
-              console.log('p', markdownText, text);
 
               let tr = view.state.tr;
               const selection = tr.selection;
@@ -219,50 +194,6 @@ export const Paste = Extension.create<IPasteOptions>({
             }
 
             return false;
-          },
-          handleKeyDown(view, event) {
-            /**
-             * Command + C
-             * Ctrl + C
-             */
-            if ((event.ctrlKey || event.metaKey) && event.keyCode == 67) {
-              const { state } = view;
-              // @ts-ignore
-              const currentNode = state.selection.node;
-
-              if (currentNode) {
-                event.preventDefault();
-                copyNode(currentNode);
-                return true;
-              }
-            }
-
-            return false;
-          },
-          clipboardTextSerializer: (slice) => {
-            const json = slice.content.toJSON();
-            const isSelectAll = slice.openStart === slice.openEnd && slice.openEnd === 0;
-
-            if (typeof json === 'object' || isSelectAll) {
-              return extensionThis.options.prosemirrorToMarkdown({
-                content: slice.content,
-              });
-            } else {
-              const isText = isPureText(json) && !isSelectAll;
-
-              if (isText) {
-                return slice.content.textBetween(0, slice.content.size, '\n\n');
-              }
-
-              const doc = slice.content;
-              if (!doc) {
-                return '';
-              }
-              const content = extensionThis.options.prosemirrorToMarkdown({
-                content: doc,
-              });
-              return content;
-            }
           },
         },
       }),

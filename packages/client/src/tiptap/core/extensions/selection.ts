@@ -103,6 +103,20 @@ export const SelectionExtension = Extension.create({
             return decorationSet;
           },
         },
+        filterTransaction(tr, state) {
+          // Prevent prosemirror's mutation observer overriding a node selection with a text selection
+          // for exact same range - this was cause of being unable to change dates in collab:
+          // https://product-fabric.atlassian.net/browse/ED-10645
+          if (
+            state.selection instanceof NodeSelection &&
+            tr.selection instanceof TextSelection &&
+            state.selection.from === tr.selection.from &&
+            state.selection.to === tr.selection.to
+          ) {
+            return false;
+          }
+          return true;
+        },
       }),
       new Plugin({
         key: new PluginKey('preventSelection'),
