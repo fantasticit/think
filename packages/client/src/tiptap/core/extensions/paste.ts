@@ -15,6 +15,8 @@ import {
   normalizeMarkdown,
 } from 'tiptap/prose-utils';
 
+import { TitleExtensionName } from './title';
+
 interface IPasteOptions {
   /**
    *
@@ -26,7 +28,7 @@ interface IPasteOptions {
    * 将 markdown 转换为 prosemirror 节点
    * FIXME: prosemirror 节点的类型是什么？
    */
-  markdownToProsemirror: (arg: { schema: Schema; content: string; hasTitle: boolean }) => unknown;
+  markdownToProsemirror: (arg: { schema: Schema; content: string; needTitle: boolean }) => unknown;
 
   /**
    * 将 prosemirror 转换为 markdown
@@ -100,6 +102,13 @@ export const Paste = Extension.create<IPasteOptions>({
 
             const { markdownToProsemirror } = extensionThis.options;
 
+            console.log('p', {
+              text,
+              html,
+              node,
+              markdownText,
+            });
+
             // 直接复制节点
             if (node) {
               const json = safeJSONParse(node);
@@ -159,13 +168,18 @@ export const Paste = Extension.create<IPasteOptions>({
             if (markdownText || isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
               event.preventDefault();
               const firstNode = view.props.state.doc.content.firstChild;
+              const hasTitleExtension = !!editor.extensionManager.extensions.find(
+                (extension) => extension.name === TitleExtensionName
+              );
               const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
               const schema = view.props.state.schema;
               const doc = markdownToProsemirror({
                 schema,
                 content: normalizeMarkdown(markdownText || text),
-                hasTitle,
+                needTitle: hasTitleExtension && !hasTitle,
               });
+              console.log('p', markdownText, text);
+
               let tr = view.state.tr;
               const selection = tr.selection;
               view.state.doc.nodesBetween(selection.from, selection.to, (node, position) => {

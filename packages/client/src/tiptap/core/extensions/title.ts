@@ -18,9 +18,13 @@ declare module '@tiptap/core' {
   }
 }
 
+export const TitleExtensionName = 'title';
+
 export const Title = Node.create<TitleOptions>({
-  name: 'title',
+  name: TitleExtensionName,
   content: 'inline*',
+  group: 'block',
+  selectable: true,
 
   addOptions() {
     return {
