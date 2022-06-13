@@ -3,6 +3,10 @@
   ol,
   ul {
     padding-left: 28px;
+
+    p {
+      margin: 0;
+    }
   }
 
   li > ul,
@@ -40,10 +44,6 @@
   ul[data-type='taskList'] {
     padding: 0;
     list-style: none;
-
-    p {
-      margin: 0;
-    }
 
     li {
       position: relative;
