@@ -2,7 +2,7 @@ import { NextPageContext } from 'next';
 import { dehydrate, QueryClient } from 'react-query';
 
 type PrefetchActions = Array<{
-  url: string;
+  url: string | (string | number)[];
   action: (cookie: string) => void;
   ignoreCookie?: boolean;
 }>;
