@@ -120,10 +120,6 @@ const Page: NextPage = () => {
   const [visible, toggleVisible] = useToggle(false);
   const { data: staredWikis, loading, error, refresh } = useCollectedWikis();
 
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
-
   return (
     <SingleColumnLayout>
       <Seo title="主页" />
