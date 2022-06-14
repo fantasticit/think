@@ -152,6 +152,7 @@ export const useAllPublicWikis = () => {
     data,
     loading: isLoading,
     error,
+    page,
     setPage,
   };
 };

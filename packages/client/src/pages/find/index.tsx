@@ -23,7 +23,7 @@ const { Title } = Typography;
 const PAGESIZE = 12;
 
 const Page: NextPage = () => {
-  const { data, loading, error, setPage } = useAllPublicWikis();
+  const { data, loading, error, page, setPage } = useAllPublicWikis();
 
   return (
     <SingleColumnLayout>
@@ -62,7 +62,7 @@ const Page: NextPage = () => {
               />
               {data.total > PAGESIZE && (
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Pagination total={data.total} pageSize={PAGESIZE} onPageChange={setPage} />
+                  <Pagination total={data.total} currentPage={page} pageSize={PAGESIZE} onPageChange={setPage} />
                 </div>
               )}
             </>
