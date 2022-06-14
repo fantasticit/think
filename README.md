@@ -178,8 +178,8 @@ server {
 如果这个项目对您有帮助，并且您希望支持该项目的开发和维护，请随时扫描一下二维码进行捐赠。非常感谢您的捐款，谢谢！
 
 <div style="display: flex;">
-  <img width="300" alt="alipay" src="https://think-1256095494.cos.ap-shanghai.myqcloud.com/alipay.jpg" />
-  <img width="300" alt="wechat" src="https://think-1256095494.cos.ap-shanghai.myqcloud.com/wechat.jpg" />
+  <img width="300" alt="alipay" src="https://think-1256095494.cos.ap-shanghai.myqcloud.com/think-alipay.jpg" />
+  <img width="300" alt="wechat" src="https://think-1256095494.cos.ap-shanghai.myqcloud.com/think-wechat.jpg" />
 </div>
 
 
