@@ -169,6 +169,20 @@ server {
 
 参考：[webhook](https://github.com/adnanh/webhook/blob/master/docs/Hook-Examples.md#incoming-github-webhook)
 
+## 商用
+
+如需商用，请联系作者，取得授权后可商用。
+
+## 赞助
+
+如果这个项目对您有帮助，并且您希望支持该项目的开发和维护，请随时扫描一下二维码进行捐赠。非常感谢您的捐款，谢谢！
+
+<div style="display: flex;">
+  <img width="300" alt="alipay" src="https://think-1256095494.cos.ap-shanghai.myqcloud.com/alipay.jpg" />
+  <img width="300" alt="wechat" src="https://think-1256095494.cos.ap-shanghai.myqcloud.com/wechat.jpg" />
+</div>
+
+
 ## 资料
 
 - next.js 源码：https://github.com/vercel/next.js
