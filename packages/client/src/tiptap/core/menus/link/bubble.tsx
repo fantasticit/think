@@ -39,18 +39,28 @@ export const LinkBubbleMenu = ({ editor }) => {
 
       if (!isInLink) return;
 
-      const { $head } = editor.state.selection;
+      const { $head, from, to } = editor.state.selection;
       const marks = $head.marks();
-      if (!marks.length) return;
 
-      const mark = marks[0];
-      const node = $head.node($head.depth);
-      const startPosOfThisLine = $head.pos - (($head.nodeBefore && $head.nodeBefore.nodeSize) || 0);
-      const endPosOfThisLine = $head.nodeAfter
-        ? startPosOfThisLine + $head.nodeAfter.nodeSize
-        : $head.pos - $head.parentOffset + node.content.size;
+      let start;
+      let end;
 
-      const { start, end } = findMarkPosition(state, mark, startPosOfThisLine, endPosOfThisLine);
+      if (marks.length) {
+        const mark = marks[0];
+        const node = $head.node($head.depth);
+        const startPosOfThisLine = $head.pos - (($head.nodeBefore && $head.nodeBefore.nodeSize) || 0);
+        const endPosOfThisLine = $head.nodeAfter
+          ? startPosOfThisLine + $head.nodeAfter.nodeSize
+          : $head.pos - $head.parentOffset + node.content.size;
+
+        const { start: startPos, end: endPos } = findMarkPosition(state, mark, startPosOfThisLine, endPosOfThisLine);
+        start = startPos;
+        end = endPos;
+      } else {
+        start = from;
+        end = to;
+      }
+
       const text = state.doc.textBetween(start, end);
       setText(text);
       setFrom(start);
