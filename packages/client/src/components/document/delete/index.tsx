@@ -30,7 +30,8 @@ export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, render, 
         });
       };
 
-      onDelete ? onDelete() : navigate();
+      navigate();
+      onDelete && onDelete();
     });
   }, [wikiId, documentId, api, onDelete, currentWikiId, currentDocumentId]);
 
