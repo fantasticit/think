@@ -3,6 +3,7 @@ export * from './clamp';
 export * from './code';
 export * from './color';
 export * from './copy-node';
+export * from './debug';
 export * from './delete-node';
 export * from './dom';
 export * from './dom-dataset';

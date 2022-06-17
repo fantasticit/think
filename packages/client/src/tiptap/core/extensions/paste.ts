@@ -5,6 +5,7 @@ import { Fragment, Schema } from 'prosemirror-model';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import {
+  debug,
   handleFileEvent,
   isInCode,
   isMarkdown,
@@ -83,19 +84,12 @@ export const Paste = Extension.create<IPasteOptions>({
             const markdownText = event.clipboardData.getData('text/markdown');
             const { state, dispatch } = view;
 
-            if (typeof window !== 'undefined') {
-              if (window.location.search.includes('dev=1')) {
-                console.group();
-                console.log('paste', {
-                  text,
-                  vscode,
-                  node,
-                  markdownText,
-                });
-                console.log(html);
-                console.groupEnd();
-              }
-            }
+            debug(() => {
+              console.group('paste');
+              console.log({ text, vscode, node, markdownText });
+              console.log(html);
+              console.groupEnd();
+            });
 
             const { markdownToProsemirror } = extensionThis.options;
 
@@ -148,10 +142,6 @@ export const Paste = Extension.create<IPasteOptions>({
                   .insertText(text)
               );
               return true;
-            }
-
-            if (html?.includes('data-pm-slice')) {
-              return false;
             }
 
             // 处理 markdown

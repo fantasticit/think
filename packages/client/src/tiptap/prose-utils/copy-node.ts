@@ -3,6 +3,8 @@ import { copy } from 'helpers/copy';
 import { safeJSONStringify } from 'helpers/json';
 import { Fragment, Node } from 'prosemirror-model';
 
+import { debug } from './debug';
+
 export function copyNode(nodeOrNodeName: Node | Fragment<any>);
 export function copyNode(nodeOrNodeName: string, editor: Editor);
 export function copyNode(nodeOrNodeName: string | Node | Fragment<any>, editor?: Editor) {
@@ -44,8 +46,18 @@ export function copyNode(nodeOrNodeName: string | Node | Fragment<any>, editor?:
       const html = markdownToHTML(markdown);
       toCopy.push({ text: html, format: 'text/html' });
     } catch (e) {
-      //
+      debug(() => {
+        console.group('copy');
+        console.error(e.message);
+        console.groupEnd();
+      });
     }
+
+    debug(() => {
+      console.group('copy');
+      console.log(toCopy);
+      console.groupEnd();
+    });
 
     copy(toCopy);
   }
