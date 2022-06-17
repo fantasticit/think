@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@pipes/validation.pipe';
 import { HttpResponseTransformInterceptor } from '@transforms/http-response.transform';
+import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
@@ -32,6 +33,9 @@ async function bootstrap() {
         max: config.get('server.rateLimitMax'),
       })
     );
+
+  app.use(bodyParser.json({ limit: '100mb' }));
+  app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 
   app.use(cookieParser());
   app.use(compression());

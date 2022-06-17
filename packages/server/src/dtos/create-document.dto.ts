@@ -15,4 +15,10 @@ export class CreateDocumentDto {
 
   @IsOptional()
   readonly templateId?: string;
+
+  @IsOptional()
+  readonly content?: string;
+
+  @IsOptional()
+  state?: Buffer;
 }
