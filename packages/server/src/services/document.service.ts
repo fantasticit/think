@@ -316,13 +316,21 @@ export class DocumentService {
         )
       : -1;
 
+    let state = EMPTY_DOCUMNENT.state;
+
+    if ('state' in dto) {
+      state = Buffer.from(dto.state);
+      delete dto.state;
+    }
+
     const data = {
-      ...dto,
       createUserId: user.id,
       isWikiHome,
       title: '未命名文档',
       index: maxIndex + 1,
       ...EMPTY_DOCUMNENT,
+      ...dto,
+      state,
     };
 
     if (dto.templateId) {

@@ -1,15 +1,17 @@
 import { TabPane, Tabs } from '@douyinfe/semi-ui';
+import { IWiki } from '@think/domains';
 import { Seo } from 'components/seo';
 import { useWikiDetail } from 'data/wiki';
 import React from 'react';
 
 import { Base } from './base';
+import { Import } from './import';
 import { More } from './more';
 import { Privacy } from './privacy';
 import { Users } from './users';
 
 interface IProps {
-  wikiId: string;
+  wikiId: IWiki['id'];
   tab?: string;
   onNavigate: (arg: string) => void;
 }
@@ -18,6 +20,7 @@ const TitleMap = {
   base: '基础信息',
   privacy: '隐私管理',
   users: '成员管理',
+  import: '导入文档',
   more: '更多',
 };
 
@@ -37,6 +40,11 @@ export const WikiSetting: React.FC<IProps> = ({ wikiId, tab, onNavigate }) => {
         <TabPane tab={TitleMap['privacy']} itemKey="privacy">
           <Privacy wikiId={wikiId} />
         </TabPane>
+
+        <TabPane tab={TitleMap['import']} itemKey="import">
+          <Import wikiId={wikiId} />
+        </TabPane>
+
         <TabPane tab={TitleMap['more']} itemKey="more">
           <More wikiId={wikiId} />
         </TabPane>
