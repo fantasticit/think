@@ -5,9 +5,9 @@ import { Fragment, Node } from 'prosemirror-model';
 
 import { debug } from './debug';
 
-export function copyNode(nodeOrNodeName: Node | Fragment<any>);
+export function copyNode(nodeOrNodeName: Node | Fragment<any>, editor: Editor);
 export function copyNode(nodeOrNodeName: string, editor: Editor);
-export function copyNode(nodeOrNodeName: string | Node | Fragment<any>, editor?: Editor) {
+export function copyNode(nodeOrNodeName: string | Node | Fragment<any>, editor: Editor) {
   let targetNode = null;
 
   if (typeof nodeOrNodeName === 'string') {

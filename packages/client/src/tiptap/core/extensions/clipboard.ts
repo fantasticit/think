@@ -56,7 +56,7 @@ export const Clipboard = Extension.create<IClipboardOptions>({
 
               if (currentNode) {
                 event.preventDefault();
-                copyNode(currentNode);
+                copyNode(currentNode, extensionThis.editor);
                 return true;
               }
             }
