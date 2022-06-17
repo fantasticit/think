@@ -1,9 +1,10 @@
-import { Button, ButtonGroup } from '@douyinfe/semi-ui';
+import { Button } from '@douyinfe/semi-ui';
 import { DOCUMENT_COVERS } from '@think/constants';
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { ImageUploader } from 'components/image-uploader';
-import { useCallback } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import styles from './index.module.scss';
@@ -17,6 +18,7 @@ const images = [
 ];
 
 export const TitleWrapper = ({ editor, node }) => {
+  const toolbarRef = useRef<HTMLDivElement>(null);
   const isEditable = editor.isEditable;
   const { cover } = node.attrs;
 
@@ -39,11 +41,34 @@ export const TitleWrapper = ({ editor, node }) => {
     setCover(DOCUMENT_COVERS[~~(Math.random() * DOCUMENT_COVERS.length)]);
   }, [setCover]);
 
+  const portals = useMemo(() => {
+    if (!editor.isEditable) return null;
+
+    if (!toolbarRef.current) {
+      const editorDOM = editor.view.dom as HTMLDivElement;
+      const parent = editorDOM.parentElement;
+      const el = window.document.createElement('div');
+
+      parent.style.position = 'relative';
+      editorDOM.parentNode.insertBefore(el, editorDOM);
+      toolbarRef.current = el;
+    }
+
+    return createPortal(
+      <div style={{ transform: `translateY(1.5em)`, zIndex: 100 }}>
+        <Button onClick={addRandomCover} size={'small'} theme="light" type="tertiary">
+          {cover ? '随机封面' : '添加封面'}
+        </Button>
+      </div>,
+      toolbarRef.current
+    );
+  }, [editor, addRandomCover, cover]);
+
   return (
     <NodeViewWrapper className={cls(styles.wrap, 'title')}>
       {cover ? (
         <div className={styles.coverWrap} contentEditable={false}>
-          <img src={cover} alt="cover" />
+          <LazyLoadImage src={cover} alt="cover" />
           {isEditable ? (
             <div className={styles.toolbar}>
               <ImageUploader images={images} selectImage={setCover}>
@@ -55,13 +80,7 @@ export const TitleWrapper = ({ editor, node }) => {
           ) : null}
         </div>
       ) : null}
-      {isEditable && !cover ? (
-        <div className={styles.emptyToolbarWrap}>
-          <ButtonGroup size={'small'} theme="light" type="tertiary">
-            {!cover ? <Button onClick={addRandomCover}>添加封面</Button> : null}
-          </ButtonGroup>
-        </div>
-      ) : null}
+      {portals}
       <NodeViewContent></NodeViewContent>
     </NodeViewWrapper>
   );
