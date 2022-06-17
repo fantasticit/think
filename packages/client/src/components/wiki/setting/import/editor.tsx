@@ -8,7 +8,7 @@ import { prosemirrorJSONToYDoc } from 'tiptap/core/thritypart/y-prosemirror/y-pr
 import { markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
 import * as Y from 'yjs';
 
-export const ImportEditor = ({ content, onChange }) => {
+export const ImportEditor = ({ content, onChange, onError }) => {
   const parsed = useRef(false);
   const ydoc = useMemo(() => new Y.Doc(), []);
   const editor = useEditor(
@@ -39,14 +39,16 @@ export const ImportEditor = ({ content, onChange }) => {
 
       parsed.current = true;
     } catch (e) {
-      Toast.error('文件内容解析失败，请到 Github 提 issue 寻求解决！');
+      onError();
+      console.error(e.message, e.stack);
+      Toast.error('文件内容解析失败，请打开控制台，截图错误信息，请到 Github 提 issue 寻求解决！');
     }
 
     return () => {
       ydoc.destroy();
       editor.destroy();
     };
-  }, [editor, ydoc, content, onChange]);
+  }, [editor, ydoc, content, onChange, onError]);
 
   return null;
 };

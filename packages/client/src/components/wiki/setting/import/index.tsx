@@ -67,6 +67,18 @@ export const Import: React.FC<IProps> = ({ wikiId }) => {
     };
   }, []);
 
+  const onParsedFileError = useCallback((filename) => {
+    return () => {
+      setUploadFiles((files) => {
+        return files.filter((name) => name !== filename);
+      });
+      setTexts((texts) => {
+        delete texts[filename];
+        return texts;
+      });
+    };
+  }, []);
+
   const onDeleteFile = useCallback((toDeleteFilename) => {
     return () => {
       setPayloads((payloads) => {
@@ -112,7 +124,14 @@ export const Import: React.FC<IProps> = ({ wikiId }) => {
       <input ref={$upload} type="file" hidden multiple accept="text/markdown" onChange={handleFile} />
 
       {uploadFiles.map((filename) => {
-        return <ImportEditor key={filename} content={texts[filename]} onChange={onParsedFile(filename)} />;
+        return (
+          <ImportEditor
+            key={filename}
+            content={texts[filename]}
+            onChange={onParsedFile(filename)}
+            onError={onParsedFileError(filename)}
+          />
+        );
       })}
 
       <List

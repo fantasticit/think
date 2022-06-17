@@ -117,6 +117,5 @@ export const AllExtensions = [
   Status,
   DocumentWithTitle,
   Title,
-  Document,
   Flow,
 ];

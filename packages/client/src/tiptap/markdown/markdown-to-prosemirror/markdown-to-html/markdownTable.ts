@@ -256,7 +256,7 @@ function table(state, startLine, endLine, silent) {
 
       token = state.push('paragraph_open', 'p', 1);
       token = state.push('inline', '', 0);
-      token.content = columns[i].trim();
+      token.content = (columns[i] || '').trim();
       token.children = [];
       token = state.push('paragraph_close', 'p', -1);
 
