@@ -135,6 +135,7 @@ importers:
       react-pdf: ^5.7.2
       react-query: ^3.39.0
       react-split-pane: ^0.1.92
+      react-visibility-sensor: ^5.1.1
       requestidlecallback-polyfill: ^1.0.2
       resize-observer-polyfill: ^1.5.1
       scroll-into-view-if-needed: ^2.2.29
@@ -228,6 +229,7 @@ importers:
       react-pdf: 5.7.2_react-dom@17.0.2+react@17.0.2
       react-query: 3.39.0_react-dom@17.0.2+react@17.0.2
       react-split-pane: 0.1.92_react-dom@17.0.2+react@17.0.2
+      react-visibility-sensor: 5.1.1_react-dom@17.0.2+react@17.0.2
       requestidlecallback-polyfill: 1.0.2
       resize-observer-polyfill: 1.5.1
       scroll-into-view-if-needed: 2.2.29
@@ -246,7 +248,7 @@ importers:
       eslint: 8.14.0
       eslint-config-prettier: 8.5.0_eslint@8.14.0
       eslint-plugin-import: 2.26.0_eslint@8.14.0
-      eslint-plugin-prettier: 4.0.0_74ebb802163a9b4fa8f89d76ed02f62a
+      eslint-plugin-prettier: 4.0.0_740be41c8168d0cc214a306089357ad0
       eslint-plugin-react: 7.29.4_eslint@8.14.0
       eslint-plugin-react-hooks: 4.5.0_eslint@8.14.0
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.14.0
@@ -5603,22 +5605,6 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-prettier/4.0.0_74ebb802163a9b4fa8f89d76ed02f62a:
-    resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
-    engines: {node: '>=6.0.0'}
-    peerDependencies:
-      eslint: '>=7.28.0'
-      eslint-config-prettier: '*'
-      prettier: '>=2.0.0'
-    peerDependenciesMeta:
-      eslint-config-prettier:
-        optional: true
-    dependencies:
-      eslint: 8.14.0
-      eslint-config-prettier: 8.5.0_eslint@8.14.0
-      prettier-linter-helpers: 1.0.0
-    dev: true
-
   /eslint-plugin-react-hooks/4.5.0_eslint@8.14.0:
     resolution: {integrity: sha512-8k1gRt7D7h03kd+SAAlzXkQwWK22BnK6GKZG+FJA6BAGy22CFvl8kCIXKpVux0cCxMWDQUPqSok0LKaZ0aOcCw==}
     engines: {node: '>=10'}
@@ -9609,6 +9595,17 @@ packages:
     resolution: {integrity: sha512-ywYLSjNkxKHiZOqNlso9PZByNEY+FTyh3C+7uuziK0xFXu9xzdyfHwg4S9iyiRRoPCR4k2LqaBBsWVmSBwCWYQ==}
     dependencies:
       prop-types: 15.8.1
+    dev: false
+
+  /react-visibility-sensor/5.1.1_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-cTUHqIK+zDYpeK19rzW6zF9YfT4486TIgizZW53wEZ+/GPBbK7cNS0EHyJVyHYacwFEvvHLEKfgJndbemWhB/w==}
+    peerDependencies:
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      prop-types: 15.8.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /react-window/1.8.6_react-dom@17.0.2+react@17.0.2:
