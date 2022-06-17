@@ -1,6 +1,7 @@
 .wrap {
   position: relative;
   overflow: auto;
+  margin-top: 24px;
 
   .coverWrap {
     position: relative;
@@ -28,8 +29,10 @@
     }
   }
 
-  .emptyTitle {
+  .emptyToolbarWrap {
     position: absolute;
+    top: 0;
+    left: 0;
     height: 0;
     pointer-events: none;
   }

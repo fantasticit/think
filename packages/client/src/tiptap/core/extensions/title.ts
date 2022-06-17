@@ -1,6 +1,7 @@
 import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
+import { Decoration, DecorationSet } from 'prosemirror-view';
 import { getDatasetAttribute, isInTitle } from 'tiptap/prose-utils';
 
 import { TitleWrapper } from '../wrappers/title';
@@ -60,6 +61,8 @@ export const Title = Node.create<TitleOptions>({
   },
 
   addProseMirrorPlugins() {
+    const { editor } = this;
+
     return [
       new Plugin({
         key: new PluginKey(this.name),
@@ -87,6 +90,26 @@ export const Title = Node.create<TitleOptions>({
               dispatch(newState.tr.setSelection(next));
               return true;
             }
+          },
+        },
+      }),
+      new Plugin({
+        props: {
+          decorations: (state) => {
+            const { doc } = state;
+            const decorations = [];
+
+            doc.descendants((node, pos) => {
+              if (node.type.name !== this.name) return;
+
+              decorations.push(
+                Decoration.node(pos, pos + node.nodeSize, {
+                  class: editor.isEditable ? 'is-editable' : '',
+                })
+              );
+            });
+
+            return DecorationSet.create(doc, decorations);
           },
         },
       }),

@@ -75,15 +75,16 @@ export const CollaborationKit = [
   Paragraph,
   Placeholder.configure({
     placeholder: ({ node, editor }) => {
+      if (node.type.name === 'title') {
+        return editor.isEditable ? '请输入标题' : '未命名文档';
+      }
+
       if (!editor.isEditable) return;
 
-      if (node.type.name === 'title') {
-        return '请输入标题';
-      }
       return '输入 / 唤起更多';
     },
     showOnlyCurrent: false,
-    showOnlyWhenEditable: true,
+    showOnlyWhenEditable: false,
   }),
   BackgroundColor,
   Blockquote,
