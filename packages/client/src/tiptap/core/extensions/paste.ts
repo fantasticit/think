@@ -83,6 +83,20 @@ export const Paste = Extension.create<IPasteOptions>({
             const markdownText = event.clipboardData.getData('text/markdown');
             const { state, dispatch } = view;
 
+            if (typeof window !== 'undefined') {
+              if (window.location.search.includes('dev=1')) {
+                console.group();
+                console.log('paste', {
+                  text,
+                  vscode,
+                  node,
+                  markdownText,
+                });
+                console.log(html);
+                console.groupEnd();
+              }
+            }
+
             const { markdownToProsemirror } = extensionThis.options;
 
             // 直接复制节点
