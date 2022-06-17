@@ -5,7 +5,8 @@ import { DocumentCreator as DocumenCreatorForm } from 'components/document/creat
 import { CREATE_DOCUMENT, event, triggerCreateDocument } from 'event';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import scrollIntoView from 'scroll-into-view-if-needed';
 
 import styles from './index.module.scss';
 
@@ -64,14 +65,17 @@ const AddDocument = () => {
   );
 };
 
+let scrollTimer;
+
 export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId, isShareMode = false }) => {
+  const $container = useRef<HTMLDivElement>(null);
   const [expandedKeys, setExpandedKeys] = useState(parentIds);
 
   const renderBtn = useCallback((node) => <Actions key={node.id} node={node} />, []);
 
   const renderLabel = useCallback(
     (label, item) => (
-      <div className={styles.treeItemWrap}>
+      <div className={styles.treeItemWrap} id={`item-${item.id}`}>
         <Link href={docAsLink} as={getDocLink(item.id)}>
           <a className={styles.left}>
             <Typography.Text
@@ -95,8 +99,26 @@ export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId, isShare
     setExpandedKeys(parentIds);
   }, [parentIds]);
 
+  useEffect(() => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const target = $container.current.querySelector(`#item-${activeId}`);
+      if (!target) return;
+      target.scrollIntoView();
+      scrollIntoView(target, {
+        behavior: 'smooth',
+        scrollMode: 'if-needed',
+        block: 'center',
+      });
+    }, 500);
+
+    return () => {
+      clearTimeout(scrollTimer);
+    };
+  }, [activeId]);
+
   return (
-    <div className={styles.treeInnerWrap}>
+    <div className={styles.treeInnerWrap} ref={$container}>
       <SemiTree
         treeData={data}
         renderLabel={renderLabel}
