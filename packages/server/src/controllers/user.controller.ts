@@ -68,7 +68,13 @@ export class UserController {
   @Post(UserApiDefinition.logout.server)
   @HttpCode(HttpStatus.OK)
   async logout(@Res({ passthrough: true }) response: ExpressResponse) {
-    response.cookie('token', '', { expires: new Date() });
+    const { token, domain } = await this.userService.logout();
+    response.cookie('token', token, {
+      expires: new Date(),
+      domain,
+      httpOnly: true,
+      sameSite: 'lax',
+    });
     return;
   }
 

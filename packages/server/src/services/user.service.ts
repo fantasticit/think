@@ -132,6 +132,11 @@ export class UserService {
     return { user: res, token, domain, expiresIn };
   }
 
+  async logout() {
+    const domain = this.confifgService.get('client.siteDomain');
+    return { token: '', domain };
+  }
+
   async validateUser(user: UserEntity) {
     return await this.findById(user.id);
   }
