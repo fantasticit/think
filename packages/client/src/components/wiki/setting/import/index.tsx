@@ -144,7 +144,7 @@ export const Import: React.FC<IProps> = ({ wikiId }) => {
 
       <Button
         onClick={importFile}
-        disabled={loading || !parsedFiles.length}
+        disabled={!parsedFiles.length}
         loading={loading}
         theme="solid"
         style={{ marginTop: 16 }}
