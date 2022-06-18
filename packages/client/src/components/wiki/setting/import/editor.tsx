@@ -8,7 +8,7 @@ import { prosemirrorJSONToYDoc } from 'tiptap/core/thritypart/y-prosemirror/y-pr
 import { markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
 import * as Y from 'yjs';
 
-export const ImportEditor = ({ content, onChange, onError }) => {
+export const ImportEditor = ({ filename, content, onChange, onError }) => {
   const parsed = useRef(false);
   const ydoc = useMemo(() => new Y.Doc(), []);
   const editor = useEditor(
@@ -24,7 +24,12 @@ export const ImportEditor = ({ content, onChange, onError }) => {
     if (!content || !editor || !ydoc || parsed.current) return;
 
     try {
-      const prosemirrorNode = markdownToProsemirror({ schema: editor.schema, content, needTitle: true });
+      const prosemirrorNode = markdownToProsemirror({
+        schema: editor.schema,
+        content,
+        needTitle: true,
+        defaultTitle: filename.replace(/\.md$/gi, ''),
+      });
 
       const title = prosemirrorNode.content[0].content[0].text;
       editor.commands.setContent(prosemirrorNode);
@@ -48,7 +53,7 @@ export const ImportEditor = ({ content, onChange, onError }) => {
       ydoc.destroy();
       editor.destroy();
     };
-  }, [editor, ydoc, content, onChange, onError]);
+  }, [editor, ydoc, filename, content, onChange, onError]);
 
   return null;
 };

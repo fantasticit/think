@@ -127,6 +127,7 @@ export const Import: React.FC<IProps> = ({ wikiId }) => {
         return (
           <ImportEditor
             key={filename}
+            filename={filename}
             content={texts[filename]}
             onChange={onParsedFile(filename)}
             onError={onParsedFileError(filename)}
