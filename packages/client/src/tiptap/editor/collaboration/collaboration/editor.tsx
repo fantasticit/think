@@ -70,10 +70,10 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
           },
         }),
       ].filter(Boolean),
-      onTransaction({ transaction }) {
+      onUpdate({ transaction }) {
         try {
-          const title = transaction.doc.content.firstChild.content.firstChild.textContent;
-          onTitleUpdate(title);
+          const title = transaction.doc.content.firstChild.content.firstChild?.textContent;
+          onTitleUpdate(title || '未命名文档');
         } catch (e) {
           //
         }
