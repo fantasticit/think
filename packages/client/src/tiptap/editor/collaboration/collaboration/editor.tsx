@@ -73,7 +73,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
       onUpdate({ transaction }) {
         try {
           const title = transaction.doc.content.firstChild.content.firstChild?.textContent;
-          onTitleUpdate(title);
+          onTitleUpdate(title || '未命名文档');
         } catch (e) {
           //
         }
