@@ -70,9 +70,9 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
           },
         }),
       ].filter(Boolean),
-      onTransaction({ transaction }) {
+      onUpdate({ transaction }) {
         try {
-          const title = transaction.doc.content.firstChild.content.firstChild.textContent;
+          const title = transaction.doc.content.firstChild.content.firstChild?.textContent;
           onTitleUpdate(title);
         } catch (e) {
           //
