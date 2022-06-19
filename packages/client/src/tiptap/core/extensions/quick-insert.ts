@@ -6,6 +6,7 @@ import tippy from 'tippy.js';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import { insertMenuLRUCache, QUICK_INSERT_COMMANDS, transformToCommands } from 'tiptap/core/menus/commands';
 import { MenuList } from 'tiptap/core/wrappers/menu-list';
+import { createNewParagraphAbove } from 'tiptap/prose-utils';
 
 export const QuickInsertPluginKey = new PluginKey('quickInsert');
 
@@ -22,9 +23,21 @@ export const QuickInsert = Node.create({
         pluginKey: QuickInsertPluginKey,
         command: ({ editor, range, props }) => {
           const { state, dispatch } = editor.view;
-          const $from = state.selection.$from;
-          const tr = state.tr.deleteRange($from.start(), $from.pos);
+          const { $head, $from, $to } = state.selection;
+
+          // 删除快捷指令
+          const end = $from.pos;
+          const from = $head.nodeBefore
+            ? end - $head.nodeBefore.text.substring($head.nodeBefore.text.indexOf('/')).length
+            : $from.start();
+
+          const tr = state.tr.deleteRange(from, end);
           dispatch(tr);
+
+          if (props.isBlock) {
+            createNewParagraphAbove(state, dispatch);
+          }
+
           props?.action(editor, props.user);
           insertMenuLRUCache.put(props.label);
           editor?.view?.focus();
@@ -51,7 +64,7 @@ export const QuickInsert = Node.create({
       const restCommands = QUICK_INSERT_COMMANDS.filter((command) => {
         return !('title' in command) && !('custom' in command) && !recentUsed.includes(command.label);
       });
-      return [...transformToCommands(recentUsed), ...restCommands].filter(
+      return [...transformToCommands(QUICK_INSERT_COMMANDS, recentUsed), ...restCommands].filter(
         (command) => !('title' in command) && command.label && command.label.startsWith(query)
       );
     },

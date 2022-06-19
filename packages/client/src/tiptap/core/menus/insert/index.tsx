@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Editor } from 'tiptap/core';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';
+import { createNewParagraphBelow } from 'tiptap/prose-utils';
 
 import { COMMANDS, insertMenuLRUCache, transformToCommands } from '../commands';
 
@@ -25,7 +26,12 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
     (command) => {
       return () => {
         insertMenuLRUCache.put(command.label);
-        setRecentUsed(transformToCommands(insertMenuLRUCache.get() as string[]));
+        setRecentUsed(transformToCommands(COMMANDS, insertMenuLRUCache.get() as string[]));
+
+        if (command.isBlock) {
+          createNewParagraphBelow(editor.view.state, editor.view.dispatch);
+        }
+
         command.action(editor, user);
         toggleVisible(false);
       };
@@ -36,7 +42,7 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
   useEffect(() => {
     if (!visible) return;
     insertMenuLRUCache.syncFromStorage();
-    setRecentUsed(transformToCommands(insertMenuLRUCache.get() as string[]));
+    setRecentUsed(transformToCommands(COMMANDS, insertMenuLRUCache.get() as string[]));
   }, [visible]);
 
   return (
