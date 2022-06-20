@@ -44,6 +44,8 @@
   > main {
     position: relative;
     display: flex;
+    overflow: auto;
+    /* stylelint-disable-next-line */
     overflow: overlay;
     flex: 1;
     justify-content: center;
