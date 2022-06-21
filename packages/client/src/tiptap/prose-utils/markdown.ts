@@ -3,6 +3,12 @@ export const isMarkdown = (text: string): boolean => {
   const html = text.match(/<\/?[a-z][\s\S]*>/i);
   if (html && html.length) return true;
 
+  // 无序列表
+  if (/^[*|+|-]/.test(text)) return true;
+
+  // 有序列表
+  if (/^[0-9]+\)/.test(text)) return true;
+
   // image
   const image = text.match(/!\[(\s|.)?\]\((\s|.)?\)/);
   if (image && image.length) return true;
