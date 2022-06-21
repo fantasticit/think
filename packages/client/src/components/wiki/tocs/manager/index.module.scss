@@ -2,7 +2,7 @@
   margin-top: 5px;
 
   .tocsWrap {
-    height: 560px;
+    height: calc(100vh - 268px);
     overflow: auto;
     border: 1px solid var(--semi-color-border);
     border-radius: var(--border-radius);

@@ -82,12 +82,11 @@ export const WikiDocumentsShare: React.FC<IProps> = ({ wikiId }) => {
         type="info"
         icon={null}
         closeIcon={null}
-        title={<Title heading={5}>隐私管理</Title>}
         description={<Text>在下方进行选择以公开（或取消）文档</Text>}
       />
       <div className={styles.transferWrap}>
         <Transfer
-          style={{ width: '100%', marginTop: 16 }}
+          style={{ width: '100%', height: '100%' }}
           dataSource={documents}
           filter={customFilter}
           value={publicDocumentIds}

@@ -120,7 +120,6 @@ export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
         type="info"
         icon={null}
         closeIcon={null}
-        title={<Title heading={5}>目录管理</Title>}
         description={<Text>在下方进行拖拽以重新整理目录结构</Text>}
         style={{ marginBottom: 16 }}
       />
