@@ -45,6 +45,7 @@ const uploadImage = async ({ file, fileInfo, editor }: FnProps & { fileInfo: Fil
   } catch (e) {
     editor.commands.deleteRange({ from: from, to: from + loadingNode.nodeSize });
     console.log('上传文件失败！');
+    throw e;
   }
 };
 

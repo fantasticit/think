@@ -73,8 +73,10 @@ export const uploadFile = async (
   }
 
   if (file.size <= FILE_CHUNK_SIZE) {
-    const spark = new SparkMD5.ArrayBuffer();
+    const spark = new SparkMD5();
     spark.append(file);
+    spark.append(file.lastModified);
+    spark.append(file.type);
     const md5 = spark.end();
     const url = await uploadFileToServer({ filename, file, md5, onUploadProgress: wraponUploadProgress });
     return url;
