@@ -95,6 +95,7 @@ export const Mind = Node.create({
 
           const { selection } = editor.state;
           const pos = selection.$head;
+
           return chain()
             .insertContentAt(pos.after(), [
               {
@@ -116,8 +117,8 @@ export const Mind = Node.create({
       nodeInputRule({
         find: /^\$mind $/,
         type: this.type,
-        getAttributes: (match) => {
-          return { type: match[1] };
+        getAttributes: () => {
+          return { width: '100%' };
         },
       }),
     ];

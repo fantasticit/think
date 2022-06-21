@@ -1,5 +1,5 @@
 import { IUser } from '@think/domains';
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core';
+import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentReferenceWrapper } from 'tiptap/core/wrappers/document-reference';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
@@ -16,8 +16,6 @@ declare module '@tiptap/core' {
     };
   }
 }
-
-export const DocumentReferenceInputRegex = /^documentReference\$$/;
 
 export const DocumentReference = Node.create({
   name: 'documentReference',
@@ -78,15 +76,6 @@ export const DocumentReference = Node.create({
           });
         },
     };
-  },
-
-  addInputRules() {
-    return [
-      wrappingInputRule({
-        find: DocumentReferenceInputRegex,
-        type: this.type,
-      }),
-    ];
   },
 
   addNodeView() {

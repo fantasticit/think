@@ -17,8 +17,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const KatexInputRegex = /^\$\$(.+)?\$\$$/;
-
 export const Katex = Node.create({
   name: 'katex',
   group: 'block',
@@ -74,11 +72,8 @@ export const Katex = Node.create({
   addInputRules() {
     return [
       nodeInputRule({
-        find: KatexInputRegex,
+        find: /^\$katex $/,
         type: this.type,
-        getAttributes: (match) => {
-          return { text: match[1] };
-        },
       }),
     ];
   },

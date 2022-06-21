@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core';
+import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { CountdownWrapper } from 'tiptap/core/wrappers/countdown';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
@@ -75,6 +75,18 @@ export const Countdown = Node.create({
             .run();
         },
     };
+  },
+
+  addInputRules() {
+    return [
+      nodeInputRule({
+        find: /^\$countdown $/,
+        type: this.type,
+        getAttributes: () => {
+          return { width: '100%' };
+        },
+      }),
+    ];
   },
 
   addNodeView() {

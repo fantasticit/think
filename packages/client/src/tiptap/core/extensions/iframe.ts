@@ -1,5 +1,5 @@
 import { IUser } from '@think/domains';
-import { mergeAttributes, Node } from '@tiptap/core';
+import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { IframeWrapper } from 'tiptap/core/wrappers/iframe';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
@@ -95,6 +95,18 @@ export const Iframe = Node.create({
             .run();
         },
     };
+  },
+
+  addInputRules() {
+    return [
+      nodeInputRule({
+        find: /^\$iframe $/,
+        type: this.type,
+        getAttributes: () => {
+          return { width: '100%' };
+        },
+      }),
+    ];
   },
 
   addNodeView() {

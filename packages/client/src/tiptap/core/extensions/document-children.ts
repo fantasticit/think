@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core';
+import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentChildrenWrapper } from 'tiptap/core/wrappers/document-children';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
@@ -10,8 +10,6 @@ declare module '@tiptap/core' {
     };
   }
 }
-
-export const DocumentChildrenInputRegex = /^documentChildren\$$/;
 
 export const DocumentChildren = Node.create({
   name: 'documentChildren',
@@ -62,15 +60,6 @@ export const DocumentChildren = Node.create({
           });
         },
     };
-  },
-
-  addInputRules() {
-    return [
-      wrappingInputRule({
-        find: DocumentChildrenInputRegex,
-        type: this.type,
-      }),
-    ];
   },
 
   addNodeView() {

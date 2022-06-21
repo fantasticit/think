@@ -106,8 +106,8 @@ export const Flow = Node.create({
       nodeInputRule({
         find: /^\$flow $/,
         type: this.type,
-        getAttributes: (match) => {
-          return { type: match[1] };
+        getAttributes: () => {
+          return { width: '100%' };
         },
       }),
     ];
