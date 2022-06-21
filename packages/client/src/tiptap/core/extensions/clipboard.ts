@@ -67,28 +67,36 @@ export const Clipboard = Extension.create<IClipboardOptions>({
             const json = slice.content.toJSON();
             const isSelectAll = slice.openStart === slice.openEnd && slice.openEnd === 0;
 
+            if (Array.isArray(json) && !isSelectAll) {
+              const type = json[0].type;
+
+              // 列表项返回文字内容
+              if (['bulletList', 'orderedList', 'taskList'].includes(type)) {
+                return slice.content.textBetween(0, slice.content.size, '\n\n');
+              }
+            }
+
             if (typeof json === 'object' || isSelectAll) {
               return extensionThis.options.prosemirrorToMarkdown({
                 content: slice.content,
               });
-            } else {
-              const isText = isPureText(json) && !isSelectAll;
-
-              if (isText) {
-                return slice.content.textBetween(0, slice.content.size, '\n\n');
-              }
-
-              const doc = slice.content;
-
-              if (!doc) {
-                return '';
-              }
-
-              const content = extensionThis.options.prosemirrorToMarkdown({
-                content: doc,
-              });
-              return content;
             }
+
+            const isText = isPureText(json) && !isSelectAll;
+
+            if (isText) {
+              return slice.content.textBetween(0, slice.content.size, '\n\n');
+            }
+            const doc = slice.content;
+
+            if (!doc) {
+              return '';
+            }
+
+            const content = extensionThis.options.prosemirrorToMarkdown({
+              content: doc,
+            });
+            return content;
           },
         },
       }),
