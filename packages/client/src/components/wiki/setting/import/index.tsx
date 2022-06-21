@@ -1,11 +1,10 @@
-import { IconUpload } from '@douyinfe/semi-icons';
-import { Button, List, Toast, Typography } from '@douyinfe/semi-ui';
+import { Button, Toast, Typography, Upload } from '@douyinfe/semi-ui';
 import type { IWiki } from '@think/domains';
 import { useCreateDocument } from 'data/document';
 import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { ImportEditor } from './editor';
+import { createMarkdownParser, MarkdownParse } from './parser';
 
 interface IProps {
   wikiId: IWiki['id'];
@@ -15,137 +14,97 @@ const { Text } = Typography;
 
 export const Import: React.FC<IProps> = ({ wikiId }) => {
   const { create } = useCreateDocument();
-  const $upload = useRef<HTMLInputElement>();
-  const [uploadFiles, setUploadFiles] = useState([]);
-  const [texts, setTexts] = useState<Record<string, string | ArrayBuffer>>({});
-  const [payloads, setPayloads] = useState<
-    Record<
-      string,
-      {
-        title: string;
-        content: string;
-        state: Uint8Array;
-      }
-    >
-  >({});
-  const [parsedFiles, setParsedFiles] = useState([]);
+  const $upload = useRef<Upload>();
   const [loading, toggleLoading] = useToggle(false);
+  const [markdownParser, setMarkdownParser] = useState<MarkdownParse>();
+  const [fileList, setFileList] = useState([]);
 
-  const selectFile = useCallback(() => {
-    $upload.current.click();
-  }, []);
-
-  const handleFile = useCallback((e) => {
-    const files = Array.from(e.target.files) as Array<File>;
-
+  const handleFile = useCallback(({ fileList: files }) => {
     if (!files.length) return;
 
     files.forEach((file) => {
+      const fileName = file.fileInstance.name;
+
       const fileReader = new FileReader();
       fileReader.onload = function () {
-        setTexts((texts) => {
-          texts[file.name] = fileReader.result;
-          return texts;
-        });
-
-        setUploadFiles((files) => {
-          return files.concat(file.name);
+        setFileList((fileList) => {
+          if (fileList.find((file) => file.name === fileName)) return fileList;
+          return fileList.concat({ ...file, text: fileReader.result });
         });
       };
 
-      fileReader.readAsText(file);
+      fileReader.readAsText(file.fileInstance);
+    });
+
+    return false;
+  }, []);
+
+  const removeFile = useCallback((currentFile) => {
+    setFileList((fileList) => {
+      return fileList.filter((file) => file.name !== currentFile.name);
     });
   }, []);
 
-  const onParsedFile = useCallback((filename) => {
-    return (payload) => {
-      setPayloads((payloads) => {
-        payloads[filename] = payload;
-        setParsedFiles((files) => files.concat(filename));
-        return payloads;
-      });
-    };
-  }, []);
-
-  const onParsedFileError = useCallback((filename) => {
-    return () => {
-      setUploadFiles((files) => {
-        return files.filter((name) => name !== filename);
-      });
-      setTexts((texts) => {
-        delete texts[filename];
-        return texts;
-      });
-    };
-  }, []);
-
-  const onDeleteFile = useCallback((toDeleteFilename) => {
-    return () => {
-      setPayloads((payloads) => {
-        const newPayloads = Object.keys(payloads).reduce((accu, filename) => {
-          if (filename !== toDeleteFilename) {
-            accu[filename] = payloads[filename];
-          }
-          return accu;
-        }, {});
-        setParsedFiles(Object.keys(newPayloads));
-        return newPayloads;
-      });
-    };
-  }, []);
-
   const importFile = useCallback(() => {
+    if (!markdownParser) return;
+
+    const total = fileList.length;
+    let success = 0;
+    let failed = 0;
+
     toggleLoading(true);
 
-    Promise.all(
-      Object.keys(payloads).map((filename) => {
-        return create({ ...payloads[filename], wikiId });
-      })
-    )
-      .then(() => {
-        Toast.success('文档已导入');
-      })
-      .finally(() => {
-        toggleLoading(false);
-        setTexts({});
-        setUploadFiles([]);
-        setPayloads({});
-        setParsedFiles([]);
-        $upload.current.value = '';
-      });
-  }, [payloads, toggleLoading, create, wikiId]);
+    for (const file of fileList) {
+      const payload = markdownParser.parse(file.name, file.text);
+      create({ ...payload, wikiId })
+        .then(() => {
+          success += 1;
+        })
+        .catch(() => {
+          failed += 1;
+        })
+        .finally(() => {
+          if (success + failed === total) {
+            $upload.current.clear();
+            toggleLoading(false);
+            setFileList([]);
+
+            if (failed > 0) {
+              Toast.error('部分文件导入失败，请重新尝试导入！');
+            } else {
+              Toast.success('导入成功');
+            }
+          }
+        });
+    }
+  }, [markdownParser, fileList, toggleLoading, create, wikiId]);
+
+  useEffect(() => {
+    const markdownParser = createMarkdownParser();
+    setMarkdownParser(markdownParser);
+
+    return () => {
+      markdownParser.destroy();
+    };
+  }, []);
 
   return (
     <div style={{ marginTop: 16 }}>
-      <Button icon={<IconUpload />} theme="light" onClick={selectFile}>
-        点击上传
-      </Button>
-
-      <input ref={$upload} type="file" hidden multiple accept="text/markdown" onChange={handleFile} />
-
-      {uploadFiles.map((filename) => {
-        return (
-          <ImportEditor
-            key={filename}
-            filename={filename}
-            content={texts[filename]}
-            onChange={onParsedFile(filename)}
-            onError={onParsedFileError(filename)}
-          />
-        );
-      })}
-
-      <List
-        dataSource={parsedFiles}
-        renderItem={(filename) => (
-          <List.Item main={<div>{filename}</div>} extra={<Button onClick={onDeleteFile(filename)}>删除</Button>} />
-        )}
-        emptyContent={<Text type="tertiary">仅支持 Markdown 文件导入</Text>}
+      <Upload
+        action=""
+        accept="text/markdown"
+        draggable
+        multiple
+        ref={$upload}
+        beforeUpload={handleFile}
+        dragMainText={<Text>点击上传文件或拖拽文件到这里</Text>}
+        dragSubText={<Text type="tertiary">仅支持 Markdown 文件导入</Text>}
+        onRemove={removeFile}
       />
 
       <Button
         onClick={importFile}
-        disabled={!parsedFiles.length}
+        disabled={!fileList.length}
         loading={loading}
         theme="solid"
         style={{ marginTop: 16 }}

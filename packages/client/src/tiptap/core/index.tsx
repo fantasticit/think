@@ -13,6 +13,10 @@ export class Editor extends BuiltInEditor {
   public eventEmitter: EventEmitter = new EventEmitter();
 }
 
+export const createEditor = (options: Partial<EditorOptions> = {}) => {
+  return new Editor(options);
+};
+
 export const useEditor = (options: Partial<EditorOptions> = {}, deps: DependencyList = []) => {
   const [editor, setEditor] = useState<Editor | null>(null);
   const forceUpdate = useForceUpdate();
