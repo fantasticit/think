@@ -7,7 +7,7 @@ import {
   triggerToggleCollectWiki,
 } from 'event';
 import { useCallback, useEffect } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryOptions } from 'react-query';
 import { HttpClient } from 'services/http-client';
 
 export type IWikiWithIsMember = IWiki & { isMember?: boolean };
@@ -168,9 +168,11 @@ export const toggleCollectDocument = (documentId, cookie = null): Promise<boolea
  * @param documentId
  * @returns
  */
-export const useDocumentCollectToggle = (documentId) => {
-  const { data, error, refetch } = useQuery([CollectorApiDefinition.check.client(), documentId], () =>
-    getDocumentIsCollected(documentId)
+export const useDocumentCollectToggle = (documentId, options?: UseQueryOptions<boolean>) => {
+  const { data, error, refetch } = useQuery(
+    [CollectorApiDefinition.check.client(), documentId],
+    () => getDocumentIsCollected(documentId),
+    options
   );
 
   const toggle = useCallback(async () => {

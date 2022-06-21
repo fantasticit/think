@@ -55,7 +55,6 @@ export const DocumentActions: React.FC<IProps> = ({
       <Popover
         showArrow
         style={{ padding: 0 }}
-        trigger="click"
         visible={popoverVisible}
         onVisibleChange={wrapOnVisibleChange}
         content={

@@ -1,7 +1,9 @@
 import { IconStar } from '@douyinfe/semi-icons';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
 import { useDocumentCollectToggle } from 'data/collector';
-import React from 'react';
+import { useToggle } from 'hooks/use-toggle';
+import React, { useCallback } from 'react';
+import VisibilitySensor from 'react-visibility-sensor';
 
 interface IProps {
   documentId: string;
@@ -15,11 +17,21 @@ interface IProps {
 }
 
 export const DocumentStar: React.FC<IProps> = ({ documentId, disabled = false, render }) => {
-  const { data, toggle: toggleStar } = useDocumentCollectToggle(documentId);
+  const [visible, toggleVisible] = useToggle(false);
+  const { data, toggle: toggleStar } = useDocumentCollectToggle(documentId, { enabled: visible });
   const text = data ? '取消收藏' : '收藏文档';
 
+  const onViewportChange = useCallback(
+    (visible) => {
+      if (visible) {
+        toggleVisible(true);
+      }
+    },
+    [toggleVisible]
+  );
+
   return (
-    <>
+    <VisibilitySensor onChange={onViewportChange}>
       {render ? (
         render({ star: data, disabled, toggleStar, text })
       ) : (
@@ -39,6 +51,6 @@ export const DocumentStar: React.FC<IProps> = ({ documentId, disabled = false, r
           />
         </Tooltip>
       )}
-    </>
+    </VisibilitySensor>
   );
 };
