@@ -84,8 +84,9 @@ export const Flow = Node.create({
 
           const { selection } = editor.state;
           const pos = selection.$head;
+
           return chain()
-            .insertContentAt(pos.before(), [
+            .insertContentAt(pos.after(), [
               {
                 type: this.name,
                 attrs: options,

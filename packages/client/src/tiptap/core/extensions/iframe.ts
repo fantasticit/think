@@ -86,7 +86,7 @@ export const Iframe = Node.create({
           const pos = selection.$head;
 
           return chain()
-            .insertContentAt(pos.before(), [
+            .insertContentAt(pos.after(), [
               {
                 type: this.name,
                 attrs,

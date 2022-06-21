@@ -181,7 +181,7 @@ export const QUICK_INSERT_COMMANDS = [
 ];
 
 export const transformToCommands = (commands, data: string[]) => {
-  return data
+  return (data || [])
     .map((label) => {
       return commands.find((command) => {
         if ('title' in command) {

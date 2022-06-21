@@ -6,7 +6,7 @@ import tippy from 'tippy.js';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import { insertMenuLRUCache, QUICK_INSERT_COMMANDS, transformToCommands } from 'tiptap/core/menus/commands';
 import { MenuList } from 'tiptap/core/wrappers/menu-list';
-import { createNewParagraphAbove } from 'tiptap/prose-utils';
+import { createNewParagraphBelow } from 'tiptap/prose-utils';
 
 export const QuickInsertPluginKey = new PluginKey('quickInsert');
 
@@ -35,7 +35,7 @@ export const QuickInsert = Node.create({
           dispatch(tr);
 
           if (props.isBlock) {
-            createNewParagraphAbove(state, dispatch);
+            createNewParagraphBelow(state, dispatch);
           }
 
           props?.action(editor, props.user);
