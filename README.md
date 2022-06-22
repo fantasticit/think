@@ -183,6 +183,7 @@ server {
 ## 赞助
 
 如果这个项目对您有帮助，并且您希望支持该项目的开发和维护，请随时扫描一下二维码进行捐赠。非常感谢您的捐款，谢谢！
+如果您希望留下您的信息，可以到[感谢信](https://think.codingit.cn/wiki/eb520cdf-aa4b-4af2-ae4a-7140e21403ab/document/230548f5-3220-4c5b-a209-02b1eb0299e7)评论区留言。
 
 <div style="display: flex;">
   <img width="300" alt="alipay" src="https://think-1256095494.cos.ap-shanghai.myqcloud.com/think-alipay.jpg" />
