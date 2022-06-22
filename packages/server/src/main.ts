@@ -60,4 +60,4 @@ async function bootstrap() {
   console.log(`[think] 主服务启动成功，端口：${port}`);
 }
 
-IS_PRODUCTION ? AppClusterService.clusterize(bootstrap) : bootstrap();
+bootstrap();
