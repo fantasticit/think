@@ -76,16 +76,16 @@ const Page = () => {
             注册
           </Button>
           <footer>
-            <Text link style={{ textAlign: 'center' }}>
-              <Link
-                href={{
-                  pathname: '/login',
-                  query,
-                }}
-              >
-                <a>使用其他账户登录</a>
-              </Link>
-            </Text>
+            <Link
+              href={{
+                pathname: '/login',
+                query,
+              }}
+            >
+              <Text link style={{ textAlign: 'center' }}>
+                使用其他账户登录
+              </Text>
+            </Link>
           </footer>
         </Form>
       </Content>
