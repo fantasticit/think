@@ -15,6 +15,13 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 
 [云策文档](https://think.codingit.cn)已经部署上线，可前往注册使用。
 
+## 交流群
+
+欢迎进群交流。
+
+<img width="313" alt="image" src="https://user-images.githubusercontent.com/26452939/174938220-5b7301fd-f207-4ff4-a3af-d6b2ab489727.png">
+
+
 ## 预览
 
 ![知识库](http://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-20/YN67GM4VQMBTZFZ88TYP8X/image.png)
