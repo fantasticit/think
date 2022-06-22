@@ -3,7 +3,7 @@ COPY .  /app/
 WORKDIR /app
 ARG EIP=mrdoc.fun
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-RUN npm config set registry http://registry.npm.taobao.org/
+RUN npm config set registry https://registry.npmmirror.com
 RUN npm i -g pm2 @nestjs/cli pnpm
 RUN apk --no-cache add  bash
 RUN sed -i "s/localhost/$EIP/g"  /app/docker/prod-sample.yaml
@@ -19,7 +19,7 @@ COPY --from=builder /app/output/ /app/
 
 WORKDIR /app
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-RUN npm config set registry http://registry.npm.taobao.org/
+RUN npm config set registry https://registry.npmmirror.com
 RUN  set -x \
     && apk update \
     && apk add --no-cache  tzdata  redis  \
