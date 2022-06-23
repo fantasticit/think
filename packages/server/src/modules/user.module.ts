@@ -1,7 +1,7 @@
 import { UserController } from '@controllers/user.controller';
 import { UserEntity } from '@entities/user.entity';
-import { CollectorModule } from '@modules/collector.module';
 import { MessageModule } from '@modules/message.module';
+import { StarModule } from '@modules/star.module';
 import { WikiModule } from '@modules/wiki.module';
 import { forwardRef, Inject, Injectable, Module, UnauthorizedException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -60,7 +60,7 @@ const jwtModule = JwtModule.register({
     ConfigModule,
     forwardRef(() => WikiModule),
     forwardRef(() => MessageModule),
-    forwardRef(() => CollectorModule),
+    forwardRef(() => StarModule),
     passModule,
     jwtModule,
   ],

@@ -62,7 +62,7 @@ export const RecentDocs = ({ visible }) => {
                               </div>
                             </div>
                             <div className={styles.rightWrap}>
-                              <DocumentStar documentId={doc.id} />
+                              <DocumentStar wikiId={doc.wikiId} documentId={doc.id} />
                             </div>
                           </a>
                         </Link>

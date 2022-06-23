@@ -1,5 +1,4 @@
 import { HttpResponseExceptionFilter } from '@exceptions/http-response.exception';
-import { IS_PRODUCTION } from '@helpers/env.helper';
 import { FILE_DEST, FILE_ROOT_PATH } from '@helpers/file.helper/local.client';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -13,7 +12,6 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
-import { AppClusterService } from './app-cluster.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

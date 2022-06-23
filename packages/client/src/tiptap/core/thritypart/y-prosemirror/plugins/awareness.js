@@ -56,30 +56,28 @@ export class Awareness extends Observable {
      * @type {Map<number, MetaClientState>}
      */
     this.meta = new Map();
-    this._checkInterval = /** @type {any} */ (
-      setInterval(() => {
-        const now = time.getUnixTime();
-        if (
-          this.getLocalState() !== null &&
-          outdatedTimeout / 2 <= now - /** @type {{lastUpdated:number}} */ (this.meta.get(this.clientID)).lastUpdated
-        ) {
-          // renew local clock
-          this.setLocalState(this.getLocalState());
+    this._checkInterval = /** @type {any} */ setInterval(() => {
+      const now = time.getUnixTime();
+      if (
+        this.getLocalState() !== null &&
+        outdatedTimeout / 2 <= now - /** @type {{lastUpdated:number}} */ this.meta.get(this.clientID).lastUpdated
+      ) {
+        // renew local clock
+        this.setLocalState(this.getLocalState());
+      }
+      /**
+       * @type {Array<number>}
+       */
+      const remove = [];
+      this.meta.forEach((meta, clientid) => {
+        if (clientid !== this.clientID && outdatedTimeout <= now - meta.lastUpdated && this.states.has(clientid)) {
+          remove.push(clientid);
         }
-        /**
-         * @type {Array<number>}
-         */
-        const remove = [];
-        this.meta.forEach((meta, clientid) => {
-          if (clientid !== this.clientID && outdatedTimeout <= now - meta.lastUpdated && this.states.has(clientid)) {
-            remove.push(clientid);
-          }
-        });
-        if (remove.length > 0) {
-          removeAwarenessStates(this, remove, 'timeout');
-        }
-      }, math.floor(outdatedTimeout / 10))
-    );
+      });
+      if (remove.length > 0) {
+        removeAwarenessStates(this, remove, 'timeout');
+      }
+    }, math.floor(outdatedTimeout / 10));
     doc.on('destroy', () => {
       this.destroy();
     });
@@ -176,7 +174,7 @@ export const removeAwarenessStates = (awareness, clients, origin) => {
     if (awareness.states.has(clientID)) {
       awareness.states.delete(clientID);
       if (clientID === awareness.clientID) {
-        const curMeta = /** @type {MetaClientState} */ (awareness.meta.get(clientID));
+        const curMeta = /** @type {MetaClientState} */ awareness.meta.get(clientID);
         awareness.meta.set(clientID, {
           clock: curMeta.clock + 1,
           lastUpdated: time.getUnixTime(),
@@ -203,7 +201,7 @@ export const encodeAwarenessUpdate = (awareness, clients, states = awareness.sta
   for (let i = 0; i < len; i++) {
     const clientID = clients[i];
     const state = states.get(clientID) || null;
-    const clock = /** @type {MetaClientState} */ (awareness.meta.get(clientID)).clock;
+    const clock = /** @type {MetaClientState} */ awareness.meta.get(clientID).clock;
     encoding.writeVarUint(encoder, clientID);
     encoding.writeVarUint(encoder, clock);
     encoding.writeVarString(encoder, JSON.stringify(state));

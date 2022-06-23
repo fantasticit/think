@@ -3,7 +3,7 @@ import { Avatar, Dropdown, Modal, Space, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { WikiStar } from 'components/wiki/star';
-import { useCollectedWikis } from 'data/collector';
+import { useStarWikis } from 'data/star';
 import { useWikiDetail } from 'data/wiki';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -16,7 +16,7 @@ const { Text } = Typography;
 
 const WikiContent = () => {
   const { query } = useRouter();
-  const { data: starWikis, loading, error, refresh: refreshStarWikis } = useCollectedWikis();
+  const { data: starWikis, loading, error, refresh: refreshStarWikis } = useStarWikis();
   const { data: currentWiki } = useWikiDetail(query.wikiId);
 
   return (

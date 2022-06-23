@@ -54,7 +54,6 @@ export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, render, 
       onConfirm={deleteAction}
       okButtonProps={{ loading }}
       zIndex={1070}
-      showArrow
     >
       {render ? render({ children: content }) : content}
     </Popconfirm>

@@ -1,5 +1,5 @@
 import { Avatar, Button, List, Table, Typography } from '@douyinfe/semi-ui';
-import { CollectorApiDefinition, DocumentApiDefinition, IDocument } from '@think/domains';
+import { DocumentApiDefinition, IDocument, StarApiDefinition } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentActions } from 'components/document/actions';
 import { Empty } from 'components/empty';
@@ -7,8 +7,8 @@ import { LocaleTime } from 'components/locale-time';
 import { Seo } from 'components/seo';
 import { WikiCreator } from 'components/wiki/create';
 import { WikiPinCard, WikiPinCardPlaceholder } from 'components/wiki/pin-card';
-import { getCollectedWikis, useCollectedWikis } from 'data/collector';
 import { getRecentVisitedDocuments, useRecentDocuments } from 'data/document';
+import { getStarWikis, useStarWikis } from 'data/star';
 import { useToggle } from 'hooks/use-toggle';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
@@ -78,7 +78,14 @@ const RecentDocs = () => {
         key="operate"
         width={80}
         render={(_, document) => (
-          <DocumentActions wikiId={document.wikiId} documentId={document.id} onDelete={refresh} showCreateDocument />
+          <DocumentActions
+            wikiId={document.wikiId}
+            documentId={document.id}
+            onDelete={refresh}
+            showCreateDocument
+            hideDocumentVersion
+            hideDocumentStyle
+          />
         )}
       />,
     ],
@@ -118,7 +125,7 @@ const RecentDocs = () => {
 
 const Page: NextPage = () => {
   const [visible, toggleVisible] = useToggle(false);
-  const { data: staredWikis, loading, error, refresh } = useCollectedWikis();
+  const { data: staredWikis, loading, error, refresh } = useStarWikis();
 
   return (
     <SingleColumnLayout>
@@ -168,7 +175,7 @@ const Page: NextPage = () => {
 
 Page.getInitialProps = async (ctx) => {
   const props = await serverPrefetcher(ctx, [
-    { url: CollectorApiDefinition.wikis.client(), action: (cookie) => getCollectedWikis(cookie) },
+    { url: StarApiDefinition.wikis.client(), action: (cookie) => getStarWikis(cookie) },
     { url: DocumentApiDefinition.recent.client(), action: (cookie) => getRecentVisitedDocuments(cookie) },
   ]);
   return props;

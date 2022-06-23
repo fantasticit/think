@@ -4,5 +4,4 @@ export * from './document';
 export * from './message';
 export * from './template';
 export * from './comment';
-export * from './collector';
 export * from './pagination';

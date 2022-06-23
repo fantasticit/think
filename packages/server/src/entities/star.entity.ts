@@ -1,24 +1,18 @@
-import { CollectType } from '@think/domains';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('collector')
-export class CollectorEntity {
+@Entity('star')
+export class StarEntity {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
   @Column({ type: 'varchar', comment: '用户 Id' })
   public userId: string;
 
-  @Column({ type: 'varchar', comment: '收藏目标 Id' })
-  public targetId: string;
+  @Column({ type: 'varchar', comment: '知识库 Id' })
+  public wikiId: string;
 
-  @Column({
-    type: 'enum',
-    enum: CollectType,
-    default: CollectType.document,
-    comment: '收藏目标类型',
-  })
-  public type: CollectType;
+  @Column({ type: 'varchar', comment: '文档 Id', default: null })
+  public documentId: string;
 
   @CreateDateColumn({
     type: 'timestamp',

@@ -1,16 +1,17 @@
-import { IconPlus } from '@douyinfe/semi-icons';
-import { Avatar, Button, Skeleton, Tooltip, Typography } from '@douyinfe/semi-ui';
-import { isPublicWiki } from '@think/domains';
+import { IconPlus, IconSmallTriangleDown } from '@douyinfe/semi-icons';
+import { Avatar, Button, Dropdown, Skeleton, Typography } from '@douyinfe/semi-ui';
+import cls from 'classnames';
 import { DataRender } from 'components/data-render';
-import { IconDocument, IconGlobe, IconOverview, IconSetting } from 'components/icons';
+import { IconOverview, IconSetting } from 'components/icons';
 import { findParents } from 'components/wiki/tocs/utils';
+import { useStarWikis, useWikiStarDocuments } from 'data/star';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
 import { triggerCreateDocument } from 'event';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import styles from './index.module.scss';
-import { NavItem } from './nav-item';
 import { Tree } from './tree';
 
 interface IProps {
@@ -28,9 +29,15 @@ export const WikiTocs: React.FC<IProps> = ({
   docAsLink = '/wiki/[wikiId]/document/[documentId]',
   getDocLink = (documentId) => `/wiki/${wikiId}/document/${documentId}`,
 }) => {
-  const { pathname, query } = useRouter();
+  const { pathname } = useRouter();
   const { data: wiki, loading: wikiLoading, error: wikiError } = useWikiDetail(wikiId);
-  const { data: tocs, loading: tocsLoading, error: tocsError, refresh } = useWikiTocs(wikiId);
+  const { data: tocs, loading: tocsLoading, error: tocsError } = useWikiTocs(wikiId);
+  const { data: starWikis } = useStarWikis();
+  const {
+    data: starDocuments,
+    loading: starDocumentsLoading,
+    error: starDocumentsError,
+  } = useWikiStarDocuments(wikiId);
   const [parentIds, setParentIds] = useState<Array<string>>([]);
 
   useEffect(() => {
@@ -41,168 +48,256 @@ export const WikiTocs: React.FC<IProps> = ({
 
   return (
     <div className={styles.wrap}>
-      <DataRender
-        loading={wikiLoading}
-        loadingContent={
-          <NavItem
-            icon={
-              <Skeleton.Avatar
-                size="small"
-                style={{
-                  marginRight: 8,
-                  width: 24,
-                  height: 24,
-                  borderRadius: 4,
-                }}
-              ></Skeleton.Avatar>
-            }
-            text={<Skeleton.Title style={{ width: 120 }} />}
-          />
-        }
-        error={wikiError}
-        normalContent={() => (
-          <NavItem
-            icon={
-              <Avatar
-                shape="square"
-                size="small"
-                src={wiki.avatar}
-                style={{
-                  marginRight: 8,
-                  width: 24,
-                  height: 24,
-                  borderRadius: 4,
-                }}
-              >
-                {wiki.name.charAt(0)}
-              </Avatar>
-            }
-            text={<Text strong>{wiki.name}</Text>}
-            hoverable={false}
-          />
-        )}
-      />
-
-      <NavItem
-        icon={<IconOverview />}
-        text={'概述'}
-        href={{
-          pathname: `/wiki/[wikiId]`,
-          query: { wikiId },
-        }}
-        isActive={pathname === '/wiki/[wikiId]' || (query && wiki && query.documentId === wiki.homeDocumentId)}
-      />
-
-      <NavItem
-        icon={<IconSetting />}
-        text={'设置'}
-        href={{
-          pathname: `/wiki/[wikiId]/setting`,
-          query: { tab: 'base', wikiId },
-        }}
-        isActive={pathname === '/wiki/[wikiId]/setting'}
-      />
-
-      <DataRender
-        loading={wikiLoading}
-        loadingContent={
-          <NavItem
-            icon={
-              <Skeleton.Avatar
-                size="small"
-                style={{
-                  marginRight: 8,
-                  width: 24,
-                  height: 24,
-                  borderRadius: 4,
-                }}
-              ></Skeleton.Avatar>
-            }
-            text={<Skeleton.Title style={{ width: 120 }} />}
-          />
-        }
-        error={wikiError}
-        normalContent={() =>
-          isPublicWiki(wiki.status) ? (
-            <NavItem
-              icon={<IconGlobe />}
-              text={
-                <Tooltip content="该知识库已公开，点我查看" position="right">
-                  公开地址
-                </Tooltip>
-              }
-              href={{
-                pathname: `/share/wiki/[wikiId]`,
-                query: { wikiId },
-              }}
-              isActive={pathname === '/share/wiki/[wikiId]'}
-              openNewTab
-            />
-          ) : null
-        }
-      />
-
-      <DataRender
-        loading={wikiLoading}
-        loadingContent={
-          <NavItem
-            icon={
-              <Skeleton.Avatar
-                size="small"
-                style={{
-                  marginRight: 8,
-                  width: 24,
-                  height: 24,
-                  borderRadius: 4,
-                }}
-              ></Skeleton.Avatar>
-            }
-            text={<Skeleton.Title style={{ width: 120 }} />}
-            rightNode={<IconPlus />}
-          />
-        }
-        error={wikiError}
-        normalContent={() => (
-          <NavItem
-            icon={<IconDocument />}
-            text={'文档管理'}
-            href={{
-              pathname: `/wiki/[wikiId]/documents`,
-              query: { wikiId },
-            }}
-            isActive={pathname === '/wiki/[wikiId]/documents'}
-            rightNode={
-              <Button
-                style={{ fontSize: '1em' }}
-                theme="borderless"
-                type="tertiary"
-                icon={<IconPlus style={{ fontSize: '1em' }} />}
-                size="small"
-                onClick={() => {
-                  triggerCreateDocument({ wikiId: wiki.id, documentId: null });
-                }}
-              />
-            }
-          />
-        )}
-      />
-
-      <div className={styles.treeWrap}>
+      <header>
         <DataRender
-          loading={tocsLoading}
-          loadingContent={<NavItem icon={null} text={<Skeleton.Title style={{ width: '100%' }} />} />}
-          error={tocsError}
+          loading={wikiLoading}
+          loadingContent={
+            <div className={styles.titleWrap}>
+              <Skeleton
+                placeholder={
+                  <div style={{ display: 'flex' }}>
+                    <Skeleton.Avatar
+                      size="small"
+                      style={{
+                        marginRight: 8,
+                        width: 24,
+                        height: 24,
+                        borderRadius: 4,
+                      }}
+                    ></Skeleton.Avatar>
+                    <Skeleton.Title style={{ width: 120 }} />
+                  </div>
+                }
+                loading={true}
+              />
+            </div>
+          }
+          error={wikiError}
           normalContent={() => (
-            <Tree
-              data={tocs || []}
-              docAsLink={docAsLink}
-              getDocLink={getDocLink}
-              parentIds={parentIds}
-              activeId={documentId}
-            />
+            <Dropdown
+              trigger={'click'}
+              position="bottomRight"
+              render={
+                <Dropdown.Menu style={{ width: 180 }}>
+                  {(starWikis || [])
+                    .filter((wiki) => wiki.id !== wikiId)
+                    .map((wiki) => {
+                      return (
+                        <Dropdown.Item key={wiki.id}>
+                          <Link
+                            href={{
+                              pathname: `/wiki/[wikiId]`,
+                              query: { wikiId: wiki.id },
+                            }}
+                          >
+                            <a
+                              style={{
+                                display: 'flex',
+                                width: '100%',
+                              }}
+                            >
+                              <span>
+                                <Avatar
+                                  shape="square"
+                                  size="small"
+                                  src={wiki.avatar}
+                                  style={{
+                                    marginRight: 8,
+                                    width: 24,
+                                    height: 24,
+                                    borderRadius: 4,
+                                  }}
+                                >
+                                  {wiki.name.charAt(0)}
+                                </Avatar>
+                                <Text strong ellipsis={{ rows: 1 }}>
+                                  {wiki.name}
+                                </Text>
+                              </span>
+                            </a>
+                          </Link>
+                        </Dropdown.Item>
+                      );
+                    })}
+                </Dropdown.Menu>
+              }
+            >
+              <div className={styles.titleWrap}>
+                <span>
+                  <Avatar
+                    shape="square"
+                    size="small"
+                    src={wiki.avatar}
+                    style={{
+                      marginRight: 8,
+                      width: 24,
+                      height: 24,
+                      borderRadius: 4,
+                    }}
+                  >
+                    {wiki.name.charAt(0)}
+                  </Avatar>
+                  <Text strong>{wiki.name}</Text>
+                </span>
+                <IconSmallTriangleDown />
+              </div>
+            </Dropdown>
           )}
         />
-      </div>
+
+        <DataRender
+          loading={wikiLoading}
+          loadingContent={
+            <div className={styles.titleWrap}>
+              <Skeleton
+                placeholder={
+                  <div style={{ display: 'flex' }}>
+                    <Skeleton.Avatar
+                      size="small"
+                      style={{
+                        marginRight: 8,
+                        width: 24,
+                        height: 24,
+                        borderRadius: 4,
+                      }}
+                    ></Skeleton.Avatar>
+                    <Skeleton.Title style={{ width: 120 }} />
+                  </div>
+                }
+                loading={true}
+              />
+            </div>
+          }
+          error={wikiError}
+          normalContent={() => (
+            <div className={cls(styles.linkWrap, pathname === '/wiki/[wikiId]' && styles.isActive)}>
+              <Link
+                href={{
+                  pathname: `/wiki/[wikiId]`,
+                  query: { wikiId },
+                }}
+              >
+                <a>
+                  <IconOverview style={{ fontSize: '1em' }} />
+                  <span>主页</span>
+                </a>
+              </Link>
+            </div>
+          )}
+        />
+
+        <DataRender
+          loading={wikiLoading}
+          loadingContent={
+            <div className={styles.titleWrap}>
+              <Skeleton
+                placeholder={
+                  <div style={{ display: 'flex' }}>
+                    <Skeleton.Avatar
+                      size="small"
+                      style={{
+                        marginRight: 8,
+                        width: 24,
+                        height: 24,
+                        borderRadius: 4,
+                      }}
+                    ></Skeleton.Avatar>
+                    <Skeleton.Title style={{ width: 120 }} />
+                  </div>
+                }
+                loading={true}
+              />
+            </div>
+          }
+          error={wikiError}
+          normalContent={() => (
+            <div className={cls(styles.linkWrap, pathname === '/wiki/[wikiId]/setting' && styles.isActive)}>
+              <Link
+                href={{
+                  pathname: `/wiki/[wikiId]/setting`,
+                  query: { tab: 'base', wikiId },
+                }}
+              >
+                <a>
+                  <IconSetting style={{ fontSize: '1em' }} />
+                  <span>设置</span>
+                </a>
+              </Link>
+            </div>
+          )}
+        />
+      </header>
+
+      <main>
+        <div className={styles.treeWrap}>
+          <DataRender
+            loading={starDocumentsLoading}
+            loadingContent={<Skeleton.Title style={{ width: '100%' }} />}
+            error={starDocumentsError}
+            normalContent={() => (
+              <div className={styles.title}>
+                <Text type="tertiary" size="small">
+                  已加星标
+                </Text>
+              </div>
+            )}
+          />
+          <DataRender
+            loading={starDocumentsLoading}
+            loadingContent={<div>1</div>}
+            error={starDocumentsError}
+            normalContent={() => (
+              <Tree
+                data={starDocuments || []}
+                docAsLink={docAsLink}
+                getDocLink={getDocLink}
+                parentIds={parentIds}
+                activeId={documentId}
+              />
+            )}
+          />
+        </div>
+
+        <div className={styles.treeWrap}>
+          <DataRender
+            loading={tocsLoading}
+            loadingContent={<Skeleton.Title style={{ width: '100%' }} />}
+            error={wikiError}
+            normalContent={() => (
+              <div className={styles.title}>
+                <Text type="tertiary" size="small">
+                  文档集
+                </Text>
+                <Button
+                  style={{ fontSize: '1em' }}
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconPlus style={{ fontSize: '1em' }} />}
+                  size="small"
+                  onClick={() => {
+                    triggerCreateDocument({ wikiId: wiki.id, documentId: null });
+                  }}
+                />
+              </div>
+            )}
+          />
+          <DataRender
+            loading={tocsLoading}
+            loadingContent={<div>1</div>}
+            error={tocsError}
+            normalContent={() => (
+              <Tree
+                needAddDocument
+                data={tocs || []}
+                docAsLink={docAsLink}
+                getDocLink={getDocLink}
+                parentIds={parentIds}
+                activeId={documentId}
+              />
+            )}
+          />
+        </div>
+      </main>
     </div>
   );
 };

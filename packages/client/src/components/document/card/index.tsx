@@ -40,7 +40,7 @@ export const DocumentCard: React.FC<{ document: IDocument }> = ({ document }) =>
                 <Tooltip key="edit" content="编辑" position="bottom">
                   <Button type="tertiary" theme="borderless" icon={<IconEdit />} onClick={gotoEdit} />
                 </Tooltip>
-                <DocumentStar documentId={document.id} />
+                <DocumentStar wikiId={document.wikiId} documentId={document.id} />
               </Space>
             </div>
           </header>

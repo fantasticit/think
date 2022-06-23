@@ -6,10 +6,10 @@ import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nest
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CollectorService } from '@services/collector.service';
 import { MessageService } from '@services/message.service';
+import { StarService } from '@services/star.service';
 import { WikiService } from '@services/wiki.service';
-import { CollectType, UserStatus } from '@think/domains';
+import { UserStatus } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import { Repository } from 'typeorm';
 
@@ -29,8 +29,8 @@ export class UserService {
     @Inject(forwardRef(() => MessageService))
     private readonly messageService: MessageService,
 
-    @Inject(forwardRef(() => CollectorService))
-    private readonly collectorService: CollectorService,
+    @Inject(forwardRef(() => StarService))
+    private readonly starService: StarService,
 
     @Inject(forwardRef(() => WikiService))
     private readonly wikiService: WikiService
@@ -94,9 +94,8 @@ export class UserService {
       name: createdUser.name,
       description: `${createdUser.name}的个人空间`,
     });
-    await this.collectorService.toggleStar(createdUser, {
-      targetId: wiki.id,
-      type: CollectType.wiki,
+    await this.starService.toggleStar(createdUser, {
+      wikiId: wiki.id,
     });
     await this.messageService.notify(createdUser, {
       title: `欢迎「${createdUser.name}」`,

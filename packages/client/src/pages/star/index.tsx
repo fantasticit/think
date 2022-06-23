@@ -1,11 +1,11 @@
 import { List, Typography } from '@douyinfe/semi-ui';
-import { CollectorApiDefinition } from '@think/domains';
+import { StarApiDefinition } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentCard, DocumentCardPlaceholder } from 'components/document/card';
 import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
 import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
-import { getCollectedDocuments, getCollectedWikis, useCollectedDocuments, useCollectedWikis } from 'data/collector';
+import { getStarDocuments, getStarWikis, useStarDocuments, useStarWikis } from 'data/star';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import React from 'react';
@@ -25,7 +25,7 @@ const grid = {
 };
 
 const StarDocs = () => {
-  const { data: docs, loading, error } = useCollectedDocuments();
+  const { data: docs, loading, error } = useStarDocuments();
 
   return (
     <DataRender
@@ -59,7 +59,7 @@ const StarDocs = () => {
 };
 
 const StarWikis = () => {
-  const { data, loading, error } = useCollectedWikis();
+  const { data, loading, error } = useStarWikis();
 
   return (
     <DataRender
@@ -117,8 +117,8 @@ const Page: NextPage = () => {
 
 Page.getInitialProps = async (ctx) => {
   const props = await serverPrefetcher(ctx, [
-    { url: CollectorApiDefinition.wikis.client(), action: (cookie) => getCollectedWikis(cookie) },
-    { url: CollectorApiDefinition.documents.client(), action: (cookie) => getCollectedDocuments(cookie) },
+    { url: StarApiDefinition.wikis.client(), action: (cookie) => getStarWikis(cookie) },
+    { url: StarApiDefinition.documents.client(), action: (cookie) => getStarDocuments(cookie) },
   ]);
   return props;
 };

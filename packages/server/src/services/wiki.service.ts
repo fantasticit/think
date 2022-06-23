@@ -7,13 +7,13 @@ import { WikiUserEntity } from '@entities/wiki-user.entity';
 import { array2tree } from '@helpers/tree.helper';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CollectorService } from '@services/collector.service';
 import { DocumentService } from '@services/document.service';
 import { MessageService } from '@services/message.service';
+import { StarService } from '@services/star.service';
 import { UserService } from '@services/user.service';
 import { OutUser } from '@services/user.service';
 import { ViewService } from '@services/view.service';
-import { CollectType, DocumentStatus, IPagination, WikiStatus, WikiUserRole } from '@think/domains';
+import { DocumentStatus, IPagination, WikiStatus, WikiUserRole } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
@@ -30,8 +30,8 @@ export class WikiService {
     @Inject(forwardRef(() => MessageService))
     private readonly messageService: MessageService,
 
-    @Inject(forwardRef(() => CollectorService))
-    private readonly collectorService: CollectorService,
+    @Inject(forwardRef(() => StarService))
+    private readonly starService: StarService,
 
     @Inject(forwardRef(() => DocumentService))
     private readonly documentService: DocumentService,
@@ -320,7 +320,7 @@ export class WikiService {
         },
         true
       ),
-      await this.collectorService.toggleStar(user, { type: CollectType.wiki, targetId: wiki.id }),
+      await this.starService.toggleStar(user, { wikiId: wiki.id }),
     ]);
     const homeDocumentId = doc.id;
     const withHomeDocumentIdWiki = await this.wikiRepo.merge(wiki, { homeDocumentId });

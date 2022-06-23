@@ -3,9 +3,7 @@ import { Button, Nav, Skeleton, Space, Tooltip, Typography } from '@douyinfe/sem
 import { DataRender } from 'components/data-render';
 import { Divider } from 'components/divider';
 import { DocumentCollaboration } from 'components/document/collaboration';
-import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
-import { DocumentStyle } from 'components/document/style';
 import { DocumentVersion } from 'components/document/version';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
@@ -20,6 +18,7 @@ import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import Router from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { DocumentActions } from '../actions';
 import { Editor } from './editor';
 import styles from './index.module.scss';
 
@@ -49,12 +48,11 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
     () => (
       <Space>
         {document && authority.readable && (
-          <DocumentCollaboration key="collaboration" wikiId={document.wikiId} documentId={documentId} />
+          <DocumentCollaboration key={documentId} wikiId={document.wikiId} documentId={documentId} />
         )}
-        <DocumentShare key="share" documentId={documentId} />
-        <DocumentVersion key="version" documentId={documentId} onSelect={triggerUseDocumentVersion} />
-        <DocumentStar key="star" documentId={documentId} />
-        <DocumentStyle />
+        {document && <DocumentStar key="star" wikiId={document.wikiId} documentId={documentId} />}
+        {document && <DocumentActions wikiId={document.wikiId} documentId={documentId} />}
+        <DocumentVersion documentId={documentId} onSelect={triggerUseDocumentVersion} />
       </Space>
     ),
     [documentId, document, authority]

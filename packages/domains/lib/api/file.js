@@ -11,7 +11,7 @@ exports.FileApiDefinition = {
         client: function () { return '/file/upload'; }
     },
     /**
-     * 上传分块文件
+     * 初始分块上传
      */
     initChunk: {
         method: 'post',

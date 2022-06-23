@@ -1,9 +1,9 @@
 import { WikiController } from '@controllers/wiki.controller';
 import { WikiEntity } from '@entities/wiki.entity';
 import { WikiUserEntity } from '@entities/wiki-user.entity';
-import { CollectorModule } from '@modules/collector.module';
 import { DocumentModule } from '@modules/document.module';
 import { MessageModule } from '@modules/message.module';
+import { StarModule } from '@modules/star.module';
 import { UserModule } from '@modules/user.module';
 import { ViewModule } from '@modules/view.module';
 import { forwardRef, Module } from '@nestjs/common';
@@ -17,7 +17,7 @@ import { WikiService } from '@services/wiki.service';
     forwardRef(() => DocumentModule),
     forwardRef(() => MessageModule),
     forwardRef(() => ViewModule),
-    forwardRef(() => CollectorModule),
+    forwardRef(() => StarModule),
   ],
   providers: [WikiService],
   exports: [WikiService],
