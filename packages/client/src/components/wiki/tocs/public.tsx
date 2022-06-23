@@ -43,72 +43,17 @@ export const WikiPublicTocs: React.FC<IProps> = ({
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.navItemWrap}>
-        <div className={styles.navItem}>
-          <Space>
-            <LogoImage /> <LogoText />
-          </Space>
+      <header>
+        <div className={styles.navItemWrap}>
+          <div className={styles.navItem}>
+            <Space>
+              <LogoImage /> <LogoText />
+            </Space>
+          </div>
         </div>
-      </div>
 
-      <DataRender
-        loading={wikiLoading}
-        loadingContent={
-          <NavItem
-            icon={
-              <Skeleton.Avatar
-                size="small"
-                style={{
-                  marginRight: 8,
-                  width: 24,
-                  height: 24,
-                  borderRadius: 4,
-                }}
-              ></Skeleton.Avatar>
-            }
-            text={<Skeleton.Title style={{ width: 120 }} />}
-          />
-        }
-        error={wikiError}
-        normalContent={() => (
-          <>
-            <Seo title={wiki.name + ' - ' + pageTitle} />
-            <NavItem
-              icon={
-                <Avatar
-                  shape="square"
-                  size="small"
-                  src={wiki.avatar}
-                  style={{
-                    marginRight: 8,
-                    width: 24,
-                    height: 24,
-                    borderRadius: 4,
-                  }}
-                >
-                  {wiki.name.charAt(0)}
-                </Avatar>
-              }
-              text={<Text strong>{wiki.name}</Text>}
-              hoverable={false}
-            />
-          </>
-        )}
-      />
-
-      <NavItem
-        icon={<IconOverview />}
-        text={'概述'}
-        href={{
-          pathname: `/share/wiki/[wikiId]`,
-          query: { wikiId },
-        }}
-        isActive={pathname === '/share/wiki/[wikiId]'}
-      />
-
-      <div className={styles.treeWrap} style={{ marginTop: 12 }}>
         <DataRender
-          loading={tocsLoading}
+          loading={wikiLoading}
           loadingContent={
             <NavItem
               icon={
@@ -123,22 +68,81 @@ export const WikiPublicTocs: React.FC<IProps> = ({
                 ></Skeleton.Avatar>
               }
               text={<Skeleton.Title style={{ width: 120 }} />}
-              rightNode={<IconPlus />}
             />
           }
-          error={tocsError}
+          error={wikiError}
           normalContent={() => (
-            <Tree
-              data={tocs || []}
-              docAsLink={docAsLink}
-              getDocLink={getDocLink}
-              parentIds={parentIds}
-              activeId={documentId}
-              isShareMode
-            />
+            <>
+              <Seo title={wiki.name + ' - ' + pageTitle} />
+              <NavItem
+                icon={
+                  <Avatar
+                    shape="square"
+                    size="small"
+                    src={wiki.avatar}
+                    style={{
+                      marginRight: 8,
+                      width: 24,
+                      height: 24,
+                      borderRadius: 4,
+                    }}
+                  >
+                    {wiki.name.charAt(0)}
+                  </Avatar>
+                }
+                text={<Text strong>{wiki.name}</Text>}
+                hoverable={false}
+              />
+            </>
           )}
         />
-      </div>
+
+        <NavItem
+          icon={<IconOverview />}
+          text={'概述'}
+          href={{
+            pathname: `/share/wiki/[wikiId]`,
+            query: { wikiId },
+          }}
+          isActive={pathname === '/share/wiki/[wikiId]'}
+        />
+      </header>
+
+      <main>
+        <div className={styles.treeWrap}>
+          <DataRender
+            loading={tocsLoading}
+            loadingContent={
+              <NavItem
+                icon={
+                  <Skeleton.Avatar
+                    size="small"
+                    style={{
+                      marginRight: 8,
+                      width: 24,
+                      height: 24,
+                      borderRadius: 4,
+                    }}
+                  ></Skeleton.Avatar>
+                }
+                text={<Skeleton.Title style={{ width: 120 }} />}
+                rightNode={<IconPlus />}
+              />
+            }
+            error={tocsError}
+            normalContent={() => (
+              <Tree
+                data={tocs || []}
+                docAsLink={docAsLink}
+                getDocLink={getDocLink}
+                parentIds={parentIds}
+                activeId={documentId}
+                isShareMode
+              />
+            )}
+          />
+        </div>
+      </main>
     </div>
   );
 };

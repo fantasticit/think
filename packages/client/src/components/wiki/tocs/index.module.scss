@@ -3,6 +3,16 @@
   height: 100%;
   padding-top: 12px;
   overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  > main {
+    flex: 1;
+    overflow: auto;
+  }
 }
 
 .titleWrap {
