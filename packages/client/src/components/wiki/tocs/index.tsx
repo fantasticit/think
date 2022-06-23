@@ -244,7 +244,6 @@ export const WikiTocs: React.FC<IProps> = ({
           />
           <DataRender
             loading={starDocumentsLoading}
-            loadingContent={<div>1</div>}
             error={starDocumentsError}
             normalContent={() => (
               <Tree
@@ -283,7 +282,6 @@ export const WikiTocs: React.FC<IProps> = ({
           />
           <DataRender
             loading={tocsLoading}
-            loadingContent={<div>1</div>}
             error={tocsError}
             normalContent={() => (
               <Tree
