@@ -51,7 +51,6 @@ const renderChecked = (onChange, authKey: 'readable' | 'editable') => (checked, 
 
 export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, disabled = false }) => {
   const { isMobile } = IsOnMobile.useHook();
-  const toastedUsersRef = useRef<Array<IUser['id']>>([]);
   const ref = useRef<HTMLInputElement>();
   const { user: currentUser } = useUser();
   const [visible, toggleVisible] = useToggle(false);
@@ -86,7 +85,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
           <div style={{ marginTop: 16 }}>
             <Input ref={ref} placeholder="输入对方用户名" value={inviteUser} onChange={setInviteUser}></Input>
             <Paragraph style={{ marginTop: 16 }}>
-              邀请成功后，请将该链接发送给对方。
+              将对方加入文档进行协作，您也可将该链接发送给对方。
               <span style={{ verticalAlign: 'middle' }}>
                 <DocumentLinkCopyer wikiId={wikiId} documentId={documentId} />
               </span>
@@ -151,38 +150,30 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
   }, [visible]);
 
   useEffect(() => {
-    const handler = (mentionUsers) => {
-      const newCollaborationUsers = mentionUsers
+    const handler = (users) => {
+      const joinUsers = users
         .filter(Boolean)
         .filter((state) => state.user)
         .map((state) => ({ ...state.user, clientId: state.clientId }));
 
-      if (
-        collaborationUsers.length === newCollaborationUsers.length &&
-        newCollaborationUsers.every((newUser) => {
-          return collaborationUsers.find((existUser) => existUser.id === newUser.id);
+      joinUsers
+        .filter(Boolean)
+        .filter((joinUser) => {
+          return joinUser.name !== currentUser.name;
         })
-      ) {
-        return;
-      }
+        .forEach((joinUser) => {
+          Toast.info(`${joinUser.name}-${joinUser.clientId}加入文档`);
+        });
 
-      newCollaborationUsers.forEach((newUser) => {
-        if (currentUser && newUser.name !== currentUser.name && !toastedUsersRef.current.includes(newUser.id)) {
-          Toast.info(`${newUser.name}-${newUser.clientId}加入文档`);
-          toastedUsersRef.current.push(newUser.id);
-        }
-      });
-
-      setCollaborationUsers(newCollaborationUsers);
+      setCollaborationUsers(joinUsers);
     };
 
     event.on(JOIN_USER, handler);
 
     return () => {
-      toastedUsersRef.current = [];
       event.off(JOIN_USER, handler);
     };
-  }, [collaborationUsers, currentUser]);
+  }, [currentUser]);
 
   if (error)
     return (

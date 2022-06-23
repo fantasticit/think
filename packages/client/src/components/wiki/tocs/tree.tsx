@@ -1,4 +1,4 @@
-import { IconMore, IconPlus } from '@douyinfe/semi-icons';
+import { IconPlus } from '@douyinfe/semi-icons';
 import { Button, Tree as SemiTree, Typography } from '@douyinfe/semi-ui';
 import { DocumentActions } from 'components/document/actions';
 import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
@@ -13,18 +13,17 @@ import styles from './index.module.scss';
 const Actions = ({ node }) => {
   return (
     <span className={styles.right}>
-      <DocumentActions wikiId={node.wikiId} documentId={node.id}>
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          type="tertiary"
-          theme="borderless"
-          icon={<IconMore />}
-          size="small"
-        />
-      </DocumentActions>
+      <DocumentActions
+        key={node.id}
+        hoverVisible
+        wikiId={node.wikiId}
+        documentId={node.id}
+        size="small"
+        hideDocumentVersion
+        hideDocumentStyle
+      ></DocumentActions>
       <Button
+        className={styles.hoverVisible}
         onClick={(e) => {
           e.stopPropagation();
           triggerCreateDocument({ wikiId: node.wikiId, documentId: node.id });
@@ -67,7 +66,15 @@ const AddDocument = () => {
 
 let scrollTimer;
 
-export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId, isShareMode = false }) => {
+export const Tree = ({
+  data,
+  docAsLink,
+  getDocLink,
+  parentIds,
+  activeId,
+  isShareMode = false,
+  needAddDocument = false,
+}) => {
   const $container = useRef<HTMLDivElement>(null);
   const [expandedKeys, setExpandedKeys] = useState(parentIds);
 
@@ -100,15 +107,13 @@ export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId, isShare
   }, [parentIds]);
 
   useEffect(() => {
+    const target = $container.current.querySelector(`#item-${activeId}`);
+    if (!target) return;
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(() => {
-      const target = $container.current.querySelector(`#item-${activeId}`);
-      if (!target) return;
-      target.scrollIntoView();
       scrollIntoView(target, {
         behavior: 'smooth',
         scrollMode: 'if-needed',
-        block: 'center',
       });
     }, 500);
 
@@ -127,7 +132,7 @@ export const Tree = ({ data, docAsLink, getDocLink, parentIds, activeId, isShare
         expandedKeys={expandedKeys}
         onExpand={(expandedKeys) => setExpandedKeys(expandedKeys)}
       />
-      <AddDocument />
+      {needAddDocument && <AddDocument />}
     </div>
   );
 };

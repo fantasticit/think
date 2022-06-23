@@ -16,11 +16,65 @@ interface IProps {
 
 export const Privacy: React.FC<IProps> = ({ wikiId }) => {
   const { data: wiki, toggleStatus: toggleWorkspaceStatus } = useWikiDetail(wikiId);
+  const { data: tocs } = useWikiTocs(wikiId);
+
   const [nextStatus, setNextStatus] = useState('');
   const isPublic = useMemo(() => wiki && isPublicWiki(wiki.status), [wiki]);
 
+  const documents = useMemo(
+    () =>
+      flattenTree2Array(tocs)
+        .sort((a, b) => a.index - b.index)
+        .map((d) => {
+          d.label = d.title;
+          d.value = d.id;
+          return d;
+        }),
+    [tocs]
+  );
+  const [publicDocumentIds, setPublicDocumentIds] = useState([]); // 公开的
+  const privateDocumentIds = useMemo(() => {
+    return documents.filter((doc) => !publicDocumentIds.includes(doc.id)).map((doc) => doc.id);
+  }, [documents, publicDocumentIds]);
+
+  const renderSourceItem = useCallback((item) => {
+    return (
+      <div className={styles.sourceItem} key={item.id}>
+        <Checkbox
+          onChange={() => {
+            item.onChange();
+          }}
+          key={item.label}
+          checked={item.checked}
+        >
+          <Text>{item.title}</Text>
+        </Checkbox>
+      </div>
+    );
+  }, []);
+
+  const renderSelectedItem = useCallback((item) => {
+    return (
+      <div className={styles.selectedItem} key={item.id}>
+        <Text>{item.title}</Text>
+        <IconClose onClick={item.onRemove} />
+      </div>
+    );
+  }, []);
+
+  const customFilter = useCallback((sugInput, item) => {
+    return item.title.includes(sugInput);
+  }, []);
+
+  useEffect(() => {
+    if (!documents.length) return;
+    const activeIds = documents.filter((doc) => isPublicDocument(doc.status)).map((doc) => doc.id);
+    setPublicDocumentIds(activeIds);
+  }, [documents]);
+
   const submit = () => {
-    const data = { nextStatus };
+    const data = { nextStatus, publicDocumentIds, privateDocumentIds };
+
     toggleWorkspaceStatus(data).then((res) => {
       const ret = res as unknown as any & {
         documentOperateMessage?: string;
@@ -64,6 +118,7 @@ export const Privacy: React.FC<IProps> = ({ wikiId }) => {
           }
         />
       )}
+
       <div className={styles.statusWrap}>
         <Title className={styles.title} heading={6}>
           是否公开知识库？
@@ -78,6 +133,25 @@ export const Privacy: React.FC<IProps> = ({ wikiId }) => {
           })}
         </RadioGroup>
       </div>
+
+      <div
+        className={styles.transferWrap}
+        style={{
+          height: `calc(100vh - ${isPublic ? 426 : 342}px)`,
+        }}
+      >
+        <Transfer
+          style={{ width: '100%', height: '100%' }}
+          dataSource={documents}
+          filter={customFilter}
+          value={publicDocumentIds}
+          renderSelectedItem={renderSelectedItem}
+          renderSourceItem={renderSourceItem}
+          inputProps={{ placeholder: '搜索文档' }}
+          onChange={(_, values) => setPublicDocumentIds(values.map((v) => v.id))}
+        />
+      </div>
+
       <Button style={{ marginTop: 16 }} type="primary" theme="solid" onClick={submit}>
         保存
       </Button>

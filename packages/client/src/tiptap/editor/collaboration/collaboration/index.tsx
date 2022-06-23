@@ -1,6 +1,7 @@
 import { Spin, Typography } from '@douyinfe/semi-ui';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { DataRender } from 'components/data-render';
+import deepEqual from 'deep-equal';
 import { throttle } from 'helpers/throttle';
 import { useToggle } from 'hooks/use-toggle';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
@@ -34,6 +35,7 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
   const [loading, toggleLoading] = useToggle(true);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState<ProviderStatus>('connecting');
+  const lastAwarenessRef = useRef([]);
 
   const hocuspocusProvider = useMemo(() => {
     return new HocuspocusProvider({
@@ -48,7 +50,11 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
       maxAttempts: 1,
       onAwarenessUpdate: throttle(({ states }) => {
         const users = states.map((state) => ({ clientId: state.clientId, user: state.user }));
+        if (deepEqual(user, lastAwarenessRef.current)) {
+          return;
+        }
         onAwarenessUpdate && onAwarenessUpdate(users);
+        lastAwarenessRef.current = users;
       }, 200),
       onAuthenticationFailed() {
         toggleLoading(false);

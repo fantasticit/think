@@ -4,6 +4,7 @@ import 'styles/globals.scss';
 import 'tiptap/core/styles/index.scss';
 
 import { isMobile } from 'helpers/env';
+import { DocumentVersionControl } from 'hooks/use-document-version';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { Theme } from 'hooks/use-theme';
 import App from 'next/app';
@@ -87,7 +88,9 @@ class MyApp extends App<{ isMobile: boolean }> {
           <Hydrate state={pageProps.dehydratedState}>
             <Theme.Provider>
               <IsOnMobile.Provider initialState={isMobile}>
-                <Component {...pageProps} />
+                <DocumentVersionControl.Provider initialState={false}>
+                  <Component {...pageProps} />
+                </DocumentVersionControl.Provider>
               </IsOnMobile.Provider>
             </Theme.Provider>
           </Hydrate>

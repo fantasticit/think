@@ -1,13 +1,11 @@
-import { IDocument, IWiki, CollectType } from '../models';
-
-export const CollectorApiDefinition = {
+export const StarApiDefinition = {
   /**
    * 收藏（或取消收藏）
    */
   toggle: {
     method: 'post' as const,
     server: 'toggle' as const,
-    client: () => '/collector/toggle',
+    client: () => '/star/toggle',
   },
 
   /**
@@ -16,7 +14,7 @@ export const CollectorApiDefinition = {
   check: {
     method: 'post' as const,
     server: 'check' as const,
-    client: () => '/collector/check',
+    client: () => '/star/check',
   },
 
   /**
@@ -25,7 +23,16 @@ export const CollectorApiDefinition = {
   wikis: {
     method: 'get' as const,
     server: 'wikis' as const,
-    client: () => '/collector/wikis',
+    client: () => '/star/wikis',
+  },
+
+  /**
+   * 获取知识库内加星的文章
+   */
+  wikiDocuments: {
+    method: 'get' as const,
+    server: 'wiki/documents' as const,
+    client: () => '/star/wiki/documents',
   },
 
   /**
@@ -34,6 +41,6 @@ export const CollectorApiDefinition = {
   documents: {
     method: 'get' as const,
     server: 'documents' as const,
-    client: () => '/collector/documents',
+    client: () => '/star/documents',
   },
 };

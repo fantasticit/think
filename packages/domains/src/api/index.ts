@@ -5,4 +5,4 @@ export * from './file';
 export * from './message';
 export * from './template';
 export * from './comment';
-export * from './collector';
+export * from './star';

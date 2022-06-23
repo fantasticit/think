@@ -11,7 +11,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 interface IProps {
   documentId: string;
   disabled?: boolean;
-  render?: (arg: { isPublic: boolean; disabled: boolean; toggleVisible: (arg: boolean) => void }) => React.ReactNode;
+  render?: (arg: { isPublic: boolean; disabled: boolean; toggleVisible: () => void }) => React.ReactNode;
 }
 
 const { Text } = Typography;
@@ -134,6 +134,7 @@ export const DocumentShare: React.FC<IProps> = ({ documentId, disabled = false, 
             footer={null}
             onCancel={toggleVisible}
             style={{ maxWidth: '96vw' }}
+            zIndex={1067}
           >
             {content}
           </Modal>

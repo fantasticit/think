@@ -18,6 +18,7 @@ import React, { useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { CollaborationEditor } from 'tiptap/editor';
 
+import { DocumentActions } from '../actions';
 import { Author } from './author';
 import styles from './index.module.scss';
 
@@ -64,18 +65,17 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
         {document && (
           <DocumentCollaboration
             disabled={!readable}
-            key="collaboration"
+            key={documentId}
             wikiId={document.wikiId}
             documentId={documentId}
           />
         )}
+        {document && <DocumentStar disabled={!readable} key="star" wikiId={document.wikiId} documentId={documentId} />}
         <Tooltip key="edit" content="编辑" position="bottom">
           <Button disabled={!editable} icon={<IconEdit />} onMouseDown={gotoEdit} />
         </Tooltip>
-        <DocumentShare disabled={!readable} key="share" documentId={documentId} />
-        <DocumentVersion disabled={!readable} key="version" documentId={documentId} />
-        <DocumentStar disabled={!readable} key="star" documentId={documentId} />
-        <DocumentStyle />
+        {document && <DocumentActions wikiId={document.wikiId} documentId={documentId} />}
+        <DocumentVersion documentId={documentId} />
       </Space>
     );
   }, [document, documentId, readable, editable, gotoEdit]);

@@ -1,12 +1,68 @@
+/* stylelint-disable */
 .wrap {
-  display: flex;
-  flex-direction: column;
   height: 100%;
+  padding-top: 12px;
+  overflow: auto;
+}
 
-  .treeWrap {
-    flex: 1;
-    padding: 0 8px 32px 16px;
-    overflow: auto;
+.titleWrap {
+  display: flex;
+  padding: 8px 12px;
+  overflow: hidden;
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover {
+    background-color: var(--semi-color-fill-0);
+  }
+
+  &.isActive {
+    font-weight: 600;
+    color: var(--semi-color-primary);
+    background-color: var(--semi-color-primary-light-default);
+  }
+}
+
+.linkWrap {
+  > a {
+    display: flex;
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+    align-items: center;
+
+    > span {
+      margin-right: 6px;
+    }
+  }
+
+  &:hover {
+    background-color: var(--semi-color-fill-0);
+  }
+
+  &.isActive {
+    font-weight: 600;
+    color: var(--semi-color-primary);
+    background-color: var(--semi-color-primary-light-default);
+  }
+}
+
+.treeWrap {
+  padding: 8px 12px;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 8px;
+  }
+
+  :global {
+    .semi-tree-option-list {
+      overflow-y: hidden;
+    }
   }
 }
 
@@ -30,81 +86,14 @@
       align-items: center;
       width: calc(100% - 48px);
     }
-
-    .right {
-      opacity: 0;
-    }
-
-    &:hover {
-      .right {
-        opacity: 1;
-      }
-    }
   }
 }
 
-.navItemWrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--semi-color-text-0);
+.hoverVisible {
+  opacity: 0;
 
-  &.hoverable {
-    &:hover {
-      color: var(--semi-color-text-0);
-      background-color: var(--semi-color-fill-0);
-    }
-  }
-
+  &:hover,
   &.isActive {
-    font-weight: 600;
-    color: var(--semi-color-primary);
-    background-color: var(--semi-color-primary-light-default);
+    opacity: 1;
   }
-
-  .navItem {
-    display: flex;
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: var(--semi-border-radius-small);
-    align-items: center;
-
-    > span {
-      display: flex;
-      align-items: center;
-    }
-
-    .icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 24px;
-      min-height: 24px;
-      margin: 0 6px 0 0;
-
-      :global {
-        .semi-icon-default {
-          font-size: 24px;
-        }
-      }
-    }
-
-    .title {
-      overflow: hidden;
-      color: inherit;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      flex: 1;
-    }
-  }
-
-  .rightWrap {
-    padding-right: 4px;
-  }
-}
-
-.docListTitle {
-  margin: 12px 0.5rem;
 }

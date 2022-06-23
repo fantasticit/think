@@ -133,8 +133,8 @@ export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
         />
       </div>
       <div className={styles.btnWrap}>
-        <Button disabled={!changed} onClick={submit}>
-          提交
+        <Button disabled={!changed} onClick={submit} theme="solid">
+          保存
         </Button>
       </div>
     </div>

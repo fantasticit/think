@@ -43,7 +43,9 @@ export const Users: React.FC<IProps> = ({ wikiId }) => {
         normalContent={() => (
           <div style={{ margin: '24px 0' }}>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button onClick={toggleVisible}>添加用户</Button>
+              <Button onClick={toggleVisible} theme="solid">
+                添加用户
+              </Button>
             </div>
             <Table style={{ margin: '16px 0' }} dataSource={users} size="small" pagination>
               <Column title="用户名" dataIndex="userName" key="userName" />

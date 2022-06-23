@@ -1,6 +1,6 @@
 import { IconStar } from '@douyinfe/semi-icons';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
-import { useWikiCollectToggle } from 'data/collector';
+import { useWikiStarToggle } from 'data/star';
 import React from 'react';
 
 interface IProps {
@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const WikiStar: React.FC<IProps> = ({ wikiId, render, onChange }) => {
-  const { data, toggle } = useWikiCollectToggle(wikiId);
+  const { data, toggle } = useWikiStarToggle(wikiId);
   const text = data ? '取消收藏' : '收藏知识库';
 
   return (

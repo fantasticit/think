@@ -1,0 +1,8 @@
+.hoverVisible {
+  opacity: 0;
+
+  &:hover,
+  &.isActive {
+    opacity: 1;
+  }
+}

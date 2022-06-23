@@ -8,7 +8,7 @@ export declare const FileApiDefinition: {
         client: () => string;
     };
     /**
-     * 上传分块文件
+     * 初始分块上传
      */
     initChunk: {
         method: "post";

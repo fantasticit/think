@@ -1,20 +1,31 @@
-import { IconMore, IconPlus, IconStar } from '@douyinfe/semi-icons';
-import { Button, Dropdown, Popover, Space, Typography } from '@douyinfe/semi-ui';
+import { IconArticle, IconBranch, IconHistory, IconMore, IconPlus, IconStar } from '@douyinfe/semi-icons';
+import { Button, Dropdown, Space, Typography } from '@douyinfe/semi-ui';
+import { ButtonProps } from '@douyinfe/semi-ui/button/Button';
+import cls from 'classnames';
 import { DocumentCreator } from 'components/document/create';
 import { DocumentDeletor } from 'components/document/delete';
 import { DocumentLinkCopyer } from 'components/document/link';
+import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
+import { DocumentStyle } from 'components/document/style';
+import { DocumentVersionTrigger } from 'components/document/version';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback } from 'react';
+
+import styles from './index.module.scss';
 
 interface IProps {
   wikiId: string;
   documentId: string;
+  hoverVisible?: boolean;
   onStar?: () => void;
   onCreate?: () => void;
   onDelete?: () => void;
   onVisibleChange?: () => void;
   showCreateDocument?: boolean;
+  size?: ButtonProps['size'];
+  hideDocumentVersion?: boolean;
+  hideDocumentStyle?: boolean;
 }
 
 const { Text } = Typography;
@@ -22,12 +33,15 @@ const { Text } = Typography;
 export const DocumentActions: React.FC<IProps> = ({
   wikiId,
   documentId,
+  hoverVisible,
   onStar,
   onCreate,
   onDelete,
   onVisibleChange,
   showCreateDocument,
-  children,
+  size = 'default',
+  hideDocumentVersion = false,
+  hideDocumentStyle = false,
 }) => {
   const [popoverVisible, togglePopoverVisible] = useToggle(false);
   const [createVisible, toggleCreateVisible] = useToggle(false);
@@ -52,9 +66,10 @@ export const DocumentActions: React.FC<IProps> = ({
 
   return (
     <>
-      <Popover
-        showArrow
+      <Dropdown
         style={{ padding: 0 }}
+        trigger="click"
+        position="bottomLeft"
         visible={popoverVisible}
         onVisibleChange={wrapOnVisibleChange}
         content={
@@ -70,7 +85,25 @@ export const DocumentActions: React.FC<IProps> = ({
               </Dropdown.Item>
             )}
 
+            <DocumentShare
+              key="share"
+              documentId={documentId}
+              render={({ isPublic, toggleVisible }) => {
+                return (
+                  <Dropdown.Item onClick={toggleVisible}>
+                    <Text>
+                      <Space>
+                        <IconBranch />
+                        {isPublic ? '分享中' : '分享'}
+                      </Space>
+                    </Text>
+                  </Dropdown.Item>
+                );
+              }}
+            />
+
             <DocumentStar
+              wikiId={wikiId}
               documentId={documentId}
               render={({ star, toggleStar, text }) => (
                 <Dropdown.Item
@@ -96,9 +129,55 @@ export const DocumentActions: React.FC<IProps> = ({
               wikiId={wikiId}
               documentId={documentId}
               render={({ copy, children }) => {
-                return <Dropdown.Item onClick={copy}>{children}</Dropdown.Item>;
+                return (
+                  <Dropdown.Item onClick={copy}>
+                    <Text>{children}</Text>
+                  </Dropdown.Item>
+                );
               }}
             />
+
+            {!hideDocumentVersion && (
+              <DocumentVersionTrigger
+                key="version"
+                documentId={documentId}
+                render={({ onClick }) => {
+                  return (
+                    <Dropdown.Item
+                      onClick={() => {
+                        togglePopoverVisible(false);
+                        onClick();
+                      }}
+                    >
+                      <Text>
+                        <Space>
+                          <IconHistory />
+                          历史记录
+                        </Space>
+                      </Text>
+                    </Dropdown.Item>
+                  );
+                }}
+              />
+            )}
+
+            {!hideDocumentVersion && (
+              <DocumentStyle
+                key="style"
+                render={({ onClick }) => {
+                  return (
+                    <Dropdown.Item onClick={onClick}>
+                      <Text>
+                        <Space>
+                          <IconArticle />
+                          文档排版
+                        </Space>
+                      </Text>
+                    </Dropdown.Item>
+                  );
+                }}
+              />
+            )}
 
             <Dropdown.Divider />
 
@@ -113,9 +192,17 @@ export const DocumentActions: React.FC<IProps> = ({
           </Dropdown.Menu>
         }
       >
-        {children || <Button icon={<IconMore />} theme="borderless" type="tertiary" />}
-      </Popover>
-
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          type="tertiary"
+          size={size}
+          className={cls(hoverVisible && styles.hoverVisible, popoverVisible && styles.isActive)}
+          theme={popoverVisible ? 'solid' : 'borderless'}
+          icon={<IconMore />}
+        />
+      </Dropdown>
       {showCreateDocument && (
         <DocumentCreator
           wikiId={wikiId}

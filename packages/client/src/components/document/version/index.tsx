@@ -6,24 +6,26 @@ import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
 import { useDocumentVersion } from 'data/document';
 import { safeJSONParse } from 'helpers/json';
+import { DocumentVersionControl } from 'hooks/use-document-version';
 import { IsOnMobile } from 'hooks/use-on-mobile';
-import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useState } from 'react';
 import { CollaborationKit } from 'tiptap/editor';
 
 import styles from './index.module.scss';
 
-interface IProps {
+export interface IProps {
   documentId: string;
   disabled?: boolean;
   onSelect?: (data) => void;
+  render?: (arg: { onClick: (arg?: any) => void; disabled: boolean }) => React.ReactNode;
 }
 
 const { Title, Text } = Typography;
 
-export const DocumentVersion: React.FC<IProps> = ({ documentId, disabled = false, onSelect }) => {
+export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelect }) => {
   const { isMobile } = IsOnMobile.useHook();
-  const [visible, toggleVisible] = useToggle(false);
+
+  const { visible, toggleVisible } = DocumentVersionControl.useHook();
   const { data, loading, error, refresh } = useDocumentVersion(documentId, { enabled: visible });
   const [selectedVersion, setSelectedVersion] = useState(null);
 
@@ -61,9 +63,6 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, disabled = false
 
   return (
     <>
-      <Button type="primary" theme="light" disabled={disabled} onClick={toggleVisible}>
-        文档版本
-      </Button>
       <Modal
         title="历史记录"
         fullScreen
@@ -136,6 +135,24 @@ export const DocumentVersion: React.FC<IProps> = ({ documentId, disabled = false
           )}
         />
       </Modal>
+    </>
+  );
+};
+
+export const DocumentVersionTrigger: React.FC<Partial<IProps>> = ({ render, disabled }) => {
+  const { toggleVisible } = DocumentVersionControl.useHook();
+
+  return (
+    <>
+      {render ? (
+        render({ onClick: toggleVisible, disabled })
+      ) : (
+        <>
+          <Button type="primary" theme="light" disabled={disabled} onClick={toggleVisible}>
+            历史记录
+          </Button>
+        </>
+      )}
     </>
   );
 };

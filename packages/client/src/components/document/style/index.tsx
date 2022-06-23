@@ -10,7 +10,11 @@ import styles from './index.module.scss';
 
 const { Text } = Typography;
 
-export const DocumentStyle = () => {
+interface IProps {
+  render?: (arg: { onClick: () => void }) => React.ReactNode;
+}
+
+export const DocumentStyle: React.FC<IProps> = ({ render }) => {
   const { isMobile } = IsOnMobile.useHook();
   const { width, fontSize, setWidth, setFontSize } = useDocumentStyle();
   const [visible, toggleVisible] = useToggle(false);
@@ -30,7 +34,12 @@ export const DocumentStyle = () => {
       onVisibleChange={toggleVisible}
       onClickOutSide={toggleVisible}
       content={
-        <div className={styles.wrap}>
+        <div
+          className={styles.wrap}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <div className={styles.item}>
             <Text>正文大小</Text>
             <Text style={{ fontSize: '0.8em' }}> {fontSize}px</Text>
@@ -48,7 +57,11 @@ export const DocumentStyle = () => {
         </div>
       }
     >
-      <Button icon={<IconArticle />} theme="borderless" type="tertiary" onMouseDown={toggleVisible} />
+      {render ? (
+        render({ onClick: toggleVisible })
+      ) : (
+        <Button icon={<IconArticle />} theme="borderless" type="tertiary" onMouseDown={toggleVisible} />
+      )}
     </Dropdown>
   );
 };
