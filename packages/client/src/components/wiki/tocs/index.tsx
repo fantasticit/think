@@ -109,7 +109,9 @@ export const WikiTocs: React.FC<IProps> = ({
                               >
                                 {wiki.name.charAt(0)}
                               </Avatar>
-                              <Text strong>{wiki.name}</Text>
+                              <Text strong ellipsis={{ rows: 1 }}>
+                                {wiki.name}
+                              </Text>
                             </span>
                           </a>
                         </Link>
