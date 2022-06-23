@@ -74,7 +74,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
         <Tooltip key="edit" content="编辑" position="bottom">
           <Button disabled={!editable} icon={<IconEdit />} onMouseDown={gotoEdit} />
         </Tooltip>
-        {document && <DocumentActions wikiId={document.wikiId} documentId={documentId} />}
+        {document && <DocumentActions wikiId={document.wikiId} documentId={documentId} document={document} />}
         <DocumentVersion documentId={documentId} />
       </Space>
     );

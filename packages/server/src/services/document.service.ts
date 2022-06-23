@@ -454,7 +454,7 @@ export class DocumentService {
       }),
       this.viewService.getDocumentTotalViews(documentId),
     ]);
-    const doc = lodash.omit(instanceToPlain(document), ['state', 'content']);
+    const doc = lodash.omit(instanceToPlain(document), ['state']);
     const createUser = await this.userService.findById(doc.createUserId);
     return { document: { ...doc, views, createUser }, authority };
   }

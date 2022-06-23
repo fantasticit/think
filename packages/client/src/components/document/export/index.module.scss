@@ -1,0 +1,16 @@
+.templateItem {
+  display: flex;
+  width: 118px;
+  padding: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &:hover {
+    border-color: var(--semi-color-border);
+    box-shadow: var(--box-shadow);
+  }
+}

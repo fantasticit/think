@@ -1,9 +1,11 @@
-import { IconArticle, IconBranch, IconHistory, IconMore, IconPlus, IconStar } from '@douyinfe/semi-icons';
+import { IconArticle, IconBranch, IconExport, IconHistory, IconMore, IconPlus, IconStar } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Space, Typography } from '@douyinfe/semi-ui';
 import { ButtonProps } from '@douyinfe/semi-ui/button/Button';
+import { IDocument } from '@think/domains';
 import cls from 'classnames';
 import { DocumentCreator } from 'components/document/create';
 import { DocumentDeletor } from 'components/document/delete';
+import { DocumentExporter } from 'components/document/export';
 import { DocumentLinkCopyer } from 'components/document/link';
 import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
@@ -17,6 +19,7 @@ import styles from './index.module.scss';
 interface IProps {
   wikiId: string;
   documentId: string;
+  document?: IDocument;
   hoverVisible?: boolean;
   onStar?: () => void;
   onCreate?: () => void;
@@ -34,6 +37,7 @@ export const DocumentActions: React.FC<IProps> = ({
   wikiId,
   documentId,
   hoverVisible,
+  document,
   onStar,
   onCreate,
   onDelete,
@@ -171,6 +175,24 @@ export const DocumentActions: React.FC<IProps> = ({
                         <Space>
                           <IconArticle />
                           文档排版
+                        </Space>
+                      </Text>
+                    </Dropdown.Item>
+                  );
+                }}
+              />
+            )}
+
+            {document && (
+              <DocumentExporter
+                document={document}
+                render={({ toggleVisible }) => {
+                  return (
+                    <Dropdown.Item onClick={() => toggleVisible(true)}>
+                      <Text>
+                        <Space>
+                          <IconExport />
+                          文档导出
                         </Space>
                       </Text>
                     </Dropdown.Item>
