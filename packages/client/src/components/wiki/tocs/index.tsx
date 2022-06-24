@@ -179,7 +179,7 @@ export const WikiTocs: React.FC<IProps> = ({
               >
                 <a>
                   <IconOverview style={{ fontSize: '1em' }} />
-                  <span>主页</span>
+                  <Text>主页</Text>
                 </a>
               </Link>
             </div>
@@ -220,7 +220,7 @@ export const WikiTocs: React.FC<IProps> = ({
               >
                 <a>
                   <IconSetting style={{ fontSize: '1em' }} />
-                  <span>设置</span>
+                  <Text>设置</Text>
                 </a>
               </Link>
             </div>
