@@ -86,7 +86,7 @@ docker-compose up -d
 
 如需修改配置，开发环境编辑 `config/dev.yaml`。生产环境编辑 `config/prod.yaml` (如没有,可复制开发环境的配置修改即可.)
 
-#### 数据库
+- 数据库
 
 首先安装 `MySQL`，推荐使用 docker 进行安装。
 
@@ -96,7 +96,7 @@ docker image pull mysql:5.7
 docker run -d --restart=always --name think -p 3306:3306 -e MYSQL_DATABASE=think -e MYSQL_ROOT_PASSWORD=root mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
-#### 可选：Redis
+- 可选：Redis
 
 如果需要文档版本服务，请在配置文件中修改 `db.redis` 的配置。
 
