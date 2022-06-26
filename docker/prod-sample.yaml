@@ -3,7 +3,7 @@ client:
   port: 5001
   assetPrefix: '/'
   apiUrl: 'http://localhost:5002/api'
-  collaborationUrl: 'ws://localhost:5003'
+  collaborationUrl: 'ws://localhost:5003/think/wss'
   # 以下为页面 meta 配置
   seoAppName: '云策文档'
   seoDescription: '云策文档是一款开源知识管理工具。通过独立的知识库空间，结构化地组织在线协作文档，实现知识的积累与沉淀，促进知识的复用与流通。'
