@@ -188,7 +188,7 @@ thinkapi.mrdoc.fun {
         @websockets {
         header Connection *Upgrade*
         header Upgrade    websocket
-        #path /think/wss/*
+        path /think/wss/*
 }
         encode zstd gzip
         reverse_proxy /api/*   localhost:5002
