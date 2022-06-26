@@ -49,31 +49,12 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 依赖安装命令: `npm i -g pm2 @nestjs/cli pnpm`
 
 
-#### 数据库
-
-首先安装 `MySQL`，推荐使用 docker 进行安装。
-
-```bash
-docker image pull mysql:5.7
-# m1 的 mac 可以用：docker image pull --platform linux/x86_64 mysql:5.7
-docker run -d --restart=always --name think -p 3306:3306 -e MYSQL_DATABASE=think -e MYSQL_ROOT_PASSWORD=root mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-```
-
-#### 可选：Redis
-
-如果需要文档版本服务，请在根目录 `yaml` 配置中进行 `db.redis` 的配置。
-
-```
-docker pull redis:latest
-docker run --name think-redis -p 6379:6379 -d redis --appendonly yes --requirepass "root"
-```
 
 ## Docker-compose 一键构建安装
 
 - 实测腾讯轻量云 2C4G 机器构建需 8 分钟左右
 
 **请注意构建前修改 `docker-compose.yml` 中的 `EIP` 参数,否则无法正常使用!!!**
-
 
 ```
 # 首次安装
@@ -104,6 +85,26 @@ docker-compose up -d
 - 协作接口地址：`http://localhost:5003`
 
 如需修改配置，开发环境编辑 `config/dev.yaml`。生产环境编辑 `config/prod.yaml` (如没有,可复制开发环境的配置修改即可.)
+
+#### 数据库
+
+首先安装 `MySQL`，推荐使用 docker 进行安装。
+
+```bash
+docker image pull mysql:5.7
+# m1 的 mac 可以用：docker image pull --platform linux/x86_64 mysql:5.7
+docker run -d --restart=always --name think -p 3306:3306 -e MYSQL_DATABASE=think -e MYSQL_ROOT_PASSWORD=root mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+```
+
+#### 可选：Redis
+
+如果需要文档版本服务，请在配置文件中修改 `db.redis` 的配置。
+
+```
+docker pull redis:latest
+docker run --name think-redis -p 6379:6379 -d redis --appendonly yes --requirepass "root"
+```
+
 
 ### 本地源代码运行(开发环境)
 
@@ -136,11 +137,11 @@ pm2 save
 
 ### nginx 配置参考
 
-采用反向代理进行 `nginx` 配置，**同时设置 `proxy_set_header X-Real-IP $remote_addr;` 以便服务端获取到真实 ip 地址**。
+采用 `nginx` 作为反向代理的配置参考(部分),完整版请见 <[think/nginx.conf.bak](https://github.com/fantasticit/think/blob/main/nginx.conf.bak)>
 
 ```bash
 upstream wipi_client {
-  server 127.0.0.1:3000;
+  server 127.0.0.1:5001;
   keepalive 64;
 }
 
@@ -165,9 +166,33 @@ server {
     proxy_set_header X-Nginx-Proxy true;
     proxy_cache_bypass $http_upgrade;
     proxy_pass http://wipi_client; #反向代理
-    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Real-IP $remote_addr; #获取客户端真实IP
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   }
+}
+```
+
+### caddy2 配置参考
+
+采用 caddy v2 作为反向代理的配置文件参考
+
+```
+# 例子中的域名,请自行替换.
+think.mrdoc.fun {
+        encode zstd gzip
+        reverse_proxy localhost:5001
+}
+
+
+thinkapi.mrdoc.fun {
+        @websockets {
+        header Connection *Upgrade*
+        header Upgrade    websocket
+        #path /think/wss/*
+}
+        encode zstd gzip
+        reverse_proxy /api/*   localhost:5002
+        reverse_proxy  @websockets  localhost:5003
 }
 ```
 
