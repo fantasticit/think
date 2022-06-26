@@ -72,13 +72,14 @@ docker run --name think-redis -p 6379:6379 -d redis --appendonly yes --requirepa
 
 - 实测腾讯轻量云 2C4G 机器构建需 8 分钟左右
 
-**请注意修改 `docker-compose.yml` 中的 `EIP` 参数,否则无法正常使用!!!**
+**请注意构建前修改 `docker-compose.yml` 中的 `EIP` 参数,否则无法正常使用!!!**
 
 
 ```
 # 首次安装
 git clone  https://github.com/fantasticit/think.git
 cd think
+vim docker-compose.yml
 docker-compose up -d
 
 # 二次更新升级
