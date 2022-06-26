@@ -1,9 +1,9 @@
-upstream think_server {
+upstream think_client {
   server 127.0.0.1:5001;
   keepalive 64;
 }
 
-upstream think_client {
+upstream think_server {
   server 127.0.0.1:5002;
   keepalive 64;
 }
@@ -29,7 +29,7 @@ server {
 
   client_max_body_size 100m;
 
-  location /think {
+  location /api {
     proxy_pass http://think_server;
     proxy_read_timeout 300s;
     proxy_send_timeout 300s;
