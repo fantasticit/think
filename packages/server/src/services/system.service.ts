@@ -109,8 +109,6 @@ export class SystemService {
           ...mail,
         },
         (err, info) => {
-          console.log('fas', err, info);
-
           if (err) {
             reject(err);
           } else {
