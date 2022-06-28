@@ -28,7 +28,7 @@ const Page: NextPage = () => {
 
   return (
     <SingleColumnLayout>
-      <Seo title="管理后台" />
+      <Seo title="管理后台" key={tab} />
       <div className="container">
         {user && user.isSystemAdmin ? (
           <>

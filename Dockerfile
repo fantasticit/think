@@ -15,7 +15,7 @@ COPY --from=builder /app/output/ /app/
 WORKDIR /app
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN npm config set registry https://registry.npmmirror.com
-RUN  set -x \
+RUN set -x \
     && apk update \
     && apk add --no-cache tzdata redis  \
     && chmod +x /app/docker/start.sh \

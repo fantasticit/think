@@ -125,10 +125,6 @@ export class UserService {
       throw new HttpException('该账户已被注册', HttpStatus.BAD_REQUEST);
     }
 
-    if (user.password !== user.confirmPassword) {
-      throw new HttpException('两次密码不一致，请重试', HttpStatus.BAD_REQUEST);
-    }
-
     if (await this.userRepo.findOne({ name: user.name })) {
       throw new HttpException('该账户已被注册', HttpStatus.BAD_REQUEST);
     }
