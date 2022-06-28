@@ -76,7 +76,7 @@ pm2 save
 
 ### docker-compose
 
-也可以使用 docker-compose 进行项目部署。首先，根据需要修改 `docker-compose.yml` 中的数据库、Redis 相关用户名、密码等配置，然后，修改 `config/docker-prod-sample.yaml` 中对应的配置。
+也可以使用 docker-compose 进行项目部署。首先，根据需要修改 `docker-compose.yml` 中的数据库、Redis 相关用户名、密码等配置，然后，从 `config/docker-prod-sample.yaml` 复制出 `config/prod.yaml` 并修改其中对应的配置。
 
 ```bash
 # 首次安装

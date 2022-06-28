@@ -29,9 +29,9 @@ server:
     user: ''
     password: ''
   admin:
-    name: 'sytemadmin' # 注意修改
-    password: 'sytemadmin' # 注意修改
-    email: 'sytemadmin@think.com' # 注意修改为真实邮箱地址
+    name: 'admin' # 注意修改
+    password: 'admin' # 注意修改
+    email: 'admin@think.com' # 注意修改为真实邮箱地址
 
 # 数据库配置
 db:
