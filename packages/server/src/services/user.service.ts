@@ -115,6 +115,12 @@ export class UserService {
    * @returns
    */
   async createUser(user: RegisterUserDto): Promise<OutUser> {
+    const currentSystemConfig = await this.systemService.getConfigFromDatabase();
+
+    if (currentSystemConfig.isSystemLocked) {
+      throw new HttpException('系统维护中，暂不可注册', HttpStatus.FORBIDDEN);
+    }
+
     if (await this.userRepo.findOne({ name: user.name })) {
       throw new HttpException('该账户已被注册', HttpStatus.BAD_REQUEST);
     }
@@ -157,6 +163,12 @@ export class UserService {
    * @param registerUser
    */
   public async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const currentSystemConfig = await this.systemService.getConfigFromDatabase();
+
+    if (currentSystemConfig.isSystemLocked) {
+      throw new HttpException('系统维护中，暂不可使用', HttpStatus.FORBIDDEN);
+    }
+
     const { email, password, confirmPassword, verifyCode } = resetPasswordDto;
 
     const inDatabaseUser = await this.userRepo.findOne({ email });
@@ -195,7 +207,9 @@ export class UserService {
       existUser = await this.userRepo.findOne({ where: { email: name } });
     }
 
-    if (!existUser.isSystemAdmin && currentSystemConfig.isSystemLocked) {
+    const isExistUserSystemAdmin = existUser ? existUser.isSystemAdmin : false;
+
+    if (currentSystemConfig.isSystemLocked && !isExistUserSystemAdmin) {
       throw new HttpException('系统维护中，暂不可登录', HttpStatus.FORBIDDEN);
     }
 
