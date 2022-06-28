@@ -1,44 +1,58 @@
-version: "3"
+version: '3'
 services:
-  thinkdoc:
+  think:
     build:
       context: .
-      args:
-        EIP: x.x.x.x  # api接口IP,必须设置,可以是 IP 或者域名.
     image: think
-    container_name: thinkdoc
-    #restart: always
+    container_name: think
     volumes:
-      - /path/to/you/dir/config:/app/config  # 请注意修改 /path/to/you/dir 为云策文档配置文件目录.
-      - /path/to/you/dir/static:/app/packages/server/static  # 请注意修改 /path/to/you/dir 为云策文档附件存储目录.
+      - ./config:/app/config
+      - ./runtime/static:/app/packages/server/static
     environment:
       - TZ=Asia/Shanghai
     ports:
-      - "5001-5003:5001-5003"
+      - '5001-5003:5001-5003'
     depends_on:
       - mysql
+      - redis
+    networks:
+      - think
   mysql:
     image: mysql:5.7
-    container_name: mysql-with-think
-    #restart: always
+    restart: always
+    container_name: mysql-for-think
     volumes:
-      - /path/to/you/dir/mysql:/var/lib/mysql # 请注意修改 /path/to/you/dir 为您要存储mysql数据的目录绝对路径.
+      - ./runtime/mysql:/var/lib/mysql
     environment:
       - TZ=Asia/Shanghai
-      - MYSQL_ROOT_PASSWORD=Jonnyan404!
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=think
-      - MYSQL_USER=jonnyan404
-      - MYSQL_PASSWORD=www.mrdoc.fun
+      - MYSQL_USER=think
+      - MYSQL_PASSWORD=think
     expose:
-      - "3306"
+      - '3306'
     ports:
-      - "63306:3306"  # 如果不需要外部连接mysql,可注释此行+上一行.
+      - '3306:3306'
     command:
-      - "--character-set-server=utf8mb4"
-      - "--collation-server=utf8mb4_unicode_ci"
-# Volumes for persisting data, see https://docs.docker.com/engine/admin/volumes/volumes/
-#volumes:
-#  thinkdoc-data:
-#    driver: local
-#  mysql-data:
-#    driver: local
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+    networks:
+      - think
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis-for-think
+    command: >
+      --requirepass root
+    expose:
+      - '6379'
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./runtime/redis:/data
+    privileged: true
+    networks:
+      - think
+networks:
+  think:
+    driver: bridge
