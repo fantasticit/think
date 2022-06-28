@@ -3,8 +3,10 @@ import { DocumentEntity } from '@entities/document.entity';
 import { DocumentAuthorityEntity } from '@entities/document-authority.entity';
 import { MessageEntity } from '@entities/message.entity';
 import { StarEntity } from '@entities/star.entity';
+import { SystemEntity } from '@entities/system.entity';
 import { TemplateEntity } from '@entities/template.entity';
 import { UserEntity } from '@entities/user.entity';
+import { VerifyEntity } from '@entities/verify.entity';
 import { ViewEntity } from '@entities/view.entity';
 import { WikiEntity } from '@entities/wiki.entity';
 import { WikiUserEntity } from '@entities/wiki-user.entity';
@@ -15,8 +17,10 @@ import { DocumentModule } from '@modules/document.module';
 import { FileModule } from '@modules/file.module';
 import { MessageModule } from '@modules/message.module';
 import { StarModule } from '@modules/star.module';
+import { SystemModule } from '@modules/system.module';
 import { TemplateModule } from '@modules/template.module';
 import { UserModule } from '@modules/user.module';
+import { VerifyModule } from '@modules/verify.module';
 import { ViewModule } from '@modules/view.module';
 import { WikiModule } from '@modules/wiki.module';
 import { forwardRef, Inject, Module } from '@nestjs/common';
@@ -40,6 +44,8 @@ const ENTITIES = [
   MessageEntity,
   TemplateEntity,
   ViewEntity,
+  VerifyEntity,
+  SystemEntity,
 ];
 
 const MODULES = [
@@ -52,6 +58,8 @@ const MODULES = [
   MessageModule,
   TemplateModule,
   ViewModule,
+  VerifyModule,
+  SystemModule,
 ];
 
 @Module({

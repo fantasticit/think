@@ -1,0 +1,35 @@
+.wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--semi-color-bg-0);
+
+  .content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    padding: 10vh 24px;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .form {
+      width: 100%;
+      max-width: 400px;
+      padding: 32px 24px;
+      margin: 0 auto;
+      border: 1px solid var(--semi-color-border);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+
+      footer {
+        padding-top: 16px;
+        border-top: 1px solid var(--semi-color-border);
+        margin-top: 12px;
+        text-align: center;
+      }
+    }
+  }
+}

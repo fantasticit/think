@@ -16,7 +16,6 @@ import {
   Tooltip,
   Typography,
 } from '@douyinfe/semi-ui';
-import { IUser } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { DocumentLinkCopyer } from 'components/document/link';
 import { useDoumentMembers } from 'data/document';
@@ -52,6 +51,7 @@ const renderChecked = (onChange, authKey: 'readable' | 'editable') => (checked, 
 export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, disabled = false }) => {
   const { isMobile } = IsOnMobile.useHook();
   const ref = useRef<HTMLInputElement>();
+  const toastedUsersRef = useRef([]);
   const { user: currentUser } = useUser();
   const [visible, toggleVisible] = useToggle(false);
   const { users, loading, error, addUser, updateUser, deleteUser } = useDoumentMembers(documentId, {
@@ -162,7 +162,10 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
           return joinUser.name !== currentUser.name;
         })
         .forEach((joinUser) => {
-          Toast.info(`${joinUser.name}-${joinUser.clientId}加入文档`);
+          if (!toastedUsersRef.current.includes(joinUser.clientId)) {
+            Toast.info(`${joinUser.name}-${joinUser.clientId}加入文档`);
+            toastedUsersRef.current.push(joinUser.clientId);
+          }
         });
 
       setCollaborationUsers(joinUsers);
@@ -171,6 +174,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
     event.on(JOIN_USER, handler);
 
     return () => {
+      toastedUsersRef.current = [];
       event.off(JOIN_USER, handler);
     };
   }, [currentUser]);

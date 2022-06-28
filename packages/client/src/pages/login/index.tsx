@@ -51,9 +51,10 @@ const Page = () => {
             field="name"
             label="账户"
             style={{ width: '100%' }}
-            placeholder="输入账户名称"
-            rules={[{ required: true, message: '请输入账户' }]}
+            placeholder="输入账户名称或邮箱"
+            rules={[{ required: true, message: '请输入账户或邮箱' }]}
           ></Form.Input>
+
           <Form.Input
             noLabel
             mode="password"
@@ -67,16 +68,29 @@ const Page = () => {
             登录
           </Button>
           <footer>
-            <Link
-              href={{
-                pathname: '/register',
-                query,
-              }}
-            >
-              <Text link style={{ textAlign: 'center' }}>
-                注册用户以登录
-              </Text>
-            </Link>
+            <Space>
+              <Link
+                href={{
+                  pathname: '/register',
+                  query,
+                }}
+              >
+                <Text link style={{ textAlign: 'center' }}>
+                  注册用户以登录
+                </Text>
+              </Link>
+
+              <Link
+                href={{
+                  pathname: '/forgetPassword',
+                  query,
+                }}
+              >
+                <a>
+                  <Text type="tertiary">忘记密码？</Text>
+                </a>
+              </Link>
+            </Space>
           </footer>
         </Form>
       </Content>

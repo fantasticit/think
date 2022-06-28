@@ -8,11 +8,27 @@ export declare const UserApiDefinition: {
         client: () => string;
     };
     /**
+     * 获取验证码
+     */
+    sendVerifyCode: {
+        method: "get";
+        server: "sendVerifyCode";
+        client: () => string;
+    };
+    /**
      * 注册
      */
     register: {
         method: "post";
         server: "register";
+        client: () => string;
+    };
+    /**
+     * 重置密码
+     */
+    resetPassword: {
+        method: "post";
+        server: "resetPassword";
         client: () => string;
     };
     /**
@@ -37,6 +53,38 @@ export declare const UserApiDefinition: {
     update: {
         method: "patch";
         server: "update";
+        client: () => string;
+    };
+    /**
+     * 锁定用户
+     */
+    toggleLockUser: {
+        method: "post";
+        server: "lock/user";
+        client: () => string;
+    };
+    /**
+     * 获取系统配置
+     */
+    getSystemConfig: {
+        method: "get";
+        server: "config/system";
+        client: () => string;
+    };
+    /**
+     * 发送测试邮件
+     */
+    sendTestEmail: {
+        method: "get";
+        server: "config/system/sendTestEmail";
+        client: () => string;
+    };
+    /**
+     * 发送测试邮件
+     */
+    updateSystemConfig: {
+        method: "post";
+        server: "config/system/updateSystemConfig";
         client: () => string;
     };
 };

@@ -13,6 +13,9 @@ import { getConfig } from '@think/config';
 import { Request as RequestType } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
+import { SystemModule } from './system.module';
+import { VerifyModule } from './verify.module';
+
 const config = getConfig();
 const jwtConfig = config.jwt as {
   secretkey: string;
@@ -61,6 +64,8 @@ const jwtModule = JwtModule.register({
     forwardRef(() => WikiModule),
     forwardRef(() => MessageModule),
     forwardRef(() => StarModule),
+    forwardRef(() => VerifyModule),
+    forwardRef(() => SystemModule),
     passModule,
     jwtModule,
   ],

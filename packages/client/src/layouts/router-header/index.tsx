@@ -38,7 +38,7 @@ const menus = [
   },
   {
     itemKey: '/star',
-    text: '收藏',
+    text: '星标',
     onClick: () => {
       Router.push({
         pathname: `/star`,
