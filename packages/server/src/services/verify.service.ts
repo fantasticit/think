@@ -21,7 +21,8 @@ export class VerifyService {
    * @param record
    */
   private async deleteVerifyCode(id) {
-    await this.verifyRepo.remove(await this.verifyRepo.find(id));
+    const record = await this.verifyRepo.findOne(id);
+    await this.verifyRepo.remove(record);
   }
 
   /**
