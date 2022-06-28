@@ -3,11 +3,13 @@ import { Author } from 'components/author';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
 import { useRegister, useVerifyCode } from 'data/user';
+import { isEmail } from 'helpers/validator';
 import { useInterval } from 'hooks/use-interval';
 import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import Router from 'next/router';
+import { emit } from 'process';
 import React, { useCallback, useState } from 'react';
 
 import styles from './index.module.scss';
@@ -25,7 +27,13 @@ const Page = () => {
   const { sendVerifyCode, loading: sendVerifyCodeLoading } = useVerifyCode();
 
   const onFormChange = useCallback((formState) => {
-    setEmail(formState.values.email);
+    const email = formState.values.email;
+
+    if (isEmail(email)) {
+      setEmail(email);
+    } else {
+      setEmail(null);
+    }
   }, []);
 
   const { start, stop } = useInterval(() => {
@@ -89,6 +97,7 @@ const Page = () => {
           <Title type="tertiary" heading={5} style={{ marginBottom: 16, textAlign: 'center' }}>
             用户注册
           </Title>
+
           <Form.Input
             noLabel
             field="name"
@@ -97,6 +106,7 @@ const Page = () => {
             placeholder="输入账户名称"
             rules={[{ required: true, message: '请输入账户' }]}
           ></Form.Input>
+
           <Form.Input
             noLabel
             mode="password"
@@ -105,15 +115,6 @@ const Page = () => {
             style={{ width: '100%' }}
             placeholder="输入用户密码"
             rules={[{ required: true, message: '请输入密码' }]}
-          ></Form.Input>
-          <Form.Input
-            noLabel
-            mode="password"
-            field="confirmPassword"
-            label="密码"
-            style={{ width: '100%' }}
-            placeholder="确认用户密码"
-            rules={[{ required: true, message: '请再次输入密码' }]}
           ></Form.Input>
 
           <Form.Input

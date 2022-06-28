@@ -9,6 +9,7 @@
     position: relative;
     z-index: 10;
     display: flex;
+    height: calc(100% - 52px);
     padding: 10vh 24px;
     flex: 1;
     flex-direction: column;
