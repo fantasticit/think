@@ -46,9 +46,8 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
   <img width="300" alt="wechat" src="https://think-1256095494.cos.ap-shanghai.myqcloud.com/think-wechat.jpg" />
 </div>
 
-## 资料
+## 贡献者
 
-- next.js 源码：https://github.com/vercel/next.js
-- next.js 文档：https://nextjs.org/
-- nest.js 源码：https://github.com/nestjs/nest
-- nest.js 文档：https://nestjs.com/
+感谢所有为本项目作出贡献的同学！
+
+<a href="https://github.com/fantasticit/vue/think/contributors"><img src="https://opencollective.com/think/contributors.svg?width=890" /></a>
