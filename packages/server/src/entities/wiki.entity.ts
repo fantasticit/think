@@ -1,10 +1,16 @@
+import { getShortId } from '@helpers/shortid.herlper';
 import { DEFAULT_WIKI_AVATAR } from '@think/constants';
 import { WikiStatus } from '@think/domains';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('wiki')
 export class WikiEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @BeforeInsert()
+  getShortId() {
+    this.id = getShortId();
+  }
+
+  @PrimaryColumn()
   public id: string;
 
   @Column({ type: 'varchar', length: 200, comment: '知识库名称' })

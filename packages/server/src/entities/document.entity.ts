@@ -1,10 +1,16 @@
+import { getShortId } from '@helpers/shortid.herlper';
 import { DocumentStatus } from '@think/domains';
 import { Exclude } from 'class-transformer';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('document')
 export class DocumentEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @BeforeInsert()
+  getShortId() {
+    this.id = getShortId();
+  }
+
+  @PrimaryColumn()
   public id: string;
 
   @Column({ type: 'varchar', comment: '文档所属知识库 Id' })
