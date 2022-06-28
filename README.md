@@ -50,4 +50,4 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 
 感谢所有为本项目作出贡献的同学！
 
-<a href="https://github.com/fantasticit/vue/think/contributors"><img src="https://opencollective.com/think/contributors.svg?width=890" /></a>
+<a href="https://github.com/fantasticit/think/contributors"><img src="https://opencollective.com/think/contributors.svg?width=890" /></a>
