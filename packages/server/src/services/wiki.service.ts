@@ -326,6 +326,10 @@ export class WikiService {
     const withHomeDocumentIdWiki = await this.wikiRepo.merge(wiki, { homeDocumentId });
     await this.wikiRepo.save(withHomeDocumentIdWiki);
 
+    await this.starService.toggleStar(user, {
+      wikiId: wiki.id,
+    });
+
     return withHomeDocumentIdWiki;
   }
 

@@ -26,6 +26,7 @@ export interface IUser {
   email?: string;
   role: UserRole;
   status: UserStatus;
+  isSystemAdmin?: boolean;
 }
 
 /**

@@ -1,6 +1,7 @@
-import { CreateUserDto } from '@dtos/create-user.dto';
+import { RegisterUserDto, ResetPasswordDto } from '@dtos/create-user.dto';
 import { LoginUserDto } from '@dtos/login-user.dto';
 import { UpdateUserDto } from '@dtos/update-user.dto';
+import { SystemEntity } from '@entities/system.entity';
 import { UserEntity } from '@entities/user.entity';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -8,10 +9,13 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MessageService } from '@services/message.service';
 import { StarService } from '@services/star.service';
+import { VerifyService } from '@services/verify.service';
 import { WikiService } from '@services/wiki.service';
 import { UserStatus } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import { Repository } from 'typeorm';
+
+import { SystemService } from './system.service';
 
 export type OutUser = Omit<UserEntity, 'comparePassword' | 'encryptPassword' | 'encrypt' | 'password'>;
 
@@ -33,8 +37,47 @@ export class UserService {
     private readonly starService: StarService,
 
     @Inject(forwardRef(() => WikiService))
-    private readonly wikiService: WikiService
-  ) {}
+    private readonly wikiService: WikiService,
+
+    @Inject(forwardRef(() => VerifyService))
+    private readonly verifyService: VerifyService,
+
+    @Inject(forwardRef(() => SystemService))
+    private readonly systemService: SystemService
+  ) {
+    this.createDefaultSystemAdminFromConfigFile();
+  }
+
+  /**
+   * 从配置文件创建默认系统管理员
+   */
+  private async createDefaultSystemAdminFromConfigFile() {
+    if (await this.userRepo.findOne({ isSystemAdmin: true })) {
+      return;
+    }
+
+    const config = await this.confifgService.get('server.admin');
+
+    if (!config.name || !config.password || !config.email) {
+      throw new Error(`请指定名称、密码和邮箱`);
+    }
+
+    if (await this.userRepo.findOne({ name: config.name })) {
+      return;
+    }
+
+    try {
+      await this.userRepo.save(
+        await this.userRepo.create({
+          ...config,
+          isSystemAdmin: true,
+        })
+      );
+      console.log('[think] 已创建默认系统管理员，请尽快登录系统修改密码');
+    } catch (e) {
+      console.error(`[think] 创建默认系统管理员失败：`, e.message);
+    }
+  }
 
   /**
    * 根据 id 查询用户
@@ -71,7 +114,13 @@ export class UserService {
    * @param user CreateUserDto
    * @returns
    */
-  async createUser(user: CreateUserDto): Promise<OutUser> {
+  async createUser(user: RegisterUserDto): Promise<OutUser> {
+    const currentSystemConfig = await this.systemService.getConfigFromDatabase();
+
+    if (currentSystemConfig.isSystemLocked) {
+      throw new HttpException('系统维护中，暂不可注册', HttpStatus.FORBIDDEN);
+    }
+
     if (await this.userRepo.findOne({ name: user.name })) {
       throw new HttpException('该账户已被注册', HttpStatus.BAD_REQUEST);
     }
@@ -86,6 +135,10 @@ export class UserService {
 
     if (user.email && (await this.userRepo.findOne({ email: user.email }))) {
       throw new HttpException('该邮箱已被注册', HttpStatus.BAD_REQUEST);
+    }
+
+    if (!(await this.verifyService.checkVerifyCode(user.email, user.verifyCode))) {
+      throw new HttpException('验证码不正确，请检查', HttpStatus.BAD_REQUEST);
     }
 
     const res = await this.userRepo.create(user);
@@ -106,13 +159,59 @@ export class UserService {
   }
 
   /**
+   * 重置密码
+   * @param registerUser
+   */
+  public async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const currentSystemConfig = await this.systemService.getConfigFromDatabase();
+
+    if (currentSystemConfig.isSystemLocked) {
+      throw new HttpException('系统维护中，暂不可使用', HttpStatus.FORBIDDEN);
+    }
+
+    const { email, password, confirmPassword, verifyCode } = resetPasswordDto;
+
+    const inDatabaseUser = await this.userRepo.findOne({ email });
+
+    if (!inDatabaseUser) {
+      throw new HttpException('该邮箱尚未注册', HttpStatus.BAD_REQUEST);
+    }
+
+    if (password !== confirmPassword) {
+      throw new HttpException('两次密码不一致，请重试', HttpStatus.BAD_REQUEST);
+    }
+
+    if (!(await this.verifyService.checkVerifyCode(email, verifyCode))) {
+      throw new HttpException('验证码不正确，请检查', HttpStatus.BAD_REQUEST);
+    }
+
+    const user = await this.userRepo.save(
+      await this.userRepo.merge(inDatabaseUser, { password: UserEntity.encryptPassword(password) })
+    );
+
+    return instanceToPlain(user);
+  }
+
+  /**
    * 用户登录
    * @param user
    * @returns
    */
   async login(user: LoginUserDto): Promise<{ user: OutUser; token: string; domain: string; expiresIn: number }> {
+    const currentSystemConfig = await this.systemService.getConfigFromDatabase();
+
     const { name, password } = user;
-    const existUser = await this.userRepo.findOne({ where: { name } });
+    let existUser = await this.userRepo.findOne({ where: { name } });
+
+    if (!existUser) {
+      existUser = await this.userRepo.findOne({ where: { email: name } });
+    }
+
+    const isExistUserSystemAdmin = existUser ? existUser.isSystemAdmin : false;
+
+    if (currentSystemConfig.isSystemLocked && !isExistUserSystemAdmin) {
+      throw new HttpException('系统维护中，暂不可登录', HttpStatus.FORBIDDEN);
+    }
 
     if (!existUser || !(await UserEntity.comparePassword(password, existUser.password))) {
       throw new HttpException('用户名或密码错误', HttpStatus.BAD_REQUEST);
@@ -167,5 +266,81 @@ export class UserService {
     const query = this.userRepo.createQueryBuilder('user');
     const [data] = await query.getManyAndCount();
     return data;
+  }
+
+  /**
+   * 锁定或解锁用户
+   * @param user
+   * @param targetUserId
+   */
+  async toggleLockUser(user: UserEntity, targetUserId) {
+    const currentUser = await this.userRepo.findOne(user.id);
+
+    if (!currentUser.isSystemAdmin) {
+      throw new HttpException('您无权操作', HttpStatus.FORBIDDEN);
+    }
+
+    const targetUser = await this.userRepo.findOne(targetUserId);
+
+    if (!targetUser) {
+      throw new HttpException('目标用户不存在', HttpStatus.NOT_FOUND);
+    }
+
+    const nextStatus = targetUser.status === UserStatus.normal ? UserStatus.locked : UserStatus.normal;
+    return await this.userRepo.save(await this.userRepo.merge(targetUser, { status: nextStatus }));
+  }
+
+  /**
+   * 获取系统配置
+   * @param user
+   * @returns
+   */
+  async getSystemConfig(user: UserEntity) {
+    const currentUser = await this.userRepo.findOne(user.id);
+
+    if (!currentUser.isSystemAdmin) {
+      throw new HttpException('您无权操作', HttpStatus.FORBIDDEN);
+    }
+
+    return await this.systemService.getConfigFromDatabase();
+  }
+
+  /**
+   * 发送测试邮件
+   * @param user
+   */
+  async sendTestEmail(user: UserEntity) {
+    const currentUser = await this.userRepo.findOne(user.id);
+
+    if (!currentUser.isSystemAdmin) {
+      throw new HttpException('您无权操作', HttpStatus.FORBIDDEN);
+    }
+
+    const currentConfig = await this.systemService.getConfigFromDatabase();
+    try {
+      await this.systemService.sendEmail({
+        to: currentConfig.emailServiceUser,
+        subject: '测试邮件',
+        html: `<p>测试邮件</p>`,
+      });
+      return '测试邮件发送成功';
+    } catch (err) {
+      throw new HttpException('测试邮件发送失败！', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * 更新系统配置
+   * @param user
+   * @param targetUserId
+   */
+  async updateSystemConfig(user: UserEntity, systemConfig: Partial<SystemEntity>) {
+    const currentUser = await this.userRepo.findOne(user.id);
+
+    if (!currentUser.isSystemAdmin) {
+      throw new HttpException('您无权操作', HttpStatus.FORBIDDEN);
+    }
+
+    return await this.systemService.updateConfigInDatabase(systemConfig);
   }
 }

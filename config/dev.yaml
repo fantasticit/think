@@ -23,13 +23,22 @@ server:
   enableRateLimit: true # 是否限流
   rateLimitWindowMs: 60000 # 限流时间
   rateLimitMax: 1000 # 单位限流时间内单个 ip 最大访问数量
+  email: # 邮箱服务，参考 http://help.163.com/09/1223/14/5R7P6CJ600753VB8.html?servCode=6010376 获取 SMTP 配置
+    host: ''
+    port: 465
+    user: ''
+    password: ''
+  admin:
+    name: 'sytemadmin' # 注意修改
+    password: 'sytemadmin' # 注意修改
+    email: 'sytemadmin@think.com' # 注意修改为真实邮箱地址
 
 # 数据库配置
 db:
   mysql:
     host: '127.0.0.1'
-    username: 'root'
-    password: 'root'
+    username: 'think'
+    password: 'think'
     database: 'think'
     port: 3306
     charset: 'utf8mb4'

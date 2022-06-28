@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import styles from './index.module.scss';
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 
 export const WikiPinCard: React.FC<{ wiki: IWiki }> = ({ wiki }) => {
   return (
@@ -35,7 +35,9 @@ export const WikiPinCard: React.FC<{ wiki: IWiki }> = ({ wiki }) => {
             </div>
           </header>
           <main>
-            <Text strong>{wiki.name}</Text>
+            <Paragraph ellipsis={{ rows: 1 }} strong>
+              {wiki.name}
+            </Paragraph>
           </main>
           <footer>
             <Text type="tertiary" size="small">

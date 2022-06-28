@@ -2,7 +2,7 @@ import { Button, Col, Form, Layout, Modal, Row, Space, Toast, Typography } from 
 import { Author } from 'components/author';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
-import { useRegister, useVerifyCode } from 'data/user';
+import { useResetPassword, useVerifyCode } from 'data/user';
 import { useInterval } from 'hooks/use-interval';
 import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
@@ -21,7 +21,7 @@ const Page = () => {
   const [email, setEmail] = useState('');
   const [hasSendVerifyCode, toggleHasSendVerifyCode] = useToggle(false);
   const [countDown, setCountDown] = useState(0);
-  const { register, loading } = useRegister();
+  const { reset, loading } = useResetPassword();
   const { sendVerifyCode, loading: sendVerifyCodeLoading } = useVerifyCode();
 
   const onFormChange = useCallback((formState) => {
@@ -41,9 +41,9 @@ const Page = () => {
 
   const onFinish = useCallback(
     (values) => {
-      register(values).then((res) => {
+      reset(values).then((res) => {
         Modal.confirm({
-          title: <Title heading={5}>注册成功</Title>,
+          title: <Title heading={5}>密码修改成功</Title>,
           content: <Text>是否跳转至登录?</Text>,
           okText: '确认',
           cancelText: '取消',
@@ -53,7 +53,7 @@ const Page = () => {
         });
       });
     },
-    [register, query]
+    [reset, query]
   );
 
   const getVerifyCode = useCallback(() => {
@@ -72,7 +72,7 @@ const Page = () => {
 
   return (
     <Layout className={styles.wrap}>
-      <Seo title="注册" />
+      <Seo title="重置密码" />
       <Content className={styles.content}>
         <Title heading={4} style={{ marginBottom: 16, textAlign: 'center' }}>
           <Space>
@@ -87,34 +87,8 @@ const Page = () => {
           onSubmit={onFinish}
         >
           <Title type="tertiary" heading={5} style={{ marginBottom: 16, textAlign: 'center' }}>
-            用户注册
+            重置密码
           </Title>
-          <Form.Input
-            noLabel
-            field="name"
-            label="账户"
-            style={{ width: '100%' }}
-            placeholder="输入账户名称"
-            rules={[{ required: true, message: '请输入账户' }]}
-          ></Form.Input>
-          <Form.Input
-            noLabel
-            mode="password"
-            field="password"
-            label="密码"
-            style={{ width: '100%' }}
-            placeholder="输入用户密码"
-            rules={[{ required: true, message: '请输入密码' }]}
-          ></Form.Input>
-          <Form.Input
-            noLabel
-            mode="password"
-            field="confirmPassword"
-            label="密码"
-            style={{ width: '100%' }}
-            placeholder="确认用户密码"
-            rules={[{ required: true, message: '请再次输入密码' }]}
-          ></Form.Input>
 
           <Form.Input
             noLabel
@@ -149,8 +123,28 @@ const Page = () => {
             </Col>
           </Row>
 
+          <Form.Input
+            noLabel
+            mode="password"
+            field="password"
+            label="密码"
+            style={{ width: '100%' }}
+            placeholder="输入用户密码"
+            rules={[{ required: true, message: '请输入新密码' }]}
+          />
+
+          <Form.Input
+            noLabel
+            mode="password"
+            field="confirmPassword"
+            label="密码"
+            style={{ width: '100%' }}
+            placeholder="确认用户密码"
+            rules={[{ required: true, message: '请再次输入密码' }]}
+          />
+
           <Button htmlType="submit" type="primary" theme="solid" block loading={loading} style={{ margin: '16px 0' }}>
-            注册
+            重置密码
           </Button>
           <footer>
             <Link
@@ -160,7 +154,7 @@ const Page = () => {
               }}
             >
               <Text link style={{ textAlign: 'center' }}>
-                使用其他账户登录
+                去登录
               </Text>
             </Link>
           </footer>

@@ -24,6 +24,7 @@ export interface IUser {
     email?: string;
     role: UserRole;
     status: UserStatus;
+    isSystemAdmin?: boolean;
 }
 /**
  * 登录用户数据定义
