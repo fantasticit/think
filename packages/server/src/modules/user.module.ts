@@ -1,7 +1,10 @@
 import { UserController } from '@controllers/user.controller';
 import { UserEntity } from '@entities/user.entity';
 import { MessageModule } from '@modules/message.module';
+import { OrganizationModule } from '@modules/organization.module';
 import { StarModule } from '@modules/star.module';
+import { SystemModule } from '@modules/system.module';
+import { VerifyModule } from '@modules/verify.module';
 import { WikiModule } from '@modules/wiki.module';
 import { forwardRef, Inject, Injectable, Module, UnauthorizedException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -12,9 +15,6 @@ import { UserService } from '@services/user.service';
 import { getConfig } from '@think/config';
 import { Request as RequestType } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-
-import { SystemModule } from './system.module';
-import { VerifyModule } from './verify.module';
 
 const config = getConfig();
 const jwtConfig = config.jwt as {
@@ -66,6 +66,7 @@ const jwtModule = JwtModule.register({
     forwardRef(() => StarModule),
     forwardRef(() => VerifyModule),
     forwardRef(() => SystemModule),
+    forwardRef(() => OrganizationModule),
     passModule,
     jwtModule,
   ],

@@ -1,0 +1,46 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--semi-color-nav-bg);
+
+  .contentWrap {
+    display: flex;
+    flex: 1;
+    flex-wrap: nowrap;
+    overflow: hidden;
+
+    > div {
+      height: calc(100% - 60px) !important;
+
+      :global {
+        .Pane2 {
+          height: 100%;
+          overflow: auto;
+        }
+      }
+    }
+
+    .leftWrap {
+      position: relative;
+      border-right: 1px solid var(--semi-color-border);
+
+      .leftContentWrap {
+        height: 100%;
+      }
+
+      .collapseBtn {
+        position: absolute;
+        top: 1rem;
+        right: 0;
+        z-index: 100;
+        transform: translate(50%);
+      }
+    }
+
+    .rightWrap {
+      height: 100%;
+      overflow: auto;
+    }
+  }
+}

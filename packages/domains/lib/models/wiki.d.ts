@@ -1,5 +1,6 @@
 import { IUser } from './user';
 import { IDocument } from './document';
+import { IOrganization } from './organization';
 /**
  * 知识库状态枚举
  */
@@ -27,6 +28,7 @@ export declare enum WikiUserRole {
  */
 export interface IWiki {
     id: string;
+    organizationId: IOrganization['id'];
     name: string;
     avatar: string;
     description: string;

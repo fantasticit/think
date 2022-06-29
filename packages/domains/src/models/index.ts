@@ -6,3 +6,5 @@ export * from './template';
 export * from './comment';
 export * from './pagination';
 export * from './system';
+export * from './organization';
+export * from './auth';

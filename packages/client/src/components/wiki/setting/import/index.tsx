@@ -1,6 +1,7 @@
 import { Button, Toast, Typography, Upload } from '@douyinfe/semi-ui';
 import type { IWiki } from '@think/domains';
 import { useCreateDocument } from 'data/document';
+import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -14,6 +15,7 @@ const { Text } = Typography;
 
 export const Import: React.FC<IProps> = ({ wikiId }) => {
   const { create } = useCreateDocument();
+  const { organizationId } = useRouterQuery<{ organizationId: string }>();
   const $upload = useRef<Upload>();
   const [loading, toggleLoading] = useToggle(false);
   const [markdownParser, setMarkdownParser] = useState<MarkdownParse>();
@@ -56,7 +58,7 @@ export const Import: React.FC<IProps> = ({ wikiId }) => {
 
     for (const file of fileList) {
       const payload = markdownParser.parse(file.name, file.text);
-      create({ ...payload, wikiId })
+      create({ ...payload, organizationId, wikiId })
         .then(() => {
           success += 1;
         })
@@ -77,7 +79,7 @@ export const Import: React.FC<IProps> = ({ wikiId }) => {
           }
         });
     }
-  }, [markdownParser, fileList, toggleLoading, create, wikiId]);
+  }, [markdownParser, fileList, toggleLoading, create, organizationId, wikiId]);
 
   useEffect(() => {
     const markdownParser = createMarkdownParser();

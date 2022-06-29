@@ -101,13 +101,14 @@ export class CollaborationService {
           }
           return { user: { name: '匿名用户' } };
         } else {
-          const authority = await this.documentService.getDocumentAuthority(targetId, user.id);
-          if (!authority.readable) {
-            throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
-          }
-          if (!authority.editable) {
-            connection.readOnly = true;
-          }
+          // TODO：权限校验
+          // const authority = await this.documentService.getDocumentAuthority(targetId, user.id);
+          // if (!authority.readable) {
+          //   throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
+          // }
+          // if (!authority.editable) {
+          //   connection.readOnly = true;
+          // }
           return {
             user,
           };

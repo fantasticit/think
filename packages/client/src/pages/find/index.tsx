@@ -75,7 +75,7 @@ const Page: NextPage = () => {
 
 Page.getInitialProps = async (ctx) => {
   const props = await serverPrefetcher(ctx, [
-    { url: [WikiApiDefinition.getAllWikis.client(), 1], action: (cookie) => getAllPublicWikis(1, cookie) },
+    { url: [WikiApiDefinition.getPublicWikis.client(), 1], action: (cookie) => getAllPublicWikis(1, cookie) },
   ]);
   return props;
 };

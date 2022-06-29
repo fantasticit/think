@@ -6,8 +6,8 @@ export const DocumentApiDefinition = {
    */
   search: {
     method: 'get' as const,
-    server: 'search' as const,
-    client: () => '/document/search',
+    server: '/:organizationId/search' as const,
+    client: (organizationId) => `/document/${organizationId}/search`,
   },
 
   /**
@@ -15,8 +15,8 @@ export const DocumentApiDefinition = {
    */
   recent: {
     method: 'get' as const,
-    server: 'recent' as const,
-    client: () => '/document/recent',
+    server: '/:organizationId/recent' as const,
+    client: (organizationId) => `/document/${organizationId}/recent`,
   },
 
   /**

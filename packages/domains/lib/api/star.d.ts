@@ -1,8 +1,8 @@
 export declare const StarApiDefinition: {
     /**
-     * 收藏（或取消收藏）
+     * 加星或取消
      */
-    toggle: {
+    toggleStar: {
         method: "post";
         server: "toggle";
         client: () => string;
@@ -10,33 +10,33 @@ export declare const StarApiDefinition: {
     /**
      * 检测是否收藏
      */
-    check: {
+    isStared: {
         method: "post";
-        server: "check";
+        server: "isStared";
         client: () => string;
     };
     /**
-     * 获取收藏的知识库
+     * 获取组织内加星的知识库
      */
-    wikis: {
+    getStarWikisInOrganization: {
         method: "get";
-        server: "wikis";
-        client: () => string;
+        server: "/:organizationId/wikis";
+        client: (organizationId: any) => string;
     };
     /**
      * 获取知识库内加星的文章
      */
-    wikiDocuments: {
+    getStarDocumentsInWiki: {
         method: "get";
-        server: "wiki/documents";
+        server: "/wiki/documents";
         client: () => string;
     };
     /**
-     * 获取收藏的文档
+     * 获取组织内加星的文档
      */
-    documents: {
+    getStarDocumentsInOrganization: {
         method: "get";
-        server: "documents";
-        client: () => string;
+        server: "/:organizationId/documents";
+        client: (organizationId: any) => string;
     };
 };

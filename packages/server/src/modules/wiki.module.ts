@@ -1,8 +1,9 @@
 import { WikiController } from '@controllers/wiki.controller';
 import { WikiEntity } from '@entities/wiki.entity';
-import { WikiUserEntity } from '@entities/wiki-user.entity';
+import { AuthModule } from '@modules/auth.module';
 import { DocumentModule } from '@modules/document.module';
 import { MessageModule } from '@modules/message.module';
+import { OrganizationModule } from '@modules/organization.module';
 import { StarModule } from '@modules/star.module';
 import { UserModule } from '@modules/user.module';
 import { ViewModule } from '@modules/view.module';
@@ -12,12 +13,14 @@ import { WikiService } from '@services/wiki.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([WikiEntity, WikiUserEntity]),
+    TypeOrmModule.forFeature([WikiEntity]),
+    forwardRef(() => AuthModule),
     forwardRef(() => UserModule),
     forwardRef(() => DocumentModule),
     forwardRef(() => MessageModule),
     forwardRef(() => ViewModule),
     forwardRef(() => StarModule),
+    forwardRef(() => OrganizationModule),
   ],
   providers: [WikiService],
   exports: [WikiService],

@@ -1,3 +1,4 @@
+import { IOrganization } from './organization';
 import { IUser } from './user';
 import { IWiki } from './wiki';
 
@@ -14,6 +15,7 @@ export enum DocumentStatus {
  */
 export interface IDocument {
   id: string;
+  organizationId: IOrganization['id'];
   wikiId: IWiki['id'];
   isWikiHome: boolean;
   createUserId: IUser['id'];

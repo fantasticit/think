@@ -1,6 +1,6 @@
 import { DocumentController } from '@controllers/document.controller';
 import { DocumentEntity } from '@entities/document.entity';
-import { DocumentAuthorityEntity } from '@entities/document-authority.entity';
+import { AuthModule } from '@modules/auth.module';
 import { MessageModule } from '@modules/message.module';
 import { StarModule } from '@modules/star.module';
 import { TemplateModule } from '@modules/template.module';
@@ -14,7 +14,8 @@ import { DocumentService } from '@services/document.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([DocumentAuthorityEntity, DocumentEntity]),
+    TypeOrmModule.forFeature([DocumentEntity]),
+    forwardRef(() => AuthModule),
     forwardRef(() => ConfigModule),
     forwardRef(() => UserModule),
     forwardRef(() => WikiModule),

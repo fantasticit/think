@@ -1,92 +1,157 @@
+import { RedisDBEnum } from '@constants/*';
+import { DocumentEntity } from '@entities/document.entity';
+import { UserEntity } from '@entities/user.entity';
 import { ViewEntity } from '@entities/view.entity';
-import { parseUserAgent } from '@helpers/ua.helper';
+import { buildRedis } from '@helpers/redis.helper';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IDocument, IPagination, IUser } from '@think/domains';
+import { IDocument, IOrganization, IUser } from '@think/domains';
+import Redis from 'ioredis';
+import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class ViewService {
+  private redis: Redis;
+
   constructor(
     @InjectRepository(ViewEntity)
     private readonly viewRepo: Repository<ViewEntity>
-  ) {}
+  ) {
+    this.buildRedis();
+  }
+
+  private async buildRedis() {
+    try {
+      this.redis = await buildRedis(RedisDBEnum.view);
+      console.log('[think] 访问记录服务启动成功');
+    } catch (e) {
+      console.error(`[think] 访问记录服务启动错误: "${e.message}"`);
+    }
+  }
+
+  /**
+   * 文档访问量统计
+   * @param documentId
+   * @returns
+   */
+  private buildDocumentViewKey(documentId: IDocument['id']) {
+    return `views-${documentId}`;
+  }
+
+  /**
+   * 获取文档访问量
+   * @param documentId
+   * @returns
+   */
+  private getDocumentViews(documentId): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.redis.get(this.buildDocumentViewKey(documentId), (err, views) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(+views);
+        }
+      });
+    });
+  }
+
+  /**
+   * 文档访问量 +1
+   * @param documentId
+   */
+  private async recordDocumentViews(documentId) {
+    const views = await this.getDocumentViews(documentId);
+    this.redis.set(this.buildDocumentViewKey(documentId), String(views + 1));
+  }
+
+  /**
+   * 组织内用户访问记录
+   * @param organizationId
+   * @returns
+   */
+  private buildVisitedDocumentInOrganizationKey(organizationId) {
+    return `user-activity-in-${organizationId}`;
+  }
+
+  /**
+   * 记录组织内用户访问行为
+   * @param user
+   * @param document
+   */
+  private async recordUserVisitedDocumentInOrganization(user: UserEntity, document: DocumentEntity) {
+    const { id: userId } = user;
+    const { organizationId, id: documentId } = document;
+    const key = this.buildVisitedDocumentInOrganizationKey(organizationId);
+
+    const exists = await this.redis.hexists(key, userId);
+
+    if (!exists) {
+      await this.redis.hset(
+        key,
+        userId,
+        JSON.stringify([
+          {
+            documentId,
+            visitedAt: Date.now(),
+          },
+        ])
+      );
+    } else {
+      const oldData = await this.redis.hget(key, userId);
+      const visitedDocuments = (JSON.parse(oldData || '[]') || []).filter((record) => record.documentId !== documentId);
+      await this.redis.hset(
+        key,
+        userId,
+        JSON.stringify(
+          lodash.uniqBy(
+            [
+              {
+                documentId,
+                visitedAt: Date.now(),
+              },
+              ...visitedDocuments,
+            ],
+            (record) => record.documentId
+          )
+        )
+      );
+    }
+  }
 
   /**
    * 创建访问记录（内部调用，无公开接口）
    * @returns
    */
-  async create({ userId = 'public', documentId, userAgent }) {
-    const data = await this.viewRepo.create({
-      userId,
-      documentId,
-      originUserAgent: userAgent,
-      parsedUserAgent: parseUserAgent(userAgent).text,
-    });
-    const ret = await this.viewRepo.save(data);
-    return ret;
+  async create(user: UserEntity | null, document: DocumentEntity) {
+    await Promise.all([
+      this.recordDocumentViews(document.id),
+      user && this.recordUserVisitedDocumentInOrganization(user, document),
+    ]);
   }
 
-  async deleteViews(documentId) {
-    const records = await this.viewRepo.find({ documentId });
-    await this.viewRepo.remove(records);
+  public async getDocumentTotalViews(documentId) {
+    return await this.getDocumentViews(documentId);
   }
 
-  async getDocumentTotalViews(documentId) {
-    try {
-      const count = await this.viewRepo.query(
-        `SELECT COUNT(1)
-        FROM view 
-        WHERE view.documentId = '${documentId}'
-        `
-      );
-      return count[0]['COUNT(1)'];
-    } catch (e) {
-      return 0;
-    }
-  }
-
-  async getDocumentViews(documentId, pagination: IPagination) {
-    let { page = 1, pageSize = 12 } = pagination;
-    if (page <= 0) {
-      page = 1;
-    }
-    if (pageSize <= 0) {
-      pageSize = 12;
-    }
-    const take = pageSize;
-    const skip = page === 1 ? 0 : (page - 1) * pageSize;
-
-    const [data, total] = await this.viewRepo.findAndCount({
-      where: { documentId },
-      take,
-      skip,
-    });
-
-    return { data, total };
-  }
-
-  async getUserRecentVisitedDocuments(userId: IUser['id']): Promise<
+  public async getUserRecentVisitedDocuments(
+    userId: IUser['id'],
+    organizationId: IOrganization['id']
+  ): Promise<
     Array<{
       documentId: IDocument['id'];
       visitedAt: Date;
     }>
   > {
-    const count = 20;
-    const ret = await this.viewRepo.query(
-      `
-      SELECT v.documentId, v.visitedAt FROM (
-        SELECT ANY_VALUE(documentId) as documentId, ANY_VALUE(created_at) as visitedAt
-          FROM view 
-          WHERE view.userId = '${userId}'
-          GROUP BY visitedAt
-          ORDER BY visitedAt DESC
-      ) v
-      GROUP BY v.documentId
-      LIMIT ${count}
-      `
-    );
-    ret.sort((a, b) => -new Date(a.visitedAt).getTime() + new Date(b.visitedAt).getTime());
-    return ret;
+    const key = this.buildVisitedDocumentInOrganizationKey(organizationId);
+    const exists = await this.redis.hexists(key, userId);
+    let res = [];
+
+    if (exists) {
+      const oldData = await this.redis.hget(key, userId);
+      res = JSON.parse(oldData);
+    }
+
+    return res;
   }
 }

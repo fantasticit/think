@@ -7,16 +7,16 @@ exports.DocumentApiDefinition = {
      */
     search: {
         method: 'get',
-        server: 'search',
-        client: function () { return '/document/search'; }
+        server: '/:organizationId/search',
+        client: function (organizationId) { return "/document/".concat(organizationId, "/search"); }
     },
     /**
      * 获取用户最近访问的文档
      */
     recent: {
         method: 'get',
-        server: 'recent',
-        client: function () { return '/document/recent'; }
+        server: '/:organizationId/recent',
+        client: function (organizationId) { return "/document/".concat(organizationId, "/recent"); }
     },
     /**
      * 新建文档

@@ -16,6 +16,7 @@ const Actions = ({ node }) => {
       <DocumentActions
         key={node.id}
         hoverVisible
+        organizationId={node.organizationId}
         wikiId={node.wikiId}
         documentId={node.id}
         size="small"
@@ -83,7 +84,7 @@ export const Tree = ({
   const renderLabel = useCallback(
     (label, item) => (
       <div className={styles.treeItemWrap} id={`item-${item.id}`}>
-        <Link href={docAsLink} as={getDocLink(item.id)}>
+        <Link href={docAsLink} as={getDocLink(item)}>
           <a className={styles.left}>
             <Typography.Text
               ellipsis={{

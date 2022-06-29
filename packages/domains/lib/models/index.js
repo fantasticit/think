@@ -18,3 +18,5 @@ __exportStar(require("./template"), exports);
 __exportStar(require("./comment"), exports);
 __exportStar(require("./pagination"), exports);
 __exportStar(require("./system"), exports);
+__exportStar(require("./organization"), exports);
+__exportStar(require("./auth"), exports);

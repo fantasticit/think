@@ -29,6 +29,9 @@ export class WikiEntity {
   @Column({ type: 'varchar', comment: '创建用户 Id' })
   public createUserId: string;
 
+  @Column({ type: 'varchar', comment: '所属组织 Id' })
+  public organizationId: string;
+
   @Column({ type: 'varchar', comment: '知识库首页文档Id', default: '' })
   public homeDocumentId: string;
 
@@ -42,14 +45,14 @@ export class WikiEntity {
 
   @CreateDateColumn({
     type: 'timestamp',
-    name: 'created_at',
+    name: 'createdAt',
     comment: '创建时间',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
-    name: 'updated_at',
+    name: 'updatedAt',
     comment: '更新时间',
   })
   updatedAt: Date;

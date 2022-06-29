@@ -1,0 +1,16 @@
+.wrap {
+  display: inline-flex !important;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  > svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  > span {
+    margin-left: 4px;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+}

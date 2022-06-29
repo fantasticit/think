@@ -1,8 +1,8 @@
 export const StarApiDefinition = {
   /**
-   * 收藏（或取消收藏）
+   * 加星或取消
    */
-  toggle: {
+  toggleStar: {
     method: 'post' as const,
     server: 'toggle' as const,
     client: () => '/star/toggle',
@@ -11,36 +11,36 @@ export const StarApiDefinition = {
   /**
    * 检测是否收藏
    */
-  check: {
+  isStared: {
     method: 'post' as const,
-    server: 'check' as const,
-    client: () => '/star/check',
+    server: 'isStared' as const,
+    client: () => '/star/isStared',
   },
 
   /**
-   * 获取收藏的知识库
+   * 获取组织内加星的知识库
    */
-  wikis: {
+  getStarWikisInOrganization: {
     method: 'get' as const,
-    server: 'wikis' as const,
-    client: () => '/star/wikis',
+    server: '/:organizationId/wikis' as const,
+    client: (organizationId) => `/star/${organizationId}/wikis`,
   },
 
   /**
    * 获取知识库内加星的文章
    */
-  wikiDocuments: {
+  getStarDocumentsInWiki: {
     method: 'get' as const,
-    server: 'wiki/documents' as const,
-    client: () => '/star/wiki/documents',
+    server: '/wiki/documents' as const,
+    client: () => `/star/wiki/documents`,
   },
 
   /**
-   * 获取收藏的文档
+   * 获取组织内加星的文档
    */
-  documents: {
+  getStarDocumentsInOrganization: {
     method: 'get' as const,
-    server: 'documents' as const,
-    client: () => '/star/documents',
+    server: '/:organizationId/documents' as const,
+    client: (organizationId) => `/star/${organizationId}/documents`,
   },
 };

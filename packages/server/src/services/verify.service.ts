@@ -36,6 +36,8 @@ export class VerifyService {
 
     const verifyCode = randomInt(1000000).toString().padStart(6, '0');
     const record = await this.verifyRepo.save(await this.verifyRepo.create({ email, verifyCode }));
+    console.log(verifyCode);
+
     await this.systemService.sendEmail({
       to: email,
       subject: '验证码',

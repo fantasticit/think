@@ -1,6 +1,9 @@
 import { IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateDocumentDto {
+  @IsNotEmpty({ message: '组织Id不能为空' })
+  readonly organizationId: string;
+
   @IsNotEmpty({ message: '知识库Id不能为空' })
   readonly wikiId: string;
 

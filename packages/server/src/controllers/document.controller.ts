@@ -1,8 +1,9 @@
+import { OperateUserAuthDto } from '@dtos/auth.dto';
 import { CreateDocumentDto } from '@dtos/create-document.dto';
 import { DocAuthDto } from '@dtos/doc-auth.dto';
 import { ShareDocumentDto } from '@dtos/share-document.dto';
 import { UpdateDocumentDto } from '@dtos/update-document.dto';
-import { CheckDocumentAuthority, DocumentAuthorityGuard } from '@guard/document-auth.guard';
+// import { CheckDocumentAuthority, DocumentAuthorityGuard } from '@guard/document-auth.guard';
 import { CheckDocumentStatus, DocumentStatusGuard } from '@guard/document-status.guard';
 import { JwtGuard } from '@guard/jwt.guard';
 import {
@@ -25,7 +26,7 @@ import { DocumentService } from '@services/document.service';
 import { DocumentApiDefinition, DocumentStatus } from '@think/domains';
 
 @Controller('document')
-@UseGuards(DocumentAuthorityGuard)
+// @UseGuards(DocumentAuthorityGuard)
 @UseGuards(DocumentStatusGuard)
 export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
@@ -40,8 +41,8 @@ export class DocumentController {
   @Get(DocumentApiDefinition.search.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async search(@Request() req, @Query('keyword') keyword) {
-    return await this.documentService.search(req.user, keyword);
+  async search(@Request() req, @Param('organizationId') organizationId, @Query('keyword') keyword) {
+    return await this.documentService.search(req.user, organizationId, keyword);
   }
 
   /**
@@ -53,8 +54,8 @@ export class DocumentController {
   @Get(DocumentApiDefinition.recent.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getWorkspaceDocuments(@Request() req) {
-    return await this.documentService.getRecentDocuments(req.user);
+  async getWorkspaceDocuments(@Request() req, @Param('organizationId') organizationId) {
+    return await this.documentService.getRecentDocuments(req.user, organizationId);
   }
 
   /**
@@ -77,10 +78,10 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(DocumentApiDefinition.getDetailById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('readable')
+  // @CheckDocumentAuthority('readable')
   @UseGuards(JwtGuard)
   async getDocumentDetail(@Request() req, @Param('id') documentId) {
-    return await this.documentService.getDocumentDetail(req.user, documentId, req.headers['user-agent']);
+    return await this.documentService.getDocumentDetail(req.user, documentId);
   }
 
   /**
@@ -93,7 +94,7 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(DocumentApiDefinition.updateById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('editable')
+  // @CheckDocumentAuthority('editable')
   @UseGuards(JwtGuard)
   async updateDocument(@Request() req, @Param('id') documentId, @Body() dto: UpdateDocumentDto) {
     return await this.documentService.updateDocument(req.user, documentId, dto);
@@ -108,7 +109,7 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(DocumentApiDefinition.getVersionById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('readable')
+  // @CheckDocumentAuthority('readable')
   @UseGuards(JwtGuard)
   async getDocumentVersion(@Request() req, @Param('id') documentId) {
     return await this.documentService.getDocumentVersion(req.user, documentId);
@@ -123,7 +124,7 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(DocumentApiDefinition.getMemberById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('readable')
+  // @CheckDocumentAuthority('readable')
   @UseGuards(JwtGuard)
   async getDocUsers(@Request() req, @Param('id') documentId) {
     return await this.documentService.getDocUsers(req.user, documentId);
@@ -139,10 +140,10 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post(DocumentApiDefinition.addMemberById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('createUser')
+  // @CheckDocumentAuthority('createUser')
   @UseGuards(JwtGuard)
-  async addDocUser(@Request() req, @Body() dto: DocAuthDto) {
-    return await this.documentService.addDocUser(req.user, dto);
+  async addDocUser(@Request() req, @Param('id') documentId, @Body() dto: OperateUserAuthDto) {
+    return await this.documentService.addDocUser(req.user, documentId, dto);
   }
 
   /**
@@ -155,10 +156,10 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(DocumentApiDefinition.updateMemberById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('createUser')
+  // @CheckDocumentAuthority('createUser')
   @UseGuards(JwtGuard)
-  async updateDocUser(@Request() req, @Body() dto: DocAuthDto) {
-    return await this.documentService.updateDocUser(req.user, dto);
+  async updateDocUser(@Request() req, @Param('id') documentId, @Body() dto: OperateUserAuthDto) {
+    return await this.documentService.updateDocUser(req.user, documentId, dto);
   }
 
   /**
@@ -171,10 +172,10 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post(DocumentApiDefinition.deleteMemberById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('createUser')
+  // @CheckDocumentAuthority('createUser')
   @UseGuards(JwtGuard)
-  async deleteDocUser(@Request() req, @Body() dto: DocAuthDto) {
-    return await this.documentService.deleteDocUser(req.user, dto);
+  async deleteDocUser(@Request() req, @Param('id') documentId, @Body() dto: OperateUserAuthDto) {
+    return await this.documentService.deleteDocUser(req.user, documentId, dto);
   }
 
   /**
@@ -186,7 +187,7 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post(DocumentApiDefinition.getChildren.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('readable')
+  // @CheckDocumentAuthority('readable')
   @UseGuards(JwtGuard)
   async getChildrenDocuments(@Request() req, @Body() data) {
     return await this.documentService.getChildrenDocuments(req.user, data);
@@ -201,7 +202,7 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(DocumentApiDefinition.deleteById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('createUser')
+  // @CheckDocumentAuthority('createUser')
   @UseGuards(JwtGuard)
   async deleteDocument(@Request() req, @Param('id') documentId) {
     return await this.documentService.deleteDocument(req.user, documentId);
@@ -217,7 +218,7 @@ export class DocumentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post(DocumentApiDefinition.shareById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckDocumentAuthority('editable')
+  // @CheckDocumentAuthority('editable')
   @UseGuards(JwtGuard)
   async shareDocument(@Request() req, @Param('id') documentId, @Body() dto: ShareDocumentDto) {
     return await this.documentService.shareDocument(req.user, documentId, dto);
@@ -235,7 +236,7 @@ export class DocumentController {
   @CheckDocumentStatus(DocumentStatus.public)
   @HttpCode(HttpStatus.OK)
   async getShareDocumentDetail(@Request() req, @Param('id') documentId, @Body() dto: ShareDocumentDto) {
-    return await this.documentService.getPublicDocumentDetail(documentId, dto, req.headers['user-agent']);
+    return await this.documentService.getPublicDocumentDetail(documentId, dto);
   }
 
   /**

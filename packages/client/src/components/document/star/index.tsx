@@ -1,12 +1,13 @@
 import { IconStar } from '@douyinfe/semi-icons';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
-import { IDocument, IWiki } from '@think/domains';
+import { IDocument, IOrganization, IWiki } from '@think/domains';
 import { useDocumentStarToggle } from 'data/star';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
 interface IProps {
+  organizationId: IOrganization['id'];
   wikiId: IWiki['id'];
   documentId: IDocument['id'];
   disabled?: boolean;
@@ -18,9 +19,9 @@ interface IProps {
   }) => React.ReactNode;
 }
 
-export const DocumentStar: React.FC<IProps> = ({ wikiId, documentId, disabled = false, render }) => {
+export const DocumentStar: React.FC<IProps> = ({ organizationId, wikiId, documentId, disabled = false, render }) => {
   const [visible, toggleVisible] = useToggle(false);
-  const { data, toggle: toggleStar } = useDocumentStarToggle(wikiId, documentId, { enabled: visible });
+  const { data, toggle: toggleStar } = useDocumentStarToggle(organizationId, wikiId, documentId, { enabled: visible });
   const text = data ? '取消收藏' : '收藏文档';
 
   const onViewportChange = useCallback(

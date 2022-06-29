@@ -5,24 +5,24 @@ export declare const WikiApiDefinition: {
      */
     getAllWikis: {
         method: "get";
-        server: "list/all";
-        client: () => string;
+        server: "list/all/:organizationId";
+        client: (organizationId: any) => string;
     };
     /**
      * 获取用户创建的知识库
      */
     getOwnWikis: {
         method: "get";
-        server: "list/own";
-        client: () => string;
+        server: "list/own/:organizationId";
+        client: (organizationId: any) => string;
     };
     /**
      * 获取用户参与的知识库
      */
     getJoinWikis: {
         method: "get";
-        server: "list/join";
-        client: () => string;
+        server: "list/join/:organizationId";
+        client: (organizationId: any) => string;
     };
     /**
      * 新建知识库

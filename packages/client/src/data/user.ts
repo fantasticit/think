@@ -109,7 +109,7 @@ export const useUser = () => {
         refetch();
         setStorage('user', JSON.stringify(user));
         user.token && setStorage('token,', user.token);
-        const next = router.query?.redirect || '/';
+        const next = router.query?.redirect || '/app';
         Router.replace(next as string);
       });
     },

@@ -2,7 +2,9 @@ import { StarDto } from '@dtos/star.dto';
 import { StarEntity } from '@entities/star.entity';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthService } from '@services/auth.service';
 import { DocumentService } from '@services/document.service';
+import { OrganizationService } from '@services/organization.service';
 import { OutUser, UserService } from '@services/user.service';
 import { WikiService } from '@services/wiki.service';
 import { IDocument } from '@think/domains';
@@ -14,10 +16,19 @@ export class StarService {
   constructor(
     @InjectRepository(StarEntity)
     private readonly starRepo: Repository<StarEntity>,
+
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
+
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
+
+    @Inject(forwardRef(() => OrganizationService))
+    private readonly organizationService: OrganizationService,
+
     @Inject(forwardRef(() => WikiService))
     private readonly wikiService: WikiService,
+
     @Inject(forwardRef(() => DocumentService))
     private readonly documentService: DocumentService
   ) {}
@@ -56,12 +67,19 @@ export class StarService {
   }
 
   /**
-   * 获取加星的知识库
+   * 获取组织内加星的知识库
    * @param user
    * @returns
    */
-  async getWikis(user: OutUser) {
+  async getStarWikisInOrganization(user: OutUser, organizationId) {
+    await this.authService.canView(user.id, {
+      organizationId: organizationId,
+      wikiId: null,
+      documentId: null,
+    });
+
     const records = await this.starRepo.find({
+      organizationId,
       userId: user.id,
       documentId: null,
     });
@@ -69,8 +87,8 @@ export class StarService {
     const withCreateUserRes = await Promise.all(
       res.map(async (wiki) => {
         const createUser = await this.userService.findById(wiki.createUserId);
-        const isMember = await this.wikiService.isMember(wiki.id, user.id);
-        return { createUser, isMember, ...wiki };
+        // const isMember = await this.wikiService.isMember(wiki.id, user.id);
+        return { createUser, isMember: true, ...wiki };
       })
     );
 
@@ -82,7 +100,7 @@ export class StarService {
    * @param user
    * @returns
    */
-  async getWikiDocuments(user: OutUser, dto: StarDto) {
+  async getStarDocumentsInWiki(user: OutUser, dto: StarDto) {
     const records = await this.starRepo.find({
       userId: user.id,
       wikiId: dto.wikiId,
@@ -112,12 +130,19 @@ export class StarService {
   }
 
   /**
-   * 获取加星的文档（平铺）
+   * 获取组织内加星的文档（平铺）
    * @param user
    * @returns
    */
-  async getDocuments(user: OutUser) {
+  async getStarDocumentsInOrganization(user: OutUser, organizationId) {
+    await this.authService.canView(user.id, {
+      organizationId: organizationId,
+      wikiId: null,
+      documentId: null,
+    });
+
     const records = await this.starRepo.find({
+      organizationId,
       userId: user.id,
     });
     const res = await this.documentService.findByIds(records.map((record) => record.documentId));
