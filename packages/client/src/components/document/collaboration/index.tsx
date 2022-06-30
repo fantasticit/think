@@ -26,7 +26,10 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
         <Members
           id={documentId}
           hook={useDoumentMembers}
-          descriptions={['权限继承：默认继承知识库成员权限', '超级管理员：知识库超级管理员和文档创建者']}
+          descriptions={[
+            '权限继承：默认继承知识库成员权限',
+            '超级管理员：组织超级管理员、知识库超级管理员和文档创建者',
+          ]}
         />
       </div>
     ),

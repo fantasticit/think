@@ -10,7 +10,7 @@ var AuthEnum;
     AuthEnum["noAccess"] = "noAccess";
 })(AuthEnum = exports.AuthEnum || (exports.AuthEnum = {}));
 exports.AuthEnumTextMap = (_a = {},
-    _a[AuthEnum.creator] = '创建者',
+    _a[AuthEnum.creator] = '超级管理员',
     _a[AuthEnum.admin] = '管理员',
     _a[AuthEnum.member] = '成员',
     _a[AuthEnum.noAccess] = '无权限',

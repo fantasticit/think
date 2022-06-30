@@ -43,7 +43,7 @@ export const Members: React.FC<IProps> = ({ id, hook, descriptions }) => {
                     })
                   ) : (
                     <>
-                      <Paragraph>创建者：管理组织内所有知识库、文档，可删除组织</Paragraph>
+                      <Paragraph>超级管理员：管理组织内所有知识库、文档，可删除组织，默认创建者</Paragraph>
                       <Paragraph>管理员：管理组织内所有知识库、文档，不可删除组织</Paragraph>
                       <Paragraph>成员：可访问组织内所有知识库、文档，不可删除组织</Paragraph>
                     </>

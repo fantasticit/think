@@ -8,7 +8,7 @@ export enum AuthEnum {
 }
 
 export const AuthEnumTextMap = {
-  [AuthEnum.creator]: '创建者',
+  [AuthEnum.creator]: '超级管理员',
   [AuthEnum.admin]: '管理员',
   [AuthEnum.member]: '成员',
   [AuthEnum.noAccess]: '无权限',
