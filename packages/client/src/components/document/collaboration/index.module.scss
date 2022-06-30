@@ -1,0 +1,7 @@
+.userTable {
+  :global {
+    [class$='-pagination-outer'] {
+      flex-direction: column;
+    }
+  }
+}
