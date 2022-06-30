@@ -15,7 +15,10 @@ const { Text } = Typography;
 
 export const DocumentCard: React.FC<{ document: IDocument }> = ({ document }) => {
   const gotoEdit = useCallback(() => {
-    Router.push(`/wiki/${document.wikiId}/document/${document.id}/edit`);
+    Router.push({
+      pathname: `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]/edit`,
+      query: { organizationId: document.organizationId, wikiId: document.wikiId, documentId: document.id },
+    });
   }, [document]);
 
   return (
