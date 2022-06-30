@@ -27,7 +27,7 @@ export const EditUser: React.FC<IProps> = ({ userWithAuth, updateUser, children 
             <Banner style={{ marginBottom: 16 }} type="warning" description="请谨慎操作管理员权限！" />
           ) : null}
           {}
-          <Select value={userAuth} onChange={setUserAuth} style={{ width: '100%' }}>
+          <Select value={userAuth} onChange={setUserAuth} style={{ width: '100%' }} zIndex={1080}>
             {AuthEnumArray.map((wikiStatus) => {
               return (
                 <Select.Option key={wikiStatus.value} value={wikiStatus.value}>
