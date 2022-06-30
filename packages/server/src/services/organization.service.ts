@@ -139,12 +139,15 @@ export class OrganizationService {
    * @returns
    */
   public async getOrganizationDetail(user: IUser, id: IOrganization['id']) {
+    const organization = await this.organizationRepo.findOne({ id });
+    if (!organization) {
+      throw new HttpException('组织不存在', HttpStatus.NOT_FOUND);
+    }
     await this.authService.canView(user.id, {
       organizationId: id,
       wikiId: null,
       documentId: null,
     });
-    const organization = await this.organizationRepo.findOne({ id });
     return organization;
   }
 
