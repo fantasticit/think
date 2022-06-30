@@ -11,6 +11,7 @@ import styles from './index.module.scss';
 const { Text, Paragraph } = Typography;
 
 export const UserOrganizationsSwitcher = () => {
+  const { organizationId } = useRouterQuery<{ organizationId: string }>();
   const {
     data: userOrganizations,
     loading: userOrganizationsLoading,
@@ -29,34 +30,36 @@ export const UserOrganizationsSwitcher = () => {
               <Dropdown.Menu>
                 {userOrganizations.length ? (
                   <>
-                    {userOrganizations.map((org) => {
-                      return (
-                        <Dropdown.Item key={org.id} style={{ padding: 0 }}>
-                          <Link
-                            href={{
-                              pathname: '/app/org/[organizationId]',
-                              query: {
-                                organizationId: org.id,
-                              },
-                            }}
-                          >
-                            <a style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '8px 16px' }}>
-                              <Avatar size="extra-small" src={org.logo} style={{ marginRight: 8 }} />
-                              <Paragraph
-                                style={{
-                                  maxWidth: 100,
-                                  whiteSpace: 'nowrap',
-                                  textOverflow: 'ellipsis',
-                                  overflow: 'hidden',
-                                }}
-                              >
-                                {org.name}
-                              </Paragraph>
-                            </a>
-                          </Link>
-                        </Dropdown.Item>
-                      );
-                    })}
+                    {userOrganizations
+                      .filter((org) => org.id !== organizationId)
+                      .map((org) => {
+                        return (
+                          <Dropdown.Item key={org.id} style={{ padding: 0 }}>
+                            <Link
+                              href={{
+                                pathname: '/app/org/[organizationId]',
+                                query: {
+                                  organizationId: org.id,
+                                },
+                              }}
+                            >
+                              <a style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '8px 16px' }}>
+                                <Avatar size="extra-small" src={org.logo} style={{ marginRight: 8 }} />
+                                <Paragraph
+                                  style={{
+                                    maxWidth: 100,
+                                    whiteSpace: 'nowrap',
+                                    textOverflow: 'ellipsis',
+                                    overflow: 'hidden',
+                                  }}
+                                >
+                                  {org.name}
+                                </Paragraph>
+                              </a>
+                            </Link>
+                          </Dropdown.Item>
+                        );
+                      })}
                     <Dropdown.Divider />
                   </>
                 ) : null}
