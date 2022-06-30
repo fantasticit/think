@@ -18,6 +18,8 @@ export const EditUser: React.FC<IProps> = ({ userWithAuth, updateUser, children 
 
   return (
     <Popconfirm
+      showArrow
+      zIndex={1070}
       title={`修改用户${userWithAuth && userWithAuth.user.name}权限`}
       content={
         <div style={{ margin: '16px -68px 0 0' }}>

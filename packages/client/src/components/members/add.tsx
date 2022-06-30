@@ -19,6 +19,7 @@ export const AddUser: React.FC<IProps> = ({ onOk, children }) => {
 
   return (
     <Popconfirm
+      showArrow
       zIndex={1070}
       title={'添加成员'}
       okText={'邀请对方'}
