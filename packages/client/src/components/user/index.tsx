@@ -2,7 +2,8 @@ import { IconSpin } from '@douyinfe/semi-icons';
 import { Avatar, Button, Dropdown, Typography } from '@douyinfe/semi-ui';
 import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
-import React from 'react';
+import Router from 'next/router';
+import React, { useCallback } from 'react';
 
 import { UserSetting } from './setting';
 
@@ -11,6 +12,10 @@ const { Text } = Typography;
 export const User: React.FC = () => {
   const { user, loading, error, toLogin, logout } = useUser();
   const [visible, toggleVisible] = useToggle(false);
+
+  const toAdmin = useCallback(() => {
+    Router.push('/admin');
+  }, []);
 
   if (loading) return <Button icon={<IconSpin />} theme="borderless" type="tertiary" />;
 
@@ -32,6 +37,11 @@ export const User: React.FC = () => {
             <Dropdown.Item onClick={() => toggleVisible(true)}>
               <Text>账户设置</Text>
             </Dropdown.Item>
+            {user.isSystemAdmin ? (
+              <Dropdown.Item onClick={toAdmin}>
+                <Text>管理后台</Text>
+              </Dropdown.Item>
+            ) : null}
             <Dropdown.Divider />
             <Dropdown.Item onClick={logout}>
               <Text>退出登录</Text>

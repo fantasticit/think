@@ -49,6 +49,7 @@
     "lodash": "^4.17.21",
     "mysql2": "^2.3.3",
     "nestjs-pino": "^2.5.2",
+    "nodemailer": "^6.7.5",
     "nuid": "^1.1.6",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
@@ -61,6 +62,7 @@
     "rxjs": "^7.2.0",
     "typeorm": "^0.2.41",
     "ua-parser-js": "^1.0.2",
+    "validator": "^13.7.0",
     "y-prosemirror": "^1.0.14",
     "yjs": "^13.5.24"
   },

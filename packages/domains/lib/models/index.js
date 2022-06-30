@@ -17,3 +17,4 @@ __exportStar(require("./message"), exports);
 __exportStar(require("./template"), exports);
 __exportStar(require("./comment"), exports);
 __exportStar(require("./pagination"), exports);
+__exportStar(require("./system"), exports);

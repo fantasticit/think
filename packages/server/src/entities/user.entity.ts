@@ -28,11 +28,14 @@ export class UserEntity {
   @Column({ type: 'varchar', length: 200, comment: '用户加密密码' })
   public password: string;
 
-  @Column({ type: 'varchar', comment: '头像地址', default: '' })
+  @Column({ type: 'varchar', length: 500, comment: '头像地址', default: '' })
   public avatar: string;
 
-  @Column({ type: 'varchar', comment: '邮箱地址', default: '' })
+  @Column({ type: 'varchar', comment: '邮箱地址' })
   public email: string;
+
+  @Column({ type: 'boolean', default: false, comment: '是否为系统管理员' })
+  isSystemAdmin: boolean;
 
   @Column({
     type: 'enum',

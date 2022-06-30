@@ -1,7 +1,12 @@
 #! /bin/bash
 # 该脚本只保留生产环境运行所需文件到统一目录
+if [ ! -f './config/prod.yaml' ]; then
+  echo "缺少 config/prod.yaml 文件，可参考 docker-prod-sample.yaml 进行配置"
+  exit 1
+fi
 
 # 构建
+pnpm fetch --prod
 pnpm install
 pnpm run build
 
@@ -71,7 +76,7 @@ cd ../../
 # @see https://github.com/typicode/husky/issues/914#issuecomment-826768549
 cd ${outputDir}
 npm set-script prepare ""
-pnpm install -r --prod
+pnpm install -r --offline --prod
 cd ../
 
 echo "${outputDir} 打包完成"

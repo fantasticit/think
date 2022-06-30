@@ -1,8 +1,14 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { getShortId } from '@helpers/shortid.herlper';
+import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('template')
 export class TemplateEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @BeforeInsert()
+  getShortId() {
+    this.id = getShortId();
+  }
+
+  @PrimaryColumn()
   public id: string;
 
   @Column({ type: 'boolean', default: false, comment: '是否公开' })

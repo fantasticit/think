@@ -9,7 +9,7 @@ import { useWikiDetail, useWikiTocs } from 'data/wiki';
 import { triggerCreateDocument } from 'event';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import styles from './index.module.scss';
 import { Tree } from './tree';
@@ -29,7 +29,7 @@ export const WikiTocs: React.FC<IProps> = ({
   docAsLink = '/wiki/[wikiId]/document/[documentId]',
   getDocLink = (documentId) => `/wiki/${wikiId}/document/${documentId}`,
 }) => {
-  const { pathname } = useRouter();
+  const { pathname, query } = useRouter();
   const { data: wiki, loading: wikiLoading, error: wikiError } = useWikiDetail(wikiId);
   const { data: tocs, loading: tocsLoading, error: tocsError } = useWikiTocs(wikiId);
   const { data: starWikis } = useStarWikis();
@@ -39,6 +39,7 @@ export const WikiTocs: React.FC<IProps> = ({
     error: starDocumentsError,
   } = useWikiStarDocuments(wikiId);
   const [parentIds, setParentIds] = useState<Array<string>>([]);
+  const otherStarWikis = useMemo(() => (starWikis || []).filter((wiki) => wiki.id !== wikiId), [starWikis, wikiId]);
 
   useEffect(() => {
     if (!tocs || !tocs.length) return;
@@ -73,15 +74,14 @@ export const WikiTocs: React.FC<IProps> = ({
             </div>
           }
           error={wikiError}
-          normalContent={() => (
-            <Dropdown
-              trigger={'click'}
-              position="bottomRight"
-              render={
-                <Dropdown.Menu style={{ width: 180 }}>
-                  {(starWikis || [])
-                    .filter((wiki) => wiki.id !== wikiId)
-                    .map((wiki) => {
+          normalContent={() =>
+            otherStarWikis.length ? (
+              <Dropdown
+                trigger={'click'}
+                position="bottomRight"
+                render={
+                  <Dropdown.Menu style={{ width: 180 }}>
+                    {otherStarWikis.map((wiki) => {
                       return (
                         <Dropdown.Item key={wiki.id}>
                           <Link
@@ -93,35 +93,55 @@ export const WikiTocs: React.FC<IProps> = ({
                             <a
                               style={{
                                 display: 'flex',
+                                alignItems: 'center',
                                 width: '100%',
                               }}
                             >
-                              <span>
-                                <Avatar
-                                  shape="square"
-                                  size="small"
-                                  src={wiki.avatar}
-                                  style={{
-                                    marginRight: 8,
-                                    width: 24,
-                                    height: 24,
-                                    borderRadius: 4,
-                                  }}
-                                >
-                                  {wiki.name.charAt(0)}
-                                </Avatar>
-                                <Text strong ellipsis={{ rows: 1 }}>
-                                  {wiki.name}
-                                </Text>
-                              </span>
+                              <Avatar
+                                shape="square"
+                                size="small"
+                                src={wiki.avatar}
+                                style={{
+                                  marginRight: 8,
+                                  width: 24,
+                                  height: 24,
+                                  borderRadius: 4,
+                                }}
+                              >
+                                {wiki.name.charAt(0)}
+                              </Avatar>
+                              <Text strong style={{ width: 120 }} ellipsis={{ showTooltip: true }}>
+                                {wiki.name}
+                              </Text>
                             </a>
                           </Link>
                         </Dropdown.Item>
                       );
                     })}
-                </Dropdown.Menu>
-              }
-            >
+                  </Dropdown.Menu>
+                }
+              >
+                <div className={styles.titleWrap}>
+                  <span>
+                    <Avatar
+                      shape="square"
+                      size="small"
+                      src={wiki.avatar}
+                      style={{
+                        marginRight: 8,
+                        width: 24,
+                        height: 24,
+                        borderRadius: 4,
+                      }}
+                    >
+                      {wiki.name.charAt(0)}
+                    </Avatar>
+                    <Text strong>{wiki.name}</Text>
+                  </span>
+                  <IconSmallTriangleDown />
+                </div>
+              </Dropdown>
+            ) : (
               <div className={styles.titleWrap}>
                 <span>
                   <Avatar
@@ -139,10 +159,9 @@ export const WikiTocs: React.FC<IProps> = ({
                   </Avatar>
                   <Text strong>{wiki.name}</Text>
                 </span>
-                <IconSmallTriangleDown />
               </div>
-            </Dropdown>
-          )}
+            )
+          }
         />
 
         <DataRender
@@ -170,7 +189,12 @@ export const WikiTocs: React.FC<IProps> = ({
           }
           error={wikiError}
           normalContent={() => (
-            <div className={cls(styles.linkWrap, pathname === '/wiki/[wikiId]' && styles.isActive)}>
+            <div
+              className={cls(
+                styles.linkWrap,
+                (pathname === '/wiki/[wikiId]' || query.documentId === wiki.homeDocumentId) && styles.isActive
+              )}
+            >
               <Link
                 href={{
                   pathname: `/wiki/[wikiId]`,
@@ -179,7 +203,7 @@ export const WikiTocs: React.FC<IProps> = ({
               >
                 <a>
                   <IconOverview style={{ fontSize: '1em' }} />
-                  <span>主页</span>
+                  <Text>主页</Text>
                 </a>
               </Link>
             </div>
@@ -220,7 +244,7 @@ export const WikiTocs: React.FC<IProps> = ({
               >
                 <a>
                   <IconSetting style={{ fontSize: '1em' }} />
-                  <span>设置</span>
+                  <Text>设置</Text>
                 </a>
               </Link>
             </div>

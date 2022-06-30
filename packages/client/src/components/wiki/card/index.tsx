@@ -42,7 +42,9 @@ export const WikiCard: React.FC<{ wiki: IWikiWithIsMember; shareMode?: boolean }
           </header>
           <main>
             <div style={{ marginBottom: 12 }}>
-              <Text strong>{wiki.name}</Text>
+              <Paragraph ellipsis={{ rows: 1 }} strong>
+                {wiki.name}
+              </Paragraph>
               <Paragraph ellipsis={{ rows: 1 }}>{wiki.description}</Paragraph>
             </div>
             <div>

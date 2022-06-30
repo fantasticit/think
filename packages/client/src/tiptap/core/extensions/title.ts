@@ -30,7 +30,7 @@ export const Title = Node.create<TitleOptions>({
   addOptions() {
     return {
       HTMLAttributes: {
-        class: 'title',
+        class: 'node-title',
       },
     };
   },
@@ -47,7 +47,7 @@ export const Title = Node.create<TitleOptions>({
   parseHTML() {
     return [
       {
-        tag: 'div[class=title]',
+        tag: 'div[class=node-title]',
       },
     ];
   },
