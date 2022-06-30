@@ -101,6 +101,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
         </>
       ) : (
         <Dropdown
+          stopPropagation={true}
           visible={visible}
           onVisibleChange={toggleVisible}
           trigger="click"
