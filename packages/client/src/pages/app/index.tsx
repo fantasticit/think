@@ -42,9 +42,7 @@ const Page = () => {
           <Title heading={3} style={{ margin: '8px 0' }}>
             组织列表
           </Title>
-          <Button theme="solid" onClick={gotoCreate}>
-            新建组织
-          </Button>
+          <Button onClick={gotoCreate}>新建组织</Button>
         </div>
         <DataRender
           loading={userOrganizationsLoading}

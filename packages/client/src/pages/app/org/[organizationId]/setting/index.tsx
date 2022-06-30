@@ -1,3 +1,4 @@
+import { Typography } from '@douyinfe/semi-ui';
 import { IOrganization } from '@think/domains';
 import { OrganizationSetting } from 'components/organization/setting';
 import { AppSingleColumnLayout } from 'layouts/app-single-column';
@@ -8,6 +9,8 @@ import React, { useCallback } from 'react';
 interface IProps {
   organizationId: IOrganization['id'];
 }
+
+const { Title } = Typography;
 
 const Page: NextPage<IProps> = ({ organizationId }) => {
   const { query = {} } = useRouter();
@@ -28,7 +31,12 @@ const Page: NextPage<IProps> = ({ organizationId }) => {
 
   return (
     <AppSingleColumnLayout>
-      <div className="container" style={{ padding: '16px 24px' }}>
+      <div className="container">
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Title heading={3} style={{ margin: '8px 0' }}>
+            组织设置
+          </Title>
+        </div>
         <OrganizationSetting organizationId={organizationId} tab={tab} onNavigate={navigate} />
       </div>
     </AppSingleColumnLayout>

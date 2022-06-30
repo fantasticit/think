@@ -49,7 +49,7 @@ const Page: React.FC = () => {
   return (
     <SingleColumnLayout>
       <div className="container">
-        <div style={{ marginBottom: 24 }}>
+        <div>
           <Title heading={3} style={{ margin: '8px 0' }}>
             新建组织
           </Title>
