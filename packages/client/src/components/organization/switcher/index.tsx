@@ -119,32 +119,34 @@ export const OrganizationSwitcher = () => {
       error={error}
       normalContent={() => {
         return (
-          <Link
-            href={{
-              pathname: '/app/org/[organizationId]',
-              query: {
-                organizationId: data.id,
-              },
-            }}
-          >
-            <a className={styles.nameWrap}>
-              <span style={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar size="small" src={data.logo} style={{ marginRight: 8 }} />
-                <Paragraph
-                  style={{
-                    maxWidth: 100,
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                  }}
-                  strong
-                >
-                  {data.name}
-                </Paragraph>
-              </span>
-              <UserOrganizationsSwitcher />
-            </a>
-          </Link>
+          <>
+            <Link
+              href={{
+                pathname: '/app/org/[organizationId]',
+                query: {
+                  organizationId: data.id,
+                },
+              }}
+            >
+              <a className={styles.nameWrap}>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
+                  <Avatar size="small" src={data.logo} style={{ marginRight: 8 }} />
+                  <Paragraph
+                    style={{
+                      maxWidth: 100,
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                    }}
+                    strong
+                  >
+                    {data.name}
+                  </Paragraph>
+                </span>
+              </a>
+            </Link>
+            <UserOrganizationsSwitcher />
+          </>
         );
       }}
     />
