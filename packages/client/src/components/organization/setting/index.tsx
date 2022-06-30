@@ -36,29 +36,9 @@ export const OrganizationSetting: React.FC<IProps> = ({ organizationId, tab, onN
           <OrganizationMembers organizationId={organizationId} />
         </TabPane>
 
-        {/* <TabPane tab={TitleMap['base']} itemKey="base">
-          <Base wiki={data} update={update as any} />
-        </TabPane>
-
-        <TabPane tab={TitleMap['users']} itemKey="users">
-          <Users wikiId={wikiId} />
-        </TabPane>
-
-        <TabPane tab={TitleMap['tocs']} itemKey="tocs">
-          <WikiTocsManager wikiId={wikiId} />
-        </TabPane>
-
-        <TabPane tab={TitleMap['privacy']} itemKey="privacy">
-          <Privacy wikiId={wikiId} />
-        </TabPane>
-
-        <TabPane tab={TitleMap['import']} itemKey="import">
-          <Import wikiId={wikiId} />
-        </TabPane>
-
         <TabPane tab={TitleMap['more']} itemKey="more">
-          <More wikiId={wikiId} />
-        </TabPane> */}
+          <More organizationId={organizationId} />
+        </TabPane>
       </Tabs>
     </>
   );

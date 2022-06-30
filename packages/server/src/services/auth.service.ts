@@ -3,7 +3,7 @@ import { AuthEntity } from '@entities/auth.entity';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserService } from '@services/user.service';
-import { AuthEnum, IDocument, IOrganization, IUser, IWiki } from '@think/domains';
+import { AuthEnum, IDocument, IOrganization, IPagination, IUser, IWiki } from '@think/domains';
 import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 
@@ -40,8 +40,6 @@ export class AuthService {
     delete auth.auth;
     const wrappedAuth = { userId, ...auth };
     const oldAuth = await this.authRepo.findOne(wrappedAuth);
-
-    // TODO: 这里可以判断权限继承
 
     let newAuth: AuthEntity;
 
@@ -81,6 +79,48 @@ export class AuthService {
   }
 
   /**
+   * 删除组织
+   * 注意：该方法是直接删除，可调用 canDelete 判断是否可删除
+   * @param organizationId
+   */
+  async deleteOrganization(organizationId: IOrganization['id']) {
+    const res = await this.authRepo.find({
+      organizationId,
+    });
+    await this.authRepo.remove(res);
+  }
+
+  /**
+   * 删除知识库
+   * 注意：该方法是直接删除，可调用 canDelete 判断是否可删除
+   * @param organizationId
+   * @param wikiId
+   */
+  async deleteWiki(organizationId: IOrganization['id'], wikiId: IWiki['id']) {
+    const res = await this.authRepo.find({
+      organizationId,
+      wikiId,
+    });
+    await this.authRepo.remove(res);
+  }
+
+  /**
+   * 删除文档
+   * 注意：该方法是直接删除，可调用 canDelete 判断是否可删除
+   * @param organizationId
+   * @param wikiId
+   * @param documentId
+   */
+  async deleteDocument(organizationId: IOrganization['id'], wikiId: IWiki['id'], documentId: IDocument['id']) {
+    const res = await this.authRepo.find({
+      organizationId,
+      wikiId,
+      documentId,
+    });
+    await this.authRepo.remove(res);
+  }
+
+  /**
    * 用户是否可查看目标
    * @param userId
    * @param dto
@@ -97,7 +137,7 @@ export class AuthService {
     const userAuth = await this.authRepo.findOne(conditions);
 
     if (!userAuth || userAuth.auth === AuthEnum.noAccess) {
-      throw new HttpException('您没有权限查看', HttpStatus.FORBIDDEN);
+      throw new HttpException('您没有权限', HttpStatus.FORBIDDEN);
     }
 
     return userAuth;
@@ -120,7 +160,7 @@ export class AuthService {
     const userAuth = await this.authRepo.findOne(conditions);
 
     if (!userAuth || ![AuthEnum.creator, AuthEnum.admin].includes(userAuth.auth)) {
-      throw new HttpException('您没有权限编辑', HttpStatus.FORBIDDEN);
+      throw new HttpException('您没有权限', HttpStatus.FORBIDDEN);
     }
 
     return userAuth;
@@ -143,7 +183,7 @@ export class AuthService {
     const userAuth = await this.authRepo.findOne(conditions);
 
     if (!userAuth || ![AuthEnum.creator].includes(userAuth.auth)) {
-      throw new HttpException('您没有权限删除', HttpStatus.FORBIDDEN);
+      throw new HttpException('您没有权限', HttpStatus.FORBIDDEN);
     }
 
     return userAuth;
@@ -156,6 +196,12 @@ export class AuthService {
    * @param dto
    */
   private async operateOtherUserAuth(currentUserId: IUser['id'], targetUserId: IUser['id'], dto: AuthDto) {
+    const targetUser = await this.userService.findOne({ id: targetUserId });
+
+    if (!targetUser) {
+      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND);
+    }
+
     const conditions: Partial<AuthEntity> = {
       organizationId: dto.organizationId,
       wikiId: dto.wikiId || null,
@@ -168,17 +214,17 @@ export class AuthService {
     });
 
     if (!currentUserAuth) {
-      throw new HttpException('您没有权限操作1', HttpStatus.FORBIDDEN);
+      throw new HttpException('您没有权限操作', HttpStatus.FORBIDDEN);
     }
 
     // 仅创建者、管理员可操作他人权限
     if (![AuthEnum.creator, AuthEnum.admin].includes(currentUserAuth.auth)) {
-      throw new HttpException('您没有权限操作2', HttpStatus.FORBIDDEN);
+      throw new HttpException('您没有权限操作', HttpStatus.FORBIDDEN);
     }
 
     // 仅创建者可赋予他人创建者、管理员权限
     if ([AuthEnum.creator, AuthEnum.admin].includes(dto.auth) && currentUserAuth.auth !== AuthEnum.creator) {
-      throw new HttpException('您没有权限操作3', HttpStatus.FORBIDDEN);
+      throw new HttpException('您没有权限操作', HttpStatus.FORBIDDEN);
     }
 
     const maybeTargetUserAuth = await this.authRepo.findOne({
@@ -189,12 +235,12 @@ export class AuthService {
     if (maybeTargetUserAuth) {
       // 对方是创建者，无权操作
       if (maybeTargetUserAuth.auth === AuthEnum.creator) {
-        throw new HttpException('您没有权限操作4', HttpStatus.FORBIDDEN);
+        throw new HttpException('您没有权限操作', HttpStatus.FORBIDDEN);
       }
 
       // 对方是管理员，仅创建者可操作
       if (maybeTargetUserAuth.auth === AuthEnum.admin && currentUserAuth.auth !== AuthEnum.creator) {
-        throw new HttpException('您没有权限操作5', HttpStatus.FORBIDDEN);
+        throw new HttpException('您没有权限操作', HttpStatus.FORBIDDEN);
       }
     }
   }
@@ -300,10 +346,12 @@ export class AuthService {
 
   /**
    * 获取指定组织的所有用户权限
-   * @param userId
+   * @param organizationId
+   * @param pagination 分页参数，不传获取所有
+   * @returns
    */
-  async getUsersAuthInOrganization(organizationId: IOrganization['id']) {
-    const [data, total] = await this.authRepo
+  async getUsersAuthInOrganization(organizationId: IOrganization['id'], pagination: IPagination | null) {
+    const query = await this.authRepo
       .createQueryBuilder('auth')
       .where('auth.auth IN (:...types)', {
         types: [AuthEnum.creator, AuthEnum.admin, AuthEnum.member, AuthEnum.noAccess],
@@ -311,18 +359,28 @@ export class AuthService {
       .andWhere('auth.organizationId=:organizationId')
       .andWhere('auth.wikiId is NULL')
       .andWhere('auth.documentId is NULL')
-      .setParameter('organizationId', organizationId)
-      .getManyAndCount();
+      .setParameter('organizationId', organizationId);
+
+    if (pagination) {
+      const { page = 1, pageSize = 12 } = pagination;
+      query.skip((+page - 1) * +pageSize);
+      query.take(+pageSize);
+    }
+
+    const [data, total] = await query.getManyAndCount();
 
     return { data: data || [], total };
   }
 
   /**
    * 获取指定知识库的所有用户权限
-   * @param userId
+   * @param organizationId
+   * @param wikiId
+   * @param pagination 分页参数，不传获取所有
+   * @returns
    */
-  async getUsersAuthInWiki(organizationId: IOrganization['id'], wikiId: IWiki['id']) {
-    const [data, total] = await this.authRepo
+  async getUsersAuthInWiki(organizationId: IOrganization['id'], wikiId: IWiki['id'], pagination: IPagination | null) {
+    const query = await this.authRepo
       .createQueryBuilder('auth')
       .where('auth.auth IN (:...types)', {
         types: [AuthEnum.creator, AuthEnum.admin, AuthEnum.member, AuthEnum.noAccess],
@@ -331,8 +389,14 @@ export class AuthService {
       .andWhere('auth.wikiId=:wikiId')
       .andWhere('auth.documentId is NULL')
       .setParameter('organizationId', organizationId)
-      .setParameter('wikiId', wikiId)
-      .getManyAndCount();
+      .setParameter('wikiId', wikiId);
+
+    if (pagination) {
+      const { page = 1, pageSize = 12 } = pagination;
+      query.skip((+page - 1) * +pageSize);
+      query.take(+pageSize);
+    }
+    const [data, total] = await query.getManyAndCount();
 
     return { data: data || [], total };
   }
@@ -413,11 +477,20 @@ export class AuthService {
   }
 
   /**
-   * 获取指定知识库的所有用户权限
-   * @param userId
+   * 获取指定文档的所有用户权限
+   * @param organizationId
+   * @param wikiId
+   * @param documentId
+   * @param pagination 分页参数，不传获取所有
+   * @returns
    */
-  async getUsersAuthInDocument(organizationId: IOrganization['id'], wikiId: IWiki['id'], documentId: IDocument['id']) {
-    const [data, total] = await this.authRepo
+  async getUsersAuthInDocument(
+    organizationId: IOrganization['id'],
+    wikiId: IWiki['id'],
+    documentId: IDocument['id'],
+    pagination: IPagination | null
+  ) {
+    const query = await this.authRepo
       .createQueryBuilder('auth')
       .where('auth.auth IN (:...types)', {
         types: [AuthEnum.creator, AuthEnum.admin, AuthEnum.member, AuthEnum.noAccess],
@@ -427,8 +500,14 @@ export class AuthService {
       .andWhere('auth.documentId=:documentId')
       .setParameter('organizationId', organizationId)
       .setParameter('wikiId', wikiId)
-      .setParameter('documentId', documentId)
-      .getManyAndCount();
+      .setParameter('documentId', documentId);
+
+    if (pagination) {
+      const { page = 1, pageSize = 12 } = pagination;
+      query.skip((+page - 1) * +pageSize);
+      query.take(+pageSize);
+    }
+    const [data, total] = await query.getManyAndCount();
 
     return { data: data || [], total };
   }

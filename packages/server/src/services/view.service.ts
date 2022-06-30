@@ -1,23 +1,17 @@
 import { RedisDBEnum } from '@constants/*';
 import { DocumentEntity } from '@entities/document.entity';
 import { UserEntity } from '@entities/user.entity';
-import { ViewEntity } from '@entities/view.entity';
 import { buildRedis } from '@helpers/redis.helper';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { IDocument, IOrganization, IUser } from '@think/domains';
 import Redis from 'ioredis';
 import * as lodash from 'lodash';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class ViewService {
   private redis: Redis;
 
-  constructor(
-    @InjectRepository(ViewEntity)
-    private readonly viewRepo: Repository<ViewEntity>
-  ) {
+  constructor() {
     this.buildRedis();
   }
 

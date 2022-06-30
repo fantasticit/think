@@ -1,6 +1,5 @@
 import { OperateUserAuthDto } from '@dtos/auth.dto';
 import { CreateOrganizationDto } from '@dtos/organization.dto';
-// import { OrganizationUserDto } from '@dtos/organization-user.dto';
 import { JwtGuard } from '@guard/jwt.guard';
 import {
   Body,
@@ -13,12 +12,13 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Request,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { OrganizationService } from '@services/organization.service';
-import { OrganizationApiDefinition } from '@think/domains';
+import { IPagination, OrganizationApiDefinition } from '@think/domains';
 
 @Controller('organization')
 export class OrganizationController {
@@ -92,6 +92,20 @@ export class OrganizationController {
   }
 
   /**
+   * 删除组织
+   * @param req
+   * @param id
+   * @returns
+   */
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Delete(OrganizationApiDefinition.deleteOrganization.server)
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtGuard)
+  async deleteWiki(@Request() req, @Param('id') id) {
+    return await this.organizationService.deleteOrganization(req.user, id);
+  }
+
+  /**
    * 获取组织成员
    * @param req
    * @returns
@@ -100,8 +114,8 @@ export class OrganizationController {
   @Get(OrganizationApiDefinition.getMembers.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getMembers(@Request() req, @Param('id') id) {
-    return await this.organizationService.getMembers(req.user, id);
+  async getMembers(@Request() req, @Param('id') id, @Query() pagination: IPagination) {
+    return await this.organizationService.getMembers(req.user, id, pagination);
   }
 
   /**

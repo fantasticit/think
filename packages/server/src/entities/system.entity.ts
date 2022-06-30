@@ -8,9 +8,14 @@ export class SystemEntity {
   /**
    * 是否锁定系统，锁定后除系统管理员外均不可登录，同时禁止注册
    */
-
   @Column({ type: 'boolean', default: false, comment: '是否锁定系统' })
   isSystemLocked: boolean;
+
+  /**
+   * 启用邮箱校验后，必须通过邮箱验证码验证后注册
+   */
+  @Column({ type: 'boolean', default: false, comment: '是否启用邮箱校验' })
+  enableEmailVerify: boolean;
 
   /**
    * 邮箱服务地址

@@ -1,5 +1,5 @@
 import { Banner, Button, Typography } from '@douyinfe/semi-ui';
-import { WorkspaceDeletor } from 'components/wiki/delete';
+import { WikiDeletor } from 'components/wiki/delete';
 
 interface IProps {
   wikiId: string;
@@ -17,11 +17,11 @@ export const More: React.FC<IProps> = ({ wikiId }) => {
         description={<Paragraph>删除知识库及内部所有文档，不可恢复！</Paragraph>}
         style={{ marginBottom: 16 }}
       />
-      <WorkspaceDeletor wikiId={wikiId}>
+      <WikiDeletor wikiId={wikiId}>
         <Button type="danger" theme="solid">
           删除知识库
         </Button>
-      </WorkspaceDeletor>
+      </WikiDeletor>
     </div>
   );
 };

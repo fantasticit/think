@@ -1,58 +1,44 @@
-import { Banner, Button, Modal, Select } from '@douyinfe/semi-ui';
+import { Banner, Popconfirm, Select, Toast } from '@douyinfe/semi-ui';
 import { AuthEnum, AuthEnumArray, IAuth, IUser } from '@think/domains';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 interface IProps {
-  visible: boolean;
-  toggleVisible: (arg) => void;
-  currentUser: { user: IUser; auth: IAuth };
-  onOk: (arg) => any;
+  userWithAuth: { user: IUser; auth: IAuth };
+  updateUser: (arg) => any;
 }
 
-export const EditUser: React.FC<IProps> = ({ visible, toggleVisible, currentUser, onOk }) => {
+export const EditUser: React.FC<IProps> = ({ userWithAuth, updateUser, children }) => {
   const [userAuth, setUserAuth] = useState(AuthEnum.noAccess);
 
   const handleOk = useCallback(() => {
-    onOk(userAuth).then(() => {
-      setUserAuth(AuthEnum.noAccess);
-      toggleVisible(false);
+    return updateUser({ userName: userWithAuth.user.name, userAuth }).then(() => {
+      Toast.success('操作成功');
     });
-  }, [onOk, userAuth, toggleVisible]);
-
-  useEffect(() => {
-    if (!visible) {
-      setUserAuth(AuthEnum.noAccess);
-    }
-  }, [visible]);
+  }, [updateUser, userAuth, userWithAuth]);
 
   return (
-    <Modal
-      title={`修改用户${currentUser && currentUser.user.name}权限`}
-      visible={visible}
-      onOk={handleOk}
-      onCancel={() => toggleVisible(false)}
-      maskClosable={false}
-      style={{ maxWidth: '96vw' }}
-      footer={null}
+    <Popconfirm
+      title={`修改用户${userWithAuth && userWithAuth.user.name}权限`}
+      content={
+        <div style={{ margin: '16px -68px 0 0' }}>
+          {[AuthEnum.creator, AuthEnum.admin].includes(userAuth) ? (
+            <Banner style={{ marginBottom: 16 }} type="warning" description="请谨慎操作管理员权限！" />
+          ) : null}
+          {}
+          <Select value={userAuth} onChange={setUserAuth} style={{ width: '100%' }}>
+            {AuthEnumArray.map((wikiStatus) => {
+              return (
+                <Select.Option key={wikiStatus.value} value={wikiStatus.value}>
+                  {wikiStatus.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        </div>
+      }
+      onConfirm={handleOk}
     >
-      <div style={{ marginTop: 16 }}>
-        {[AuthEnum.creator, AuthEnum.admin].includes(userAuth) ? (
-          <Banner style={{ marginBottom: 16 }} type="warning" description="请谨慎操作管理员权限！" />
-        ) : null}
-        {}
-        <Select value={userAuth} onChange={setUserAuth} style={{ width: '100%' }}>
-          {AuthEnumArray.map((wikiStatus) => {
-            return (
-              <Select.Option key={wikiStatus.value} value={wikiStatus.value}>
-                {wikiStatus.label}
-              </Select.Option>
-            );
-          })}
-        </Select>
-        <Button theme="solid" block style={{ margin: '24px 0' }} onClick={handleOk}>
-          提交修改
-        </Button>
-      </div>
-    </Modal>
+      {children}
+    </Popconfirm>
   );
 };

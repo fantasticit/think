@@ -2,7 +2,7 @@ import { Button, Col, Form, Layout, Modal, Row, Space, Toast, Typography } from 
 import { Author } from 'components/author';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
-import { useRegister, useVerifyCode } from 'data/user';
+import { useRegister, useSystemPublicConfig, useVerifyCode } from 'data/user';
 import { isEmail } from 'helpers/validator';
 import { useInterval } from 'hooks/use-interval';
 import { useRouterQuery } from 'hooks/use-router-query';
@@ -24,6 +24,7 @@ const Page = () => {
   const [hasSendVerifyCode, toggleHasSendVerifyCode] = useToggle(false);
   const [countDown, setCountDown] = useState(0);
   const { register, loading } = useRegister();
+  const { data: systemConfig } = useSystemPublicConfig();
   const { sendVerifyCode, loading: sendVerifyCodeLoading } = useVerifyCode();
 
   const onFormChange = useCallback((formState) => {
@@ -133,22 +134,29 @@ const Page = () => {
             ]}
           />
 
-          <Row gutter={8} style={{ paddingTop: 12 }}>
-            <Col span={16}>
-              <Form.Input
-                noLabel
-                fieldStyle={{ paddingTop: 0 }}
-                placeholder={'请输入验证码'}
-                field="verifyCode"
-                rules={[{ required: true, message: '请输入邮箱收到的验证码！' }]}
-              />
-            </Col>
-            <Col span={8}>
-              <Button disabled={!email || countDown > 0} loading={sendVerifyCodeLoading} onClick={getVerifyCode} block>
-                {hasSendVerifyCode ? countDown : '获取验证码'}
-              </Button>
-            </Col>
-          </Row>
+          {systemConfig && systemConfig.enableEmailVerify ? (
+            <Row gutter={8} style={{ paddingTop: 12 }}>
+              <Col span={16}>
+                <Form.Input
+                  noLabel
+                  fieldStyle={{ paddingTop: 0 }}
+                  placeholder={'请输入验证码'}
+                  field="verifyCode"
+                  rules={[{ required: true, message: '请输入邮箱收到的验证码！' }]}
+                />
+              </Col>
+              <Col span={8}>
+                <Button
+                  disabled={!email || countDown > 0}
+                  loading={sendVerifyCodeLoading}
+                  onClick={getVerifyCode}
+                  block
+                >
+                  {hasSendVerifyCode ? countDown : '获取验证码'}
+                </Button>
+              </Col>
+            </Row>
+          ) : null}
 
           <Button htmlType="submit" type="primary" theme="solid" block loading={loading} style={{ margin: '16px 0' }}>
             注册

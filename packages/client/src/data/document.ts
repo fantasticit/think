@@ -65,11 +65,20 @@ export type DocAuth = {
  * @param cookie
  * @returns
  */
-export const getDocumentMembers = (documentId, cookie = null): Promise<Array<{ user: IUser; auth: IAuthority }>> => {
+export const getDocumentMembers = (
+  documentId,
+  page,
+  pageSize,
+  cookie = null
+): Promise<Array<{ user: IUser; auth: IAuthority }>> => {
   return HttpClient.request({
     method: DocumentApiDefinition.getMemberById.method,
     url: DocumentApiDefinition.getMemberById.client(documentId),
     cookie,
+    params: {
+      page,
+      pageSize,
+    },
   });
 };
 
@@ -79,9 +88,11 @@ export const getDocumentMembers = (documentId, cookie = null): Promise<Array<{ u
  * @returns
  */
 export const useDoumentMembers = (documentId, options?: UseQueryOptions<Array<{ user: IUser; auth: IAuthority }>>) => {
+  const [pageSize] = useState(12);
+  const [page, setPage] = useState(1);
   const { data, error, isLoading, refetch } = useQuery(
-    DocumentApiDefinition.getMemberById.client(documentId),
-    () => getDocumentMembers(documentId),
+    [DocumentApiDefinition.getMemberById.client(documentId), page],
+    () => getDocumentMembers(documentId, page, pageSize),
     options
   );
 
@@ -124,7 +135,7 @@ export const useDoumentMembers = (documentId, options?: UseQueryOptions<Array<{ 
     [refetch, documentId]
   );
 
-  return { data, loading: isLoading, error, addUser, updateUser, deleteUser };
+  return { data, loading: isLoading, error, page, pageSize, setPage, addUser, updateUser, deleteUser };
 };
 
 /**

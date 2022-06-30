@@ -2,7 +2,8 @@ import { TemplateDto } from '@dtos/template.dto';
 import { TemplateEntity } from '@entities/template.entity';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OutUser, UserService } from '@services/user.service';
+import { UserService } from '@services/user.service';
+import { IUser } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
@@ -45,7 +46,7 @@ export class TemplateService {
    * @param dto
    * @returns
    */
-  async create(user: OutUser, dto: TemplateDto) {
+  async create(user: IUser, dto: TemplateDto) {
     const data = {
       createUserId: user.id,
       ...dto,
@@ -103,7 +104,7 @@ export class TemplateService {
    * @param templateId
    * @returns
    */
-  async useTemplate(user: OutUser, templateId) {
+  async useTemplate(user: IUser, templateId) {
     const data = await this.templateRepo.findOne(templateId);
     if (user.id !== data.createUserId && !data.isPublic) {
       throw new HttpException('您不是模板创建者，无法编辑', HttpStatus.FORBIDDEN);
@@ -146,7 +147,7 @@ export class TemplateService {
    * @param queryParams
    * @returns
    */
-  async getOwnTemplates(user: OutUser, queryParams) {
+  async getOwnTemplates(user: IUser, queryParams) {
     const query = this.templateRepo
       .createQueryBuilder('template')
       .where('template.createUserId=:createUserId')

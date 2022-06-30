@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.isPublicDocument = exports.getWikiUserRoleText = exports.isPublicWiki = exports.getWikiStatusText = exports.DOCUMENT_STATUS = exports.WIKI_USER_ROLES = exports.WIKI_STATUS_LIST = void 0;
+exports.isPublicDocument = exports.isPublicWiki = exports.getWikiStatusText = exports.DOCUMENT_STATUS = exports.WIKI_USER_ROLES = exports.WIKI_STATUS_LIST = void 0;
 var models_1 = require("./models");
 /**
  * 知识库状态列表数据
@@ -57,15 +57,6 @@ exports.getWikiStatusText = getWikiStatusText;
  */
 var isPublicWiki = function (currentStatus) { return currentStatus === models_1.WikiStatus.public; };
 exports.isPublicWiki = isPublicWiki;
-/**
- * 获取知识库成员角色对应文本
- * @param role 实例数据的 role 字段
- * @returns
- */
-var getWikiUserRoleText = function (role) {
-    return exports.WIKI_USER_ROLES.find(function (d) { return d.value === role; }).label;
-};
-exports.getWikiUserRoleText = getWikiUserRoleText;
 /**
  * 检查文档是否公开
  * @param currentStatus document 实例数据的 status 字段

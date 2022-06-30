@@ -1,4 +1,4 @@
-import { IAuth, IDocument, IUser, IWiki, IWikiUser, WikiApiDefinition } from '@think/domains';
+import { IAuth, IDocument, IUser, IWiki, WikiApiDefinition } from '@think/domains';
 import { event, REFRESH_TOCS } from 'event';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
@@ -97,7 +97,7 @@ export const useOwnWikis = (organizationId) => {
   );
 
   /**
-   * 删除文档
+   * 删除知识库
    * @param id
    * @returns
    */
@@ -318,12 +318,18 @@ export const useWikiDocuments = (wikiId) => {
  */
 export const getWikiMembers = (
   wikiId,
+  page,
+  pageSize,
   cookie = null
 ): Promise<{ data: Array<{ auth: IAuth; user: IUser }>; total: number }> => {
   return HttpClient.request({
     method: WikiApiDefinition.getMemberById.method,
     url: WikiApiDefinition.getMemberById.client(wikiId),
     cookie,
+    params: {
+      page,
+      pageSize,
+    },
   });
 };
 
@@ -333,8 +339,10 @@ export const getWikiMembers = (
  * @returns
  */
 export const useWikiMembers = (wikiId) => {
-  const { data, error, isLoading, refetch } = useQuery(WikiApiDefinition.getMemberById.client(wikiId), () =>
-    getWikiMembers(wikiId)
+  const [pageSize] = useState(12);
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading, refetch } = useQuery([WikiApiDefinition.getMemberById.client(wikiId), page], () =>
+    getWikiMembers(wikiId, page, pageSize)
   );
 
   const addUser = useCallback(
@@ -376,7 +384,7 @@ export const useWikiMembers = (wikiId) => {
     [refetch, wikiId]
   );
 
-  return { data, loading: isLoading, error, addUser, updateUser, deleteUser };
+  return { data, loading: isLoading, error, page, pageSize, setPage, addUser, updateUser, deleteUser };
 };
 
 /**

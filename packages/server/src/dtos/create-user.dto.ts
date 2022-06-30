@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 /**
  * 用户注册
@@ -22,8 +22,8 @@ export class RegisterUserDto {
 
   @MinLength(5, { message: '邮箱验证码至少5个字符' })
   @IsString({ message: '邮箱验证码错误（正确类型为：String）' })
-  @IsNotEmpty({ message: '邮箱验证码不能为空' })
-  verifyCode: string;
+  @IsOptional({ message: '邮箱验证码不能为空' })
+  verifyCode?: string;
 }
 
 /**

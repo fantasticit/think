@@ -3,10 +3,11 @@ import { CommentEntity } from '@entities/comment.entity';
 import { parseUserAgent } from '@helpers/ua.helper';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthService } from '@services/auth.service';
 import { DocumentService } from '@services/document.service';
 import { MessageService } from '@services/message.service';
-import { OutUser, UserService } from '@services/user.service';
-import { buildMessageURL, DocumentStatus } from '@think/domains';
+import { UserService } from '@services/user.service';
+import { AuthEnum, buildMessageURL, DocumentStatus, IUser } from '@think/domains';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -14,9 +15,17 @@ export class CommentService {
   constructor(
     @InjectRepository(CommentEntity)
     private readonly commentRepo: Repository<CommentEntity>,
+
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
+
+    @Inject(forwardRef(() => UserService))
+    private readonly userService: UserService,
+
     @Inject(forwardRef(() => MessageService))
     private readonly messageService: MessageService,
-    private readonly userService: UserService,
+
+    @Inject(forwardRef(() => DocumentService))
     private readonly documentService: DocumentService
   ) {}
 
@@ -44,20 +53,20 @@ export class CommentService {
    * @param dto
    * @returns
    */
-  async create(user: OutUser, userAgent: string, dto: CommentDto) {
+  async create(user: IUser, userAgent: string, dto: CommentDto) {
     const { documentId, html, replyUserId } = dto;
 
     const doc = await this.documentService.findById(documentId);
 
     if (doc.status !== DocumentStatus.public) {
-      // TODO：权限校验
-      // const docAuth = await this.documentService.getDocumentAuthority(documentId, user.id);
-      // if (!docAuth) {
-      //   throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
-      // }
-      // if (!docAuth.readable) {
-      //   throw new HttpException('权限不足，无法评论', HttpStatus.FORBIDDEN);
-      // }
+      const authority = await this.documentService.getDocumentUserAuth(user.id, documentId);
+
+      if (!authority) {
+        throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
+      }
+      if (!authority.readable) {
+        throw new HttpException('权限不足，无法评论', HttpStatus.FORBIDDEN);
+      }
     }
 
     const { text: uaText } = parseUserAgent(userAgent);
@@ -74,21 +83,23 @@ export class CommentService {
     const res = await this.commentRepo.create(comment);
     const ret = await this.commentRepo.save(res);
 
-    // const wikiUsersAuth = await this.documentService.getDocUsersWithoutAuthCheck(user, documentId);
+    const { data: users } = await this.authService.getUsersAuthInDocument(doc.organizationId, doc.wikiId, doc.id, null);
 
-    // await Promise.all(
-    //   wikiUsersAuth.map(async (userAuth) => {
-    //     await this.messageService.notify(userAuth.user, {
-    //       title: `文档「${doc.title}」收到新评论`,
-    //       message: `文档「${doc.title}」收到新评论，快去看看！`,
-    //       url: buildMessageURL('toDocument')({
-    //         organizationId: doc.organizationId,
-    //         wikiId: doc.wikiId,
-    //         documentId: doc.id,
-    //       }),
-    //     });
-    //   })
-    // );
+    await Promise.all(
+      users
+        .filter((user) => user.auth !== AuthEnum.noAccess)
+        .map((user) => {
+          this.messageService.notify(user.userId, {
+            title: `文档「${doc.title}」收到新评论`,
+            message: `文档「${doc.title}」收到新评论，快去看看！`,
+            url: buildMessageURL('toDocument')({
+              organizationId: doc.organizationId,
+              wikiId: doc.wikiId,
+              documentId: doc.id,
+            }),
+          });
+        })
+    );
 
     return ret;
   }
@@ -180,21 +191,24 @@ export class CommentService {
     const newData = await this.commentRepo.merge(old, { html: dto.html });
 
     const doc = await this.documentService.findById(old.documentId);
-    // const wikiUsersAuth = await this.documentService.getDocUsersWithoutAuthCheck(user, old.documentId);
 
-    // await Promise.all(
-    //   wikiUsersAuth.map(async (userAuth) => {
-    //     await this.messageService.notify(userAuth.user, {
-    //       title: `文档「${doc.title}」评论更新`,
-    //       message: `文档「${doc.title}」的评论已更新，快去看看！`,
-    //       url: buildMessageURL('toDocument')({
-    //         organizationId: doc.organizationId,
-    //         wikiId: doc.wikiId,
-    //         documentId: doc.id,
-    //       }),
-    //     });
-    //   })
-    // );
+    const { data: users } = await this.authService.getUsersAuthInDocument(doc.organizationId, doc.wikiId, doc.id, null);
+
+    await Promise.all(
+      users
+        .filter((user) => user.auth !== AuthEnum.noAccess)
+        .map((user) => {
+          this.messageService.notify(user.userId, {
+            title: `文档「${doc.title}」收到新评论`,
+            message: `文档「${doc.title}」收到新评论，快去看看！`,
+            url: buildMessageURL('toDocument')({
+              organizationId: doc.organizationId,
+              wikiId: doc.wikiId,
+              documentId: doc.id,
+            }),
+          });
+        })
+    );
 
     return this.commentRepo.save(newData);
   }
@@ -205,20 +219,25 @@ export class CommentService {
       throw new HttpException('您不是评论创建者，无法删除', HttpStatus.FORBIDDEN);
     }
     const doc = await this.documentService.findById(data.documentId);
-    // const wikiUsersAuth = await this.documentService.getDocUsersWithoutAuthCheck(user, data.documentId);
-    // await Promise.all(
-    //   wikiUsersAuth.map(async (userAuth) => {
-    //     await this.messageService.notify(userAuth.user, {
-    //       title: `文档「${doc.title}」的评论已被删除`,
-    //       message: `文档「${doc.title}」的评论已被删除，快去看看`,
-    //       url: buildMessageURL('toDocument')({
-    //         organizationId: doc.organizationId,
-    //         wikiId: doc.wikiId,
-    //         documentId: doc.id,
-    //       }),
-    //     });
-    //   })
-    // );
+
+    const { data: users } = await this.authService.getUsersAuthInDocument(doc.organizationId, doc.wikiId, doc.id, null);
+
+    await Promise.all(
+      users
+        .filter((user) => user.auth !== AuthEnum.noAccess)
+        .map((user) => {
+          this.messageService.notify(user.userId, {
+            title: `文档「${doc.title}」收到新评论`,
+            message: `文档「${doc.title}」收到新评论，快去看看！`,
+            url: buildMessageURL('toDocument')({
+              organizationId: doc.organizationId,
+              wikiId: doc.wikiId,
+              documentId: doc.id,
+            }),
+          });
+        })
+    );
+
     return this.commentRepo.remove(data);
   }
 }

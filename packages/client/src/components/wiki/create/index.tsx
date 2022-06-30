@@ -27,6 +27,7 @@ export const WikiCreator: React.FC<IProps> = ({ visible, toggleVisible }) => {
       });
     });
   };
+
   const handleCancel = () => {
     toggleVisible(false);
   };

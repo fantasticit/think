@@ -47,6 +47,15 @@ export const OrganizationApiDefinition = {
   },
 
   /**
+   * 更新组织基本信息
+   */
+  deleteOrganization: {
+    method: 'delete' as const,
+    server: '/delete/:id' as const,
+    client: (id: IOrganization['id']) => `/organization/delete/${id}`,
+  },
+
+  /**
    * 获取组织成员
    */
   getMembers: {

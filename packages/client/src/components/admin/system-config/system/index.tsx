@@ -30,6 +30,7 @@ export const System = () => {
           <Banner type="warning" description="系统锁定后，除系统管理员外均不可登录，谨慎修改！" closeIcon={null} />
           <Form labelPosition="left" initValues={data} onChange={onFormChange} onSubmit={onFinish}>
             <Form.Switch field="isSystemLocked" label="系统锁定" />
+            <Form.Switch field="enableEmailVerify" label="邮箱检验" />
 
             <Button
               htmlType="submit"

@@ -1,27 +1,23 @@
 import { Banner, Button, Typography } from '@douyinfe/semi-ui';
-import { WorkspaceDeletor } from 'components/wiki/delete';
-
-interface IProps {
-  wikiId: string;
-}
+import { OrganizationDeletor } from 'components/organization/delete';
 
 const { Paragraph } = Typography;
 
-export const More: React.FC<IProps> = ({ wikiId }) => {
+export const More = ({ organizationId }) => {
   return (
     <div style={{ marginTop: 16 }}>
       <Banner
         fullMode={false}
         type="danger"
         closeIcon={null}
-        description={<Paragraph>删除知识库及内部所有文档，不可恢复！</Paragraph>}
+        description={<Paragraph>删除组织及内部所有知识库以及文档，不可恢复！</Paragraph>}
         style={{ marginBottom: 16 }}
       />
-      <WorkspaceDeletor wikiId={wikiId}>
+      <OrganizationDeletor organizationId={organizationId}>
         <Button type="danger" theme="solid">
-          删除知识库
+          删除组织
         </Button>
-      </WorkspaceDeletor>
+      </OrganizationDeletor>
     </div>
   );
 };

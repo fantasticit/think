@@ -1,5 +1,5 @@
 import { IconDelete } from '@douyinfe/semi-icons';
-import { Modal, Popconfirm, Space, Typography } from '@douyinfe/semi-ui';
+import { Popconfirm, Space, Typography } from '@douyinfe/semi-ui';
 import { useDeleteDocument } from 'data/document';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
@@ -15,8 +15,11 @@ interface IProps {
 const { Text } = Typography;
 
 export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, render, onDelete }) => {
-  const { wikiId: currentWikiId, documentId: currentDocumentId } =
-    useRouterQuery<{ wikiId?: string; documentId?: string }>();
+  const {
+    organizationId,
+    wikiId: currentWikiId,
+    documentId: currentDocumentId,
+  } = useRouterQuery<{ organizationId: string; wikiId?: string; documentId?: string }>();
   const { deleteDocument: api, loading } = useDeleteDocument(documentId);
 
   const deleteAction = useCallback(() => {
@@ -26,14 +29,15 @@ export const DocumentDeletor: React.FC<IProps> = ({ wikiId, documentId, render, 
           return;
         }
         Router.push({
-          pathname: `/wiki/${wikiId}`,
+          pathname: `/app/org/[organizationId]/wiki/[wikiId]`,
+          query: { organizationId, wikiId },
         });
       };
 
       navigate();
       onDelete && onDelete();
     });
-  }, [wikiId, documentId, api, onDelete, currentWikiId, currentDocumentId]);
+  }, [organizationId, wikiId, documentId, api, onDelete, currentWikiId, currentDocumentId]);
 
   const content = useMemo(
     () => (

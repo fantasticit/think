@@ -1,13 +1,4 @@
 /**
- * 用户角色枚举
- */
-export enum UserRole {
-  normal = 'normal',
-  admin = 'admin',
-  superadmin = 'superadmin',
-}
-
-/**
  * 用户状态枚举
  */
 export enum UserStatus {
@@ -24,7 +15,6 @@ export interface IUser {
   password?: string;
   avatar?: string;
   email?: string;
-  role: UserRole;
   status: UserStatus;
   isSystemAdmin?: boolean;
 }

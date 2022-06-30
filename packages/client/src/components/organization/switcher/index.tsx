@@ -1,12 +1,10 @@
-import { IconAppCenter, IconSmallTriangleDown } from '@douyinfe/semi-icons';
+import { IconAppCenter, IconApps, IconSmallTriangleDown } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Space, Typography } from '@douyinfe/semi-ui';
 import { Avatar } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { useOrganizationDetail, useUserOrganizations } from 'data/organization';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Link from 'next/link';
-import Router from 'next/router';
-import { useCallback } from 'react';
 
 import styles from './index.module.scss';
 
@@ -21,10 +19,6 @@ export const OrganizationSwitcher = () => {
     loading: userOrganizationsLoading,
     error: userOrganizationsError,
   } = useUserOrganizations();
-
-  const gotoCreate = useCallback(() => {
-    Router.push(`/app/org/create`);
-  }, []);
 
   return (
     <DataRender
@@ -64,44 +58,75 @@ export const OrganizationSwitcher = () => {
                     normalContent={() => {
                       return (
                         <Dropdown.Menu>
-                          {(userOrganizations || []).map((org) => {
-                            return (
-                              <Dropdown.Item key={org.id}>
-                                <Link
-                                  href={{
-                                    pathname: '/app/org/[organizationId]',
-                                    query: {
-                                      organizationId: org.id,
-                                    },
-                                  }}
-                                >
-                                  <a style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                                    <Avatar size="extra-small" src={org.logo} style={{ marginRight: 8 }} />
-                                    <Paragraph
-                                      style={{
-                                        maxWidth: 100,
-                                        whiteSpace: 'nowrap',
-                                        textOverflow: 'ellipsis',
-                                        overflow: 'hidden',
+                          {userOrganizations.length ? (
+                            <>
+                              {userOrganizations.map((org) => {
+                                return (
+                                  <Dropdown.Item key={org.id}>
+                                    <Link
+                                      href={{
+                                        pathname: '/app/org/[organizationId]',
+                                        query: {
+                                          organizationId: org.id,
+                                        },
                                       }}
                                     >
-                                      {org.name}
-                                    </Paragraph>
-                                  </a>
-                                </Link>
-                              </Dropdown.Item>
-                            );
-                          })}
-                          <Dropdown.Divider />
-                          <Dropdown.Item onClick={gotoCreate}>
-                            <Text>
-                              <Space>
-                                <Avatar size="extra-small">
-                                  <IconAppCenter />
-                                </Avatar>
-                                新建组织
-                              </Space>
-                            </Text>
+                                      <a style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                                        <Avatar size="extra-small" src={org.logo} style={{ marginRight: 8 }} />
+                                        <Paragraph
+                                          style={{
+                                            maxWidth: 100,
+                                            whiteSpace: 'nowrap',
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden',
+                                          }}
+                                        >
+                                          {org.name}
+                                        </Paragraph>
+                                      </a>
+                                    </Link>
+                                  </Dropdown.Item>
+                                );
+                              })}
+                              <Dropdown.Divider />
+                            </>
+                          ) : null}
+                          <Dropdown.Item>
+                            <Link
+                              href={{
+                                pathname: '/',
+                              }}
+                            >
+                              <a style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                                <Text>
+                                  <Space>
+                                    <Avatar size="extra-small">
+                                      <IconApps />
+                                    </Avatar>
+                                    前往广场
+                                  </Space>
+                                </Text>
+                              </a>
+                            </Link>
+                          </Dropdown.Item>
+
+                          <Dropdown.Item>
+                            <Link
+                              href={{
+                                pathname: '/app/org/create',
+                              }}
+                            >
+                              <a style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                                <Text>
+                                  <Space>
+                                    <Avatar size="extra-small">
+                                      <IconAppCenter />
+                                    </Avatar>
+                                    新建组织
+                                  </Space>
+                                </Text>
+                              </a>
+                            </Link>
                           </Dropdown.Item>
                         </Dropdown.Menu>
                       );

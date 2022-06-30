@@ -1,4 +1,4 @@
-import { WikiStatus, WikiUserRole, DocumentStatus, IWiki, IDocument } from './models';
+import { WikiStatus, DocumentStatus, IWiki, IDocument } from './models';
 
 /**
  * 知识库状态列表数据
@@ -48,7 +48,7 @@ export const DOCUMENT_STATUS = [
  * @returns
  */
 export const getWikiStatusText = (wiki: IWiki): string => {
-  return WIKI_STATUS_LIST.find((t) => t.value === wiki.status).label;
+  return WIKI_STATUS_LIST.find((t) => t.value === wiki.status)!.label;
 };
 
 /**
@@ -57,15 +57,6 @@ export const getWikiStatusText = (wiki: IWiki): string => {
  * @returns
  */
 export const isPublicWiki = (currentStatus: IWiki['status']) => currentStatus === WikiStatus.public;
-
-/**
- * 获取知识库成员角色对应文本
- * @param role 实例数据的 role 字段
- * @returns
- */
-export const getWikiUserRoleText = (role: WikiUserRole) => {
-  return WIKI_USER_ROLES.find((d) => d.value === role).label;
-};
 
 /**
  * 检查文档是否公开

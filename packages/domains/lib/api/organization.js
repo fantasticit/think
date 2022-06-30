@@ -43,6 +43,14 @@ exports.OrganizationApiDefinition = {
         client: function (id) { return "/organization/update/".concat(id); }
     },
     /**
+     * 更新组织基本信息
+     */
+    deleteOrganization: {
+        method: 'delete',
+        server: '/delete/:id',
+        client: function (id) { return "/organization/delete/".concat(id); }
+    },
+    /**
      * 获取组织成员
      */
     getMembers: {

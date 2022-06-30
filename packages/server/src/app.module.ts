@@ -1,18 +1,13 @@
 import { AuthEntity } from '@entities/auth.entity';
 import { CommentEntity } from '@entities/comment.entity';
 import { DocumentEntity } from '@entities/document.entity';
-// import { DocumentUserEntity } from '@entities/document-user.entity';
 import { MessageEntity } from '@entities/message.entity';
 import { OrganizationEntity } from '@entities/organization.entity';
-// import { OrganizationUserEntity } from '@entities/organization-user.entity';
 import { StarEntity } from '@entities/star.entity';
 import { SystemEntity } from '@entities/system.entity';
 import { TemplateEntity } from '@entities/template.entity';
 import { UserEntity } from '@entities/user.entity';
-import { VerifyEntity } from '@entities/verify.entity';
-import { ViewEntity } from '@entities/view.entity';
 import { WikiEntity } from '@entities/wiki.entity';
-// import { WikiUserEntity } from '@entities/wiki-user.entity';
 import { IS_PRODUCTION } from '@helpers/env.helper';
 import { getLogFileName, ONE_DAY } from '@helpers/log.helper';
 import { AuthModule } from '@modules/auth.module';
@@ -42,17 +37,12 @@ const ENTITIES = [
   UserEntity,
   AuthEntity,
   OrganizationEntity,
-  // OrganizationUserEntity,
   WikiEntity,
-  // WikiUserEntity,
   DocumentEntity,
-  // DocumentUserEntity,
   StarEntity,
   CommentEntity,
   MessageEntity,
   TemplateEntity,
-  ViewEntity,
-  VerifyEntity,
   SystemEntity,
 ];
 

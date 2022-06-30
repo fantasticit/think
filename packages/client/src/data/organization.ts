@@ -108,17 +108,32 @@ export const useOrganizationDetail = (id) => {
     [refetch, id]
   );
 
-  return { data, error, loading: isLoading, refresh: refetch, update };
+  const deleteOrganization = useCallback(async () => {
+    const res = await HttpClient.request({
+      method: OrganizationApiDefinition.deleteOrganization.method,
+      url: OrganizationApiDefinition.deleteOrganization.client(id),
+    });
+    refetch();
+    return res;
+  }, [refetch, id]);
+
+  return { data, error, loading: isLoading, refresh: refetch, update, deleteOrganization };
 };
 
 export const getOrganizationMembers = (
   id,
+  page = 1,
+  pageSize,
   cookie = null
 ): Promise<{ data: Array<{ auth: IAuth; user: IUser }>; total: number }> => {
   return HttpClient.request({
     method: OrganizationApiDefinition.getMembers.method,
     url: OrganizationApiDefinition.getMembers.client(id),
     cookie,
+    params: {
+      page,
+      pageSize,
+    },
   });
 };
 
@@ -127,8 +142,10 @@ export const getOrganizationMembers = (
  * @returns
  */
 export const useOrganizationMembers = (id) => {
-  const { data, error, isLoading, refetch } = useQuery(OrganizationApiDefinition.getMembers.client(id), () =>
-    getOrganizationMembers(id)
+  const [pageSize] = useState(12);
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading, refetch } = useQuery([OrganizationApiDefinition.getMembers.client(id), page], () =>
+    getOrganizationMembers(id, page, pageSize)
   );
 
   const addUser = useCallback(
@@ -170,5 +187,16 @@ export const useOrganizationMembers = (id) => {
     [refetch, id]
   );
 
-  return { data, error, loading: isLoading, refresh: refetch, addUser, updateUser, deleteUser };
+  return {
+    data,
+    error,
+    loading: isLoading,
+    page,
+    pageSize,
+    setPage,
+    refresh: refetch,
+    addUser,
+    updateUser,
+    deleteUser,
+  };
 };

@@ -1,6 +1,5 @@
 import { OperateUserAuthDto } from '@dtos/auth.dto';
 import { CreateOrganizationDto } from '@dtos/organization.dto';
-// import { OperateUserAuthDto } from '@dtos/organization-user.dto';
 import { OrganizationEntity } from '@entities/organization.entity';
 import { UserEntity } from '@entities/user.entity';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
@@ -8,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from '@services/auth.service';
 import { MessageService } from '@services/message.service';
 import { UserService } from '@services/user.service';
+import { WikiService } from '@services/wiki.service';
 import { AuthEnum, buildMessageURL, IOrganization, IUser } from '@think/domains';
 import { Repository } from 'typeorm';
 
@@ -24,7 +24,10 @@ export class OrganizationService {
     private readonly userService: UserService,
 
     @Inject(forwardRef(() => MessageService))
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+
+    @Inject(forwardRef(() => WikiService))
+    private readonly wikiService: WikiService
   ) {}
 
   public async findById(id: string) {
@@ -91,6 +94,27 @@ export class OrganizationService {
   }
 
   /**
+   * 删除组织
+   * @param user
+   * @param organizationId
+   * @returns
+   */
+  async deleteOrganization(user: IUser, organizationId) {
+    const organization = await this.organizationRepo.findOne(organizationId);
+    await this.authService.canDelete(user.id, {
+      organizationId: organization.id,
+      wikiId: null,
+      documentId: null,
+    });
+    await Promise.all([
+      this.authService.deleteOrganization(organization.id),
+      this.organizationRepo.remove(organization),
+      this.wikiService.deleteOrganizationWiki(user, organizationId),
+    ]);
+    return organization;
+  }
+
+  /**
    * 获取用户个人组织
    * @param user
    * @returns
@@ -101,7 +125,7 @@ export class OrganizationService {
   }
 
   /**
-   * 获取用户除个人组织外可访问的组织
+   * 获取用户可访问的组织
    * @param user
    */
   public async getUserOrganizations(user: IUser) {
@@ -130,7 +154,7 @@ export class OrganizationService {
    * @param shortId
    * @returns
    */
-  public async getMembers(user: IUser, id: IOrganization['id']) {
+  public async getMembers(user: IUser, id: IOrganization['id'], pagination) {
     const organization = await this.organizationRepo.findOne({ id });
 
     if (!organization) {
@@ -143,7 +167,7 @@ export class OrganizationService {
       documentId: null,
     });
 
-    const { data: usersAuth, total } = await this.authService.getUsersAuthInOrganization(organization.id);
+    const { data: usersAuth, total } = await this.authService.getUsersAuthInOrganization(organization.id, pagination);
 
     const userIds = usersAuth.map((auth) => auth.userId);
     const users = await this.userService.findByIds(userIds);
@@ -185,7 +209,7 @@ export class OrganizationService {
       documentId: null,
     });
 
-    await this.messageService.notify(targetUser, {
+    await this.messageService.notify(targetUser.id, {
       title: `您被添加到组织「${organization.name}」`,
       message: `您被添加到知识库「${organization.name}」，快去看看吧！`,
       url: buildMessageURL('toOrganization')({
@@ -223,7 +247,7 @@ export class OrganizationService {
       documentId: null,
     });
 
-    await this.messageService.notify(targetUser, {
+    await this.messageService.notify(targetUser.id, {
       title: `组织「${organization.name}」权限变更`,
       message: `您在组织「${organization.name}」权限已变更，快去看看吧！`,
       url: buildMessageURL('toOrganization')({
@@ -261,9 +285,9 @@ export class OrganizationService {
       documentId: null,
     });
 
-    await this.messageService.notify(targetUser, {
+    await this.messageService.notify(targetUser.id, {
       title: `组织「${organization.name}」权限收回`,
-      message: `您在组织「${organization.name}」权限已收回，快去看看吧！`,
+      message: `您在组织「${organization.name}」权限已收回！`,
       url: buildMessageURL('toOrganization')({
         organizationId: organization.id,
       }),
