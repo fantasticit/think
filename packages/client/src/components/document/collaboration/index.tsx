@@ -25,6 +25,8 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import styles from './index.module.scss';
+
 interface IProps {
   wikiId: string;
   documentId: string;
@@ -101,7 +103,12 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
             error={error}
             loadingContent={<Spin />}
             normalContent={() => (
-              <Table dataSource={users} size="small" pagination>
+              <Table
+                dataSource={users}
+                className={styles.userTable}
+                size="small"
+                pagination={{ popoverPosition: 'topLeft', popoverZIndex: 1061 }}
+              >
                 <Column title="用户名" dataIndex="user.name" key="name" />
                 <Column
                   title="是否可读"
@@ -215,6 +222,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
         </>
       ) : (
         <Dropdown
+          stopPropagation={true}
           visible={visible}
           onVisibleChange={toggleVisible}
           trigger="click"
