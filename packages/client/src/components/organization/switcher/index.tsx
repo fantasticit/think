@@ -5,6 +5,7 @@ import { DataRender } from 'components/data-render';
 import { useOrganizationDetail, useUserOrganizations } from 'data/organization';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Link from 'next/link';
+import { useMemo } from 'react';
 
 import styles from './index.module.scss';
 
@@ -17,6 +18,11 @@ export const UserOrganizationsSwitcher = () => {
     loading: userOrganizationsLoading,
     error: userOrganizationsError,
   } = useUserOrganizations();
+  const filterUserOrganizations = useMemo(() => {
+    return userOrganizations && userOrganizations.length
+      ? userOrganizations.filter((org) => org.id !== organizationId)
+      : [];
+  }, [userOrganizations, organizationId]);
 
   return (
     <Dropdown
@@ -28,38 +34,36 @@ export const UserOrganizationsSwitcher = () => {
           normalContent={() => {
             return (
               <Dropdown.Menu>
-                {userOrganizations.length ? (
+                {filterUserOrganizations.length ? (
                   <>
-                    {userOrganizations
-                      .filter((org) => org.id !== organizationId)
-                      .map((org) => {
-                        return (
-                          <Dropdown.Item key={org.id} style={{ padding: 0 }}>
-                            <Link
-                              href={{
-                                pathname: '/app/org/[organizationId]',
-                                query: {
-                                  organizationId: org.id,
-                                },
-                              }}
-                            >
-                              <a style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '8px 16px' }}>
-                                <Avatar size="extra-small" src={org.logo} style={{ marginRight: 8 }} />
-                                <Paragraph
-                                  style={{
-                                    maxWidth: 100,
-                                    whiteSpace: 'nowrap',
-                                    textOverflow: 'ellipsis',
-                                    overflow: 'hidden',
-                                  }}
-                                >
-                                  {org.name}
-                                </Paragraph>
-                              </a>
-                            </Link>
-                          </Dropdown.Item>
-                        );
-                      })}
+                    {filterUserOrganizations.map((org) => {
+                      return (
+                        <Dropdown.Item key={org.id} style={{ padding: 0 }}>
+                          <Link
+                            href={{
+                              pathname: '/app/org/[organizationId]',
+                              query: {
+                                organizationId: org.id,
+                              },
+                            }}
+                          >
+                            <a style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '8px 16px' }}>
+                              <Avatar size="extra-small" src={org.logo} style={{ marginRight: 8 }} />
+                              <Paragraph
+                                style={{
+                                  maxWidth: 100,
+                                  whiteSpace: 'nowrap',
+                                  textOverflow: 'ellipsis',
+                                  overflow: 'hidden',
+                                }}
+                              >
+                                {org.name}
+                              </Paragraph>
+                            </a>
+                          </Link>
+                        </Dropdown.Item>
+                      );
+                    })}
                     <Dropdown.Divider />
                   </>
                 ) : null}
