@@ -1,10 +1,9 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 /**
  * 用户注册
  */
 export class RegisterUserDto {
-  @MaxLength(20, { message: '用户账号最多20个字符' })
   @MinLength(5, { message: '用户账号至少5个字符' })
   @IsString({ message: '用户名称类型错误（正确类型为：String）' })
   @IsNotEmpty({ message: '用户账号不能为空' })

@@ -21,11 +21,11 @@ export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Column({ type: 'varchar', length: 200, comment: '用户名称' })
+  @Column({ type: 'varchar', length: 500, comment: '用户名称' })
   public name: string;
 
   @Exclude({ toPlainOnly: true })
-  @Column({ type: 'varchar', length: 200, comment: '用户加密密码' })
+  @Column({ type: 'varchar', length: 500, comment: '用户加密密码' })
   public password: string;
 
   @Column({ type: 'varchar', length: 500, comment: '头像地址', default: '' })
