@@ -37,7 +37,7 @@ export class VerifyService {
 
     const verifyCode = randomInt(1000000).toString().padStart(6, '0');
 
-    await this.redis.set(`verify-${email}`, verifyCode, 'EX', 10);
+    await this.redis.set(`verify-${email}`, verifyCode, 'EX', 5 * 60);
     await this.systemService.sendEmail({
       to: email,
       subject: '验证码',
