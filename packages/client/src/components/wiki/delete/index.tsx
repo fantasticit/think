@@ -1,6 +1,7 @@
 import { IconDelete } from '@douyinfe/semi-icons';
 import { Modal, Space, Typography } from '@douyinfe/semi-ui';
 import { useOwnWikis } from 'data/wiki';
+import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
 import React, { useCallback } from 'react';
 
@@ -11,8 +12,9 @@ interface IProps {
 
 const { Text } = Typography;
 
-export const WorkspaceDeletor: React.FC<IProps> = ({ wikiId, onDelete, children }) => {
-  const { deletWiki } = useOwnWikis();
+export const WikiDeletor: React.FC<IProps> = ({ wikiId, onDelete, children }) => {
+  const { organizationId } = useRouterQuery<{ organizationId: string }>();
+  const { deletWiki } = useOwnWikis(organizationId);
 
   const deleteAction = useCallback(() => {
     Modal.error({
@@ -23,7 +25,8 @@ export const WorkspaceDeletor: React.FC<IProps> = ({ wikiId, onDelete, children 
           onDelete
             ? onDelete()
             : Router.push({
-                pathname: `/wiki`,
+                pathname: `/app/org/[organizationId]`,
+                query: { organizationId },
               });
         });
       },
@@ -32,7 +35,7 @@ export const WorkspaceDeletor: React.FC<IProps> = ({ wikiId, onDelete, children 
       },
       style: { maxWidth: '96vw' },
     });
-  }, [wikiId, deletWiki, onDelete]);
+  }, [organizationId, wikiId, deletWiki, onDelete]);
 
   return (
     <Text type="danger" onClick={deleteAction}>

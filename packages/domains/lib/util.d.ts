@@ -1,4 +1,4 @@
-import { WikiStatus, WikiUserRole, DocumentStatus, IWiki, IDocument } from './models';
+import { WikiStatus, DocumentStatus, IWiki, IDocument } from './models';
 /**
  * 知识库状态列表数据
  */
@@ -32,12 +32,6 @@ export declare const getWikiStatusText: (wiki: IWiki) => string;
  * @returns
  */
 export declare const isPublicWiki: (currentStatus: IWiki['status']) => boolean;
-/**
- * 获取知识库成员角色对应文本
- * @param role 实例数据的 role 字段
- * @returns
- */
-export declare const getWikiUserRoleText: (role: WikiUserRole) => string;
 /**
  * 检查文档是否公开
  * @param currentStatus document 实例数据的 status 字段

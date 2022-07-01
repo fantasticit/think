@@ -8,6 +8,9 @@ export class StarEntity {
   @Column({ type: 'varchar', comment: '用户 Id' })
   public userId: string;
 
+  @Column({ type: 'varchar', comment: '所属组织 Id' })
+  public organizationId: string;
+
   @Column({ type: 'varchar', comment: '知识库 Id' })
   public wikiId: string;
 
@@ -16,14 +19,14 @@ export class StarEntity {
 
   @CreateDateColumn({
     type: 'timestamp',
-    name: 'created_at',
+    name: 'createdAt',
     comment: '创建时间',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
-    name: 'updated_at',
+    name: 'updatedAt',
     comment: '更新时间',
   })
   updatedAt: Date;

@@ -1,28 +1,32 @@
 import { Checkbox, Modal, TabPane, Tabs } from '@douyinfe/semi-ui';
+import { IDocument, IWiki } from '@think/domains';
 import { TemplateCardEmpty } from 'components/template/card';
 import { TemplateList } from 'components/template/list';
 import { useCreateDocument } from 'data/document';
 import { useOwnTemplates, usePublicTemplates } from 'data/template';
+import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 
 import styles from './index.module.scss';
 
 interface IProps {
-  wikiId: string;
-  parentDocumentId?: string;
+  wikiId: IWiki['id'];
+  parentDocumentId?: IDocument['id'];
   visible: boolean;
   toggleVisible: Dispatch<SetStateAction<boolean>>;
   onCreate?: () => void;
 }
 
-export const DocumentCreator: React.FC<IProps> = ({ wikiId, parentDocumentId, visible, toggleVisible, onCreate }) => {
+export const DocumentCreator: React.FC<IProps> = ({ parentDocumentId, wikiId, visible, toggleVisible, onCreate }) => {
+  const { organizationId } = useRouterQuery<{ organizationId?: string }>();
   const { loading, create } = useCreateDocument();
   const [createChildDoc, setCreateChildDoc] = useState(false);
   const [templateId, setTemplateId] = useState('');
 
   const handleOk = () => {
     const data = {
+      organizationId,
       wikiId,
       parentDocumentId: createChildDoc ? parentDocumentId : null,
       templateId,
@@ -32,7 +36,8 @@ export const DocumentCreator: React.FC<IProps> = ({ wikiId, parentDocumentId, vi
       onCreate && onCreate();
       setTemplateId('');
       Router.push({
-        pathname: `/wiki/${wikiId}/document/${res.id}/edit`,
+        pathname: `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]/edit`,
+        query: { organizationId, wikiId, documentId: res.id },
       });
     });
   };

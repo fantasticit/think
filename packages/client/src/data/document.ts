@@ -6,18 +6,37 @@ import { QueriesOptions, useQuery, UseQueryOptions } from 'react-query';
 import { HttpClient } from 'services/http-client';
 
 type IDocumentWithVisitedAt = IDocument & { visitedAt: string };
-type ICreateDocument = Partial<Pick<IDocument, 'wikiId' | 'parentDocumentId'>>;
+type ICreateDocument = Partial<Pick<IDocument, 'organizationId' | 'wikiId' | 'parentDocumentId'>>;
 type IDocumentWithAuth = { document: IDocument; authority: IAuthority };
 type IUpdateDocument = Partial<Pick<IDocument, 'title' | 'content'>>;
+
+/**
+ * 搜索组织内文档
+ * @returns
+ */
+export const useSearchDocuments = (organizationId) => {
+  const [apiWithLoading, loading] = useAsyncLoading((keyword) =>
+    HttpClient.request({
+      method: DocumentApiDefinition.search.method,
+      url: DocumentApiDefinition.search.client(organizationId),
+      params: { keyword },
+    })
+  );
+
+  return {
+    search: apiWithLoading,
+    loading,
+  };
+};
 
 /**
  * 获取用户最近访问的文档
  * @returns
  */
-export const getRecentVisitedDocuments = (cookie = null): Promise<IDocumentWithVisitedAt[]> => {
+export const getRecentVisitedDocuments = (organizationId, cookie = null): Promise<IDocumentWithVisitedAt[]> => {
   return HttpClient.request({
     method: DocumentApiDefinition.recent.method,
-    url: DocumentApiDefinition.recent.client(),
+    url: DocumentApiDefinition.recent.client(organizationId),
     cookie,
   });
 };
@@ -26,10 +45,10 @@ export const getRecentVisitedDocuments = (cookie = null): Promise<IDocumentWithV
  * 获取用户最近访问的文档
  * @returns
  */
-export const useRecentDocuments = () => {
+export const useRecentDocuments = (organizationId) => {
   const { data, error, isLoading, refetch } = useQuery(
-    DocumentApiDefinition.recent.client(),
-    getRecentVisitedDocuments,
+    DocumentApiDefinition.recent.client(organizationId),
+    () => getRecentVisitedDocuments(organizationId),
     { refetchOnWindowFocus: false, enabled: false }
   );
   return { data, error, loading: isLoading, refresh: refetch };
@@ -46,11 +65,20 @@ export type DocAuth = {
  * @param cookie
  * @returns
  */
-export const getDocumentMembers = (documentId, cookie = null): Promise<Array<{ user: IUser; auth: IAuthority }>> => {
+export const getDocumentMembers = (
+  documentId,
+  page,
+  pageSize,
+  cookie = null
+): Promise<Array<{ user: IUser; auth: IAuthority }>> => {
   return HttpClient.request({
     method: DocumentApiDefinition.getMemberById.method,
     url: DocumentApiDefinition.getMemberById.client(documentId),
     cookie,
+    params: {
+      page,
+      pageSize,
+    },
   });
 };
 
@@ -60,23 +88,20 @@ export const getDocumentMembers = (documentId, cookie = null): Promise<Array<{ u
  * @returns
  */
 export const useDoumentMembers = (documentId, options?: UseQueryOptions<Array<{ user: IUser; auth: IAuthority }>>) => {
+  const [pageSize] = useState(12);
+  const [page, setPage] = useState(1);
   const { data, error, isLoading, refetch } = useQuery(
-    DocumentApiDefinition.getMemberById.client(documentId),
-    () => getDocumentMembers(documentId),
+    [DocumentApiDefinition.getMemberById.client(documentId), page],
+    () => getDocumentMembers(documentId, page, pageSize),
     options
   );
 
   const addUser = useCallback(
-    async (userName) => {
+    async (data) => {
       const ret = await HttpClient.request({
         method: DocumentApiDefinition.addMemberById.method,
         url: DocumentApiDefinition.addMemberById.client(documentId),
-        data: {
-          documentId,
-          userName,
-          readable: true,
-          editable: false,
-        },
+        data,
       });
       refetch();
       return ret;
@@ -85,14 +110,11 @@ export const useDoumentMembers = (documentId, options?: UseQueryOptions<Array<{ 
   );
 
   const updateUser = useCallback(
-    async (docAuth: DocAuth) => {
+    async (data) => {
       const ret = await HttpClient.request({
         method: DocumentApiDefinition.updateMemberById.method,
         url: DocumentApiDefinition.updateMemberById.client(documentId),
-        data: {
-          documentId,
-          ...docAuth,
-        },
+        data,
       });
       refetch();
       return ret;
@@ -101,14 +123,11 @@ export const useDoumentMembers = (documentId, options?: UseQueryOptions<Array<{ 
   );
 
   const deleteUser = useCallback(
-    async (docAuth: DocAuth) => {
+    async (data) => {
       const ret = await HttpClient.request({
         method: DocumentApiDefinition.deleteMemberById.method,
         url: DocumentApiDefinition.deleteMemberById.client(documentId),
-        data: {
-          documentId,
-          ...docAuth,
-        },
+        data,
       });
       refetch();
       return ret;
@@ -116,7 +135,7 @@ export const useDoumentMembers = (documentId, options?: UseQueryOptions<Array<{ 
     [refetch, documentId]
   );
 
-  return { users: data, loading: isLoading, error, addUser, updateUser, deleteUser };
+  return { data, loading: isLoading, error, page, pageSize, setPage, addUser, updateUser, deleteUser };
 };
 
 /**

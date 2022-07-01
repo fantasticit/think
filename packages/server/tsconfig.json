@@ -21,7 +21,8 @@
       "@entities/*": ["src/entities/*"],
       "@services/*": ["src/services/*"],
       "@controllers/*": ["src/controllers/*"],
-      "@modules/*": ["src/modules/*"]
+      "@modules/*": ["src/modules/*"],
+      "@constants/*": ["src/constants"]
     }
   },
   "watchOptions": {

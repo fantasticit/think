@@ -1,7 +1,7 @@
 import { MessageEntity } from '@entities/message.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OutUser } from '@services/user.service';
+import { IUser } from '@think/domains';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -17,8 +17,8 @@ export class MessageService {
    * @param msg
    * @returns
    */
-  async notify(user: OutUser, msg) {
-    const data = { userId: user.id, ...msg };
+  async notify(userId: IUser['id'], msg) {
+    const data = { userId, ...msg };
     const res = await this.messageRepo.create(data);
     const ret = await this.messageRepo.save(res);
     return ret;

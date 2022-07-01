@@ -6,3 +6,5 @@ export * from './message';
 export * from './template';
 export * from './comment';
 export * from './star';
+export * from './organization';
+export * from './system';

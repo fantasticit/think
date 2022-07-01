@@ -5,16 +5,16 @@ export declare const DocumentApiDefinition: {
      */
     search: {
         method: "get";
-        server: "search";
-        client: () => string;
+        server: "/:organizationId/search";
+        client: (organizationId: any) => string;
     };
     /**
      * 获取用户最近访问的文档
      */
     recent: {
         method: "get";
-        server: "recent";
-        client: () => string;
+        server: "/:organizationId/recent";
+        client: (organizationId: any) => string;
     };
     /**
      * 新建文档

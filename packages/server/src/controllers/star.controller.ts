@@ -7,6 +7,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Query,
   Request,
@@ -24,7 +25,7 @@ export class StarController {
    * 收藏（或取消收藏）
    */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post(StarApiDefinition.toggle.server)
+  @Post(StarApiDefinition.toggleStar.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
   async toggleStar(@Request() req, @Body() dto: StarDto) {
@@ -35,7 +36,7 @@ export class StarController {
    * 检测是否收藏
    */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post(StarApiDefinition.check.server)
+  @Post(StarApiDefinition.isStared.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
   async checkStar(@Request() req, @Body() dto: StarDto) {
@@ -43,35 +44,35 @@ export class StarController {
   }
 
   /**
-   * 获取收藏的知识库
+   * 获取组织内加星的知识库
    */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get(StarApiDefinition.wikis.server)
+  @Get(StarApiDefinition.getStarWikisInOrganization.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getWikis(@Request() req) {
-    return await this.starService.getWikis(req.user);
+  async getStarWikisInOrganization(@Request() req, @Param('organizationId') organizationId) {
+    return await this.starService.getStarWikisInOrganization(req.user, organizationId);
   }
 
   /**
    * 获取知识库内收藏的文档
    */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get(StarApiDefinition.wikiDocuments.server)
+  @Get(StarApiDefinition.getStarDocumentsInWiki.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getWikiDocuments(@Request() req, @Query() dto: StarDto) {
-    return await this.starService.getWikiDocuments(req.user, dto);
+  async getStarDocumentsInWiki(@Request() req, @Query() dto: StarDto) {
+    return await this.starService.getStarDocumentsInWiki(req.user, dto);
   }
 
   /**
-   * 获取收藏的文档
+   * 获取组织内加星的文档（平铺）
    */
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get(StarApiDefinition.documents.server)
+  @Get(StarApiDefinition.getStarDocumentsInOrganization.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getDocuments(@Request() req) {
-    return await this.starService.getDocuments(req.user);
+  async getStarDocumentsInOrganization(@Request() req, @Param('organizationId') organizationId) {
+    return await this.starService.getStarDocumentsInOrganization(req.user, organizationId);
   }
 }

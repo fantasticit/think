@@ -1,21 +1,21 @@
+import { AuthEntity } from '@entities/auth.entity';
 import { CommentEntity } from '@entities/comment.entity';
 import { DocumentEntity } from '@entities/document.entity';
-import { DocumentAuthorityEntity } from '@entities/document-authority.entity';
 import { MessageEntity } from '@entities/message.entity';
+import { OrganizationEntity } from '@entities/organization.entity';
 import { StarEntity } from '@entities/star.entity';
 import { SystemEntity } from '@entities/system.entity';
 import { TemplateEntity } from '@entities/template.entity';
 import { UserEntity } from '@entities/user.entity';
-import { VerifyEntity } from '@entities/verify.entity';
-import { ViewEntity } from '@entities/view.entity';
 import { WikiEntity } from '@entities/wiki.entity';
-import { WikiUserEntity } from '@entities/wiki-user.entity';
 import { IS_PRODUCTION } from '@helpers/env.helper';
 import { getLogFileName, ONE_DAY } from '@helpers/log.helper';
+import { AuthModule } from '@modules/auth.module';
 import { CommentModule } from '@modules/comment.module';
 import { DocumentModule } from '@modules/document.module';
 import { FileModule } from '@modules/file.module';
 import { MessageModule } from '@modules/message.module';
+import { OrganizationModule } from '@modules/organization.module';
 import { StarModule } from '@modules/star.module';
 import { SystemModule } from '@modules/system.module';
 import { TemplateModule } from '@modules/template.module';
@@ -35,21 +35,21 @@ import pino from 'pino';
 
 const ENTITIES = [
   UserEntity,
+  AuthEntity,
+  OrganizationEntity,
   WikiEntity,
-  WikiUserEntity,
-  DocumentAuthorityEntity,
   DocumentEntity,
   StarEntity,
   CommentEntity,
   MessageEntity,
   TemplateEntity,
-  ViewEntity,
-  VerifyEntity,
   SystemEntity,
 ];
 
 const MODULES = [
   UserModule,
+  AuthModule,
+  OrganizationModule,
   WikiModule,
   DocumentModule,
   StarModule,

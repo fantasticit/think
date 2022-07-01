@@ -9,6 +9,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import styles from './index.module.scss';
 
 interface IProps {
+  width?: number;
+  mobileHeight?: number;
   images: Array<{
     key: string;
     title: React.ReactNode;
@@ -52,7 +54,7 @@ const UploadTab = ({ selectImage }) => {
   );
 };
 
-export const ImageUploader: React.FC<IProps> = ({ images, selectImage, children }) => {
+export const ImageUploader: React.FC<IProps> = ({ width = 360, mobileHeight = 370, images, selectImage, children }) => {
   const { isMobile } = IsOnMobile.useHook();
   const [visible, toggleVisible] = useToggle(false);
 
@@ -131,7 +133,7 @@ export const ImageUploader: React.FC<IProps> = ({ images, selectImage, children 
             title={'图片'}
             visible={visible}
             onCancel={toggleVisible}
-            height={370}
+            height={mobileHeight}
             mask={false}
           >
             {content}
@@ -146,7 +148,7 @@ export const ImageUploader: React.FC<IProps> = ({ images, selectImage, children 
           position="bottomRight"
           visible={visible}
           onVisibleChange={toggleVisible}
-          content={<div style={{ width: 360, maxWidth: '96vw' }}>{content}</div>}
+          content={<div style={{ width, maxWidth: '96vw' }}>{content}</div>}
         >
           {children}
         </Popover>

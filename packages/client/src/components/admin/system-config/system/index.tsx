@@ -1,4 +1,5 @@
-import { Banner, Button, Form, Toast } from '@douyinfe/semi-ui';
+import { IconHelpCircle } from '@douyinfe/semi-icons';
+import { Banner, Button, Form, Toast, Tooltip } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { useSystemConfig } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
@@ -27,9 +28,29 @@ export const System = () => {
       error={error}
       normalContent={() => (
         <div style={{ marginTop: 16 }}>
-          <Banner type="warning" description="系统锁定后，除系统管理员外均不可登录，谨慎修改！" closeIcon={null} />
           <Form labelPosition="left" initValues={data} onChange={onFormChange} onSubmit={onFinish}>
-            <Form.Switch field="isSystemLocked" label="系统锁定" />
+            <Form.Switch
+              field="isSystemLocked"
+              label={{
+                text: '系统锁定',
+                extra: (
+                  <Tooltip content="系统锁定后，除系统管理员外均不可登录，谨慎修改！">
+                    <IconHelpCircle style={{ color: '--semi-color-text-1' }} />
+                  </Tooltip>
+                ),
+              }}
+            />
+            <Form.Switch
+              field="enableEmailVerify"
+              label={{
+                text: '邮箱检验',
+                extra: (
+                  <Tooltip content="开启邮箱检验后，新注册用户必须通过邮箱验证">
+                    <IconHelpCircle style={{ color: '--semi-color-text-1' }} />
+                  </Tooltip>
+                ),
+              }}
+            />
 
             <Button
               htmlType="submit"

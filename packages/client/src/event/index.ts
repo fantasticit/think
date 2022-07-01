@@ -3,6 +3,7 @@ import { EventEmitter } from 'helpers/event-emitter';
 
 export const event = new EventEmitter();
 
+export const REFRESH_ORGANIZATIONS = 'REFRESH_ORGANIZATIONS'; // 刷新组织列表
 export const REFRESH_TOCS = `REFRESH_TOCS`; // 刷新知识库目录
 export const CREATE_DOCUMENT = `CREATE_DOCUMENT`;
 export const TOGGLE_STAR_WIKI = `TOGGLE_STAR_WIKI`; // 收藏或取消收藏知识库
@@ -59,4 +60,8 @@ export const triggerToggleStarWiki = () => {
 
 export const triggerToggleStarDocument = () => {
   event.emit(TOGGLE_STAR_DOUCMENT);
+};
+
+export const triggerRefreshOrganizations = () => {
+  event.emit(REFRESH_ORGANIZATIONS);
 };

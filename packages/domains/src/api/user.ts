@@ -1,5 +1,3 @@
-import { IUser } from '../models';
-
 export const UserApiDefinition = {
   /**
    * 获取用户

@@ -1,10 +1,9 @@
+import { OperateUserAuthDto } from '@dtos/auth.dto';
 import { CreateWikiDto } from '@dtos/create-wiki.dto';
 import { ShareWikiDto } from '@dtos/share-wiki.dto';
 import { UpdateWikiDto } from '@dtos/update-wiki.dto';
-import { WikiUserDto } from '@dtos/wiki-user.dto';
 import { JwtGuard } from '@guard/jwt.guard';
 import { CheckWikiStatus, WikiStatusGuard } from '@guard/wiki-status.guard';
-import { CheckWikiUserRole, WikiUserRoleGuard } from '@guard/wiki-user.guard';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -22,7 +21,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { WikiService } from '@services/wiki.service';
-import { IPagination, WikiApiDefinition, WikiStatus, WikiUserRole } from '@think/domains';
+import { IPagination, WikiApiDefinition, WikiStatus } from '@think/domains';
 
 @Controller('wiki')
 export class WikiController {
@@ -38,8 +37,8 @@ export class WikiController {
   @Get(WikiApiDefinition.getAllWikis.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getAllWikis(@Request() req, @Query() pagination: IPagination) {
-    return await this.wikiService.getAllWikis(req.user, pagination);
+  async getAllWikis(@Request() req, @Param('organizationId') organizationId, @Query() pagination: IPagination) {
+    return await this.wikiService.getAllWikis(req.user, organizationId, pagination);
   }
 
   /**
@@ -52,8 +51,8 @@ export class WikiController {
   @Get(WikiApiDefinition.getOwnWikis.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getOwnWikis(@Request() req, @Query() pagination: IPagination) {
-    return await this.wikiService.getOwnWikis(req.user, pagination);
+  async getOwnWikis(@Request() req, @Param('organizationId') organizationId, @Query() pagination: IPagination) {
+    return await this.wikiService.getOwnWikis(req.user, organizationId, pagination);
   }
 
   /**
@@ -66,8 +65,8 @@ export class WikiController {
   @Get(WikiApiDefinition.getJoinWikis.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getJoinWikis(@Request() req, @Query() pagination: IPagination) {
-    return await this.wikiService.getJoinWikis(req.user, pagination);
+  async getJoinWikis(@Request() req, @Param('organizationId') organizationId, @Query() pagination: IPagination) {
+    return await this.wikiService.getJoinWikis(req.user, organizationId, pagination);
   }
 
   /**
@@ -93,8 +92,6 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(WikiApiDefinition.getHomeDocumentById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole()
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async getWikiHomeDocument(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.getWikiHomeDocument(req.user, wikiId);
@@ -109,8 +106,6 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(WikiApiDefinition.getTocsById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole()
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async getWikiTocs(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.getWikiTocs(req.user, wikiId);
@@ -126,27 +121,9 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(WikiApiDefinition.updateTocsById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole()
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async orderWikiTocs(@Body() relations) {
     return await this.wikiService.orderWikiTocs(relations);
-  }
-
-  /**
-   * 获取知识库所有文档
-   * @param req
-   * @param wikiId
-   * @returns
-   */
-  @UseInterceptors(ClassSerializerInterceptor)
-  @Get(WikiApiDefinition.getDocumentsById.server)
-  @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole()
-  @UseGuards(WikiUserRoleGuard)
-  @UseGuards(JwtGuard)
-  async getWikiDocs(@Request() req, @Param('id') wikiId) {
-    return await this.wikiService.getWikiDocs(req.user, wikiId);
   }
 
   /**
@@ -158,8 +135,6 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(WikiApiDefinition.getDetailById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole()
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async getWikiDetail(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.getWikiDetail(req.user, wikiId);
@@ -167,7 +142,6 @@ export class WikiController {
 
   /**
    * 修改知识库
-   * 只有管理员可操作
    * @param req
    * @param wikiId
    * @param dto
@@ -176,8 +150,6 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(WikiApiDefinition.updateById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole(WikiUserRole.admin)
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async updateWiki(@Request() req, @Param('id') wikiId, @Body() dto: UpdateWikiDto) {
     return await this.wikiService.updateWiki(req.user, wikiId, dto);
@@ -185,7 +157,6 @@ export class WikiController {
 
   /**
    * 删除知识库
-   * 只有管理员可操作
    * @param req
    * @param wikiId
    * @returns
@@ -193,8 +164,6 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(WikiApiDefinition.deleteById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole(WikiUserRole.admin)
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async deleteWiki(@Request() req, @Param('id') wikiId) {
     return await this.wikiService.deleteWiki(req.user, wikiId);
@@ -202,7 +171,6 @@ export class WikiController {
 
   /**
    * 查看知识库成员
-   * 只有管理员可操作
    * @param req
    * @param wikiId
    * @returns
@@ -210,16 +178,13 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(WikiApiDefinition.getMemberById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole(WikiUserRole.admin)
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
-  async getWikiUsers(@Param('id') wikiId) {
-    return await this.wikiService.getWikiUsers(wikiId);
+  async getWikiUsers(@Request() req, @Param('id') wikiId, @Query() pagination: IPagination) {
+    return await this.wikiService.getWikiUsers(req.user, wikiId, pagination);
   }
 
   /**
    * 添加知识库成员
-   * 只有管理员可操作
    * @param req
    * @param wikiId
    * @param dto
@@ -228,16 +193,13 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post(WikiApiDefinition.addMemberById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole(WikiUserRole.admin)
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
-  async addWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: WikiUserDto) {
+  async addWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: OperateUserAuthDto) {
     return await this.wikiService.addWikiUser(req.user, wikiId, dto);
   }
 
   /**
    * 更新知识库成员（一般为角色操作）
-   * 只有管理员可操作
    * @param req
    * @param wikiId
    * @param dto
@@ -246,16 +208,13 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(WikiApiDefinition.updateMemberById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole(WikiUserRole.admin)
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
-  async updateWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: WikiUserDto) {
+  async updateWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: OperateUserAuthDto) {
     return await this.wikiService.updateWikiUser(req.user, wikiId, dto);
   }
 
   /**
    * 删除知识库成员
-   * 只有管理员可操作
    * @param req
    * @param wikiId
    * @param dto
@@ -264,16 +223,13 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(WikiApiDefinition.deleteMemberById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole(WikiUserRole.admin)
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
-  async deleteWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: WikiUserDto) {
+  async deleteWikiUser(@Request() req, @Param('id') wikiId, @Body() dto: OperateUserAuthDto) {
     return await this.wikiService.deleteWikiUser(req.user, wikiId, dto);
   }
 
   /**
    * 分享（或关闭分享）知识库
-   * 只有管理员可操作
    * @param req
    * @param wikiId
    * @param dto
@@ -282,8 +238,6 @@ export class WikiController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post(WikiApiDefinition.shareById.server)
   @HttpCode(HttpStatus.OK)
-  @CheckWikiUserRole(WikiUserRole.admin)
-  @UseGuards(WikiUserRoleGuard)
   @UseGuards(JwtGuard)
   async toggleWorkspaceStatus(@Request() req, @Param('id') wikiId, @Body() dto: ShareWikiDto) {
     return await this.wikiService.shareWiki(req.user, wikiId, dto);
@@ -301,7 +255,7 @@ export class WikiController {
   @UseGuards(WikiStatusGuard)
   @HttpCode(HttpStatus.OK)
   async getWikiPublicHomeDocument(@Request() req, @Param('id') wikiId) {
-    return await this.wikiService.getPublicWikiHomeDocument(wikiId, req.headers['user-agent']);
+    return await this.wikiService.getPublicWikiHomeDocument(wikiId);
   }
 
   /**

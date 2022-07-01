@@ -1,7 +1,7 @@
 import { IconArticle, IconBranch, IconExport, IconHistory, IconMore, IconPlus, IconStar } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Space, Typography } from '@douyinfe/semi-ui';
 import { ButtonProps } from '@douyinfe/semi-ui/button/Button';
-import { IDocument } from '@think/domains';
+import { IDocument, IOrganization, IWiki } from '@think/domains';
 import cls from 'classnames';
 import { DocumentCreator } from 'components/document/create';
 import { DocumentDeletor } from 'components/document/delete';
@@ -17,8 +17,9 @@ import React, { useCallback } from 'react';
 import styles from './index.module.scss';
 
 interface IProps {
-  wikiId: string;
-  documentId: string;
+  organizationId: IOrganization['id'];
+  wikiId: IWiki['id'];
+  documentId: IDocument['id'];
   document?: IDocument;
   hoverVisible?: boolean;
   onStar?: () => void;
@@ -34,6 +35,7 @@ interface IProps {
 const { Text } = Typography;
 
 export const DocumentActions: React.FC<IProps> = ({
+  organizationId,
   wikiId,
   documentId,
   hoverVisible,
@@ -107,6 +109,7 @@ export const DocumentActions: React.FC<IProps> = ({
             />
 
             <DocumentStar
+              organizationId={organizationId}
               wikiId={wikiId}
               documentId={documentId}
               render={({ star, toggleStar, text }) => (

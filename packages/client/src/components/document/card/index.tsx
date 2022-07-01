@@ -15,15 +15,18 @@ const { Text } = Typography;
 
 export const DocumentCard: React.FC<{ document: IDocument }> = ({ document }) => {
   const gotoEdit = useCallback(() => {
-    Router.push(`/wiki/${document.wikiId}/document/${document.id}/edit`);
+    Router.push({
+      pathname: `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]/edit`,
+      query: { organizationId: document.organizationId, wikiId: document.wikiId, documentId: document.id },
+    });
   }, [document]);
 
   return (
     <div className={styles.cardWrap}>
       <Link
         href={{
-          pathname: `/wiki/[wikiId]/document/[documentId]`,
-          query: { wikiId: document.wikiId, documentId: document.id },
+          pathname: `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]`,
+          query: { organizationId: document.organizationId, wikiId: document.wikiId, documentId: document.id },
         }}
       >
         <a>
@@ -40,7 +43,11 @@ export const DocumentCard: React.FC<{ document: IDocument }> = ({ document }) =>
                 <Tooltip key="edit" content="编辑" position="bottom">
                   <Button type="tertiary" theme="borderless" icon={<IconEdit />} onClick={gotoEdit} />
                 </Tooltip>
-                <DocumentStar wikiId={document.wikiId} documentId={document.id} />
+                <DocumentStar
+                  organizationId={document.organizationId}
+                  wikiId={document.wikiId}
+                  documentId={document.id}
+                />
               </Space>
             </div>
           </header>

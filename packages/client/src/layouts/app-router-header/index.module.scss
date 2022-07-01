@@ -1,0 +1,42 @@
+.titleWrap {
+  padding: 8px 16px;
+}
+
+.itemsWrap {
+  max-height: 240px;
+  overflow: auto;
+}
+
+.itemWrap {
+  border-radius: var(--semi-border-radius-small);
+
+  &:hover {
+    color: var(--semi-color-text-0);
+    background-color: var(--semi-color-fill-0);
+  }
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 16px;
+
+    .leftWrap {
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      color: var(--semi-color-primary);
+
+      svg {
+        fill: var(--semi-color-primary);
+        color: var(--semi-color-primary);
+      }
+
+      > div {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}

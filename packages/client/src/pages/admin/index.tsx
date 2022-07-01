@@ -1,4 +1,4 @@
-import { Typography } from '@douyinfe/semi-ui';
+import { Banner, Typography } from '@douyinfe/semi-ui';
 import { SystemConfig } from 'components/admin/system-config';
 import { Seo } from 'components/seo';
 import { useUser } from 'data/user';
@@ -37,6 +37,7 @@ const Page: NextPage = () => {
                 管理后台
               </Title>
             </div>
+            <Banner type="info" description="该部分是全局的系统管理后台，用于系统配置管理等操作！" />
             <SystemConfig tab={tab} onNavigate={navigate} />
           </>
         ) : (

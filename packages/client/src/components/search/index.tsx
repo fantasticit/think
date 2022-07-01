@@ -7,8 +7,10 @@ import { Empty } from 'components/empty';
 import { IconSearch } from 'components/icons';
 import { IconDocumentFill } from 'components/icons/IconDocumentFill';
 import { LocaleTime } from 'components/locale-time';
+import { useSearchDocuments } from 'data/document';
 import { useAsyncLoading } from 'hooks/use-async-loading';
 import { IsOnMobile } from 'hooks/use-on-mobile';
+import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -19,8 +21,8 @@ import styles from './index.module.scss';
 
 const { Text } = Typography;
 
-const searchDocument = (keyword: string): Promise<IDocument[]> => {
-  return HttpClient.get('/document/search', { params: { keyword } });
+const searchDocument = (organizationId, keyword: string): Promise<IDocument[]> => {
+  return HttpClient.get(`/document/search/${organizationId}`, { params: { keyword } });
 };
 
 const List: React.FC<{ data: IDocument[] }> = ({ data }) => {
@@ -32,11 +34,8 @@ const List: React.FC<{ data: IDocument[] }> = ({ data }) => {
             <div className={styles.itemWrap} key={doc.id}>
               <Link
                 href={{
-                  pathname: '/wiki/[wikiId]/document/[documentId]',
-                  query: {
-                    wikiId: doc.wikiId,
-                    documentId: doc.id,
-                  },
+                  pathname: `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]`,
+                  query: { organizationId: doc.organizationId, wikiId: doc.wikiId, documentId: doc.id },
                 }}
               >
                 <a className={styles.item}>
@@ -54,7 +53,7 @@ const List: React.FC<{ data: IDocument[] }> = ({ data }) => {
                     </div>
                   </div>
                   <div className={styles.rightWrap}>
-                    <DocumentStar wikiId={doc.wikiId} documentId={doc.id} />
+                    <DocumentStar organizationId={doc.organizationId} wikiId={doc.wikiId} documentId={doc.id} />
                   </div>
                 </a>
               </Link>
@@ -69,10 +68,12 @@ const List: React.FC<{ data: IDocument[] }> = ({ data }) => {
 };
 
 export const Search = () => {
+  const { organizationId } = useRouterQuery<{ organizationId: string }>();
+  const { search: searchApi, loading } = useSearchDocuments(organizationId);
+
   const ref = useRef<HTMLInputElement>();
   const { isMobile } = IsOnMobile.useHook();
   const [visible, toggleVisible] = useToggle(false);
-  const [searchApi, loading] = useAsyncLoading(searchDocument, 10);
   const [keyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
   const [searchDocs, setSearchDocs] = useState<IDocument[]>([]);

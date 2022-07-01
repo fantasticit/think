@@ -40,21 +40,18 @@ export class SystemService {
    */
   private async loadFromConfigFile() {
     const currentConfig = await this.getConfigFromDatabase();
-    const emailConfigKeys = ['emailServiceHost', 'emailServicePort', 'emailServiceUser', 'emailServicePassword'];
-
-    if (currentConfig && emailConfigKeys.every((configKey) => Boolean(currentConfig[configKey]))) {
-      return;
-    }
 
     // 同步邮件服务配置
     const emailConfigFromConfigFile = await this.confifgService.get('server.email');
+
     let emailConfig = {};
+
     if (emailConfigFromConfigFile && typeof emailConfigFromConfigFile === 'object') {
       emailConfig = {
-        emailServiceHost: emailConfigFromConfigFile.host,
-        emailServicePort: emailConfigFromConfigFile.port,
-        emailServiceUser: emailConfigFromConfigFile.user,
-        emailServicePassword: emailConfigFromConfigFile.password,
+        emailServiceHost: currentConfig ? currentConfig.emailServiceHost : emailConfigFromConfigFile.host,
+        emailServicePort: currentConfig ? currentConfig.emailServicePort : emailConfigFromConfigFile.port,
+        emailServiceUser: currentConfig ? currentConfig.emailServiceUser : emailConfigFromConfigFile.user,
+        emailServicePassword: currentConfig ? currentConfig.emailServicePassword : emailConfigFromConfigFile.password,
       };
     }
 
@@ -117,5 +114,10 @@ export class SystemService {
         }
       );
     });
+  }
+
+  async getPublicConfig() {
+    const config = await this.getConfigFromDatabase();
+    return { isSystemLocked: config.isSystemLocked, enableEmailVerify: config.enableEmailVerify };
   }
 }

@@ -1,4 +1,4 @@
-import { UserRole, UserStatus } from '@think/domains';
+import { UserStatus } from '@think/domains';
 import * as bcrypt from 'bcryptjs';
 import { Exclude } from 'class-transformer';
 import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
@@ -39,14 +39,6 @@ export class UserEntity {
 
   @Column({
     type: 'enum',
-    enum: UserRole,
-    default: UserRole.normal,
-    comment: '用户角色',
-  })
-  public role: UserRole;
-
-  @Column({
-    type: 'enum',
     enum: UserStatus,
     default: UserStatus.normal,
     comment: '用户状态',
@@ -55,14 +47,14 @@ export class UserEntity {
 
   @CreateDateColumn({
     type: 'timestamp',
-    name: 'created_at',
+    name: 'createdAt',
     comment: '创建时间',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
-    name: 'updated_at',
+    name: 'updatedAt',
     comment: '更新时间',
   })
   updatedAt: Date;

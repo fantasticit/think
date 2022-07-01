@@ -1,5 +1,5 @@
 import { Toast } from '@douyinfe/semi-ui';
-import { ILoginUser, ISystemConfig, IUser, UserApiDefinition } from '@think/domains';
+import { ILoginUser, ISystemConfig, IUser, SystemApiDefinition, UserApiDefinition } from '@think/domains';
 import { getStorage, setStorage } from 'helpers/storage';
 import { useAsyncLoading } from 'hooks/use-async-loading';
 import Router, { useRouter } from 'next/router';
@@ -109,7 +109,7 @@ export const useUser = () => {
         refetch();
         setStorage('user', JSON.stringify(user));
         user.token && setStorage('token,', user.token);
-        const next = router.query?.redirect || '/';
+        const next = router.query?.redirect || '/app';
         Router.replace(next as string);
       });
     },
@@ -138,10 +138,17 @@ export const useUser = () => {
   };
 };
 
-/**
- * 获取验证码
- * @returns
- */
+export const useSystemPublicConfig = () => {
+  const { data, error, isLoading, refetch } = useQuery(SystemApiDefinition.getPublicConfig.client(), () =>
+    HttpClient.request<ISystemConfig>({
+      method: SystemApiDefinition.getPublicConfig.method,
+      url: SystemApiDefinition.getPublicConfig.client(),
+    })
+  );
+
+  return { data, error, loading: isLoading, refresh: refetch };
+};
+
 export const useSystemConfig = () => {
   const { data, error, isLoading, refetch } = useQuery(UserApiDefinition.getSystemConfig.client(), () =>
     HttpClient.request<ISystemConfig>({

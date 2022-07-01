@@ -56,7 +56,10 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   );
 
   const gotoEdit = useCallback(() => {
-    Router.push(`/wiki/${document.wikiId}/document/${document.id}/edit`);
+    Router.push({
+      pathname: `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]/edit`,
+      query: { organizationId: document.organizationId, wikiId: document.wikiId, documentId: document.id },
+    });
   }, [document]);
 
   const actions = useMemo(() => {
@@ -70,11 +73,26 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
             documentId={documentId}
           />
         )}
-        {document && <DocumentStar disabled={!readable} key="star" wikiId={document.wikiId} documentId={documentId} />}
+        {document && (
+          <DocumentStar
+            disabled={!readable}
+            key="star"
+            organizationId={document.organizationId}
+            wikiId={document.wikiId}
+            documentId={documentId}
+          />
+        )}
         <Tooltip key="edit" content="编辑" position="bottom">
           <Button disabled={!editable} icon={<IconEdit />} onMouseDown={gotoEdit} />
         </Tooltip>
-        {document && <DocumentActions wikiId={document.wikiId} documentId={documentId} document={document} />}
+        {document && (
+          <DocumentActions
+            organizationId={document.organizationId}
+            wikiId={document.wikiId}
+            documentId={documentId}
+            document={document}
+          />
+        )}
         <DocumentVersion documentId={documentId} />
       </Space>
     );

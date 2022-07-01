@@ -7,24 +7,24 @@ exports.WikiApiDefinition = {
      */
     getAllWikis: {
         method: 'get',
-        server: 'list/all',
-        client: function () { return '/wiki/list/all'; }
+        server: 'list/all/:organizationId',
+        client: function (organizationId) { return "/wiki/list/all/".concat(organizationId); }
     },
     /**
      * 获取用户创建的知识库
      */
     getOwnWikis: {
         method: 'get',
-        server: 'list/own',
-        client: function () { return '/wiki/list/own'; }
+        server: 'list/own/:organizationId',
+        client: function (organizationId) { return "/wiki/list/own/".concat(organizationId); }
     },
     /**
      * 获取用户参与的知识库
      */
     getJoinWikis: {
         method: 'get',
-        server: 'list/join',
-        client: function () { return '/wiki/list/join'; }
+        server: 'list/join/:organizationId',
+        client: function (organizationId) { return "/wiki/list/join/".concat(organizationId); }
     },
     /**
      * 新建知识库

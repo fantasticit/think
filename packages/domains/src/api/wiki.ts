@@ -6,8 +6,8 @@ export const WikiApiDefinition = {
    */
   getAllWikis: {
     method: 'get' as const,
-    server: 'list/all' as const,
-    client: () => '/wiki/list/all',
+    server: 'list/all/:organizationId' as const,
+    client: (organizationId) => `/wiki/list/all/${organizationId}`,
   },
 
   /**
@@ -15,8 +15,8 @@ export const WikiApiDefinition = {
    */
   getOwnWikis: {
     method: 'get' as const,
-    server: 'list/own' as const,
-    client: () => '/wiki/list/own',
+    server: 'list/own/:organizationId' as const,
+    client: (organizationId) => `/wiki/list/own/${organizationId}`,
   },
 
   /**
@@ -24,8 +24,8 @@ export const WikiApiDefinition = {
    */
   getJoinWikis: {
     method: 'get' as const,
-    server: 'list/join' as const,
-    client: () => '/wiki/list/join',
+    server: 'list/join/:organizationId' as const,
+    client: (organizationId) => `/wiki/list/join/${organizationId}`,
   },
 
   /**

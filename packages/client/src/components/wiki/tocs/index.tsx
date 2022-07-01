@@ -1,10 +1,11 @@
 import { IconPlus, IconSmallTriangleDown } from '@douyinfe/semi-icons';
 import { Avatar, Button, Dropdown, Skeleton, Typography } from '@douyinfe/semi-ui';
+import { IDocument } from '@think/domains';
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { IconOverview, IconSetting } from 'components/icons';
 import { findParents } from 'components/wiki/tocs/utils';
-import { useStarWikis, useWikiStarDocuments } from 'data/star';
+import { useStarDocumentsInWiki, useStarWikisInOrganization } from 'data/star';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
 import { triggerCreateDocument } from 'event';
 import Link from 'next/link';
@@ -18,7 +19,7 @@ interface IProps {
   wikiId: string;
   documentId?: string;
   docAsLink?: string;
-  getDocLink?: (arg: string) => string;
+  getDocLink?: (arg: IDocument) => string;
 }
 
 const { Text } = Typography;
@@ -26,18 +27,18 @@ const { Text } = Typography;
 export const WikiTocs: React.FC<IProps> = ({
   wikiId,
   documentId = null,
-  docAsLink = '/wiki/[wikiId]/document/[documentId]',
-  getDocLink = (documentId) => `/wiki/${wikiId}/document/${documentId}`,
+  docAsLink = '/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]',
+  getDocLink = (document) => `/app/org/${document.organizationId}/wiki/${document.wikiId}/doc/${document.id}`,
 }) => {
   const { pathname, query } = useRouter();
   const { data: wiki, loading: wikiLoading, error: wikiError } = useWikiDetail(wikiId);
   const { data: tocs, loading: tocsLoading, error: tocsError } = useWikiTocs(wikiId);
-  const { data: starWikis } = useStarWikis();
+  const { data: starWikis } = useStarWikisInOrganization(query.organizationId);
   const {
     data: starDocuments,
     loading: starDocumentsLoading,
     error: starDocumentsError,
-  } = useWikiStarDocuments(wikiId);
+  } = useStarDocumentsInWiki(query.organizationId, wikiId);
   const [parentIds, setParentIds] = useState<Array<string>>([]);
   const otherStarWikis = useMemo(() => (starWikis || []).filter((wiki) => wiki.id !== wikiId), [starWikis, wikiId]);
 
@@ -86,8 +87,8 @@ export const WikiTocs: React.FC<IProps> = ({
                         <Dropdown.Item key={wiki.id}>
                           <Link
                             href={{
-                              pathname: `/wiki/[wikiId]`,
-                              query: { wikiId: wiki.id },
+                              pathname: `/app/org/[organizationId]/wiki/[wikiId]`,
+                              query: { organizationId: wiki.organizationId, wikiId: wiki.id },
                             }}
                           >
                             <a
@@ -192,13 +193,14 @@ export const WikiTocs: React.FC<IProps> = ({
             <div
               className={cls(
                 styles.linkWrap,
-                (pathname === '/wiki/[wikiId]' || query.documentId === wiki.homeDocumentId) && styles.isActive
+                (pathname === '/app/org/[organizationId]/wiki/[wikiId]' || query.documentId === wiki.homeDocumentId) &&
+                  styles.isActive
               )}
             >
               <Link
                 href={{
-                  pathname: `/wiki/[wikiId]`,
-                  query: { wikiId },
+                  pathname: `/app/org/[organizationId]/wiki/[wikiId]`,
+                  query: { organizationId: wiki.organizationId, wikiId },
                 }}
               >
                 <a>
@@ -235,11 +237,16 @@ export const WikiTocs: React.FC<IProps> = ({
           }
           error={wikiError}
           normalContent={() => (
-            <div className={cls(styles.linkWrap, pathname === '/wiki/[wikiId]/setting' && styles.isActive)}>
+            <div
+              className={cls(
+                styles.linkWrap,
+                pathname === '/app/org/[organizationId]/wiki/[wikiId]/setting' && styles.isActive
+              )}
+            >
               <Link
                 href={{
-                  pathname: `/wiki/[wikiId]/setting`,
-                  query: { tab: 'base', wikiId },
+                  pathname: `/app/org/[organizationId]/wiki/[wikiId]/setting`,
+                  query: { organizationId: wiki.organizationId, wikiId, tab: 'base' },
                 }}
               >
                 <a>

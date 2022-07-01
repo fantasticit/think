@@ -15,8 +15,8 @@ export const WikiCard: React.FC<{ wiki: IWikiWithIsMember; shareMode?: boolean }
     <div className={styles.cardWrap}>
       <Link
         href={{
-          pathname: `${shareMode || !wiki.isMember ? '/share' : ''}/wiki/[wikiId]`,
-          query: { wikiId: wiki.id },
+          pathname: shareMode || !wiki.isMember ? '/share/wiki/[wikiId]' : `/app/org/[organizationId]/wiki/[wikiId]`,
+          query: { organizationId: wiki.organizationId, wikiId: wiki.id },
         }}
       >
         <a target={shareMode ? '_blank' : '_self'}>
@@ -34,11 +34,13 @@ export const WikiCard: React.FC<{ wiki: IWikiWithIsMember; shareMode?: boolean }
             >
               {wiki.name.charAt(0)}
             </Avatar>
-            <div className={styles.rightWrap}>
-              <Space>
-                <WikiStar wikiId={wiki.id} />
-              </Space>
-            </div>
+            {!shareMode && (
+              <div className={styles.rightWrap}>
+                <Space>
+                  <WikiStar organizationId={wiki.organizationId} wikiId={wiki.id} />
+                </Space>
+              </div>
+            )}
           </header>
           <main>
             <div style={{ marginBottom: 12 }}>

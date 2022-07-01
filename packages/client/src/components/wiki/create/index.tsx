@@ -2,6 +2,7 @@ import { Form, Modal } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import type { IWiki } from '@think/domains';
 import { ICreateWiki, useOwnWikis } from 'data/wiki';
+import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
 import { Dispatch, SetStateAction, useRef } from 'react';
 
@@ -12,18 +13,21 @@ interface IProps {
 
 export const WikiCreator: React.FC<IProps> = ({ visible, toggleVisible }) => {
   const $form = useRef<FormApi>();
-  const { createWiki } = useOwnWikis();
+  const { organizationId } = useRouterQuery<{ organizationId: string }>();
+  const { createWiki } = useOwnWikis(organizationId);
 
   const handleOk = () => {
     $form.current.validate().then((values) => {
       createWiki(values as ICreateWiki).then((res) => {
         toggleVisible(false);
         Router.push({
-          pathname: `/wiki/${(res as unknown as IWiki).id}`,
+          pathname: `/app/org/[organizationId]/wiki/[wikiId]`,
+          query: { organizationId: res.organizationId, wikiId: res.id },
         });
       });
     });
   };
+
   const handleCancel = () => {
     toggleVisible(false);
   };

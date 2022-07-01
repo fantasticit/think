@@ -1,3 +1,5 @@
+import { RedisDBEnum } from '@constants/*';
+import { buildRedis } from '@helpers/redis.helper';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { getConfig } from '@think/config';
 import { IDocument, IUser } from '@think/domains';
@@ -51,36 +53,14 @@ export class DocumentVersionService {
 
   private async init() {
     const config = getConfig();
-    const redisConfig = lodash.get(config, 'db.redis', null);
-
-    if (!redisConfig) {
-      console.error('[think] Redis 未配置，无法启动文档版本服务');
-      return;
-    }
-
     this.max = lodash.get(config, 'server.maxDocumentVersion', 0) as number;
 
     try {
-      const redis = new Redis({
-        ...redisConfig,
-        db: 0,
-        showFriendlyErrorStack: true,
-        lazyConnect: true,
-      });
-      redis.on('ready', () => {
-        console.log('[think] 文档版本服务启动成功');
-        this.redis = redis;
-        this.error = null;
-      });
-      redis.on('error', (e) => {
-        console.error(`[think] 文档版本服务启动错误: "${e}"`);
-      });
-      redis.connect().catch(() => {
-        this.redis = null;
-        this.error = '[think] 文档版本服务启动失败！';
-      });
+      this.redis = await buildRedis(RedisDBEnum.documentVersion);
+      console.log('[think] 文档版本服务启动成功');
     } catch (e) {
-      //
+      this.error = e.message;
+      console.error(`[think] 文档版本服务启动错误: "${e.message}"`);
     }
   }
 

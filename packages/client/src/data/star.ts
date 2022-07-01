@@ -7,25 +7,29 @@ import { HttpClient } from 'services/http-client';
 export type IWikiWithIsMember = IWiki & { isMember?: boolean };
 
 /**
- * 获取用户收藏的知识库
+ * 获取组织内加星的知识库
  * @returns
  */
-export const getStarWikis = (cookie = null): Promise<IWikiWithIsMember[]> => {
+export const getStarWikisInOrganization = (organizationId, cookie = null): Promise<IWikiWithIsMember[]> => {
   return HttpClient.request({
-    method: StarApiDefinition.wikis.method,
-    url: StarApiDefinition.wikis.client(),
+    method: StarApiDefinition.getStarWikisInOrganization.method,
+    url: StarApiDefinition.getStarWikisInOrganization.client(organizationId),
     cookie,
   });
 };
 
 /**
- * 获取用户收藏的知识库
+ * 获取组织内加星的知识库
  * @returns
  */
-export const useStarWikis = () => {
-  const { data, error, isLoading, refetch } = useQuery(StarApiDefinition.wikis.client(), getStarWikis, {
-    staleTime: 500,
-  });
+export const useStarWikisInOrganization = (organizationId) => {
+  const { data, error, isLoading, refetch } = useQuery(
+    StarApiDefinition.getStarWikisInOrganization.client(organizationId),
+    () => getStarWikisInOrganization(organizationId),
+    {
+      staleTime: 500,
+    }
+  );
 
   useEffect(() => {
     event.on(TOGGLE_STAR_WIKI, refetch);
@@ -43,12 +47,13 @@ export const useStarWikis = () => {
  * @param wikiId
  * @returns
  */
-export const getWikiIsStar = (wikiId, cookie = null): Promise<boolean> => {
+export const getWikiIsStar = (organizationId, wikiId, cookie = null): Promise<boolean> => {
   return HttpClient.request({
-    method: StarApiDefinition.check.method,
-    url: StarApiDefinition.check.client(),
+    method: StarApiDefinition.isStared.method,
+    url: StarApiDefinition.isStared.client(),
     cookie,
     data: {
+      organizationId,
       wikiId,
     },
   });
@@ -59,30 +64,33 @@ export const getWikiIsStar = (wikiId, cookie = null): Promise<boolean> => {
  * @param wikiId
  * @returns
  */
-export const toggleStarWiki = (wikiId, cookie = null): Promise<boolean> => {
+export const toggleStarWiki = (organizationId, wikiId, cookie = null): Promise<boolean> => {
   return HttpClient.request({
-    method: StarApiDefinition.toggle.method,
-    url: StarApiDefinition.toggle.client(),
+    method: StarApiDefinition.toggleStar.method,
+    url: StarApiDefinition.toggleStar.client(),
     cookie,
     data: {
+      organizationId,
       wikiId,
     },
   });
 };
 
 /**
- * 收藏知识库
+ * 加星或取消
  * @param wikiId
  * @returns
  */
-export const useWikiStarToggle = (wikiId) => {
-  const { data, error, refetch } = useQuery([StarApiDefinition.check.client(), wikiId], () => getWikiIsStar(wikiId));
+export const useWikiStarToggle = (organizationId, wikiId) => {
+  const { data, error, refetch } = useQuery([StarApiDefinition.toggleStar.client(), organizationId, wikiId], () =>
+    getWikiIsStar(organizationId, wikiId)
+  );
 
   const toggle = useCallback(async () => {
-    await toggleStarWiki(wikiId);
+    await toggleStarWiki(organizationId, wikiId);
     refetch();
     triggerToggleStarWiki();
-  }, [refetch, wikiId]);
+  }, [refetch, organizationId, wikiId]);
 
   return { data, error, toggle };
 };
@@ -91,10 +99,10 @@ export const useWikiStarToggle = (wikiId) => {
  * 获取用户收藏的文档
  * @returns
  */
-export const getStarDocuments = (cookie = null): Promise<IDocument[]> => {
+export const getStarDocumentsInOrganization = (organizationId, cookie = null): Promise<IDocument[]> => {
   return HttpClient.request({
-    method: StarApiDefinition.documents.method,
-    url: StarApiDefinition.documents.client(),
+    method: StarApiDefinition.getStarDocumentsInOrganization.method,
+    url: StarApiDefinition.getStarDocumentsInOrganization.client(organizationId),
     cookie,
   });
 };
@@ -103,10 +111,14 @@ export const getStarDocuments = (cookie = null): Promise<IDocument[]> => {
  * 获取用户收藏的文档
  * @returns
  */
-export const useStarDocuments = () => {
-  const { data, error, isLoading, refetch } = useQuery(StarApiDefinition.documents.client(), getStarDocuments, {
-    staleTime: 500,
-  });
+export const useStarDocumentsInOrganization = (organizationId) => {
+  const { data, error, isLoading, refetch } = useQuery(
+    StarApiDefinition.getStarDocumentsInOrganization.client(organizationId),
+    () => getStarDocumentsInOrganization(organizationId),
+    {
+      staleTime: 500,
+    }
+  );
   useEffect(() => {
     event.on(TOGGLE_STAR_DOUCMENT, refetch);
 
@@ -122,12 +134,13 @@ export const useStarDocuments = () => {
  * @param documentId
  * @returns
  */
-export const getDocumentIsStar = (wikiId, documentId, cookie = null): Promise<boolean> => {
+export const getDocumentIsStar = (organizationId, wikiId, documentId, cookie = null): Promise<boolean> => {
   return HttpClient.request({
-    method: StarApiDefinition.check.method,
-    url: StarApiDefinition.check.client(),
+    method: StarApiDefinition.isStared.method,
+    url: StarApiDefinition.isStared.client(),
     cookie,
     data: {
+      organizationId,
       wikiId,
       documentId,
     },
@@ -139,12 +152,13 @@ export const getDocumentIsStar = (wikiId, documentId, cookie = null): Promise<bo
  * @param wikiId
  * @returns
  */
-export const toggleDocumentStar = (wikiId, documentId, cookie = null): Promise<boolean> => {
+export const toggleDocumentStar = (organizationId, wikiId, documentId, cookie = null): Promise<boolean> => {
   return HttpClient.request({
-    method: StarApiDefinition.toggle.method,
-    url: StarApiDefinition.toggle.client(),
+    method: StarApiDefinition.toggleStar.method,
+    url: StarApiDefinition.toggleStar.client(),
     cookie,
     data: {
+      organizationId,
       wikiId,
       documentId,
     },
@@ -156,18 +170,18 @@ export const toggleDocumentStar = (wikiId, documentId, cookie = null): Promise<b
  * @param documentId
  * @returns
  */
-export const useDocumentStarToggle = (wikiId, documentId, options?: UseQueryOptions<boolean>) => {
+export const useDocumentStarToggle = (organizationId, wikiId, documentId, options?: UseQueryOptions<boolean>) => {
   const { data, error, refetch } = useQuery(
-    [StarApiDefinition.check.client(), wikiId, documentId],
-    () => getDocumentIsStar(wikiId, documentId),
+    [StarApiDefinition.isStared.client(), organizationId, wikiId, documentId],
+    () => getDocumentIsStar(organizationId, wikiId, documentId),
     options
   );
 
   const toggle = useCallback(async () => {
-    await toggleDocumentStar(wikiId, documentId);
+    await toggleDocumentStar(organizationId, wikiId, documentId);
     refetch();
     triggerToggleStarDocument();
-  }, [refetch, wikiId, documentId]);
+  }, [refetch, organizationId, wikiId, documentId]);
 
   return { data, error, toggle };
 };
@@ -176,12 +190,13 @@ export const useDocumentStarToggle = (wikiId, documentId, options?: UseQueryOpti
  * 获取知识库加星的文档
  * @returns
  */
-export const getWikiStarDocuments = (wikiId, cookie = null): Promise<IWikiWithIsMember[]> => {
+export const getStarDocumentsInWiki = (organizationId, wikiId, cookie = null): Promise<IWikiWithIsMember[]> => {
   return HttpClient.request({
-    method: StarApiDefinition.wikiDocuments.method,
-    url: StarApiDefinition.wikiDocuments.client(),
+    method: StarApiDefinition.getStarDocumentsInWiki.method,
+    url: StarApiDefinition.getStarDocumentsInWiki.client(),
     cookie,
     params: {
+      organizationId,
       wikiId,
     },
   });
@@ -191,10 +206,10 @@ export const getWikiStarDocuments = (wikiId, cookie = null): Promise<IWikiWithIs
  * 获取知识库加星的文档
  * @returns
  */
-export const useWikiStarDocuments = (wikiId) => {
+export const useStarDocumentsInWiki = (organizationId, wikiId) => {
   const { data, error, isLoading, refetch } = useQuery(
-    [StarApiDefinition.wikiDocuments.client(), wikiId],
-    () => getWikiStarDocuments(wikiId),
+    [StarApiDefinition.getStarDocumentsInWiki.client(), organizationId, wikiId],
+    () => getStarDocumentsInWiki(organizationId, wikiId),
     {
       staleTime: 500,
     }

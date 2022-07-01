@@ -38,11 +38,12 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
 
   const goback = useCallback(() => {
     Router.push({
-      pathname: `/wiki/${document.wikiId}/document/${documentId}`,
+      pathname: `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]`,
+      query: { organizationId: document.organizationId, wikiId: document.wikiId, documentId: document.id },
     }).then(() => {
       triggerRefreshTocs();
     });
-  }, [document, documentId]);
+  }, [document]);
 
   const actions = useMemo(
     () => (
@@ -50,8 +51,17 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         {document && authority.readable && (
           <DocumentCollaboration key={documentId} wikiId={document.wikiId} documentId={documentId} />
         )}
-        {document && <DocumentStar key="star" wikiId={document.wikiId} documentId={documentId} />}
-        {document && <DocumentActions wikiId={document.wikiId} documentId={documentId} />}
+        {document && (
+          <DocumentStar
+            key="star"
+            organizationId={document.organizationId}
+            wikiId={document.wikiId}
+            documentId={documentId}
+          />
+        )}
+        {document && (
+          <DocumentActions organizationId={document.organizationId} wikiId={document.wikiId} documentId={documentId} />
+        )}
         <DocumentVersion documentId={documentId} onSelect={triggerUseDocumentVersion} />
       </Space>
     ),

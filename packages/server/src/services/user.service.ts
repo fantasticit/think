@@ -8,16 +8,15 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MessageService } from '@services/message.service';
+import { OrganizationService } from '@services/organization.service';
 import { StarService } from '@services/star.service';
+import { SystemService } from '@services/system.service';
 import { VerifyService } from '@services/verify.service';
 import { WikiService } from '@services/wiki.service';
-import { UserStatus } from '@think/domains';
+import { ORGANIZATION_LOGOS } from '@think/constants';
+import { IUser, UserStatus } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import { Repository } from 'typeorm';
-
-import { SystemService } from './system.service';
-
-export type OutUser = Omit<UserEntity, 'comparePassword' | 'encryptPassword' | 'encrypt' | 'password'>;
 
 @Injectable()
 export class UserService {
@@ -35,6 +34,9 @@ export class UserService {
 
     @Inject(forwardRef(() => StarService))
     private readonly starService: StarService,
+
+    @Inject(forwardRef(() => OrganizationService))
+    private readonly organizationService: OrganizationService,
 
     @Inject(forwardRef(() => WikiService))
     private readonly wikiService: WikiService,
@@ -67,12 +69,19 @@ export class UserService {
     }
 
     try {
-      await this.userRepo.save(
-        await this.userRepo.create({
-          ...config,
-          isSystemAdmin: true,
-        })
-      );
+      const res = await this.userRepo.create({
+        ...config,
+        isSystemAdmin: true,
+      });
+      const createdUser = (await this.userRepo.save(res)) as unknown as IUser;
+
+      await this.organizationService.createOrganization(createdUser, {
+        name: createdUser.name,
+        description: `${createdUser.name}的个人组织`,
+        logo: ORGANIZATION_LOGOS[0],
+        isPersonal: true,
+      });
+
       console.log('[think] 已创建默认系统管理员，请尽快登录系统修改密码');
     } catch (e) {
       console.error(`[think] 创建默认系统管理员失败：`, e.message);
@@ -84,9 +93,9 @@ export class UserService {
    * @param id
    * @returns
    */
-  async findById(id): Promise<OutUser> {
+  async findById(id): Promise<IUser> {
     const user = await this.userRepo.findOne(id);
-    return instanceToPlain(user) as OutUser;
+    return instanceToPlain(user) as IUser;
   }
 
   /**
@@ -94,7 +103,7 @@ export class UserService {
    * @param opts
    * @returns
    */
-  async findOne(opts: Partial<OutUser>): Promise<UserEntity> {
+  async findOne(opts: Partial<UserEntity>): Promise<UserEntity> {
     const user = await this.userRepo.findOne(opts);
     return user;
   }
@@ -104,9 +113,9 @@ export class UserService {
    * @param id
    * @returns
    */
-  async findByIds(ids): Promise<OutUser[]> {
+  async findByIds(ids): Promise<IUser[]> {
     const users = await this.userRepo.findByIds(ids);
-    return users.map((user) => instanceToPlain(user)) as OutUser[];
+    return users.map((user) => instanceToPlain(user)) as IUser[];
   }
 
   /**
@@ -114,7 +123,7 @@ export class UserService {
    * @param user CreateUserDto
    * @returns
    */
-  async createUser(user: RegisterUserDto): Promise<OutUser> {
+  async createUser(user: RegisterUserDto): Promise<IUser> {
     const currentSystemConfig = await this.systemService.getConfigFromDatabase();
 
     if (currentSystemConfig.isSystemLocked) {
@@ -133,25 +142,24 @@ export class UserService {
       throw new HttpException('该邮箱已被注册', HttpStatus.BAD_REQUEST);
     }
 
-    if (!(await this.verifyService.checkVerifyCode(user.email, user.verifyCode))) {
+    if (
+      currentSystemConfig.enableEmailVerify &&
+      !(await this.verifyService.checkVerifyCode(user.email, user.verifyCode))
+    ) {
       throw new HttpException('验证码不正确，请检查', HttpStatus.BAD_REQUEST);
     }
 
     const res = await this.userRepo.create(user);
     const createdUser = await this.userRepo.save(res);
-    const wiki = await this.wikiService.createWiki(createdUser, {
+
+    await this.organizationService.createOrganization(createdUser, {
       name: createdUser.name,
-      description: `${createdUser.name}的个人空间`,
+      description: `${createdUser.name}的个人组织`,
+      logo: ORGANIZATION_LOGOS[0],
+      isPersonal: true,
     });
-    await this.starService.toggleStar(createdUser, {
-      wikiId: wiki.id,
-    });
-    await this.messageService.notify(createdUser, {
-      title: `欢迎「${createdUser.name}」`,
-      message: `系统已自动为您创建知识库，快去看看吧！`,
-      url: `/wiki/${wiki.id}`,
-    });
-    return instanceToPlain(createdUser) as OutUser;
+
+    return instanceToPlain(createdUser) as IUser;
   }
 
   /**
@@ -193,7 +201,7 @@ export class UserService {
    * @param user
    * @returns
    */
-  async login(user: LoginUserDto): Promise<{ user: OutUser; token: string; domain: string; expiresIn: number }> {
+  async login(user: LoginUserDto): Promise<{ user: IUser; token: string; domain: string; expiresIn: number }> {
     const currentSystemConfig = await this.systemService.getConfigFromDatabase();
 
     const { name, password } = user;
@@ -217,7 +225,7 @@ export class UserService {
       throw new HttpException('用户已锁定，无法登录', HttpStatus.BAD_REQUEST);
     }
 
-    const res = instanceToPlain(existUser) as OutUser;
+    const res = instanceToPlain(existUser) as IUser;
     const token = this.jwtService.sign(res);
     const domain = this.confifgService.get('client.siteDomain');
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -241,11 +249,11 @@ export class UserService {
    * @param dto
    * @returns
    */
-  async updateUser(user: UserEntity, dto: UpdateUserDto): Promise<OutUser> {
+  async updateUser(user: UserEntity, dto: UpdateUserDto): Promise<IUser> {
     const oldData = await this.userRepo.findOne(user.id);
     const res = await this.userRepo.merge(oldData, dto);
     const ret = await this.userRepo.save(res);
-    return instanceToPlain(ret) as OutUser;
+    return instanceToPlain(ret) as IUser;
   }
 
   async decodeToken(token) {

@@ -1,12 +1,26 @@
-.wikiItemWrap {
-  padding: 12px 16px !important;
-  margin: 8px 2px;
-  cursor: pointer;
-  background-color: var(--semi-color-bg-2);
-  border: 1px solid var(--semi-color-border) !important;
+.wrap {
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  padding: 10vh 32px 48px;
+  align-items: center;
+  flex-direction: row;
+
+  .hero {
+    max-width: 53%;
+    min-width: 53%;
+    margin-left: 48px;
+  }
 }
 
-.titleWrap {
-  display: flex;
-  justify-content: space-between;
+@media (max-width: 768px) {
+  .wrap {
+    flex-direction: column;
+
+    .hero {
+      max-width: 100%;
+      min-width: 100%;
+      margin-left: 0;
+    }
+  }
 }

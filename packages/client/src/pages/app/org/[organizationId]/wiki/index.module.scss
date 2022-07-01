@@ -1,0 +1,12 @@
+.wikiItemWrap {
+  padding: 12px 16px !important;
+  margin: 8px 2px;
+  cursor: pointer;
+  background-color: var(--semi-color-bg-2);
+  border: 1px solid var(--semi-color-border) !important;
+}
+
+.titleWrap {
+  display: flex;
+  justify-content: space-between;
+}

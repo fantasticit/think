@@ -1,0 +1,11 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--semi-color-nav-bg);
+
+  .contentWrap {
+    flex: 1;
+    overflow: auto;
+  }
+}

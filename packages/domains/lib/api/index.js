@@ -18,3 +18,5 @@ __exportStar(require("./message"), exports);
 __exportStar(require("./template"), exports);
 __exportStar(require("./comment"), exports);
 __exportStar(require("./star"), exports);
+__exportStar(require("./organization"), exports);
+__exportStar(require("./system"), exports);

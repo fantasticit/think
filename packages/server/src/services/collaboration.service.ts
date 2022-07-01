@@ -5,8 +5,8 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentService } from '@services/document.service';
 import { DocumentVersionService } from '@services/document-version.service';
 import { TemplateService } from '@services/template.service';
-import { OutUser, UserService } from '@services/user.service';
-import { DocumentStatus } from '@think/domains';
+import { UserService } from '@services/user.service';
+import { DocumentStatus, IUser } from '@think/domains';
 import * as lodash from 'lodash';
 import * as Y from 'yjs';
 
@@ -101,13 +101,16 @@ export class CollaborationService {
           }
           return { user: { name: '匿名用户' } };
         } else {
-          const authority = await this.documentService.getDocumentAuthority(targetId, user.id);
+          const authority = await this.documentService.getDocumentUserAuth(user.id, targetId);
+
           if (!authority.readable) {
             throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
           }
+
           if (!authority.editable) {
             connection.readOnly = true;
           }
+
           return {
             user,
           };
@@ -120,9 +123,11 @@ export class CollaborationService {
         }
 
         const template = await this.templateService.findById(targetId);
+
         if (template.createUserId !== user.id) {
           throw new HttpException('您无权查看此模板', HttpStatus.FORBIDDEN);
         }
+
         return {
           user,
         };
@@ -148,6 +153,9 @@ export class CollaborationService {
     switch (docType) {
       case 'document': {
         const res = await this.documentService.findById(targetId);
+        if (!res) {
+          throw new Error('文档不存在');
+        }
         state = res.state;
         break;
       }
@@ -178,7 +186,7 @@ export class CollaborationService {
     const docType = requestParameters.get('docType');
     const userId = requestParameters.get('userId');
 
-    const updateDocument = async (user: OutUser, documentId: string, data) => {
+    const updateDocument = async (user: IUser, documentId: string, data) => {
       await this.documentService.updateDocument(user, documentId, data);
       this.debounce(
         `onStoreDocumentVersion-${documentId}`,
@@ -217,7 +225,7 @@ export class CollaborationService {
     const node = TiptapTransformer.fromYdoc(data.document);
     const title = lodash.get(node, `default.content[0].content[0].text`, '').replace(/\s/g, '').slice(0, 255);
     const state = Buffer.from(Y.encodeStateAsUpdate(data.document));
-    await updateHandler({ id: userId } as OutUser, targetId, {
+    await updateHandler({ id: userId } as IUser, targetId, {
       title,
       content: JSON.stringify(node),
       state,
@@ -233,7 +241,7 @@ export class CollaborationService {
     if (docType === 'document') {
       const data = await this.documentService.findById(targetId);
       if (data && !data.title) {
-        await this.documentService.updateDocument({ id: userId } as OutUser, targetId, {
+        await this.documentService.updateDocument({ id: userId } as IUser, targetId, {
           title: '未命名文档',
         });
       }
@@ -243,7 +251,7 @@ export class CollaborationService {
     if (docType === 'template') {
       const data = await this.templateService.findById(targetId);
       if (data && !data.title) {
-        await this.templateService.updateTemplate({ id: userId } as OutUser, targetId, {
+        await this.templateService.updateTemplate({ id: userId } as IUser, targetId, {
           title: '未命名模板',
         });
       }

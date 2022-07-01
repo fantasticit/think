@@ -12,7 +12,12 @@ const { Text, Paragraph } = Typography;
 export const WikiPinCard: React.FC<{ wiki: IWiki }> = ({ wiki }) => {
   return (
     <div className={styles.cardWrap}>
-      <Link href={{ pathname: `/wiki/[wikiId]`, query: { wikiId: wiki.id } }}>
+      <Link
+        href={{
+          pathname: `/app/org/[organizationId]/wiki/[wikiId]`,
+          query: { organizationId: wiki.organizationId, wikiId: wiki.id },
+        }}
+      >
         <a>
           <header>
             <Avatar
@@ -30,7 +35,7 @@ export const WikiPinCard: React.FC<{ wiki: IWiki }> = ({ wiki }) => {
             </Avatar>
             <div className={styles.rightWrap}>
               <Space>
-                <WikiStar wikiId={wiki.id} />
+                <WikiStar organizationId={wiki.organizationId} wikiId={wiki.id} />
               </Space>
             </div>
           </header>

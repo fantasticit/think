@@ -1,5 +1,6 @@
 import { IconPlus } from '@douyinfe/semi-icons';
 import { Avatar, Skeleton, Space, Typography } from '@douyinfe/semi-ui';
+import { IDocument } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { IconOverview } from 'components/icons';
 import { LogoImage, LogoText } from 'components/logo';
@@ -17,7 +18,7 @@ interface IProps {
   wikiId: string;
   documentId?: string;
   docAsLink?: string;
-  getDocLink?: (arg: string) => string;
+  getDocLink?: (arg: IDocument) => string;
   pageTitle: string;
 }
 
@@ -28,7 +29,7 @@ export const WikiPublicTocs: React.FC<IProps> = ({
   wikiId,
   documentId = null,
   docAsLink = '/share/wiki/[wikiId]/document/[documentId]',
-  getDocLink = (documentId) => `/share/wiki/${wikiId}/document/${documentId}`,
+  getDocLink = (document) => `/share/wiki/${document.wikiId}/document/${document.id}`,
 }) => {
   const { pathname } = useRouter();
   const { data: wiki, loading: wikiLoading, error: wikiError } = usePublicWikiDetail(wikiId);
