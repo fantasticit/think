@@ -2,6 +2,7 @@ import { Avatar, Button, Table, Typography } from '@douyinfe/semi-ui';
 import { IOrganization } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
+import { Seo } from 'components/seo';
 import { usePeronalOrganization, useUserOrganizations } from 'data/organization';
 import { SingleColumnLayout } from 'layouts/single-column';
 import Link from 'next/link';
@@ -37,6 +38,7 @@ const Page = () => {
 
   return (
     <SingleColumnLayout>
+      <Seo title="组织列表" />
       <div className="container">
         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Title heading={3} style={{ margin: '8px 0' }}>

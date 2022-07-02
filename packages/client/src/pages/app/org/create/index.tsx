@@ -2,6 +2,7 @@ import { Avatar, Button, Form, Typography } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { ORGANIZATION_LOGOS } from '@think/constants';
 import { ImageUploader } from 'components/image-uploader';
+import { Seo } from 'components/seo';
 import { useCreateOrganization } from 'data/organization';
 import { useToggle } from 'hooks/use-toggle';
 import { SingleColumnLayout } from 'layouts/single-column';
@@ -48,6 +49,7 @@ const Page: React.FC = () => {
 
   return (
     <SingleColumnLayout>
+      <Seo title="新建组织" />
       <div className="container">
         <div>
           <Title heading={3} style={{ margin: '8px 0' }}>

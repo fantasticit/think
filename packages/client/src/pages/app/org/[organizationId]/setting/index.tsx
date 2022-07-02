@@ -20,7 +20,6 @@ const Page: NextPage<IProps> = ({ organizationId }) => {
 
   const navigate = useCallback(
     (tab = 'base') => {
-      console.log(tab);
       Router.push({
         pathname: `/app/org/[organizationId]/setting`,
         query: { organizationId, tab },
