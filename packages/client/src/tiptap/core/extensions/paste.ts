@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core';
 import { safeJSONParse } from 'helpers/json';
 import { toggleMark } from 'prosemirror-commands';
-import { Fragment, Schema } from 'prosemirror-model';
+import { DOMParser, Fragment, Schema } from 'prosemirror-model';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import {
@@ -144,28 +144,46 @@ export const Paste = Extension.create<IPasteOptions>({
               return true;
             }
 
+            const firstNode = view.props.state.doc.content.firstChild;
+            const hasTitleExtension = !!editor.extensionManager.extensions.find(
+              (extension) => extension.name === TitleExtensionName
+            );
+            const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
+
             // If the HTML on the clipboard is from Prosemirror then the best
             // compatability is to just use the HTML parser, regardless of
             // whether it "looks" like Markdown, see: outline/outline#2416
             if (html?.includes('data-pm-slice')) {
-              return false;
+              const domNode = document.createElement('div');
+              domNode.innerHTML = html;
+              const doc = DOMParser.fromSchema(editor.schema).parse(domNode).toJSON();
+
+              if (hasTitle) {
+                if (doc.content && doc.content[0] && doc.content[0].type === 'title') {
+                  doc.content = doc.content.slice(1);
+                }
+              }
+
+              let tr = view.state.tr;
+              const selection = tr.selection;
+              view.state.doc.nodesBetween(selection.from, selection.to, (node, position) => {
+                const startPosition = hasTitle ? Math.min(position, selection.from) : 0;
+                const endPosition = Math.min(position + node.nodeSize, selection.to);
+                tr = tr.replaceWith(startPosition, endPosition, view.state.schema.nodeFromJSON(doc));
+              });
+              view.dispatch(tr.scrollIntoView());
+              return true;
             }
 
             // 处理 markdown
             if (markdownText || isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
               event.preventDefault();
-              const firstNode = view.props.state.doc.content.firstChild;
-              const hasTitleExtension = !!editor.extensionManager.extensions.find(
-                (extension) => extension.name === TitleExtensionName
-              );
-              const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
               const schema = view.props.state.schema;
               const doc = markdownToProsemirror({
                 schema,
                 content: normalizeMarkdown(markdownText || text),
                 needTitle: hasTitleExtension && !hasTitle,
               });
-
               let tr = view.state.tr;
               const selection = tr.selection;
               view.state.doc.nodesBetween(selection.from, selection.to, (node, position) => {
