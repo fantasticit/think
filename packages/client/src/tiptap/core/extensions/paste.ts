@@ -144,6 +144,13 @@ export const Paste = Extension.create<IPasteOptions>({
               return true;
             }
 
+            // If the HTML on the clipboard is from Prosemirror then the best
+            // compatability is to just use the HTML parser, regardless of
+            // whether it "looks" like Markdown, see: outline/outline#2416
+            if (html?.includes('data-pm-slice')) {
+              return false;
+            }
+
             // 处理 markdown
             if (markdownText || isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
               event.preventDefault();

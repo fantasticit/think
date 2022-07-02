@@ -60,7 +60,7 @@ export const Flow = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div',
+        tag: 'div[class=flow]',
       },
     ];
   },

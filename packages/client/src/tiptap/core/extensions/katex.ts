@@ -2,6 +2,7 @@ import { IUser } from '@think/domains';
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { KatexWrapper } from 'tiptap/core/wrappers/katex';
+import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 export type IKatexAttrs = {
   text?: string;
@@ -35,9 +36,7 @@ export const Katex = Node.create({
     return {
       text: {
         default: '',
-        parseHTML: (element) => {
-          return element.getAttribute('data-text');
-        },
+        parseHTML: getDatasetAttribute('text'),
       },
       defaultShowPicker: {
         default: false,

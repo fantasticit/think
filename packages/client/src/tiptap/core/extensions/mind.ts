@@ -71,7 +71,7 @@ export const Mind = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div',
+        tag: 'div[class=mind]',
       },
     ];
   },

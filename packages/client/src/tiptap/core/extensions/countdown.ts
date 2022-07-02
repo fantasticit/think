@@ -43,7 +43,7 @@ export const Countdown = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div',
+        tag: 'div[class=countdown]',
       },
     ];
   },
