@@ -43,15 +43,11 @@ export const Callout = Node.create({
   },
 
   parseHTML() {
-    return [
-      {
-        tag: 'div',
-      },
-    ];
+    return [{ tag: 'div[class=callout]' }];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
 
   addCommands() {

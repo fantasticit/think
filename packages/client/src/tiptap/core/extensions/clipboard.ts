@@ -63,41 +63,41 @@ export const Clipboard = Extension.create<IClipboardOptions>({
 
             return false;
           },
-          clipboardTextSerializer: (slice) => {
-            const json = slice.content.toJSON();
-            const isSelectAll = slice.openStart === slice.openEnd && slice.openEnd === 0;
+          // clipboardTextSerializer: (slice) => {
+          //   const json = slice.content.toJSON();
+          //   const isSelectAll = slice.openStart === slice.openEnd && slice.openEnd === 0;
 
-            if (Array.isArray(json) && !isSelectAll) {
-              const type = json[0].type;
+          //   if (Array.isArray(json) && !isSelectAll) {
+          //     const type = json[0].type;
 
-              // 列表项返回文字内容
-              if (['bulletList', 'orderedList', 'taskList'].includes(type)) {
-                return slice.content.textBetween(0, slice.content.size, '\n\n');
-              }
-            }
+          //     // 列表项返回文字内容
+          //     if (['bulletList', 'orderedList', 'taskList'].includes(type)) {
+          //       return slice.content.textBetween(0, slice.content.size, '\n\n');
+          //     }
+          //   }
 
-            if (typeof json === 'object' || isSelectAll) {
-              return extensionThis.options.prosemirrorToMarkdown({
-                content: slice.content,
-              });
-            }
+          //   if (typeof json === 'object' || isSelectAll) {
+          //     return extensionThis.options.prosemirrorToMarkdown({
+          //       content: slice.content,
+          //     });
+          //   }
 
-            const isText = isPureText(json) && !isSelectAll;
+          //   const isText = isPureText(json) && !isSelectAll;
 
-            if (isText) {
-              return slice.content.textBetween(0, slice.content.size, '\n\n');
-            }
-            const doc = slice.content;
+          //   if (isText) {
+          //     return slice.content.textBetween(0, slice.content.size, '\n\n');
+          //   }
+          //   const doc = slice.content;
 
-            if (!doc) {
-              return '';
-            }
+          //   if (!doc) {
+          //     return '';
+          //   }
 
-            const content = extensionThis.options.prosemirrorToMarkdown({
-              content: doc,
-            });
-            return content;
-          },
+          //   const content = extensionThis.options.prosemirrorToMarkdown({
+          //     content: doc,
+          //   });
+          //   return content;
+          // },
         },
       }),
     ];
