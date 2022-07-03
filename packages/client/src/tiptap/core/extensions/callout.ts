@@ -16,6 +16,7 @@ export const Callout = Node.create({
   group: 'block',
   defining: true,
   selectable: true,
+  draggable: true,
 
   addAttributes() {
     return {
