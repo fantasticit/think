@@ -64,7 +64,7 @@ export class UserService {
       throw new Error(`请指定名称、密码和邮箱`);
     }
 
-    if (await this.userRepo.findOne({ name: config.name })) {
+    if (await this.userRepo.findOne({ email: config.email })) {
       return;
     }
 
@@ -251,6 +251,17 @@ export class UserService {
    */
   async updateUser(user: UserEntity, dto: UpdateUserDto): Promise<IUser> {
     const oldData = await this.userRepo.findOne(user.id);
+
+    if (oldData.email !== dto.email) {
+      if (await this.userRepo.findOne({ where: { email: dto.email } })) {
+        throw new HttpException('该邮箱已被注册', HttpStatus.BAD_REQUEST);
+      }
+
+      if (!(await this.verifyService.checkVerifyCode(dto.email, dto.verifyCode))) {
+        throw new HttpException('验证码不正确，请检查', HttpStatus.BAD_REQUEST);
+      }
+    }
+
     const res = await this.userRepo.merge(oldData, dto);
     const ret = await this.userRepo.save(res);
     return instanceToPlain(ret) as IUser;
