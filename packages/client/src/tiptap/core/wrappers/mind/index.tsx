@@ -1,5 +1,4 @@
 import { Button, Space, Spin, Typography } from '@douyinfe/semi-ui';
-import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { IconMind, IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
@@ -11,6 +10,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 import { load, renderMind } from 'thirtypart/kityminder';
 import { Mind } from 'tiptap/core/extensions/mind';
 import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from 'tiptap/core/menus/mind/constant';
+import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 import { clamp, getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
@@ -108,7 +108,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   }, [width, height, setCenter]);
 
   return (
-    <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
+    <DragableWrapper editor={editor} className={cls(styles.wrap, isActive && styles.isActive)}>
       <VisibilitySensor onChange={onViewportChange}>
         <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
           <div
@@ -162,6 +162,6 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
           </div>
         </Resizeable>
       </VisibilitySensor>
-    </NodeViewWrapper>
+    </DragableWrapper>
   );
 };

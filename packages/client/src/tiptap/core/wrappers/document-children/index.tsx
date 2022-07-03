@@ -1,5 +1,4 @@
 import { Typography } from '@douyinfe/semi-ui';
-import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
@@ -8,6 +7,7 @@ import { useChildrenDocument } from 'data/document';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 
 import styles from './index.module.scss';
 
@@ -35,7 +35,8 @@ export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
   }, [node.attrs, wikiId, documentId, updateAttributes]);
 
   return (
-    <NodeViewWrapper
+    <DragableWrapper
+      editor={editor}
       as="div"
       className={cls('render-wrapper', styles.wrap, isEditable && styles.isEditable, 'documentChildren')}
     >
@@ -77,6 +78,6 @@ export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
           <Text type="tertiary">当前页面无法使用子文档</Text>
         )}
       </div>
-    </NodeViewWrapper>
+    </DragableWrapper>
   );
 };

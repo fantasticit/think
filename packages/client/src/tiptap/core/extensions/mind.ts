@@ -35,6 +35,7 @@ export const Mind = Node.create({
   group: 'block',
   selectable: true,
   atom: true,
+  draggable: true,
   inline: false,
 
   addAttributes() {

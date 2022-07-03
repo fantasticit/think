@@ -47,6 +47,7 @@ export const tildeInputRegex = /^~~~([a-z]+)?[\s\n]$/;
 
 export const BuiltInCodeBlock = Node.create<CodeBlockOptions>({
   name: 'codeBlock',
+  draggable: true,
 
   addOptions() {
     return {

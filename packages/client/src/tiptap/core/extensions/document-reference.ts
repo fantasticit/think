@@ -21,6 +21,7 @@ export const DocumentReference = Node.create({
   name: 'documentReference',
   group: 'block',
   atom: true,
+  draggable: true,
 
   addAttributes() {
     return {

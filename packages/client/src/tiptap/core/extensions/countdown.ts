@@ -18,6 +18,7 @@ export const Countdown = Node.create({
   group: 'block',
   selectable: true,
   atom: true,
+  draggable: true,
 
   addOptions() {
     return {

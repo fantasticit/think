@@ -15,6 +15,7 @@ export const DocumentChildren = Node.create({
   name: 'documentChildren',
   group: 'block',
   atom: true,
+  draggable: true,
 
   addOptions() {
     return {

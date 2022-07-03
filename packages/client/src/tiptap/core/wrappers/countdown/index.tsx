@@ -1,7 +1,7 @@
 import { Space, Typography } from '@douyinfe/semi-ui';
-import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import Countdown from 'react-countdown';
+import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 
 import styles from './index.module.scss';
 
@@ -32,11 +32,11 @@ export const CountdownWrapper = ({ editor, node }) => {
   const { title, date } = node.attrs;
 
   return (
-    <NodeViewWrapper>
+    <DragableWrapper editor={editor}>
       <div className={cls(styles.wrap, 'render-wrapper')}>
         <Text>{title}</Text>
         <Countdown date={date} renderer={renderer}></Countdown>
       </div>
-    </NodeViewWrapper>
+    </DragableWrapper>
   );
 };
