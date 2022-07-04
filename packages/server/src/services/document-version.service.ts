@@ -58,6 +58,7 @@ export class DocumentVersionService {
     try {
       this.redis = await buildRedis(RedisDBEnum.documentVersion);
       console.log('[think] 文档版本服务启动成功');
+      this.error = null;
     } catch (e) {
       this.error = e.message;
       console.error(`[think] 文档版本服务启动错误: "${e.message}"`);
