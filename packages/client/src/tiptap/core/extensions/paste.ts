@@ -2,7 +2,7 @@ import { Extension } from '@tiptap/core';
 import { safeJSONParse } from 'helpers/json';
 import { toggleMark } from 'prosemirror-commands';
 import { DOMParser, Fragment, Schema } from 'prosemirror-model';
-import { Plugin, PluginKey } from 'prosemirror-state';
+import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import {
   debug,
@@ -132,15 +132,12 @@ export const Paste = Extension.create<IPasteOptions>({
 
             if (pasteCodeLanguage && pasteCodeLanguage !== 'markdown') {
               event.preventDefault();
-              view.dispatch(
-                view.state.tr
-                  .replaceSelectionWith(
-                    view.state.schema.nodes.codeBlock.create({
-                      language: Object.keys(LANGUAGES).includes(vscodeMeta.mode) ? vscodeMeta.mode : null,
-                    })
-                  )
-                  .insertText(text)
-              );
+              const { tr } = view.state;
+              tr.replaceSelectionWith(view.state.schema.nodes.codeBlock.create({ language: pasteCodeLanguage }));
+              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))));
+              tr.insertText(text.replace(/\r\n?/g, '\n'));
+              tr.setMeta('paste', true);
+              view.dispatch(tr);
               return true;
             }
 
