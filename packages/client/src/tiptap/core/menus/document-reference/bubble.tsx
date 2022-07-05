@@ -33,11 +33,11 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(() => editor.isActive(DocumentReference.name), [editor]);
   const selectDoc = useCallback(
     (item) => {
-      const { wikiId, title, id: documentId } = item;
+      const { organizationId, wikiId, title, id: documentId } = item;
 
       editor
         .chain()
-        .updateAttributes(DocumentReference.name, { wikiId, documentId, title })
+        .updateAttributes(DocumentReference.name, { organizationId, wikiId, documentId, title })
         .setNodeSelection(editor.state.selection.from)
         .focus()
         .run();

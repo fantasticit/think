@@ -25,6 +25,10 @@ export const DocumentReference = Node.create({
 
   addAttributes() {
     return {
+      organizationId: {
+        default: '',
+        parseHTML: getDatasetAttribute('organizationId'),
+      },
       wikiId: {
         default: '',
         parseHTML: getDatasetAttribute('wikiId'),

@@ -11,7 +11,7 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
   const { pathname } = useRouter();
   const isShare = pathname.includes('share');
   const isEditable = editor.isEditable;
-  const { wikiId, documentId, title } = node.attrs;
+  const { organizationId, wikiId, documentId, title } = node.attrs;
 
   const content = useMemo(() => {
     if (!wikiId && !documentId) {
@@ -35,8 +35,10 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
       <Link
         key={documentId}
         href={{
-          pathname: `${!isShare ? '' : '/share'}/wiki/[wikiId]/document/[documentId]`,
-          query: { wikiId, documentId },
+          pathname: isShare
+            ? `/share/wiki/[wikiId]/document/[documentId]`
+            : `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]`,
+          query: { organizationId, wikiId, documentId },
         }}
       >
         <a className={cls(styles.itemWrap, !isEditable && 'render-wrapper')} target="_blank">
@@ -45,7 +47,7 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
         </a>
       </Link>
     );
-  }, [wikiId, documentId, isEditable, isShare, title]);
+  }, [organizationId, wikiId, documentId, isEditable, isShare, title]);
 
   return (
     <DragableWrapper editor={editor} as="div" className={cls(styles.wrap, isEditable && 'render-wrapper')}>

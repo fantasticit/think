@@ -59,8 +59,10 @@ export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
                       <Link
                         key={doc.id}
                         href={{
-                          pathname: `${!isShare ? '' : '/share'}/wiki/[wikiId]/document/[documentId]`,
-                          query: { wikiId: doc.wikiId, documentId: doc.id },
+                          pathname: isShare
+                            ? `/share/wiki/[wikiId]/document/[documentId]`
+                            : `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]`,
+                          query: { organizationId: doc.organizationId, wikiId: doc.wikiId, documentId: doc.id },
                         }}
                       >
                         <a className={styles.itemWrap} target="_blank">
