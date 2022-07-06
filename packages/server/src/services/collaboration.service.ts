@@ -90,6 +90,8 @@ export class CollaborationService {
   async onAuthenticate({ connection, token, requestParameters }: onAuthenticatePayload) {
     const targetId = requestParameters.get('targetId');
     const docType = requestParameters.get('docType');
+    const userId = requestParameters.get('userId');
+
     const user = token ? await this.userService.decodeToken(token) : null;
 
     switch (docType) {
@@ -99,8 +101,13 @@ export class CollaborationService {
           if (!document || document.status !== DocumentStatus.public) {
             throw new HttpException('您无权查看此文档', HttpStatus.FORBIDDEN);
           }
+          connection.readOnly = true;
           return { user: { name: '匿名用户' } };
         } else {
+          if (user.id !== userId) {
+            throw new HttpException('用户信息不匹配', HttpStatus.FORBIDDEN);
+          }
+
           const authority = await this.documentService.getDocumentUserAuth(user.id, targetId);
 
           if (!authority.readable) {

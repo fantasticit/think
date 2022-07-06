@@ -1,7 +1,6 @@
-import { Spin, Typography } from '@douyinfe/semi-ui';
-import { Empty } from 'illustrations/empty';
 import React from 'react';
 
+import { defaultEmpty, defaultLoading, defaultRenderError, Render } from './constant';
 import { LoadingWrap } from './loading';
 
 type RenderProps = React.ReactNode | (() => React.ReactNode);
@@ -16,40 +15,6 @@ interface IProps {
   normalContent: RenderProps;
 }
 
-const { Text } = Typography;
-
-const defaultLoading = () => {
-  return <Spin />;
-};
-
-const defaultRenderError = (error) => {
-  return <Text>{(error && error.message) || '未知错误'}</Text>;
-};
-
-const defaultEmpty = () => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        position: 'relative',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}
-    >
-      <div>
-        <Empty />
-      </div>
-      <Text type="tertiary">暂无数据</Text>
-    </div>
-  );
-};
-
-const runRender = (fn, ...args) => (typeof fn === 'function' ? fn(...args) : fn);
-
 export const DataRender: React.FC<IProps> = ({
   loading,
   error,
@@ -60,19 +25,14 @@ export const DataRender: React.FC<IProps> = ({
   normalContent,
 }) => {
   if (error) {
-    return runRender(errorContent, error);
+    return <Render fn={errorContent} args={[error]} />;
   }
 
   if (empty) {
-    return runRender(emptyContent);
+    return <Render fn={emptyContent} />;
   }
 
   return (
-    <LoadingWrap
-      loading={loading}
-      runRender={runRender}
-      loadingContent={loadingContent}
-      normalContent={loading ? null : normalContent}
-    />
+    <LoadingWrap loading={loading} loadingContent={loadingContent} normalContent={loading ? null : normalContent} />
   );
 };

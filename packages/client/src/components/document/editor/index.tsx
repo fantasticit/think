@@ -122,13 +122,25 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         {isMobile && <div className={styles.mobileToolbar}>{actions}</div>}
       </header>
       <main className={styles.contentWrap}>
-        {docAuthError && (
-          <div style={{ margin: '10vh', textAlign: 'center' }}>
-            <SecureDocumentIllustration />
-          </div>
-        )}
-        {document && <Seo title={document.title} />}
-        <Editor user={user} documentId={documentId} authority={authority} />
+        <DataRender
+          loading={docAuthLoading}
+          error={docAuthError}
+          errorContent={() => {
+            return (
+              <div style={{ margin: '10vh', textAlign: 'center' }}>
+                <SecureDocumentIllustration />
+              </div>
+            );
+          }}
+          normalContent={() => {
+            return (
+              <>
+                {document && <Seo title={document.title} />}
+                {user && <Editor user={user} documentId={documentId} authority={authority} />}
+              </>
+            );
+          }}
+        />
       </main>
     </div>
   );
