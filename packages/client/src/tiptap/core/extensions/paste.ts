@@ -151,24 +151,18 @@ export const Paste = Extension.create<IPasteOptions>({
             // compatability is to just use the HTML parser, regardless of
             // whether it "looks" like Markdown, see: outline/outline#2416
             if (html?.includes('data-pm-slice')) {
-              const domNode = document.createElement('div');
+              let domNode = document.createElement('div');
               domNode.innerHTML = html;
-              const doc = DOMParser.fromSchema(editor.schema).parse(domNode).toJSON();
+              const slice = DOMParser.fromSchema(editor.schema).parseSlice(domNode);
 
-              if (hasTitle) {
-                if (doc.content && doc.content[0] && doc.content[0].type === 'title') {
-                  doc.content = doc.content.slice(1);
-                }
-              }
+              debug(() => {
+                console.log('html', domNode, html, slice);
+              });
 
               let tr = view.state.tr;
-              const selection = tr.selection;
-              view.state.doc.nodesBetween(selection.from, selection.to, (node, position) => {
-                const startPosition = hasTitle ? Math.min(position, selection.from) : 0;
-                const endPosition = Math.min(position + node.nodeSize, selection.to);
-                tr = tr.replaceWith(startPosition, endPosition, view.state.schema.nodeFromJSON(doc));
-              });
+              tr = tr.replaceSelection(slice);
               view.dispatch(tr.scrollIntoView());
+              domNode = null;
               return true;
             }
 
