@@ -35,6 +35,7 @@ export const Dragable = Extension.create({
 
     function drag(e) {
       if (!currentNode || currentNode.nodeType !== 1) return;
+
       let pos = null;
       const desc = editorView.docView.nearestDesc(currentNode, true);
 
@@ -56,12 +57,14 @@ export const Dragable = Extension.create({
     return [
       new Plugin({
         view(view) {
-          editorView = view;
-          dropElement = document.createElement('div');
-          dropElement.setAttribute('draggable', 'true');
-          dropElement.className = 'drag-handler';
-          dropElement.addEventListener('dragstart', drag);
-          view.dom.parentElement.appendChild(dropElement);
+          if (view.editable) {
+            editorView = view;
+            dropElement = document.createElement('div');
+            dropElement.setAttribute('draggable', 'true');
+            dropElement.className = 'drag-handler';
+            dropElement.addEventListener('dragstart', drag);
+            view.dom.parentElement.appendChild(dropElement);
+          }
 
           return {
             update(view) {
@@ -78,6 +81,8 @@ export const Dragable = Extension.create({
         props: {
           handleDOMEvents: {
             drop() {
+              if (!dropElement) return;
+
               dropElement.style.opacity = 0;
               setTimeout(() => {
                 const node = document.querySelector('.ProseMirror-hideselection');
@@ -87,10 +92,15 @@ export const Dragable = Extension.create({
               }, 50);
             },
             mousemove(view, event) {
+              if (!dropElement) return;
+
               const coords = { left: event.clientX, top: event.clientY };
               const pos = view.posAtCoords(coords);
 
-              if (!pos) return;
+              if (!pos) {
+                dropElement.style.opacity = 0;
+                return;
+              }
 
               let node = view.domAtPos(pos.pos);
 
@@ -104,10 +114,12 @@ export const Dragable = Extension.create({
               }
 
               if (!node || !node.getBoundingClientRect) {
+                dropElement.style.opacity = 0;
                 return;
               }
 
               if (node?.classList?.contains('node-title') || node?.classList?.contains('node-table')) {
+                dropElement.style.opacity = 0;
                 return;
               }
 
@@ -121,6 +133,10 @@ export const Dragable = Extension.create({
               dropElement.style.left = rect.left - WIDTH + 'px';
               dropElement.style.top = rect.top + 6 + 'px';
               dropElement.style.opacity = 1;
+            },
+            mouseleave() {
+              if (!dropElement || currentNode) return;
+              dropElement.style.opacity = 0;
             },
           },
         },
