@@ -52,7 +52,7 @@
       padding-left: 16px;
       cursor: pointer;
 
-      > span {
+      > label {
         position: absolute;
         top: 6px;
         left: 0;
@@ -62,6 +62,10 @@
         background-color: #fff;
         border: 1px solid var(--semi-color-border);
         border-radius: 2px;
+
+       > input {
+        display: none;
+       }
 
         &::after {
           position: absolute;
@@ -87,7 +91,7 @@
       &[data-checked='true'] {
         color: var(--semi-color-text-2);
 
-        > span {
+        > label {
           background-color: var(--semi-color-primary);
 
           &::after {

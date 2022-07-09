@@ -1,45 +1,135 @@
-import { wrappingInputRule } from '@tiptap/core';
-import { TaskItem as BuiltInTaskItem } from '@tiptap/extension-task-item';
-import { Plugin } from 'prosemirror-state';
-import { findParentNodeClosestToPos } from 'prosemirror-utils';
-import { PARSE_HTML_PRIORITY_HIGHEST } from 'tiptap/core/constants';
+import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core';
 
-const CustomTaskItem = BuiltInTaskItem.extend({
+export interface TaskItemOptions {
+  nested: boolean;
+  HTMLAttributes: Record<string, any>;
+}
+
+export const inputRegex = /^\s*(\[([ |x])\])\s$/;
+
+export const TaskItem = Node.create<TaskItemOptions>({
+  name: 'taskItem',
+
+  addOptions() {
+    return {
+      nested: false,
+      HTMLAttributes: {},
+    };
+  },
+
+  content() {
+    return this.options.nested ? 'paragraph block*' : 'paragraph+';
+  },
+
+  defining: true,
+
+  addAttributes() {
+    return {
+      checked: {
+        default: false,
+        keepOnSplit: false,
+        parseHTML: (element) => element.getAttribute('data-checked') === 'true',
+        renderHTML: (attributes) => ({
+          'data-checked': attributes.checked,
+        }),
+      },
+    };
+  },
+
   parseHTML() {
     return [
       {
-        tag: 'li.task-list-item',
-        priority: PARSE_HTML_PRIORITY_HIGHEST,
+        tag: `li.task-list-item`,
+        priority: 51,
       },
     ];
   },
 
-  addInputRules() {
+  renderHTML({ node, HTMLAttributes }) {
     return [
-      ...this.parent(),
-      wrappingInputRule({
-        find: /^\s*([-+*])\s(\[(x|X| ?)\])\s$/,
-        type: this.type,
-        getAttributes: (match) => ({
-          checked: 'xX'.includes(match[match.length - 1]),
-        }),
-      }),
+      'li',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': this.name }),
+      [
+        'label',
+        [
+          'input',
+          {
+            type: 'checkbox',
+            checked: node.attrs.checked ? 'checked' : null,
+          },
+        ],
+        ['span'],
+      ],
+      ['div', 0],
     ];
+  },
+
+  addKeyboardShortcuts() {
+    const shortcuts = {
+      'Enter': () => this.editor.commands.splitListItem(this.name),
+      'Shift-Tab': () => this.editor.commands.liftListItem(this.name),
+    };
+
+    if (!this.options.nested) {
+      return shortcuts;
+    }
+
+    return {
+      ...shortcuts,
+      Tab: () => this.editor.commands.sinkListItem(this.name),
+    };
   },
 
   addNodeView() {
     return ({ node, HTMLAttributes, getPos, editor }) => {
       const listItem = document.createElement('li');
-      const checkboxWrapper = document.createElement('span');
+      const checkboxWrapper = document.createElement('label');
+      const checkboxStyler = document.createElement('span');
+      const checkbox = document.createElement('input');
       const content = document.createElement('div');
 
       checkboxWrapper.contentEditable = 'false';
+      checkbox.type = 'checkbox';
+      checkbox.addEventListener('change', (event) => {
+        // if the editor isn’t editable
+        // we have to undo the latest change
+        // if (!editor.isEditable) {
+        //   checkbox.checked = !checkbox.checked;
+
+        //   return;
+        // }
+
+        const { checked } = event.target as any;
+
+        if (typeof getPos === 'function') {
+          editor
+            .chain()
+            .focus(undefined, { scrollIntoView: false })
+            .command(({ tr }) => {
+              const position = getPos();
+              const currentNode = tr.doc.nodeAt(position);
+
+              tr.setNodeMarkup(position, undefined, {
+                ...currentNode?.attrs,
+                checked,
+              });
+
+              return true;
+            })
+            .run();
+        }
+      });
 
       Object.entries(this.options.HTMLAttributes).forEach(([key, value]) => {
         listItem.setAttribute(key, value);
       });
 
       listItem.dataset.checked = node.attrs.checked;
+      if (node.attrs.checked) {
+        checkbox.setAttribute('checked', 'checked');
+      }
+
+      checkboxWrapper.append(checkbox, checkboxStyler);
       listItem.append(checkboxWrapper, content);
 
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
@@ -55,61 +145,34 @@ const CustomTaskItem = BuiltInTaskItem.extend({
           }
 
           listItem.dataset.checked = updatedNode.attrs.checked;
+          if (updatedNode.attrs.checked) {
+            checkbox.setAttribute('checked', 'checked');
+          } else {
+            checkbox.removeAttribute('checked');
+          }
+
           return true;
         },
       };
     };
   },
 
-  addProseMirrorPlugins() {
-    const extensionThis = this;
-
+  addInputRules() {
     return [
-      new Plugin({
-        props: {
-          handleClick: (view, pos, event) => {
-            const state = view.state;
-            const schema = state.schema;
-
-            const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY });
-            const position = state.doc.resolve(coordinates.pos);
-            const parentList = findParentNodeClosestToPos(position, function (node) {
-              return node.type === schema.nodes.taskItem || node.type === schema.nodes.listItem;
-            });
-            if (!parentList) {
-              return false;
-            }
-            const element = view.nodeDOM(parentList.pos) as HTMLLIElement;
-            if (element.tagName.toLowerCase() !== 'li') return false;
-
-            // 编辑模式：仅当点击 SPAN 时进行状态修改
-            if (view.editable) {
-              const target = event.target as HTMLElement;
-              if (target.tagName.toLowerCase() !== 'span') return false;
-            } else {
-              // 非编辑模式，仅支持配置 taskItemClickable 可点击
-              // @ts-ignore
-              if (!extensionThis.editor.options.editorProps.taskItemClickable) {
-                return;
-              }
-            }
-
-            const parentElement = element.parentElement;
-            const type = parentElement && parentElement.getAttribute('data-type');
-            if (!type || type.toLowerCase() !== 'tasklist') return false;
-
-            const tr = state.tr;
-            const nextValue = !(element.getAttribute('data-checked') === 'true');
-            tr.setNodeMarkup(parentList.pos, schema.nodes.taskItem, {
-              checked: nextValue,
-            });
-            view.dispatch(tr);
-            return true;
-          },
-        },
+      wrappingInputRule({
+        find: inputRegex,
+        type: this.type,
+        getAttributes: (match) => ({
+          checked: match[match.length - 1] === 'x',
+        }),
+      }),
+      wrappingInputRule({
+        find: /^\s*([-+*])\s(\[(x|X| ?)\])\s$/,
+        type: this.type,
+        getAttributes: (match) => ({
+          checked: 'xX'.includes(match[match.length - 1]),
+        }),
       }),
     ];
   },
 });
-
-export const TaskItem = CustomTaskItem.configure({ nested: true });
