@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core';
 import { safeJSONParse } from 'helpers/json';
 import { toggleMark } from 'prosemirror-commands';
-import { DOMParser, Fragment, Schema } from 'prosemirror-model';
+import { DOMParser, Fragment, Node, Schema } from 'prosemirror-model';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import {
@@ -11,7 +11,6 @@ import {
   isMarkdown,
   isTitleNode,
   isValidURL,
-  LANGUAGES,
   normalizeMarkdown,
 } from 'tiptap/prose-utils';
 
@@ -20,15 +19,15 @@ import { TitleExtensionName } from './title';
 interface IPasteOptions {
   /**
    *
-   * 将 markdown 转换为 html
+   * 将 html 转换为 prosemirror
    */
-  markdownToHTML: (arg: string) => string;
+  htmlToProsemirror: (arg: { schema: Schema; html: string; needTitle: boolean; defaultTitle?: string }) => Node;
 
   /**
    * 将 markdown 转换为 prosemirror 节点
    * FIXME: prosemirror 节点的类型是什么？
    */
-  markdownToProsemirror: (arg: { schema: Schema; content: string; needTitle: boolean }) => unknown;
+  markdownToProsemirror: (arg: { schema: Schema; content: string; needTitle: boolean }) => Node;
 
   /**
    * 将 prosemirror 转换为 markdown
@@ -42,7 +41,7 @@ export const Paste = Extension.create<IPasteOptions>({
 
   addOptions() {
     return {
-      markdownToHTML: (arg) => arg,
+      htmlToProsemirror: (arg) => '',
       markdownToProsemirror: (arg) => arg.content,
       prosemirrorToMarkdown: (arg) => String(arg.content),
     };
@@ -67,31 +66,21 @@ export const Paste = Extension.create<IPasteOptions>({
 
             if (!event.clipboardData) return false;
 
-            // 文件
             const files = Array.from(event.clipboardData.files);
-            if (files.length) {
-              event.preventDefault();
-              files.forEach((file) => {
-                handleFileEvent({ editor, file });
-              });
-              return true;
-            }
-
             const text = event.clipboardData.getData('text/plain');
             const html = event.clipboardData.getData('text/html');
             const vscode = event.clipboardData.getData('vscode-editor-data');
             const node = event.clipboardData.getData('text/node');
             const markdownText = event.clipboardData.getData('text/markdown');
             const { state, dispatch } = view;
+            const { htmlToProsemirror, markdownToProsemirror } = extensionThis.options;
 
             debug(() => {
               console.group('paste');
-              console.log({ text, vscode, node, markdownText });
+              console.log({ text, vscode, node, markdownText, files });
               console.log(html);
               console.groupEnd();
             });
-
-            const { markdownToProsemirror } = extensionThis.options;
 
             // 直接复制节点
             if (node) {
@@ -99,6 +88,52 @@ export const Paste = Extension.create<IPasteOptions>({
               const tr = view.state.tr;
               const selection = tr.selection;
               view.dispatch(tr.insert(selection.from - 1, view.state.schema.nodeFromJSON(json)).scrollIntoView());
+              return true;
+            }
+
+            const firstNode = view.props.state.doc.content.firstChild;
+            const hasTitleExtension = !!editor.extensionManager.extensions.find(
+              (extension) => extension.name === TitleExtensionName
+            );
+            const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
+
+            // If the HTML on the clipboard is from Prosemirror then the best
+            // compatability is to just use the HTML parser, regardless of
+            // whether it "looks" like Markdown, see: outline/outline#2416
+            if (html?.includes('data-pm-slice')) {
+              let domNode = document.createElement('div');
+              domNode.innerHTML = html;
+              const slice = DOMParser.fromSchema(editor.schema).parseSlice(domNode);
+              let tr = view.state.tr;
+              tr = tr.replaceSelection(slice);
+              view.dispatch(tr.scrollIntoView());
+              domNode = null;
+              return true;
+            }
+
+            // 新增：office 套件内容处理
+            if (html?.includes('urn:schemas-microsoft-com:office')) {
+              const doc = htmlToProsemirror({
+                schema: editor.schema,
+                html,
+                needTitle: hasTitleExtension && !hasTitle,
+              });
+              let tr = view.state.tr;
+              const selection = tr.selection;
+              view.state.doc.nodesBetween(selection.from, selection.to, (node, position) => {
+                const startPosition = hasTitle ? Math.min(position, selection.from) : 0;
+                const endPosition = Math.min(position + node.nodeSize, selection.to);
+                tr = tr.replaceWith(startPosition, endPosition, view.state.schema.nodeFromJSON(doc));
+              });
+              view.dispatch(tr.scrollIntoView());
+              return true;
+            }
+
+            if (files.length) {
+              event.preventDefault();
+              files.forEach((file) => {
+                handleFileEvent({ editor, file });
+              });
               return true;
             }
 
@@ -138,31 +173,6 @@ export const Paste = Extension.create<IPasteOptions>({
               tr.insertText(text.replace(/\r\n?/g, '\n'));
               tr.setMeta('paste', true);
               view.dispatch(tr);
-              return true;
-            }
-
-            const firstNode = view.props.state.doc.content.firstChild;
-            const hasTitleExtension = !!editor.extensionManager.extensions.find(
-              (extension) => extension.name === TitleExtensionName
-            );
-            const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
-
-            // If the HTML on the clipboard is from Prosemirror then the best
-            // compatability is to just use the HTML parser, regardless of
-            // whether it "looks" like Markdown, see: outline/outline#2416
-            if (html?.includes('data-pm-slice')) {
-              let domNode = document.createElement('div');
-              domNode.innerHTML = html;
-              const slice = DOMParser.fromSchema(editor.schema).parseSlice(domNode);
-
-              debug(() => {
-                console.log('html', domNode, html, slice);
-              });
-
-              let tr = view.state.tr;
-              tr = tr.replaceSelection(slice);
-              view.dispatch(tr.scrollIntoView());
-              domNode = null;
               return true;
             }
 

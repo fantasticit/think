@@ -14,10 +14,14 @@ const getAttribute = (
 ) => {
   return Object.keys(config).reduce((accu, key) => {
     const conf = config[key];
-    accu[key] = conf.default;
+    accu[key] = null;
 
     if (conf.parseHTML) {
       accu[key] = conf.parseHTML(element);
+    }
+
+    if (!accu[key]) {
+      accu[key] = conf.default;
     }
 
     return accu;

@@ -3,13 +3,56 @@ import { Renderer } from './renderer';
 const renderer = new Renderer();
 
 /**
+ * 表格的内容格式不正确，需要进行过滤修复
+ * @param doc
+ * @returns
+ */
+function fixNode(doc) {
+  if (!doc) return;
+
+  const queue = [doc];
+
+  while (queue.length) {
+    const node = queue.shift();
+
+    if (node.content) {
+      node.content = node.content.filter((subNode) => !(subNode.type === 'text' && subNode.text === '\n'));
+    }
+
+    if (node.type === 'table') {
+      node.content = (node.content || []).filter((subNode) => subNode.type.includes('table'));
+    }
+
+    if (node.type === 'tableRow') {
+      node.content = (node.content || []).filter((subNode) => subNode.type === 'tableCell');
+    }
+
+    if (node.type === 'tableCell') {
+      (node.content || []).forEach((subNode, i) => {
+        if (subNode && subNode.type === 'text') {
+          node.content[i] = {
+            attrs: subNode.attrs || {},
+            content: [subNode],
+            type: 'paragraph',
+          };
+        }
+      });
+    }
+
+    if (node.content) {
+      queue.push(...(node.content || []).filter((subNode) => subNode.type.includes('table')));
+    }
+  }
+}
+
+/**
  * 将 HTML 转换成 prosemirror node
  * @param body
  * @param needTitle 是否需要一个标题
  * @param defaultTitle 优先作为文档标题，否则默认读取一个 heading 或者 paragraph 的文字内容
  * @returns
  */
-export const htmlToPromsemirror = (body, needTitle = false, defaultTitle = '') => {
+export const htmlToProsemirror = (body, needTitle = false, defaultTitle = '') => {
   const json = renderer.render(body);
 
   // 设置标题
@@ -55,5 +98,6 @@ export const htmlToPromsemirror = (body, needTitle = false, defaultTitle = '') =
     }
   }
 
+  fixNode(result);
   return result;
 };
