@@ -1,4 +1,4 @@
-import { htmlToPromsemirror } from './html-to-prosemirror';
+import { htmlToProsemirror } from './html-to-prosemirror';
 import { markdownToHTML } from './markdown-to-html';
 
 /**
@@ -12,7 +12,7 @@ import { markdownToHTML } from './markdown-to-html';
  * @param html
  * @returns
  */
-const extractImage = (html) => {
+export const extractImage = (html) => {
   let matches = [];
 
   // eslint-disable-next-line no-useless-escape
@@ -32,9 +32,8 @@ export const markdownToProsemirror = ({ schema, content, needTitle, defaultTitle
 
   const parser = new DOMParser();
   const { body } = parser.parseFromString(extractImage(html), 'text/html');
-
   body.append(document.createComment(content));
-  const node = htmlToPromsemirror(body, needTitle, defaultTitle);
+  const node = htmlToProsemirror(body, needTitle, defaultTitle);
 
   return node;
 };
