@@ -11,11 +11,16 @@ import styles from './index.module.scss';
 
 export const CodeBlockWrapper = ({ editor, node: { attrs }, updateAttributes, extension }) => {
   const isEditable = editor.isEditable;
+  const isPrint = editor?.options?.editorProps?.print;
   const { language: defaultLanguage } = attrs;
   const $container = useRef<HTMLPreElement>();
 
   return (
-    <DragableWrapper editor={editor} extensionName={CodeBlock.name} className={cls(styles.wrap, 'render-wrapper')}>
+    <DragableWrapper
+      editor={editor}
+      extensionName={CodeBlock.name}
+      className={cls(styles.wrap, !isPrint && styles.maxHeight, 'render-wrapper')}
+    >
       <div className={styles.handleWrap}>
         <Select
           size="small"
