@@ -2,6 +2,7 @@ import { Typography } from '@douyinfe/semi-ui';
 import cls from 'classnames';
 import { Resizeable } from 'components/resizeable';
 import { useCallback } from 'react';
+import { Iframe } from 'tiptap/core/extensions/iframe';
 import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
@@ -22,7 +23,7 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   return (
-    <DragableWrapper editor={editor}>
+    <DragableWrapper editor={editor} extensionName={Iframe.name}>
       <Resizeable width={width} maxWidth={maxWidth} height={height} isEditable={isEditable} onChangeEnd={onResize}>
         <div className={cls(styles.wrap, 'render-wrapper')}>
           {url ? (

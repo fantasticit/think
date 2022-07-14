@@ -7,6 +7,7 @@ import { useChildrenDocument } from 'data/document';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { DocumentChildren } from 'tiptap/core/extensions/document-children';
 import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 
 import styles from './index.module.scss';
@@ -37,6 +38,7 @@ export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
   return (
     <DragableWrapper
       editor={editor}
+      extensionName={DocumentChildren.name}
       as="div"
       className={cls('render-wrapper', styles.wrap, isEditable && styles.isEditable, 'documentChildren')}
     >

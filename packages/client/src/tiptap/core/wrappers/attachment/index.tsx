@@ -6,6 +6,7 @@ import { Tooltip } from 'components/tooltip';
 import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { uploadFile } from 'services/file';
+import { Attachment } from 'tiptap/core/extensions/attachment';
 import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 import { download, extractFileExtension, extractFilename, normalizeFileSize } from 'tiptap/prose-utils';
 
@@ -154,5 +155,9 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
     }
   })();
 
-  return <DragableWrapper editor={editor}>{content}</DragableWrapper>;
+  return (
+    <DragableWrapper editor={editor} extensionName={Attachment.name}>
+      {content}
+    </DragableWrapper>
+  );
 };

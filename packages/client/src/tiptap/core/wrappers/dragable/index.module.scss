@@ -21,7 +21,7 @@
   }
 
   &.isEditable {
-    &:hover {
+    &.isActive {
       .dragHandle {
         opacity: 1;
       }

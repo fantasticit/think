@@ -95,7 +95,11 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   }, [toggleLoading, data]);
 
   return (
-    <DragableWrapper editor={editor} className={cls(styles.wrap, isActive && styles.isActive)}>
+    <DragableWrapper
+      editor={editor}
+      className={cls(styles.wrap, isActive && styles.isActive)}
+      extensionName={Flow.name}
+    >
       <VisibilitySensor onChange={onViewportChange}>
         <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
           <div
