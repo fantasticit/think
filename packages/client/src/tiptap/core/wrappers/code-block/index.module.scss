@@ -12,4 +12,10 @@
       margin-right: 8px;
     }
   }
+
+  &.maxHeight {
+    code {
+      max-height: 370px;
+    }
+  }
 }

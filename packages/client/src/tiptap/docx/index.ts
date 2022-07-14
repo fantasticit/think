@@ -68,7 +68,7 @@ const nodeSerializer = {
     state.closeBlock(node);
   },
   [CodeBlock.name](state, node) {
-    state.renderInline(node.content?.content ?? '');
+    state.renderContent(node);
     state.closeBlock(node);
   },
   [Status.name](state, node) {
