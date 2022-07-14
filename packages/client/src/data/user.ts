@@ -12,9 +12,17 @@ import { HttpClient } from 'services/http-client';
  */
 export const toLogin = () => {
   const currentPath = Router.asPath;
+  const maybeRedirect = Router.query?.redirect;
   const isInLogin = currentPath.startsWith('login');
+
   if (!isInLogin) {
-    Router.push(`/login?redirect=${currentPath}`);
+    let next = maybeRedirect || currentPath;
+
+    if (next.includes('login')) {
+      next = '/app';
+    }
+
+    Router.replace(`/login?redirect=${next}`);
   }
 };
 
@@ -108,7 +116,7 @@ export const useUser = () => {
         const user = res as unknown as ILoginUser;
         refetch();
         setStorage('user', JSON.stringify(user));
-        user.token && setStorage('token,', user.token);
+        user.token && setStorage('token', user.token);
         const next = router.query?.redirect || '/app';
         Router.replace(next as string);
       });

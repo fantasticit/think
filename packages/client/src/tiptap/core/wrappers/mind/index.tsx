@@ -108,7 +108,11 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   }, [width, height, setCenter]);
 
   return (
-    <DragableWrapper editor={editor} className={cls(styles.wrap, isActive && styles.isActive)}>
+    <DragableWrapper
+      editor={editor}
+      extensionName={Mind.name}
+      className={cls(styles.wrap, isActive && styles.isActive)}
+    >
       <VisibilitySensor onChange={onViewportChange}>
         <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
           <div

@@ -4,6 +4,7 @@ import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { uploadFile } from 'services/file';
+import { Image } from 'tiptap/core/extensions/image';
 import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 import {
   extractFileExtension,
@@ -69,7 +70,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   }, [src, hasTrigger, selectFile, updateAttributes]);
 
   return (
-    <DragableWrapper editor={editor} style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
+    <DragableWrapper editor={editor} extensionName={Image.name} style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
       <Resizeable
         className={'render-wrapper'}
         width={width || maxWidth}

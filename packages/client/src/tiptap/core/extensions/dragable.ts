@@ -28,6 +28,7 @@ export const Dragable = Extension.create({
   name: 'dragable',
 
   addProseMirrorPlugins() {
+    let scrollContainer;
     let dropElement;
     let currentNode;
     let editorView;
@@ -54,6 +55,11 @@ export const Dragable = Extension.create({
       editorView.dragging = { slice, move: true };
     }
 
+    function onScroll() {
+      if (!dropElement) return;
+      dropElement.style.opacity = 0;
+    }
+
     return [
       new Plugin({
         view(view) {
@@ -64,6 +70,12 @@ export const Dragable = Extension.create({
             dropElement.className = 'drag-handler';
             dropElement.addEventListener('dragstart', drag);
             view.dom.parentElement.appendChild(dropElement);
+
+            scrollContainer = view.dom.parentElement.parentElement?.parentElement?.parentElement;
+
+            if (scrollContainer) {
+              scrollContainer.addEventListener('scroll', onScroll);
+            }
           }
 
           return {
@@ -74,6 +86,10 @@ export const Dragable = Extension.create({
               if (dropElement && dropElement.parentNode) {
                 dropElement.removeEventListener('dragstart', drag);
                 dropElement.parentNode.removeChild(dropElement);
+              }
+
+              if (scrollContainer) {
+                scrollContainer.removeEventListener('scroll', onScroll);
               }
             },
           };
@@ -91,7 +107,7 @@ export const Dragable = Extension.create({
                 }
               }, 50);
             },
-            mousemove(view, event) {
+            mousedown(view, event) {
               if (!dropElement) return;
 
               const coords = { left: event.clientX, top: event.clientY };
@@ -133,10 +149,6 @@ export const Dragable = Extension.create({
               dropElement.style.left = rect.left - WIDTH + 'px';
               dropElement.style.top = rect.top + 6 + 'px';
               dropElement.style.opacity = 1;
-            },
-            mouseleave() {
-              if (!dropElement || currentNode) return;
-              dropElement.style.opacity = 0;
             },
           },
         },

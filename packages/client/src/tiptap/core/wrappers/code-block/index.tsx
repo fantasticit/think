@@ -4,6 +4,7 @@ import { NodeViewContent } from '@tiptap/react';
 import cls from 'classnames';
 import { copy } from 'helpers/copy';
 import React, { useRef } from 'react';
+import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 
 import styles from './index.module.scss';
@@ -14,7 +15,7 @@ export const CodeBlockWrapper = ({ editor, node: { attrs }, updateAttributes, ex
   const $container = useRef<HTMLPreElement>();
 
   return (
-    <DragableWrapper editor={editor} className={cls(styles.wrap, 'render-wrapper')}>
+    <DragableWrapper editor={editor} extensionName={CodeBlock.name} className={cls(styles.wrap, 'render-wrapper')}>
       <div className={styles.handleWrap}>
         <Select
           size="small"
