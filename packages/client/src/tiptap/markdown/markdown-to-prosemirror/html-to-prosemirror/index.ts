@@ -37,6 +37,10 @@ function fixNode(doc) {
           };
         }
       });
+
+      if (!node.content || !node.content.length) {
+        node.content = [{ attrs: {}, type: 'paragraph' }];
+      }
     }
 
     if (node.content) {
