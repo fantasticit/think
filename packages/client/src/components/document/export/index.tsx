@@ -136,6 +136,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
   );
 
   useEffect(() => {
+    console.log('doc', editor, document);
     const c = safeJSONParse(document && document.content);
     const json = c.default || c;
     editor.commands.setContent(json);
