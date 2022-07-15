@@ -1,21 +1,23 @@
 import { IconLink } from '@douyinfe/semi-icons';
 import { Space, Typography } from '@douyinfe/semi-ui';
+import { IDocument, IOrganization, IWiki } from '@think/domains';
 import { copy } from 'helpers/copy';
 import { buildUrl } from 'helpers/url';
 import React, { useCallback } from 'react';
 
 interface IProps {
-  wikiId: string;
-  documentId: string;
+  organizationId: IOrganization['id'];
+  wikiId: IWiki['id'];
+  documentId: IDocument['id'];
   render?: (arg: { copy: () => void; children: React.ReactNode }) => React.ReactNode;
 }
 
 const { Text } = Typography;
 
-export const DocumentLinkCopyer: React.FC<IProps> = ({ wikiId, documentId, render }) => {
+export const DocumentLinkCopyer: React.FC<IProps> = ({ organizationId, wikiId, documentId, render }) => {
   const handle = useCallback(() => {
-    copy(buildUrl(`/wiki/${wikiId}/document/${documentId}`));
-  }, [wikiId, documentId]);
+    copy(buildUrl(`/app/org/${organizationId}/wiki/${wikiId}/doc/${documentId}`));
+  }, [organizationId, wikiId, documentId]);
 
   const content = (
     <Space>

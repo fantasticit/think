@@ -133,6 +133,7 @@ export const DocumentActions: React.FC<IProps> = ({
             />
 
             <DocumentLinkCopyer
+              organizationId={organizationId}
               wikiId={wikiId}
               documentId={documentId}
               render={({ copy, children }) => {
