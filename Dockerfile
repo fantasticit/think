@@ -4,7 +4,9 @@ WORKDIR /app
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN npm config set registry https://registry.npmmirror.com
 RUN npm i -g pm2 @nestjs/cli pnpm
-RUN apk --no-cache add bash
+RUN apk --no-cache add bash dos2unix \
+    && find . -name "*.sh" -exec dos2unix {} \; \
+    && apk del dos2unix
 RUN bash build-output.sh
 
 FROM node:18-alpine as prod
