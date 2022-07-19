@@ -1,0 +1,6 @@
+.idea
+runtime
+.git
+
+**/.next/**
+**/node_modules/**

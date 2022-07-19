@@ -51,16 +51,16 @@ export const Mail = () => {
             />
 
             <Form.Input
-              field="emailServicePassword"
-              label="邮件服务密码"
+              field="emailServiceUser"
+              label="邮件服务用户"
               style={{ width: '100%' }}
-              placeholder="输入邮件服务密码"
-              rules={[{ required: true, message: '请输入邮件服务密码' }]}
+              placeholder="输入邮件服务用户名"
+              rules={[{ required: true, message: '请输入邮件服务用户名' }]}
             />
 
             <Form.Input
-              field="emailServiceUser"
-              label="邮件服务用户"
+              field="emailServicePassword"
+              label="邮件服务密码"
               style={{ width: '100%' }}
               placeholder="输入邮件服务密码"
               rules={[{ required: true, message: '请输入邮件服务密码' }]}
