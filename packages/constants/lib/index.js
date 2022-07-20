@@ -1,34 +1,16 @@
 "use strict";
 exports.__esModule = true;
-exports.DOCUMENT_COVERS = exports.EMPTY_DOCUMNENT = exports.ORGANIZATION_LOGOS = exports.WIKI_AVATARS = exports.DEFAULT_WIKI_AVATAR = void 0;
-exports.DEFAULT_WIKI_AVATAR = 'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default0-96.png';
-exports.WIKI_AVATARS = [
-    exports.DEFAULT_WIKI_AVATAR,
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default2-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default7-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default8-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default14-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default21-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default23-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default1-96%20(1).png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default4-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default12-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default17-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default18-96.png',
-];
-exports.ORGANIZATION_LOGOS = [
-    exports.DEFAULT_WIKI_AVATAR,
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default2-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default7-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default8-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default14-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default21-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default23-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default1-96%20(1).png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default4-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default12-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default17-96.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-02-01/default18-96.png',
+exports.EMPTY_DOCUMNENT = exports.DOCUMENT_COVERS = exports.ORGANIZATION_LOGOS = exports.WIKI_AVATARS = exports.DEFAULT_WIKI_AVATAR = void 0;
+exports.DEFAULT_WIKI_AVATAR = 'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-07-20/default7-97.png';
+exports.WIKI_AVATARS = [exports.DEFAULT_WIKI_AVATAR];
+exports.ORGANIZATION_LOGOS = [exports.DEFAULT_WIKI_AVATAR];
+exports.DOCUMENT_COVERS = [
+    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-07-20/photo-1562380156-9a99cd92484c.avif',
+    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-07-20/photo-1510935813936-763eb6fbc613.avif',
+    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-07-20/photo-1517697471339-4aa32003c11a.avif',
+    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-07-20/photo-1622737133809-d95047b9e673.avif',
+    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-07-20/photo-1547891654-e66ed7ebb968.avif',
+    'https://wipi.oss-cn-shanghai.aliyuncs.com/2022-07-20/photo-1629461461750-ef5b81781bc2.avif',
 ];
 exports.EMPTY_DOCUMNENT = {
     content: JSON.stringify({
@@ -48,25 +30,3 @@ exports.EMPTY_DOCUMNENT = {
         3, 15, 6, 23, 5,
     ]))
 };
-exports.DOCUMENT_COVERS = [
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/X02FJa7gfRc.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/SVSCwOHtP-0.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/mcgill-library-2g_9AOd1k4M-unsplash.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/yHaburAEFo4.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/HH8Sk2LfeCk.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/TSHH03vtj64.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/wallhaven-6kegww.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/edu_UJYxJBA.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/03fd52f583d5494a1562749ae79671fa_482x264.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/ChMkJ14X3aqIScr1AAWqQrbP6Y0AAwP_gGzCE0ABapa019.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/martin-adams-CzSoJM4OuO8-unsplash.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/nasa-xFO2Xt33xgI-unsplash.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/sunrise-5863751-2.png',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/wallhaven-622352.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/david-marcu-78A265wPiO4-unsplash.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/code-1839406_1280.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/apple-2568755_1280.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/code-2620118_1280.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/home-office-1867761_1280.jpg',
-    'https://wipi.oss-cn-shanghai.aliyuncs.com/think/computer-2982270_1280.jpg',
-];
