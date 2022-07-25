@@ -340,7 +340,7 @@ export class UserService {
       });
       return '测试邮件发送成功';
     } catch (err) {
-      throw new HttpException('测试邮件发送失败！', HttpStatus.BAD_REQUEST);
+      throw new HttpException(err.message || err, HttpStatus.BAD_REQUEST);
     }
   }
 
