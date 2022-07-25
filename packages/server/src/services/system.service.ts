@@ -93,6 +93,9 @@ export class SystemService {
         user: emailConfig.user,
         pass: emailConfig.pass,
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
 
     return new Promise((resolve, reject) => {
