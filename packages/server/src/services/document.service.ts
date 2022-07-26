@@ -701,6 +701,7 @@ export class DocumentService {
    * @param keyword
    */
   async search(user, organizationId, keyword) {
+    const userId = user.id;
     const res = await this.documentRepo
       .createQueryBuilder('document')
       .andWhere('document.organizationId = :organizationId')
@@ -712,7 +713,7 @@ export class DocumentService {
 
     const ret = await Promise.all(
       res.map(async (doc) => {
-        const auth = await this.authService.getAuth(user.Id, {
+        const auth = await this.authService.getAuth(userId, {
           organizationId: doc.organizationId,
           wikiId: doc.wikiId,
           documentId: doc.id,
