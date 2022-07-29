@@ -727,4 +727,33 @@ export class DocumentService {
 
     return data;
   }
+
+  /**
+   * 通知文档中 @ 的用户
+   * @param documentId
+   * @param mentionUsers
+   * @returns
+   */
+  public async notifyMentionUsers(documentId, mentionUsers) {
+    const doc = await this.documentRepo.findOne(documentId);
+    if (!doc) return;
+
+    await Promise.all(
+      mentionUsers
+        .map(async (userName) => {
+          const user = await this.userService.findOne({ name: userName });
+          if (!user) return null;
+          return await this.messageService.notify(user.id, {
+            title: `文档「${doc.title}」提及了您`,
+            message: `文档「${doc.title}」提及了您，快去看看吧！`,
+            url: buildMessageURL('toDocument')({
+              organizationId: doc.organizationId,
+              wikiId: doc.wikiId,
+              documentId: doc.id,
+            }),
+          });
+        })
+        .filter(Boolean)
+    );
+  }
 }

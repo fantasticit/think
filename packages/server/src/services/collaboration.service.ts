@@ -10,6 +10,25 @@ import { DocumentStatus, IUser } from '@think/domains';
 import * as lodash from 'lodash';
 import * as Y from 'yjs';
 
+export const findMentions = (content) => {
+  const queue = [content];
+  const res = [];
+
+  while (queue.length) {
+    const node = queue.shift();
+
+    if (node.type === 'mention') {
+      res.push(node.attrs.id);
+    }
+
+    if (node.content && node.content.length) {
+      queue.push(...node.content);
+    }
+  }
+
+  return res;
+};
+
 @Injectable()
 export class CollaborationService {
   server: typeof Server;
@@ -244,6 +263,7 @@ export class CollaborationService {
     const targetId = requestParameters.get('targetId');
     const docType = requestParameters.get('docType');
     const userId = requestParameters.get('userId');
+    const editable = requestParameters.get('editable');
 
     if (docType === 'document') {
       const data = await this.documentService.findById(targetId);
@@ -252,6 +272,14 @@ export class CollaborationService {
           title: '未命名文档',
         });
       }
+
+      if (editable) {
+        const content = data.content;
+        const json = JSON.parse(content).default;
+        const mentionUsers = findMentions(json);
+        this.documentService.notifyMentionUsers(targetId, mentionUsers);
+      }
+
       return;
     }
 

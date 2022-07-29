@@ -1,14 +1,14 @@
 import BulitInMention from '@tiptap/extension-mention';
 import { ReactRenderer } from '@tiptap/react';
-import { getUsers } from 'services/user';
+import { getMentionUser } from 'services/user';
 import tippy from 'tippy.js';
 import { MentionList } from 'tiptap/core/wrappers/mention-list';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
 
 const suggestion = {
   items: async ({ query }) => {
-    const res = await getUsers();
-    const data = res.map((item) => item.name);
+    const res = await getMentionUser();
+    const data = (res.data || []).map((item) => item.user.name);
     return data.filter((item) => item.toLowerCase().startsWith(query.toLowerCase()));
   },
 
