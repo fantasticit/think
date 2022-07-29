@@ -25,7 +25,6 @@ interface IPasteOptions {
 
   /**
    * 将 markdown 转换为 prosemirror 节点
-   * FIXME: prosemirror 节点的类型是什么？
    */
   markdownToProsemirror: (arg: { schema: Schema; content: string; needTitle: boolean }) => Node;
 
@@ -111,8 +110,8 @@ export const Paste = Extension.create<IPasteOptions>({
               return true;
             }
 
-            // 新增：office 套件内容处理
-            if (html?.includes('urn:schemas-microsoft-com:office')) {
+            // FIXME：各家 office 套件标准不一样，是否需要做成用户自行选择粘贴 html 或者 图片？
+            if (html?.length) {
               const doc = htmlToProsemirror({
                 schema: editor.schema,
                 html,

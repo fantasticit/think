@@ -19,6 +19,14 @@ export class MessageService {
    */
   async notify(userId: IUser['id'], msg) {
     const data = { userId, ...msg };
+    const mayBeNotified = await this.messageRepo.findOne(data);
+
+    if (mayBeNotified) {
+      if (!mayBeNotified.read) {
+        return;
+      }
+    }
+
     const res = await this.messageRepo.create(data);
     const ret = await this.messageRepo.save(res);
     return ret;

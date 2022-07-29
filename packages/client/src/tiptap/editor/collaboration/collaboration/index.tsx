@@ -46,6 +46,7 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
         targetId: documentId,
         userId: user && user.id,
         docType: type,
+        editable,
       },
       maxAttempts: 1,
       onAwarenessUpdate: throttle(({ states }) => {
@@ -67,7 +68,7 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
         setStatus(status);
       },
     } as any);
-  }, [documentId, user, type, onAwarenessUpdate, toggleLoading]);
+  }, [documentId, user, type, editable, onAwarenessUpdate, toggleLoading]);
 
   useImperativeHandle(
     ref,
