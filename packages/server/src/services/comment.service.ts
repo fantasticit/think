@@ -97,6 +97,7 @@ export class CommentService {
               wikiId: doc.wikiId,
               documentId: doc.id,
             }),
+            uniqueId: ret.id,
           });
         })
     );
@@ -206,6 +207,7 @@ export class CommentService {
               wikiId: doc.wikiId,
               documentId: doc.id,
             }),
+            uniqueId: newData.id,
           });
         })
     );
@@ -234,6 +236,7 @@ export class CommentService {
               wikiId: doc.wikiId,
               documentId: doc.id,
             }),
+            uniqueId: data.id,
           });
         })
     );

@@ -136,6 +136,7 @@ export class DocumentService {
         wikiId: doc.wikiId,
         documentId: doc.id,
       }),
+      uniqueId: doc.id,
     });
   }
 
@@ -174,6 +175,7 @@ export class DocumentService {
         wikiId: doc.wikiId,
         documentId: doc.id,
       }),
+      uniqueId: doc.id,
     });
   }
 
@@ -212,6 +214,7 @@ export class DocumentService {
         wikiId: doc.wikiId,
         documentId: doc.id,
       }),
+      uniqueId: doc.id,
     });
   }
 
@@ -751,6 +754,7 @@ export class DocumentService {
               wikiId: doc.wikiId,
               documentId: doc.id,
             }),
+            uniqueId: doc.id,
           });
         })
         .filter(Boolean)
