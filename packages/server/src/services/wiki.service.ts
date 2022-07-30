@@ -118,6 +118,7 @@ export class WikiService {
         organizationId: wiki.organizationId,
         wikiId: wiki.id,
       }),
+      uniqueId: wiki.id,
     });
   }
 
@@ -165,6 +166,7 @@ export class WikiService {
         organizationId: wiki.organizationId,
         wikiId: wiki.id,
       }),
+      uniqueId: wiki.id,
     });
   }
 
@@ -212,6 +214,7 @@ export class WikiService {
         organizationId: wiki.organizationId,
         wikiId: wiki.id,
       }),
+      uniqueId: wiki.id,
     });
   }
 

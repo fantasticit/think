@@ -3,13 +3,30 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUser } from '@think/domains';
 import { Repository } from 'typeorm';
+import Redis from 'ioredis';
+import { buildRedis } from '@helpers/redis.helper';
+import { RedisDBEnum } from '@constants/*';
+import { uniqueId } from 'lodash';
 
 @Injectable()
 export class MessageService {
+  private redis: Redis;
+
   constructor(
     @InjectRepository(MessageEntity)
     private readonly messageRepo: Repository<MessageEntity>
-  ) {}
+  ) {
+    this.buildRedis();
+  }
+
+  private async buildRedis() {
+    try {
+      this.redis = await buildRedis(RedisDBEnum.message);
+      console.log('[think] 消息服务启动成功');
+    } catch (e) {
+      console.error(`[think] 消息服务启动错误: "${e.message}"`);
+    }
+  }
 
   /**
    * 新消息通知
@@ -17,16 +34,15 @@ export class MessageService {
    * @param msg
    * @returns
    */
-  async notify(userId: IUser['id'], msg) {
-    const data = { userId, ...msg };
-    const mayBeNotified = await this.messageRepo.findOne(data);
+  async notify(userId: IUser['id'], msg: { title: string; message: string; url: string; uniqueId: string | number }) {
+    const key = `message-${userId}-${uniqueId}`;
 
-    if (mayBeNotified) {
-      if (!mayBeNotified.read) {
-        return;
-      }
+    if (await this.redis.get(key)) {
+      return;
     }
 
+    const data = { userId, ...msg };
+    await this.redis.set(key, Date.now(), 'EX', 5 * 60);
     const res = await this.messageRepo.create(data);
     const ret = await this.messageRepo.save(res);
     return ret;

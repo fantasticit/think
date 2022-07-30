@@ -60,7 +60,7 @@ export class SystemService {
       : await this.systemRepo.create(emailConfig);
     await this.systemRepo.save(newConfig);
 
-    console.log('[think] 已载入文件配置：', newConfig);
+    console.log('[think] 已载入文件配置', JSON.stringify(newConfig, null, 2));
   }
 
   /**

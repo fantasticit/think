@@ -218,6 +218,7 @@ export class OrganizationService {
       url: buildMessageURL('toOrganization')({
         organizationId: organization.id,
       }),
+      uniqueId: organization.id,
     });
 
     return ret;
@@ -256,6 +257,7 @@ export class OrganizationService {
       url: buildMessageURL('toOrganization')({
         organizationId: organization.id,
       }),
+      uniqueId: organization.id,
     });
 
     return ret;
@@ -294,6 +296,7 @@ export class OrganizationService {
       url: buildMessageURL('toOrganization')({
         organizationId: organization.id,
       }),
+      uniqueId: organization.id,
     });
 
     return ret;

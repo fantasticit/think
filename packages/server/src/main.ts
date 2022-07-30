@@ -14,7 +14,9 @@ import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['warn', 'error'],
+  });
   const config = app.get(ConfigService);
   const port = config.get('server.port') || 5002;
 
