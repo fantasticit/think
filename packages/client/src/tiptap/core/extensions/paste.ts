@@ -111,7 +111,7 @@ export const Paste = Extension.create<IPasteOptions>({
             }
 
             // FIXME：各家 office 套件标准不一样，是否需要做成用户自行选择粘贴 html 或者 图片？
-            if (html?.length) {
+            if (html?.includes('urn:schemas-microsoft-com:office') || html?.includes('</table>')) {
               const doc = htmlToProsemirror({
                 schema: editor.schema,
                 html,
