@@ -1,9 +1,8 @@
 import { Typography } from '@douyinfe/semi-ui';
+import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { Resizeable } from 'components/resizeable';
 import { useCallback } from 'react';
-import { Iframe } from 'tiptap/core/extensions/iframe';
-import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
@@ -23,20 +22,23 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   return (
-    <DragableWrapper editor={editor} extensionName={Iframe.name}>
-      <Resizeable width={width} maxWidth={maxWidth} height={height} isEditable={isEditable} onChangeEnd={onResize}>
-        <div className={cls(styles.wrap, 'render-wrapper')}>
-          {url ? (
-            <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
-              <iframe src={url}></iframe>
-            </div>
-          ) : (
-            <div className={styles.emptyWrap}>
-              <Text>请设置外链地址</Text>
-            </div>
-          )}
-        </div>
-      </Resizeable>
-    </DragableWrapper>
+    <NodeViewWrapper className={'drag-container'}>
+      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
+      <div className={'drag-content'}>
+        <Resizeable width={width} maxWidth={maxWidth} height={height} isEditable={isEditable} onChangeEnd={onResize}>
+          <div className={cls(styles.wrap, 'render-wrapper')}>
+            {url ? (
+              <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
+                <iframe src={url}></iframe>
+              </div>
+            ) : (
+              <div className={styles.emptyWrap}>
+                <Text>请设置外链地址</Text>
+              </div>
+            )}
+          </div>
+        </Resizeable>
+      </div>
+    </NodeViewWrapper>
   );
 };

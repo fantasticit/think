@@ -1,13 +1,12 @@
 import { IconClose, IconDownload, IconPlayCircle } from '@douyinfe/semi-icons';
 import { Button, Collapsible, Progress, Space, Spin, Toast, Typography } from '@douyinfe/semi-ui';
 import { FILE_CHUNK_SIZE } from '@think/domains';
+import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { Tooltip } from 'components/tooltip';
 import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { uploadFile } from 'services/file';
-import { Attachment } from 'tiptap/core/extensions/attachment';
-import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 import { download, extractFileExtension, extractFilename, normalizeFileSize } from 'tiptap/prose-utils';
 
 import { getFileTypeIcon } from './file-icon';
@@ -156,8 +155,9 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
   })();
 
   return (
-    <DragableWrapper editor={editor} extensionName={Attachment.name}>
-      {content}
-    </DragableWrapper>
+    <NodeViewWrapper className={'drag-container'}>
+      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
+      <div className={'drag-content'}>{content}</div>
+    </NodeViewWrapper>
   );
 };

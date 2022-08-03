@@ -158,6 +158,8 @@ export interface CodeBlockLowlightOptions extends CodeBlockOptions {
 }
 
 export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
+  draggable: true,
+
   addOptions() {
     return {
       ...this.parent?.(),

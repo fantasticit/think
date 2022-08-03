@@ -95,15 +95,12 @@ export const Mind = Node.create({
           }
 
           const { selection } = editor.state;
-          const pos = selection.$head;
 
           return chain()
-            .insertContentAt(pos.after(), [
-              {
-                type: this.name,
-                attrs: options,
-              },
-            ])
+            .insertContent({
+              type: this.name,
+              attrs: options,
+            })
             .run();
         },
     };

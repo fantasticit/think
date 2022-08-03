@@ -21,7 +21,8 @@
   }
 
   .node-codeBlock,
-  .node-katex {
+  .node-katex,
+  .node-documentChildren {
     .render-wrapper {
       border-radius: var(--border-radius);
     }
