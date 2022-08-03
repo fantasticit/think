@@ -1,11 +1,10 @@
 import { Spin, Typography } from '@douyinfe/semi-ui';
+import { NodeViewWrapper } from '@tiptap/react';
 import { Resizeable } from 'components/resizeable';
 import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { uploadFile } from 'services/file';
-import { Image } from 'tiptap/core/extensions/image';
-import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 import {
   extractFileExtension,
   extractFilename,
@@ -70,30 +69,33 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   }, [src, hasTrigger, selectFile, updateAttributes]);
 
   return (
-    <DragableWrapper editor={editor} extensionName={Image.name} style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
-      <Resizeable
-        className={'render-wrapper'}
-        width={width || maxWidth}
-        height={height}
-        maxWidth={maxWidth}
-        isEditable={isEditable}
-        onChangeEnd={onResize}
-      >
-        {error ? (
-          <div className={styles.wrap}>
-            <Text>{error}</Text>
-          </div>
-        ) : !src ? (
-          <div className={styles.wrap} onClick={selectFile}>
-            <Spin spinning={loading}>
-              <Text style={{ cursor: 'pointer' }}>{loading ? '正在上传中' : '请选择图片'}</Text>
-              <input ref={$upload} accept="image/*" type="file" hidden onChange={handleFile} />
-            </Spin>
-          </div>
-        ) : (
-          <LazyLoadImage src={src} alt={alt} width={width} height={height} />
-        )}
-      </Resizeable>
-    </DragableWrapper>
+    <NodeViewWrapper className={'drag-container'} style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
+      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
+      <div className={'drag-content'}>
+        <Resizeable
+          className={'render-wrapper'}
+          width={width || maxWidth}
+          height={height}
+          maxWidth={maxWidth}
+          isEditable={isEditable}
+          onChangeEnd={onResize}
+        >
+          {error ? (
+            <div className={styles.wrap}>
+              <Text>{error}</Text>
+            </div>
+          ) : !src ? (
+            <div className={styles.wrap} onClick={selectFile}>
+              <Spin spinning={loading}>
+                <Text style={{ cursor: 'pointer' }}>{loading ? '正在上传中' : '请选择图片'}</Text>
+                <input ref={$upload} accept="image/*" type="file" hidden onChange={handleFile} />
+              </Spin>
+            </div>
+          ) : (
+            <LazyLoadImage src={src} alt={alt} width={width} height={height} />
+          )}
+        </Resizeable>
+      </div>
+    </NodeViewWrapper>
   );
 };

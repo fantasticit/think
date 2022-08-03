@@ -22,6 +22,16 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
+    options.editorProps = options.editorProps || {};
+
+    if (options.editable) {
+      options.editorProps.attributes = options.editorProps.attributes || {};
+      // @ts-ignore
+      options.editorProps.attributes.class = options.editorProps.attributes.class || '';
+      // @ts-ignore
+      options.editorProps.attributes.class += ' is-editable';
+    }
+
     const instance = new Editor(options);
 
     setEditor(instance);

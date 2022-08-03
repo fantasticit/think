@@ -16,7 +16,6 @@ import { Countdown } from 'tiptap/core/extensions/countdown';
 import { Document } from 'tiptap/core/extensions/document';
 import { DocumentChildren } from 'tiptap/core/extensions/document-children';
 import { DocumentReference } from 'tiptap/core/extensions/document-reference';
-import { Dragable } from 'tiptap/core/extensions/dragable';
 import { Dropcursor } from 'tiptap/core/extensions/dropcursor';
 import { Emoji } from 'tiptap/core/extensions/emoji';
 import { EventEmitter } from 'tiptap/core/extensions/event-emitter';
@@ -99,7 +98,6 @@ export const CollaborationKit = [
   CodeBlock,
   Color,
   ColorHighlighter,
-  Dragable,
   Dropcursor,
   EventEmitter,
   Focus,

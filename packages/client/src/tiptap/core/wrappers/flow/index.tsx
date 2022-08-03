@@ -1,4 +1,5 @@
 import { Button, Space, Spin, Typography } from '@douyinfe/semi-ui';
+import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { IconFlow, IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
@@ -7,7 +8,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { load, renderXml } from 'thirtypart/diagram';
 import { Flow } from 'tiptap/core/extensions/flow';
-import { DragableWrapper } from 'tiptap/core/wrappers/dragable';
 import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
@@ -95,49 +95,48 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
   }, [toggleLoading, data]);
 
   return (
-    <DragableWrapper
-      editor={editor}
-      className={cls(styles.wrap, isActive && styles.isActive)}
-      extensionName={Flow.name}
-    >
-      <VisibilitySensor onChange={onViewportChange}>
-        <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
-          <div
-            className={cls(styles.renderWrap, 'render-wrapper')}
-            style={{ ...INHERIT_SIZE_STYLE, overflow: 'hidden', backgroundColor: bgColor }}
-          >
-            {loading && (
-              <div>
-                <Spin spinning>
-                  {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
-                  <div></div>
-                </Spin>
-              </div>
-            )}
+    <NodeViewWrapper className={cls('drag-container', isActive && styles.isActive)}>
+      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
+      <div className={cls('drag-content', styles.wrap)}>
+        <VisibilitySensor onChange={onViewportChange}>
+          <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
+            <div
+              className={cls(styles.renderWrap, 'render-wrapper')}
+              style={{ ...INHERIT_SIZE_STYLE, overflow: 'hidden', backgroundColor: bgColor }}
+            >
+              {loading && (
+                <div>
+                  <Spin spinning>
+                    {/* FIXME: semi-design 的问题，不加 div，文字会换行! */}
+                    <div></div>
+                  </Spin>
+                </div>
+              )}
 
-            {error && <Text>{(error && error.message) || '未知错误'}</Text>}
+              {error && <Text>{(error && error.message) || '未知错误'}</Text>}
 
-            {!loading && !error && visible && <div style={{ maxHeight: '100%' }} ref={setMxgraph}></div>}
-          </div>
+              {!loading && !error && visible && <div style={{ maxHeight: '100%' }} ref={setMxgraph}></div>}
+            </div>
 
-          <div className={styles.title}>
-            <Space>
-              <span className={styles.icon}>
-                <IconFlow />
-              </span>
-              流程图
-            </Space>
-          </div>
+            <div className={styles.title}>
+              <Space>
+                <span className={styles.icon}>
+                  <IconFlow />
+                </span>
+                流程图
+              </Space>
+            </div>
 
-          <div className={styles.toolbarWrap}>
-            <Space spacing={2}>
-              <Button type="tertiary" theme="borderless" size="small" onClick={center} icon={<IconMindCenter />} />
-              <Button type="tertiary" theme="borderless" size="small" onClick={zoomOut} icon={<IconZoomOut />} />
-              <Button type="tertiary" theme="borderless" size="small" onClick={zoomIn} icon={<IconZoomIn />} />
-            </Space>
-          </div>
-        </Resizeable>
-      </VisibilitySensor>
-    </DragableWrapper>
+            <div className={styles.toolbarWrap}>
+              <Space spacing={2}>
+                <Button type="tertiary" theme="borderless" size="small" onClick={center} icon={<IconMindCenter />} />
+                <Button type="tertiary" theme="borderless" size="small" onClick={zoomOut} icon={<IconZoomOut />} />
+                <Button type="tertiary" theme="borderless" size="small" onClick={zoomIn} icon={<IconZoomIn />} />
+              </Space>
+            </div>
+          </Resizeable>
+        </VisibilitySensor>
+      </div>
+    </NodeViewWrapper>
   );
 };

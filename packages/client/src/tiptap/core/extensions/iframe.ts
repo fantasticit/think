@@ -84,15 +84,12 @@ export const Iframe = Node.create({
 
           const attrs = options || { url: '' };
           const { selection } = editor.state;
-          const pos = selection.$head;
 
           return chain()
-            .insertContentAt(pos.after(), [
-              {
-                type: this.name,
-                attrs,
-              },
-            ])
+            .insertContent({
+              type: this.name,
+              attrs,
+            })
             .run();
         },
     };

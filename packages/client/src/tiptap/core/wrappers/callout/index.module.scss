@@ -44,4 +44,10 @@
     display: flex;
     padding: 10px;
   }
+
+  [data-node-view-content] {
+    [data-drag-handle] {
+      opacity: 0 !important;
+    }
+  }
 }
