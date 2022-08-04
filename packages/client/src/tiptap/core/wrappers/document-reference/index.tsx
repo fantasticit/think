@@ -50,9 +50,8 @@ export const DocumentReferenceWrapper = ({ editor, node, updateAttributes }) => 
   }, [organizationId, wikiId, documentId, isEditable, isShare, title]);
 
   return (
-    <NodeViewWrapper as="div" className={cls('drag-container', styles.wrap, isEditable && 'render-wrapper')}>
-      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
-      <div className={'drag-content'}>{content}</div>
+    <NodeViewWrapper as="div" className={cls(styles.wrap, isEditable && 'render-wrapper')}>
+      {content}
     </NodeViewWrapper>
   );
 };

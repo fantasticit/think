@@ -108,69 +108,60 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   }, [width, height, setCenter]);
 
   return (
-    <NodeViewWrapper className={cls('drag-container', styles.wrap, isActive && styles.isActive)}>
-      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
-      <div className={'drag-content'}>
-        <VisibilitySensor onChange={onViewportChange}>
-          <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
-            <div
-              className={cls(styles.renderWrap, 'render-wrapper')}
-              style={{ ...INHERIT_SIZE_STYLE, overflow: 'hidden' }}
-            >
-              {error && (
-                <div style={INHERIT_SIZE_STYLE}>
-                  <Text>{error.message || error}</Text>
-                </div>
-              )}
-
-              {loading && <Spin spinning style={INHERIT_SIZE_STYLE}></Spin>}
-
-              {!loading && !error && visible && (
-                <div style={{ height: '100%', maxHeight: '100%', overflow: 'hidden' }} ref={setMind}></div>
-              )}
-
-              <div className={styles.title}>
-                <Space>
-                  <span className={styles.icon}>
-                    <IconMind />
-                  </span>
-                  思维导图
-                </Space>
+    <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
+      <VisibilitySensor onChange={onViewportChange}>
+        <Resizeable isEditable={isEditable} width={width} height={height} maxWidth={maxWidth} onChangeEnd={onResize}>
+          <div
+            className={cls(styles.renderWrap, 'render-wrapper')}
+            style={{ ...INHERIT_SIZE_STYLE, overflow: 'hidden' }}
+          >
+            {error && (
+              <div style={INHERIT_SIZE_STYLE}>
+                <Text>{error.message || error}</Text>
               </div>
+            )}
 
-              <div className={styles.mindHandlerWrap}>
-                <Tooltip content="居中">
-                  <Button
-                    size="small"
-                    theme="borderless"
-                    type="tertiary"
-                    icon={<IconMindCenter />}
-                    onClick={setCenter}
-                  />
-                </Tooltip>
-                <Tooltip content="缩小">
-                  <Button
-                    size="small"
-                    theme="borderless"
-                    type="tertiary"
-                    icon={<IconZoomOut />}
-                    onClick={setZoom('minus')}
-                  />
-                </Tooltip>
-                <Tooltip content="放大">
-                  <Button
-                    size="small"
-                    theme="borderless"
-                    type="tertiary"
-                    icon={<IconZoomIn />}
-                    onClick={setZoom('plus')}
-                  />
-                </Tooltip>
-              </div>
+            {loading && <Spin spinning style={INHERIT_SIZE_STYLE}></Spin>}
+
+            {!loading && !error && visible && (
+              <div style={{ height: '100%', maxHeight: '100%', overflow: 'hidden' }} ref={setMind}></div>
+            )}
+
+            <div className={styles.title}>
+              <Space>
+                <span className={styles.icon}>
+                  <IconMind />
+                </span>
+                思维导图
+              </Space>
             </div>
-          </Resizeable>
-        </VisibilitySensor>
-      </div>
+
+            <div className={styles.mindHandlerWrap}>
+              <Tooltip content="居中">
+                <Button size="small" theme="borderless" type="tertiary" icon={<IconMindCenter />} onClick={setCenter} />
+              </Tooltip>
+              <Tooltip content="缩小">
+                <Button
+                  size="small"
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconZoomOut />}
+                  onClick={setZoom('minus')}
+                />
+              </Tooltip>
+              <Tooltip content="放大">
+                <Button
+                  size="small"
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconZoomIn />}
+                  onClick={setZoom('plus')}
+                />
+              </Tooltip>
+            </div>
+          </div>
+        </Resizeable>
+      </VisibilitySensor>
     </NodeViewWrapper>
   );
 };

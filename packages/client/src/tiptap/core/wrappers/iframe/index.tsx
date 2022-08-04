@@ -22,23 +22,20 @@ export const IframeWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   return (
-    <NodeViewWrapper className={'drag-container'}>
-      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
-      <div className={'drag-content'}>
-        <Resizeable width={width} maxWidth={maxWidth} height={height} isEditable={isEditable} onChangeEnd={onResize}>
-          <div className={cls(styles.wrap, 'render-wrapper')}>
-            {url ? (
-              <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
-                <iframe src={url}></iframe>
-              </div>
-            ) : (
-              <div className={styles.emptyWrap}>
-                <Text>请设置外链地址</Text>
-              </div>
-            )}
-          </div>
-        </Resizeable>
-      </div>
+    <NodeViewWrapper>
+      <Resizeable width={width} maxWidth={maxWidth} height={height} isEditable={isEditable} onChangeEnd={onResize}>
+        <div className={cls(styles.wrap, 'render-wrapper')}>
+          {url ? (
+            <div className={styles.innerWrap} style={{ pointerEvents: !isEditable ? 'auto' : 'none' }}>
+              <iframe src={url}></iframe>
+            </div>
+          ) : (
+            <div className={styles.emptyWrap}>
+              <Text>请设置外链地址</Text>
+            </div>
+          )}
+        </div>
+      </Resizeable>
     </NodeViewWrapper>
   );
 };

@@ -18,6 +18,7 @@ export * from './markdown-source-map';
 export * from './mention';
 export * from './node';
 export * from './position';
+export * from './select-node-by-dom';
 export * from './table';
 export * from './text';
 export * from './type';

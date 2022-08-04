@@ -1,5 +1,9 @@
 /* stylelint-disable */
 .ProseMirror {
+  p.selected-node {
+    outline: 1px solid var(--node-selected-border-color);
+  }
+
   hr.selected-node {
     &::after {
       background-color: var(--node-selected-border-color);
