@@ -154,10 +154,5 @@ export const AttachmentWrapper = ({ editor, node, updateAttributes }) => {
     }
   })();
 
-  return (
-    <NodeViewWrapper className={'drag-container'}>
-      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
-      <div className={'drag-content'}>{content}</div>
-    </NodeViewWrapper>
-  );
+  return <NodeViewWrapper>{content}</NodeViewWrapper>;
 };

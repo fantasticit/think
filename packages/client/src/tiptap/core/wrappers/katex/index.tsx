@@ -35,15 +35,12 @@ export const KatexWrapper = ({ node, editor }) => {
 
   return (
     <NodeViewWrapper
-      className={'drag-container render-wrapper'}
+      className={'render-wrapper'}
       style={{
         backgroundColor,
       }}
     >
-      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
-      <div className={'drag-content'}>
-        <div className={styles.wrap}>{content}</div>
-      </div>
+      <div className={styles.wrap}>{content}</div>
     </NodeViewWrapper>
   );
 };

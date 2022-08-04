@@ -25,29 +25,26 @@ export const CalloutWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   return (
-    <NodeViewWrapper id="js-callout-container" className={cls('drag-container', styles.wrap)}>
-      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
-      <div className={'drag-content'}>
-        <div
-          className={cls(styles.innerWrap, 'render-wrapper')}
+    <NodeViewWrapper id="js-callout-container" className={cls(styles.wrap)}>
+      <div
+        className={cls(styles.innerWrap, 'render-wrapper')}
+        style={{
+          borderColor,
+          backgroundColor: backgroundColorOpacity,
+        }}
+      >
+        {isEditable ? (
+          <EmojiPicker onSelectEmoji={onSelectEmoji}>
+            <span className={styles.icon}>{emoji || 'Icon'}</span>
+          </EmojiPicker>
+        ) : (
+          emoji && <span className={styles.icon}>{emoji}</span>
+        )}
+        <NodeViewContent
           style={{
-            borderColor,
-            backgroundColor: backgroundColorOpacity,
+            color: textColor,
           }}
-        >
-          {isEditable ? (
-            <EmojiPicker onSelectEmoji={onSelectEmoji}>
-              <span className={styles.icon}>{emoji || 'Icon'}</span>
-            </EmojiPicker>
-          ) : (
-            emoji && <span className={styles.icon}>{emoji}</span>
-          )}
-          <NodeViewContent
-            style={{
-              color: textColor,
-            }}
-          />
-        </div>
+        />
       </div>
     </NodeViewWrapper>
   );

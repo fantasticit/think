@@ -69,33 +69,30 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   }, [src, hasTrigger, selectFile, updateAttributes]);
 
   return (
-    <NodeViewWrapper className={'drag-container'} style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
-      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
-      <div className={'drag-content'}>
-        <Resizeable
-          className={'render-wrapper'}
-          width={width || maxWidth}
-          height={height}
-          maxWidth={maxWidth}
-          isEditable={isEditable}
-          onChangeEnd={onResize}
-        >
-          {error ? (
-            <div className={styles.wrap}>
-              <Text>{error}</Text>
-            </div>
-          ) : !src ? (
-            <div className={styles.wrap} onClick={selectFile}>
-              <Spin spinning={loading}>
-                <Text style={{ cursor: 'pointer' }}>{loading ? '正在上传中' : '请选择图片'}</Text>
-                <input ref={$upload} accept="image/*" type="file" hidden onChange={handleFile} />
-              </Spin>
-            </div>
-          ) : (
-            <LazyLoadImage src={src} alt={alt} width={width} height={height} />
-          )}
-        </Resizeable>
-      </div>
+    <NodeViewWrapper style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
+      <Resizeable
+        className={'render-wrapper'}
+        width={width || maxWidth}
+        height={height}
+        maxWidth={maxWidth}
+        isEditable={isEditable}
+        onChangeEnd={onResize}
+      >
+        {error ? (
+          <div className={styles.wrap}>
+            <Text>{error}</Text>
+          </div>
+        ) : !src ? (
+          <div className={styles.wrap} onClick={selectFile}>
+            <Spin spinning={loading}>
+              <Text style={{ cursor: 'pointer' }}>{loading ? '正在上传中' : '请选择图片'}</Text>
+              <input ref={$upload} accept="image/*" type="file" hidden onChange={handleFile} />
+            </Spin>
+          </div>
+        ) : (
+          <LazyLoadImage src={src} alt={alt} width={width} height={height} />
+        )}
+      </Resizeable>
     </NodeViewWrapper>
   );
 };

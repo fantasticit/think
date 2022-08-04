@@ -32,13 +32,10 @@ export const CountdownWrapper = ({ editor, node }) => {
   const { title, date } = node.attrs;
 
   return (
-    <NodeViewWrapper className={'drag-container'}>
-      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
-      <div className={'drag-content'}>
-        <div className={cls(styles.wrap, 'render-wrapper')}>
-          <Text>{title}</Text>
-          <ReactCountdown date={date} renderer={renderer}></ReactCountdown>
-        </div>
+    <NodeViewWrapper>
+      <div className={cls(styles.wrap, 'render-wrapper')}>
+        <Text>{title}</Text>
+        <ReactCountdown date={date} renderer={renderer}></ReactCountdown>
       </div>
     </NodeViewWrapper>
   );

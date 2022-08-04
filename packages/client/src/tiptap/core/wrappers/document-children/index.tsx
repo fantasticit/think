@@ -35,48 +35,48 @@ export const DocumentChildrenWrapper = ({ editor, node, updateAttributes }) => {
   }, [node.attrs, wikiId, documentId, updateAttributes]);
 
   return (
-    <NodeViewWrapper as="div" className={cls('drag-container', 'render-wrapper')}>
-      <div className={'drag-handle'} contentEditable="false" draggable="true" data-drag-handle />
-      <div className={cls('drag-content', styles.wrap, isEditable && styles.isEditable, 'documentChildren')}>
-        <div>
-          <Text type="tertiary">子文档</Text>
-        </div>
-        {wikiId || documentId ? (
-          <DataRender
-            loading={loading}
-            error={error}
-            normalContent={() => {
-              if (!documents || !documents.length) {
-                return <Empty message="暂无子文档" />;
-              }
-              return (
-                <div>
-                  {documents.map((doc) => {
-                    return (
-                      <Link
-                        key={doc.id}
-                        href={{
-                          pathname: isShare
-                            ? `/share/wiki/[wikiId]/document/[documentId]`
-                            : `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]`,
-                          query: { organizationId: doc.organizationId, wikiId: doc.wikiId, documentId: doc.id },
-                        }}
-                      >
-                        <a className={styles.itemWrap} target="_blank">
-                          <IconDocument />
-                          <span>{doc.title}</span>
-                        </a>
-                      </Link>
-                    );
-                  })}
-                </div>
-              );
-            }}
-          />
-        ) : (
-          <Text type="tertiary">当前页面无法使用子文档</Text>
-        )}
+    <NodeViewWrapper
+      as="div"
+      className={cls('render-wrapper', styles.wrap, isEditable && styles.isEditable, 'documentChildren')}
+    >
+      <div>
+        <Text type="tertiary">子文档</Text>
       </div>
+      {wikiId || documentId ? (
+        <DataRender
+          loading={loading}
+          error={error}
+          normalContent={() => {
+            if (!documents || !documents.length) {
+              return <Empty message="暂无子文档" />;
+            }
+            return (
+              <div>
+                {documents.map((doc) => {
+                  return (
+                    <Link
+                      key={doc.id}
+                      href={{
+                        pathname: isShare
+                          ? `/share/wiki/[wikiId]/document/[documentId]`
+                          : `/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]`,
+                        query: { organizationId: doc.organizationId, wikiId: doc.wikiId, documentId: doc.id },
+                      }}
+                    >
+                      <a className={styles.itemWrap} target="_blank">
+                        <IconDocument />
+                        <span>{doc.title}</span>
+                      </a>
+                    </Link>
+                  );
+                })}
+              </div>
+            );
+          }}
+        />
+      ) : (
+        <Text type="tertiary">当前页面无法使用子文档</Text>
+      )}
     </NodeViewWrapper>
   );
 };
