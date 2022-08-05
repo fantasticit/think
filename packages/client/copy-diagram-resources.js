@@ -80,4 +80,6 @@ fs.copySync('./public', './.next', {
     return !/diagram.js$/.test(src);
   },
 });
+
 fs.outputFileSync('./.next/manifest.json', buildManifestJson());
+fs.outputFileSync('./public/manifest.json', buildManifestJson());
