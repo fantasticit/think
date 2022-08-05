@@ -2,8 +2,7 @@
   "name": "@think/client",
   "private": true,
   "scripts": {
-    "prebuild": "rimraf .next",
-    "build": "npx next telemetry disable && next build && node copy-diagram-resources.js",
+    "build": "rimraf .next && npx next telemetry disable && next build && node copy-diagram-resources.js",
     "dev": "node dev-server.js",
     "start": "cross-env NODE_ENV=production node prod-server.js",
     "pm2": "pm2 start npm --name @think/client -- start"
