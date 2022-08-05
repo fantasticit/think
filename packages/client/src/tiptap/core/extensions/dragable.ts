@@ -108,6 +108,9 @@ export const Dragable = Extension.create({
             destroy: () => {
               if (!dragHandleDOM) return;
 
+              dragHandleDOM.removeEventListener('mousedown', handleMouseDown);
+              dragHandleDOM.removeEventListener('mouseup', handleMouseUp);
+              dragHandleDOM.removeEventListener('dragstart', handleDragStart);
               dragHandleDOM.remove();
             },
           };
