@@ -10,6 +10,8 @@ services:
       - ./runtime/static:/app/packages/server/static
     environment:
       - TZ=Asia/Shanghai
+    expose:
+      - '5001-5003'
     ports:
       - '5001-5003:5001-5003'
     depends_on:

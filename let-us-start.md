@@ -80,9 +80,8 @@ pm2 save
 
 ```bash
 # 首次安装
-git clone  https://github.com/fantasticit/think.git
+git clone https://github.com/fantasticit/think.git
 cd think
-vim docker-compose.yml
 docker-compose up -d
 
 # 二次更新升级
@@ -97,6 +96,8 @@ docker-compose rm
 docker image rm think # 删掉构建的镜像
 docker-compose up -d
 ```
+
+更多细节可以查看 [how-to-use-docker.md](./how-to-use-docker.md)。
 
 ### nginx 配置参考
 
