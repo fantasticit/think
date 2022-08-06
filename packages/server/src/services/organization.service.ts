@@ -106,11 +106,9 @@ export class OrganizationService {
       wikiId: null,
       documentId: null,
     });
-    await Promise.all([
-      this.authService.deleteOrganization(organization.id),
-      this.organizationRepo.remove(organization),
-      this.wikiService.deleteOrganizationWiki(user, organizationId),
-    ]);
+    await this.wikiService.deleteOrganizationWiki(user, organizationId);
+    await this.organizationRepo.remove(organization);
+    await this.authService.deleteOrganization(organization.id);
     return organization;
   }
 

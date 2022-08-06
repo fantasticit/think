@@ -1,6 +1,5 @@
 import { RedisDBEnum } from '@constants/*';
 import { DocumentEntity } from '@entities/document.entity';
-import { UserEntity } from '@entities/user.entity';
 import { buildRedis } from '@helpers/redis.helper';
 import { Injectable } from '@nestjs/common';
 import { IDocument, IOrganization, IUser } from '@think/domains';
@@ -73,7 +72,7 @@ export class ViewService {
    * @param user
    * @param document
    */
-  private async recordUserVisitedDocumentInOrganization(user: UserEntity, document: DocumentEntity) {
+  private async recordUserVisitedDocumentInOrganization(user: IUser, document: DocumentEntity) {
     const { id: userId } = user;
     const { organizationId, id: documentId } = document;
     const key = this.buildVisitedDocumentInOrganizationKey(organizationId);
@@ -114,10 +113,29 @@ export class ViewService {
   }
 
   /**
+   * 删除被删除文档的访问记录
+   * @param user
+   * @param organizationId
+   * @param documentId
+   */
+  public async deleteDeletedDocumentView(
+    user: IUser,
+    organizationId: IOrganization['id'],
+    documentId: IDocument['id']
+  ) {
+    const { id: userId } = user;
+    const key = this.buildVisitedDocumentInOrganizationKey(organizationId);
+    const oldData = await this.redis.hget(key, userId);
+
+    const filterData = (JSON.parse(oldData || '[]') || []).filter((record) => record.documentId !== documentId);
+    await this.redis.hset(key, userId, JSON.stringify(filterData));
+  }
+
+  /**
    * 创建访问记录（内部调用，无公开接口）
    * @returns
    */
-  async create(user: UserEntity | null, document: DocumentEntity) {
+  async create(user: IUser | null, document: DocumentEntity) {
     await Promise.all([
       this.recordDocumentViews(document.id),
       user && this.recordUserVisitedDocumentInOrganization(user, document),
