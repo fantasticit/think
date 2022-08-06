@@ -483,11 +483,9 @@ export class WikiService {
       wikiId: wiki.id,
       documentId: null,
     });
-    await Promise.all([
-      this.authService.deleteWiki(wiki.organizationId, wiki.id),
-      this.wikiRepo.remove(wiki),
-      this.documentService.deleteWikiDocuments(user, wikiId),
-    ]);
+    await this.wikiRepo.remove(wiki);
+    await this.documentService.deleteWikiDocuments(user, wikiId);
+    await this.authService.deleteWiki(wiki.organizationId, wiki.id);
     return wiki;
   }
 

@@ -390,6 +390,7 @@ export class DocumentService {
     await Promise.all([
       this.authService.deleteDocument(document.organizationId, document.wikiId, document.id),
       this.documentRepo.remove(document),
+      this.viewService.deleteDeletedDocumentView(user, document.organizationId, document.id),
     ]);
   }
 
