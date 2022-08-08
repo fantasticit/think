@@ -36,15 +36,13 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
 
     setEditor(instance);
 
-    if (!options.editable) {
-      instance.on('transaction', () => {
+    instance.on('transaction', () => {
+      requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            forceUpdate();
-          });
+          forceUpdate();
         });
       });
-    }
+    });
 
     return () => {
       instance.destroy();
