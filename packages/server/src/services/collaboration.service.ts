@@ -267,13 +267,14 @@ export class CollaborationService {
 
     if (docType === 'document') {
       const data = await this.documentService.findById(targetId);
+
       if (data && !data.title) {
         await this.documentService.updateDocument({ id: userId } as IUser, targetId, {
           title: '未命名文档',
         });
       }
 
-      if (editable) {
+      if (data && editable) {
         const content = data.content;
         const json = JSON.parse(content).default;
         const mentionUsers = findMentions(json);
