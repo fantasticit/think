@@ -147,17 +147,19 @@ export const Dragable = Extension.create({
               const result = selectRootNodeByDom(dom, view);
               activeNode = result;
 
-              if (!result) {
+              if (
+                !result ||
+                result.node.type.name === 'title' ||
+                result.node.type.name === 'tableOfContents' ||
+                // empty paragraph
+                (result.node.type.name === 'paragraph' && result.node.nodeSize === 2)
+              ) {
                 if (dragging) return false;
                 hideDragHandleDOM();
                 return false;
               }
 
-              if (result.node.type.name === 'title') {
-                if (dragging) return false;
-                hideDragHandleDOM();
-                return false;
-              }
+              console.log(result);
 
               renderDragHandleDOM(view, result.el);
               return false;
