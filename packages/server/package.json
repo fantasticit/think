@@ -45,6 +45,7 @@
     "express-rate-limit": "^6.2.0",
     "fs-extra": "^10.0.0",
     "helmet": "^5.0.2",
+    "html-to-docx": "^1.4.0",
     "ioredis": "^5.0.1",
     "lodash": "^4.17.21",
     "mysql2": "^2.3.3",

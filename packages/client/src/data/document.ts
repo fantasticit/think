@@ -199,7 +199,19 @@ export const useDocumentDetail = (documentId, options: UseQueryOptions<IDocument
     [refetch, documentId]
   );
 
-  return { data, loading: isLoading, error, update, toggleStatus };
+  /**
+   * 导出文档
+   */
+  const exportDocx = useCallback(async (content) => {
+    const res = await HttpClient.request({
+      method: DocumentApiDefinition.exportDocx.method,
+      url: DocumentApiDefinition.exportDocx.client(),
+      data: { content },
+    });
+    return res;
+  }, []);
+
+  return { data, loading: isLoading, error, update, toggleStatus, exportDocx };
 };
 
 /**

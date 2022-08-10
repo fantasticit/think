@@ -35,6 +35,14 @@ exports.DocumentApiDefinition = {
         client: function (id) { return "/document/detail/".concat(id); }
     },
     /**
+     * 导出文档
+     */
+    exportDocx: {
+        method: 'post',
+        server: '/export/docx',
+        client: function () { return '/document/export/docx'; }
+    },
+    /**
      * 更新文档
      */
     updateById: {

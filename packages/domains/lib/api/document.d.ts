@@ -33,6 +33,14 @@ export declare const DocumentApiDefinition: {
         client: (id: IDocument['id']) => string;
     };
     /**
+     * 导出文档
+     */
+    exportDocx: {
+        method: "post";
+        server: "/export/docx";
+        client: () => string;
+    };
+    /**
      * 更新文档
      */
     updateById: {

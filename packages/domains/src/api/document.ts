@@ -38,6 +38,15 @@ export const DocumentApiDefinition = {
   },
 
   /**
+   * 导出文档
+   */
+  exportDocx: {
+    method: 'post' as const,
+    server: '/export/docx' as const,
+    client: () => '/document/export/docx',
+  },
+
+  /**
    * 更新文档
    */
   updateById: {
