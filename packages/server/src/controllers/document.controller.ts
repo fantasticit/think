@@ -110,6 +110,20 @@ export class DocumentController {
   }
 
   /**
+   * 导出文档
+   * @param req
+   * @param documentId
+   * @returns
+   */
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post(DocumentApiDefinition.exportDocx.server)
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtGuard)
+  async exportDocx(@Body('content') content) {
+    return await this.documentService.exportDocx(content);
+  }
+
+  /**
    * 获取文档成员
    * @param req
    * @param documentId

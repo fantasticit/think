@@ -62,6 +62,7 @@
     "docx": "^7.3.0",
     "dompurify": "^2.3.5",
     "downloadjs": "^1.4.7",
+    "html-to-docx": "^1.4.0",
     "interactjs": "^1.10.11",
     "katex": "^0.15.2",
     "kity": "^2.0.4",

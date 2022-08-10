@@ -17,6 +17,7 @@ import { WikiService } from '@services/wiki.service';
 import { EMPTY_DOCUMNENT } from '@think/constants';
 import { AuthEnum, buildMessageURL, DocumentStatus, IUser } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
+import * as HTMLtoDOCX from 'html-to-docx';
 import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 
@@ -760,5 +761,21 @@ export class DocumentService {
         })
         .filter(Boolean)
     );
+  }
+
+  /**
+   * 导出文档
+   * html-to-docx
+   * @param user
+   * @param content
+   * @returns
+   */
+  public async exportDocx(content) {
+    const fileBuffer = await HTMLtoDOCX(content, null, {
+      table: { row: { cantSplit: true } },
+      footer: true,
+      pageNumber: true,
+    });
+    return fileBuffer;
   }
 }

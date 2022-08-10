@@ -47,13 +47,13 @@ export const Title = Node.create<TitleOptions>({
   parseHTML() {
     return [
       {
-        tag: 'div[class=node-title]',
+        tag: 'h1[class=node-title]',
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+    return ['h1', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
 
   addNodeView() {

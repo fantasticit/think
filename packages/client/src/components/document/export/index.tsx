@@ -1,6 +1,7 @@
 import { Badge, Button, Dropdown, Modal, Space, Typography } from '@douyinfe/semi-ui';
 import { IDocument } from '@think/domains';
 import { IconJSON, IconMarkdown, IconPDF, IconWord } from 'components/icons';
+import { useDocumentDetail } from 'data/document';
 import download from 'downloadjs';
 import { safeJSONParse, safeJSONStringify } from 'helpers/json';
 import { IsOnMobile } from 'hooks/use-on-mobile';
@@ -8,7 +9,6 @@ import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { createEditor } from 'tiptap/core';
 import { AllExtensions } from 'tiptap/core/all-kit';
-import { prosemirrorToDocx } from 'tiptap/docx';
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
 
 import styles from './index.module.scss';
@@ -24,6 +24,7 @@ interface IProps {
 export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
   const { isMobile } = IsOnMobile.useHook();
   const [visible, toggleVisible] = useToggle(false);
+  const { exportDocx } = useDocumentDetail(document.id);
 
   const editor = useMemo(() => {
     return createEditor({
@@ -47,10 +48,13 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
   }, [document, editor]);
 
   const exportWord = useCallback(() => {
-    prosemirrorToDocx(editor.view, editor.state).then((buffer) => {
-      download(buffer, `${document.title}.docx`);
-    });
-  }, [document, editor]);
+    const editorContent = editor.view.dom.closest('.ProseMirror');
+    if (editorContent) {
+      exportDocx(editorContent.outerHTML).then((res) => {
+        download(Buffer.from(res as Buffer), `${document.title}.docx`);
+      });
+    }
+  }, [editor, exportDocx, document]);
 
   const exportPDF = useCallback(() => {
     printEditorContent(editor.view);
