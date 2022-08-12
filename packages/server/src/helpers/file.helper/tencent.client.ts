@@ -78,7 +78,7 @@ export class TencentOssClient extends BaseOssClient {
         if (err) {
           resolve(false);
         } else {
-          this.client.getObjectUrl(params, (err, data) => {
+          this.client.getObjectUrl({ ...params, Sign: false }, (err, data) => {
             if (err) {
               reject(err);
             } else {
@@ -114,7 +114,7 @@ export class TencentOssClient extends BaseOssClient {
           if (err) {
             reject(err);
           }
-          this.client.getObjectUrl(params, (err, data) => {
+          this.client.getObjectUrl({ ...params, Sign: false }, (err, data) => {
             if (err) {
               reject(err);
             } else {
@@ -193,7 +193,7 @@ export class TencentOssClient extends BaseOssClient {
                 if (err) {
                   reject(err);
                 } else {
-                  this.client.getObjectUrl(params, (err, data) => {
+                  this.client.getObjectUrl({ ...params, Sign: false }, (err, data) => {
                     if (err) {
                       reject(err);
                     } else {
