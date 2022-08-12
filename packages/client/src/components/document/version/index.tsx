@@ -1,10 +1,11 @@
 import { IconChevronLeft } from '@douyinfe/semi-icons';
-import { Button, Modal, Typography } from '@douyinfe/semi-ui';
+import { Button, Modal, Select, Space, Tag, Typography } from '@douyinfe/semi-ui';
 import { EditorContent, useEditor } from '@tiptap/react';
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
 import { useDocumentVersion } from 'data/document';
+import { generateDiffHtml } from 'helpers/generate-html';
 import { safeJSONParse } from 'helpers/json';
 import { DocumentVersionControl } from 'hooks/use-document-version';
 import { IsOnMobile } from 'hooks/use-on-mobile';
@@ -28,6 +29,7 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
   const { visible, toggleVisible } = DocumentVersionControl.useHook();
   const { data, loading, error, refresh } = useDocumentVersion(documentId, { enabled: visible });
   const [selectedVersion, setSelectedVersion] = useState(null);
+  const [diffVersion, setDiffVersion] = useState(null);
 
   const editor = useEditor({
     editable: false,
@@ -42,10 +44,18 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
 
   const select = useCallback(
     (version) => {
+      setDiffVersion(null);
       setSelectedVersion(version);
       editor.commands.setContent(safeJSONParse(version.data, { default: {} }).default);
     },
-    [editor]
+    [editor, setDiffVersion]
+  );
+
+  const changeDiffVision = useCallback(
+    (version) => {
+      setDiffVersion(version);
+    },
+    [setDiffVersion]
   );
 
   const restore = useCallback(() => {
@@ -53,6 +63,20 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
     onSelect(safeJSONParse(selectedVersion.data, { default: {} }).default);
     close();
   }, [selectedVersion, close, onSelect]);
+
+  useEffect(() => {
+    if (diffVersion && selectedVersion) {
+      const historyVersion = data.find((item) => item.version === diffVersion);
+
+      const diffHtml = generateDiffHtml(
+        safeJSONParse(selectedVersion.data, { default: {} }).default,
+        safeJSONParse(historyVersion.data, { default: {} }).default
+      );
+
+      const element = document.getElementById('diff-visual');
+      element.innerHTML = diffHtml;
+    }
+  }, [diffVersion, data, selectedVersion]);
 
   useEffect(() => {
     if (!editor) return;
@@ -77,11 +101,28 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
                 版本记录
               </Title>
             </div>
-            <div>
-              <Button type="primary" theme="solid" disabled={!onSelect || !selectedVersion} onClick={restore}>
-                恢复此记录
-              </Button>
-            </div>
+            {selectedVersion && !isMobile && (
+              <div>
+                <Tag color="light-blue" style={{ padding: '12px 14px', fontSize: '14px' }}>
+                  {new Date(+selectedVersion.version).toLocaleString()}
+                </Tag>
+                <div style={{ padding: '0 8px' }}>与</div>
+                <Select placeholder="请选择历史" size="small" onChange={changeDiffVision} value={diffVersion} showClear>
+                  {data.map(({ version }) => {
+                    return (
+                      <Select.Option value={version} key={version} disabled={version === selectedVersion.version}>
+                        {new Date(+version).toLocaleString()}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+                <div style={{ paddingLeft: '8px' }}>对比</div>
+                <Space style={{ position: 'absolute', right: '240px' }}>
+                  <Tag style={{ backgroundColor: '#e9ffe9' }}>增加的内容</Tag>
+                  <Tag style={{ backgroundColor: '#ffeaea' }}>删除的内容</Tag>
+                </Space>
+              </div>
+            )}
             <div>
               <Button
                 theme="light"
@@ -92,6 +133,9 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
                 onClick={refresh}
               >
                 刷新
+              </Button>
+              <Button type="primary" theme="solid" disabled={!onSelect || !selectedVersion} onClick={restore}>
+                恢复此记录
               </Button>
             </div>
           </div>
@@ -106,7 +150,11 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
             <div className={styles.contentWrap}>
               <main className={cls(isMobile && styles.isMobile)}>
                 <div className={'container'}>
-                  <EditorContent editor={editor} />
+                  {diffVersion ? (
+                    <div id="diff-visual" className="ProseMirror"></div>
+                  ) : (
+                    <EditorContent editor={editor} />
+                  )}
                 </div>
               </main>
               <aside className={cls(isMobile && styles.isMobile)}>
