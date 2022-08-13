@@ -1,0 +1,33 @@
+.wrap {
+  position: relative;
+  max-width: 100%;
+  overflow: visible;
+  line-height: 0;
+
+  .renderWrap {
+    border: 1px solid var(--node-border-color);
+    border-radius: var(--border-radius);
+
+    &::after {
+      background-color: transparent !important;
+    }
+  }
+
+  .title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+
+    .icon {
+      display: flex;
+      width: 18px;
+      height: 18px;
+      color: #fff;
+      background-color: #f80;
+      border-radius: 2px;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

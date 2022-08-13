@@ -137,6 +137,14 @@ export const COMMANDS: ICommand[] = [
   },
   {
     isBlock: true,
+    icon: <IconMind />,
+    label: '绘图',
+    action: (editor, user) => {
+      editor.chain().focus().setExcalidraw({ width: '100%', defaultShowPicker: true, createUser: user.id }).run();
+    },
+  },
+  {
+    isBlock: true,
     icon: <IconMath />,
     label: '数学公式',
     action: (editor, user) => editor.chain().focus().setKatex({ defaultShowPicker: true, createUser: user.id }).run(),

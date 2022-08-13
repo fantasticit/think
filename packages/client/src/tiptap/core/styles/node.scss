@@ -38,7 +38,8 @@
   .node-flow,
   .node-codeBlock,
   .node-documentChildren,
-  .node-documentReference {
+  .node-documentReference,
+  .node-excalidraw {
     margin-top: 0.75em;
   }
 
@@ -60,7 +61,8 @@
   .node-flow,
   .node-codeBlock,
   .node-documentChildren,
-  .node-documentReference {
+  .node-documentReference,
+  .node-excalidraw {
     .render-wrapper {
       position: relative;
       user-select: text;

@@ -36,7 +36,8 @@
   .node-codeBlock,
   .node-documentChildren,
   .node-documentReference,
-  .node-status {
+  .node-status,
+  .node-excalidraw {
     &.selected-node {
       &:not(.has-focus) {
         ::selection {
