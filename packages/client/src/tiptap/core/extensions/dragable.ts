@@ -159,8 +159,6 @@ export const Dragable = Extension.create({
                 return false;
               }
 
-              console.log(result);
-
               renderDragHandleDOM(view, result.el);
               return false;
             },
