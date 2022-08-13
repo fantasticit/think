@@ -109,6 +109,7 @@ importers:
       eslint-plugin-simple-import-sort: ^7.0.0
       fs-extra: ^10.0.0
       html-to-docx: ^1.4.0
+      htmldiff-js: ^1.0.5
       interactjs: ^1.10.11
       katex: ^0.15.2
       kity: ^2.0.4
@@ -207,6 +208,7 @@ importers:
       dompurify: 2.3.5
       downloadjs: 1.4.7
       html-to-docx: 1.4.0
+      htmldiff-js: 1.0.5
       interactjs: 1.10.11
       katex: 0.15.2
       kity: 2.0.4
@@ -6706,6 +6708,10 @@ packages:
     dependencies:
       ent: 2.2.0
       htmlparser2: 3.10.1
+    dev: false
+
+  /htmldiff-js/1.0.5:
+    resolution: {integrity: sha512-rmow9353OK0elkub15Sbze8Nj7BYfduqoJJw4yEvHHjOcHeCazNPk0PoUbjE8SvxKgjymeRIFU/OnS8jtitRtA==}
     dev: false
 
   /htmlparser2/3.10.1:

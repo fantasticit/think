@@ -39,6 +39,44 @@
         overflow: auto;
       }
     }
+
+    :global {
+      #diff-visual {
+        del {
+          color: #cb4000;
+          text-decoration: none;
+          list-style: none;
+          background-color: #ffeaea;
+        }
+
+        del::before {
+          position: relative;
+          top: -2px;
+          padding: 0 4px;
+          font-weight: 400;
+          color: #8a8f8d;
+          text-decoration: none;
+          content: '-';
+        }
+
+        ins {
+          color: green;
+          text-decoration: none;
+          list-style: none;
+          background-color: #e9ffe9;
+        }
+
+        ins::before {
+          position: relative;
+          top: -2px;
+          padding: 0 4px;
+          font-weight: 400;
+          color: #8a8f8d;
+          text-decoration: none;
+          content: '+';
+        }
+      }
+    }
   }
 
   aside {
