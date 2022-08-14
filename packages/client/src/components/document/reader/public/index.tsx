@@ -23,6 +23,7 @@ import styles from './index.module.scss';
 import Router from 'next/router';
 import { useRouterQuery } from 'hooks/use-router-query';
 import { IDocument, IWiki } from '@think/domains';
+import { DocumentFullscreen } from 'components/document/fullscreen';
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -148,6 +149,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           }
           footer={
             <Space>
+              {!isMobile && <DocumentFullscreen data={data}/>}
               <Tooltip content={currentWikiId ? '独立模式' : '嵌入模式'}>
                 <Button theme="borderless" type="tertiary" icon={<IconRoute />} onClick={toPublicWikiOrDocumentURL} />
               </Tooltip>
