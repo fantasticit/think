@@ -9,16 +9,18 @@
 
     &::before {
       position: absolute;
-      top: 0;
+      bottom: 0;
       height: 0;
       color: var(--semi-color-text-0);
       pointer-events: none;
       content: attr(data-placeholder);
+      transform: translateY(-4.2em);
     }
 
     &.is-editable {
       &::before {
         color: #aaa;
+        transform: translateY(-1.7em);
       }
     }
   }

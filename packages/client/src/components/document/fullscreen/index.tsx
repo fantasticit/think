@@ -7,9 +7,9 @@ import { IconPencil } from 'components/icons/IconPencil';
 import { safeJSONParse } from 'helpers/json';
 import { useDrawingCursor } from 'hooks/use-cursor';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import { CollaborationKit } from 'tiptap/editor';
+import { CollaborationKit, Document } from 'tiptap/editor';
 
 import styles from './index.module.scss';
 
@@ -23,6 +23,7 @@ const FullscreenController = ({ handle: fullscreenHandler, isDrawing, toggleDraw
     fullscreenHandler.exit();
     toggleDrawing(false);
   }, [fullscreenHandler, toggleDrawing]);
+
   return (
     <div className={styles.fullScreenToolbar}>
       <Space>
@@ -53,17 +54,18 @@ export const DocumentFullscreen: React.FC<IProps> = ({ data }) => {
   const fullscreenHandler = useFullScreenHandle();
   const [visible, toggleVisible] = useToggle(false);
   const [isDrawing, toggleDrawing] = useToggle(false);
+  const [cover, setCover] = useState('');
 
   const editor = useEditor({
     editable: false,
-    extensions: CollaborationKit,
+    extensions: CollaborationKit.filter((ext) => ['title', 'documentWithTitle'].indexOf(ext.name) < 0).concat(Document),
     content: { type: 'doc', content: [] },
   });
 
-  const startPowerpoint = () => {
+  const startPowerpoint = useCallback(() => {
     toggleVisible(true);
     fullscreenHandler.enter();
-  };
+  }, [toggleVisible, fullscreenHandler]);
 
   const fullscreenChange = useCallback(
     (state) => {
@@ -76,11 +78,13 @@ export const DocumentFullscreen: React.FC<IProps> = ({ data }) => {
   );
 
   useEffect(() => {
-    if (!editor) return;
+    if (!editor || !visible) return;
     const docJSON = safeJSONParse(data.content, { default: {} }).default;
+    const titleNode = docJSON.content.find((item) => item.type === 'title');
     docJSON.content = docJSON.content.filter((item) => item.type !== 'title');
+    setCover(titleNode.attrs.cover ?? '');
     editor.commands.setContent(docJSON);
-  }, [editor, data]);
+  }, [editor, data, visible]);
 
   const { Title } = Typography;
   return (
@@ -109,7 +113,14 @@ export const DocumentFullscreen: React.FC<IProps> = ({ data }) => {
               </Title>
             </div>
             <div className={styles.content}>
-              <div className={styles.title}>{data.title || '未命名文档'}</div>
+              <div className={styles.title}>
+                {cover && (
+                  <div className={styles.imgCover}>
+                    <img src={cover} alt="背景图" />
+                  </div>
+                )}
+                <p>{data.title || '未命名文档'}</p>
+              </div>
               <EditorContent editor={editor} />
             </div>
             <DrawingCursor isDrawing={isDrawing} />
