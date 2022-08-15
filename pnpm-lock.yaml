@@ -44,6 +44,7 @@ importers:
       '@douyinfe/semi-icons': ^2.3.1
       '@douyinfe/semi-next': ^2.3.1
       '@douyinfe/semi-ui': ^2.3.1
+      '@excalidraw/excalidraw': ^0.12.0
       '@hocuspocus/provider': ^1.0.0-alpha.29
       '@think/config': workspace:^1.0.0
       '@think/constants': workspace:^1.0.0
@@ -157,6 +158,7 @@ importers:
       '@douyinfe/semi-icons': 2.3.1_react@17.0.2
       '@douyinfe/semi-next': 2.3.1
       '@douyinfe/semi-ui': 2.3.1_wnecvl2xit6hykxlpfa3byfhr4
+      '@excalidraw/excalidraw': 0.12.0_sfoxds7t5ydpegc3knd667wn6m
       '@hocuspocus/provider': 1.0.0-alpha.29
       '@think/config': link:../config
       '@think/constants': link:../constants
@@ -1952,6 +1954,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@excalidraw/excalidraw/0.12.0_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-xMPmKmOEgKij43k5m6Koaevb+SBw6La7MT9UDY8Iq7nQCMhA1HQwcUURfSkZ3ERibdQmMsAGtjSLbkX7hrA3+A==}
+    peerDependencies:
+      react: ^17.0.2
+      react-dom: ^17.0.2
+    dependencies:
+      dotenv: 10.0.0
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
 
   /@hocuspocus/common/1.0.0-alpha.4:
     resolution: {integrity: sha512-LvKj+ASSWnvjFB7n2bl7BUGFKF9XFFP1oA3/XmKl3c7wUIvoN1Ir3sX8XnN6qBA3S2CoruEHHk+KPS6zMSMfHA==}

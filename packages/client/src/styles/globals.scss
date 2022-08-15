@@ -141,3 +141,7 @@
     background-color: transparent;
   }
 }
+
+.excalidraw.excalidraw-modal-container {
+  z-index: 1010 !important;
+}

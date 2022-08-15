@@ -16,6 +16,7 @@ import { Countdonw } from 'tiptap/core/menus/countdown';
 import { DocumentChildren } from 'tiptap/core/menus/document-children';
 import { DocumentReference } from 'tiptap/core/menus/document-reference';
 import { Emoji } from 'tiptap/core/menus/emoji';
+import { Excalidraw } from 'tiptap/core/menus/excalidraw';
 import { Flow } from 'tiptap/core/menus/flow';
 import { FontSize } from 'tiptap/core/menus/fontsize';
 import { Heading } from 'tiptap/core/menus/heading';
@@ -107,6 +108,7 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <Table editor={editor} />
         <Katex editor={editor} />
         <Mind editor={editor} />
+        <Excalidraw editor={editor} />
       </Space>
     </div>
   );
