@@ -19,6 +19,7 @@ import { createPortal } from 'react-dom';
 import { CollaborationEditor } from 'tiptap/editor';
 
 import { DocumentActions } from '../actions';
+import { DocumentFullscreen } from '../fullscreen';
 import { Author } from './author';
 import styles from './index.module.scss';
 
@@ -73,6 +74,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
             documentId={documentId}
           />
         )}
+        {document && !isMobile && <DocumentFullscreen data={document} />}
         {document && (
           <DocumentStar
             disabled={!readable}
@@ -96,7 +98,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
         <DocumentVersion documentId={documentId} />
       </Space>
     );
-  }, [document, documentId, readable, editable, gotoEdit]);
+  }, [document, documentId, readable, editable, gotoEdit, isMobile]);
 
   return (
     <div className={styles.wrap}>

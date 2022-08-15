@@ -135,6 +135,7 @@ importers:
       react: 17.0.2
       react-countdown: ^2.3.2
       react-dom: 17.0.2
+      react-full-screen: ^1.1.1
       react-helmet: ^6.1.0
       react-lazy-load-image-component: ^1.5.4
       react-pdf: ^5.7.2
@@ -234,6 +235,7 @@ importers:
       react: 17.0.2
       react-countdown: 2.3.2_sfoxds7t5ydpegc3knd667wn6m
       react-dom: 17.0.2_react@17.0.2
+      react-full-screen: 1.1.1_react@17.0.2
       react-helmet: 6.1.0_react@17.0.2
       react-lazy-load-image-component: 1.5.4_sfoxds7t5ydpegc3knd667wn6m
       react-pdf: 5.7.2_sfoxds7t5ydpegc3knd667wn6m
@@ -6392,6 +6394,10 @@ packages:
   /fs.realpath/1.0.0:
     resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
 
+  /fscreen/1.2.0:
+    resolution: {integrity: sha512-hlq4+BU0hlPmwsFjwGGzZ+OZ9N/wq9Ljg/sq3pX+2CD7hrJsX9tJgWWK/wiNTFM212CLHWhicOoqwXyZGGetJg==}
+    dev: false
+
   /fsevents/2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -9738,6 +9744,16 @@ packages:
 
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
+    dev: false
+
+  /react-full-screen/1.1.1_react@17.0.2:
+    resolution: {integrity: sha512-xoEgkoTiN0dw9cjYYGViiMCBYbkS97BYb4bHPhQVWXj1UnOs8PZ1rPzpX+2HMhuvQV1jA5AF9GaRbO3fA5aZtg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>= 16.8.0'
+    dependencies:
+      fscreen: 1.2.0
+      react: 17.0.2
     dev: false
 
   /react-helmet/6.1.0_react@17.0.2:
