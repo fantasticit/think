@@ -145,10 +145,11 @@ export const Dragable = Extension.create({
               }
 
               const result = selectRootNodeByDom(dom, view);
-              activeNode = result;
 
               if (
                 !result ||
+                result.node.type.name === 'doc' ||
+                result.node.type.name === 'documentWithTitle' ||
                 result.node.type.name === 'title' ||
                 result.node.type.name === 'tableOfContents' ||
                 // empty paragraph
@@ -158,6 +159,8 @@ export const Dragable = Extension.create({
                 hideDragHandleDOM();
                 return false;
               }
+
+              activeNode = result;
 
               renderDragHandleDOM(view, result.el);
               return false;
