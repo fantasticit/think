@@ -9,17 +9,25 @@
 
     &::before {
       position: absolute;
-      top: 0;
       height: 0;
       color: var(--semi-color-text-0);
       pointer-events: none;
       content: attr(data-placeholder);
     }
+  }
 
-    &.is-editable {
-      &::before {
-        color: #aaa;
-      }
+  &.is-withauthor {
+    .node-title::before {
+      bottom: 0;
+      transform: translateY(-4.2em);
+    }
+  }
+
+  &.is-editable {
+    .node-title::before {
+      bottom: 0;
+      color: #aaa;
+      transform: translateY(-1.7em);
     }
   }
 }

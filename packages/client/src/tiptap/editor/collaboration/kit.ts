@@ -72,6 +72,8 @@ const DocumentWithTitle = Document.extend({
   content: 'title block+',
 });
 
+export { Document };
+
 export const CollaborationKit = [
   Paragraph,
   Placeholder.configure({
