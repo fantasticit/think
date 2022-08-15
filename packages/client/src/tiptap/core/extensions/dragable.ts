@@ -120,10 +120,23 @@ export const Dragable = Extension.create({
             drop: (view, event: DragEvent) => {
               if (!view.editable || !dragHandleDOM) return false;
 
+              const eventPos = view.posAtCoords({ left: event.clientX, top: event.clientY });
+              if (!eventPos) {
+                return true;
+              }
+
+              const $mouse = view.state.doc.resolve(eventPos.pos);
+
+              /**
+               * 不允许在 title 处放置
+               */
+              if ($mouse?.parent?.type?.name === 'title') {
+                return true;
+              }
+
               if (dragging) {
                 const tr = removePossibleTable(view, event);
                 dragging = false;
-
                 if (tr) {
                   view.dispatch(tr);
                   event.preventDefault();
@@ -166,7 +179,6 @@ export const Dragable = Extension.create({
             },
             keydown: () => {
               if (!editorView.editable || !dragHandleDOM) return false;
-              dragHandleDOM.classList.remove('show');
               hideDragHandleDOM();
               return false;
             },
