@@ -4,14 +4,14 @@ import { ReactNodeViewRenderer } from '@tiptap/react';
 import { ExcalidrawWrapper } from 'tiptap/core/wrappers/excalidraw';
 import { getDatasetAttribute } from 'tiptap/prose-utils';
 
-const DEFAULT_MIND_DATA = [];
+const DEFAULT_MIND_DATA = { elements: [] };
 
 export interface IExcalidrawAttrs {
   defaultShowPicker?: boolean;
   createUser?: IUser['id'];
   width?: number | string;
   height?: number;
-  data?: Array<any>;
+  data?: Record<string, unknown>;
 }
 
 declare module '@tiptap/core' {

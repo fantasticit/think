@@ -11,8 +11,8 @@ const { Text } = Typography;
 
 export const ExcalidrawSettingModal: React.FC<IProps> = ({ editor }) => {
   const [Excalidraw, setExcalidraw] = useState(null);
-  const [elements, setElements] = useState([]);
-  const [initialData, setInitialData] = useState([]);
+  const [data, setData] = useState({});
+  const [initialData, setInitialData] = useState({ elements: [], appState: { isLoading: false }, files: null });
   const [visible, toggleVisible] = useToggle(false);
   const [loading, toggleLoading] = useToggle(true);
   const [error, setError] = useState(null);
@@ -38,8 +38,14 @@ export const ExcalidrawSettingModal: React.FC<IProps> = ({ editor }) => {
     });
   }, []);
 
-  const onChange = useCallback((els) => {
-    setElements(els);
+  const onChange = useCallback((elements, appState, files) => {
+    // excalidraw 导出的是 {}，实际上应该是 []
+    // appState.collaborators = [];
+    setData({
+      elements,
+      appState: { isLoading: false },
+      files,
+    });
   }, []);
 
   const save = useCallback(() => {
@@ -48,12 +54,9 @@ export const ExcalidrawSettingModal: React.FC<IProps> = ({ editor }) => {
       return;
     }
 
-    if (elements.filter((el) => !el.isDeleted).length > 0) {
-      editor.chain().focus().setExcalidraw({ data: elements }).run();
-    }
-
+    editor.chain().focus().setExcalidraw({ data }).run();
     toggleVisible(false);
-  }, [Excalidraw, editor, elements, toggleVisible]);
+  }, [Excalidraw, editor, data, toggleVisible]);
 
   useEffect(() => {
     const handler = (data) => {
@@ -78,6 +81,7 @@ export const ExcalidrawSettingModal: React.FC<IProps> = ({ editor }) => {
       onOk={save}
       okText="保存"
       cancelText="退出"
+      motion={false}
     >
       <div style={{ height: '100%', margin: '0 -24px', border: '1px solid var(--semi-color-border)' }}>
         {loading && (
@@ -89,15 +93,7 @@ export const ExcalidrawSettingModal: React.FC<IProps> = ({ editor }) => {
         {error && <Text>{(error && error.message) || '未知错误'}</Text>}
         <div style={{ width: '100%', height: '100%' }} ref={renderEditor}>
           {!loading && !error && Excalidraw ? (
-            <Excalidraw
-              ref={renderExcalidraw}
-              onChange={onChange}
-              langCode="zh-CN"
-              initialData={{
-                appState: { isLoading: false },
-                elements: initialData,
-              }}
-            />
+            <Excalidraw ref={renderExcalidraw} onChange={onChange} langCode="zh-CN" initialData={initialData} />
           ) : null}
         </div>
       </div>

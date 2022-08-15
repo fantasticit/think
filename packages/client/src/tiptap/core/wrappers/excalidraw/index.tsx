@@ -53,12 +53,9 @@ export const ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
 
   useEffect(() => {
     const setContent = async () => {
-      if (loading || error || !visible || !data || !data.length) return;
+      if (loading || error || !visible || !data) return;
 
-      const svg: SVGElement = await exportToSvgRef.current({
-        elements: data,
-        files: null,
-      });
+      const svg: SVGElement = await exportToSvgRef.current(data);
 
       svg.setAttribute('width', '100%');
       svg.setAttribute('height', '100%');
