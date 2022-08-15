@@ -90,7 +90,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
             </Spin>
           </div>
         ) : (
-          <LazyLoadImage src={src} alt={alt} width={width} height={height} />
+          <LazyLoadImage src={src} alt={alt} width={'100%'} height={'100%'} />
         )}
       </Resizeable>
     </NodeViewWrapper>
