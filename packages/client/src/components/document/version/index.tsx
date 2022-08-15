@@ -33,6 +33,11 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
 
   const editor = useEditor({
     editable: false,
+    editorProps: {
+      attributes: {
+        class: 'is-editable',
+      },
+    },
     extensions: CollaborationKit,
     content: { type: 'doc', content: [] },
   });

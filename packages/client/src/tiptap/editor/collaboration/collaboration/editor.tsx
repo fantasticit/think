@@ -54,6 +54,9 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
       editorProps: {
         // @ts-ignore
         taskItemClickable: true,
+        attributes: {
+          class: 'is-withauthor',
+        },
       },
       extensions: [
         ...CollaborationKit,

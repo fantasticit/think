@@ -69,7 +69,6 @@ import { markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
 
 const DocumentWithTitle = Document.extend({
-  name: 'documentWithTitle',
   content: 'title block+',
 });
 

@@ -58,7 +58,7 @@ export const DocumentFullscreen: React.FC<IProps> = ({ data }) => {
 
   const editor = useEditor({
     editable: false,
-    extensions: CollaborationKit.filter((ext) => ['title', 'documentWithTitle'].indexOf(ext.name) < 0).concat(Document),
+    extensions: CollaborationKit.filter((ext) => ['title', 'doc'].indexOf(ext.name) < 0).concat(Document),
     content: { type: 'doc', content: [] },
   });
 
