@@ -38,7 +38,7 @@ class Particle {
     applyProperties(this.element, this.initialStyles);
     this.update();
 
-    document.querySelector('.drawing-cursor').appendChild(this.element);
+    document.querySelector('.drawing-cursor')?.appendChild(this.element);
   }
   update() {
     this.lifeSpan--;
