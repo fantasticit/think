@@ -7,14 +7,19 @@ import { IconPencil } from 'components/icons/IconPencil';
 import { safeJSONParse } from 'helpers/json';
 import { useDrawingCursor } from 'hooks/use-cursor';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import { CollaborationKit, Document } from 'tiptap/editor';
 
 import styles from './index.module.scss';
 
+const { Title } = Typography;
+
 // 控制器
 const FullscreenController = ({ handle: fullscreenHandler, isDrawing, toggleDrawing }) => {
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const [visible, toggleVisible] = useState(true);
+
   const startDrawing = useCallback(() => {
     toggleDrawing(!isDrawing);
   }, [isDrawing, toggleDrawing]);
@@ -24,8 +29,21 @@ const FullscreenController = ({ handle: fullscreenHandler, isDrawing, toggleDraw
     toggleDrawing(false);
   }, [fullscreenHandler, toggleDrawing]);
 
+  useEffect(() => {
+    timerRef.current = setTimeout(() => {
+      toggleVisible(false);
+    }, 2000);
+  }, [toggleVisible]);
+
   return (
-    <div className={styles.fullScreenToolbar}>
+    <div
+      className={cls(styles.fullScreenToolbar, visible && styles.isVisible)}
+      onMouseEnter={() => {
+        clearTimeout(timerRef.current);
+        toggleVisible(true);
+      }}
+      onMouseLeave={() => toggleVisible(false)}
+    >
       <Space>
         <button type="button" className={cls(styles.customButton, isDrawing && styles.selected)} onClick={startDrawing}>
           <IconPencil />
@@ -86,7 +104,6 @@ export const DocumentFullscreen: React.FC<IProps> = ({ data }) => {
     editor.commands.setContent(docJSON);
   }, [editor, data, visible]);
 
-  const { Title } = Typography;
   return (
     <Tooltip content="演示文档" position="bottom">
       <Button

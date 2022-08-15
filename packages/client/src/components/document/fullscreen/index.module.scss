@@ -91,18 +91,18 @@
 
 .fullScreenToolbar {
   position: fixed;
-  bottom: 10px;
-  left: 10px;
+  bottom: 40px;
+  left: 50%;
   z-index: 2;
   padding: 12px;
   background-color: rgb(var(--semi-grey-9));
   border-radius: var(--semi-border-radius-medium);
-  opacity: 0.1;
-  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.5s ease-in-out;
 
-  &:hover {
+  &.isVisible {
     opacity: 1;
-    transition: opacity 0.3s ease-in-out;
   }
 
   .selected {
