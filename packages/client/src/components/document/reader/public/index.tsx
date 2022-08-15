@@ -149,7 +149,7 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           }
           footer={
             <Space>
-              {!isMobile && <DocumentFullscreen data={data}/>}
+              {!isMobile && data && <DocumentFullscreen data={data}/>}
               <Tooltip content={currentWikiId ? '独立模式' : '嵌入模式'}>
                 <Button theme="borderless" type="tertiary" icon={<IconRoute />} onClick={toPublicWikiOrDocumentURL} />
               </Tooltip>
