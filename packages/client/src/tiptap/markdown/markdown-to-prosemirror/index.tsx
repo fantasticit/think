@@ -37,3 +37,5 @@ export const markdownToProsemirror = ({ schema, content, needTitle, defaultTitle
 
   return node;
 };
+
+export { markdownToHTML };

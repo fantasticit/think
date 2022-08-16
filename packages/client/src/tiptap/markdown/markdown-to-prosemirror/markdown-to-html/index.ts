@@ -21,6 +21,7 @@ const markdownDocumentChildren = createMarkdownContainer('documentChildren');
 const markdownIframe = createMarkdownContainer('iframe');
 const markdownMention = createMarkdownContainer('mention');
 const markdownMind = createMarkdownContainer('mind');
+const markdownExcalidraw = createMarkdownContainer('excalidraw');
 const markdownFlow = createMarkdownContainer('flow');
 const markdownTableOfContents = createMarkdownContainer('tableOfContents');
 const markdownTitle = createMarkdownContainer('title');
@@ -44,6 +45,7 @@ const markdown = markdownit('commonmark')
   .use(markdownStatus)
   .use(markdownMention)
   .use(markdownMind)
+  .use(markdownExcalidraw)
   .use(markdownDocumentReference)
   .use(markdownDocumentChildren)
   .use(markdownFlow)

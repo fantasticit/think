@@ -24,6 +24,11 @@ interface IPasteOptions {
   htmlToProsemirror: (arg: { schema: Schema; html: string; needTitle: boolean; defaultTitle?: string }) => Node;
 
   /**
+   * 将 markdown 转换为 html
+   */
+  markdownToHTML: (arg: string) => string;
+
+  /**
    * 将 markdown 转换为 prosemirror 节点
    */
   markdownToProsemirror: (arg: { schema: Schema; content: string; needTitle: boolean }) => Node;
@@ -41,6 +46,7 @@ export const Paste = Extension.create<IPasteOptions>({
   addOptions() {
     return {
       htmlToProsemirror: (arg) => '',
+      markdownToHTML: (arg) => arg,
       markdownToProsemirror: (arg) => arg.content,
       prosemirrorToMarkdown: (arg) => String(arg.content),
     };

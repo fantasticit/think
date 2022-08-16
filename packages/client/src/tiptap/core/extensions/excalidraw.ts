@@ -2,7 +2,7 @@ import { IUser } from '@think/domains';
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { ExcalidrawWrapper } from 'tiptap/core/wrappers/excalidraw';
-import { getDatasetAttribute } from 'tiptap/prose-utils';
+import { getDatasetAttribute, nodeAttrsToDataset } from 'tiptap/prose-utils';
 
 const DEFAULT_MIND_DATA = { elements: [] };
 
@@ -56,7 +56,7 @@ export const Excalidraw = Node.create({
   addOptions() {
     return {
       HTMLAttributes: {
-        class: 'mind',
+        class: 'excalidraw',
       },
     };
   },
@@ -64,13 +64,13 @@ export const Excalidraw = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div[class=mind]',
+        tag: 'div[class=excalidraw]',
       },
     ];
   },
 
-  renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
+  renderHTML({ HTMLAttributes, node }) {
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, nodeAttrsToDataset(node))];
   },
 
   addCommands() {

@@ -1,4 +1,5 @@
 import { safeJSONParse } from 'helpers/json';
+import { Node } from 'prosemirror-state';
 
 /**
  * 将 JSON 转为字符串
@@ -89,3 +90,32 @@ export const getDatasetAttribute =
     const toNumber = parseInt(value);
     return toNumber !== toNumber ? value : toNumber; // 避免 NaN
   };
+
+/**
+ * 将节点属性转换为 dataset
+ * @param node
+ * @returns
+ */
+export const nodeAttrsToDataset = (node: Node) => {
+  const { attrs } = node;
+
+  return Object.keys(attrs).reduce((accu, key) => {
+    const value = attrs[key];
+
+    if (value == null) {
+      return accu;
+    }
+
+    let encodeValue = '';
+
+    if (typeof value === 'object') {
+      encodeValue = jsonToStr(value);
+    } else {
+      encodeValue = value;
+    }
+
+    accu[key] = encodeValue;
+
+    return accu;
+  }, Object.create(null));
+};
