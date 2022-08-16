@@ -1,8 +1,6 @@
 import { TabPane, Tabs } from '@douyinfe/semi-ui';
-import { IOrganization, IWiki } from '@think/domains';
+import { IOrganization } from '@think/domains';
 import { Seo } from 'components/seo';
-import { WikiTocsManager } from 'components/wiki/tocs/manager';
-import { useWikiDetail } from 'data/wiki';
 import React from 'react';
 
 import { Base } from './base';
@@ -22,8 +20,6 @@ const TitleMap = {
 };
 
 export const OrganizationSetting: React.FC<IProps> = ({ organizationId, tab, onNavigate }) => {
-  // const { data, update } = useWikiDetail(wikiId);
-
   return (
     <>
       <Seo title={TitleMap[tab]} />

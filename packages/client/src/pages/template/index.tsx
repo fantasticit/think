@@ -33,7 +33,7 @@ const Page: NextPage = () => {
 
   return (
     <SingleColumnLayout>
-      <Seo title="模板" />
+      <Seo key={tab} title="模板" />
       <div className="container">
         <div className={styles.titleWrap}>
           <Title heading={3} style={{ margin: '8px 0' }}>
