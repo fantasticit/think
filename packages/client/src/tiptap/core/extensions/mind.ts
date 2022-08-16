@@ -2,7 +2,7 @@ import { IUser } from '@think/domains';
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { MindWrapper } from 'tiptap/core/wrappers/mind';
-import { getDatasetAttribute } from 'tiptap/prose-utils';
+import { getDatasetAttribute, nodeAttrsToDataset } from 'tiptap/prose-utils';
 
 const DEFAULT_MIND_DATA = {
   root: { data: { text: '中心节点' }, children: [] },
@@ -77,8 +77,8 @@ export const Mind = Node.create({
     ];
   },
 
-  renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
+  renderHTML({ HTMLAttributes, node }) {
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, nodeAttrsToDataset(node))];
   },
 
   addCommands() {

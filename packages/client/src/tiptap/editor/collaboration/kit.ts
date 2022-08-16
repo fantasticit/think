@@ -66,7 +66,7 @@ import { TrailingNode } from 'tiptap/core/extensions/trailing-node';
 import { Underline } from 'tiptap/core/extensions/underline';
 // markdown 支持
 import { htmlToProsemirror } from 'tiptap/markdown/html-to-prosemirror';
-import { markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
+import { markdownToHTML, markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
 
 const DocumentWithTitle = Document.extend({
@@ -137,6 +137,7 @@ export const CollaborationKit = [
   Underline,
   Paste.configure({
     htmlToProsemirror,
+    markdownToHTML,
     markdownToProsemirror,
     prosemirrorToMarkdown,
   }),
