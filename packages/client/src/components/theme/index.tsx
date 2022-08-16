@@ -25,7 +25,7 @@ export const Theme = () => {
       trigger="click"
       showTick
       render={
-        <Dropdown.Menu>
+        <Dropdown.Menu style={{ width: 100 }}>
           <Dropdown.Item active={userPrefer === ThemeEnum.light} onClick={setLight}>
             <IconSun />
             亮色

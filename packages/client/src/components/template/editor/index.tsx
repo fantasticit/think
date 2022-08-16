@@ -73,7 +73,12 @@ export const TemplateEditor: React.FC<IProps> = ({ templateId }) => {
                 <Tooltip position="bottom" content={isPublic ? '公开模板' : '个人模板'}>
                   <Switch checked={isPublic} onChange={(v) => updateTemplate({ isPublic: v })}></Switch>
                 </Tooltip>
-                <Popconfirm title="删除模板" content="模板删除后不可恢复，谨慎操作！" onConfirm={handleDelte}>
+                <Popconfirm
+                  style={{ width: 320 }}
+                  title="删除模板"
+                  content="模板删除后不可恢复，谨慎操作！"
+                  onConfirm={handleDelte}
+                >
                   <Button type="danger">删除</Button>
                 </Popconfirm>
                 <Theme />

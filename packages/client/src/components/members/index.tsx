@@ -94,6 +94,7 @@ export const Members: React.FC<IProps> = ({ id, hook, descriptions }) => {
                     </EditUser>
                     <Popconfirm
                       showArrow
+                      position="bottomRight"
                       zIndex={1070}
                       title="确认删除该成员？"
                       onConfirm={() => deleteUser({ userName: data.user.name, userAuth: data.auth.auth })}
