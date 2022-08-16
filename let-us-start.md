@@ -64,11 +64,6 @@ pnpm run dev
 
 **编译打包过程比较吃内存（大约 2G），小内存服务器建议本地构建后上传，可以在配置文件完成后，运行 build-output.sh，将打包后的 output 压缩发送到服务器后运行**。
 
-文件内容：
-{
-"presets": ["next/babel"]
-}解决SWC编译问题。
-
 ```bash
 git clone  https://github.com/fantasticit/think.git
 cd think
