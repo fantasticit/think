@@ -62,6 +62,8 @@ pnpm run dev
 
 首先确认在 `config` 文件夹下新建 `prod.yaml` 配置文件，然后运行以下命令。
 
+**编译打包过程比较吃内存（大约 2G），小内存服务器建议本地构建后上传，可以在配置文件完成后，运行 build-output.sh，将打包后的 output 压缩发送到服务器后运行**。
+
 ```bash
 git clone  https://github.com/fantasticit/think.git
 cd think
