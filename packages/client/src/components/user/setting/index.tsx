@@ -1,7 +1,7 @@
 import { Avatar, Button, Col, Form, Modal, Row, Space, Toast } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { Upload } from 'components/upload';
-import { useUser, useVerifyCode } from 'data/user';
+import { useSystemPublicConfig, useUser, useVerifyCode } from 'data/user';
 import { useInterval } from 'hooks/use-interval';
 import { useToggle } from 'hooks/use-toggle';
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
@@ -16,6 +16,7 @@ export const UserSetting: React.FC<IProps> = ({ visible, toggleVisible }) => {
   const { user, loading, updateUser } = useUser();
   const [currentAvatar, setCurrentAvatar] = useState('');
   const [email, setEmail] = useState('');
+  const { data: systemConfig } = useSystemPublicConfig();
   const { sendVerifyCode, loading: sendVerifyCodeLoading } = useVerifyCode();
   const [hasSendVerifyCode, toggleHasSendVerifyCode] = useToggle(false);
   const [countDown, setCountDown] = useState(0);
@@ -108,7 +109,7 @@ export const UserSetting: React.FC<IProps> = ({ visible, toggleVisible }) => {
 
         <Form.Input label="邮箱" field="email" style={{ width: '100%' }} placeholder="请输入账户邮箱"></Form.Input>
 
-        {email && email !== user.email ? (
+        {systemConfig && systemConfig.enableEmailVerify && email && email !== user.email ? (
           <Form.Slot label="验证码">
             <Row gutter={8}>
               <Col span={16}>
