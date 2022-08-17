@@ -11,6 +11,8 @@ import { Code, CodeMarkPlugin } from 'tiptap/core/extensions/code';
 import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { Color } from 'tiptap/core/extensions/color';
 import { ColorHighlighter } from 'tiptap/core/extensions/color-highlighter';
+import { Column } from 'tiptap/core/extensions/column';
+import { Columns } from 'tiptap/core/extensions/columns';
 import { Countdown } from 'tiptap/core/extensions/countdown';
 // 基础扩展
 import { Document } from 'tiptap/core/extensions/document';
@@ -102,6 +104,8 @@ export const CollaborationKit = [
   CodeBlock,
   Color,
   ColorHighlighter,
+  Column,
+  Columns,
   Dropcursor,
   Excalidraw,
   EventEmitter,

@@ -27,6 +27,7 @@ export * from './IconHorizontalRule';
 export * from './IconImage';
 export * from './IconInfo';
 export * from './IconJSON';
+export * from './IconLayout';
 export * from './IconLeft';
 export * from './IconLink';
 export * from './IconList';
