@@ -8,9 +8,10 @@ import { insertMenuLRUCache, QUICK_INSERT_COMMANDS, transformToCommands } from '
 import { MenuList } from 'tiptap/core/wrappers/menu-list';
 
 export const QuickInsertPluginKey = new PluginKey('quickInsert');
+const extensionName = 'quickInsert'
 
 export const QuickInsert = Node.create({
-  name: 'quickInsert',
+  name: extensionName,
 
   priority: EXTENSION_PRIORITY_HIGHEST,
 
@@ -52,6 +53,19 @@ export const QuickInsert = Node.create({
       }),
     ];
   },
+
+  addStorage() {
+    return {
+      rect: {
+        width: 0,
+        height: 0,
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+      }
+    }
+  },
 }).configure({
   suggestion: {
     items: ({ query }) => {
@@ -79,7 +93,7 @@ export const QuickInsert = Node.create({
           });
 
           popup = tippy('body', {
-            getReferenceClientRect: props.clientRect,
+            getReferenceClientRect: props.clientRect || (() => props.editor.storage[extensionName].rect),
             appendTo: () => document.body,
             content: component.element,
             showOnCreate: true,
@@ -93,6 +107,9 @@ export const QuickInsert = Node.create({
           if (!isEditable) return;
 
           component.updateProps(props);
+
+          props.editor.storage[extensionName].rect = props.clientRect();
+
           popup[0].setProps({
             getReferenceClientRect: props.clientRect,
           });
