@@ -185,7 +185,7 @@ export class UserService {
       throw new HttpException('两次密码不一致，请重试', HttpStatus.BAD_REQUEST);
     }
 
-    if (!(await this.verifyService.checkVerifyCode(email, verifyCode))) {
+    if (currentSystemConfig.enableEmailVerify && !(await this.verifyService.checkVerifyCode(email, verifyCode))) {
       throw new HttpException('验证码不正确，请检查', HttpStatus.BAD_REQUEST);
     }
 
@@ -250,6 +250,7 @@ export class UserService {
    * @returns
    */
   async updateUser(user: UserEntity, dto: UpdateUserDto): Promise<IUser> {
+    const currentSystemConfig = await this.systemService.getConfigFromDatabase();
     const oldData = await this.userRepo.findOne(user.id);
 
     if (oldData.email !== dto.email) {
@@ -257,7 +258,10 @@ export class UserService {
         throw new HttpException('该邮箱已被注册', HttpStatus.BAD_REQUEST);
       }
 
-      if (!(await this.verifyService.checkVerifyCode(dto.email, dto.verifyCode))) {
+      if (
+        currentSystemConfig.enableEmailVerify &&
+        !(await this.verifyService.checkVerifyCode(dto.email, dto.verifyCode))
+      ) {
         throw new HttpException('验证码不正确，请检查', HttpStatus.BAD_REQUEST);
       }
     }
