@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core';
-import { Node } from 'prosemirror-model';
+import { Node, ResolvedPos } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 
 export function isTitleNode(node: Node): boolean {

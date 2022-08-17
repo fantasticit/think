@@ -12,6 +12,7 @@ import { Callout } from 'tiptap/core/menus/callout';
 import { CleadrNodeAndMarks } from 'tiptap/core/menus/clear-node-and-marks';
 import { Code } from 'tiptap/core/menus/code';
 import { CodeBlock } from 'tiptap/core/menus/code-block';
+import { Columns } from 'tiptap/core/menus/columns';
 import { Countdonw } from 'tiptap/core/menus/countdown';
 import { DocumentChildren } from 'tiptap/core/menus/document-children';
 import { DocumentReference } from 'tiptap/core/menus/document-reference';
@@ -109,6 +110,7 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <Katex editor={editor} />
         <Mind editor={editor} />
         <Excalidraw editor={editor} />
+        <Columns editor={editor} />
       </Space>
     </div>
   );

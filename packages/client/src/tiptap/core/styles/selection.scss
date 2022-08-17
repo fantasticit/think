@@ -111,4 +111,27 @@
       }
     }
   }
+
+  .node-columns {
+    &.selected-node {
+      .column {
+        position: relative;
+        border: 1px solid var(--node-selected-border-color) !important;
+
+        &:hover,
+        &:active {
+          border-color: var(--node-selected-border-color);
+          box-shadow: none;
+        }
+
+        &::after {
+          position: absolute;
+          pointer-events: none;
+          background-color: rgb(179 212 255 / 30%);
+          content: '';
+          inset: 0;
+        }
+      }
+    }
+  }
 }

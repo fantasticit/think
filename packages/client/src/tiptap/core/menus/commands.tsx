@@ -9,6 +9,7 @@ import {
   IconDocument,
   IconFlow,
   IconImage,
+  IconLayout,
   IconLink,
   IconMath,
   IconMind,
@@ -50,6 +51,7 @@ export const COMMANDS: ICommand[] = [
   {
     title: '通用',
   },
+
   {
     icon: <IconTableOfContents />,
     label: '目录',
@@ -81,6 +83,38 @@ export const COMMANDS: ICommand[] = [
         <Dropdown.Item>
           <IconTable />
           表格
+        </Dropdown.Item>
+      </Popover>
+    ),
+  },
+  {
+    isBlock: true,
+    icon: <IconLayout />,
+    label: '布局',
+    custom: (editor, runCommand) => (
+      <Popover
+        key="table"
+        showArrow
+        position="rightTop"
+        zIndex={10000}
+        content={
+          <div style={{ padding: 0 }}>
+            <GridSelect
+              rows={1}
+              cols={5}
+              onSelect={({ cols }) => {
+                return runCommand({
+                  label: '布局',
+                  action: () => editor.chain().focus().setColumns({ type: 'left-right', columns: cols }).run(),
+                })();
+              }}
+            />
+          </div>
+        }
+      >
+        <Dropdown.Item>
+          <IconLayout />
+          布局
         </Dropdown.Item>
       </Popover>
     ),
@@ -185,7 +219,13 @@ export const QUICK_INSERT_COMMANDS = [
     label: '表格',
     action: (editor: Editor) => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
   },
-  ...COMMANDS.slice(3),
+  {
+    isBlock: true,
+    icon: <IconLayout />,
+    label: '布局',
+    action: (editor) => editor.chain().focus().setColumns({ type: 'left-right', columns: 2 }).run(),
+  },
+  ...COMMANDS.slice(4),
 ];
 
 export const transformToCommands = (commands, data: string[]) => {

@@ -6,6 +6,7 @@ export * from './copy-node';
 export * from './create-node';
 export * from './debug';
 export * from './delete-node';
+export * from './document';
 export * from './dom';
 export * from './dom-dataset';
 export * from './download';
