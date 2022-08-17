@@ -1,5 +1,5 @@
-import { Button, Col, Form, Row, Toast, Typography } from '@douyinfe/semi-ui';
-import { useResetPassword, useSystemPublicConfig, useVerifyCode } from 'data/user';
+import { Button, Col, Form, Row, Toast } from '@douyinfe/semi-ui';
+import { useResetPassword, useSystemPublicConfig, useUser, useVerifyCode } from 'data/user';
 import { useInterval } from 'hooks/use-interval';
 import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useState } from 'react';
@@ -8,6 +8,7 @@ export const ResetPassword = ({ onSuccess }) => {
   const [email, setEmail] = useState('');
   const [hasSendVerifyCode, toggleHasSendVerifyCode] = useToggle(false);
   const [countDown, setCountDown] = useState(0);
+  const { user } = useUser();
   const { reset, loading } = useResetPassword();
   const { data: systemConfig } = useSystemPublicConfig();
   const { sendVerifyCode, loading: sendVerifyCodeLoading } = useVerifyCode();
@@ -51,7 +52,11 @@ export const ResetPassword = ({ onSuccess }) => {
   }, [email, toggleHasSendVerifyCode, sendVerifyCode, start, stop]);
 
   return (
-    <Form initValues={{ name: '', password: '' }} onChange={onFormChange} onSubmit={onFinish}>
+    <Form
+      initValues={{ email: user.email, password: '', confirmPassword: '' }}
+      onChange={onFormChange}
+      onSubmit={onFinish}
+    >
       <Form.Input
         noLabel
         field="email"
