@@ -9,7 +9,6 @@ import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import Router from 'next/router';
-import { emit } from 'process';
 import React, { useCallback, useState } from 'react';
 
 import styles from './index.module.scss';

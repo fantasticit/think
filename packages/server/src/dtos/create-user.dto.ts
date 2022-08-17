@@ -4,7 +4,7 @@ import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-vali
  * 用户注册
  */
 export class RegisterUserDto {
-  @MinLength(5, { message: '用户账号至少5个字符' })
+  @MinLength(1, { message: '用户账号至少1个字符' })
   @IsString({ message: '用户名称类型错误（正确类型为：String）' })
   @IsNotEmpty({ message: '用户账号不能为空' })
   name: string;

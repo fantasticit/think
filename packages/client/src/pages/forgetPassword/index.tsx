@@ -6,7 +6,7 @@ import { ResetPassword } from 'components/user/reset-password';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Link from 'next/link';
 import Router from 'next/router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
 import styles from './index.module.scss';
 

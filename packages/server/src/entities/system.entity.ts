@@ -12,7 +12,7 @@ export class SystemEntity {
   isSystemLocked: boolean;
 
   /**
-   * 启用邮箱校验后，必须通过邮箱验证码验证后注册
+   * 启用邮箱校验后，注册、重置密码等操作必须经过邮箱验证
    */
   @Column({ type: 'boolean', default: false, comment: '是否启用邮箱校验' })
   enableEmailVerify: boolean;

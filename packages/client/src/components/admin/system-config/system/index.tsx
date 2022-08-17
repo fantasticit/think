@@ -45,7 +45,7 @@ export const System = () => {
               label={{
                 text: '邮箱检验',
                 extra: (
-                  <Tooltip content="开启邮箱检验后，新注册用户必须通过邮箱验证">
+                  <Tooltip content="开启邮箱检验后，用户注册、密码等操作必须通过邮箱验证">
                     <IconHelpCircle style={{ color: '--semi-color-text-1' }} />
                   </Tooltip>
                 ),
