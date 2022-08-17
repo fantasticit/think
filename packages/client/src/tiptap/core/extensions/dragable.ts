@@ -2,7 +2,7 @@ import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey, Selection } from 'prosemirror-state';
 import { NodeSelection } from 'prosemirror-state';
 import { __serializeForClipboard, EditorView } from 'prosemirror-view';
-import { ActiveNode, removePossibleTable, selectRootNodeByDom } from 'tiptap/prose-utils';
+import { ActiveNode, getNodeAtPos, removePossibleTable, selectRootNodeByDom } from 'tiptap/prose-utils';
 
 export const DragablePluginKey = new PluginKey('dragable');
 
@@ -164,12 +164,31 @@ export const Dragable = Extension.create({
                 result.node.type.name === 'doc' ||
                 result.node.type.name === 'title' ||
                 result.node.type.name === 'tableOfContents' ||
+                result.node.type.name === 'column' ||
                 // empty paragraph
                 (result.node.type.name === 'paragraph' && result.node.nodeSize === 2)
               ) {
                 if (dragging) return false;
                 hideDragHandleDOM();
                 return false;
+              }
+
+              /**
+               * 嵌套在其他节点的 paragraph
+               */
+              if (result.node.type.name === 'paragraph') {
+                const { $from, to } = view.state.selection;
+                const same = $from.sharedDepth(to);
+                if (same != 0) {
+                  const pos = $from.before(same);
+                  const parent = getNodeAtPos(view.state, pos);
+
+                  if (parent && parent.type.name !== 'paragraph') {
+                    if (dragging) return false;
+                    hideDragHandleDOM();
+                    return false;
+                  }
+                }
               }
 
               activeNode = result;
