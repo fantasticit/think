@@ -61,6 +61,7 @@ export function isInCodeBlock(state: EditorState): boolean {
 }
 
 export function isInTitle(state: EditorState): boolean {
+  if (state?.selection?.$head?.pos === 0) return true;
   return isInCustomNode(state, 'title');
 }
 

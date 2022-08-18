@@ -2,6 +2,7 @@ import { EditorOptions } from '@tiptap/core';
 import { Editor as BuiltInEditor } from '@tiptap/react';
 import { EditorContent, NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 import { EventEmitter } from 'helpers/event-emitter';
+import { throttle } from 'helpers/throttle';
 import { DependencyList, useEffect, useState } from 'react';
 
 function useForceUpdate() {
@@ -35,6 +36,15 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     const instance = new Editor(options);
 
     setEditor(instance);
+
+    if (options.editable) {
+      instance.on(
+        'update',
+        throttle(() => {
+          instance.chain().focus().scrollIntoView().run();
+        }, 200)
+      );
+    }
 
     instance.on('transaction', () => {
       requestAnimationFrame(() => {
