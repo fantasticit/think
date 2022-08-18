@@ -2,7 +2,7 @@ import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getDatasetAttribute, isInTitle } from 'tiptap/prose-utils';
+import { getDatasetAttribute, isInTitle, nodeAttrsToDataset } from 'tiptap/prose-utils';
 
 import { TitleWrapper } from '../wrappers/title';
 
@@ -21,11 +21,15 @@ declare module '@tiptap/core' {
 
 export const TitleExtensionName = 'title';
 
+const TitlePluginKey = new PluginKey(TitleExtensionName);
+
 export const Title = Node.create<TitleOptions>({
   name: TitleExtensionName,
   content: 'inline*',
   group: 'block',
-  selectable: true,
+  defining: true,
+  isolating: true,
+  showGapCursor: true,
 
   addOptions() {
     return {
@@ -52,8 +56,19 @@ export const Title = Node.create<TitleOptions>({
     ];
   },
 
-  renderHTML({ HTMLAttributes }) {
-    return ['h1', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+  renderHTML({ HTMLAttributes, node }) {
+    const { cover } = node.attrs;
+    return [
+      'h1',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, nodeAttrsToDataset(node)),
+      [
+        'img',
+        {
+          src: cover,
+        },
+      ],
+      ['div', 0],
+    ];
   },
 
   addNodeView() {
@@ -62,38 +77,11 @@ export const Title = Node.create<TitleOptions>({
 
   addProseMirrorPlugins() {
     const { editor } = this;
+    let shouldSelectTitleNode = true;
 
     return [
       new Plugin({
-        key: new PluginKey(this.name),
-        props: {
-          handleKeyDown(view, evt) {
-            const { state, dispatch } = view;
-
-            if (isInTitle(view.state) && evt.code === 'Enter') {
-              evt.preventDefault();
-
-              const paragraph = state.schema.nodes.paragraph;
-
-              if (!paragraph) {
-                return;
-              }
-
-              const $head = state.selection.$head;
-              const titleNode = $head.node($head.depth);
-              const endPos = ((titleNode.firstChild && titleNode.firstChild.nodeSize) || 0) + 1;
-
-              dispatch(state.tr.insert(endPos, paragraph.create()));
-
-              const newState = view.state;
-              const next = new TextSelection(newState.doc.resolve(endPos + 2));
-              dispatch(newState.tr.setSelection(next));
-              return true;
-            }
-          },
-        },
-      }),
-      new Plugin({
+        key: TitlePluginKey,
         props: {
           decorations: (state) => {
             const { doc } = state;
@@ -111,6 +99,73 @@ export const Title = Node.create<TitleOptions>({
 
             return DecorationSet.create(doc, decorations);
           },
+          handleClick() {
+            shouldSelectTitleNode = false;
+            return;
+          },
+          handleDOMEvents: {
+            click() {
+              shouldSelectTitleNode = false;
+              return;
+            },
+            mousedown() {
+              shouldSelectTitleNode = false;
+              return;
+            },
+            pointerdown() {
+              shouldSelectTitleNode = false;
+              return;
+            },
+            touchstart() {
+              shouldSelectTitleNode = false;
+              return;
+            },
+          },
+          handleKeyDown(view, evt) {
+            const { state, dispatch } = view;
+            shouldSelectTitleNode = false;
+
+            if (isInTitle(view.state) && evt.code === 'Enter') {
+              evt.preventDefault();
+
+              const paragraph = state.schema.nodes.paragraph;
+
+              if (!paragraph) {
+                return true;
+              }
+
+              const $head = state.selection.$head;
+              const titleNode = $head.node($head.depth);
+
+              const endPos = ((titleNode.firstChild && titleNode.firstChild.nodeSize) || 0) + 1;
+
+              dispatch(state.tr.insert(endPos, paragraph.create()));
+
+              const newState = view.state;
+              const next = new TextSelection(newState.doc.resolve(endPos + 2));
+              dispatch(newState.tr.setSelection(next));
+
+              return true;
+            }
+          },
+        },
+        appendTransaction: (transactions, oldState, newState) => {
+          if (!editor.isEditable) return;
+
+          if (!shouldSelectTitleNode) return;
+
+          const tr = newState.tr;
+
+          const firstNode = newState?.doc?.content?.content?.[0];
+
+          if (firstNode && firstNode.type.name === this.name && firstNode.nodeSize === 2) {
+            const selection = new TextSelection(newState.tr.doc.resolve(firstNode?.attrs?.cover ? 1 : 0));
+            tr.setSelection(selection).scrollIntoView();
+            tr.setMeta('addToHistory', false);
+            return tr;
+          }
+
+          return;
         },
       }),
     ];

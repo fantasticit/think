@@ -1,4 +1,5 @@
 import { Toast } from '@douyinfe/semi-ui';
+import scrollIntoView from 'scroll-into-view-if-needed';
 // 自定义节点扩展
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { BackgroundColor } from 'tiptap/core/extensions/background-color';
