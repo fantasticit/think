@@ -108,7 +108,7 @@ export const Flow = Node.create<IFlowOptions>({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$flow $/,
+        find: /^\$flow\$$/,
         type: this.type,
         getAttributes: () => {
           return { width: '100%', defaultShowPicker: true, createUser: this.options.getCreateUserId() };

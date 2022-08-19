@@ -98,7 +98,7 @@ export const Iframe = Node.create({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$iframe $/,
+        find: /^\$iframe\$$/,
         type: this.type,
         getAttributes: () => {
           return { width: '100%' };

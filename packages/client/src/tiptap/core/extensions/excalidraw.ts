@@ -103,7 +103,7 @@ export const Excalidraw = Node.create({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$excalidraw $/,
+        find: /^\$excalidraw\$$/,
         type: this.type,
         getAttributes: () => {
           return { width: '100%' };

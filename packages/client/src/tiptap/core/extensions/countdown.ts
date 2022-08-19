@@ -78,7 +78,7 @@ export const Countdown = Node.create({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$countdown $/,
+        find: /^\$countdown\$$/,
         type: this.type,
         getAttributes: () => {
           return { width: '100%' };

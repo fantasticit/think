@@ -83,7 +83,7 @@ const placeholders = [
   '使用 markdown 语法进行输入',
   '输入 @ 来提及他人',
   '输入 : 来插入表情',
-  '你知道吗？输入 $katex 然后按一下空格就可以快速插入数学公式，其他节点操作类似哦',
+  '你知道吗？输入 $katex 然后在输入一个 $ 就可以快速插入数学公式，其他节点操作类似哦',
 ];
 
 const getCreateUserId = () => safeJSONParse(window.localStorage.getItem('user')).id;

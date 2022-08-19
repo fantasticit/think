@@ -78,7 +78,7 @@ export const Katex = Node.create<IKatexOptions>({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$katex $/,
+        find: /^\$katex\$$/,
         type: this.type,
         getAttributes: () => {
           return { defaultShowPicker: true, createUser: this.options.getCreateUserId() };
