@@ -4,7 +4,7 @@ import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.scss';
 
@@ -24,14 +24,15 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   const { user } = useUser();
   const ref = useRef<HTMLInputElement>();
   const [visible, toggleVisible] = useToggle(false);
+  const [currentText, setCurrentText] = useState(text);
 
   const content = useMemo(
     () => (
       <Tag className="render-wrapper" style={{ backgroundColor: bgcolor, border: `1px solid ${borderColor}` }}>
-        <span style={{ color: currentTextColor }}>{text || '点击设置状态'}</span>
+        <span style={{ color: currentTextColor }}>{currentText || '点击设置状态'}</span>
       </Tag>
     ),
-    [bgcolor, borderColor, currentTextColor, text]
+    [bgcolor, borderColor, currentTextColor, currentText]
   );
 
   const onVisibleChange = useCallback(
@@ -64,8 +65,10 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   useEffect(() => {
     if (visible) {
       ref.current?.focus();
+    } else {
+      updateAttributes({ text: currentText });
     }
-  }, [visible]);
+  }, [visible, updateAttributes, currentText]);
 
   return (
     <NodeViewWrapper as="span" className={cls(styles.wrap, 'status')}>
@@ -78,7 +81,7 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
           content={
             <div style={{ width: 184, height: 65 }}>
               <div style={{ marginBottom: 8 }}>
-                <Input ref={ref} placeholder="输入状态" onChange={(v) => updateAttributes({ text: v })} />
+                <Input ref={ref} placeholder="输入状态" value={currentText} onChange={setCurrentText} />
               </div>
               <Space>
                 {STATUS_COLORS.map((color) => {
