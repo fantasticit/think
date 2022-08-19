@@ -138,6 +138,9 @@ define(function (require, exports, module) {
     },
 
     _bindEvents: function () {
+      if (this.getStatus() === 'readonly') {
+        return this;
+      }
       /* jscs:disable maximumLineLength */
       this._paper.on(
         'click dblclick mousedown contextmenu mouseup mousemove mouseover mousewheel DOMMouseScroll touchstart touchmove touchend dragenter dragleave drop',

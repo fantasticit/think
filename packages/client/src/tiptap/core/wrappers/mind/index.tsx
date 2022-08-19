@@ -20,6 +20,7 @@ const { Text } = Typography;
 const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
 
 export const MindWrapper = ({ editor, node, updateAttributes }) => {
+  const $div = useRef(null);
   const $mind = useRef(null);
   const isEditable = editor.isEditable;
   const isActive = editor.isActive(Mind.name);
@@ -32,7 +33,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
   const setCenter = useCallback(() => {
     const mind = $mind.current;
     if (!mind) return;
-    mind.execCommand('camera');
+    mind.execCommand('camera', mind.getRoot(), 600);
   }, []);
 
   const setZoom = useCallback((type: 'minus' | 'plus') => {
@@ -53,29 +54,6 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
       });
     },
     [updateAttributes, setCenter]
-  );
-
-  const render = useCallback(
-    (div) => {
-      if (!div) return;
-
-      if (!$mind.current) {
-        const graph = renderMind({
-          container: div,
-          data,
-          isEditable: false,
-        });
-        $mind.current = graph;
-      }
-    },
-    [data]
-  );
-
-  const setMind = useCallback(
-    (div) => {
-      render(div);
-    },
-    [render]
   );
 
   const onViewportChange = useCallback(
@@ -107,6 +85,19 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     setCenter();
   }, [width, height, setCenter]);
 
+  useEffect(() => {
+    if (visible && !loading && !error) {
+      if (!$mind.current) {
+        const graph = renderMind({
+          container: $div.current,
+          data,
+          isEditable: false,
+        });
+        $mind.current = graph;
+      }
+    }
+  }, [visible, data, loading, error]);
+
   return (
     <NodeViewWrapper className={cls(styles.wrap, isActive && styles.isActive)}>
       <VisibilitySensor onChange={onViewportChange}>
@@ -123,8 +114,8 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
 
             {loading && <Spin spinning style={INHERIT_SIZE_STYLE}></Spin>}
 
-            {!loading && !error && visible && (
-              <div style={{ height: '100%', maxHeight: '100%', overflow: 'hidden' }} ref={setMind}></div>
+            {!loading && !error && (
+              <div style={{ height: '100%', maxHeight: '100%', overflow: 'hidden' }} ref={$div}></div>
             )}
 
             <div className={styles.title}>

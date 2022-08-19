@@ -46,7 +46,14 @@ export const MindSettingModal: React.FC<IProps> = ({ editor }) => {
       return;
     }
     const data = mind.exportJson();
+    /**
+     * FIXME: 百度脑图更新后会滚动 dom 到顶点，原因未知，在此 hack 修复下！
+     */
+    const currentScrollTop = document.querySelector('main#js-tocs-container')?.scrollTop;
     editor.chain().focus().setMind({ data }).run();
+    setTimeout(() => {
+      document.querySelector('main#js-tocs-container').scrollTop = currentScrollTop;
+    });
     toggleVisible(false);
   }, [editor, toggleVisible, mind]);
 

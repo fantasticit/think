@@ -21,9 +21,11 @@ define(function (require, exports, module) {
     var receiverElement = receiver.element;
     var isGecko = window.kity.Browser.gecko;
     // setup everything to go
+
     setupReciverElement();
     setupFsm();
     setupHotbox();
+
     // expose editText()
     this.editText = editText;
     // listen the fsm changes, make action.
@@ -32,6 +34,8 @@ define(function (require, exports, module) {
       fsm.when('* -> input', enterInputMode);
       // when exited, commit or exit depends on the exit reason
       fsm.when('input -> *', function (exit, enter, reason) {
+        if (minder._status === 'readonly') return;
+
         switch (reason) {
           case 'input-cancel':
             return exitInputMode();
@@ -43,11 +47,15 @@ define(function (require, exports, module) {
       });
       // lost focus to commit
       receiver.onblur(function (e) {
+        if (minder._status === 'readonly') return;
+
         if (fsm.state() == 'input') {
           fsm.jump('normal', 'input-commit');
         }
       });
       minder.on('beforemousedown', function () {
+        if (minder._status === 'readonly') return;
+
         if (fsm.state() == 'input') {
           fsm.jump('normal', 'input-commit');
         }
@@ -69,9 +77,14 @@ define(function (require, exports, module) {
       minder.on('layoutallfinish viewchange viewchanged selectionchange', function (e) {
         // viewchange event is too frequenced, lazy it
         if (e.type == 'viewchange' && fsm.state() != 'input') return;
-        updatePosition();
+
+        if (minder.getStatus() !== 'readonly') {
+          updatePosition();
+        }
       });
-      updatePosition();
+      if (minder.getStatus() !== 'readonly') {
+        updatePosition();
+      }
     }
     // edit entrance in hotbox
     function setupHotbox() {
@@ -121,6 +134,8 @@ define(function (require, exports, module) {
      * @Date 2015-12-2
      */
     function enterInputMode() {
+      if (minder._status === 'readonly') return;
+
       var node = minder.getSelectedNode();
       if (node) {
         var fontSize = node.getData('font-size') || node.getStyle('font-size');
@@ -141,6 +156,13 @@ define(function (require, exports, module) {
      * @Date: 2015.9.16
      */
     function commitInputText(textNodes) {
+      if (minder._status === 'readonly') return;
+
+      var node = minder.getSelectedNode();
+      if (!node) {
+        return;
+      }
+
       var text = '';
       var TAB_CHAR = '\t',
         ENTER_CHAR = '\n',
@@ -282,6 +304,8 @@ define(function (require, exports, module) {
      * @Date: 2015.9.16
      */
     function commitInputNode(node, text) {
+      if (minder._status === 'readonly') return;
+
       try {
         minder.decodeData('text', text).then(function (json) {
           function importText(node, json, minder) {
@@ -309,6 +333,8 @@ define(function (require, exports, module) {
       }
     }
     function commitInputResult() {
+      if (minder._status === 'readonly') return;
+
       /**
        * @Desc: 进行如下处理：
        *             根据用户的输入判断是否生成新的节点
@@ -338,10 +364,14 @@ define(function (require, exports, module) {
       }
     }
     function exitInputMode() {
+      if (minder._status === 'readonly') return;
+
       receiverElement.classList.remove('input');
       receiver.selectAll();
     }
     function updatePosition() {
+      if (minder._status === 'readonly') return;
+
       var planed = updatePosition;
       var focusNode = minder.getSelectedNode();
       if (!focusNode) return;
