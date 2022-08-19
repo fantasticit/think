@@ -3,7 +3,9 @@ import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { IconMind } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
+import deepEqual from 'deep-equal';
 import { useToggle } from 'hooks/use-toggle';
+import React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { Excalidraw } from 'tiptap/core/extensions/excalidraw';
@@ -15,7 +17,7 @@ const { Text } = Typography;
 
 const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
 
-export const ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
+export const _ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
   const exportToSvgRef = useRef(null);
   const isEditable = editor.isEditable;
   const isActive = editor.isActive(Excalidraw.name);
@@ -111,3 +113,11 @@ export const ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
     </NodeViewWrapper>
   );
 };
+
+export const ExcalidrawWrapper = React.memo(_ExcalidrawWrapper, (prevProps, nextProps) => {
+  if (deepEqual(prevProps.node.attrs, nextProps.node.attrs)) {
+    return true;
+  }
+
+  return false;
+});

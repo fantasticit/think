@@ -9,7 +9,6 @@ import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { load, renderMind } from 'thirtypart/kityminder';
-import { Mind } from 'tiptap/core/extensions/mind';
 import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from 'tiptap/core/menus/mind/constant';
 import { clamp, getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
@@ -19,7 +18,7 @@ const { Text } = Typography;
 
 const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
 
-export const MindWrapper = ({ editor, node, updateAttributes }) => {
+export const _MindWrapper = ({ editor, node, updateAttributes }) => {
   const $mind = useRef(null);
   const isEditable = editor.isEditable;
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
@@ -122,7 +121,7 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
 
             {loading && <Spin spinning style={INHERIT_SIZE_STYLE}></Spin>}
 
-            {!loading && !error && visible && (
+            {!loading && !error && (
               <div style={{ height: '100%', maxHeight: '100%', overflow: 'hidden' }} ref={setMind}></div>
             )}
 
@@ -164,3 +163,11 @@ export const MindWrapper = ({ editor, node, updateAttributes }) => {
     </NodeViewWrapper>
   );
 };
+
+export const MindWrapper = React.memo(_MindWrapper, (prevProps, nextProps) => {
+  if (deepEqual(prevProps.node.attrs, nextProps.node.attrs)) {
+    return true;
+  }
+
+  return false;
+});
