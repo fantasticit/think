@@ -32,7 +32,6 @@ export const ExcalidrawSettingModal: React.FC<IProps> = ({ editor }) => {
   );
 
   const renderExcalidraw = useCallback((app) => {
-    console.log('render', app);
     setTimeout(() => {
       app.refresh();
     });
