@@ -2,7 +2,7 @@ import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getDatasetAttribute, isInTitle, nodeAttrsToDataset } from 'tiptap/prose-utils';
+import { getDatasetAttribute, getNodeAtPos, isInTitle, nodeAttrsToDataset } from 'tiptap/prose-utils';
 
 import { TitleWrapper } from '../wrappers/title';
 
@@ -79,6 +79,11 @@ export const Title = Node.create<TitleOptions>({
     const { editor } = this;
     let shouldSelectTitleNode = true;
 
+    const closeSelectTitleNode = () => {
+      shouldSelectTitleNode = false;
+      return;
+    };
+
     return [
       new Plugin({
         key: TitlePluginKey,
@@ -86,7 +91,6 @@ export const Title = Node.create<TitleOptions>({
           decorations: (state) => {
             const { doc } = state;
             const decorations = [];
-
             doc.descendants((node, pos) => {
               if (node.type.name !== this.name) return;
 
@@ -96,34 +100,22 @@ export const Title = Node.create<TitleOptions>({
                 })
               );
             });
-
             return DecorationSet.create(doc, decorations);
           },
           handleClick() {
-            shouldSelectTitleNode = false;
+            closeSelectTitleNode();
             return;
           },
           handleDOMEvents: {
-            click() {
-              shouldSelectTitleNode = false;
-              return;
-            },
-            mousedown() {
-              shouldSelectTitleNode = false;
-              return;
-            },
-            pointerdown() {
-              shouldSelectTitleNode = false;
-              return;
-            },
-            touchstart() {
-              shouldSelectTitleNode = false;
-              return;
-            },
+            click: closeSelectTitleNode,
+            mousedown: closeSelectTitleNode,
+            pointerdown: closeSelectTitleNode,
+            touchstart: closeSelectTitleNode,
           },
           handleKeyDown(view, evt) {
             const { state, dispatch } = view;
-            shouldSelectTitleNode = false;
+
+            closeSelectTitleNode();
 
             if (isInTitle(view.state) && evt.code === 'Enter') {
               evt.preventDefault();
@@ -136,10 +128,13 @@ export const Title = Node.create<TitleOptions>({
 
               const $head = state.selection.$head;
               const titleNode = $head.node($head.depth);
-
               const endPos = ((titleNode.firstChild && titleNode.firstChild.nodeSize) || 0) + 1;
 
-              dispatch(state.tr.insert(endPos, paragraph.create()));
+              const nextNode = getNodeAtPos(state, endPos + 2);
+
+              if (!nextNode) {
+                dispatch(state.tr.insert(endPos, paragraph.create()));
+              }
 
               const newState = view.state;
               const next = new TextSelection(newState.doc.resolve(endPos + 2));
@@ -152,20 +147,45 @@ export const Title = Node.create<TitleOptions>({
         appendTransaction: (transactions, oldState, newState) => {
           if (!editor.isEditable) return;
 
-          if (!shouldSelectTitleNode) return;
-
           const tr = newState.tr;
+          let shouldReturnTr = false;
 
-          const firstNode = newState?.doc?.content?.content?.[0];
-
-          if (firstNode && firstNode.type.name === this.name && firstNode.nodeSize === 2) {
-            const selection = new TextSelection(newState.tr.doc.resolve(firstNode?.attrs?.cover ? 1 : 0));
-            tr.setSelection(selection).scrollIntoView();
-            tr.setMeta('addToHistory', false);
-            return tr;
+          if (shouldSelectTitleNode) {
+            const firstNode = newState?.doc?.content?.content?.[0];
+            if (firstNode && firstNode.type.name === this.name && firstNode.nodeSize === 2) {
+              const selection = new TextSelection(newState.tr.doc.resolve(firstNode?.attrs?.cover ? 1 : 0));
+              tr.setSelection(selection).scrollIntoView();
+              tr.setMeta('addToHistory', false);
+              shouldReturnTr = true;
+            }
           }
 
-          return;
+          const newTitleNodes = (newState.tr.doc.content.content || []).filter((item) => item.type.name === this.name);
+
+          if (newTitleNodes.length > 1) {
+            const oldTitleNode = (oldState.tr.doc.content.content || []).filter((item) => item.type.name === this.name);
+
+            const otherNewNodes = (newState.tr.doc.content.content || []).filter(
+              (item) => item.type.name !== this.name
+            );
+
+            const fixedDoc = {
+              ...newState.tr.doc.toJSON(),
+              content: [].concat(
+                ((oldTitleNode && oldTitleNode[0]) || newTitleNodes[0]).toJSON(),
+                otherNewNodes.map((node) => node.toJSON())
+              ),
+            };
+
+            tr.replaceWith(0, newState.doc.content.size, newState.schema.nodeFromJSON(fixedDoc));
+
+            if (tr.docChanged) {
+              shouldReturnTr = true;
+              tr.setMeta('addToHistory', false);
+            }
+          }
+
+          return shouldReturnTr ? tr : undefined;
         },
       }),
     ];
