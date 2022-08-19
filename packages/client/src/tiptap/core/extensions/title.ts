@@ -78,7 +78,6 @@ export const Title = Node.create<TitleOptions>({
   addProseMirrorPlugins() {
     const { editor } = this;
     let shouldSelectTitleNode = true;
-    let editorView;
 
     const closeSelectTitleNode = () => {
       shouldSelectTitleNode = false;
@@ -88,15 +87,6 @@ export const Title = Node.create<TitleOptions>({
     return [
       new Plugin({
         key: TitlePluginKey,
-        view: (view) => {
-          editorView = view;
-
-          return {
-            update(view) {
-              editorView = view;
-            },
-          };
-        },
         props: {
           decorations: (state) => {
             const { doc } = state;
