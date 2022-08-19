@@ -56,29 +56,43 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
                 const start = pos;
                 const end = pos + node.nodeSize;
-                const key = `${start}-${end}`;
+                let placeholder = '';
 
-                if (!this.editor.storage[this.name].has(key)) {
-                  this.editor.storage[this.name].set(
-                    key,
+                if (this.editor.isEditable) {
+                  const key = `${start}-${end}`;
+
+                  if (!this.editor.storage[this.name].has(key)) {
+                    this.editor.storage[this.name].set(
+                      key,
+                      typeof this.options.placeholder === 'function'
+                        ? this.options.placeholder({
+                            editor: this.editor,
+                            node,
+                            pos,
+                          })
+                        : this.options.placeholder
+                    );
+                  }
+                  placeholder = this.editor.storage[this.name].get(key);
+
+                  setTimeout(() => {
+                    this.editor.storage[this.name].delete(key);
+                  }, 500);
+                } else {
+                  placeholder =
                     typeof this.options.placeholder === 'function'
                       ? this.options.placeholder({
                           editor: this.editor,
                           node,
                           pos,
                         })
-                      : this.options.placeholder
-                  );
+                      : this.options.placeholder;
                 }
 
                 const decoration = Decoration.node(start, end, {
                   'class': classes.join(' '),
-                  'data-placeholder': this.editor.storage[this.name].get(key),
+                  'data-placeholder': placeholder,
                 });
-
-                setTimeout(() => {
-                  this.editor.storage[this.name].delete(key);
-                }, 500);
 
                 decorations.push(decoration);
               }
