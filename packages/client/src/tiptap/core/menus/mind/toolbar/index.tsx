@@ -1,107 +1,187 @@
-import { IconBold, IconFont, IconHelpCircle, IconMark } from '@douyinfe/semi-icons';
-import { Button, Descriptions, Popover, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
-import cls from 'classnames';
-import { ColorPicker } from 'components/color-picker';
-import { IconDrawBoard, IconMindCenter, IconStructure } from 'components/icons';
+import { IconBold, IconRedo, IconUndo } from '@douyinfe/semi-icons';
+import { Button, Space, Tooltip } from '@douyinfe/semi-ui';
+import { Divider } from 'components/divider';
+import { IconMindCenter } from 'components/icons';
 import { IconZoomIn, IconZoomOut } from 'components/icons';
 import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useState } from 'react';
-import { clamp } from 'tiptap/prose-utils';
 
-import { MAX_ZOOM, MIN_ZOOM, TEMPLATES, THEMES, ZOOM_STEP } from '../constant';
+import { BgColor } from './bgcolor';
+import { FontColor } from './font-color';
+import { Help } from './help';
 import { Image } from './image';
-import styles from './index.module.scss';
 import { Link } from './link';
-
-const { Text } = Typography;
-
-const HELP_MESSAGE = [
-  { key: '新增同级节点', value: 'Enter 键' },
-  { key: '新增子节点', value: 'Tab 键' },
-  { key: '编辑节点文字', value: '双击节点' },
-  { key: '编辑节点菜单', value: '在节点右键' },
-];
-
-const HELP_MESSAGE_STYLE = {
-  width: '200px',
-};
+import { Priority } from './priority';
+import { Progress } from './progress';
+import { Template } from './template';
+import { Theme } from './theme';
 
 export const Toolbar = ({ mind }) => {
-  const [template, setTemplateState] = useState('');
-  const [theme, setThemeState] = useState('');
-  const [node, setNode] = useState(null);
+  const [node, setNode] = useState(null); // 当前选择节点
+
+  const [hasUndo, toggleHasUndo] = useToggle(false);
+  const [hasRedo, toggleHasRedo] = useToggle(false);
+
   const [isBold, toggleIsBold] = useToggle(false);
   const [textColor, setTextColor] = useState('');
   const [bgColor, setBgColor] = useState('');
   const [link, setLink] = useState('');
   const [image, setImage] = useState('');
 
-  const setTemplate = useCallback(
-    (template) => {
-      mind.execCommand('template', template);
-    },
-    [mind]
-  );
+  const [template, setTemplateState] = useState('');
+  const [theme, setThemeState] = useState('');
 
-  const setTheme = useCallback(
-    (theme) => {
-      mind.execCommand('theme', theme);
-    },
-    [mind]
-  );
-
-  const setZoom = useCallback(
-    (type: 'minus' | 'plus') => {
-      return () => {
-        if (!mind) return;
-        const currentZoom = mind.getZoomValue();
-        const nextZoom = clamp(
-          type === 'minus' ? currentZoom - ZOOM_STEP : currentZoom + ZOOM_STEP,
-          MIN_ZOOM,
-          MAX_ZOOM
-        );
-        mind.zoom(nextZoom);
-      };
-    },
-    [mind]
-  );
-
-  const setCenter = useCallback(() => {
+  /**
+   * 撤销
+   */
+  const undo = useCallback(() => {
     if (!mind) return;
-    mind.execCommand('camera');
+    if (mind.editor.history.hasUndo()) {
+      mind.editor.history.undo();
+    }
   }, [mind]);
 
+  /**
+   * 重做
+   */
+  const redo = useCallback(() => {
+    if (!mind) return;
+    if (mind.editor.history.hasRedo()) {
+      mind.editor.history.redo();
+    }
+  }, [mind]);
+
+  /**
+   * 加粗
+   */
   const toggleBold = useCallback(() => {
+    if (!mind) return;
+
     mind.execCommand('Bold');
   }, [mind]);
 
+  /**
+   * 设置文字颜色
+   */
   const setFontColor = useCallback(
     (color) => {
+      if (!mind) return;
+
       mind.execCommand('ForeColor', color);
     },
     [mind]
   );
 
+  /**
+   * 设置背景色
+   */
   const setBackgroundColor = useCallback(
     (color) => {
+      if (!mind) return;
+
       mind.execCommand('Background', color);
     },
     [mind]
   );
 
+  /**
+   * 设置链接
+   */
   const setHyperLink = useCallback(
     (url) => {
+      if (!mind) return;
+
       mind.execCommand('HyperLink', url);
     },
     [mind]
   );
 
+  /**
+   * 插入图片
+   */
   const insertImage = useCallback(
     (url) => {
+      if (!mind) return;
+
       mind.execCommand('Image', url);
     },
     [mind]
   );
+
+  /**
+   * 设置进度
+   */
+  const setProgress = useCallback(
+    (value) => () => {
+      if (!mind) return;
+
+      const node = mind.getSelectedNode();
+      if (!node) return;
+
+      mind.execCommand('progress', value);
+    },
+    [mind]
+  );
+
+  /**
+   * 设置优先级
+   */
+  const setPriority = useCallback(
+    (value) => () => {
+      if (!mind) return;
+
+      const node = mind.getSelectedNode();
+      if (!node) return;
+
+      mind.execCommand('priority', value);
+    },
+    [mind]
+  );
+
+  /**
+   * 模板
+   */
+  const setTemplate = useCallback(
+    (template) => {
+      if (!mind) return;
+
+      mind.execCommand('template', template);
+    },
+    [mind]
+  );
+
+  /**
+   * 主题
+   */
+  const setTheme = useCallback(
+    (theme) => {
+      if (!mind) return;
+
+      mind.execCommand('theme', theme);
+    },
+    [mind]
+  );
+
+  /**
+   * 缩放
+   */
+  const setZoom = useCallback(
+    (type: 'minus' | 'plus') => {
+      return () => {
+        if (!mind) return;
+        mind.execCommand(type === 'minus' ? 'zoomOut' : 'zoomIn');
+      };
+    },
+    [mind]
+  );
+
+  /**
+   * 定位到根节点
+   */
+  const setCenter = useCallback(() => {
+    if (!mind) return;
+    mind.execCommand('camera', mind.getRoot(), 600);
+  }, [mind]);
 
   useEffect(() => {
     if (!mind) return;
@@ -126,6 +206,9 @@ export const Toolbar = ({ mind }) => {
         setNode(null);
       }
 
+      toggleHasUndo(mind.editor.history.hasUndo());
+      toggleHasRedo(mind.editor.history.hasRedo());
+
       setTemplateState(mind.queryCommandValue('Template'));
       setThemeState(mind.queryCommandValue('Theme'));
       toggleIsBold(isBold);
@@ -140,68 +223,53 @@ export const Toolbar = ({ mind }) => {
     return () => {
       mind.off('interactchange', handler);
     };
-  }, [mind, toggleIsBold, setBackgroundColor]);
+  }, [mind, toggleHasUndo, toggleHasRedo, toggleIsBold, setBackgroundColor]);
 
   return (
     <Space>
-      <Popover
-        zIndex={10000}
-        spacing={10}
-        style={{ padding: '0 12px 12px', overflow: 'hidden' }}
-        position="bottomLeft"
-        content={
-          <section className={styles.sectionWrap}>
-            <Text type="secondary">布局</Text>
-            <div>
-              <ul>
-                {TEMPLATES.map((item) => {
-                  return (
-                    <li
-                      key={item.label}
-                      className={cls(template === item.value && styles.active)}
-                      onClick={() => setTemplate(item.value)}
-                    >
-                      <Text>{item.label}</Text>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </section>
-        }
-      >
-        <Button icon={<IconStructure />} type="tertiary" theme="borderless" size="small" />
-      </Popover>
+      <Tooltip content="撤销">
+        <Button
+          onClick={undo}
+          icon={<IconUndo />}
+          disabled={!hasUndo}
+          theme={hasUndo ? 'light' : 'borderless'}
+          type="tertiary"
+        />
+      </Tooltip>
 
-      <Popover
-        zIndex={10000}
-        spacing={10}
-        style={{ padding: '0 12px 12px', overflow: 'hidden' }}
-        position="bottomLeft"
-        content={
-          <section className={styles.sectionWrap}>
-            <Text type="secondary">主题</Text>
-            <div>
-              <ul>
-                {THEMES.map((item) => {
-                  return (
-                    <li
-                      key={item.label}
-                      className={cls(theme === item.value && styles.active)}
-                      style={item.style || {}}
-                      onClick={() => setTheme(item.value)}
-                    >
-                      {item.label}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </section>
-        }
-      >
-        <Button icon={<IconDrawBoard />} type="tertiary" theme="borderless" size="small" />
-      </Popover>
+      <Tooltip content="重做">
+        <Button
+          onClick={redo}
+          icon={<IconRedo />}
+          disabled={!hasRedo}
+          theme={hasRedo ? 'light' : 'borderless'}
+          type="tertiary"
+        />
+      </Tooltip>
+
+      <Divider />
+
+      <Tooltip content="加粗" zIndex={10000}>
+        <Button
+          disabled={!node}
+          theme={isBold ? 'light' : 'borderless'}
+          type="tertiary"
+          onClick={toggleBold}
+          icon={<IconBold />}
+        />
+      </Tooltip>
+
+      <FontColor selectedNode={node} textColor={textColor} setFontColor={setFontColor} />
+      <BgColor selectedNode={node} bgColor={bgColor} setBackgroundColor={setBackgroundColor} />
+      <Link disabled={!node} link={link} setLink={setHyperLink} />
+      <Image disabled={!node} image={image} setImage={insertImage} />
+
+      <Divider />
+
+      <Progress selectedNode={node} setProgress={setProgress} />
+      <Priority selectedNode={node} setPriority={setPriority} />
+
+      <Divider />
 
       <Tooltip content="居中">
         <Button
@@ -233,97 +301,14 @@ export const Toolbar = ({ mind }) => {
         />
       </Tooltip>
 
-      <Tooltip content="加粗" zIndex={10000}>
-        <Button
-          disabled={!node}
-          type="tertiary"
-          theme={isBold ? 'light' : 'borderless'}
-          onClick={toggleBold}
-          icon={<IconBold />}
-        />
-      </Tooltip>
+      <Divider />
 
-      <ColorPicker
-        onSetColor={(color) => {
-          setFontColor(color);
-        }}
-      >
-        <Tooltip content="文本色" zIndex={10000}>
-          <Button
-            disabled={!node}
-            type="tertiary"
-            theme={textColor ? 'light' : 'borderless'}
-            icon={
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
-              >
-                <IconFont />
-                <span
-                  style={{
-                    width: 12,
-                    height: 2,
-                    backgroundColor: textColor,
-                  }}
-                ></span>
-              </div>
-            }
-          />
-        </Tooltip>
-      </ColorPicker>
+      <Template template={template} setTemplate={setTemplate} />
+      <Theme theme={theme} setTheme={setTheme} />
 
-      <ColorPicker
-        onSetColor={(color) => {
-          setBackgroundColor(color);
-        }}
-      >
-        <Tooltip content="背景色" zIndex={10000}>
-          <Button
-            disabled={!node}
-            type="tertiary"
-            theme={bgColor ? 'light' : 'borderless'}
-            icon={
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
-              >
-                <IconMark />
-                <span
-                  style={{
-                    width: 12,
-                    height: 2,
-                    backgroundColor: bgColor,
-                  }}
-                ></span>
-              </div>
-            }
-          />
-        </Tooltip>
-      </ColorPicker>
+      <Divider />
 
-      <Link disabled={!node} link={link} setLink={setHyperLink} />
-
-      <Image disabled={!node} image={image} setImage={insertImage} />
-
-      <Popover
-        zIndex={10000}
-        spacing={10}
-        style={{ padding: 12, overflow: 'hidden' }}
-        position="bottomLeft"
-        content={
-          <section className={styles.sectionWrap}>
-            <Descriptions data={HELP_MESSAGE} style={HELP_MESSAGE_STYLE} />
-          </section>
-        }
-      >
-        <Button size="small" theme="borderless" type="tertiary" icon={<IconHelpCircle />} />
-      </Popover>
+      <Help />
     </Space>
   );
 };

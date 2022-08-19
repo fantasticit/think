@@ -65,6 +65,12 @@ export const MindSettingModal: React.FC<IProps> = ({ editor }) => {
     };
   }, [editor, toggleVisible]);
 
+  useEffect(() => {
+    if (!visible && mind) {
+      mind.destroy();
+    }
+  }, [visible, mind]);
+
   return (
     <Modal
       centered
@@ -75,6 +81,7 @@ export const MindSettingModal: React.FC<IProps> = ({ editor }) => {
       onOk={save}
       okText="保存"
       cancelText="退出"
+      motion={false}
     >
       <div
         style={{
