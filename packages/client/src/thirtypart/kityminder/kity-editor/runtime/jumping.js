@@ -48,18 +48,26 @@ define(function (require, exports, module) {
     var receiverElement = receiver.element;
     var hotbox = this.hotbox;
     var compositionLock = false;
+    var that = this;
 
     // normal -> *
     receiver.listen('normal', function (e) {
+      if (minder._status === 'readonly') return;
       // 为了防止处理进入edit模式而丢失处理的首字母,此时receiver必须为enable
       receiver.enable();
       // normal -> hotbox
       if (e.is('Space')) {
+        // 非编辑模式
+        if (that.minder.getStatus() === 'readonly') {
+          return;
+        }
+
         e.preventDefault();
         // safari下Space触发hotbox,然而这时Space已在receiver上留下作案痕迹,因此抹掉
         if (kity.Browser.safari) {
           receiverElement.innerHTML = '';
         }
+
         return fsm.jump('hotbox', 'space-trigger');
       }
 
@@ -91,6 +99,8 @@ define(function (require, exports, module) {
 
     // hotbox -> normal
     receiver.listen('hotbox', function (e) {
+      if (minder._status === 'readonly') return;
+
       receiver.disable();
       e.preventDefault();
       var handleResult = hotbox.dispatch(e);
@@ -101,6 +111,8 @@ define(function (require, exports, module) {
 
     // input => normal
     receiver.listen('input', function (e) {
+      if (minder._status === 'readonly') return;
+
       receiver.enable();
       if (e.type == 'keydown') {
         if (e.is('Enter')) {
@@ -138,6 +150,8 @@ define(function (require, exports, module) {
     container.addEventListener(
       'mousedown',
       function (e) {
+        if (minder._status === 'readonly') return;
+
         if (e.button == MOUSE_RB) {
           e.preventDefault();
         }
@@ -155,6 +169,8 @@ define(function (require, exports, module) {
     container.addEventListener(
       'mousewheel',
       function (e) {
+        if (minder._status === 'readonly') return;
+
         if (fsm.state() == 'hotbox') {
           hotbox.active(Hotbox.STATE_IDLE);
           fsm.jump('normal', 'mousemove-blur');
@@ -164,12 +180,14 @@ define(function (require, exports, module) {
     );
 
     container.addEventListener('contextmenu', function (e) {
+      if (minder._status === 'readonly') return;
       e.preventDefault();
     });
 
     container.addEventListener(
       'mouseup',
       function (e) {
+        if (minder._status === 'readonly') return;
         if (fsm.state() != 'normal') {
           return;
         }
@@ -186,6 +204,7 @@ define(function (require, exports, module) {
 
     // 阻止热盒事件冒泡，在热盒正确执行前导致热盒关闭
     hotbox.$element.addEventListener('mousedown', function (e) {
+      if (minder._status === 'readonly') return;
       e.stopPropagation();
     });
   }

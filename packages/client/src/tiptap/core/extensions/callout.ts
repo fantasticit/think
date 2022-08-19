@@ -69,7 +69,7 @@ export const Callout = Node.create({
   addInputRules() {
     return [
       wrappingInputRule({
-        find: /^\$callout $/,
+        find: /^\$callout\$$/,
         type: this.type,
         getAttributes: (match) => {
           return { type: match[1] };

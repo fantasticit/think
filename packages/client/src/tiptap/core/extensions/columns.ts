@@ -268,7 +268,7 @@ export const Columns = Node.create({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$columns $/,
+        find: /^\$columns\$$/,
         type: this.type,
         getAttributes: () => {
           return { type: 'left-right', columns: 2 };

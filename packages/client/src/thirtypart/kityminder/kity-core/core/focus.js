@@ -17,6 +17,10 @@ define(function (require, exports, module) {
 
   kity.extendClass(Minder, {
     focus: function () {
+      if (this.getStatus() === 'readonly') {
+        return this;
+      }
+
       if (!this.isFocused()) {
         var renderTarget = this._renderTarget;
         renderTarget.classList.add('focus');

@@ -22,6 +22,11 @@ export interface IMindAttrs {
   zoom?: number;
 }
 
+interface IMindOptions {
+  HTMLAttributes: Record<string, any>;
+  getCreateUserId: () => string | number;
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     mind: {
@@ -30,7 +35,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const Mind = Node.create({
+export const Mind = Node.create<IMindOptions>({
   name: 'mind',
   group: 'block',
   selectable: true,
@@ -66,6 +71,7 @@ export const Mind = Node.create({
       HTMLAttributes: {
         class: 'mind',
       },
+      getCreateUserId: () => null,
     };
   },
 
@@ -113,10 +119,10 @@ export const Mind = Node.create({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$mind $/,
+        find: /^\$mind\$$/,
         type: this.type,
         getAttributes: () => {
-          return { width: '100%' };
+          return { width: '100%', defaultShowPicker: true, createUser: this.options.getCreateUserId() };
         },
       }),
     ];

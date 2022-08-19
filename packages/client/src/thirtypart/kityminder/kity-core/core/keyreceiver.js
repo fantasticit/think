@@ -23,6 +23,10 @@ define(function (require, exports, module) {
 
   kity.extendClass(Minder, {
     _initKeyReceiver: function () {
+      if (this.getStatus() === 'readonly') {
+        return;
+      }
+
       if (this._keyReceiver) return;
 
       var receiver = (this._keyReceiver = document.createElement('input'));
@@ -34,6 +38,10 @@ define(function (require, exports, module) {
       var minder = this;
 
       listen(receiver, 'keydown keyup keypress copy paste blur focus input', function (e) {
+        if (minder.getStatus() === 'readonly') {
+          return;
+        }
+
         switch (e.type) {
           case 'blur':
             minder.blur();
@@ -50,14 +58,24 @@ define(function (require, exports, module) {
       });
 
       this.on('focus', function () {
+        if (this.getStatus() === 'readonly') {
+          return;
+        }
         receiver.select();
         receiver.focus();
       });
       this.on('blur', function () {
+        if (this.getStatus() === 'readonly') {
+          return;
+        }
         receiver.blur();
       });
 
       if (this.isFocused()) {
+        if (this.getStatus() === 'readonly') {
+          return;
+        }
+
         receiver.select();
         receiver.focus();
       }

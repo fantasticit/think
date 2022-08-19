@@ -1,5 +1,5 @@
 import { Toast } from '@douyinfe/semi-ui';
-import scrollIntoView from 'scroll-into-view-if-needed';
+import { safeJSONParse } from 'helpers/json';
 // 自定义节点扩展
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { BackgroundColor } from 'tiptap/core/extensions/background-color';
@@ -78,6 +78,16 @@ const DocumentWithTitle = Document.extend({
 
 export { Document };
 
+const placeholders = [
+  '输入 / 唤起更多',
+  '使用 markdown 语法进行输入',
+  '输入 @ 来提及他人',
+  '输入 : 来插入表情',
+  '你知道吗？输入 $katex 然后在输入一个 $ 就可以快速插入数学公式，其他节点操作类似哦',
+];
+
+const getCreateUserId = () => safeJSONParse(window.localStorage.getItem('user')).id;
+
 export const CollaborationKit = [
   Paragraph,
   Placeholder.configure({
@@ -88,7 +98,7 @@ export const CollaborationKit = [
 
       if (!editor.isEditable) return;
 
-      return '输入 / 唤起更多';
+      return placeholders[~~(Math.random() * placeholders.length)];
     },
     showOnlyCurrent: false,
     showOnlyWhenEditable: false,
@@ -152,11 +162,17 @@ export const CollaborationKit = [
   DocumentChildren,
   DocumentReference,
   Emoji,
-  Flow,
+  Flow.configure({
+    getCreateUserId,
+  }),
   Iframe,
-  Katex,
+  Katex.configure({
+    getCreateUserId,
+  }),
   Mention,
-  Mind,
+  Mind.configure({
+    getCreateUserId,
+  }),
   QuickInsert,
   SearchNReplace,
   Status,

@@ -1,4 +1,4 @@
-import { IconFile } from '@douyinfe/semi-icons';
+import { IconImage } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Form, Tooltip } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { Upload } from 'components/upload';
@@ -48,7 +48,7 @@ export const Image = ({ disabled, image, setImage }) => {
     >
       <span style={{ display: 'inline-block' }}>
         <Tooltip content="设置图片" zIndex={10000}>
-          <Button disabled={disabled} type="tertiary" theme={image ? 'light' : 'borderless'} icon={<IconFile />} />
+          <Button disabled={disabled} type="tertiary" theme={image ? 'light' : 'borderless'} icon={<IconImage />} />
         </Tooltip>
       </span>
     </Dropdown>

@@ -8,7 +8,7 @@ import { insertMenuLRUCache, QUICK_INSERT_COMMANDS, transformToCommands } from '
 import { MenuList } from 'tiptap/core/wrappers/menu-list';
 
 export const QuickInsertPluginKey = new PluginKey('quickInsert');
-const extensionName = 'quickInsert'
+const extensionName = 'quickInsert';
 
 export const QuickInsert = Node.create({
   name: extensionName,
@@ -63,8 +63,8 @@ export const QuickInsert = Node.create({
         top: 0,
         right: 0,
         bottom: 0,
-      }
-    }
+      },
+    };
   },
 }).configure({
   suggestion: {

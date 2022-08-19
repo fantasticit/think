@@ -10,6 +10,11 @@ export type IKatexAttrs = {
   createUser?: IUser['id'];
 };
 
+interface IKatexOptions {
+  HTMLAttributes: Record<string, any>;
+  getCreateUserId: () => string | number;
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     katex: {
@@ -18,7 +23,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const Katex = Node.create({
+export const Katex = Node.create<IKatexOptions>({
   name: 'katex',
   group: 'block',
   selectable: true,
@@ -30,6 +35,7 @@ export const Katex = Node.create({
       HTMLAttributes: {
         class: 'katex',
       },
+      getCreateUserId: () => null,
     };
   },
 
@@ -72,8 +78,11 @@ export const Katex = Node.create({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$katex $/,
+        find: /^\$katex\$$/,
         type: this.type,
+        getAttributes: () => {
+          return { defaultShowPicker: true, createUser: this.options.getCreateUserId() };
+        },
       }),
     ];
   },

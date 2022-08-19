@@ -3,7 +3,9 @@ import { NodeViewWrapper } from '@tiptap/react';
 import cls from 'classnames';
 import { IconFlow, IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
+import deepEqual from 'deep-equal';
 import { useToggle } from 'hooks/use-toggle';
+import React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { load, renderXml } from 'thirtypart/diagram';
@@ -15,7 +17,7 @@ import styles from './index.module.scss';
 const { Text } = Typography;
 const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
 
-export const FlowWrapper = ({ editor, node, updateAttributes }) => {
+export const _FlowWrapper = ({ editor, node, updateAttributes }) => {
   const isEditable = editor.isEditable;
   const isActive = editor.isActive(Flow.name);
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
@@ -81,7 +83,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
 
   const onViewportChange = useCallback(
     (visible) => {
-      if (visible) {
+      if (visible && !$graph.current) {
         toggleVisible(true);
       }
     },
@@ -137,3 +139,11 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
     </NodeViewWrapper>
   );
 };
+
+export const FlowWrapper = React.memo(_FlowWrapper, (prevProps, nextProps) => {
+  if (deepEqual(prevProps.node.attrs, nextProps.node.attrs)) {
+    return true;
+  }
+
+  return false;
+});
