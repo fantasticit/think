@@ -1,4 +1,5 @@
 import { Toast } from '@douyinfe/semi-ui';
+import { safeJSONParse } from 'helpers/json';
 // 自定义节点扩展
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { BackgroundColor } from 'tiptap/core/extensions/background-color';
@@ -85,6 +86,8 @@ const placeholders = [
   '你知道吗？输入 $katex 然后按一下空格就可以快速插入数学公式，其他节点操作类似哦',
 ];
 
+const getCreateUserId = () => safeJSONParse(window.localStorage.getItem('user')).id;
+
 export const CollaborationKit = [
   Paragraph,
   Placeholder.configure({
@@ -159,11 +162,17 @@ export const CollaborationKit = [
   DocumentChildren,
   DocumentReference,
   Emoji,
-  Flow,
+  Flow.configure({
+    getCreateUserId,
+  }),
   Iframe,
-  Katex,
+  Katex.configure({
+    getCreateUserId,
+  }),
   Mention,
-  Mind,
+  Mind.configure({
+    getCreateUserId,
+  }),
   QuickInsert,
   SearchNReplace,
   Status,

@@ -81,7 +81,7 @@ export const FlowWrapper = ({ editor, node, updateAttributes }) => {
 
   const onViewportChange = useCallback(
     (visible) => {
-      if (visible) {
+      if (visible && !$graph.current) {
         toggleVisible(true);
       }
     },

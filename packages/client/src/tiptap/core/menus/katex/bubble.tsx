@@ -43,7 +43,7 @@ export const KatexBubbleMenu: React.FC<{ editor: Editor }> = ({ editor }) => {
 
   useEffect(() => {
     if (visible) {
-      setTimeout(() => ref.current?.focus(), 100);
+      setTimeout(() => ref.current?.focus(), 200);
     }
   }, [visible]);
 
