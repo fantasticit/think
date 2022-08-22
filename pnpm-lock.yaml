@@ -115,6 +115,7 @@ importers:
       katex: ^0.15.2
       kity: ^2.0.4
       lib0: ^0.2.47
+      lodash.pick: ^4.4.0
       lowlight: ^2.5.0
       markdown-it: ^12.3.2
       markdown-it-anchor: ^8.4.1
@@ -216,6 +217,7 @@ importers:
       katex: 0.15.2
       kity: 2.0.4
       lib0: 0.2.47
+      lodash.pick: 4.4.0
       lowlight: 2.5.0
       markdown-it: 12.3.2
       markdown-it-anchor: 8.4.1_markdown-it@12.3.2
@@ -8243,6 +8245,10 @@ packages:
 
   /lodash.once/4.1.1:
     resolution: {integrity: sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=}
+    dev: false
+
+  /lodash.pick/4.4.0:
+    resolution: {integrity: sha512-hXt6Ul/5yWjfklSGvLQl8vM//l3FtyHZeuelpzK6mm99pNvN9yTDruNZPEJZD1oWrqo+izBmB7oUfWgcCX7s4Q==}
     dev: false
 
   /lodash.sortby/4.7.0:

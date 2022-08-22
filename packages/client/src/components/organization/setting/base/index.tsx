@@ -1,13 +1,11 @@
-import { Avatar, Button, Form, Toast, Typography } from '@douyinfe/semi-ui';
+import { Avatar, Button, Form, Toast } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { ORGANIZATION_LOGOS } from '@think/constants';
 import { IOrganization } from '@think/domains';
 import { DataRender } from 'components/data-render';
 import { ImageUploader } from 'components/image-uploader';
-import { useCreateOrganization, useOrganizationDetail } from 'data/organization';
+import { useOrganizationDetail } from 'data/organization';
 import { useToggle } from 'hooks/use-toggle';
-import { SingleColumnLayout } from 'layouts/single-column';
-import Router from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import styles from './index.module.scss';
