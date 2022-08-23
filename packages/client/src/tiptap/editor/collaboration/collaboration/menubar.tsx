@@ -38,6 +38,7 @@ import { Subscript } from 'tiptap/core/menus/subscript';
 import { Superscript } from 'tiptap/core/menus/superscript';
 import { Table } from 'tiptap/core/menus/table';
 import { TaskList } from 'tiptap/core/menus/task-list';
+import { Text } from 'tiptap/core/menus/text';
 import { TextColor } from 'tiptap/core/menus/text-color';
 import { Underline } from 'tiptap/core/menus/underline';
 import { Undo } from 'tiptap/core/menus/undo';
@@ -111,6 +112,8 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <Mind editor={editor} />
         <Excalidraw editor={editor} />
         <Columns editor={editor} />
+
+        <Text editor={editor} />
       </Space>
     </div>
   );

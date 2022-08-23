@@ -58,13 +58,15 @@ export const StatusWrapper = ({ editor, node, updateAttributes }) => {
   useEffect(() => {
     if (defaultShowPicker && user && user.id === createUser) {
       toggleVisible(true);
-      setTimeout(() => ref.current?.focus(), 100);
+      setTimeout(() => ref.current?.focus(), 200);
     }
   }, [defaultShowPicker, toggleVisible, createUser, user]);
 
   useEffect(() => {
     if (visible) {
-      ref.current?.focus();
+      setTimeout(() => {
+        ref.current?.focus();
+      }, 200);
     } else {
       updateAttributes({ text: currentText });
     }

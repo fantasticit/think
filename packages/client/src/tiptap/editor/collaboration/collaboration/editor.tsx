@@ -165,7 +165,11 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
       {(!online || status === 'disconnected') && (
         <Banner
           type="warning"
-          description="我们已与您断开连接，您可以继续编辑文档。一旦重新连接，我们会自动重新提交数据。"
+          description={
+            editable
+              ? '我们已与您断开连接，您可以继续编辑文档。一旦重新连接，我们会自动重新提交数据。'
+              : '我们已与您断开连接，您可以继续阅读文档。一旦重新连接，我们会自动重新刷新数据。'
+          }
         />
       )}
 
