@@ -3,7 +3,8 @@ import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import { WIKI_AVATARS } from '@think/constants';
 import type { IWiki } from '@think/domains';
 import { ImageUploader } from 'components/image-uploader';
-import { useEffect, useRef, useState } from 'react';
+import { pick } from 'helpers/pick';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import styles from './index.module.scss';
 
@@ -22,32 +23,36 @@ interface IProps {
   update: (arg: IUpdateWIKI) => Promise<void>;
 }
 
+const getFormValueFromWiki = (wiki) => {
+  return pick(wiki, ['name', 'description', 'avatar']);
+};
+
 export const Base: React.FC<IProps> = ({ wiki, update }) => {
   const $form = useRef<FormApi>();
   const [currentCover, setCurrentCover] = useState('');
 
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
     $form.current.validate().then((values) => {
       update(values).then(() => {
         Toast.success('操作成功');
       });
     });
-  };
+  }, [update]);
 
-  const setCover = (url) => {
+  const setCover = useCallback((url) => {
     $form.current.setValue('avatar', url);
     setCurrentCover(url);
-  };
+  }, []);
 
   useEffect(() => {
     if (!wiki) return;
-    $form.current.setValues(wiki);
+    $form.current.setValues(getFormValueFromWiki(wiki));
     setCurrentCover(wiki.avatar);
   }, [wiki]);
 
   return (
     <Form
-      initValues={wiki}
+      initValues={getFormValueFromWiki(wiki)}
       style={{ width: '100%' }}
       getFormApi={(formApi) => ($form.current = formApi)}
       onSubmit={onSubmit}

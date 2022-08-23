@@ -47,7 +47,7 @@ export const Status = Node.create({
         parseHTML: getDatasetAttribute('borderColor'),
       },
       text: {
-        default: '请设置状态内容',
+        default: '',
         parseHTML: getDatasetAttribute('text'),
       },
     };

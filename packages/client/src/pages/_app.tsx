@@ -2,7 +2,10 @@ import 'tiptap/fix-match-nodes';
 import 'viewerjs/dist/viewer.css';
 import 'styles/globals.scss';
 import 'tiptap/core/styles/index.scss';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
+import { Worker } from '@react-pdf-viewer/core';
 import { isMobile } from 'helpers/env';
 import { DocumentVersionControl } from 'hooks/use-document-version';
 import { IsOnMobile } from 'hooks/use-on-mobile';
@@ -84,17 +87,19 @@ class MyApp extends App<{ isMobile: boolean }> {
             <link key={url} rel="dns-prefetch" href={url} />
           ))}
         </Head>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <Theme.Provider>
-              <IsOnMobile.Provider initialState={isMobile}>
-                <DocumentVersionControl.Provider initialState={false}>
-                  <Component {...pageProps} />
-                </DocumentVersionControl.Provider>
-              </IsOnMobile.Provider>
-            </Theme.Provider>
-          </Hydrate>
-        </QueryClientProvider>
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.js">
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <Theme.Provider>
+                <IsOnMobile.Provider initialState={isMobile}>
+                  <DocumentVersionControl.Provider initialState={false}>
+                    <Component {...pageProps} />
+                  </DocumentVersionControl.Provider>
+                </IsOnMobile.Provider>
+              </Theme.Provider>
+            </Hydrate>
+          </QueryClientProvider>
+        </Worker>
       </>
     );
   }

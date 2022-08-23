@@ -52,7 +52,7 @@ export const ExcalidrawBubbleMenu = ({ editor }) => {
     <BubbleMenu
       className={'bubble-menu'}
       editor={editor}
-      pluginKey="flow-bubble-menu"
+      pluginKey="excalidraw-bubble-menu"
       shouldShow={shouldShow}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >

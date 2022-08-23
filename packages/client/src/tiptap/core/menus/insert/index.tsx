@@ -17,7 +17,10 @@ export const Insert: React.FC<{ editor: Editor }> = ({ editor }) => {
   const [visible, toggleVisible] = useToggle(false);
 
   const renderedCommands = useMemo(
-    () => (recentUsed.length ? [{ title: '最近使用' }, ...recentUsed, ...COMMANDS] : COMMANDS),
+    () =>
+      (recentUsed.length ? [{ title: '最近使用' }, ...recentUsed, ...COMMANDS] : COMMANDS).filter((command) => {
+        return command.label === '表格' || command.label === '布局' ? 'custom' in command : true;
+      }),
     [recentUsed]
   );
 

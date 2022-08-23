@@ -1,37 +1,16 @@
 .playerWrap {
   width: 100%;
+  height: 65vh;
 
   :global {
-    .react-pdf__Document {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-radius: 8px;
+    .rpv-default-layout__sidebar-header {
+      &:nth-child(n + 2) {
+        display: none;
+      }
     }
 
-    .react-pdf__Page {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      height: 420px;
-      overflow: auto;
+    .rpv-open__input-wrapper {
+      display: none;
     }
-
-    .react-pdf__Page canvas {
-      height: auto !important;
-      max-width: 100%;
-    }
-
-    .react-pdf__message {
-      padding: 20px;
-      color: white;
-    }
-  }
-
-  .paginationWrap {
-    display: flex;
-    margin-top: 1em;
-    text-align: center;
-    justify-content: center;
   }
 }

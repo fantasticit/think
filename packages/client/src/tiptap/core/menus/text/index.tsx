@@ -14,6 +14,7 @@ import { Image } from 'tiptap/core/extensions/image';
 import { Katex } from 'tiptap/core/extensions/katex';
 import { Link } from 'tiptap/core/extensions/link';
 import { Mind } from 'tiptap/core/extensions/mind';
+import { Status } from 'tiptap/core/extensions/status';
 import { Table } from 'tiptap/core/extensions/table';
 import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 import { Title } from 'tiptap/core/extensions/title';
@@ -45,19 +46,19 @@ const OTHER_BUBBLE_MENU_TYPES = [
   DocumentChildren.name,
   Katex.name,
   HorizontalRule.name,
+  Status.name,
 ];
 
 export const Text = ({ editor }) => {
-  const shouldShow = useCallback(
-    () => !editor.state.selection.empty && OTHER_BUBBLE_MENU_TYPES.every((type) => !editor.isActive(type)),
-    [editor]
-  );
+  const shouldShow = useCallback(() => {
+    return !editor.state.selection.empty && OTHER_BUBBLE_MENU_TYPES.every((type) => !editor.isActive(type));
+  }, [editor]);
 
   return (
     <BubbleMenu
       className={'bubble-menu'}
       editor={editor}
-      pluginKey="code-block-bubble-menu"
+      pluginKey="text-bubble-menu"
       shouldShow={shouldShow}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
     >

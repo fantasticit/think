@@ -73,12 +73,10 @@
       border: 1px solid rgb(232 235 237);
       border-color: var(--semi-color-fill-2);
 
-      > * {
-        margin-bottom: 0;
-      }
-
-      > p {
-        margin-top: 0;
+      :not(a) {
+        &:first-of-type {
+          margin-top: 0;
+        }
       }
     }
 
