@@ -8,6 +8,7 @@ import {
   debug,
   handleFileEvent,
   isInCode,
+  isInTitle,
   isMarkdown,
   isTitleNode,
   isValidURL,
@@ -15,6 +16,37 @@ import {
 } from 'tiptap/prose-utils';
 
 import { TitleExtensionName } from './title';
+
+function insertText(view, text) {
+  const texts = text.split('\n').filter(Boolean);
+  event.preventDefault();
+  view.dispatch(view.state.tr.insertText(texts[0]));
+
+  const json = {
+    type: 'doc',
+    content: [{ type: 'title', attrs: { cover: '' }, content: [{ type: 'text', text: texts[0] }] }].concat(
+      // @ts-ignore
+      texts.slice(1).map((t) => {
+        return {
+          type: 'paragraph',
+          attrs: { indent: 0, textAlign: 'left' },
+          content: [{ type: 'text', text: t }],
+        };
+      })
+    ),
+  };
+
+  let tr = view.state.tr;
+  const selection = tr.selection;
+  view.state.doc.nodesBetween(selection.from, selection.to, (node, position) => {
+    const startPosition = Math.min(position, selection.from) || 0;
+    const endPosition = Math.min(position + node.nodeSize, selection.to);
+    tr = tr.replaceWith(startPosition, endPosition, view.state.schema.nodeFromJSON(json));
+  });
+  view.dispatch(tr.scrollIntoView());
+
+  return true;
+}
 
 interface IPasteOptions {
   /**
@@ -86,6 +118,12 @@ export const Paste = Extension.create<IPasteOptions>({
               console.log(html);
               console.groupEnd();
             });
+
+            if (isInTitle(view.state)) {
+              if (text.length) {
+                return insertText(view, text);
+              }
+            }
 
             // 直接复制节点
             if (node) {
@@ -202,9 +240,7 @@ export const Paste = Extension.create<IPasteOptions>({
             }
 
             if (text.length !== 0) {
-              event.preventDefault();
-              view.dispatch(view.state.tr.insertText(text));
-              return true;
+              return insertText(view, text);
             }
 
             return false;

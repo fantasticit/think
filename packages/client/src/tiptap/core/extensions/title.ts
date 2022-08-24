@@ -160,19 +160,25 @@ export const Title = Node.create<TitleOptions>({
             }
           }
 
-          const newTitleNodes = (newState.tr.doc.content.content || []).filter((item) => item.type.name === this.name);
+          const filterTitleNode = (nodes, equal = true) => {
+            return (nodes || [])
+              .filter(Boolean)
+              .filter((item) => (equal ? item.type.name === this.name : item.type.name !== this.name));
+          };
+
+          const newTitleNodes = filterTitleNode(newState.tr.doc.content.content || []);
 
           if (newTitleNodes.length > 1) {
-            const oldTitleNode = (oldState.tr.doc.content.content || []).filter((item) => item.type.name === this.name);
+            const oldTitleNodes = filterTitleNode(oldState.tr.doc.content.content || []);
+            const allTitleNodes = [...oldTitleNodes, ...newTitleNodes].filter(Boolean);
+            const nextNewTitleNode = allTitleNodes.find((node) => node.nodeSize > 2) || allTitleNodes[0];
 
-            const otherNewNodes = (newState.tr.doc.content.content || []).filter(
-              (item) => item.type.name !== this.name
-            );
+            const otherNewNodes = filterTitleNode(newState.tr.doc.content.content || [], false);
 
             const fixedDoc = {
               ...newState.tr.doc.toJSON(),
               content: [].concat(
-                ((oldTitleNode && oldTitleNode[0]) || newTitleNodes[0]).toJSON(),
+                nextNewTitleNode.toJSON(),
                 otherNewNodes.map((node) => node.toJSON())
               ),
             };
