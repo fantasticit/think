@@ -2,7 +2,6 @@ import { IconEdit } from '@douyinfe/semi-icons';
 import { Button, Layout, Nav, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
 import { DocumentCollaboration } from 'components/document/collaboration';
-import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
 import { DocumentStyle } from 'components/document/style';
 import { DocumentVersion } from 'components/document/version';
@@ -37,6 +36,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   const { user } = useUser();
   const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
   const { document, authority } = documentAndAuth || {};
+
   const [readable, editable] = useMemo(() => {
     if (!authority) return [false, false];
     return [authority.readable, authority.editable];
@@ -84,6 +84,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
             documentId={documentId}
           />
         )}
+        <DocumentStyle key="style" />
         <Tooltip key="edit" content="编辑" position="bottom">
           <Button disabled={!editable} icon={<IconEdit />} onMouseDown={gotoEdit} />
         </Tooltip>

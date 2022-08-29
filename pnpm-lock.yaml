@@ -41,9 +41,9 @@ importers:
 
   packages/client:
     specifiers:
-      '@douyinfe/semi-icons': ^2.3.1
-      '@douyinfe/semi-next': ^2.3.1
-      '@douyinfe/semi-ui': ^2.3.1
+      '@douyinfe/semi-icons': ^2.18.0
+      '@douyinfe/semi-next': ^2.18.0
+      '@douyinfe/semi-ui': ^2.18.0
       '@excalidraw/excalidraw': ^0.12.0
       '@hocuspocus/provider': ^1.0.0-alpha.29
       '@react-pdf-viewer/core': 3.7.0
@@ -101,7 +101,6 @@ importers:
       copy-webpack-plugin: 11.0.0
       cross-env: ^7.0.3
       deep-equal: ^2.0.5
-      docx: ^7.3.0
       dompurify: ^2.3.5
       downloadjs: ^1.4.7
       eslint: ^8.14.0
@@ -112,7 +111,6 @@ importers:
       eslint-plugin-react-hooks: ^4.5.0
       eslint-plugin-simple-import-sort: ^7.0.0
       fs-extra: ^10.0.0
-      html-to-docx: ^1.4.0
       htmldiff-js: ^1.0.5
       interactjs: ^1.10.11
       katex: ^0.15.2
@@ -159,9 +157,9 @@ importers:
       viewerjs: ^1.10.4
       yjs: ^13.5.24
     dependencies:
-      '@douyinfe/semi-icons': 2.3.1_react@17.0.2
-      '@douyinfe/semi-next': 2.3.1
-      '@douyinfe/semi-ui': 2.3.1_wnecvl2xit6hykxlpfa3byfhr4
+      '@douyinfe/semi-icons': 2.18.0_react@17.0.2
+      '@douyinfe/semi-next': 2.18.0
+      '@douyinfe/semi-ui': 2.18.0_sfoxds7t5ydpegc3knd667wn6m
       '@excalidraw/excalidraw': 0.12.0_sfoxds7t5ydpegc3knd667wn6m
       '@hocuspocus/provider': 1.0.0-alpha.29
       '@react-pdf-viewer/core': 3.7.0_2vj3zozgbzfehrv2inzxxqn2wq
@@ -214,10 +212,8 @@ importers:
       clone: 2.1.2
       cross-env: 7.0.3
       deep-equal: 2.0.5
-      docx: 7.3.0
       dompurify: 2.3.5
       downloadjs: 1.4.7
-      html-to-docx: 1.4.0
       htmldiff-js: 1.0.5
       interactjs: 1.10.11
       katex: 0.15.2
@@ -1814,39 +1810,33 @@ packages:
       '@cspotcode/source-map-consumer': 0.8.0
     dev: true
 
-  /@douyinfe/semi-animation-react/2.3.1_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-7rXD60qnRbWQK9et1LfHmoDaL8icavO+gozAMVNYvIsJqz4UPsJdvqAz2tJ0aZRoYzWi39V5mxFnXdzzbcAzMQ==}
-    peerDependencies:
-      prop-types: 15.7.2
-      react: '>=16.0.0'
-      react-dom: '>=16.0.1'
+  /@douyinfe/semi-animation-react/2.18.0:
+    resolution: {integrity: sha512-0Zg4QWnkjmssMilOppdC5NyE5CTeg7ws2VqHE+iCv02ps13ackdrmOp3FkluMfmUnUQ4ikqw5plagTBM576bqA==}
     dependencies:
       '@babel/runtime-corejs3': 7.16.8
-      '@douyinfe/semi-animation': 2.3.1
-      '@douyinfe/semi-animation-styled': 2.3.1
+      '@douyinfe/semi-animation': 2.12.0
+      '@douyinfe/semi-animation-styled': 2.18.0
       classnames: 2.3.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
     dev: false
 
-  /@douyinfe/semi-animation-styled/2.3.1:
-    resolution: {integrity: sha512-++3ngSanf1NroWQoZ8ssDk55Wz1Ib6G7m+Ee/RmOnL5VzvhyhLnkgjZoaWz6oIHbk0TQ764+GoBzfF+ZsYtvrQ==}
+  /@douyinfe/semi-animation-styled/2.18.0:
+    resolution: {integrity: sha512-UoPg50ITynIG1y3GgPmYhZ/1aMTVp2gDab7JkVP+44cggqSSyv5RdejyxVl0ZDnPgtUgqwLsAir1OYTIzx/lJQ==}
     dependencies:
       '@babel/runtime-corejs3': 7.16.8
     dev: false
 
-  /@douyinfe/semi-animation/2.3.1:
-    resolution: {integrity: sha512-sDd9hSTGCvSb6JPls0XgrLXPMRjjjn1bWbW6Y1XJcdge/KPEyL7zYo216yq89YVUsbuhwtfzfcKCfK+aIE7F5g==}
+  /@douyinfe/semi-animation/2.12.0:
+    resolution: {integrity: sha512-OAfL9Nk38ZPqfdKm9k4cvVXXzm16ALI4LxGNZ0qfe2RCLLnYGB/hNzTctoTDjYD35dFv0yroh3qsXtZuP2xNdg==}
     dependencies:
       '@babel/runtime-corejs3': 7.16.8
       bezier-easing: 2.1.0
     dev: false
 
-  /@douyinfe/semi-foundation/2.3.1:
-    resolution: {integrity: sha512-0EgaAnDFsesSSDHhyw1OfE/pgRKACvHUs3QIcax5V32t3bJ3q6C7BISHxHFxmP9oBTlYTZ5kZJCcJ+ECweYs2Q==}
+  /@douyinfe/semi-foundation/2.18.0:
+    resolution: {integrity: sha512-SJ0iyuk1YDSZvChoQrIqslzmqjK8qFUEmwE3Thv+jU/dn8t6smQyKNfho6dQ/RtBSwq8FezsqVAT88RT72lKXw==}
     dependencies:
       '@babel/runtime-corejs3': 7.16.8
-      '@douyinfe/semi-animation': 2.3.1
+      '@douyinfe/semi-animation': 2.12.0
       async-validator: 3.5.2
       classnames: 2.3.1
       date-fns: 2.28.0
@@ -1856,29 +1846,29 @@ packages:
       scroll-into-view-if-needed: 2.2.29
     dev: false
 
-  /@douyinfe/semi-icons/2.3.1_react@17.0.2:
-    resolution: {integrity: sha512-7WHegh5ESbgbLDJwx/H5Oa+ChXPUlVRw/cfkIUc0z9JdCVH7+L660w83mimLmvrSYOhR3YYB7nVUcrLfiuqG9A==}
+  /@douyinfe/semi-icons/2.18.0_react@17.0.2:
+    resolution: {integrity: sha512-r/Ji0XzYS3rI6rw/+TAZHdg/ayJe3EoeGul+LlDV29fIQXO8aOsV+Kkxg4AEa82uzWeZ4798d0W7XK4McLor4w==}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@babel/runtime-corejs3': 7.16.8
       classnames: 2.3.1
       react: 17.0.2
     dev: false
 
-  /@douyinfe/semi-illustrations/2.3.1_react@17.0.2:
-    resolution: {integrity: sha512-7cBQBVJneKEfnv7aMHDmED23oJ+3/vSnqXriZK2keQOyzOSrjt3AQ12wBsjIgNgcWIwg2FI+m03jM1LxSOgo3A==}
+  /@douyinfe/semi-illustrations/2.15.0_react@17.0.2:
+    resolution: {integrity: sha512-8gajbeKZwJTk7G79tK7qPg8s3V1UUxjg8oA8X/11kim+rt0vzRqCXclyR65JMWIayZIIj+VftqjCHcTc6ozI0A==}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@babel/runtime-corejs3': 7.16.8
       react: 17.0.2
     dev: false
 
-  /@douyinfe/semi-next/2.3.1:
-    resolution: {integrity: sha512-y+d/SSDrvC7X1WOQ2t0l2+YbX2W8Ex1AgI4XeXl5b6liDEUWITZjDMQKMQwGGL0pizTsVJ2XOJL9dhWWbq8M+A==}
+  /@douyinfe/semi-next/2.18.0:
+    resolution: {integrity: sha512-0LX7ScOriiX6btL4P24NeVrOERxYMI8atgqjv+DDMqYZ1pDXAQp7UFyhio2a8P1Mmyg7DpUuV51UpQAB5RY4Sg==}
     dependencies:
-      '@douyinfe/semi-webpack-plugin': 2.3.1
+      '@douyinfe/semi-webpack-plugin': 2.18.0
     transitivePeerDependencies:
       - fibers
       - node-sass
@@ -1886,53 +1876,50 @@ packages:
       - webpack
     dev: false
 
-  /@douyinfe/semi-theme-default/2.3.1:
-    resolution: {integrity: sha512-od/AjepcaxcQSkcC2YViUH9A1tL7Ve2QiFkd0Z2DG76zPG1K4yzMI5mFmB1sKQ3uVRzO5f1YOp7k0zub094NuQ==}
+  /@douyinfe/semi-theme-default/2.18.0:
+    resolution: {integrity: sha512-GPE/YjxKEyOD+lKyMCXVHdo4HCr3VzJ/IflELe5hsHQ/6n/g8bIJzEZ21I/9OpZ04nGK4xicjf5X68YojVMf/g==}
     dependencies:
       glob: 7.2.0
     dev: false
 
-  /@douyinfe/semi-ui/2.3.1_wnecvl2xit6hykxlpfa3byfhr4:
-    resolution: {integrity: sha512-2RlhndHE4J82QSMnioerWMDzlRe+Qe3kJKQo0/6U+LkY2gP9B2edMiTG5QiqQNJ8YeAwOCkKbuJPbgr/B2VdXA==}
+  /@douyinfe/semi-ui/2.18.0_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-KEno0gEWSauMLo49/D+zL2NIxvwix4vE7dXnxpbIxhrGJxLRDQyQGM2tdhGhn7o8qQvyIfVpanhGPI9vLKDgGA==}
     peerDependencies:
-      '@types/react': '>=16.0.0'
-      '@types/react-dom': '>=16.0.0'
-      prop-types: 15.7.2
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
       '@babel/runtime-corejs3': 7.16.8
-      '@douyinfe/semi-animation-react': 2.3.1_sfoxds7t5ydpegc3knd667wn6m
-      '@douyinfe/semi-foundation': 2.3.1
-      '@douyinfe/semi-icons': 2.3.1_react@17.0.2
-      '@douyinfe/semi-illustrations': 2.3.1_react@17.0.2
-      '@douyinfe/semi-theme-default': 2.3.1
-      '@types/react': 17.0.38
-      '@types/react-window': 1.8.5
+      '@douyinfe/semi-animation': 2.12.0
+      '@douyinfe/semi-animation-react': 2.18.0
+      '@douyinfe/semi-foundation': 2.18.0
+      '@douyinfe/semi-icons': 2.18.0_react@17.0.2
+      '@douyinfe/semi-illustrations': 2.15.0_react@17.0.2
+      '@douyinfe/semi-theme-default': 2.18.0
       async-validator: 3.5.2
       classnames: 2.3.1
       copy-text-to-clipboard: 2.2.0
       date-fns: 2.28.0
       date-fns-tz: 1.2.2_date-fns@2.28.0
       lodash: 4.17.21
+      prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-resizable: 1.11.1_sfoxds7t5ydpegc3knd667wn6m
-      react-sortable-hoc: 1.11.0_sfoxds7t5ydpegc3knd667wn6m
+      react-sortable-hoc: 2.0.0_sfoxds7t5ydpegc3knd667wn6m
       react-window: 1.8.6_sfoxds7t5ydpegc3knd667wn6m
       resize-observer-polyfill: 1.5.1
       scroll-into-view-if-needed: 2.2.29
       utility-types: 3.10.0
     dev: false
 
-  /@douyinfe/semi-webpack-plugin/2.3.1:
-    resolution: {integrity: sha512-h+XJI28FU1v29VLO/LUIrL/qTA/1ky6wFS0TkrNtWUJnecvs3hi7J0/kDzubBWhsODZi2ut78iIyUytI3FC60w==}
+  /@douyinfe/semi-webpack-plugin/2.18.0:
+    resolution: {integrity: sha512-hoYhbAoex80VNASliWIAZElZx3l3rXcYDZs0Qs/SeFL0F8WkCdKx6MnNr+9QUnex0icljvhVNt6eNYLtRkXDoA==}
     peerDependencies:
       webpack: ^4 || ^5
     dependencies:
-      '@babel/generator': 7.16.8
-      '@babel/parser': 7.16.12
-      '@babel/traverse': 7.16.10
+      '@babel/generator': 7.17.12
+      '@babel/parser': 7.17.12
+      '@babel/traverse': 7.17.12
       css-loader: 4.3.0
       enhanced-resolve: 5.8.3
       loader-utils: 2.0.0
@@ -3633,6 +3620,7 @@ packages:
 
   /@types/prop-types/15.7.4:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
+    dev: true
 
   /@types/prosemirror-commands/1.0.4:
     resolution: {integrity: sha512-utDNYB3EXLjAfYIcRWJe6pn3kcQ5kG4RijbT/0Y/TFOm6yhvYS/D9eJVnijdg9LDjykapcezchxGRqFD5LcyaQ==}
@@ -3713,18 +3701,13 @@ packages:
   /@types/range-parser/1.2.4:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
 
-  /@types/react-window/1.8.5:
-    resolution: {integrity: sha512-V9q3CvhC9Jk9bWBOysPGaWy/Z0lxYcTXLtLipkt2cnRj1JOSFNF7wqGpkScSXMgBwC+fnVRg/7shwgddBG5ICw==}
-    dependencies:
-      '@types/react': 17.0.38
-    dev: false
-
   /@types/react/17.0.38:
     resolution: {integrity: sha512-SI92X1IA+FMnP3qM5m4QReluXzhcmovhZnLNm3pyeQlooi02qI7sLiepEYqT678uNiyc25XfCqxREFpy3W7YhQ==}
     dependencies:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
       csstype: 3.0.10
+    dev: true
 
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
@@ -3734,6 +3717,7 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+    dev: true
 
   /@types/serve-static/1.13.10:
     resolution: {integrity: sha512-nCkHGI4w7ZgAdNkrEu0bv+4xNV/XDqW+DydknebMOQwkpDGx8G+HTlj7R7ABI8i8nKxVw0wtKPi1D+lPOkh4YQ==}
@@ -4588,7 +4572,7 @@ packages:
     dev: false
 
   /bezier-easing/2.1.0:
-    resolution: {integrity: sha1-wE3+i5JtbsrKGBPWn/F5t8ICXYY=}
+    resolution: {integrity: sha512-gbIqZ/eslnUFC1tjEvtz0sgx+xTK20wDnYMIA27VA04R7w6xxXQPZDbibjA9DTWZRA2CXtwHykkVzlCaAJAZig==}
     dev: false
 
   /big-integer/1.6.51:
@@ -5227,6 +5211,7 @@ packages:
 
   /core-js-pure/3.20.3:
     resolution: {integrity: sha512-Q2H6tQ5MtPtcC7f3HxJ48i4Q7T9ybPKgvWyuH7JXIoNa2pm0KuBnycsET/qw1SLLZYfbsbrZQNMeIOClb+6WIA==}
+    deprecated: core-js-pure@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js-pure.
     requiresBuild: true
     dev: false
 
@@ -5354,6 +5339,7 @@ packages:
 
   /csstype/3.0.10:
     resolution: {integrity: sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==}
+    dev: true
 
   /dashdash/1.14.1:
     resolution: {integrity: sha512-jRFi8UDGo6j+odZiEpjazZaWqEal3w/basFjQHQEwVtZJGDpxbH1MeYluwCS8Xq5wmLJooDlMgvVarmWfGM44g==}
@@ -5635,17 +5621,6 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: true
-
-  /docx/7.3.0:
-    resolution: {integrity: sha512-OkSGlDNWMRFY07OEhUTx1ouuzYi8s1b67JDI6m5/5ek4xoshtP+/Rx8eRdY8LbhvpFkngvUantvTsxY4XW8Heg==}
-    engines: {node: '>=10'}
-    dependencies:
-      '@types/node': 17.0.35
-      jszip: 3.10.0
-      nanoid: 3.3.1
-      xml: 1.0.1
-      xml-js: 1.6.11
-    dev: false
 
   /dom-serializer/0.2.2:
     resolution: {integrity: sha512-2/xPb3ORsQ42nHYiSunXkDjPLBaEj/xTwUO4B7XCZQTRk7EBtTOPaygh10YAAh2OI1Qrp6NWfpAhzswj0ydt9g==}
@@ -10089,11 +10064,11 @@ packages:
       react: 17.0.2
     dev: false
 
-  /react-sortable-hoc/1.11.0_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-v1CDCvdfoR3zLGNp6qsBa4J1BWMEVH25+UKxF/RvQRh+mrB+emqtVHMgZ+WreUiKJoEaiwYoScaueIKhMVBHUg==}
+  /react-sortable-hoc/2.0.0_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-JZUw7hBsAHXK7PTyErJyI7SopSBFRcFHDjWW5SWjcugY0i6iH7f+eJkY8cJmGMlZ1C9xz1J3Vjz0plFpavVeRg==}
     peerDependencies:
-      react: ^0.14.0 || ^15.0.0 || ^16.0.0
-      react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0
+      react: ^16.3.0 || ^17.0.0
+      react-dom: ^16.3.0 || ^17.0.0
     dependencies:
       '@babel/runtime': 7.16.7
       invariant: 2.2.4
@@ -10530,6 +10505,7 @@ packages:
       '@types/json-schema': 7.0.9
       ajv: 6.12.6
       ajv-keywords: 3.5.2_ajv@6.12.6
+    dev: true
 
   /schema-utils/2.7.1:
     resolution: {integrity: sha512-SHiNtMOUGWBQJwzISiVYKu82GiV4QYGePp3odlY1tuKO7gPtphAT5R/py0fA6xtbgLL/RvtJZnU9b8s0F1q0Xg==}
@@ -11040,7 +11016,7 @@ packages:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
       loader-utils: 2.0.0
-      schema-utils: 2.7.0
+      schema-utils: 2.7.1
     dev: false
 
   /style-search/0.1.0:
@@ -12468,20 +12444,9 @@ packages:
     resolution: {integrity: sha512-GojqklwG8gpzOVEVki5KudKNoq7MbbjYZCbyWzEz7tyPA7eleiE0+ePwOWQQRb5fm86rD3S8Tc0tSFf3AOv50w==}
     dev: false
 
-  /xml-js/1.6.11:
-    resolution: {integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==}
-    hasBin: true
-    dependencies:
-      sax: 1.2.4
-    dev: false
-
   /xml-name-validator/3.0.0:
     resolution: {integrity: sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==}
     dev: true
-
-  /xml/1.0.1:
-    resolution: {integrity: sha512-huCv9IH9Tcf95zuYCsQraZtWnJvBtLVE0QHMOs8bWyZAFZNDcYjsPq1nEx8jKA9y+Beo9v+7OBPRisQTjinQMw==}
-    dev: false
 
   /xml2js/0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
