@@ -5,10 +5,9 @@ import { DataRender } from 'components/data-render';
 import { IconOverview } from 'components/icons';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
-import { findParents } from 'components/wiki/tocs/utils';
 import { usePublicWikiDetail, usePublicWikiTocs } from 'data/wiki';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import styles from './index.module.scss';
 import { NavItem } from './nav-item';
@@ -16,7 +15,6 @@ import { Tree } from './tree';
 
 interface IProps {
   wikiId: string;
-  documentId?: string;
   docAsLink?: string;
   getDocLink?: (arg: IDocument) => string;
   pageTitle: string;
@@ -27,20 +25,12 @@ const { Text } = Typography;
 export const WikiPublicTocs: React.FC<IProps> = ({
   pageTitle,
   wikiId,
-  documentId = null,
   docAsLink = '/share/wiki/[wikiId]/document/[documentId]',
   getDocLink = (document) => `/share/wiki/${document.wikiId}/document/${document.id}`,
 }) => {
   const { pathname } = useRouter();
   const { data: wiki, loading: wikiLoading, error: wikiError } = usePublicWikiDetail(wikiId);
   const { data: tocs, loading: tocsLoading, error: tocsError } = usePublicWikiTocs(wikiId);
-  const [parentIds, setParentIds] = useState<Array<string>>([]);
-
-  useEffect(() => {
-    if (!tocs || !tocs.length) return;
-    const parentIds = findParents(tocs, documentId);
-    setParentIds(parentIds);
-  }, [tocs, documentId]);
 
   return (
     <div className={styles.wrap}>
@@ -131,16 +121,7 @@ export const WikiPublicTocs: React.FC<IProps> = ({
               />
             }
             error={tocsError}
-            normalContent={() => (
-              <Tree
-                data={tocs || []}
-                docAsLink={docAsLink}
-                getDocLink={getDocLink}
-                parentIds={parentIds}
-                activeId={documentId}
-                isShareMode
-              />
-            )}
+            normalContent={() => <Tree data={tocs || []} docAsLink={docAsLink} getDocLink={getDocLink} isShareMode />}
           />
         </div>
       </main>

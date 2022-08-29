@@ -16,7 +16,7 @@ interface IProps {
 const Page: NextPage<IProps> = ({ wikiId, documentId }) => {
   return (
     <AppDoubleColumnLayout
-      leftNode={<WikiTocs wikiId={wikiId} documentId={documentId} />}
+      leftNode={<WikiTocs wikiId={wikiId} />}
       rightNode={<DocumentReader key={documentId} documentId={documentId} />}
     />
   );

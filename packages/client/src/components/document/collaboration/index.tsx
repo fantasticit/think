@@ -105,7 +105,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
       <AvatarGroup maxCount={2} renderMore={renderMore} size="extra-small">
         {collaborationUsers.map((user) => {
           return (
-            <Tooltip key={user.id} content={`${user.name}-${user.clientId}`} position="bottom">
+            <Tooltip key={user.clientId} content={`${user.name}-${user.clientId}`} position="bottom">
               <Avatar src={user.avatar} size="extra-small">
                 {user.name && user.name.charAt(0)}
               </Avatar>
