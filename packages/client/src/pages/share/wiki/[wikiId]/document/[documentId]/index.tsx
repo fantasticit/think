@@ -16,7 +16,7 @@ interface IProps {
 const Page: NextPage<IProps> = ({ wikiId, documentId }) => {
   return (
     <PublicDoubleColumnLayout
-      leftNode={<WikiPublicTocs pageTitle="概览" wikiId={wikiId} documentId={documentId} />}
+      leftNode={<WikiPublicTocs pageTitle="概览" wikiId={wikiId} />}
       rightNode={<DocumentPublicReader key={documentId} documentId={documentId} hideLogo />}
     ></PublicDoubleColumnLayout>
   );

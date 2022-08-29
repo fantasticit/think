@@ -4,20 +4,18 @@ import { IDocument } from '@think/domains';
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { IconOverview, IconSetting } from 'components/icons';
-import { findParents } from 'components/wiki/tocs/utils';
 import { useStarDocumentsInWiki, useStarWikisInOrganization } from 'data/star';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
 import { triggerCreateDocument } from 'event';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import styles from './index.module.scss';
 import { Tree } from './tree';
 
 interface IProps {
   wikiId: string;
-  documentId?: string;
   docAsLink?: string;
   getDocLink?: (arg: IDocument) => string;
 }
@@ -26,7 +24,6 @@ const { Text } = Typography;
 
 export const WikiTocs: React.FC<IProps> = ({
   wikiId,
-  documentId = null,
   docAsLink = '/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]',
   getDocLink = (document) => `/app/org/${document.organizationId}/wiki/${document.wikiId}/doc/${document.id}`,
 }) => {
@@ -39,14 +36,7 @@ export const WikiTocs: React.FC<IProps> = ({
     loading: starDocumentsLoading,
     error: starDocumentsError,
   } = useStarDocumentsInWiki(query.organizationId, wikiId);
-  const [parentIds, setParentIds] = useState<Array<string>>([]);
   const otherStarWikis = useMemo(() => (starWikis || []).filter((wiki) => wiki.id !== wikiId), [starWikis, wikiId]);
-
-  useEffect(() => {
-    if (!tocs || !tocs.length) return;
-    const parentIds = findParents(tocs, documentId);
-    setParentIds(parentIds);
-  }, [tocs, documentId]);
 
   return (
     <div className={styles.wrap}>
@@ -276,15 +266,7 @@ export const WikiTocs: React.FC<IProps> = ({
           <DataRender
             loading={starDocumentsLoading}
             error={starDocumentsError}
-            normalContent={() => (
-              <Tree
-                data={starDocuments || []}
-                docAsLink={docAsLink}
-                getDocLink={getDocLink}
-                parentIds={parentIds}
-                activeId={documentId}
-              />
-            )}
+            normalContent={() => <Tree data={starDocuments || []} docAsLink={docAsLink} getDocLink={getDocLink} />}
           />
         </div>
 
@@ -315,14 +297,7 @@ export const WikiTocs: React.FC<IProps> = ({
             loading={tocsLoading}
             error={tocsError}
             normalContent={() => (
-              <Tree
-                needAddDocument
-                data={tocs || []}
-                docAsLink={docAsLink}
-                getDocLink={getDocLink}
-                parentIds={parentIds}
-                activeId={documentId}
-              />
+              <Tree needAddDocument data={tocs || []} docAsLink={docAsLink} getDocLink={getDocLink} />
             )}
           />
         </div>

@@ -2,13 +2,16 @@ import { IconPlus } from '@douyinfe/semi-icons';
 import { Button, Tree as SemiTree, Typography } from '@douyinfe/semi-ui';
 import { DocumentActions } from 'components/document/actions';
 import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
+import deepEqual from 'deep-equal';
 import { CREATE_DOCUMENT, event, triggerCreateDocument } from 'event';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 import styles from './index.module.scss';
+import { findParents } from './utils';
 
 const Actions = ({ node }) => {
   return (
@@ -67,17 +70,16 @@ const AddDocument = () => {
 
 let scrollTimer;
 
-export const Tree = ({
-  data,
-  docAsLink,
-  getDocLink,
-  parentIds,
-  activeId,
-  isShareMode = false,
-  needAddDocument = false,
-}) => {
+export const _Tree = ({ data, docAsLink, getDocLink, isShareMode = false, needAddDocument = false }) => {
+  const { query } = useRouter();
   const $container = useRef<HTMLDivElement>(null);
-  const [expandedKeys, setExpandedKeys] = useState(parentIds);
+  const [expandedKeys, setExpandedKeys] = useState([]);
+
+  useEffect(() => {
+    if (!data || !data.length) return;
+    const parentIds = findParents(data, query.documentId as string);
+    setExpandedKeys(parentIds);
+  }, [data, query.documentId]);
 
   const renderBtn = useCallback((node) => <Actions key={node.id} node={node} />, []);
 
@@ -103,12 +105,7 @@ export const Tree = ({
   );
 
   useEffect(() => {
-    if (!parentIds || !parentIds.length) return;
-    setExpandedKeys(parentIds);
-  }, [parentIds]);
-
-  useEffect(() => {
-    const target = $container.current.querySelector(`#item-${activeId}`);
+    const target = $container.current.querySelector(`#item-${query.documentId}`);
     if (!target) return;
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(() => {
@@ -121,15 +118,15 @@ export const Tree = ({
     return () => {
       clearTimeout(scrollTimer);
     };
-  }, [activeId]);
+  }, [query.documentId]);
 
   return (
     <div className={styles.treeInnerWrap} ref={$container}>
       <SemiTree
         treeData={data}
         renderLabel={renderLabel}
-        value={activeId}
-        defaultExpandedKeys={parentIds}
+        value={query.documentId}
+        defaultExpandedKeys={expandedKeys}
         expandedKeys={expandedKeys}
         onExpand={(expandedKeys) => setExpandedKeys(expandedKeys)}
       />
@@ -137,3 +134,11 @@ export const Tree = ({
     </div>
   );
 };
+
+export const Tree = React.memo(_Tree, (prevProps, nextProps) => {
+  if (deepEqual(prevProps.data, nextProps.data)) {
+    return true;
+  }
+
+  return false;
+});

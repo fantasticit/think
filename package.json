@@ -3,7 +3,7 @@
   "private": true,
   "author": "fantasticit",
   "scripts": {
-    "clean": "npx rimraf ./node_modules ./packages/**/node_modules",
+    "clean": "npx rimraf ./node_modules ./packages/**/node_modules ./packages/**/.next",
     "dev": "concurrently 'pnpm:dev:*'",
     "dev:server": "pnpm run --dir packages/server dev",
     "dev:client": "pnpm run --dir packages/client dev",

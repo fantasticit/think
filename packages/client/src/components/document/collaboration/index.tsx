@@ -1,18 +1,20 @@
 import { IconUserAdd } from '@douyinfe/semi-icons';
-import { Avatar, AvatarGroup, Button, Dropdown, Modal, Toast, Tooltip } from '@douyinfe/semi-ui';
+import { Avatar, AvatarGroup, Button, Dropdown, Modal, Popover, Toast, Tooltip, Typography } from '@douyinfe/semi-ui';
 import { Members } from 'components/members';
 import { useDoumentMembers } from 'data/document';
 import { useUser } from 'data/user';
 import { event, JOIN_USER } from 'event';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 interface IProps {
   wikiId: string;
   documentId: string;
   disabled?: boolean;
 }
+
+const { Text } = Typography;
 
 export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, disabled = false }) => {
   const { isMobile } = IsOnMobile.useHook();
@@ -42,6 +44,27 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
     [disabled, toggleVisible]
   );
 
+  const renderMore = useCallback((restNumber, restAvatars) => {
+    const content = restAvatars.map((avatar, index) => {
+      return (
+        <div style={{ paddingBottom: 12 }} key={index}>
+          {React.cloneElement(avatar, { size: 'extra-small' })}
+          <Text style={{ marginLeft: 8, fontSize: 14 }}>{avatar.props.content}</Text>
+        </div>
+      );
+    });
+    return (
+      <Popover
+        content={<div style={{ maxHeight: '50vh', overflow: 'auto' }}>{content}</div>}
+        autoAdjustOverflow={false}
+        position={'bottomRight'}
+        style={{ padding: '12px 8px', paddingBottom: 0 }}
+      >
+        <Avatar size="extra-small">{`+${restNumber}`}</Avatar>
+      </Popover>
+    );
+  }, []);
+
   useEffect(() => {
     const handler = (users) => {
       const joinUsers = users
@@ -49,17 +72,22 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
         .filter((state) => state.user)
         .map((state) => ({ ...state.user, clientId: state.clientId }));
 
-      joinUsers
+      const otherUsers = joinUsers
         .filter(Boolean)
         .filter((joinUser) => {
           return joinUser.name !== currentUser.name;
         })
-        .forEach((joinUser) => {
-          if (!toastedUsersRef.current.includes(joinUser.clientId)) {
-            Toast.info(`${joinUser.name}-${joinUser.clientId}加入文档`);
-            toastedUsersRef.current.push(joinUser.clientId);
-          }
+        .filter((joinUser) => {
+          return !toastedUsersRef.current.includes(joinUser.clientId);
         });
+
+      if (otherUsers.length) {
+        Toast.info(`${otherUsers[0].name}等${otherUsers.length}个用户加入文档`);
+
+        otherUsers.forEach((joinUser) => {
+          toastedUsersRef.current.push(joinUser.clientId);
+        });
+      }
 
       setCollaborationUsers(joinUsers);
     };
@@ -67,17 +95,17 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
     event.on(JOIN_USER, handler);
 
     return () => {
-      toastedUsersRef.current = [];
       event.off(JOIN_USER, handler);
+      toastedUsersRef.current = [];
     };
   }, [currentUser]);
 
   return (
     <>
-      <AvatarGroup maxCount={5} size="extra-small">
+      <AvatarGroup maxCount={2} renderMore={renderMore} size="extra-small">
         {collaborationUsers.map((user) => {
           return (
-            <Tooltip key={user.id} content={`${user.name}-${user.clientId}`} position="bottom">
+            <Tooltip key={user.clientId} content={`${user.name}-${user.clientId}`} position="bottom">
               <Avatar src={user.avatar} size="extra-small">
                 {user.name && user.name.charAt(0)}
               </Avatar>

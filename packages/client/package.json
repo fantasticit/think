@@ -8,9 +8,9 @@
     "pm2": "pm2 start npm --name @think/client -- start"
   },
   "dependencies": {
-    "@douyinfe/semi-icons": "^2.3.1",
-    "@douyinfe/semi-next": "^2.3.1",
-    "@douyinfe/semi-ui": "^2.3.1",
+    "@douyinfe/semi-icons": "^2.18.0",
+    "@douyinfe/semi-next": "^2.18.0",
+    "@douyinfe/semi-ui": "^2.18.0",
     "@excalidraw/excalidraw": "^0.12.0",
     "@hocuspocus/provider": "^1.0.0-alpha.29",
     "@react-pdf-viewer/core": "3.7.0",
@@ -63,10 +63,8 @@
     "clone": "^2.1.2",
     "cross-env": "^7.0.3",
     "deep-equal": "^2.0.5",
-    "docx": "^7.3.0",
     "dompurify": "^2.3.5",
     "downloadjs": "^1.4.7",
-    "html-to-docx": "^1.4.0",
     "htmldiff-js": "^1.0.5",
     "interactjs": "^1.10.11",
     "katex": "^0.15.2",
