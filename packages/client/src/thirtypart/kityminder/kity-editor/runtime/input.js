@@ -139,11 +139,21 @@ define(function (require, exports, module) {
       var node = minder.getSelectedNode();
       if (node) {
         var fontSize = node.getData('font-size') || node.getStyle('font-size');
+
+        try {
+          const paths = Array.from(node.rc.node.querySelectorAll('path'));
+          const text = node.rc.node.querySelector('text');
+          const path = paths.find((path) => path.id.includes('outline'));
+          receiverElement.style.backgroundColor = path.getAttribute('fill');
+          receiverElement.style.borderColor = path.getAttribute('stroke');
+          receiverElement.style.color = text.parentElement.getAttribute('fill');
+        } catch (e) {}
         receiverElement.style.fontSize = fontSize + 'px';
         receiverElement.style.minWidth = 0;
         receiverElement.style.minWidth = receiverElement.clientWidth + 'px';
         receiverElement.style.fontWeight = node.getData('font-weight') || '';
         receiverElement.style.fontStyle = node.getData('font-style') || '';
+
         receiverElement.classList.add('input');
         receiverElement.focus();
       }
@@ -377,9 +387,20 @@ define(function (require, exports, module) {
       if (!focusNode) return;
       if (!planed.timer) {
         planed.timer = setTimeout(function () {
-          var box = focusNode.getRenderBox('TextRenderer');
+          var box = null;
+
+          try {
+            const paths = Array.from(node.rc.node.querySelectorAll('path'));
+            const path = paths.find((path) => path.id.includes('outline'));
+            box = path.getBBox();
+          } catch (e) {
+            box = focusNode.getRenderBox('TextRenderer');
+          }
+
           receiverElement.style.left = Math.round(box.x) + 'px';
           receiverElement.style.top = (debug.flaged ? Math.round(box.bottom + 30) : Math.round(box.y)) + 'px';
+          receiverElement.style.minWidth = box.width + 'px';
+          receiverElement.style.minHeight = box.height + 'px';
           //receiverElement.focus();
           planed.timer = 0;
         });
