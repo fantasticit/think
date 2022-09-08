@@ -73,7 +73,7 @@ import { markdownToHTML, markdownToProsemirror } from 'tiptap/markdown/markdown-
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
 
 const DocumentWithTitle = Document.extend({
-  content: 'title block+',
+  content: 'title{1} block+',
 });
 
 export { Document };
@@ -117,7 +117,11 @@ export const CollaborationKit = [
   ColorHighlighter,
   Column,
   Columns,
-  Dropcursor,
+  Dropcursor.configure({
+    width: 2,
+    class: 'dropcursor',
+    color: 'skyblue',
+  }),
   Excalidraw,
   EventEmitter,
   Focus,

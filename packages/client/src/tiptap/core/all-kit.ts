@@ -59,7 +59,7 @@ import { TrailingNode } from 'tiptap/core/extensions/trailing-node';
 import { Underline } from 'tiptap/core/extensions/underline';
 
 export const DocumentWithTitle = Document.extend({
-  content: 'title block+',
+  content: 'title{1} block+',
 });
 
 export const AllExtensions = [
