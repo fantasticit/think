@@ -33,6 +33,15 @@ export const DocumentStar: React.FC<IProps> = ({ organizationId, wikiId, documen
     [toggleVisible]
   );
 
+  const toggleStarAction = useCallback(
+    (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      toggleStar();
+    },
+    [toggleStar]
+  );
+
   return (
     <VisibilitySensor onChange={onViewportChange}>
       {render ? (
@@ -46,11 +55,7 @@ export const DocumentStar: React.FC<IProps> = ({ organizationId, wikiId, documen
               color: data ? 'rgba(var(--semi-amber-4), 1)' : 'rgba(var(--semi-grey-3), 1)',
             }}
             disabled={disabled}
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              toggleStar();
-            }}
+            onClick={toggleStarAction}
           />
         </Tooltip>
       )}

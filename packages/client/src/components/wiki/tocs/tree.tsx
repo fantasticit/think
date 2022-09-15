@@ -14,6 +14,14 @@ import styles from './index.module.scss';
 import { findParents } from './utils';
 
 const Actions = ({ node }) => {
+  const createDocument = useCallback(
+    (e) => {
+      e.stopPropagation();
+      triggerCreateDocument({ wikiId: node.wikiId, documentId: node.id });
+    },
+    [node.wikiId, node.id]
+  );
+
   return (
     <span className={styles.right}>
       <DocumentActions
@@ -28,10 +36,7 @@ const Actions = ({ node }) => {
       ></DocumentActions>
       <Button
         className={styles.hoverVisible}
-        onClick={(e) => {
-          e.stopPropagation();
-          triggerCreateDocument({ wikiId: node.wikiId, documentId: node.id });
-        }}
+        onClick={createDocument}
         type="tertiary"
         theme="borderless"
         icon={<IconPlus />}
@@ -70,6 +75,8 @@ const AddDocument = () => {
 
 let scrollTimer;
 
+const inheritColorStyle = { color: 'inherit' };
+
 export const _Tree = ({ data, docAsLink, getDocLink, isShareMode = false, needAddDocument = false }) => {
   const { query } = useRouter();
   const $container = useRef<HTMLDivElement>(null);
@@ -92,7 +99,7 @@ export const _Tree = ({ data, docAsLink, getDocLink, isShareMode = false, needAd
               ellipsis={{
                 showTooltip: { opts: { content: label, style: { wordBreak: 'break-all' }, position: 'right' } },
               }}
-              style={{ color: 'inherit' }}
+              style={inheritColorStyle}
             >
               {label}
             </Typography.Text>
@@ -128,7 +135,7 @@ export const _Tree = ({ data, docAsLink, getDocLink, isShareMode = false, needAd
         value={query.documentId}
         defaultExpandedKeys={expandedKeys}
         expandedKeys={expandedKeys}
-        onExpand={(expandedKeys) => setExpandedKeys(expandedKeys)}
+        onExpand={setExpandedKeys}
       />
       {needAddDocument && <AddDocument />}
     </div>

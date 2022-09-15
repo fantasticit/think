@@ -1,6 +1,5 @@
 import { Banner, Button, Toast, Tree, Typography } from '@douyinfe/semi-ui';
 import { DataRender } from 'components/data-render';
-import { Resizeable } from 'components/resizeable';
 import { useWikiTocs } from 'data/wiki';
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -18,7 +17,7 @@ interface IDataNode {
   children?: Array<IDataNode>;
 }
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const extractRelation = (treeData: Array<IDataNode>) => {
   const res = [];
@@ -40,6 +39,8 @@ const extractRelation = (treeData: Array<IDataNode>) => {
 
   return res;
 };
+
+const marginBottomStyle = { marginBottom: 16 };
 
 export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
   const { data: tocs, loading: tocsLoading, error: tocsError, update: updateTocs } = useWikiTocs(wikiId);
@@ -105,6 +106,10 @@ export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
     [treeData]
   );
 
+  const renderNorContent = useCallback(() => {
+    return <Tree treeData={treeData} draggable onDrop={onDrop} expandAll />;
+  }, [treeData, onDrop]);
+
   const submit = useCallback(() => {
     const data = extractRelation(treeData);
     updateTocs(data).then(() => {
@@ -121,16 +126,10 @@ export const WikiTocsManager: React.FC<IProps> = ({ wikiId }) => {
         icon={null}
         closeIcon={null}
         description={<Text>在下方进行拖拽以重新整理目录结构</Text>}
-        style={{ marginBottom: 16 }}
+        style={marginBottomStyle}
       />
       <div className={styles.tocsWrap}>
-        <DataRender
-          loading={tocsLoading}
-          error={tocsError}
-          normalContent={() => {
-            return <Tree treeData={treeData} draggable onDrop={onDrop} expandAll />;
-          }}
-        />
+        <DataRender loading={tocsLoading} error={tocsError} normalContent={renderNorContent} />
       </div>
       <div className={styles.btnWrap}>
         <Button disabled={!changed} onClick={submit} theme="solid">

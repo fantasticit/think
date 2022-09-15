@@ -31,16 +31,19 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
   const [selectedVersion, setSelectedVersion] = useState(null);
   const [diffVersion, setDiffVersion] = useState(null);
 
-  const editor = useEditor({
-    editable: false,
-    editorProps: {
-      attributes: {
-        class: 'is-editable',
+  const editor = useEditor(
+    {
+      editable: false,
+      editorProps: {
+        attributes: {
+          class: 'is-editable',
+        },
       },
+      extensions: CollaborationKit,
+      content: { type: 'doc', content: [] },
     },
-    extensions: CollaborationKit,
-    content: { type: 'doc', content: [] },
-  });
+    []
+  );
 
   const close = useCallback(() => {
     toggleVisible(false);

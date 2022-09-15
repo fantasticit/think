@@ -22,10 +22,13 @@ interface IProps {
 
 const { Text } = Typography;
 
+const defaultGetDocLink = (document) =>
+  `/app/org/${document.organizationId}/wiki/${document.wikiId}/doc/${document.id}`;
+
 export const WikiTocs: React.FC<IProps> = ({
   wikiId,
   docAsLink = '/app/org/[organizationId]/wiki/[wikiId]/doc/[documentId]',
-  getDocLink = (document) => `/app/org/${document.organizationId}/wiki/${document.wikiId}/doc/${document.id}`,
+  getDocLink = defaultGetDocLink,
 }) => {
   const { pathname, query } = useRouter();
   const { data: wiki, loading: wikiLoading, error: wikiError } = useWikiDetail(wikiId);
@@ -129,7 +132,9 @@ export const WikiTocs: React.FC<IProps> = ({
                     </Avatar>
                     <Text strong>{wiki.name}</Text>
                   </span>
-                  <IconSmallTriangleDown />
+                  <Text>
+                    <IconSmallTriangleDown />
+                  </Text>
                 </div>
               </Dropdown>
             ) : (
