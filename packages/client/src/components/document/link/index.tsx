@@ -14,6 +14,8 @@ interface IProps {
 
 const { Text } = Typography;
 
+const style = { cursor: 'pointer' };
+
 export const DocumentLinkCopyer: React.FC<IProps> = ({ organizationId, wikiId, documentId, render }) => {
   const handle = useCallback(() => {
     copy(buildUrl(`/app/org/${organizationId}/wiki/${wikiId}/doc/${documentId}`));
@@ -29,7 +31,7 @@ export const DocumentLinkCopyer: React.FC<IProps> = ({ organizationId, wikiId, d
   return render ? (
     <>{render({ copy: handle, children: content })}</>
   ) : (
-    <Text onClick={handle} style={{ cursor: 'pointer' }}>
+    <Text onClick={handle} style={style}>
       {content}
     </Text>
   );

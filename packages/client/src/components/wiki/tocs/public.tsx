@@ -22,11 +22,13 @@ interface IProps {
 
 const { Text } = Typography;
 
+const defaultGetDocLink = (document) => `/share/wiki/${document.wikiId}/document/${document.id}`;
+
 export const WikiPublicTocs: React.FC<IProps> = ({
   pageTitle,
   wikiId,
   docAsLink = '/share/wiki/[wikiId]/document/[documentId]',
-  getDocLink = (document) => `/share/wiki/${document.wikiId}/document/${document.id}`,
+  getDocLink = defaultGetDocLink,
 }) => {
   const { pathname } = useRouter();
   const { data: wiki, loading: wikiLoading, error: wikiError } = usePublicWikiDetail(wikiId);

@@ -94,7 +94,7 @@ export const Import: React.FC<IProps> = ({ wikiId }) => {
     <div style={{ marginTop: 16 }}>
       <Upload
         action=""
-        accept="text/markdown"
+        accept=".md,.MD,.Md,.mD"
         draggable
         multiple
         ref={$upload}

@@ -9,7 +9,6 @@ import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
 import { User } from 'components/user';
 import { usePublicDocumentDetail } from 'data/document';
-import { useDocumentStyle } from 'hooks/use-document-style';
 import { useMount } from 'hooks/use-mount';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
@@ -38,12 +37,8 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
   const mounted = useMount();
   const { wikiId: currentWikiId } = useRouterQuery<{ wikiId: IWiki['id']; documentId: IDocument['id'] }>();
   const { data, loading, error, query } = usePublicDocumentDetail(documentId);
-  const { width, fontSize } = useDocumentStyle();
   const { isMobile } = IsOnMobile.useHook();
-  const editorWrapClassNames = useMemo(() => {
-    return width === 'standardWidth' ? styles.isStandardWidth : styles.isFullWidth;
-  }, [width]);
-
+ 
   const renderAuthor = useCallback(
     (element) => {
       if (!document) return null;

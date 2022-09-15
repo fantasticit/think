@@ -11,7 +11,7 @@ import { HttpClient } from 'services/http-client';
  */
 export const useCreateOrganization = () => {
   const [apiWithLoading, loading] = useAsyncLoading((data) =>
-    HttpClient.request({
+    HttpClient.request<IOrganization>({
       method: OrganizationApiDefinition.createOrganization.method,
       url: OrganizationApiDefinition.createOrganization.client(),
       data,

@@ -74,11 +74,14 @@ export const DocumentFullscreen: React.FC<IProps> = ({ data }) => {
   const [isDrawing, toggleDrawing] = useToggle(false);
   const [cover, setCover] = useState('');
 
-  const editor = useEditor({
-    editable: false,
-    extensions: CollaborationKit.filter((ext) => ['title', 'doc'].indexOf(ext.name) < 0).concat(Document),
-    content: { type: 'doc', content: [] },
-  });
+  const editor = useEditor(
+    {
+      editable: false,
+      extensions: CollaborationKit.filter((ext) => ['title', 'doc'].indexOf(ext.name) < 0).concat(Document),
+      content: { type: 'doc', content: [] },
+    },
+    []
+  );
 
   const startPowerpoint = useCallback(() => {
     toggleVisible(true);

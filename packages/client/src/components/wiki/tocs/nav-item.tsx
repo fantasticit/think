@@ -18,6 +18,8 @@ interface IProps {
   openNewTab?: boolean;
 }
 
+const marginTopStyle = { marginTop: 4 };
+
 export const NavItem: React.FC<IProps> = ({
   icon,
   text,
@@ -38,7 +40,7 @@ export const NavItem: React.FC<IProps> = ({
   return (
     <div
       className={cls(styles.navItemWrap, isActive && styles.isActive, hoverable && styles.hoverable)}
-      style={{ marginTop: 4 }}
+      style={marginTopStyle}
     >
       {href ? (
         <Link href={href as UrlObject}>

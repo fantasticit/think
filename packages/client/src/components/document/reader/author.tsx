@@ -8,18 +8,18 @@ interface IProps {
   document: IDocument;
 }
 
+const style = {
+  borderTop: '1px solid var(--semi-color-border)',
+  marginTop: '0.75em',
+  padding: '16px 0',
+  fontSize: 13,
+  fontWeight: 'normal',
+  color: 'var(--semi-color-text-0)',
+};
+
 export const Author: React.FC<IProps> = ({ document }) => {
   return (
-    <div
-      style={{
-        borderTop: '1px solid var(--semi-color-border)',
-        marginTop: '0.75em',
-        padding: '16px 0',
-        fontSize: 13,
-        fontWeight: 'normal',
-        color: 'var(--semi-color-text-0)',
-      }}
-    >
+    <div style={style}>
       <Space>
         <Avatar size="small" src={document && document.createUser && document.createUser.avatar}>
           <IconUser />

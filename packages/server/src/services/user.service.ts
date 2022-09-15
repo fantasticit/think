@@ -253,7 +253,7 @@ export class UserService {
     const currentSystemConfig = await this.systemService.getConfigFromDatabase();
     const oldData = await this.userRepo.findOne(user.id);
 
-    if (oldData.email !== dto.email) {
+    if (oldData && dto && oldData.email !== dto.email) {
       if (await this.userRepo.findOne({ where: { email: dto.email } })) {
         throw new HttpException('该邮箱已被注册', HttpStatus.BAD_REQUEST);
       }

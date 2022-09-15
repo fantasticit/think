@@ -319,7 +319,7 @@ export const useWikiDocuments = (wikiId) => {
 export const getWikiMembers = (
   wikiId,
   page,
-  pageSize,
+  pageSize = 12,
   cookie = null
 ): Promise<{ data: Array<{ auth: IAuth; user: IUser }>; total: number }> => {
   return HttpClient.request({
