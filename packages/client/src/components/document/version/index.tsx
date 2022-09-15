@@ -126,8 +126,8 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
                 </Select>
                 <div style={{ paddingLeft: '8px' }}>对比</div>
                 <Space style={{ marginLeft: 12 }}>
-                  <Tag style={{ backgroundColor: '#e9ffe9' }}>增加的内容</Tag>
-                  <Tag style={{ backgroundColor: '#ffeaea' }}>删除的内容</Tag>
+                  <Tag style={{ backgroundColor: '#e9ffe9', color: '#333' }}>增加的内容</Tag>
+                  <Tag style={{ backgroundColor: '#ffeaea', color: '#333' }}>删除的内容</Tag>
                 </Space>
               </div>
             )}
@@ -156,8 +156,8 @@ export const DocumentVersion: React.FC<Partial<IProps>> = ({ documentId, onSelec
           empty={!loading && !data.length}
           normalContent={() => (
             <div className={styles.contentWrap}>
-              <main className={cls('container', isMobile && styles.isMobile)}>
-                <div>
+              <main className={cls(isMobile && styles.isMobile)}>
+                <div className="container">
                   {diffVersion ? (
                     <div id="diff-visual" className="ProseMirror"></div>
                   ) : (

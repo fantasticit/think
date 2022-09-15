@@ -62,7 +62,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         {document && (
           <DocumentActions organizationId={document.organizationId} wikiId={document.wikiId} documentId={documentId} />
         )}
-        <DocumentVersion documentId={documentId} onSelect={triggerUseDocumentVersion} />
+        <DocumentVersion key={'edit'} documentId={documentId} onSelect={triggerUseDocumentVersion} />
       </Space>
     ),
     [documentId, document, authority]
