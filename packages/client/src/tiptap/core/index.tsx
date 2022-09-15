@@ -26,7 +26,9 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     options.editorProps = options.editorProps || {};
 
     if (options.editable) {
-      options.editorProps.attributes = options.editorProps.attributes || {};
+      options.editorProps.attributes = options.editorProps.attributes || {
+        spellcheck: 'false',
+      };
       // @ts-ignore
       options.editorProps.attributes.class = options.editorProps.attributes.class || '';
       // @ts-ignore
@@ -41,7 +43,7 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
       instance.on(
         'update',
         throttle(() => {
-          instance.chain().focus().scrollIntoView().run();
+          // instance.chain().focus().scrollIntoView().run();
         }, 200)
       );
     }
