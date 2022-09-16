@@ -7,6 +7,7 @@ import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { Countdown } from 'tiptap/core/extensions/countdown';
 import { DocumentChildren } from 'tiptap/core/extensions/document-children';
 import { DocumentReference } from 'tiptap/core/extensions/document-reference';
+import { Excalidraw } from 'tiptap/core/extensions/excalidraw';
 import { Flow } from 'tiptap/core/extensions/flow';
 import { HorizontalRule } from 'tiptap/core/extensions/horizontal-rule';
 import { Iframe } from 'tiptap/core/extensions/iframe';
@@ -47,6 +48,7 @@ const OTHER_BUBBLE_MENU_TYPES = [
   Katex.name,
   HorizontalRule.name,
   Status.name,
+  Excalidraw.name,
 ];
 
 export const Text = ({ editor }) => {
