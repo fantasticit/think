@@ -9,10 +9,10 @@ import { htmlToProsemirror as mdHTMLToProsemirror } from '../markdown-to-prosemi
  * @param defaultTitle 优先作为文档标题，否则默认读取一个 heading 或者 paragraph 的文字内容
  * @returns
  */
-export const htmlToProsemirror = ({ schema, html, needTitle, defaultTitle = '' }) => {
+export const htmlToProsemirror = ({ editor, schema, html, needTitle, defaultTitle = '' }) => {
   const parser = new DOMParser();
   const { body } = parser.parseFromString(extractImage(html), 'text/html');
   body.append(document.createComment(html));
-  const doc = mdHTMLToProsemirror(body, needTitle, defaultTitle);
+  const doc = mdHTMLToProsemirror(editor, body, needTitle, defaultTitle);
   return doc;
 };

@@ -1,8 +1,8 @@
 import { Node } from './node';
 
 export class ListItem extends Node {
-  constructor(DomNode) {
-    super(DomNode);
+  constructor(editor, DomNode) {
+    super(editor, DomNode);
     this.wrapper = {
       type: 'paragraph',
     };
