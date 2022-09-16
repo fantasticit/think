@@ -154,7 +154,7 @@ export const Paste = Extension.create<IPasteOptions>({
               return true;
             }
 
-            // FIXME：各家 office 套件标准不一样，是否需要做成用户自行选择粘贴 html 或者 图片？
+            // TODO：各家 office 套件标准不一样，是否需要做成用户自行选择粘贴 html 或者 图片？
             if (html?.includes('urn:schemas-microsoft-com:office') || html?.includes('</table>')) {
               const doc = htmlToProsemirror({
                 schema: editor.schema,
@@ -212,7 +212,7 @@ export const Paste = Extension.create<IPasteOptions>({
               event.preventDefault();
               const { tr } = view.state;
               tr.replaceSelectionWith(view.state.schema.nodes.codeBlock.create({ language: pasteCodeLanguage }));
-              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))));
+              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 1))));
               tr.insertText(text.replace(/\r\n?/g, '\n'));
               tr.setMeta('paste', true);
               view.dispatch(tr);
@@ -220,7 +220,7 @@ export const Paste = Extension.create<IPasteOptions>({
             }
 
             // 处理 markdown
-            if (markdownText || isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
+            if (markdownText || isMarkdown(text)) {
               event.preventDefault();
               const schema = view.props.state.schema;
               const doc = markdownToProsemirror({
@@ -237,10 +237,6 @@ export const Paste = Extension.create<IPasteOptions>({
               });
               view.dispatch(tr.scrollIntoView());
               return true;
-            }
-
-            if (text.length !== 0) {
-              return insertText(view, text);
             }
 
             return false;
