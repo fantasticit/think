@@ -25,7 +25,7 @@ export const extractImage = (html) => {
 };
 
 // 将 markdown 字符串转换为 ProseMirror JSONDocument
-export const markdownToProsemirror = ({ schema, content, needTitle, defaultTitle = '' }) => {
+export const markdownToProsemirror = ({ editor, schema, content, needTitle, defaultTitle = '' }) => {
   const html = markdownToHTML(content);
 
   if (!html) return null;
@@ -33,7 +33,7 @@ export const markdownToProsemirror = ({ schema, content, needTitle, defaultTitle
   const parser = new DOMParser();
   const { body } = parser.parseFromString(extractImage(html), 'text/html');
   body.append(document.createComment(content));
-  const node = htmlToProsemirror(body, needTitle, defaultTitle);
+  const node = htmlToProsemirror(editor, body, needTitle, defaultTitle);
 
   return node;
 };

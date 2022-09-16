@@ -1,7 +1,5 @@
 import { Renderer } from './renderer';
 
-const renderer = new Renderer();
-
 /**
  * 表格的内容格式不正确，需要进行过滤修复
  * @param doc
@@ -56,7 +54,8 @@ function fixNode(doc) {
  * @param defaultTitle 优先作为文档标题，否则默认读取一个 heading 或者 paragraph 的文字内容
  * @returns
  */
-export const htmlToProsemirror = (body, needTitle = false, defaultTitle = '') => {
+export const htmlToProsemirror = (editor, body, needTitle = false, defaultTitle = '') => {
+  let renderer = new Renderer(editor);
   const json = renderer.render(body);
 
   // 设置标题
@@ -103,5 +102,7 @@ export const htmlToProsemirror = (body, needTitle = false, defaultTitle = '') =>
   }
 
   fixNode(result);
+
+  renderer = null;
   return result;
 };

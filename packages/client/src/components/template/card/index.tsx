@@ -21,6 +21,17 @@ export interface IProps {
   onClosePreview?: () => void;
 }
 
+const bodyStyle = {
+  overflow: 'auto',
+};
+const titleContainerStyle = {
+  marginBottom: 12,
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+} as React.CSSProperties;
+const flexStyle = { display: 'flex' };
+
 export const TemplateCard: React.FC<IProps> = ({
   template,
   onClick,
@@ -35,26 +46,35 @@ export const TemplateCard: React.FC<IProps> = ({
     Router.push(`/template/${template.id}/`);
   }, [template]);
 
+  const cancel = useCallback(() => {
+    toggleVisible(false);
+    onClosePreview && onClosePreview();
+  }, [toggleVisible, onClosePreview]);
+
+  const preview = useCallback(() => {
+    toggleVisible(true);
+    onOpenPreview && onOpenPreview();
+  }, [toggleVisible, onOpenPreview]);
+
+  const useTemplate = useCallback(() => {
+    onClick && onClick(template.id);
+  }, [onClick, template.id]);
+
   return (
     <>
       <Modal
         title="模板预览"
         width={'calc(100vh - 120px)'}
         height={'calc(100vh - 120px)'}
-        bodyStyle={{
-          overflow: 'auto',
-        }}
+        bodyStyle={bodyStyle}
         visible={visible}
-        onCancel={() => {
-          toggleVisible(false);
-          onClosePreview && onClosePreview();
-        }}
+        onCancel={cancel}
         footer={null}
         fullScreen
       >
         <TemplateReader key={template.id} templateId={template.id} />
       </Modal>
-      <div className={cls(styles.cardWrap, getClassNames(template.id))}>
+      <div className={cls(styles.cardWrap, getClassNames(template.id))} onClick={useTemplate}>
         <header>
           <IconDocument />
           <div className={styles.rightWrap}>
@@ -68,14 +88,7 @@ export const TemplateCard: React.FC<IProps> = ({
           </div>
         </header>
         <main>
-          <div
-            style={{
-              marginBottom: 12,
-              whiteSpace: 'nowrap',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-            }}
-          >
+          <div style={titleContainerStyle}>
             <Text strong>{template.title}</Text>
           </div>
           <div>
@@ -92,28 +105,16 @@ export const TemplateCard: React.FC<IProps> = ({
         </main>
         <footer>
           <Text type="tertiary" size="small">
-            <div style={{ display: 'flex' }}>
+            <div style={flexStyle}>
               已使用
               {template.usageAmount}次
             </div>
           </Text>
         </footer>
         <div className={styles.actions}>
-          <Button
-            theme="solid"
-            type="tertiary"
-            onClick={() => {
-              toggleVisible(true);
-              onOpenPreview && onOpenPreview();
-            }}
-          >
+          <Button theme="solid" type="tertiary" onClick={preview}>
             预览
           </Button>
-          {onClick && (
-            <Button type="primary" theme="solid" onClick={() => onClick && onClick(template.id)}>
-              使用
-            </Button>
-          )}
         </div>
       </div>
     </>

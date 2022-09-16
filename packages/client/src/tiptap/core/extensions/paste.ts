@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core';
+import { Editor as CoreEditor, Extension } from '@tiptap/core';
 import { safeJSONParse } from 'helpers/json';
 import { toggleMark } from 'prosemirror-commands';
 import { DOMParser, Fragment, Node, Schema } from 'prosemirror-model';
@@ -53,7 +53,13 @@ interface IPasteOptions {
    *
    * 将 html 转换为 prosemirror
    */
-  htmlToProsemirror: (arg: { schema: Schema; html: string; needTitle: boolean; defaultTitle?: string }) => Node;
+  htmlToProsemirror: (arg: {
+    editor: CoreEditor;
+    schema: Schema;
+    html: string;
+    needTitle: boolean;
+    defaultTitle?: string;
+  }) => Node;
 
   /**
    * 将 markdown 转换为 html
@@ -63,7 +69,7 @@ interface IPasteOptions {
   /**
    * 将 markdown 转换为 prosemirror 节点
    */
-  markdownToProsemirror: (arg: { schema: Schema; content: string; needTitle: boolean }) => Node;
+  markdownToProsemirror: (arg: { editor: CoreEditor; schema: Schema; content: string; needTitle: boolean }) => Node;
 
   /**
    * 将 prosemirror 转换为 markdown
@@ -119,12 +125,6 @@ export const Paste = Extension.create<IPasteOptions>({
               console.groupEnd();
             });
 
-            if (isInTitle(view.state)) {
-              if (text.length) {
-                return insertText(view, text);
-              }
-            }
-
             // 直接复制节点
             if (node) {
               const json = safeJSONParse(node);
@@ -154,9 +154,10 @@ export const Paste = Extension.create<IPasteOptions>({
               return true;
             }
 
-            // FIXME：各家 office 套件标准不一样，是否需要做成用户自行选择粘贴 html 或者 图片？
+            // TODO：各家 office 套件标准不一样，是否需要做成用户自行选择粘贴 html 或者 图片？
             if (html?.includes('urn:schemas-microsoft-com:office') || html?.includes('</table>')) {
               const doc = htmlToProsemirror({
+                editor,
                 schema: editor.schema,
                 html,
                 needTitle: hasTitleExtension && !hasTitle,
@@ -212,7 +213,7 @@ export const Paste = Extension.create<IPasteOptions>({
               event.preventDefault();
               const { tr } = view.state;
               tr.replaceSelectionWith(view.state.schema.nodes.codeBlock.create({ language: pasteCodeLanguage }));
-              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))));
+              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 1))));
               tr.insertText(text.replace(/\r\n?/g, '\n'));
               tr.setMeta('paste', true);
               view.dispatch(tr);
@@ -220,10 +221,12 @@ export const Paste = Extension.create<IPasteOptions>({
             }
 
             // 处理 markdown
-            if (markdownText || isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
+            if (markdownText || isMarkdown(text)) {
+              console.log(text);
               event.preventDefault();
               const schema = view.props.state.schema;
               const doc = markdownToProsemirror({
+                editor,
                 schema,
                 content: normalizeMarkdown(markdownText || text),
                 needTitle: hasTitleExtension && !hasTitle,
@@ -239,8 +242,10 @@ export const Paste = Extension.create<IPasteOptions>({
               return true;
             }
 
-            if (text.length !== 0) {
-              return insertText(view, text);
+            if (isInTitle(view.state)) {
+              if (text.length) {
+                return insertText(view, text);
+              }
             }
 
             return false;
