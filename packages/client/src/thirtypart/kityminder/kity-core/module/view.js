@@ -164,7 +164,7 @@ define(function (require, exports, module) {
 
             // 当前偏移加上历史偏移
             var offset = kity.Vector.fromPoints(lastPosition, currentPosition);
-            dragger.move(offset);
+            // dragger.move(offset);
             e.stopPropagation();
             e.preventDefault();
             e.originEvent.preventDefault();
@@ -308,10 +308,10 @@ define(function (require, exports, module) {
             dy = e.wheelDelta;
           }
 
-          this._viewDragger.move({
-            x: dx / 2.5,
-            y: dy / 2.5,
-          });
+          // this._viewDragger.move({
+          //   x: dx / 2.5,
+          //   y: dy / 2.5,
+          // });
 
           var me = this;
           clearTimeout(this._mousewheeltimer);
