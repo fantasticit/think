@@ -53,7 +53,7 @@ export const ResetPassword = ({ onSuccess }) => {
 
   return (
     <Form
-      initValues={{ email: user.email, password: '', confirmPassword: '' }}
+      initValues={{ email: user ? user.email : '', password: '', confirmPassword: '' }}
       onChange={onFormChange}
       onSubmit={onFinish}
     >
