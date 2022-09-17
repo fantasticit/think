@@ -28,6 +28,14 @@ interface IProps {
   documentId: string;
 }
 
+const ErrorContent = () => {
+  return (
+    <div style={{ margin: '10vh', textAlign: 'center' }}>
+      <SecureDocumentIllustration />
+    </div>
+  );
+};
+
 export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   const { isMobile } = IsOnMobile.useHook();
   const { width: windowWith } = useWindowSize();
@@ -84,9 +92,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
           mode="horizontal"
           header={
             <>
-              <Tooltip content="返回" position="bottom">
-                <Button onMouseDown={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
-              </Tooltip>
+              <Button onMouseDown={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
               <DataRender
                 loading={docAuthLoading}
                 error={docAuthError}
@@ -125,13 +131,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         <DataRender
           loading={docAuthLoading}
           error={docAuthError}
-          errorContent={() => {
-            return (
-              <div style={{ margin: '10vh', textAlign: 'center' }}>
-                <SecureDocumentIllustration />
-              </div>
-            );
-          }}
+          errorContent={<ErrorContent />}
           normalContent={() => {
             return (
               <>

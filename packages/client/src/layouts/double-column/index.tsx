@@ -16,6 +16,8 @@ interface IProps {
   rightNode: React.ReactNode;
 }
 
+const style = { width: '100%', height: '100%' };
+
 export const DoubleColumnLayout: React.FC<IProps> = ({ leftNode, rightNode }) => {
   const { minWidth, maxWidth, width, isCollapsed, updateWidth, toggleCollapsed } = useDragableWidth();
   const debounceUpdate = useMemo(() => throttle(updateWidth, 200), [updateWidth]);
@@ -25,7 +27,7 @@ export const DoubleColumnLayout: React.FC<IProps> = ({ leftNode, rightNode }) =>
       <RouterHeader />
       <SemiLayout className={styles.contentWrap}>
         <SplitPane minSize={minWidth} maxSize={maxWidth} size={width} onChange={debounceUpdate}>
-          <Sider style={{ width: '100%', height: '100%' }} className={styles.leftWrap}>
+          <Sider style={style} className={styles.leftWrap}>
             <Button
               size="small"
               icon={isCollapsed ? <IconChevronRight /> : <IconChevronLeft />}

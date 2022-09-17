@@ -47,6 +47,36 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
   const copyMe = useCallback(() => copyNode(DocumentReference.name, editor), [editor]);
   const deleteMe = useCallback(() => deleteNode(DocumentReference.name, editor), [editor]);
 
+  const renderNormalContent = useCallback(
+    () => (
+      <List
+        size="small"
+        style={{ maxHeight: 320, overflow: 'auto' }}
+        dataSource={tocs}
+        renderItem={(item) => (
+          <List.Item
+            onClick={() => selectDoc(item)}
+            style={{ cursor: 'pointer' }}
+            main={
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Text style={{ display: 'flex', alignItems: 'center' }}>
+                  <IconDocument />
+                </Text>
+                <Text
+                  ellipsis={{ showTooltip: { opts: { content: item.title, position: 'right' } } }}
+                  style={{ width: 150, paddingLeft: 6 }}
+                >
+                  {item.title}
+                </Text>
+              </div>
+            }
+          />
+        )}
+      />
+    ),
+    [selectDoc, tocs]
+  );
+
   useEffect(() => {
     if (defaultShowPicker && user && createUser === user.id) {
       toggleVisible(true);
@@ -71,38 +101,7 @@ export const DocumentReferenceBubbleMenu = ({ editor }) => {
           spacing={15}
           visible={visible}
           onVisibleChange={toggleVisible}
-          content={
-            <DataRender
-              loading={loading}
-              error={error}
-              normalContent={() => (
-                <List
-                  size="small"
-                  style={{ maxHeight: 320, overflow: 'auto' }}
-                  dataSource={tocs}
-                  renderItem={(item) => (
-                    <List.Item
-                      onClick={() => selectDoc(item)}
-                      style={{ cursor: 'pointer' }}
-                      main={
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <Text style={{ display: 'flex', alignItems: 'center' }}>
-                            <IconDocument />
-                          </Text>
-                          <Text
-                            ellipsis={{ showTooltip: { opts: { content: item.title, position: 'right' } } }}
-                            style={{ width: 150, paddingLeft: 6 }}
-                          >
-                            {item.title}
-                          </Text>
-                        </div>
-                      }
-                    />
-                  )}
-                />
-              )}
-            />
-          }
+          content={<DataRender loading={loading} error={error} normalContent={renderNormalContent} />}
           trigger="click"
           position="bottomLeft"
           showArrow

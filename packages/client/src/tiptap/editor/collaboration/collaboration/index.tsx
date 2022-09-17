@@ -138,17 +138,7 @@ export const CollaborationEditor = forwardRef((props: ICollaborationEditorProps,
 
   return (
     <div className={styles.wrap}>
-      <DataRender
-        loading={loading}
-        loadingContent={
-          <div style={{ margin: 'auto' }}>
-            <Spin />
-          </div>
-        }
-        error={error}
-        errorContent={renderError}
-        normalContent={renderEditor}
-      />
+      <DataRender loading={loading} error={error} errorContent={renderError} normalContent={renderEditor} />
     </div>
   );
 });

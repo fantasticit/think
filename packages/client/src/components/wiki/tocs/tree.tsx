@@ -136,6 +136,7 @@ export const _Tree = ({ data, docAsLink, getDocLink, isShareMode = false, needAd
         defaultExpandedKeys={expandedKeys}
         expandedKeys={expandedKeys}
         onExpand={setExpandedKeys}
+        motion={false}
       />
       {needAddDocument && <AddDocument />}
     </div>

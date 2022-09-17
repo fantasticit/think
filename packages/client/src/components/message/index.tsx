@@ -8,7 +8,7 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import { EmptyBoxIllustration } from 'illustrations/empty-box';
 import Link from 'next/link';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import styles from './index.module.scss';
 import { Placeholder } from './placeholder';
@@ -17,72 +17,74 @@ const { Text } = Typography;
 const PAGE_SIZE = 6;
 
 const MessagesRender = ({ messageData, loading, error, onClick = null, page = 1, onPageChange = null }) => {
-  const total = (messageData && messageData.total) || 0;
-  const messages = (messageData && messageData.data) || [];
+  const [messages, total] = useMemo(
+    () => [(messageData && messageData.data) || [], (messageData && messageData.total) || 0],
+    [messageData]
+  );
 
-  const handleRead = (messageId) => {
-    onClick && onClick(messageId);
-  };
+  const handleRead = useCallback(
+    (messageId) => {
+      onClick && onClick(messageId);
+    },
+    [onClick]
+  );
+
+  const renderNormalContent = useCallback(() => {
+    return (
+      <div
+        className={styles.itemsWrap}
+        style={{ margin: '8px -16px', minHeight: 224 }}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
+        {messages.length ? (
+          <>
+            {messages.map((msg) => {
+              return (
+                <div key={msg.id} className={styles.itemWrap} onClick={() => handleRead(msg.id)}>
+                  <Link href={msg.url}>
+                    <a className={styles.item}>
+                      <div className={styles.leftWrap}>
+                        <Text
+                          ellipsis={{
+                            showTooltip: {
+                              opts: { content: msg.message },
+                            },
+                          }}
+                          style={{ width: 240 }}
+                        >
+                          {msg.title}
+                        </Text>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              );
+            })}
+            {total > PAGE_SIZE && (
+              <div className={styles.paginationWrap}>
+                <Pagination
+                  size="small"
+                  total={total}
+                  currentPage={page}
+                  pageSize={PAGE_SIZE}
+                  style={{ textAlign: 'center' }}
+                  onPageChange={onPageChange}
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <Empty illustration={<EmptyBoxIllustration />} message="暂无消息" />
+        )}
+      </div>
+    );
+  }, [handleRead, messages, onPageChange, page, total]);
 
   return (
-    <DataRender
-      loading={loading}
-      loadingContent={<Placeholder />}
-      error={error}
-      normalContent={() => {
-        return (
-          <div
-            className={styles.itemsWrap}
-            style={{ margin: '8px -16px', minHeight: 224 }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            {messages.length ? (
-              <>
-                {messages.map((msg) => {
-                  return (
-                    <div key={msg.id} className={styles.itemWrap} onClick={() => handleRead(msg.id)}>
-                      <Link href={msg.url}>
-                        <a className={styles.item}>
-                          <div className={styles.leftWrap}>
-                            <Text
-                              ellipsis={{
-                                showTooltip: {
-                                  opts: { content: msg.message },
-                                },
-                              }}
-                              style={{ width: 240 }}
-                            >
-                              {msg.title}
-                            </Text>
-                          </div>
-                        </a>
-                      </Link>
-                    </div>
-                  );
-                })}
-                {total > PAGE_SIZE && (
-                  <div className={styles.paginationWrap}>
-                    <Pagination
-                      size="small"
-                      total={total}
-                      currentPage={page}
-                      pageSize={PAGE_SIZE}
-                      style={{ textAlign: 'center' }}
-                      onPageChange={onPageChange}
-                    />
-                  </div>
-                )}
-              </>
-            ) : (
-              <Empty illustration={<EmptyBoxIllustration />} message="暂无消息" />
-            )}
-          </div>
-        );
-      }}
-    />
+    <DataRender loading={loading} loadingContent={<Placeholder />} error={error} normalContent={renderNormalContent} />
   );
 };
 
@@ -106,60 +108,83 @@ const MessageBox = () => {
     setPage: unreadSetPage,
   } = useUnreadMessages();
 
-  const clearAll = () => {
+  const clearAll = useCallback(() => {
     Promise.all(
       (unreadMsgs.data || []).map((msg) => {
         return readMessage(msg.id);
       })
     );
-  };
+  }, [readMessage, unreadMsgs]);
 
   const openModalOnMobile = useCallback(() => {
     if (!isMobile) return;
     toggleVisible(true);
   }, [isMobile, toggleVisible]);
 
-  const content = (
-    <Tabs
-      type="line"
-      size="small"
-      tabBarExtraContent={
-        unreadMsgs && unreadMsgs.total > 0 ? (
-          <Text type="quaternary" onClick={clearAll} style={{ cursor: 'pointer' }}>
-            全部已读
-          </Text>
-        ) : null
-      }
-    >
-      <TabPane tab="未读" itemKey="unread">
-        <MessagesRender
-          messageData={unreadMsgs}
-          loading={unreadLoading}
-          error={unreadError}
-          onClick={readMessage}
-          page={unreadPage}
-          onPageChange={unreadSetPage}
-        />
-      </TabPane>
-      <TabPane tab="已读" itemKey="read">
-        <MessagesRender
-          messageData={readMsgs}
-          loading={readLoading}
-          error={readError}
-          page={readPage}
-          onPageChange={readSetPage}
-        />
-      </TabPane>
-      <TabPane tab="全部" itemKey="all">
-        <MessagesRender
-          messageData={allMsgs}
-          loading={allLoading}
-          error={allError}
-          page={allPage}
-          onPageChange={allSetPage}
-        />
-      </TabPane>
-    </Tabs>
+  const content = useMemo(
+    () =>
+      visible ? (
+        <Tabs
+          type="line"
+          size="small"
+          tabBarExtraContent={
+            unreadMsgs && unreadMsgs.total > 0 ? (
+              <Text type="quaternary" onClick={clearAll} style={{ cursor: 'pointer' }}>
+                全部已读
+              </Text>
+            ) : null
+          }
+        >
+          <TabPane tab="未读" itemKey="unread">
+            <MessagesRender
+              messageData={unreadMsgs}
+              loading={unreadLoading}
+              error={unreadError}
+              onClick={readMessage}
+              page={unreadPage}
+              onPageChange={unreadSetPage}
+            />
+          </TabPane>
+          <TabPane tab="已读" itemKey="read">
+            <MessagesRender
+              messageData={readMsgs}
+              loading={readLoading}
+              error={readError}
+              page={readPage}
+              onPageChange={readSetPage}
+            />
+          </TabPane>
+          <TabPane tab="全部" itemKey="all">
+            <MessagesRender
+              messageData={allMsgs}
+              loading={allLoading}
+              error={allError}
+              page={allPage}
+              onPageChange={allSetPage}
+            />
+          </TabPane>
+        </Tabs>
+      ) : null,
+    [
+      allError,
+      allLoading,
+      allMsgs,
+      allPage,
+      allSetPage,
+      clearAll,
+      readError,
+      readLoading,
+      readMessage,
+      readMsgs,
+      readPage,
+      readSetPage,
+      unreadError,
+      unreadLoading,
+      unreadMsgs,
+      unreadPage,
+      unreadSetPage,
+      visible,
+    ]
   );
 
   const btn = (
@@ -197,6 +222,8 @@ const MessageBox = () => {
         </>
       ) : (
         <Dropdown
+          visible={visible}
+          onVisibleChange={toggleVisible}
           position="bottomRight"
           trigger="click"
           content={<div style={{ width: 300, padding: '16px 16px 0' }}>{content}</div>}
@@ -210,5 +237,8 @@ const MessageBox = () => {
 
 export const Message = () => {
   const { loading, error } = useUser();
-  return <DataRender loading={loading} error={error} normalContent={() => <MessageBox />} />;
+
+  const renderNormalContent = useCallback(() => <MessageBox />, []);
+
+  return <DataRender loading={loading} error={error} normalContent={renderNormalContent} />;
 };

@@ -132,7 +132,10 @@ export class BubbleMenuView {
       trigger: 'manual',
       placement: 'top',
       hideOnClick: 'toggle',
-      ...Object.assign({ zIndex: 999 }, this.tippyOptions),
+      ...Object.assign(
+        { zIndex: 999, duration: 200, animation: 'shift-toward-subtle', moveTransition: 'transform 0.2s ease-in-out' },
+        this.tippyOptions
+      ),
     });
 
     // maybe we have to hide tippy on its own blur event as well
