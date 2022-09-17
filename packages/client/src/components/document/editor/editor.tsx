@@ -23,6 +23,7 @@ export const Editor: React.FC<IProps> = ({ user: currentUser, documentId, author
       if (!editor) return;
       editor.commands.setContent(data);
     };
+
     event.on(USE_DOCUMENT_VERSION, handler);
 
     return () => {

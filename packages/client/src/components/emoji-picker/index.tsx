@@ -64,38 +64,44 @@ export const EmojiPicker: React.FC<IProps> = ({ showClear = false, onSelectEmoji
   }, [onSelectEmoji]);
 
   const content = useMemo(
-    () => (
-      <div className={styles.wrap}>
-        <Tabs
-          size="small"
-          lazyRender
-          keepDOM
-          tabBarExtraContent={
-            showClear ? (
-              <Button size="small" onClick={clear}>
-                清除
-              </Button>
-            ) : null
-          }
-          collapsible
-        >
-          {renderedList.map((list) => {
-            return (
-              <TabPane key={list.title} tab={list.title} itemKey={list.title} style={{ height: 250, overflow: 'auto' }}>
-                <div className={styles.listWrap}>
-                  {(list.data || []).map((ex) => (
-                    <div key={ex} onClick={() => selectEmoji(ex)}>
-                      {ex}
-                    </div>
-                  ))}
-                </div>
-              </TabPane>
-            );
-          })}
-        </Tabs>
-      </div>
-    ),
-    [showClear, renderedList, selectEmoji, clear]
+    () =>
+      !visible ? null : (
+        <div className={styles.wrap}>
+          <Tabs
+            size="small"
+            lazyRender
+            keepDOM
+            tabBarExtraContent={
+              showClear ? (
+                <Button size="small" onClick={clear}>
+                  清除
+                </Button>
+              ) : null
+            }
+            collapsible
+          >
+            {renderedList.map((list) => {
+              return (
+                <TabPane
+                  key={list.title}
+                  tab={list.title}
+                  itemKey={list.title}
+                  style={{ height: 250, overflow: 'auto' }}
+                >
+                  <div className={styles.listWrap}>
+                    {(list.data || []).map((ex) => (
+                      <div key={ex} onClick={() => selectEmoji(ex)}>
+                        {ex}
+                      </div>
+                    ))}
+                  </div>
+                </TabPane>
+              );
+            })}
+          </Tabs>
+        </div>
+      ),
+    [visible, showClear, renderedList, selectEmoji, clear]
   );
 
   useEffect(() => {

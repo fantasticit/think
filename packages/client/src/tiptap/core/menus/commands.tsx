@@ -63,7 +63,7 @@ export const COMMANDS: ICommand[] = [
     label: '表格',
     custom: (editor, runCommand) => (
       <Popover
-        key="table"
+        key="custom-table"
         showArrow
         position="rightTop"
         zIndex={10000}
@@ -93,7 +93,7 @@ export const COMMANDS: ICommand[] = [
     label: '布局',
     custom: (editor, runCommand) => (
       <Popover
-        key="table"
+        key="custom-columns"
         showArrow
         position="rightTop"
         zIndex={10000}

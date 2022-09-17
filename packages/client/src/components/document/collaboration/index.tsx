@@ -16,27 +16,40 @@ interface IProps {
 
 const { Text } = Typography;
 
+const mobileContainerStyle: React.CSSProperties = { maxWidth: '96vw', maxHeight: '60vh', overflow: 'auto' };
+
+const pcContainerStyle: React.CSSProperties = {
+  width: 412,
+  maxWidth: '96vw',
+  padding: '0 24px',
+  maxHeight: '60vh',
+  overflow: 'auto',
+};
+
 export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, disabled = false }) => {
   const { isMobile } = IsOnMobile.useHook();
   const toastedUsersRef = useRef([]);
   const { user: currentUser } = useUser();
   const [visible, toggleVisible] = useToggle(false);
   const [collaborationUsers, setCollaborationUsers] = useState([]);
+
   const content = useMemo(
-    () => (
-      <div style={{ padding: '24px 0' }}>
-        <Members
-          id={documentId}
-          hook={useDoumentMembers}
-          descriptions={[
-            '权限继承：默认继承知识库成员权限',
-            '超级管理员：组织超级管理员、知识库超级管理员和文档创建者',
-          ]}
-        />
-      </div>
-    ),
-    [documentId]
+    () =>
+      !visible ? null : (
+        <div style={{ padding: '24px 0' }}>
+          <Members
+            id={documentId}
+            hook={useDoumentMembers}
+            descriptions={[
+              '权限继承：默认继承知识库成员权限',
+              '超级管理员：组织超级管理员、知识库超级管理员和文档创建者',
+            ]}
+          />
+        </div>
+      ),
+    [visible, documentId]
   );
+
   const btn = useMemo(
     () => (
       <Button theme="borderless" type="tertiary" disabled={disabled} icon={<IconUserAdd />} onClick={toggleVisible} />
@@ -113,6 +126,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
           );
         })}
       </AvatarGroup>
+
       {isMobile ? (
         <>
           <Modal
@@ -121,7 +135,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
             visible={visible}
             footer={null}
             onCancel={toggleVisible}
-            style={{ maxWidth: '96vw', maxHeight: '60vh', overflow: 'auto' }}
+            style={mobileContainerStyle}
           >
             {content}
           </Modal>
@@ -134,19 +148,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
           onVisibleChange={toggleVisible}
           trigger="click"
           position="bottomRight"
-          content={
-            <div
-              style={{
-                width: 412,
-                maxWidth: '96vw',
-                padding: '0 24px',
-                maxHeight: '60vh',
-                overflow: 'auto',
-              }}
-            >
-              {content}
-            </div>
-          }
+          content={<div style={pcContainerStyle}>{content}</div>}
         >
           {btn}
         </Dropdown>

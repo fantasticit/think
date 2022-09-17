@@ -7,7 +7,7 @@ import { useStarWikisInOrganization } from 'data/star';
 import { useWikiDetail } from 'data/wiki';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import styles from './index.module.scss';
 import { Placeholder } from './placeholder';
@@ -23,6 +23,58 @@ const WikiContent = () => {
     refresh: refreshStarWikis,
   } = useStarWikisInOrganization(query.organizationId);
   const { data: currentWiki } = useWikiDetail(query.wikiId);
+
+  const renderNormalContent = useCallback(() => {
+    return (
+      <div className={styles.itemsWrap}>
+        {starWikis && starWikis.length ? (
+          starWikis.map((wiki) => {
+            return (
+              <div className={styles.itemWrap} key={wiki.id}>
+                <Link
+                  href={{
+                    pathname: '/app/org/[organizationId]/wiki/[wikiId]',
+                    query: {
+                      organizationId: wiki.organizationId,
+                      wikiId: wiki.id,
+                    },
+                  }}
+                >
+                  <a className={styles.item}>
+                    <div className={styles.leftWrap}>
+                      <Avatar
+                        shape="square"
+                        size="small"
+                        src={wiki.avatar}
+                        style={{
+                          marginRight: 8,
+                          width: 24,
+                          height: 24,
+                          borderRadius: 4,
+                        }}
+                      >
+                        {wiki.name.charAt(0)}
+                      </Avatar>
+                      <div>
+                        <Text ellipsis={{ showTooltip: true }} style={{ width: 180 }}>
+                          {wiki.name}
+                        </Text>
+                      </div>
+                    </div>
+                    <div className={styles.rightWrap}>
+                      <WikiStar organizationId={wiki.organizationId} wikiId={wiki.id} onChange={refreshStarWikis} />
+                    </div>
+                  </a>
+                </Link>
+              </div>
+            );
+          })
+        ) : (
+          <Empty message="收藏的知识库会出现在此处" />
+        )}
+      </div>
+    );
+  }, [refreshStarWikis, starWikis]);
 
   return (
     <>
@@ -85,61 +137,7 @@ const WikiContent = () => {
         loading={loading}
         loadingContent={<Placeholder />}
         error={error}
-        normalContent={() => {
-          return (
-            <div className={styles.itemsWrap}>
-              {starWikis && starWikis.length ? (
-                starWikis.map((wiki) => {
-                  return (
-                    <div className={styles.itemWrap} key={wiki.id}>
-                      <Link
-                        href={{
-                          pathname: '/app/org/[organizationId]/wiki/[wikiId]',
-                          query: {
-                            organizationId: wiki.organizationId,
-                            wikiId: wiki.id,
-                          },
-                        }}
-                      >
-                        <a className={styles.item}>
-                          <div className={styles.leftWrap}>
-                            <Avatar
-                              shape="square"
-                              size="small"
-                              src={wiki.avatar}
-                              style={{
-                                marginRight: 8,
-                                width: 24,
-                                height: 24,
-                                borderRadius: 4,
-                              }}
-                            >
-                              {wiki.name.charAt(0)}
-                            </Avatar>
-                            <div>
-                              <Text ellipsis={{ showTooltip: true }} style={{ width: 180 }}>
-                                {wiki.name}
-                              </Text>
-                            </div>
-                          </div>
-                          <div className={styles.rightWrap}>
-                            <WikiStar
-                              organizationId={wiki.organizationId}
-                              wikiId={wiki.id}
-                              onChange={refreshStarWikis}
-                            />
-                          </div>
-                        </a>
-                      </Link>
-                    </div>
-                  );
-                })
-              ) : (
-                <Empty message="收藏的知识库会出现在此处" />
-              )}
-            </div>
-          );
-        }}
+        normalContent={renderNormalContent}
       />
       <Dropdown.Divider />
       <div className={styles.itemWrap}>

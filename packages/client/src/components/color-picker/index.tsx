@@ -89,25 +89,26 @@ export const ColorPicker: React.FC<{
   const [visible, toggleVisible] = useToggle(false);
 
   const content = useMemo(
-    () => (
-      <div style={{ padding: isMobile ? '24px 0 24px' : '12px 16px', width: isMobile ? 'auto' : 272 }}>
-        <div className={styles.emptyWrap} onClick={() => onSetColor(null)}>
-          <span></span>
-          <Text>无颜色</Text>
-        </div>
+    () =>
+      !visible ? null : (
+        <div style={{ padding: isMobile ? '24px 0 24px' : '12px 16px', width: isMobile ? 'auto' : 272 }}>
+          <div className={styles.emptyWrap} onClick={() => onSetColor(null)}>
+            <span></span>
+            <Text>无颜色</Text>
+          </div>
 
-        <div className={styles.colorWrap}>
-          {colors.map((color) => {
-            return (
-              <div key={color} className={styles.colorItem} onClick={() => onSetColor(color)}>
-                <span style={{ backgroundColor: color }}></span>
-              </div>
-            );
-          })}
+          <div className={styles.colorWrap}>
+            {colors.map((color) => {
+              return (
+                <div key={color} className={styles.colorItem} onClick={() => onSetColor(color)}>
+                  <span style={{ backgroundColor: color }}></span>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    ),
-    [onSetColor, isMobile]
+      ),
+    [onSetColor, isMobile, visible]
   );
 
   if (disabled) return <span style={{ display: 'inline-block' }}>{children}</span>;
@@ -132,7 +133,14 @@ export const ColorPicker: React.FC<{
           </span>
         </>
       ) : (
-        <Dropdown zIndex={10000} trigger="click" position={'bottomLeft'} render={content}>
+        <Dropdown
+          visible={visible}
+          onVisibleChange={toggleVisible}
+          zIndex={10000}
+          trigger="click"
+          position={'bottomLeft'}
+          render={content}
+        >
           <span style={{ display: 'inline-block' }}>{children}</span>
         </Dropdown>
       )}

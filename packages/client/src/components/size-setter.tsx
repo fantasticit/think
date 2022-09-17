@@ -11,6 +11,9 @@ interface IProps {
   onOk: (arg: ISize) => void;
 }
 
+const containerStyle = { padding: '0 12px 12px' };
+const inlineBlockStyle = { display: 'inline-block' };
+
 export const SizeSetter: React.FC<IProps> = ({ width, maxWidth, height, onOk, children }) => {
   const $form = useRef<FormApi>();
 
@@ -27,7 +30,7 @@ export const SizeSetter: React.FC<IProps> = ({ width, maxWidth, height, onOk, ch
       position={'bottomLeft'}
       spacing={10}
       render={
-        <div style={{ padding: '0 12px 12px' }}>
+        <div style={containerStyle}>
           <Form initValues={{ width, height }} getFormApi={(formApi) => ($form.current = formApi)} labelPosition="left">
             <Form.Input autofocus label="宽" field="width" {...(maxWidth ? { max: maxWidth } : {})} />
             <Form.Input label="高" field="height" />
@@ -38,7 +41,7 @@ export const SizeSetter: React.FC<IProps> = ({ width, maxWidth, height, onOk, ch
         </div>
       }
     >
-      <span style={{ display: 'inline-block' }}>{children}</span>
+      <span style={inlineBlockStyle}>{children}</span>
     </Dropdown>
   );
 };
