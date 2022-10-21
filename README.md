@@ -19,7 +19,7 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 
 欢迎进群交流。
 
-<img width="300" alt="image" src="https://user-images.githubusercontent.com/26452939/190644688-7948d18a-ef41-44a3-9e5d-60be45471316.jpeg">
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/26452939/197230233-db13ca5b-7042-4471-ba0e-c00c4f6b8daf.PNG">
 
 ## 预览
 
