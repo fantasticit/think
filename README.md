@@ -4,6 +4,8 @@
 
 在工作的业余时间思考重构编辑器中，将来会开源发布编辑器独立版本，并迁移到本项目中，敬请期待。
 
+[独立编辑器预览链接](https://fantasticit.github.io/editor-preview/index.html?path=/story/editor--default-editor)
+
 ## 简介
 
 Think 是一款开源知识管理工具。通过独立的知识库空间，结构化地组织在线协作文档，实现知识的积累与沉淀，促进知识的复用与流通。同时支持多人协作文档。使用的技术如下：
