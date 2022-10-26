@@ -2,9 +2,9 @@
 
 ## 最近
 
-在工作的业余时间思考重构编辑器中，将来会开源发布编辑器独立版本，并迁移到本项目中，敬请期待。
+在业余时间思考重构编辑器中，完善后迁移到本项目中，敬请期待。
 
-[独立编辑器预览链接](https://fantasticit.github.io/editor-preview/index.html?path=/story/editor--default-editor)
+[独立编辑器预览链接，不定时更新](https://fantasticit.github.io/editor-preview/index.html?path=/story/editor--default-editor)
 
 ## 简介
 
