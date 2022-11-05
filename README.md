@@ -4,7 +4,7 @@
 
 在业余时间思考重构编辑器中，完善后迁移到本项目中，敬请期待。
 
-[独立编辑器预览链接，不定时更新](https://fantasticit.github.io/editor-preview/index.html?path=/story/editor--default-editor)
+[独立编辑器开发仓库，不定时更新](https://github.com/fantasticit/magic-editor)
 
 ## 简介
 
