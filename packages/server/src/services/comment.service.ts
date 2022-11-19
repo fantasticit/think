@@ -58,6 +58,10 @@ export class CommentService {
 
     const doc = await this.documentService.findById(documentId);
 
+    if (!doc) {
+      throw new HttpException('文档不存在', HttpStatus.NOT_FOUND);
+    }
+
     if (doc.status !== DocumentStatus.public) {
       const authority = await this.documentService.getDocumentUserAuth(user.id, documentId);
 
