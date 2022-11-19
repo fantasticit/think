@@ -1,23 +1,23 @@
-import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
-import { ReactNodeViewRenderer } from '@tiptap/react';
-import { ColumnsWrapper } from 'tiptap/core/wrappers/columns';
-import { getDatasetAttribute, nodeAttrsToDataset } from 'tiptap/prose-utils';
-
-export interface IColumnsAttrs {
-  columns?: number;
-}
+import { mergeAttributes, Node } from '@tiptap/core';
 
 export const Column = Node.create({
   name: 'column',
-  group: 'block',
-  content: '(paragraph|block)*',
+  content: 'block+',
   isolating: true,
-  selectable: false,
 
   addOptions() {
     return {
       HTMLAttributes: {
         class: 'column',
+      },
+    };
+  },
+
+  addAttributes() {
+    return {
+      index: {
+        default: 0,
+        parseHTML: (element) => element.getAttribute('index'),
       },
     };
   },

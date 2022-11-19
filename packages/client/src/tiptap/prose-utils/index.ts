@@ -2,6 +2,7 @@ export * from './active';
 export * from './clamp';
 export * from './code';
 export * from './color';
+export * from './columns';
 export * from './copy-node';
 export * from './create-node';
 export * from './debug';

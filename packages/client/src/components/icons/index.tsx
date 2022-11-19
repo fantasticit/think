@@ -7,6 +7,7 @@ export * from './IconCallout';
 export * from './IconCenter';
 export * from './IconClear';
 export * from './IconCodeBlock';
+export * from './IconColumns';
 export * from './IconCountdown';
 export * from './IconDeleteColumn';
 export * from './IconDeleteRow';

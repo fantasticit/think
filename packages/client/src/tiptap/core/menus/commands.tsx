@@ -110,7 +110,7 @@ export const COMMANDS: ICommand[] = [
                   label: '布局',
                   action: () => {
                     editor.chain().focus().run();
-                    editor.chain().setColumns({ type: 'left-right', columns: cols }).focus().run();
+                    editor.chain().insertColumns({ cols }).focus().run();
                   },
                 })();
               }}
@@ -229,7 +229,7 @@ export const QUICK_INSERT_COMMANDS = [
     isBlock: true,
     icon: <IconLayout />,
     label: '布局',
-    action: (editor) => editor.chain().focus().setColumns({ type: 'left-right', columns: 2 }).run(),
+    action: (editor) => editor.chain().focus().insertColumns({ cols: 2 }).run(),
   },
   ...COMMANDS.slice(4),
 ];
