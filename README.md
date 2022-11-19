@@ -23,9 +23,9 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 
 ## 交流群
 
-欢迎进群交流。
+群聊人数超200，只可通过邀请进入，可加下方微信。
 
-<img width="300" alt="image" src="https://user-images.githubusercontent.com/26452939/199497264-7065c3f3-7722-47a1-b5cb-596e0873a668.jpeg">
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/26452939/202832747-bfb8d200-0a1c-4c6d-bb6d-4495b66629ac.JPG">
 
 ## 预览
 
