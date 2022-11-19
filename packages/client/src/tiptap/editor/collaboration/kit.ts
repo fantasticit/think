@@ -47,7 +47,6 @@ import { Paragraph } from 'tiptap/core/extensions/paragraph';
 import { Paste } from 'tiptap/core/extensions/paste';
 import { Placeholder } from 'tiptap/core/extensions/placeholder';
 import { QuickInsert } from 'tiptap/core/extensions/quick-insert';
-import { ScrollIntoView } from 'tiptap/core/extensions/scroll-into-view';
 import { SearchNReplace } from 'tiptap/core/extensions/search';
 import { SelectionExtension } from 'tiptap/core/extensions/selection';
 import { Status } from 'tiptap/core/extensions/status';
@@ -138,8 +137,7 @@ export const CollaborationKit = [
   ListItem,
   Loading,
   OrderedList,
-  SelectionExtension,
-  ScrollIntoView,
+  // SelectionExtension,
   Strike,
   Subscript,
   Superscript,
