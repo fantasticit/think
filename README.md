@@ -1,5 +1,11 @@
 # think
 
+## 最近
+
+在业余时间思考重构编辑器中，完善后迁移到本项目中，敬请期待。
+
+[独立编辑器开发仓库，不定时更新](https://github.com/fantasticit/magic-editor)
+
 ## 简介
 
 Think 是一款开源知识管理工具。通过独立的知识库空间，结构化地组织在线协作文档，实现知识的积累与沉淀，促进知识的复用与流通。同时支持多人协作文档。使用的技术如下：
@@ -17,9 +23,9 @@ Think 是一款开源知识管理工具。通过独立的知识库空间，结�
 
 ## 交流群
 
-欢迎进群交流。
+群聊人数超200，只可通过邀请进入，可加下方微信。
 
-<img width="300" alt="image" src="https://user-images.githubusercontent.com/26452939/190644688-7948d18a-ef41-44a3-9e5d-60be45471316.jpeg">
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/26452939/202832747-bfb8d200-0a1c-4c6d-bb6d-4495b66629ac.JPG">
 
 ## 预览
 
