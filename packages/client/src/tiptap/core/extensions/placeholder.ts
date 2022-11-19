@@ -10,6 +10,7 @@ export interface PlaceholderOptions {
   showOnlyWhenEditable: boolean;
   showOnlyCurrent: boolean;
   includeChildren: boolean;
+  maxContentSize?: number;
 }
 
 export const Placeholder = Extension.create<PlaceholderOptions>({
@@ -23,6 +24,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
       showOnlyWhenEditable: true,
       showOnlyCurrent: true,
       includeChildren: false,
+      maxContentSize: 2000,
     };
   },
 
@@ -35,6 +37,10 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
       new Plugin({
         props: {
           decorations: ({ doc, selection }) => {
+            if (doc.content.size > (this.options.maxContentSize || 2000)) {
+              return null;
+            }
+
             const active = this.editor.isEditable || !this.options.showOnlyWhenEditable;
             const { anchor } = selection;
             const decorations: Decoration[] = [];
