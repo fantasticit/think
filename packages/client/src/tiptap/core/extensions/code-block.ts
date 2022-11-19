@@ -34,37 +34,41 @@ function getDecorations({
   name,
   lowlight,
   defaultLanguage,
+  maxTextLength,
 }: {
   doc: ProsemirrorNode;
   name: string;
   lowlight: any;
   defaultLanguage: string | null | undefined;
+  maxTextLength: number;
 }) {
   const decorations: Decoration[] = [];
 
-  findChildren(doc, (node) => node.type.name === name).forEach((block) => {
-    let from = block.pos + 1;
-    const language = block.node.attrs.language || defaultLanguage;
-    const languages = lowlight.listLanguages();
-    const nodes =
-      language && languages.includes(language)
-        ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
-        : getHighlightNodes(lowlight.highlightAuto(block.node.textContent));
+  findChildren(doc, (node) => node.type.name === name)
+    .filter((block) => block.node.nodeSize <= maxTextLength)
+    .forEach((block) => {
+      let from = block.pos + 1;
+      const language = block.node.attrs.language || defaultLanguage;
+      const languages = lowlight.listLanguages();
+      const nodes =
+        language && languages.includes(language)
+          ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
+          : getHighlightNodes(lowlight.highlightAuto(block.node.textContent));
 
-    parseNodes(nodes).forEach((node) => {
-      const to = from + node.text.length;
+      parseNodes(nodes).forEach((node) => {
+        const to = from + node.text.length;
 
-      if (node.classes.length) {
-        const decoration = Decoration.inline(from, to, {
-          class: node.classes.join(' '),
-        });
+        if (node.classes.length) {
+          const decoration = Decoration.inline(from, to, {
+            class: node.classes.join(' '),
+          });
 
-        decorations.push(decoration);
-      }
+          decorations.push(decoration);
+        }
 
-      from = to;
+        from = to;
+      });
     });
-  });
 
   return DecorationSet.create(doc, decorations);
 }
@@ -77,10 +81,12 @@ export function LowlightPlugin({
   name,
   lowlight,
   defaultLanguage,
+  maxTextLength,
 }: {
   name: string;
   lowlight: any;
   defaultLanguage: string | null | undefined;
+  maxTextLength: number;
 }) {
   if (!['highlight', 'highlightAuto', 'listLanguages'].every((api) => isFunction(lowlight[api]))) {
     throw Error('You should provide an instance of lowlight to use the code-block-lowlight extension');
@@ -96,6 +102,7 @@ export function LowlightPlugin({
           name,
           lowlight,
           defaultLanguage,
+          maxTextLength,
         }),
       apply: (transaction, decorationSet, oldState, newState) => {
         const oldNodeName = oldState.selection.$head.parent.type.name;
@@ -135,6 +142,7 @@ export function LowlightPlugin({
             name,
             lowlight,
             defaultLanguage,
+            maxTextLength,
           });
         }
 
@@ -155,6 +163,7 @@ export function LowlightPlugin({
 export interface CodeBlockLowlightOptions extends CodeBlockOptions {
   lowlight: any;
   defaultLanguage: string | null | undefined;
+  maxTextLength?: number;
 }
 
 export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
@@ -165,6 +174,7 @@ export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
       ...this.parent?.(),
       lowlight: {},
       defaultLanguage: null,
+      maxTextLength: 200,
     };
   },
 
@@ -179,6 +189,7 @@ export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
         name: this.name,
         lowlight: this.options.lowlight,
         defaultLanguage: this.options.defaultLanguage,
+        maxTextLength: this.options.maxTextLength || 200,
       }),
     ];
   },
