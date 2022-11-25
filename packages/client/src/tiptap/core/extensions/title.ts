@@ -29,6 +29,8 @@ export const Title = Node.create<TitleOptions>({
   group: 'block',
   defining: true,
   isolating: true,
+  selectable: true,
+  draggable: false,
   showGapCursor: true,
 
   addOptions() {
