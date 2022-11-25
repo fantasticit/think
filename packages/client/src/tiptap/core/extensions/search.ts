@@ -8,21 +8,9 @@ import { Editor } from 'tiptap/core';
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     search: {
-      /**
-       * @description Set search term in extension.
-       */
       setSearchTerm: (searchTerm: string) => ReturnType;
-      /**
-       * @description Set replace term in extension.
-       */
       setReplaceTerm: (replaceTerm: string) => ReturnType;
-      /**
-       * @description Replace first instance of search result with given replace term.
-       */
       replace: () => ReturnType;
-      /**
-       * @description Replace all instances of search result with given replace term.
-       */
       replaceAll: () => ReturnType;
       goToPrevSearchResult: () => void;
       goToNextSearchResult: () => void;
@@ -33,18 +21,6 @@ declare module '@tiptap/core' {
 interface Result {
   from: number;
   to: number;
-}
-
-interface SearchOptions {
-  searchTerm: string;
-  replaceTerm: string;
-  results: Result[];
-  currentIndex: number;
-  searchResultClass: string;
-  searchResultCurrentClass: string;
-  caseSensitive: boolean;
-  disableRegex: boolean;
-  onChange?: () => void;
 }
 
 interface TextNodesWithPosition {
@@ -206,8 +182,23 @@ const gotoSearchResult = ({ view, tr, searchResults, searchResultCurrentClass, g
 
 export const ON_SEARCH_RESULTS = 'ON_SEARCH_RESULTS';
 
+interface SearchOptions {
+  searchTerm: string;
+  replaceTerm: string;
+  searchResultClass: string;
+  searchResultCurrentClass: string;
+  caseSensitive: boolean;
+  disableRegex: boolean;
+  onChange?: () => void;
+}
+
+interface SearchStorage {
+  results: Result[];
+  currentIndex: number;
+}
+
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const SearchNReplace = Extension.create<SearchOptions>({
+export const SearchNReplace = Extension.create<SearchOptions, SearchStorage>({
   name: 'search',
 
   addOptions() {
@@ -224,14 +215,21 @@ export const SearchNReplace = Extension.create<SearchOptions>({
     };
   },
 
+  addStorage() {
+    return {
+      results: [],
+      currentIndex: -1,
+    };
+  },
+
   addCommands() {
     return {
       setSearchTerm:
         (searchTerm: string) =>
         ({ state, dispatch, editor }) => {
           this.options.searchTerm = searchTerm;
-          this.options.results = [];
-          this.options.currentIndex = 0;
+          this.storage.results = [];
+          this.storage.currentIndex = 0;
           (editor as Editor).eventEmitter && (editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
           updateView(state, dispatch);
           return false;
@@ -247,18 +245,20 @@ export const SearchNReplace = Extension.create<SearchOptions>({
         },
       replace:
         () =>
-        ({ state, dispatch }) => {
-          const { replaceTerm, results, currentIndex } = this.options;
+        ({ state, dispatch, editor }) => {
+          const { replaceTerm } = this.options;
+          const { currentIndex, results } = this.storage;
           const currentResult = results[currentIndex];
 
           if (currentResult) {
             replace(replaceTerm, [currentResult], { state, dispatch });
-            this.options.results.splice(currentIndex, 1);
+            this.storage.results.splice(currentIndex, 1);
           } else {
             replace(replaceTerm, results, { state, dispatch });
-
-            this.options.results.shift();
+            this.storage.results.shift();
           }
+
+          (editor as Editor).eventEmitter && (editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
 
           updateView(state, dispatch);
 
@@ -266,12 +266,15 @@ export const SearchNReplace = Extension.create<SearchOptions>({
         },
       replaceAll:
         () =>
-        ({ state, tr, dispatch }) => {
-          const { replaceTerm, results } = this.options;
+        ({ state, tr, dispatch, editor }) => {
+          const { replaceTerm } = this.options;
+          const { results } = this.storage;
 
           replaceAll(replaceTerm, results, { tr, dispatch });
 
-          this.options.results = [];
+          this.storage.currentIndex = -1;
+          this.storage.results = [];
+          (editor as Editor).eventEmitter && (editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
 
           updateView(state, dispatch);
 
@@ -279,11 +282,12 @@ export const SearchNReplace = Extension.create<SearchOptions>({
         },
       goToPrevSearchResult:
         () =>
-        ({ view, tr }) => {
-          const { currentIndex, results, searchResultCurrentClass } = this.options;
+        ({ view, tr, editor }) => {
+          const { searchResultCurrentClass } = this.options;
+          const { currentIndex, results } = this.storage;
           const nextIndex = (currentIndex + results.length - 1) % results.length;
-          this.options.currentIndex = nextIndex;
-          this.options.onChange && this.options.onChange();
+          this.storage.currentIndex = nextIndex;
+          (editor as Editor).eventEmitter && (editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
           return gotoSearchResult({
             view,
             tr,
@@ -294,11 +298,13 @@ export const SearchNReplace = Extension.create<SearchOptions>({
         },
       goToNextSearchResult:
         () =>
-        ({ view, tr }) => {
-          const { currentIndex, results, searchResultCurrentClass } = this.options;
+        ({ view, tr, editor }) => {
+          const { searchResultCurrentClass } = this.options;
+          const { currentIndex, results } = this.storage;
           const nextIndex = (currentIndex + 1) % results.length;
-          this.options.currentIndex = nextIndex;
+          this.storage.currentIndex = nextIndex;
           this.options.onChange && this.options.onChange();
+          (editor as Editor).eventEmitter && (editor as Editor).eventEmitter.emit(ON_SEARCH_RESULTS);
           return gotoSearchResult({
             view,
             tr,
@@ -334,7 +340,10 @@ export const SearchNReplace = Extension.create<SearchOptions>({
                 regex(searchTerm, disableRegex, caseSensitive),
                 searchResultClass
               );
-              extensionThis.options.results = results;
+              extensionThis.storage.results = results;
+              if (extensionThis.storage.currentIndex > results.length - 1) {
+                extensionThis.storage.currentIndex = 0;
+              }
               editor.eventEmitter && editor.eventEmitter.emit(ON_SEARCH_RESULTS);
               if (ctx.getMeta('directDecoration')) {
                 const { fromPos, toPos, attrs } = ctx.getMeta('directDecoration');

@@ -32,8 +32,11 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
       setReplaceValue('');
       setCurrentIndex(-1);
       setResults([]);
+
+      editor.commands.setSearchTerm('');
+      editor.commands.setReplaceTerm('');
     }
-  }, [visible]);
+  }, [editor, visible]);
 
   useEffect(() => {
     if (!visible) return;
@@ -59,8 +62,8 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
     const listener = () => {
       if (!visible) return;
 
-      const currentIndex = searchExtension ? searchExtension.options.currentIndex : -1;
-      const results = searchExtension ? searchExtension.options.results : [];
+      const currentIndex = searchExtension ? searchExtension.storage.currentIndex : -1;
+      const results = searchExtension ? searchExtension.storage.results : [];
       setCurrentIndex((preIndex) => (preIndex !== currentIndex ? currentIndex : preIndex));
       setResults((prevResults) => (deepEqual(prevResults, results) ? prevResults : results));
     };
