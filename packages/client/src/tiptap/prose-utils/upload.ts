@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/core';
 import { uploadFile } from 'services/file';
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { Image } from 'tiptap/core/extensions/image';
-import { Loading } from 'tiptap/core/extensions/loading';
+import { findLoadingById, Loading } from 'tiptap/core/extensions/loading';
 
 import { extractFileExtension, extractFilename } from './file';
 
@@ -28,26 +28,45 @@ interface FnProps {
  */
 const uploadImage = async ({ file, fileInfo, editor }: FnProps & { fileInfo: FileInfo }) => {
   const { view } = editor;
-  const { state } = view;
-  const { from } = state.selection;
-  const loadingNode = view.props.state.schema.nodes[Loading.name].create({
+
+  const id = `loading-${loadingId++}`;
+  const loadingNode = editor.state.schema?.nodes?.[Loading.name]?.create({
+    id,
     text: fileInfo.fileName,
   });
-  view.dispatch(view.state.tr.replaceSelectionWith(loadingNode));
+
+  editor.view.dispatch(editor.view.state.tr.replaceSelectionWith(loadingNode));
 
   try {
     const url = await uploadFile(file);
-    const node = view.props.state.schema.nodes[Image.name].create({
-      src: url,
-    });
-    const transaction = view.state.tr.replaceRangeWith(from, from + loadingNode.nodeSize, node);
-    view.dispatch(transaction);
+
+    const maybeLoading = findLoadingById(editor, id);
+
+    if (maybeLoading) {
+      const node = view.props.state.schema.nodes[Image.name].create({
+        src: url,
+      });
+      const transaction = view.state.tr.replaceRangeWith(
+        maybeLoading?.pos,
+        maybeLoading?.pos + maybeLoading?.node.nodeSize,
+        node
+      );
+      view.dispatch(transaction);
+    }
   } catch (e) {
-    editor.commands.deleteRange({ from: from, to: from + loadingNode.nodeSize });
+    const maybeLoading = findLoadingById(editor, id);
+    if (maybeLoading) {
+      editor.commands.deleteRange({
+        from: maybeLoading?.pos,
+        to: maybeLoading?.pos + maybeLoading?.node.nodeSize,
+      });
+    }
     console.log('上传文件失败！');
     throw e;
   }
 };
+
+let loadingId = 0;
 
 /**
  * 上传附件
@@ -55,23 +74,39 @@ const uploadImage = async ({ file, fileInfo, editor }: FnProps & { fileInfo: Fil
  */
 const uploadAttachment = async ({ file, fileInfo, editor }: FnProps & { fileInfo: FileInfo }) => {
   const { view } = editor;
-  const { state } = view;
-  const { from } = state.selection;
-  const loadingNode = view.props.state.schema.nodes[Loading.name].create({
+
+  const id = `loading-${loadingId++}`;
+  const loadingNode = editor.state.schema?.nodes?.[Loading.name]?.create({
+    id,
     text: fileInfo.fileName,
   });
-  view.dispatch(view.state.tr.replaceSelectionWith(loadingNode));
+
+  editor.view.dispatch(editor.view.state.tr.replaceSelectionWith(loadingNode));
 
   try {
     const url = await uploadFile(file);
-    const node = view.props.state.schema.nodes[Attachment.name].create({
-      url,
-      ...fileInfo,
-    });
-    const transaction = view.state.tr.replaceRangeWith(from, from + loadingNode.nodeSize, node);
-    view.dispatch(transaction);
+    const maybeLoading = findLoadingById(editor, id);
+
+    if (maybeLoading) {
+      const node = view.props.state.schema.nodes[Attachment.name].create({
+        url,
+        ...fileInfo,
+      });
+      const transaction = view.state.tr.replaceRangeWith(
+        maybeLoading?.pos,
+        maybeLoading?.pos + maybeLoading?.node.nodeSize,
+        node
+      );
+      view.dispatch(transaction);
+    }
   } catch (e) {
-    editor.commands.deleteRange({ from: from, to: from + loadingNode.nodeSize });
+    const maybeLoading = findLoadingById(editor, id);
+    if (maybeLoading) {
+      editor.commands.deleteRange({
+        from: maybeLoading?.pos,
+        to: maybeLoading?.pos + maybeLoading?.node.nodeSize,
+      });
+    }
     console.log('上传文件失败！');
   }
 };
