@@ -13,7 +13,7 @@ export const TableHeader = BuiltInTableHeader.extend({
         default: 1,
       },
       colwidth: {
-        default: null,
+        default: [150],
         parseHTML: (element) => {
           const colwidth = element.getAttribute('colwidth');
           const value = colwidth ? colwidth.split(',').map((item) => parseInt(item, 10)) : null;

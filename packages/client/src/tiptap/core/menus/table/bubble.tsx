@@ -34,7 +34,7 @@ export const TableBubbleMenu = ({ editor }) => {
     while (container && container.tagName !== 'TABLE') {
       container = container.parentElement;
     }
-    return container.parentElement;
+    return container;
   }, []);
   const copyMe = useCallback(() => copyNode(Table.name, editor), [editor]);
   const deleteMe = useCallback(() => {
