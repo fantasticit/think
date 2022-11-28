@@ -19,9 +19,8 @@ export interface BubbleMenuPluginProps {
         to?: number;
       }) => boolean)
     | null;
-  renderContainerSelector?: string;
-  matchRenderContainer?: (node: HTMLElement) => boolean;
   getRenderContainer?: (node: HTMLElement) => HTMLElement;
+  defaultAnimation?: boolean;
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
@@ -43,6 +42,8 @@ export class BubbleMenuView {
 
   public getRenderContainer?: BubbleMenuPluginProps['getRenderContainer'];
 
+  public defaultAnimation?: BubbleMenuPluginProps['defaultAnimation'];
+
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
     const { doc, selection } = state;
     const { empty } = selection;
@@ -59,11 +60,20 @@ export class BubbleMenuView {
     return true;
   };
 
-  constructor({ editor, element, view, tippyOptions = {}, shouldShow, getRenderContainer }: BubbleMenuViewProps) {
+  constructor({
+    editor,
+    element,
+    view,
+    tippyOptions = {},
+    shouldShow,
+    getRenderContainer,
+    defaultAnimation = true,
+  }: BubbleMenuViewProps) {
     this.editor = editor;
     this.element = element;
     this.view = view;
     this.getRenderContainer = getRenderContainer;
+    this.defaultAnimation = defaultAnimation;
 
     if (shouldShow) {
       this.shouldShow = shouldShow;
@@ -133,7 +143,13 @@ export class BubbleMenuView {
       placement: 'top',
       hideOnClick: 'toggle',
       ...Object.assign(
-        { zIndex: 999, duration: 200, animation: 'shift-toward-subtle', moveTransition: 'transform 0.2s ease-in-out' },
+        {
+          zIndex: 999,
+          duration: 200,
+          ...(this.defaultAnimation
+            ? { animation: 'shift-toward-subtle', moveTransition: 'transform 0.2s ease-in-out' }
+            : {}),
+        },
         this.tippyOptions
       ),
     });
@@ -159,8 +175,10 @@ export class BubbleMenuView {
 
     // support for CellSelections
     const { ranges } = selection;
+    const cursorAt = selection.$anchor.pos;
     const from = Math.min(...ranges.map((range) => range.$from.pos));
     const to = Math.max(...ranges.map((range) => range.$to.pos));
+    const placement = Math.abs(cursorAt - to) <= Math.abs(cursorAt - from) ? 'bottom' : 'top';
     const domAtPos = view.domAtPos(from).node as HTMLElement;
     const nodeDOM = view.nodeDOM(from) as HTMLElement;
     const node = nodeDOM || domAtPos;
@@ -183,6 +201,7 @@ export class BubbleMenuView {
     }
 
     this.tippy?.setProps({
+      placement,
       getReferenceClientRect: () => {
         let toMountNode = null;
 

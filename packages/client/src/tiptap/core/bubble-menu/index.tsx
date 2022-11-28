@@ -25,9 +25,8 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = (props) => {
       editor,
       tippyOptions = {},
       shouldShow = null,
-      // renderContainerSelector,
-      // matchRenderContainer,
       getRenderContainer,
+      defaultAnimation,
     } = props;
 
     const plugin = BubbleMenuPlugin({
@@ -36,9 +35,8 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = (props) => {
       element,
       tippyOptions,
       shouldShow,
-      // renderContainerSelector,
-      // matchRenderContainer,
       getRenderContainer,
+      defaultAnimation,
     });
 
     editor.registerPlugin(plugin);

@@ -65,6 +65,7 @@ export const Text = ({ editor }) => {
       pluginKey="text-bubble-menu"
       shouldShow={shouldShow}
       tippyOptions={{ maxWidth: 'calc(100vw - 100px)' }}
+      defaultAnimation={false}
     >
       <Space spacing={4}>
         <Bold editor={editor} />
