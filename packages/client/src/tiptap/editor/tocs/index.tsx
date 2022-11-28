@@ -161,7 +161,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
           ? headings.map((toc) => {
               return (
                 <Anchor.Link
-                  key={toc.text}
+                  key={'collapsed-' + toc.text}
                   href={`#${toc.id}`}
                   title={
                     <Tooltip key={toc.text} content={toc.text} position="right">
@@ -171,7 +171,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
                 />
               );
             })
-          : nestedHeadings.map((toc) => <Toc key={toc.text} toc={toc} collapsed={collapsed} />)}
+          : nestedHeadings.map((toc) => <Toc key={'!collapsed-' + toc.text} toc={toc} collapsed={collapsed} />)}
       </Anchor>
     </div>
   );
