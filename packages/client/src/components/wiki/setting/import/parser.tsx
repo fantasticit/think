@@ -23,6 +23,7 @@ export const createMarkdownParser = () => {
   const parse = (filename: string, markdown: string) => {
     try {
       const prosemirrorNode = markdownToProsemirror({
+        editor,
         schema: editor.schema,
         content: markdown,
         needTitle: true,
