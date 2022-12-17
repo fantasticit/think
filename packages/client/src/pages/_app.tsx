@@ -87,7 +87,7 @@ class MyApp extends App<{ isMobile: boolean }> {
             <link key={url} rel="dns-prefetch" href={url} />
           ))}
         </Head>
-        <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.js">
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.1.81/build/pdf.worker.js">
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <Theme.Provider>
