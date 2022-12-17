@@ -26,6 +26,7 @@ import { EventEmitter } from 'tiptap/core/extensions/event-emitter';
 import { Excalidraw } from 'tiptap/core/extensions/excalidraw';
 import { Flow } from 'tiptap/core/extensions/flow';
 import { Focus } from 'tiptap/core/extensions/focus';
+import { FontFamily } from 'tiptap/core/extensions/font-family';
 import { FontSize } from 'tiptap/core/extensions/font-size';
 import { Gapcursor } from 'tiptap/core/extensions/gapcursor';
 import { HardBreak } from 'tiptap/core/extensions/hard-break';
@@ -48,7 +49,6 @@ import { Paste } from 'tiptap/core/extensions/paste';
 import { Placeholder } from 'tiptap/core/extensions/placeholder';
 import { QuickInsert } from 'tiptap/core/extensions/quick-insert';
 import { SearchNReplace } from 'tiptap/core/extensions/search';
-import { SelectionExtension } from 'tiptap/core/extensions/selection';
 import { Status } from 'tiptap/core/extensions/status';
 import { Strike } from 'tiptap/core/extensions/strike';
 import { Subscript } from 'tiptap/core/extensions/subscript';
@@ -124,6 +124,7 @@ export const CollaborationKit = [
   Excalidraw,
   EventEmitter,
   Focus,
+  FontFamily,
   FontSize,
   Gapcursor,
   HardBreak,
@@ -137,7 +138,6 @@ export const CollaborationKit = [
   ListItem,
   Loading,
   OrderedList,
-  // SelectionExtension,
   Strike,
   Subscript,
   Superscript,
