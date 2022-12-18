@@ -13,6 +13,7 @@ export * from './dom-dataset';
 export * from './download';
 export * from './editor-container-size';
 export * from './file';
+export * from './html';
 export * from './lowlight-plugin';
 export * from './mark';
 export * from './markdown';
