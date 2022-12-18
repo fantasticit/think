@@ -48,6 +48,7 @@ import { Paragraph } from 'tiptap/core/extensions/paragraph';
 import { Paste } from 'tiptap/core/extensions/paste';
 import { Placeholder } from 'tiptap/core/extensions/placeholder';
 import { QuickInsert } from 'tiptap/core/extensions/quick-insert';
+import { Scroll2Cursor } from 'tiptap/core/extensions/scroll-to-cursor';
 import { SearchNReplace } from 'tiptap/core/extensions/search';
 import { Status } from 'tiptap/core/extensions/status';
 import { Strike } from 'tiptap/core/extensions/strike';
@@ -186,4 +187,5 @@ export const CollaborationKit = [
   Title,
   DocumentWithTitle,
   Dragable,
+  Scroll2Cursor,
 ];
