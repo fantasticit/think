@@ -25,13 +25,14 @@ export const TableBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(() => {
     return editor.isActive(Table.name);
   }, [editor]);
+
   const getRenderContainer = useCallback((node) => {
     let container = node;
     // 文本节点
     if (container && !container.tag) {
       container = node.parentElement;
     }
-    while (container && container.tagName !== 'TABLE') {
+    while (container && !container.classList.contains('tableWrapper')) {
       container = container.parentElement;
     }
     return container;
@@ -40,6 +41,7 @@ export const TableBubbleMenu = ({ editor }) => {
   const deleteMe = useCallback(() => {
     deleteNode(Table.name, editor);
   }, [editor]);
+
   const addColumnBefore = useCallback(() => editor.chain().focus().addColumnBefore().run(), [editor]);
   const addColumnAfter = useCallback(() => editor.chain().focus().addColumnAfter().run(), [editor]);
   const deleteColumn = useCallback(() => editor.chain().focus().deleteColumn().run(), [editor]);
@@ -59,7 +61,6 @@ export const TableBubbleMenu = ({ editor }) => {
       pluginKey="table-bubble-menu"
       tippyOptions={{
         maxWidth: 'calc(100vw - 100px)',
-        placement: 'bottom',
       }}
       shouldShow={shouldShow}
       getRenderContainer={getRenderContainer}
