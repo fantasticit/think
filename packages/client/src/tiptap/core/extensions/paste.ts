@@ -14,13 +14,8 @@ import {
   isMarkdown,
   isValidURL,
   normalizeMarkdown,
+  safePos,
 } from 'tiptap/prose-utils';
-
-const safePos = (state: EditorState, pos) => {
-  if (pos < 0) return 0;
-
-  return Math.min(state.doc.content.size, pos);
-};
 
 const htmlToProsemirror = (editor: CoreEditor, html, isPasteMarkdown = false) => {
   const firstNode = editor.view.state.doc.content.firstChild;
@@ -188,7 +183,7 @@ export const Paste = Extension.create<IPasteOptions>({
             const vscodeMeta = vscode ? JSON.parse(vscode) : undefined;
             const pasteCodeLanguage = vscodeMeta?.mode;
 
-            if (html.length > 0 || text.length === 0) {
+            if (html.length > 0) {
               return htmlToProsemirror(editor, html);
             }
 

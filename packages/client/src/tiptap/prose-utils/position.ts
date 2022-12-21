@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { EditorState } from 'prosemirror-state';
 import type { EditorView } from 'prosemirror-view';
 
 type Point = [top: number, left: number];
@@ -58,4 +59,10 @@ export const calculateTextPosition = (
 
   target.style.top = top + 'px';
   target.style.left = left + 'px';
+};
+
+export const safePos = (state: EditorState, pos) => {
+  if (pos < 0) return 0;
+
+  return Math.min(state.doc.content.size, pos);
 };
