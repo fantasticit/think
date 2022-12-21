@@ -1,8 +1,8 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey, Selection } from 'prosemirror-state';
-import { NodeSelection } from 'prosemirror-state';
+import { NodeSelection, TextSelection } from 'prosemirror-state';
 import { __serializeForClipboard, EditorView } from 'prosemirror-view';
-import { ActiveNode, getNodeAtPos, removePossibleTable, selectRootNodeByDom } from 'tiptap/prose-utils';
+import { ActiveNode, getNodeAtPos, removePossibleTable, safePos, selectRootNodeByDom } from 'tiptap/prose-utils';
 
 export const DragablePluginKey = new PluginKey('dragable');
 
@@ -15,6 +15,7 @@ export const Dragable = Extension.create({
     let activeNode: ActiveNode;
     let activeSelection: Selection;
     let dragging = false;
+    let mouseleaveTimer = null;
 
     const createDragHandleDOM = () => {
       const dom = document.createElement('div');
@@ -51,6 +52,18 @@ export const Dragable = Extension.create({
       showDragHandleDOM();
     };
 
+    const handleMouseEnter = () => {
+      if (!activeNode) return null;
+
+      clearTimeout(mouseleaveTimer);
+      showDragHandleDOM();
+    };
+
+    const handleMouseLeave = () => {
+      if (!activeNode) return null;
+      hideDragHandleDOM();
+    };
+
     const handleMouseDown = () => {
       if (!activeNode) return null;
 
@@ -75,13 +88,14 @@ export const Dragable = Extension.create({
     const handleDragStart = (event) => {
       dragging = true;
       if (event.dataTransfer && activeSelection) {
-        const brokenClipboardAPI = false;
         const slice = activeSelection.content();
         event.dataTransfer.effectAllowed = 'copyMove';
         const { dom, text } = __serializeForClipboard(editorView, slice);
         event.dataTransfer.clearData();
-        event.dataTransfer.setData(brokenClipboardAPI ? 'Text' : 'text/html', dom.innerHTML);
-        if (!brokenClipboardAPI) event.dataTransfer.setData('text/plain', text);
+        event.dataTransfer.setData('text/html', dom.innerHTML);
+        event.dataTransfer.setData('text/plain', text);
+        event.dataTransfer.setDragImage(activeNode?.el as any, 0, 0);
+
         editorView.dragging = {
           slice,
           move: true,
@@ -95,6 +109,8 @@ export const Dragable = Extension.create({
         view: (view) => {
           if (view.editable) {
             dragHandleDOM = createDragHandleDOM();
+            dragHandleDOM.addEventListener('mouseenter', handleMouseEnter);
+            dragHandleDOM.addEventListener('mouseleave', handleMouseLeave);
             dragHandleDOM.addEventListener('mousedown', handleMouseDown);
             dragHandleDOM.addEventListener('mouseup', handleMouseUp);
             dragHandleDOM.addEventListener('dragstart', handleDragStart);
@@ -108,6 +124,8 @@ export const Dragable = Extension.create({
             destroy: () => {
               if (!dragHandleDOM) return;
 
+              dragHandleDOM.removeEventListener('mouseenter', handleMouseEnter);
+              dragHandleDOM.removeEventListener('mouseleave', handleMouseLeave);
               dragHandleDOM.removeEventListener('mousedown', handleMouseDown);
               dragHandleDOM.removeEventListener('mouseup', handleMouseUp);
               dragHandleDOM.removeEventListener('dragstart', handleDragStart);
@@ -124,6 +142,26 @@ export const Dragable = Extension.create({
               if (!eventPos) {
                 return true;
               }
+
+              setTimeout(() => {
+                if (activeSelection) {
+                  [
+                    'ProseMirror-selectednode',
+                    'ProseMirror-selectedblocknode-dragable',
+                    'ProseMirror-selectedblocknode-normal',
+                  ].forEach((cls) => {
+                    (view.dom as HTMLElement).querySelectorAll(`.${cls}`).forEach((dom) => dom.classList.remove(cls));
+                  });
+                  const noneSelection = new TextSelection(
+                    view.state.doc.resolve(safePos(view.state, eventPos?.pos ?? 0))
+                  );
+                  view.dispatch(view.state.tr.setSelection(noneSelection));
+                  this.editor.commands.blur();
+
+                  activeSelection = null;
+                  activeNode = null;
+                }
+              }, 100);
 
               const $mouse = view.state.doc.resolve(eventPos.pos);
 
@@ -194,6 +232,13 @@ export const Dragable = Extension.create({
               activeNode = result;
 
               renderDragHandleDOM(view, result.el);
+              return false;
+            },
+            mouseleave: () => {
+              clearTimeout(mouseleaveTimer);
+              mouseleaveTimer = setTimeout(() => {
+                hideDragHandleDOM();
+              }, 400);
               return false;
             },
             keydown: () => {
