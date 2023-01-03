@@ -33,6 +33,15 @@ export const Player: React.FC<IProps> = ({ url, fileType }) => {
 
     if (type === 'pdf') return <PDFPlayer url={url} />;
 
+    if (type === 'word' || type === 'excel' || type === 'ppt') {
+      return (
+        <iframe
+          className={styles.iframeWrapper}
+          src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`}
+        />
+      );
+    }
+
     return <Text type="tertiary">暂不支持预览该类型文件</Text>;
   }, [type, url]);
 

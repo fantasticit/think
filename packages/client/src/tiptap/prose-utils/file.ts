@@ -31,12 +31,19 @@ export const normalizeFileSize = (size) => {
   return (size / 1024 / 1024).toFixed(2) + ' MB';
 };
 
-export type FileType = 'image' | 'audio' | 'video' | 'pdf' | 'file';
+export type FileType = 'image' | 'audio' | 'video' | 'pdf' | 'word' | 'excel' | 'ppt' | 'file';
 
 export const normalizeFileType = (fileType): FileType => {
   if (!fileType) return 'file';
 
   if (fileType === 'application/pdf') return 'pdf';
+
+  if (fileType.startsWith('application/') && ['.document', 'word'].some((type) => fileType.includes(type)))
+    return 'word';
+
+  if (fileType.startsWith('application/') && ['presentation'].some((type) => fileType.includes(type))) return 'excel';
+
+  if (fileType.startsWith('application/') && ['sheet'].some((type) => fileType.includes(type))) return 'ppt';
 
   if (fileType.startsWith('image')) {
     return 'image';
