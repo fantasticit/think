@@ -1,5 +1,4 @@
 /* stylelint-disable */
-
 .ProseMirror {
   $tableBorderColor: var(--semi-color-border);
   $tableHeaderBgColor: var(--semi-color-fill-0);
@@ -284,5 +283,14 @@
   .resize-cursor {
     cursor: ew-resize;
     cursor: col-resize; /* stylelint-disable declaration-block-no-duplicate-properties */
+  }
+}
+
+@media print {
+  .ProseMirror {
+    table {
+      margin-top: 0.75em;
+      table-layout: fixed;
+    }
   }
 }

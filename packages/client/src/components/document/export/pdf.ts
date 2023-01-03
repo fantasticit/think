@@ -9,8 +9,7 @@ function printHtml(dom: Element) {
   const content: string = style + dom.outerHTML;
 
   const iframe: HTMLIFrameElement = document.createElement('iframe');
-  iframe.id = 'el-tiptap-iframe';
-  iframe.setAttribute('style', 'position: absolute; width: 0; height: 0; top: -10px; left: -10px;');
+  iframe.setAttribute('style', 'position: absolute; width: 0; height: 0; top: 0; left: 0;');
   document.body.appendChild(iframe);
 
   const frameWindow = iframe.contentWindow;

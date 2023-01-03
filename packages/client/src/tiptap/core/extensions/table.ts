@@ -142,6 +142,10 @@ export const Table = BuiltInTable.extend({
   },
 
   addProseMirrorPlugins() {
-    return [...this.parent(), !this.editor.isEditable && readonlyTableView()].filter(Boolean);
+    // @ts-ignore
+    const isPrint = this.editor?.options?.editorProps?.print;
+    const isEditable = this.editor?.isEditable;
+
+    return [...this.parent(), !isPrint && !isEditable && readonlyTableView()].filter(Boolean);
   },
 }).configure({ resizable: true });

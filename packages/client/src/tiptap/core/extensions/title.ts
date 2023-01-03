@@ -60,17 +60,7 @@ export const Title = Node.create<TitleOptions>({
 
   renderHTML({ HTMLAttributes, node }) {
     const { cover } = node.attrs;
-    return [
-      'h1',
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, nodeAttrsToDataset(node)),
-      [
-        'img',
-        {
-          src: cover,
-        },
-      ],
-      ['div', 0],
-    ];
+    return ['h1', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, nodeAttrsToDataset(node)), 0];
   },
 
   addNodeView() {

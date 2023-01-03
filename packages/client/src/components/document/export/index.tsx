@@ -70,7 +70,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
         }}
       >
         <Space>
-          <div className={styles.templateItem} onClick={exportMarkdown}>
+          <div className={styles.templateItem} onMouseDown={exportMarkdown}>
             <header>
               <IconMarkdown style={{ fontSize: 40 }} />
             </header>
@@ -82,7 +82,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
             </footer>
           </div>
 
-          <div className={styles.templateItem} onClick={exportJSON}>
+          <div className={styles.templateItem} onMouseDown={exportJSON}>
             <header>
               <IconJSON style={{ fontSize: 40 }} />
             </header>
@@ -94,7 +94,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
             </footer>
           </div>
 
-          <div className={styles.templateItem} onClick={exportWord}>
+          <div className={styles.templateItem} onMouseDown={exportWord}>
             <header>
               <Badge count="beta" type="danger">
                 <IconWord style={{ fontSize: 40 }} />
@@ -108,7 +108,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
             </footer>
           </div>
 
-          <div className={styles.templateItem} onClick={exportPDF}>
+          <div className={styles.templateItem} onMouseDown={exportPDF}>
             <header>
               <Badge count="beta" type="danger">
                 <IconPDF style={{ fontSize: 40 }} />
@@ -166,7 +166,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
         <Dropdown
           visible={visible}
           onVisibleChange={toggleVisible}
-          trigger="click"
+          trigger="custom"
           position="bottomRight"
           content={<div style={{ padding: '0 16px' }}>{content}</div>}
         >

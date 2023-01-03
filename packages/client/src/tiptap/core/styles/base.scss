@@ -118,3 +118,9 @@ body[theme-mode='dark'] {
     }
   }
 }
+
+@media print {
+  .ProseMirror {
+    padding: 1cm;
+  }
+}
