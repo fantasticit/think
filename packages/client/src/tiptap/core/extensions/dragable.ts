@@ -10,6 +10,8 @@ export const Dragable = Extension.create({
   name: 'dragable',
 
   addProseMirrorPlugins() {
+    if (!this.editor.isEditable) return [];
+
     let editorView: EditorView;
     let dragHandleDOM: HTMLElement;
     let activeNode: ActiveNode;
@@ -25,13 +27,13 @@ export const Dragable = Extension.create({
     };
 
     const showDragHandleDOM = () => {
-      dragHandleDOM.classList.add('show');
-      dragHandleDOM.classList.remove('hide');
+      dragHandleDOM?.classList?.add('show');
+      dragHandleDOM?.classList?.remove('hide');
     };
 
     const hideDragHandleDOM = () => {
-      dragHandleDOM.classList.remove('show');
-      dragHandleDOM.classList.add('hide');
+      dragHandleDOM?.classList?.remove('show');
+      dragHandleDOM?.classList?.add('hide');
     };
 
     const renderDragHandleDOM = (view: EditorView, el: HTMLElement) => {
