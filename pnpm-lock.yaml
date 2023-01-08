@@ -102,7 +102,6 @@ importers:
       cross-env: ^7.0.3
       deep-equal: ^2.0.5
       dompurify: ^2.3.5
-      downloadjs: ^1.4.7
       eslint: ^8.14.0
       eslint-config-prettier: ^8.5.0
       eslint-plugin-import: ^2.26.0
@@ -110,6 +109,7 @@ importers:
       eslint-plugin-react: ^7.29.4
       eslint-plugin-react-hooks: ^4.5.0
       eslint-plugin-simple-import-sort: ^7.0.0
+      file-saver: ^2.0.5
       fs-extra: ^10.0.0
       htmldiff-js: ^1.0.5
       interactjs: ^1.10.11
@@ -213,7 +213,7 @@ importers:
       cross-env: 7.0.3
       deep-equal: 2.0.5
       dompurify: 2.3.5
-      downloadjs: 1.4.7
+      file-saver: 2.0.5
       htmldiff-js: 1.0.5
       interactjs: 1.10.11
       katex: 0.15.2
@@ -5774,10 +5774,6 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /downloadjs/1.4.7:
-    resolution: {integrity: sha512-LN1gO7+u9xjU5oEScGFKvXhYf7Y/empUIIEAGBs1LzUq/rg5duiDrkuH5A2lQGd5jfMOb9X9usDa2oVXwJ0U/Q==}
-    dev: false
-
   /duplexify/4.1.2:
     resolution: {integrity: sha512-fz3OjcNCHmRP12MJoZMPglx8m4rrFP8rovnk4vT8Fs+aonZoCwGg10dSsQsfP/E62eZcPTMSMP6686fu9Qlqtw==}
     dependencies:
@@ -6508,6 +6504,10 @@ packages:
     dependencies:
       flat-cache: 3.0.4
     dev: true
+
+  /file-saver/2.0.5:
+    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==}
+    dev: false
 
   /file-uri-to-path/2.0.0:
     resolution: {integrity: sha512-hjPFI8oE/2iQPVe4gbrJ73Pp+Xfub2+WI2LlXDbsaJBwT5wuMh35WNWVYYTpnz895shtwfyutMFLFywpQAFdLg==}

@@ -159,7 +159,9 @@ const SerializerConfig = {
     [TaskList.name]: (state, node) => {
       state.renderList(node, '  ', () => (node.attrs.bullet || '*') + ' ');
     },
-    [Text.name]: defaultMarkdownSerializer.nodes.text,
+    [Text.name]: (state, node) => {
+      state.text(node.text, false);
+    },
     [Title.name]: renderHTMLNode('div', false, true, { class: 'title' }),
   },
 };
@@ -171,6 +173,7 @@ const SerializerConfig = {
  */
 export const prosemirrorToMarkdown = ({ content }) => {
   const serializer = new ProseMirrorMarkdownSerializer(SerializerConfig.nodes, SerializerConfig.marks);
+
   const markdown = serializer.serialize(content, {
     tightLists: true,
   });

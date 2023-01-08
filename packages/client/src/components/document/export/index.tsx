@@ -2,7 +2,7 @@ import { Badge, Button, Dropdown, Modal, Space, Typography } from '@douyinfe/sem
 import { IDocument } from '@think/domains';
 import { IconJSON, IconMarkdown, IconPDF, IconWord } from 'components/icons';
 import { useDocumentDetail } from 'data/document';
-import download from 'downloadjs';
+import FileSaver from 'file-saver';
 import { safeJSONParse, safeJSONStringify } from 'helpers/json';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
@@ -40,18 +40,21 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
 
   const exportMarkdown = useCallback(() => {
     const md = prosemirrorToMarkdown({ content: editor.state.doc.slice(0).content });
-    download(md, `${document.title}.md`, 'text/plain');
+    const blob = new Blob([md], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(blob, `${document.title}.md`);
   }, [document, editor]);
 
   const exportJSON = useCallback(() => {
-    download(safeJSONStringify(editor.getJSON()), `${document.title}.json`, 'text/plain');
+    const blob = new Blob([safeJSONStringify(editor.getJSON())], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(blob, `${document.title}.json`);
   }, [document, editor]);
 
   const exportWord = useCallback(() => {
     const editorContent = editor.view.dom.closest('.ProseMirror');
     if (editorContent) {
       exportDocx(editorContent.outerHTML).then((res) => {
-        download(Buffer.from(res as Buffer), `${document.title}.docx`);
+        const blob = new Blob([Buffer.from(res as Buffer)], { type: 'text/plain;charset=utf-8' });
+        FileSaver.saveAs(blob, `${document.title}.docx`);
       });
     }
   }, [editor, exportDocx, document]);
