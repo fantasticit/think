@@ -2,7 +2,7 @@
 .ProseMirror {
   ol,
   ul {
-    padding-left: 28px;
+    padding-left: 18px;
 
     p {
       margin: 0;
@@ -63,9 +63,9 @@
         border: 1px solid var(--semi-color-border);
         border-radius: 2px;
 
-       > input {
-        display: none;
-       }
+        > input {
+          display: none;
+        }
 
         &::after {
           position: absolute;
