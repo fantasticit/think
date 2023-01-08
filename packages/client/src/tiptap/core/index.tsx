@@ -23,6 +23,10 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
+    let isUnmount = false;
+    let timer1: ReturnType<typeof requestAnimationFrame> = null;
+    let timer2: ReturnType<typeof requestAnimationFrame> = null;
+
     options.editorProps = options.editorProps || {};
 
     if (options.editable) {
@@ -49,14 +53,22 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     }
 
     instance.on('transaction', () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          forceUpdate();
+      if (!isUnmount) {
+        timer1 = requestAnimationFrame(() => {
+          timer2 = requestAnimationFrame(() => {
+            forceUpdate();
+          });
         });
-      });
+      } else {
+        cancelAnimationFrame(timer1);
+        cancelAnimationFrame(timer2);
+      }
     });
 
     return () => {
+      cancelAnimationFrame(timer1);
+      cancelAnimationFrame(timer2);
+      isUnmount = true;
       instance.destroy();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -45,19 +45,31 @@ export const _ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   useEffect(() => {
+    let isUnmount = false;
+
     import('@excalidraw/excalidraw')
       .then((res) => {
-        exportToSvgRef.current = res.exportToSvg;
+        if (!isUnmount) {
+          exportToSvgRef.current = res.exportToSvg;
+        }
       })
-      .catch(setError)
-      .finally(() => toggleLoading(false));
+      .catch((err) => !isUnmount && setError(err))
+      .finally(() => !isUnmount && toggleLoading(false));
+
+    return () => {
+      isUnmount = true;
+    };
   }, [toggleLoading, data]);
 
   useEffect(() => {
+    let isUnmount = false;
+
     const setContent = async () => {
-      if (loading || error || !visible || !data) return;
+      if (isUnmount || loading || error || !visible || !data) return;
 
       const svg: SVGElement = await exportToSvgRef.current(data);
+
+      if (isUnmount) return;
 
       svg.setAttribute('width', '100%');
       svg.setAttribute('height', '100%');
@@ -65,7 +77,12 @@ export const _ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
 
       setSvg(svg);
     };
+
     setContent();
+
+    return () => {
+      isUnmount = true;
+    };
   }, [data, loading, error, visible]);
 
   return (

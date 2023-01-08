@@ -91,9 +91,15 @@ export const _FlowWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   useEffect(() => {
+    let isUnmount = false;
+
     load()
-      .catch(setError)
-      .finally(() => toggleLoading(false));
+      .catch((err) => !isUnmount && setError(err))
+      .finally(() => !isUnmount && toggleLoading(false));
+
+    return () => {
+      isUnmount = true;
+    };
   }, [toggleLoading, data]);
 
   return (

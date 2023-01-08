@@ -20,6 +20,7 @@ const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
 
 export const _MindWrapper = ({ editor, node, updateAttributes }) => {
   const $mind = useRef(null);
+  const $centerTimer = useRef<ReturnType<typeof setTimeout>>(null);
   const isEditable = editor.isEditable;
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const { data, width, height } = node.attrs;
@@ -46,7 +47,7 @@ export const _MindWrapper = ({ editor, node, updateAttributes }) => {
   const onResize = useCallback(
     (size) => {
       updateAttributes({ width: size.width, height: size.height });
-      setTimeout(() => {
+      $centerTimer.current = setTimeout(() => {
         setCenter();
       });
     },
@@ -86,9 +87,15 @@ export const _MindWrapper = ({ editor, node, updateAttributes }) => {
   );
 
   useEffect(() => {
+    let isUnmount = false;
+
     load()
-      .catch(setError)
-      .finally(() => toggleLoading(false));
+      .catch((err) => !isUnmount && setError(err))
+      .finally(() => !isUnmount && toggleLoading(false));
+
+    return () => {
+      isUnmount = true;
+    };
   }, [toggleLoading]);
 
   // 数据同步渲染
@@ -104,6 +111,12 @@ export const _MindWrapper = ({ editor, node, updateAttributes }) => {
   useEffect(() => {
     setCenter();
   }, [width, height, setCenter]);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout($centerTimer.current);
+    };
+  }, []);
 
   return (
     <NodeViewWrapper className={cls(styles.wrap)}>
