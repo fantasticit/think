@@ -1,7 +1,7 @@
 /* stylelint-disable */
 .ProseMirror {
-  $tableBorderColor: var(--semi-color-border);
-  $tableHeaderBgColor: var(--semi-color-fill-0);
+  $tableBorderColor: #d8d8d8;
+  $tableHeaderBgColor: var(--semi-color-fill-1);
   $tableSelectedBorderColor: rgb(0 101 255);
   $tableSelectedCellBgColor: transparent;
   $tableSelectedControlBgColor: #2584ff;
