@@ -1,28 +1,42 @@
 import { Extension } from '@tiptap/core';
-import { Plugin, PluginKey, Selection } from 'prosemirror-state';
-import { NodeSelection, TextSelection } from 'prosemirror-state';
-import { __serializeForClipboard, EditorView } from 'prosemirror-view';
-import { ActiveNode, getNodeAtPos, removePossibleTable, safePos, selectRootNodeByDom } from 'tiptap/prose-utils';
+import {
+  NodeSelection,
+  Plugin as PMPlugin,
+  PluginKey as PMPluginKey,
+  Selection,
+  TextSelection,
+} from 'prosemirror-state';
+import { findParentNodeClosestToPos } from 'prosemirror-utils';
+import { __serializeForClipboard, Decoration, DecorationSet, EditorView } from 'prosemirror-view';
+import ReactDOM from 'react-dom';
+import { safePos } from 'tiptap/prose-utils';
+import { ActiveNode, removePossibleTable, selectAncestorNodeByDom } from 'tiptap/prose-utils';
 
-export const DragablePluginKey = new PluginKey('dragable');
+const DragablePluginKey = new PMPluginKey('dragable');
 
 export const Dragable = Extension.create({
   name: 'dragable',
 
+  // @ts-ignore
   addProseMirrorPlugins() {
-    if (!this.editor.isEditable) return [];
-
     let editorView: EditorView;
     let dragHandleDOM: HTMLElement;
-    let activeNode: ActiveNode;
-    let activeSelection: Selection;
+    let activeNode: ActiveNode | null;
+    let activeSelection: Selection | null;
     let dragging = false;
+    const isMenuVisible = false;
     let mouseleaveTimer = null;
+    const menuActions = { setVisible: (arg: boolean) => {}, update: () => {} };
+
+    const getEditorView = () => editorView;
+    const getActiveNode = () => activeNode;
 
     const createDragHandleDOM = () => {
       const dom = document.createElement('div');
+      dom.className = 'dragable';
       dom.draggable = true;
       dom.setAttribute('data-drag-handle', 'true');
+
       return dom;
     };
 
@@ -31,25 +45,41 @@ export const Dragable = Extension.create({
       dragHandleDOM?.classList?.remove('hide');
     };
 
+    const activeDragHandleDOM = () => {
+      dragHandleDOM?.classList?.add('active');
+      dragHandleDOM?.classList?.remove('hide');
+    };
+
     const hideDragHandleDOM = () => {
       dragHandleDOM?.classList?.remove('show');
+      dragHandleDOM?.classList?.remove('active');
       dragHandleDOM?.classList?.add('hide');
     };
 
-    const renderDragHandleDOM = (view: EditorView, el: HTMLElement) => {
+    const renderDragHandleDOM = (view: EditorView, referenceRectDOM: HTMLElement) => {
       const root = view.dom.parentElement;
 
       if (!root) return;
 
-      const targetNodeRect = (<HTMLElement>el).getBoundingClientRect();
+      const targetNodeRect = referenceRectDOM.getBoundingClientRect();
       const rootRect = root.getBoundingClientRect();
       const handleRect = dragHandleDOM.getBoundingClientRect();
 
-      const left = targetNodeRect.left - rootRect.left - handleRect.width - handleRect.width / 2;
+      let offsetX = -5;
+
+      if (referenceRectDOM.tagName === 'LI') {
+        offsetX = referenceRectDOM.getAttribute('data-checked') ? -3 : -16;
+      }
+
+      const left = targetNodeRect.left - rootRect.left - handleRect.width + offsetX;
       const top = targetNodeRect.top - rootRect.top + handleRect.height / 2 + root.scrollTop;
 
-      dragHandleDOM.style.left = `${left}px`;
-      dragHandleDOM.style.top = `${top}px`;
+      const offsetLeft = 0;
+
+      dragHandleDOM.style.left = `${left + offsetLeft}px`;
+      dragHandleDOM.style.top = `${top - 2}px`;
+
+      menuActions?.update?.();
 
       showDragHandleDOM();
     };
@@ -63,7 +93,10 @@ export const Dragable = Extension.create({
 
     const handleMouseLeave = () => {
       if (!activeNode) return null;
-      hideDragHandleDOM();
+
+      if (!isMenuVisible) {
+        hideDragHandleDOM();
+      }
     };
 
     const handleMouseDown = () => {
@@ -85,6 +118,7 @@ export const Dragable = Extension.create({
 
       dragging = false;
       activeSelection = null;
+      activeNode = null;
     };
 
     const handleDragStart = (event) => {
@@ -102,11 +136,13 @@ export const Dragable = Extension.create({
           slice,
           move: true,
         };
+
+        menuActions?.setVisible?.(false);
       }
     };
 
     return [
-      new Plugin({
+      new PMPlugin({
         key: DragablePluginKey,
         view: (view) => {
           if (view.editable) {
@@ -117,6 +153,7 @@ export const Dragable = Extension.create({
             dragHandleDOM.addEventListener('mouseup', handleMouseUp);
             dragHandleDOM.addEventListener('dragstart', handleDragStart);
             view.dom.parentNode?.appendChild(dragHandleDOM);
+            view.dom.parentNode.style = 'position: relative;';
           }
 
           return {
@@ -126,6 +163,8 @@ export const Dragable = Extension.create({
             destroy: () => {
               if (!dragHandleDOM) return;
 
+              clearTimeout(mouseleaveTimer);
+              ReactDOM.unmountComponentAtNode(dragHandleDOM);
               dragHandleDOM.removeEventListener('mouseenter', handleMouseEnter);
               dragHandleDOM.removeEventListener('mouseleave', handleMouseLeave);
               dragHandleDOM.removeEventListener('mousedown', handleMouseDown);
@@ -136,14 +175,16 @@ export const Dragable = Extension.create({
           };
         },
         props: {
+          // @ts-ignore
           handleDOMEvents: {
             drop: (view, event: DragEvent) => {
               if (!view.editable || !dragHandleDOM) return false;
+              if (!activeSelection) return false;
 
-              const eventPos = view.posAtCoords({ left: event.clientX, top: event.clientY });
-              if (!eventPos) {
-                return true;
-              }
+              const eventPos = view.posAtCoords({
+                left: event.clientX,
+                top: event.clientY,
+              });
 
               setTimeout(() => {
                 if (activeSelection) {
@@ -165,18 +206,25 @@ export const Dragable = Extension.create({
                 }
               }, 100);
 
-              const $mouse = view.state.doc.resolve(eventPos.pos);
+              if (!eventPos) {
+                return true;
+              }
 
-              /**
-               * 不允许在 title 处放置
-               */
-              if ($mouse?.parent?.type?.name === 'title') {
+              const maybeTitle = findParentNodeClosestToPos(
+                view.state.doc.resolve(safePos(this.editor.state, eventPos.pos)),
+                (node) => node.type.name === 'title'
+              );
+
+              // 不允许在 title 处放置
+              if (eventPos.pos === 0 || maybeTitle) {
                 return true;
               }
 
               if (dragging) {
                 const tr = removePossibleTable(view, event);
+
                 dragging = false;
+
                 if (tr) {
                   view.dispatch(tr);
                   event.preventDefault();
@@ -187,9 +235,61 @@ export const Dragable = Extension.create({
               return false;
             },
             mousemove: (view, event) => {
+              if (isMenuVisible) return false;
               if (!view.editable || !dragHandleDOM) return false;
 
-              const dom = event.target;
+              const coords = { left: event.clientX, top: event.clientY };
+              const pos = view.posAtCoords(coords);
+
+              if (!pos || !pos.pos) return false;
+
+              let dom = view.nodeDOM(pos.pos) || view.domAtPos(pos.pos)?.node || event.target;
+
+              const maybeTaskItemOrListItem = findParentNodeClosestToPos(view.state.doc.resolve(pos.pos), (node) =>
+                ['taskItem', 'listItem'].some((name) => name === node.type.name)
+              );
+
+              if (!dom) {
+                if (dragging) return false;
+                hideDragHandleDOM();
+                return false;
+              }
+
+              while (dom && dom.nodeType === 3) {
+                dom = dom.parentElement;
+              }
+
+              // 选中列表项
+              if (maybeTaskItemOrListItem) {
+                while (dom && dom.tagName !== 'LI') {
+                  dom = dom.parentElement;
+                }
+              }
+
+              if (dom.tagName === 'LI') {
+                if (dom?.parentElement?.childElementCount === 1) {
+                  return false;
+                }
+              }
+
+              // 不允许选中整个列表
+              if (dom.tagName === 'UL' || dom.tagName === 'OL') {
+                return false;
+              }
+
+              try {
+                let maybeReactRenderer: HTMLElement | null = dom;
+
+                while (maybeReactRenderer && !maybeReactRenderer.classList?.contains('react-renderer')) {
+                  maybeReactRenderer = maybeReactRenderer.parentElement;
+                }
+
+                if (maybeReactRenderer && !maybeReactRenderer?.classList?.contains('node-columns')) {
+                  dom = maybeReactRenderer;
+                }
+              } catch (e) {
+                //
+              }
 
               if (!(dom instanceof Element)) {
                 if (dragging) return false;
@@ -197,50 +297,27 @@ export const Dragable = Extension.create({
                 return false;
               }
 
-              const result = selectRootNodeByDom(dom, view);
+              const result = selectAncestorNodeByDom(dom, view);
 
               if (
                 !result ||
                 result.node.type.name === 'doc' ||
                 result.node.type.name === 'title' ||
-                result.node.type.name === 'tableOfContents' ||
-                result.node.type.name === 'column' ||
-                // empty paragraph
-                (result.node.type.name === 'paragraph' && result.node.nodeSize === 2)
+                result.node.type.name === 'tableOfContents'
               ) {
                 if (dragging) return false;
                 hideDragHandleDOM();
                 return false;
               }
 
-              /**
-               * 嵌套在其他节点的 paragraph
-               */
-              if (result.node.type.name === 'paragraph') {
-                const { $from, to } = view.state.selection;
-                const same = $from.sharedDepth(to);
-                if (same != 0) {
-                  const pos = $from.before(same);
-                  const parent = getNodeAtPos(view.state, pos);
-
-                  if (parent && parent.type.name !== 'paragraph') {
-                    if (dragging) return false;
-                    hideDragHandleDOM();
-                    return false;
-                  }
-                }
-              }
+              // if (result.el.parentElement?.classList.contains('ProseMirror')) {
+              //   if (dragging) return false;
+              //   hideDragHandleDOM();
+              //   return false;
+              // }
 
               activeNode = result;
-
               renderDragHandleDOM(view, result.el);
-              return false;
-            },
-            mouseleave: () => {
-              clearTimeout(mouseleaveTimer);
-              mouseleaveTimer = setTimeout(() => {
-                hideDragHandleDOM();
-              }, 400);
               return false;
             },
             keydown: () => {
@@ -248,6 +325,38 @@ export const Dragable = Extension.create({
               hideDragHandleDOM();
               return false;
             },
+            mouseleave: () => {
+              clearTimeout(mouseleaveTimer);
+              mouseleaveTimer = setTimeout(() => {
+                if (!isMenuVisible) {
+                  hideDragHandleDOM();
+                }
+              }, 400);
+              return false;
+            },
+          },
+        },
+      }),
+      new PMPlugin({
+        key: new PMPluginKey('AncestorDragablePluginFocusKey'),
+        props: {
+          decorations(state) {
+            const usingActiveSelection = !!activeSelection;
+            const selection = state.selection;
+
+            if (selection instanceof NodeSelection) {
+              const { from, to } = selection;
+
+              return DecorationSet.create(state.doc, [
+                Decoration.node(safePos(state, from), safePos(state, to), {
+                  class: usingActiveSelection
+                    ? 'ProseMirror-selectedblocknode-dragable'
+                    : 'ProseMirror-selectedblocknode-normal',
+                }),
+              ]);
+            }
+
+            return DecorationSet.empty;
           },
         },
       }),

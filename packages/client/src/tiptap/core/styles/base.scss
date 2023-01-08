@@ -19,6 +19,10 @@
   white-space: break-spaces;
   outline: none !important;
 
+  &.is-editable {
+    padding: 0 10px;
+  }
+
   &:focus-visible {
     outline: none;
   }
