@@ -34,18 +34,20 @@ function getDecorations({
   name,
   lowlight,
   defaultLanguage,
-  maxTextLength,
+  maxHighlightLineNumber,
 }: {
   doc: ProsemirrorNode;
   name: string;
   lowlight: any;
   defaultLanguage: string | null | undefined;
-  maxTextLength: number;
+  maxHighlightLineNumber: number;
 }) {
   const decorations: Decoration[] = [];
 
   findChildren(doc, (node) => node.type.name === name)
-    .filter((block) => block.node.nodeSize <= maxTextLength)
+    .filter((block) => {
+      return block.node.textContent.split('\n').length <= maxHighlightLineNumber;
+    })
     .forEach((block) => {
       let from = block.pos + 1;
       const language = block.node.attrs.language || defaultLanguage;
@@ -81,12 +83,12 @@ export function LowlightPlugin({
   name,
   lowlight,
   defaultLanguage,
-  maxTextLength,
+  maxHighlightLineNumber,
 }: {
   name: string;
   lowlight: any;
   defaultLanguage: string | null | undefined;
-  maxTextLength: number;
+  maxHighlightLineNumber: number;
 }) {
   if (!['highlight', 'highlightAuto', 'listLanguages'].every((api) => isFunction(lowlight[api]))) {
     throw Error('You should provide an instance of lowlight to use the code-block-lowlight extension');
@@ -102,7 +104,7 @@ export function LowlightPlugin({
           name,
           lowlight,
           defaultLanguage,
-          maxTextLength,
+          maxHighlightLineNumber,
         }),
       apply: (transaction, decorationSet, oldState, newState) => {
         const oldNodeName = oldState.selection.$head.parent.type.name;
@@ -142,7 +144,7 @@ export function LowlightPlugin({
             name,
             lowlight,
             defaultLanguage,
-            maxTextLength,
+            maxHighlightLineNumber,
           });
         }
 
@@ -163,7 +165,7 @@ export function LowlightPlugin({
 export interface CodeBlockLowlightOptions extends CodeBlockOptions {
   lowlight: any;
   defaultLanguage: string | null | undefined;
-  maxTextLength?: number;
+  maxHighlightLineNumber?: number;
 }
 
 export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
@@ -174,7 +176,7 @@ export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
       ...this.parent?.(),
       lowlight: {},
       defaultLanguage: null,
-      maxTextLength: 200,
+      maxHighlightLineNumber: 200,
     };
   },
 
@@ -189,7 +191,7 @@ export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
         name: this.name,
         lowlight: this.options.lowlight,
         defaultLanguage: this.options.defaultLanguage,
-        maxTextLength: this.options.maxTextLength || 200,
+        maxHighlightLineNumber: this.options.maxHighlightLineNumber || 200,
       }),
     ];
   },
