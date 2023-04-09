@@ -1,4 +1,5 @@
 import { Editor, Extension } from '@tiptap/core';
+
 import { Node as ProsemirrorNode } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';

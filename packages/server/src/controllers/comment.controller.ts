@@ -1,6 +1,3 @@
-import { CommentDto, UpdateCommentDto } from '@dtos/comment.dto';
-import { JwtGuard } from '@guard/jwt.guard';
-import { UserGuard } from '@guard/user.guard';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -17,8 +14,13 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { CommentService } from '@services/comment.service';
+
 import { CommentApiDefinition } from '@think/domains';
+
+import { CommentDto, UpdateCommentDto } from '@dtos/comment.dto';
+import { JwtGuard } from '@guard/jwt.guard';
+import { UserGuard } from '@guard/user.guard';
+import { CommentService } from '@services/comment.service';
 
 @Controller('comment')
 export class CommentController {

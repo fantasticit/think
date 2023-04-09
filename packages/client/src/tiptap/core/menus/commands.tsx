@@ -1,5 +1,9 @@
 import { Dropdown, Popover } from '@douyinfe/semi-ui';
+
 import { IUser } from '@think/domains';
+
+import { Editor } from 'tiptap/core';
+
 import { GridSelect } from 'components/grid-select';
 import {
   IconAttachment,
@@ -18,7 +22,6 @@ import {
   IconTableOfContents,
 } from 'components/icons';
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
-import { Editor } from 'tiptap/core';
 
 import { createCountdown } from './countdown/service';
 

@@ -1,4 +1,5 @@
 import { Banner, Button, Typography } from '@douyinfe/semi-ui';
+
 import { WikiDeletor } from 'components/wiki/delete';
 
 interface IProps {

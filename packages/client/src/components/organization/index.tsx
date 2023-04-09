@@ -1,5 +1,6 @@
 import { Typography } from '@douyinfe/semi-ui';
 import { Avatar } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { useOrganizationDetail } from 'data/organization';
 import { useRouterQuery } from 'hooks/use-router-query';

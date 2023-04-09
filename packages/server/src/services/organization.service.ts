@@ -1,14 +1,16 @@
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { AuthEnum, buildMessageURL, IOrganization, IUser } from '@think/domains';
+
 import { OperateUserAuthDto } from '@dtos/auth.dto';
 import { CreateOrganizationDto } from '@dtos/organization.dto';
 import { OrganizationEntity } from '@entities/organization.entity';
 import { UserEntity } from '@entities/user.entity';
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from '@services/auth.service';
 import { MessageService } from '@services/message.service';
 import { UserService } from '@services/user.service';
 import { WikiService } from '@services/wiki.service';
-import { AuthEnum, buildMessageURL, IOrganization, IUser } from '@think/domains';
 import { Repository } from 'typeorm';
 
 @Injectable()

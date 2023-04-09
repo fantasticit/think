@@ -1,4 +1,7 @@
+import React, { useCallback } from 'react';
+
 import { Banner, Typography } from '@douyinfe/semi-ui';
+
 import { SystemConfig } from 'components/admin/system-config';
 import { Seo } from 'components/seo';
 import { useUser } from 'data/user';
@@ -6,7 +9,6 @@ import { Forbidden } from 'illustrations/forbidden';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
 
 import styles from './index.module.scss';
 

@@ -1,4 +1,5 @@
 import { ITemplate, TemplateApiDefinition } from '@think/domains';
+
 import { TemplateEditor } from 'components/template/editor';
 import { getTemplateDetail } from 'data/template';
 import { NextPage } from 'next';

@@ -1,8 +1,10 @@
+import React, { useCallback, useState } from 'react';
+
 import { Button, Col, Form, Row, Toast } from '@douyinfe/semi-ui';
+
 import { useResetPassword, useSystemPublicConfig, useUser, useVerifyCode } from 'data/user';
 import { useInterval } from 'hooks/use-interval';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useState } from 'react';
 
 export const ResetPassword = ({ onSuccess }) => {
   const [email, setEmail] = useState('');

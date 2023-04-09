@@ -1,11 +1,13 @@
+import React, { useCallback } from 'react';
+
 import { Button, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+
 import { Seo } from 'components/seo';
 import { TemplateList } from 'components/template/list';
 import { useOwnTemplates, usePublicTemplates } from 'data/template';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
 
 import styles from './index.module.scss';
 

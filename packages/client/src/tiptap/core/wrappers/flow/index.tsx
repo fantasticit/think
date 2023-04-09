@@ -1,16 +1,19 @@
+import React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import VisibilitySensor from 'react-visibility-sensor';
+
 import { Button, Space, Spin, Typography } from '@douyinfe/semi-ui';
+
 import { NodeViewWrapper } from '@tiptap/react';
+import { Flow } from 'tiptap/core/extensions/flow';
+import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
+
 import cls from 'classnames';
 import { IconFlow, IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
 import deepEqual from 'deep-equal';
 import { useToggle } from 'hooks/use-toggle';
-import React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import VisibilitySensor from 'react-visibility-sensor';
 import { load, renderXml } from 'thirtypart/diagram';
-import { Flow } from 'tiptap/core/extensions/flow';
-import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
 

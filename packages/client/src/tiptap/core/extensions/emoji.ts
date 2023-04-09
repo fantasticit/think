@@ -1,11 +1,12 @@
 import { Node } from '@tiptap/core';
 import { ReactRenderer } from '@tiptap/react';
 import Suggestion from '@tiptap/suggestion';
-import { Plugin, PluginKey } from 'prosemirror-state';
-import tippy from 'tippy.js';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import { EmojiList } from 'tiptap/core/wrappers/emoji-list';
 import { emojiSearch, emojisToName } from 'tiptap/core/wrappers/emoji-list/emojis';
+
+import { Plugin, PluginKey } from 'prosemirror-state';
+import tippy from 'tippy.js';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

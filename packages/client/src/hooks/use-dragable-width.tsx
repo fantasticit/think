@@ -1,7 +1,8 @@
-import { clamp } from 'helpers/clamp';
-import { getStorage, setStorage } from 'helpers/storage';
 import { useCallback, useMemo, useRef } from 'react';
 import { useQuery } from 'react-query';
+
+import { clamp } from 'helpers/clamp';
+import { getStorage, setStorage } from 'helpers/storage';
 
 import { IsOnMobile } from './use-on-mobile';
 

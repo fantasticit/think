@@ -1,12 +1,15 @@
+import React from 'react';
+
 import { Spin } from '@douyinfe/semi-ui';
+
 import { IWiki, WikiApiDefinition } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { DocumentReader } from 'components/document/reader';
 import { WikiTocs } from 'components/wiki/tocs';
 import { getWikiDetail, getWikiTocs, useWikiDetail } from 'data/wiki';
 import { AppDoubleColumnLayout } from 'layouts/app-double-column';
 import { NextPage } from 'next';
-import React from 'react';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {

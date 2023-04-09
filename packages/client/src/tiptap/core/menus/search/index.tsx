@@ -1,12 +1,15 @@
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { Button, Input, Popover, SideSheet, Space, Typography } from '@douyinfe/semi-ui';
+
+import { Editor } from 'tiptap/core';
+import { ON_SEARCH_RESULTS, SearchNReplace } from 'tiptap/core/extensions/search';
+
 import { IconSearchReplace } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
 import deepEqual from 'deep-equal';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Editor } from 'tiptap/core';
-import { ON_SEARCH_RESULTS, SearchNReplace } from 'tiptap/core/extensions/search';
 
 const { Text } = Typography;
 

@@ -1,6 +1,11 @@
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { Button, Modal, Select, Space, Tag, Typography } from '@douyinfe/semi-ui';
+
 import { EditorContent, useEditor } from '@tiptap/react';
+import { CollaborationKit } from 'tiptap/editor';
+
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
@@ -9,8 +14,6 @@ import { generateDiffHtml } from 'helpers/generate-html';
 import { safeJSONParse } from 'helpers/json';
 import { DocumentVersionControl } from 'hooks/use-document-version';
 import { IsOnMobile } from 'hooks/use-on-mobile';
-import React, { useCallback, useEffect, useState } from 'react';
-import { CollaborationKit } from 'tiptap/editor';
 
 import styles from './index.module.scss';
 

@@ -1,4 +1,3 @@
-import { JwtGuard } from '@guard/jwt.guard';
 import {
   ClassSerializerInterceptor,
   Controller,
@@ -12,8 +11,11 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { MessageService } from '@services/message.service';
+
 import { MessageApiDefinition } from '@think/domains';
+
+import { JwtGuard } from '@guard/jwt.guard';
+import { MessageService } from '@services/message.service';
 
 @Controller('message')
 export class MessageController {

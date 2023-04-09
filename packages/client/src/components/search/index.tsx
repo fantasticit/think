@@ -1,6 +1,10 @@
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import { IconSearch as SemiIconSearch } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Input, Modal, Spin, Typography } from '@douyinfe/semi-ui';
+
 import { IDocument } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { DocumentStar } from 'components/document/star';
 import { Empty } from 'components/empty';
@@ -14,7 +18,6 @@ import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import Router from 'next/router';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { HttpClient } from 'services/http-client';
 
 import styles from './index.module.scss';

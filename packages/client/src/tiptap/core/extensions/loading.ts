@@ -1,7 +1,8 @@
 import { Editor, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import { Node as PMNode } from 'prosemirror-state';
 import { LoadingWrapper } from 'tiptap/core/wrappers/loading';
+
+import { Node as PMNode } from 'prosemirror-state';
 
 export function findLoadingById(editor: Editor, id: string): null | { node: PMNode; pos: number } {
   let target: PMNode | null = null;

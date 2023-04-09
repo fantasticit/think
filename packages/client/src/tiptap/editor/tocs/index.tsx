@@ -1,15 +1,19 @@
-import { Anchor, Tooltip } from '@douyinfe/semi-ui';
-import cls from 'classnames';
-import { throttle } from 'helpers/throttle';
-import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import scrollIntoView from 'scroll-into-view-if-needed';
+
+import { Anchor, Tooltip } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 import { findNode } from 'tiptap/prose-utils';
 
+import cls from 'classnames';
+import { throttle } from 'helpers/throttle';
+import { useToggle } from 'hooks/use-toggle';
+import scrollIntoView from 'scroll-into-view-if-needed';
+
+import { parseHeadingsToTocs } from './util';
+
 import styles from './index.module.scss';
-import { flattenHeadingsToTree } from './util';
 
 interface IHeading {
   level: number;
@@ -124,7 +128,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
     editor.view.dispatch(transaction);
 
     setHeadings(headings);
-    setNestedHeadings(flattenHeadingsToTree(headings));
+    setNestedHeadings(parseHeadingsToTocs(headings));
   }, [editor]);
 
   useEffect(() => {
@@ -161,7 +165,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
           ? headings.map((toc) => {
               return (
                 <Anchor.Link
-                  key={'collapsed-' + toc.text}
+                  key={'collapsed-' + toc.id}
                   href={`#${toc.id}`}
                   title={
                     <Tooltip key={toc.text} content={toc.text} position="right">
@@ -171,7 +175,7 @@ export const Tocs: React.FC<{ editor: Editor; getContainer: () => HTMLElement }>
                 />
               );
             })
-          : nestedHeadings.map((toc) => <Toc key={'!collapsed-' + toc.text} toc={toc} collapsed={collapsed} />)}
+          : nestedHeadings.map((toc) => <Toc key={'!collapsed-' + toc.id} toc={toc} collapsed={collapsed} />)}
       </Anchor>
     </div>
   );

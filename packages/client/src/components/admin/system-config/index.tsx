@@ -1,5 +1,6 @@
-import { TabPane, Tabs } from '@douyinfe/semi-ui';
 import React from 'react';
+
+import { TabPane, Tabs } from '@douyinfe/semi-ui';
 
 import { Mail } from './mail';
 import { System } from './system';

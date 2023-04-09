@@ -1,12 +1,15 @@
+import { useCallback } from 'react';
+
 import { IconCopy, IconDelete } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
-import { IconAddColAfter, IconAddColBefore, IconDeleteCol } from 'components/icons';
-import { Tooltip } from 'components/tooltip';
-import { useCallback } from 'react';
+
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { Columns } from 'tiptap/core/extensions/columns';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
+import { Divider } from 'components/divider';
+import { IconAddColAfter, IconAddColBefore, IconDeleteCol } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 
 export const ColumnsBubbleMenu = ({ editor }) => {
   const getRenderContainer = useCallback((node) => {

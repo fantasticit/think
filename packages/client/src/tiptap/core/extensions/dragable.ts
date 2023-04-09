@@ -1,4 +1,9 @@
+import ReactDOM from 'react-dom';
+
 import { Extension } from '@tiptap/core';
+import { safePos } from 'tiptap/prose-utils';
+import { ActiveNode, removePossibleTable, selectAncestorNodeByDom } from 'tiptap/prose-utils';
+
 import {
   NodeSelection,
   Plugin as PMPlugin,
@@ -8,9 +13,6 @@ import {
 } from 'prosemirror-state';
 import { findParentNodeClosestToPos } from 'prosemirror-utils';
 import { __serializeForClipboard, Decoration, DecorationSet, EditorView } from 'prosemirror-view';
-import ReactDOM from 'react-dom';
-import { safePos } from 'tiptap/prose-utils';
-import { ActiveNode, removePossibleTable, selectAncestorNodeByDom } from 'tiptap/prose-utils';
 
 const DragablePluginKey = new PMPluginKey('dragable');
 

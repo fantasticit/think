@@ -1,10 +1,13 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { Button, Popover, SideSheet, TabPane, Tabs } from '@douyinfe/semi-ui';
+
 import { createKeysLocalStorageLRUCache } from 'helpers/lru-cache';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ACTIVITIES, EXPRESSIONES, GESTURES, OBJECTS, SKY_WEATHER, SYMBOLS } from './constants';
+
 import styles from './index.module.scss';
 
 const emojiLocalStorageLRUCache = createKeysLocalStorageLRUCache('EMOJI_PICKER', 20);

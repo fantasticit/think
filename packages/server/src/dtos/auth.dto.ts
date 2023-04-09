@@ -1,4 +1,5 @@
 import { AuthEnum } from '@think/domains';
+
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class AuthDto {

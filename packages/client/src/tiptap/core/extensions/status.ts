@@ -1,4 +1,5 @@
 import { IUser } from '@think/domains';
+
 import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { STATUS_COLORS, StatusWrapper } from 'tiptap/core/wrappers/status';
@@ -24,6 +25,7 @@ export const Status = Node.create({
   group: 'inline',
   inline: true,
   selectable: true,
+  draggable: true,
   atom: true,
 
   addAttributes() {

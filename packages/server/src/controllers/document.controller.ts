@@ -1,9 +1,3 @@
-import { OperateUserAuthDto } from '@dtos/auth.dto';
-import { CreateDocumentDto } from '@dtos/create-document.dto';
-import { ShareDocumentDto } from '@dtos/share-document.dto';
-import { UpdateDocumentDto } from '@dtos/update-document.dto';
-import { CheckDocumentStatus, DocumentStatusGuard } from '@guard/document-status.guard';
-import { JwtGuard } from '@guard/jwt.guard';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -20,8 +14,16 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { DocumentService } from '@services/document.service';
+
 import { DocumentApiDefinition, DocumentStatus, IPagination } from '@think/domains';
+
+import { OperateUserAuthDto } from '@dtos/auth.dto';
+import { CreateDocumentDto } from '@dtos/create-document.dto';
+import { ShareDocumentDto } from '@dtos/share-document.dto';
+import { UpdateDocumentDto } from '@dtos/update-document.dto';
+import { CheckDocumentStatus, DocumentStatusGuard } from '@guard/document-status.guard';
+import { JwtGuard } from '@guard/jwt.guard';
+import { DocumentService } from '@services/document.service';
 
 @Controller('document')
 @UseGuards(DocumentStatusGuard)

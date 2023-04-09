@@ -1,16 +1,19 @@
-import { Spin, Typography } from '@douyinfe/semi-ui';
-import { NodeViewWrapper } from '@tiptap/react';
-import { Resizeable } from 'components/resizeable';
-import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { uploadFile } from 'services/file';
+
+import { Spin, Typography } from '@douyinfe/semi-ui';
+
+import { NodeViewWrapper } from '@tiptap/react';
 import {
   extractFileExtension,
   extractFilename,
   getEditorContainerDOMSize,
   getImageWidthHeight,
 } from 'tiptap/prose-utils';
+
+import { Resizeable } from 'components/resizeable';
+import { useToggle } from 'hooks/use-toggle';
+import { uploadFile } from 'services/file';
 
 import styles from './index.module.scss';
 

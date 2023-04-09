@@ -1,9 +1,11 @@
+import { DependencyList, useEffect, useState } from 'react';
+
 import { EditorOptions } from '@tiptap/core';
 import { Editor as BuiltInEditor } from '@tiptap/react';
 import { EditorContent, NodeViewContent, NodeViewWrapper } from '@tiptap/react';
+
 import { EventEmitter } from 'helpers/event-emitter';
 import { throttle } from 'helpers/throttle';
-import { DependencyList, useEffect, useState } from 'react';
 
 function useForceUpdate() {
   const [, setValue] = useState(0);

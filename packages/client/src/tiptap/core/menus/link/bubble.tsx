@@ -1,12 +1,15 @@
+import { useCallback, useEffect, useState } from 'react';
+
 import { IconEdit, IconExternalOpen, IconUnlink } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
-import { Tooltip } from 'components/tooltip';
-import { useCallback, useEffect, useState } from 'react';
+
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { Link } from 'tiptap/core/extensions/link';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { findMarkPosition, isMarkActive } from 'tiptap/prose-utils';
+
+import { Divider } from 'components/divider';
+import { Tooltip } from 'components/tooltip';
 
 import { triggerOpenLinkSettingModal } from '../_event';
 

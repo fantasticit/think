@@ -1,7 +1,9 @@
-import { IAuth, IDocument, IUser, IWiki, WikiApiDefinition } from '@think/domains';
-import { event, REFRESH_TOCS } from 'event';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+
+import { IAuth, IDocument, IUser, IWiki, WikiApiDefinition } from '@think/domains';
+
+import { event, REFRESH_TOCS } from 'event';
 import { HttpClient } from 'services/http-client';
 
 export type ICreateWiki = Pick<IWiki, 'name' | 'description'>;

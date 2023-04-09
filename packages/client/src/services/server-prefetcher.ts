@@ -1,5 +1,6 @@
-import { NextPageContext } from 'next';
 import { dehydrate, QueryClient } from 'react-query';
+
+import { NextPageContext } from 'next';
 
 type PrefetchActions = Array<{
   url: string | (string | number)[];

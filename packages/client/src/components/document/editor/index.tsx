@@ -1,5 +1,8 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { Button, Nav, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { Divider } from 'components/divider';
 import { DocumentCollaboration } from 'components/document/collaboration';
@@ -16,10 +19,10 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import Router from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { DocumentActions } from '../actions';
 import { Editor } from './editor';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;

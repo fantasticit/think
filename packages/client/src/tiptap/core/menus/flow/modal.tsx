@@ -1,8 +1,11 @@
-import { Modal, Spin, Typography } from '@douyinfe/semi-ui';
-import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { createEditor, load } from 'thirtypart/diagram';
+
+import { Modal, Spin, Typography } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
+
+import { useToggle } from 'hooks/use-toggle';
+import { createEditor, load } from 'thirtypart/diagram';
 
 import { cancelSubject, OPEN_FLOW_SETTING_MODAL, subject } from '../_event';
 

@@ -1,5 +1,5 @@
 import { Toast } from '@douyinfe/semi-ui';
-import { safeJSONParse } from 'helpers/json';
+
 // 自定义节点扩展
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { BackgroundColor } from 'tiptap/core/extensions/background-color';
@@ -38,6 +38,7 @@ import { Image } from 'tiptap/core/extensions/image';
 import { Indent } from 'tiptap/core/extensions/indent';
 import { Italic } from 'tiptap/core/extensions/italic';
 import { Katex } from 'tiptap/core/extensions/katex';
+import { LineHeight } from 'tiptap/core/extensions/line-height';
 import { Link } from 'tiptap/core/extensions/link';
 import { ListItem } from 'tiptap/core/extensions/listItem';
 import { Loading } from 'tiptap/core/extensions/loading';
@@ -71,6 +72,8 @@ import { Underline } from 'tiptap/core/extensions/underline';
 import { htmlToProsemirror } from 'tiptap/markdown/html-to-prosemirror';
 import { markdownToHTML, markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
+
+import { safeJSONParse } from 'helpers/json';
 
 const DocumentWithTitle = Document.extend({
   content: 'title{1} block+',
@@ -127,6 +130,7 @@ export const CollaborationKit = [
   Focus,
   FontFamily,
   FontSize,
+  LineHeight,
   Gapcursor,
   HardBreak,
   Heading,

@@ -1,9 +1,5 @@
 import { Editor as CoreEditor, Extension, getSchema } from '@tiptap/core';
 import { Document } from '@tiptap/extension-document';
-import { safeJSONParse } from 'helpers/json';
-import { toggleMark } from 'prosemirror-commands';
-import { DOMParser as PMDOMParser, Fragment, Node, Schema } from 'prosemirror-model';
-import { EditorState, Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import {
   debug,
@@ -16,6 +12,11 @@ import {
   normalizeMarkdown,
   safePos,
 } from 'tiptap/prose-utils';
+
+import { safeJSONParse } from 'helpers/json';
+import { toggleMark } from 'prosemirror-commands';
+import { DOMParser as PMDOMParser, Fragment, Node, Schema } from 'prosemirror-model';
+import { EditorState, Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 
 const htmlToProsemirror = (editor: CoreEditor, html, isPasteMarkdown = false) => {
   const firstNode = editor.view.state.doc.content.firstChild;

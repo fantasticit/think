@@ -1,12 +1,15 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { IconPlus } from '@douyinfe/semi-icons';
 import { Button, Dropdown } from '@douyinfe/semi-ui';
-import { Tooltip } from 'components/tooltip';
-import { useUser } from 'data/user';
-import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { Editor } from 'tiptap/core';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';
+
+import { Tooltip } from 'components/tooltip';
+import { useUser } from 'data/user';
+import { useToggle } from 'hooks/use-toggle';
 
 import { COMMANDS, insertMenuLRUCache, transformToCommands } from '../commands';
 

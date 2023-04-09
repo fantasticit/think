@@ -1,6 +1,7 @@
-import { Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
 import React from 'react';
+
+import { Space } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { BackgroundColor } from 'tiptap/core/menus/background-color';
 import { Bold } from 'tiptap/core/menus/bold';
@@ -15,6 +16,8 @@ import { Superscript } from 'tiptap/core/menus/superscript';
 import { TextColor } from 'tiptap/core/menus/text-color';
 import { Underline } from 'tiptap/core/menus/underline';
 import { Undo } from 'tiptap/core/menus/undo';
+
+import { Divider } from 'components/divider';
 
 const _CommentMenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
   return (

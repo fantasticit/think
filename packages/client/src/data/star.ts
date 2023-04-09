@@ -1,7 +1,9 @@
-import { IDocument, IWiki, StarApiDefinition } from '@think/domains';
-import { event, TOGGLE_STAR_DOUCMENT, TOGGLE_STAR_WIKI, triggerToggleStarDocument, triggerToggleStarWiki } from 'event';
 import { useCallback, useEffect } from 'react';
 import { useQuery, UseQueryOptions } from 'react-query';
+
+import { IDocument, IWiki, StarApiDefinition } from '@think/domains';
+
+import { event, TOGGLE_STAR_DOUCMENT, TOGGLE_STAR_WIKI, triggerToggleStarDocument, triggerToggleStarWiki } from 'event';
 import { HttpClient } from 'services/http-client';
 
 export type IWikiWithIsMember = IWiki & { isMember?: boolean };

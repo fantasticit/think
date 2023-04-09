@@ -1,8 +1,9 @@
 import { Editor } from '@tiptap/core';
-import { uploadFile } from 'services/file';
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { Image } from 'tiptap/core/extensions/image';
 import { findLoadingById, Loading } from 'tiptap/core/extensions/loading';
+
+import { uploadFile } from 'services/file';
 
 import { extractFileExtension, extractFilename } from './file';
 

@@ -1,15 +1,18 @@
+import { useCallback, useEffect, useRef } from 'react';
+
 import { IconCopy, IconDelete, IconEdit, IconHelpCircle } from '@douyinfe/semi-icons';
 import { Button, Popover, Space, TextArea, Typography } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
-import { Tooltip } from 'components/tooltip';
-import { useUser } from 'data/user';
-import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useEffect, useRef } from 'react';
+
 import { Editor } from 'tiptap/core';
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { IKatexAttrs, Katex } from 'tiptap/core/extensions/katex';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
+import { Divider } from 'components/divider';
+import { Tooltip } from 'components/tooltip';
+import { useUser } from 'data/user';
+import { useToggle } from 'hooks/use-toggle';
 
 const { Text } = Typography;
 

@@ -1,4 +1,12 @@
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+
 import { BackTop, Toast } from '@douyinfe/semi-ui';
+
+import { EditorContent, useEditor } from 'tiptap/core';
+import { Collaboration } from 'tiptap/core/extensions/collaboration';
+import { CollaborationCursor } from 'tiptap/core/extensions/collaboration-cursor';
+import { Tocs } from 'tiptap/editor/tocs';
+
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import cls from 'classnames';
 import { Banner } from 'components/banner';
@@ -11,16 +19,12 @@ import { useDocumentStyle } from 'hooks/use-document-style';
 import { useNetwork } from 'hooks/use-network';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import { EditorContent, useEditor } from 'tiptap/core';
-import { Collaboration } from 'tiptap/core/extensions/collaboration';
-import { CollaborationCursor } from 'tiptap/core/extensions/collaboration-cursor';
-import { Tocs } from 'tiptap/editor/tocs';
 
 import { CollaborationKit } from '../kit';
-import styles from './index.module.scss';
 import { MenuBar } from './menubar';
 import { ICollaborationEditorProps, ProviderStatus } from './type';
+
+import styles from './index.module.scss';
 
 type IProps = Pick<
   ICollaborationEditorProps,

@@ -1,9 +1,11 @@
+import React, { useCallback } from 'react';
+
 import { IconSpin } from '@douyinfe/semi-icons';
 import { Avatar, Button, Dropdown, Modal, Toast, Typography } from '@douyinfe/semi-ui';
+
 import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
 import Router from 'next/router';
-import React, { useCallback } from 'react';
 
 import { ResetPassword } from './reset-password';
 import { UserSetting } from './setting';

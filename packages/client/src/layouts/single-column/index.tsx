@@ -1,7 +1,9 @@
-import { Layout as SemiLayout } from '@douyinfe/semi-ui';
 import React from 'react';
 
+import { Layout as SemiLayout } from '@douyinfe/semi-ui';
+
 import { RouterHeader } from '../router-header';
+
 import styles from './index.module.scss';
 
 const { Content } = SemiLayout;

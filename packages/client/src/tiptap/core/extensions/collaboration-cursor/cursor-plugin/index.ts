@@ -1,6 +1,3 @@
-import * as math from 'lib0/math';
-import { Plugin } from 'prosemirror-state'; // eslint-disable-line
-import { Decoration, DecorationSet } from 'prosemirror-view'; // eslint-disable-line
 import {
   absolutePositionToRelativePosition,
   relativePositionToAbsolutePosition,
@@ -8,6 +5,10 @@ import {
   yCursorPluginKey,
   ySyncPluginKey,
 } from 'tiptap/core/thritypart/y-prosemirror/y-prosemirror';
+
+import * as math from 'lib0/math';
+import { Plugin } from 'prosemirror-state'; // eslint-disable-line
+import { Decoration, DecorationSet } from 'prosemirror-view'; // eslint-disable-line
 import * as Y from 'yjs';
 
 /**

@@ -1,5 +1,13 @@
+import { useCallback, useEffect } from 'react';
+
 import { IconCopy, IconDelete, IconEdit } from '@douyinfe/semi-icons';
 import { Button, List, Popover, Space, Typography } from '@douyinfe/semi-ui';
+
+import { BubbleMenu } from 'tiptap/core/bubble-menu';
+import { DocumentReference, IDocumentReferenceAttrs } from 'tiptap/core/extensions/document-reference';
+import { useAttributes } from 'tiptap/core/hooks/use-attributes';
+import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
 import { DataRender } from 'components/data-render';
 import { Divider } from 'components/divider';
 import { IconDocument } from 'components/icons';
@@ -8,11 +16,6 @@ import { useUser } from 'data/user';
 import { useWikiTocs } from 'data/wiki';
 import { useToggle } from 'hooks/use-toggle';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect } from 'react';
-import { BubbleMenu } from 'tiptap/core/bubble-menu';
-import { DocumentReference, IDocumentReferenceAttrs } from 'tiptap/core/extensions/document-reference';
-import { useAttributes } from 'tiptap/core/hooks/use-attributes';
-import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 const { Text } = Typography;
 

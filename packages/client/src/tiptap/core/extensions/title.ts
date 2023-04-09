@@ -1,8 +1,9 @@
 import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
+import { getDatasetAttribute, getNodeAtPos, isInTitle, nodeAttrsToDataset } from 'tiptap/prose-utils';
+
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { getDatasetAttribute, getNodeAtPos, isInTitle, nodeAttrsToDataset } from 'tiptap/prose-utils';
 
 import { TitleWrapper } from '../wrappers/title';
 

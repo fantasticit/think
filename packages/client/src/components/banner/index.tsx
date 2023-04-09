@@ -1,8 +1,10 @@
+import React, { useEffect, useRef } from 'react';
+
 import { IconClose } from '@douyinfe/semi-icons';
 import { Banner as SemiBanner } from '@douyinfe/semi-ui';
 import { BannerProps } from '@douyinfe/semi-ui/banner';
+
 import { useToggle } from 'hooks/use-toggle';
-import React, { useEffect, useRef } from 'react';
 
 interface IProps extends BannerProps {
   duration?: number;

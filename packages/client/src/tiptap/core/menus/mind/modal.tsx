@@ -1,12 +1,16 @@
-import { Modal, Spin, Typography } from '@douyinfe/semi-ui';
-import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useState } from 'react';
-import { load, renderMind } from 'thirtypart/kityminder';
+
+import { Modal, Spin, Typography } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 
+import { useToggle } from 'hooks/use-toggle';
+import { load, renderMind } from 'thirtypart/kityminder';
+
 import { cancelSubject, OPEN_MIND_SETTING_MODAL, subject } from '../_event';
-import styles from './style.module.scss';
 import { Toolbar } from './toolbar';
+
+import styles from './style.module.scss';
 
 type IProps = { editor: Editor };
 

@@ -1,5 +1,7 @@
-import { Space } from '@douyinfe/semi-ui';
 import React, { useCallback } from 'react';
+
+import { Space } from '@douyinfe/semi-ui';
+
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { Callout } from 'tiptap/core/extensions/callout';

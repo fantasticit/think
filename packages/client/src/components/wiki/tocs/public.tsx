@@ -1,17 +1,21 @@
+import React from 'react';
+
 import { IconPlus } from '@douyinfe/semi-icons';
 import { Avatar, Skeleton, Space, Typography } from '@douyinfe/semi-ui';
+
 import { IDocument } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { IconOverview } from 'components/icons';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
 import { usePublicWikiDetail, usePublicWikiTocs } from 'data/wiki';
 import { useRouter } from 'next/router';
-import React from 'react';
 
-import styles from './index.module.scss';
 import { NavItem } from './nav-item';
 import { Tree } from './tree';
+
+import styles from './index.module.scss';
 
 interface IProps {
   wikiId: string;

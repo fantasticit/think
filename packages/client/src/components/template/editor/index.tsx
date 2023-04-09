@@ -1,5 +1,10 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { Button, Nav, Popconfirm, Space, Switch, Tooltip, Typography } from '@douyinfe/semi-ui';
+
+import { CollaborationEditor } from 'tiptap/editor';
+
 import { DocumentStyle } from 'components/document/style';
 import { Seo } from 'components/seo';
 import { Theme } from 'components/theme';
@@ -10,8 +15,6 @@ import { useDocumentStyle } from 'hooks/use-document-style';
 import { useMount } from 'hooks/use-mount';
 import { useWindowSize } from 'hooks/use-window-size';
 import Router from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { CollaborationEditor } from 'tiptap/editor';
 
 import styles from './index.module.scss';
 

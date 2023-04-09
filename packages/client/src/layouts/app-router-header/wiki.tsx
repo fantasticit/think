@@ -1,5 +1,8 @@
+import React, { useCallback } from 'react';
+
 import { IconChevronDown } from '@douyinfe/semi-icons';
 import { Avatar, Dropdown, Modal, Space, Typography } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { WikiStar } from 'components/wiki/star';
@@ -7,10 +10,10 @@ import { useStarWikisInOrganization } from 'data/star';
 import { useWikiDetail } from 'data/wiki';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+
+import { Placeholder } from './placeholder';
 
 import styles from './index.module.scss';
-import { Placeholder } from './placeholder';
 
 const { Text } = Typography;
 

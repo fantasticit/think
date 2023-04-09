@@ -1,6 +1,7 @@
 import { Extension } from '@tiptap/core';
-import { Plugin } from 'prosemirror-state';
 import { ImagesLoaded } from 'tiptap/image-load';
+
+import { Plugin } from 'prosemirror-state';
 
 /**
  * Options for customizing Scroll2Cursor plugin

@@ -1,11 +1,14 @@
-import { Button } from '@douyinfe/semi-ui';
-import { IconLink } from 'components/icons';
-import { Tooltip } from 'components/tooltip';
 import React, { useCallback } from 'react';
+
+import { Button } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { Link as LinkExtension } from 'tiptap/core/extensions/link';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';
+
+import { IconLink } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 
 import { LinkBubbleMenu } from './bubble';
 import { LinkSettingModal } from './modal';

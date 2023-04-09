@@ -1,10 +1,12 @@
+import { useCallback, useEffect, useState } from 'react';
+
 import { IconBold, IconRedo, IconUndo } from '@douyinfe/semi-icons';
 import { Button, Space, Tooltip } from '@douyinfe/semi-ui';
+
 import { Divider } from 'components/divider';
 import { IconMindCenter } from 'components/icons';
 import { IconZoomIn, IconZoomOut } from 'components/icons';
 import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useEffect, useState } from 'react';
 
 import { BgColor } from './bgcolor';
 import { FontColor } from './font-color';

@@ -1,4 +1,3 @@
-import { defaultMarkdownSerializer, MarkdownSerializer as ProseMirrorMarkdownSerializer } from 'prosemirror-markdown';
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { Blockquote } from 'tiptap/core/extensions/blockquote';
 import { Bold } from 'tiptap/core/extensions/bold';
@@ -39,6 +38,8 @@ import { TaskList } from 'tiptap/core/extensions/task-list';
 import { Text } from 'tiptap/core/extensions/text';
 import { TextStyle } from 'tiptap/core/extensions/text-style';
 import { Title } from 'tiptap/core/extensions/title';
+
+import { defaultMarkdownSerializer, MarkdownSerializer as ProseMirrorMarkdownSerializer } from 'prosemirror-markdown';
 
 import {
   closeTag,

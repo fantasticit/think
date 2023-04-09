@@ -1,4 +1,7 @@
+import React, { useCallback, useMemo } from 'react';
+
 import { Badge, Button, Dropdown, Modal, Pagination, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { IconMessage } from 'components/icons/IconMessage';
@@ -8,10 +11,10 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import { EmptyBoxIllustration } from 'illustrations/empty-box';
 import Link from 'next/link';
-import React, { useCallback, useMemo } from 'react';
+
+import { Placeholder } from './placeholder';
 
 import styles from './index.module.scss';
-import { Placeholder } from './placeholder';
 
 const { Text } = Typography;
 const PAGE_SIZE = 6;

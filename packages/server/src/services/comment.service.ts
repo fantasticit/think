@@ -1,13 +1,15 @@
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { AuthEnum, buildMessageURL, DocumentStatus, IUser } from '@think/domains';
+
 import { CommentDto, UpdateCommentDto } from '@dtos/comment.dto';
 import { CommentEntity } from '@entities/comment.entity';
 import { parseUserAgent } from '@helpers/ua.helper';
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from '@services/auth.service';
 import { DocumentService } from '@services/document.service';
 import { MessageService } from '@services/message.service';
 import { UserService } from '@services/user.service';
-import { AuthEnum, buildMessageURL, DocumentStatus, IUser } from '@think/domains';
 import { Repository } from 'typeorm';
 
 @Injectable()

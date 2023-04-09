@@ -1,7 +1,8 @@
 import { Editor, isNodeSelection, isTextSelection, posToDOMRect } from '@tiptap/core';
+
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import tippy, { Instance, Props } from 'tippy.js';
+import tippy, { Instance, Props, sticky } from 'tippy.js';
 
 export interface BubbleMenuPluginProps {
   pluginKey: PluginKey | string;
@@ -144,6 +145,7 @@ export class BubbleMenuView {
       trigger: 'manual',
       placement: 'top',
       hideOnClick: 'toggle',
+      plugins: [sticky],
       ...Object.assign(
         {
           zIndex: 999,

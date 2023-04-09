@@ -1,8 +1,9 @@
 import { Extension } from '@tiptap/core';
-import { Fragment } from 'prosemirror-model';
-import { Plugin, PluginKey } from 'prosemirror-state';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import { copyNode } from 'tiptap/prose-utils';
+
+import { Fragment } from 'prosemirror-model';
+import { Plugin, PluginKey } from 'prosemirror-state';
 
 const isPureText = (content): boolean => {
   if (!content) return false;

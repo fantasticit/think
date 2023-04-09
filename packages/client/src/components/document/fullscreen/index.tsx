@@ -1,15 +1,18 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+
 import { IconShrinkScreenStroked } from '@douyinfe/semi-icons';
 import { Button, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
+
 import { EditorContent, useEditor } from '@tiptap/react';
+import { CollaborationKit, Document } from 'tiptap/editor';
+
 import cls from 'classnames';
 import { IconFullscreen } from 'components/icons/IconFullscreen';
 import { IconPencil } from 'components/icons/IconPencil';
 import { safeJSONParse } from 'helpers/json';
 import { useDrawingCursor } from 'hooks/use-cursor';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import { CollaborationKit, Document } from 'tiptap/editor';
 
 import styles from './index.module.scss';
 

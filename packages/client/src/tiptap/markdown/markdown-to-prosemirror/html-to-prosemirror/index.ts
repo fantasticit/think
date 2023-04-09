@@ -22,7 +22,9 @@ function fixNode(doc) {
     }
 
     if (node.type === 'tableRow') {
-      node.content = (node.content || []).filter((subNode) => subNode.type === 'tableCell');
+      node.content = (node.content || []).filter(
+        (subNode) => subNode.type === 'tableCell' || subNode.type === 'tableHeader'
+      );
     }
 
     if (node.type === 'tableCell') {

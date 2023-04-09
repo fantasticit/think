@@ -1,12 +1,15 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { Avatar, Button, Form, Toast } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+
 import { ORGANIZATION_LOGOS } from '@think/constants';
 import { IOrganization } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { ImageUploader } from 'components/image-uploader';
 import { useOrganizationDetail } from 'data/organization';
 import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useEffect, useRef, useState } from 'react';
 
 import styles from './index.module.scss';
 

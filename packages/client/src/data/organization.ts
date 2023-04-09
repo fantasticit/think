@@ -1,8 +1,10 @@
-import { IAuth, IOrganization, IUser, OrganizationApiDefinition } from '@think/domains';
-import { event, REFRESH_ORGANIZATIONS, triggerRefreshOrganizations } from 'event';
-import { useAsyncLoading } from 'hooks/use-async-loading';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+
+import { IAuth, IOrganization, IUser, OrganizationApiDefinition } from '@think/domains';
+
+import { event, REFRESH_ORGANIZATIONS, triggerRefreshOrganizations } from 'event';
+import { useAsyncLoading } from 'hooks/use-async-loading';
 import { HttpClient } from 'services/http-client';
 
 /**

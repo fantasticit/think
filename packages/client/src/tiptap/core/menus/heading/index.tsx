@@ -1,5 +1,7 @@
-import { Select } from '@douyinfe/semi-ui';
 import React, { useCallback, useMemo } from 'react';
+
+import { Select } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';

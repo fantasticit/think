@@ -1,10 +1,13 @@
-import { IconStar } from '@douyinfe/semi-icons';
-import { Button, Tooltip } from '@douyinfe/semi-ui';
-import { IDocument, IOrganization, IWiki } from '@think/domains';
-import { useDocumentStarToggle } from 'data/star';
-import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
+
+import { IconStar } from '@douyinfe/semi-icons';
+import { Button, Tooltip } from '@douyinfe/semi-ui';
+
+import { IDocument, IOrganization, IWiki } from '@think/domains';
+
+import { useDocumentStarToggle } from 'data/star';
+import { useToggle } from 'hooks/use-toggle';
 
 interface IProps {
   organizationId: IOrganization['id'];

@@ -1,8 +1,11 @@
+import React, { useCallback } from 'react';
+
 import { IconRedo } from '@douyinfe/semi-icons';
 import { Button } from '@douyinfe/semi-ui';
-import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
+
 import { Editor } from 'tiptap/core';
+
+import { Tooltip } from 'components/tooltip';
 
 export const Redo: React.FC<{ editor: Editor }> = ({ editor }) => {
   const redo = useCallback(() => editor.chain().focus().redo().run(), [editor]);

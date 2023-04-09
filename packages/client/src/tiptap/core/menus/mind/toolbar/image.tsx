@@ -1,8 +1,10 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { IconImage } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Form, Tooltip } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+
 import { Upload } from 'components/upload';
-import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const Image = ({ disabled, image, setImage }) => {
   const $form = useRef<FormApi>();

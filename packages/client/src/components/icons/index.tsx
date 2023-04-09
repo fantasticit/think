@@ -30,6 +30,7 @@ export * from './IconInfo';
 export * from './IconJSON';
 export * from './IconLayout';
 export * from './IconLeft';
+export * from './IconLineHeight';
 export * from './IconLink';
 export * from './IconList';
 export * from './IconMarkdown';

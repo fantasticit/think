@@ -1,12 +1,15 @@
-import { IconChevronLeft, IconChevronRight } from '@douyinfe/semi-icons';
-import { Button, Layout as SemiLayout } from '@douyinfe/semi-ui';
-import cls from 'classnames';
-import { throttle } from 'helpers/throttle';
-import { useDragableWidth } from 'hooks/use-dragable-width';
 import React, { useMemo } from 'react';
 import SplitPane from 'react-split-pane';
 
+import { IconChevronLeft, IconChevronRight } from '@douyinfe/semi-icons';
+import { Button, Layout as SemiLayout } from '@douyinfe/semi-ui';
+
+import cls from 'classnames';
+import { throttle } from 'helpers/throttle';
+import { useDragableWidth } from 'hooks/use-dragable-width';
+
 import { AppRouterHeader } from '../app-router-header';
+
 import styles from './index.module.scss';
 
 const { Sider, Content } = SemiLayout;

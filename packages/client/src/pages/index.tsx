@@ -1,11 +1,13 @@
+import React, { useCallback } from 'react';
+
 import { Button, Typography } from '@douyinfe/semi-ui';
+
 import { Seo } from 'components/seo';
 import { toLogin, useUser } from 'data/user';
 import { TeamWorkIllustration } from 'illustrations/team-work';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
 import Router from 'next/router';
-import React, { useCallback } from 'react';
 
 import styles from './index.module.scss';
 

@@ -1,7 +1,9 @@
+import React, { useMemo } from 'react';
+
 import { Dropdown, SideSheet, Typography } from '@douyinfe/semi-ui';
+
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useMemo } from 'react';
 
 import styles from './style.module.scss';
 

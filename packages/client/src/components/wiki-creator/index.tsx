@@ -1,7 +1,9 @@
+import React from 'react';
+
 import { Button } from '@douyinfe/semi-ui';
+
 import { WikiCreator as WikiCreatorForm } from 'components/wiki/create';
 import { useToggle } from 'hooks/use-toggle';
-import React from 'react';
 
 export const WikiCreator: React.FC = ({ children }) => {
   const [visible, toggleVisible] = useToggle(false);

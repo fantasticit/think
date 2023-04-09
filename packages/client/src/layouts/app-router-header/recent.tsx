@@ -1,5 +1,8 @@
+import React, { useCallback, useEffect } from 'react';
+
 import { IconChevronDown } from '@douyinfe/semi-icons';
 import { Dropdown, Modal, Space, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { DocumentStar } from 'components/document/star';
 import { Empty } from 'components/empty';
@@ -9,10 +12,10 @@ import { useRecentDocuments } from 'data/document';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect } from 'react';
+
+import { Placeholder } from './placeholder';
 
 import styles from './index.module.scss';
-import { Placeholder } from './placeholder';
 
 const { Text } = Typography;
 

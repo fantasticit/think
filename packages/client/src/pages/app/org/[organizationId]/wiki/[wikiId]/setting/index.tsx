@@ -1,11 +1,13 @@
+import React, { useCallback } from 'react';
+
 import { IWiki, WikiApiDefinition } from '@think/domains';
+
 import { WikiSetting } from 'components/wiki/setting';
 import { WikiTocs } from 'components/wiki/tocs';
 import { getWikiMembers, getWikiTocs } from 'data/wiki';
 import { AppDoubleColumnLayout } from 'layouts/app-double-column';
 import { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {

@@ -1,4 +1,5 @@
 import { IDocument, IUser, IWiki } from '@think/domains';
+
 import { EventEmitter } from 'helpers/event-emitter';
 
 export const event = new EventEmitter();

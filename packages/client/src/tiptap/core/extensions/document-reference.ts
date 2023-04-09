@@ -1,4 +1,5 @@
 import { IUser } from '@think/domains';
+
 import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { DocumentReferenceWrapper } from 'tiptap/core/wrappers/document-reference';

@@ -1,6 +1,8 @@
-import { Banner, Popconfirm, Select, Toast } from '@douyinfe/semi-ui';
-import { AuthEnum, AuthEnumArray, IAuth, IUser } from '@think/domains';
 import React, { useCallback, useState } from 'react';
+
+import { Banner, Popconfirm, Select, Toast } from '@douyinfe/semi-ui';
+
+import { AuthEnum, AuthEnumArray, IAuth, IUser } from '@think/domains';
 
 interface IProps {
   userWithAuth: { user: IUser; auth: IAuth };

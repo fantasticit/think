@@ -1,10 +1,13 @@
-import { Button, Space } from '@douyinfe/semi-ui';
-import { IconAddRowAfter, IconAddRowBefore, IconDeleteRow } from 'components/icons';
-import { Tooltip } from 'components/tooltip';
 import React, { useCallback } from 'react';
+
+import { Button, Space } from '@douyinfe/semi-ui';
+
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { Table } from 'tiptap/core/extensions/table';
 import { isTableSelected } from 'tiptap/prose-utils';
+
+import { IconAddRowAfter, IconAddRowBefore, IconDeleteRow } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 
 export const TableRowBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(

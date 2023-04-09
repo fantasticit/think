@@ -1,11 +1,13 @@
+import { useMemo } from 'react';
+
 import { IconAppCenter, IconApps, IconSmallTriangleDown } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Space, Typography } from '@douyinfe/semi-ui';
 import { Avatar } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { useOrganizationDetail, useUserOrganizations } from 'data/organization';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Link from 'next/link';
-import { useMemo } from 'react';
 
 import styles from './index.module.scss';
 

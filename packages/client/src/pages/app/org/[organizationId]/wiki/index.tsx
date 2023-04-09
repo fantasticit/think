@@ -1,5 +1,9 @@
+import React from 'react';
+
 import { List, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+
 import { WikiApiDefinition } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
@@ -10,7 +14,6 @@ import { useRouterQuery } from 'hooks/use-router-query';
 import { CreateWikiIllustration } from 'illustrations/create-wiki';
 import { AppSingleColumnLayout } from 'layouts/app-single-column';
 import type { NextPage } from 'next';
-import React from 'react';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 const grid = {

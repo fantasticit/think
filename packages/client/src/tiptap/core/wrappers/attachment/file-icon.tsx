@@ -1,6 +1,8 @@
 import { IconFile, IconImage, IconSong, IconVideo } from '@douyinfe/semi-icons';
-import { IconFilePDF, IconFilePPT, IconFileSheet, IconFileWord } from 'components/icons';
+
 import { normalizeFileType } from 'tiptap/prose-utils';
+
+import { IconFilePDF, IconFilePPT, IconFileSheet, IconFileWord } from 'components/icons';
 
 export const getFileTypeIcon = (fileType: string) => {
   const type = normalizeFileType(fileType);

@@ -1,4 +1,5 @@
 import { Editor } from '@tiptap/core';
+
 import { Node, ResolvedPos } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 

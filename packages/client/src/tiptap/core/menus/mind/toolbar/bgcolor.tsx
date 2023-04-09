@@ -1,5 +1,6 @@
 import { IconMark } from '@douyinfe/semi-icons';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
+
 import { ColorPicker } from 'components/color-picker';
 
 export const BgColor = ({ bgColor, selectedNode, setBackgroundColor }) => {

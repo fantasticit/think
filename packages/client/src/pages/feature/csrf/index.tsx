@@ -1,6 +1,7 @@
+import React, { useRef, useState } from 'react';
+
 import { SingleColumnLayout } from 'layouts/single-column';
 import { useRouter } from 'next/router';
-import React, { useRef, useState } from 'react';
 
 const Page = () => {
   const $container = useRef<HTMLDivElement>();

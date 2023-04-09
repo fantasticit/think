@@ -1,7 +1,8 @@
-import { HttpResponseExceptionFilter } from '@exceptions/http-response.exception';
-import { FILE_DEST, FILE_ROOT_PATH } from '@helpers/file.helper/local.client';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+
+import { HttpResponseExceptionFilter } from '@exceptions/http-response.exception';
+import { FILE_DEST, FILE_ROOT_PATH } from '@helpers/file.helper/local.client';
 import { ValidationPipe } from '@pipes/validation.pipe';
 import { HttpResponseTransformInterceptor } from '@transforms/http-response.transform';
 import * as bodyParser from 'body-parser';

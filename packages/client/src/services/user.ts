@@ -1,4 +1,5 @@
 import { IAuth, IUser, OrganizationApiDefinition } from '@think/domains';
+
 import Router from 'next/router';
 
 import { HttpClient } from './http-client';

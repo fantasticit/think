@@ -1,11 +1,14 @@
-import { Button } from '@douyinfe/semi-ui';
-import { IconOrderedList } from 'components/icons';
-import { Tooltip } from 'components/tooltip';
 import React, { useCallback } from 'react';
+
+import { Button } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { OrderedList as OrderedListExtension } from 'tiptap/core/extensions/ordered-list';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';
+
+import { IconOrderedList } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 
 export const OrderedList: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);
