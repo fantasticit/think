@@ -9,7 +9,7 @@ import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 import { findNode } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
-import { flattenHeadingsToTree, parseHeadingsToTocs } from './util';
+import { parseHeadingsToTocs } from './util';
 
 interface IHeading {
   level: number;
