@@ -30,6 +30,7 @@ import { Image } from 'tiptap/core/extensions/image';
 import { Indent } from 'tiptap/core/extensions/indent';
 import { Italic } from 'tiptap/core/extensions/italic';
 import { Katex } from 'tiptap/core/extensions/katex';
+import { LineHeight } from 'tiptap/core/extensions/line-height';
 import { Link } from 'tiptap/core/extensions/link';
 import { ListItem } from 'tiptap/core/extensions/listItem';
 import { Loading } from 'tiptap/core/extensions/loading';
@@ -80,6 +81,7 @@ export const AllExtensions = [
   Excalidraw,
   Focus,
   FontSize,
+  LineHeight,
   Gapcursor,
   HardBreak,
   Heading,

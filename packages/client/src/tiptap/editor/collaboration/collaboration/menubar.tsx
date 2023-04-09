@@ -29,6 +29,7 @@ import { Image } from 'tiptap/core/menus/image';
 import { Insert } from 'tiptap/core/menus/insert';
 import { Italic } from 'tiptap/core/menus/italic';
 import { Katex } from 'tiptap/core/menus/katex';
+import { LineHeight } from 'tiptap/core/menus/lineheight';
 import { Link } from 'tiptap/core/menus/link';
 import { Mind } from 'tiptap/core/menus/mind';
 import { OrderedList } from 'tiptap/core/menus/ordered-list';
@@ -91,6 +92,7 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <OrderedList editor={editor} />
         <TaskList editor={editor} />
         <Ident editor={editor} />
+        <LineHeight editor={editor} />
 
         <Divider />
 
