@@ -5,7 +5,6 @@ import cls from 'classnames';
 import { ImageUploader } from 'components/image-uploader';
 import { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import styles from './index.module.scss';
 
@@ -83,7 +82,7 @@ export const TitleWrapper = ({ editor, node }) => {
     <NodeViewWrapper className={cls(styles.wrap, 'title')}>
       {cover ? (
         <div className={styles.coverWrap} contentEditable={false}>
-          <LazyLoadImage src={cover} alt="请选择或移除封面" />
+          <img src={cover} alt="请选择或移除封面" />
           {isEditable ? (
             <div className={styles.toolbar}>
               <ImageUploader images={images} selectImage={setCover}>
