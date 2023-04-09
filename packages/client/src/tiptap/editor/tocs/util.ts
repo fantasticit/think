@@ -1,18 +1,38 @@
-export const flattenHeadingsToTree = (tocs) => {
-  const result = [];
-  const levels = [result];
+export const parseHeadingsToTocs = (headings) => {
+  const list = JSON.parse(JSON.stringify(headings));
+  const ret = [];
 
-  tocs.forEach((o) => {
-    let offset = -1;
-    let parent = levels[o.level + offset];
+  list.forEach((heading, index) => {
+    const prev = list[index - 1];
 
-    while (!parent) {
-      offset -= 1;
-      parent = levels[o.level + offset];
+    if (!prev) {
+      ret.push(heading);
+    } else {
+      if (prev.level < heading.level) {
+        heading.parent = prev;
+        prev.children = prev.children || [];
+        prev.children.push(heading);
+      } else {
+        let parent = prev.parent;
+
+        let shouldContinue = true;
+
+        while (shouldContinue) {
+          if (!parent) {
+            shouldContinue = false;
+            ret.push(heading);
+          } else if (parent.level < heading.level) {
+            heading.parent = parent;
+            parent.children = parent.children || [];
+            parent.children.push(heading);
+            shouldContinue = false;
+          } else {
+            parent = parent.parent;
+          }
+        }
+      }
     }
-
-    parent.push({ ...o, children: (levels[o.level] = []) });
   });
 
-  return result;
+  return ret;
 };
