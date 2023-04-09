@@ -1,12 +1,14 @@
-import { MessageEntity } from '@entities/message.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
 import { IUser } from '@think/domains';
-import { Repository } from 'typeorm';
-import Redis from 'ioredis';
-import { buildRedis } from '@helpers/redis.helper';
+
 import { RedisDBEnum } from '@constants/*';
+import { MessageEntity } from '@entities/message.entity';
+import { buildRedis } from '@helpers/redis.helper';
+import Redis from 'ioredis';
 import { uniqueId } from 'lodash';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MessageService {

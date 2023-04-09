@@ -1,6 +1,7 @@
 import { generateHTML } from '@tiptap/core';
-import HtmlDiff from 'htmldiff-js';
 import { CollaborationKit } from 'tiptap/editor';
+
+import HtmlDiff from 'htmldiff-js';
 
 const json2html = (json) => generateHTML(json, CollaborationKit);
 export const generateDiffHtml = (selected, other) => {

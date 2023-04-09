@@ -1,5 +1,5 @@
 import { Toast } from '@douyinfe/semi-ui';
-import { safeJSONParse } from 'helpers/json';
+
 // 自定义节点扩展
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { BackgroundColor } from 'tiptap/core/extensions/background-color';
@@ -72,6 +72,8 @@ import { Underline } from 'tiptap/core/extensions/underline';
 import { htmlToProsemirror } from 'tiptap/markdown/html-to-prosemirror';
 import { markdownToHTML, markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
+
+import { safeJSONParse } from 'helpers/json';
 
 const DocumentWithTitle = Document.extend({
   content: 'title{1} block+',

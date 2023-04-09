@@ -1,6 +1,3 @@
-import { OperateUserAuthDto } from '@dtos/auth.dto';
-import { CreateOrganizationDto } from '@dtos/organization.dto';
-import { JwtGuard } from '@guard/jwt.guard';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -17,8 +14,13 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { OrganizationService } from '@services/organization.service';
+
 import { IPagination, OrganizationApiDefinition } from '@think/domains';
+
+import { OperateUserAuthDto } from '@dtos/auth.dto';
+import { CreateOrganizationDto } from '@dtos/organization.dto';
+import { JwtGuard } from '@guard/jwt.guard';
+import { OrganizationService } from '@services/organization.service';
 
 @Controller('organization')
 export class OrganizationController {

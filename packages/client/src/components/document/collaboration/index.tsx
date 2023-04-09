@@ -1,12 +1,14 @@
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import { IconUserAdd } from '@douyinfe/semi-icons';
 import { Avatar, AvatarGroup, Button, Dropdown, Modal, Popover, Toast, Tooltip, Typography } from '@douyinfe/semi-ui';
+
 import { Members } from 'components/members';
 import { useDoumentMembers } from 'data/document';
 import { useUser } from 'data/user';
 import { event, JOIN_USER } from 'event';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 interface IProps {
   wikiId: string;

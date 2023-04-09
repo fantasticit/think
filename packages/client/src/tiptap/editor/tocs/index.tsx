@@ -1,15 +1,19 @@
-import { Anchor, Tooltip } from '@douyinfe/semi-ui';
-import cls from 'classnames';
-import { throttle } from 'helpers/throttle';
-import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import scrollIntoView from 'scroll-into-view-if-needed';
+
+import { Anchor, Tooltip } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { TableOfContents } from 'tiptap/core/extensions/table-of-contents';
 import { findNode } from 'tiptap/prose-utils';
 
-import styles from './index.module.scss';
+import cls from 'classnames';
+import { throttle } from 'helpers/throttle';
+import { useToggle } from 'hooks/use-toggle';
+import scrollIntoView from 'scroll-into-view-if-needed';
+
 import { parseHeadingsToTocs } from './util';
+
+import styles from './index.module.scss';
 
 interface IHeading {
   level: number;

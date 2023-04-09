@@ -1,9 +1,11 @@
+import React, { useCallback, useMemo } from 'react';
+
 import { IconDelete } from '@douyinfe/semi-icons';
 import { Popconfirm, Space, Typography } from '@douyinfe/semi-ui';
+
 import { useDeleteDocument } from 'data/document';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
-import React, { useCallback, useMemo } from 'react';
 
 interface IProps {
   wikiId: string;

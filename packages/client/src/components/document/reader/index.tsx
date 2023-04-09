@@ -1,5 +1,11 @@
+import React, { useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
+
 import { IconEdit } from '@douyinfe/semi-icons';
 import { Button, Layout, Nav, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
+
+import { CollaborationEditor } from 'tiptap/editor';
+
 import { DataRender } from 'components/data-render';
 import { DocumentCollaboration } from 'components/document/collaboration';
 import { DocumentStar } from 'components/document/star';
@@ -13,13 +19,11 @@ import { useMount } from 'hooks/use-mount';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
 import Router from 'next/router';
-import React, { useCallback, useMemo } from 'react';
-import { createPortal } from 'react-dom';
-import { CollaborationEditor } from 'tiptap/editor';
 
 import { DocumentActions } from '../actions';
 import { DocumentFullscreen } from '../fullscreen';
 import { Author } from './author';
+
 import styles from './index.module.scss';
 
 const { Header } = Layout;

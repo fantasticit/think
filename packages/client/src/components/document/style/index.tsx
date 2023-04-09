@@ -1,10 +1,12 @@
+import React, { useMemo } from 'react';
+
 import { IconArticle } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Radio, RadioGroup, Slider, Typography } from '@douyinfe/semi-ui';
+
 import { throttle } from 'helpers/throttle';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useMemo } from 'react';
 
 import styles from './index.module.scss';
 

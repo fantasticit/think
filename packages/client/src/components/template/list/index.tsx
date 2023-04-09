@@ -1,8 +1,10 @@
+import React, { useEffect, useMemo, useState } from 'react';
+
 import { List, Pagination } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { IProps as ITemplateCardProps, TemplateCard, TemplateCardPlaceholder } from 'components/template/card';
-import React, { useEffect, useMemo, useState } from 'react';
 
 const grid = {
   gutter: 16,

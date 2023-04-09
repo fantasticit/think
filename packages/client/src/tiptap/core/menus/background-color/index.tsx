@@ -1,12 +1,15 @@
+import React, { useCallback } from 'react';
+
 import { IconMark } from '@douyinfe/semi-icons';
 import { Button } from '@douyinfe/semi-ui';
-import { ColorPicker } from 'components/color-picker';
-import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
+
 import { Editor } from 'tiptap/core';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
+
+import { ColorPicker } from 'components/color-picker';
+import { Tooltip } from 'components/tooltip';
 
 const FlexStyle: React.CSSProperties = {
   display: 'inline-flex',

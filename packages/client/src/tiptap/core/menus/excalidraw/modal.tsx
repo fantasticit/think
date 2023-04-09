@@ -1,7 +1,10 @@
-import { Modal, Spin, Typography } from '@douyinfe/semi-ui';
-import { useToggle } from 'hooks/use-toggle';
 import { useCallback, useEffect, useState } from 'react';
+
+import { Modal, Spin, Typography } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
+
+import { useToggle } from 'hooks/use-toggle';
 
 import { cancelSubject, OPEN_EXCALIDRAW_SETTING_MODAL, subject } from '../_event';
 

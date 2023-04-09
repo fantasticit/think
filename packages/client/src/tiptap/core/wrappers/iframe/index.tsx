@@ -1,9 +1,12 @@
+import { useCallback } from 'react';
+
 import { Typography } from '@douyinfe/semi-ui';
+
 import { NodeViewWrapper } from '@tiptap/react';
+import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
+
 import cls from 'classnames';
 import { Resizeable } from 'components/resizeable';
-import { useCallback } from 'react';
-import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
 

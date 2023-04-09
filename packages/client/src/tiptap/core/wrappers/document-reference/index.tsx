@@ -1,9 +1,11 @@
+import { useMemo } from 'react';
+
 import { NodeViewWrapper } from '@tiptap/react';
+
 import cls from 'classnames';
 import { IconDocument } from 'components/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
 
 import styles from './index.module.scss';
 

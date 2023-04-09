@@ -1,5 +1,9 @@
+import React from 'react';
+
 import { List, Pagination, Typography } from '@douyinfe/semi-ui';
+
 import { WikiApiDefinition } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { Seo } from 'components/seo';
@@ -7,7 +11,6 @@ import { WikiCard, WikiCardPlaceholder } from 'components/wiki/card';
 import { getAllPublicWikis, useAllPublicWikis } from 'data/wiki';
 import { SingleColumnLayout } from 'layouts/single-column';
 import type { NextPage } from 'next';
-import React from 'react';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 const grid = {

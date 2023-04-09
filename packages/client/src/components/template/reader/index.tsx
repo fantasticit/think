@@ -1,9 +1,12 @@
+import React from 'react';
+
 import { Spin } from '@douyinfe/semi-ui';
+
+import { ReaderEditor } from 'tiptap/editor';
+
 import { DataRender } from 'components/data-render';
 import { Seo } from 'components/seo';
 import { useTemplate } from 'data/template';
-import React from 'react';
-import { ReaderEditor } from 'tiptap/editor';
 
 interface IProps {
   templateId: string;

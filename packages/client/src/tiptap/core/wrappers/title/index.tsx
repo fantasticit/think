@@ -1,10 +1,14 @@
-import { Button } from '@douyinfe/semi-ui';
-import { DOCUMENT_COVERS } from '@think/constants';
-import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
-import cls from 'classnames';
-import { ImageUploader } from 'components/image-uploader';
 import { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+
+import { Button } from '@douyinfe/semi-ui';
+
+import { DOCUMENT_COVERS } from '@think/constants';
+
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
+
+import cls from 'classnames';
+import { ImageUploader } from 'components/image-uploader';
 
 import styles from './index.module.scss';
 

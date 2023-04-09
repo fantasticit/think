@@ -1,3 +1,5 @@
+import React, { useCallback, useEffect, useState } from 'react';
+
 import {
   IconAlignCenter,
   IconAlignLeft,
@@ -7,14 +9,15 @@ import {
   IconLineHeight,
 } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
-import { SizeSetter } from 'components/size-setter';
-import { Tooltip } from 'components/tooltip';
-import React, { useCallback, useEffect, useState } from 'react';
+
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { Image } from 'tiptap/core/extensions/image';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { copyNode, deleteNode, getEditorContainerDOMSize } from 'tiptap/prose-utils';
+
+import { Divider } from 'components/divider';
+import { SizeSetter } from 'components/size-setter';
+import { Tooltip } from 'components/tooltip';
 
 export const ImageBubbleMenu = ({ editor }) => {
   const { width: maxWidth } = getEditorContainerDOMSize(editor);

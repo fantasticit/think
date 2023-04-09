@@ -1,10 +1,13 @@
-import { Button } from '@douyinfe/semi-ui';
-import { IconSup } from 'components/icons';
-import { Tooltip } from 'components/tooltip';
 import React, { useCallback } from 'react';
+
+import { Button } from '@douyinfe/semi-ui';
+
 import { Superscript as SuperscriptExtension } from 'tiptap/core/extensions/superscript';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';
+
+import { IconSup } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 
 export const Superscript: React.FC<{ editor: any }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

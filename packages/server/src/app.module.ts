@@ -1,3 +1,11 @@
+import { forwardRef, Inject, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Cron, ScheduleModule } from '@nestjs/schedule';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { LoggerModule } from 'nestjs-pino';
+
+import { getConfig } from '@think/config';
+
 import { AuthEntity } from '@entities/auth.entity';
 import { CommentEntity } from '@entities/comment.entity';
 import { DocumentEntity } from '@entities/document.entity';
@@ -23,13 +31,7 @@ import { UserModule } from '@modules/user.module';
 import { VerifyModule } from '@modules/verify.module';
 import { ViewModule } from '@modules/view.module';
 import { WikiModule } from '@modules/wiki.module';
-import { forwardRef, Inject, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Cron, ScheduleModule } from '@nestjs/schedule';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { getConfig } from '@think/config';
 import * as fs from 'fs-extra';
-import { LoggerModule } from 'nestjs-pino';
 import * as path from 'path';
 import pino from 'pino';
 

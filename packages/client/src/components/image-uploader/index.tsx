@@ -1,10 +1,12 @@
+import React, { useCallback, useMemo, useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+
 import { Button, ButtonGroup, Col, Popover, Row, SideSheet, Skeleton, Space, TabPane, Tabs } from '@douyinfe/semi-ui';
+
 import { Upload } from 'components/upload';
 import { chunk } from 'helpers/chunk';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useMemo, useState } from 'react';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import styles from './index.module.scss';
 

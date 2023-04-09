@@ -1,6 +1,7 @@
-import { Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
 import React, { useMemo } from 'react';
+
+import { Space } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { Align } from 'tiptap/core/menus/align';
 import { Attachment } from 'tiptap/core/menus/attachment';
@@ -44,6 +45,8 @@ import { Text } from 'tiptap/core/menus/text';
 import { TextColor } from 'tiptap/core/menus/text-color';
 import { Underline } from 'tiptap/core/menus/underline';
 import { Undo } from 'tiptap/core/menus/undo';
+
+import { Divider } from 'components/divider';
 
 const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isEditable = useMemo(() => editor && editor.isEditable, [editor]);

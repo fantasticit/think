@@ -1,7 +1,10 @@
-import { TabPane, Tabs } from '@douyinfe/semi-ui';
-import { IOrganization } from '@think/domains';
-import { Seo } from 'components/seo';
 import React from 'react';
+
+import { TabPane, Tabs } from '@douyinfe/semi-ui';
+
+import { IOrganization } from '@think/domains';
+
+import { Seo } from 'components/seo';
 
 import { Base } from './base';
 import { OrganizationMembers } from './members';

@@ -1,11 +1,14 @@
+import React, { useCallback } from 'react';
+
 import { IconItalic } from '@douyinfe/semi-icons';
 import { Button } from '@douyinfe/semi-ui';
-import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
+
 import { Editor } from 'tiptap/core';
 import { Italic as ItalicExtension } from 'tiptap/core/extensions/italic';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';
+
+import { Tooltip } from 'components/tooltip';
 
 export const Italic: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

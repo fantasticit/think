@@ -1,3 +1,11 @@
+import { forwardRef, Inject, Injectable, Module, UnauthorizedException } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule, PassportStrategy } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { getConfig } from '@think/config';
+
 import { UserController } from '@controllers/user.controller';
 import { UserEntity } from '@entities/user.entity';
 import { MessageModule } from '@modules/message.module';
@@ -6,13 +14,7 @@ import { StarModule } from '@modules/star.module';
 import { SystemModule } from '@modules/system.module';
 import { VerifyModule } from '@modules/verify.module';
 import { WikiModule } from '@modules/wiki.module';
-import { forwardRef, Inject, Injectable, Module, UnauthorizedException } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule, PassportStrategy } from '@nestjs/passport';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from '@services/user.service';
-import { getConfig } from '@think/config';
 import { Request as RequestType } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 

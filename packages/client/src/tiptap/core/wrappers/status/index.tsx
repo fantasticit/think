@@ -1,10 +1,13 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import { IconTick } from '@douyinfe/semi-icons';
 import { Input, Popover, Space, Tag } from '@douyinfe/semi-ui';
+
 import { NodeViewWrapper } from '@tiptap/react';
+
 import cls from 'classnames';
 import { useUser } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.scss';
 

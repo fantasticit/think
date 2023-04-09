@@ -1,4 +1,5 @@
 import { IUser } from '@think/domains';
+
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { ExcalidrawWrapper } from 'tiptap/core/wrappers/excalidraw';

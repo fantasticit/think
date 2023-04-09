@@ -1,6 +1,8 @@
+import React, { useCallback, useMemo } from 'react';
+
 import { IconAlignCenter, IconAlignJustify, IconAlignLeft, IconAlignRight } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Tooltip } from '@douyinfe/semi-ui';
-import React, { useCallback, useMemo } from 'react';
+
 import { Editor } from 'tiptap/core';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';

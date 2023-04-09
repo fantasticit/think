@@ -1,12 +1,14 @@
-import { onAuthenticatePayload, onChangePayload, onLoadDocumentPayload, Server } from '@hocuspocus/server';
-import { TiptapTransformer } from '@hocuspocus/transformer';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+
+import { DocumentStatus, IUser } from '@think/domains';
+
+import { onAuthenticatePayload, onChangePayload, onLoadDocumentPayload, Server } from '@hocuspocus/server';
+import { TiptapTransformer } from '@hocuspocus/transformer';
 import { DocumentService } from '@services/document.service';
 import { DocumentVersionService } from '@services/document-version.service';
 import { TemplateService } from '@services/template.service';
 import { UserService } from '@services/user.service';
-import { DocumentStatus, IUser } from '@think/domains';
 import * as lodash from 'lodash';
 import * as Y from 'yjs';
 

@@ -1,6 +1,7 @@
-import { Typography } from '@douyinfe/semi-ui';
-import { ImageViewer } from 'components/image-viewer';
 import React, { useMemo, useRef } from 'react';
+
+import { Typography } from '@douyinfe/semi-ui';
+
 import {
   extractFileExtension,
   extractFilename,
@@ -9,8 +10,11 @@ import {
   normalizeFileType,
 } from 'tiptap/prose-utils';
 
-import styles from './index.module.scss';
+import { ImageViewer } from 'components/image-viewer';
+
 import { PDFPlayer } from './pdf-player';
+
+import styles from './index.module.scss';
 
 interface IProps {
   url: string;

@@ -1,5 +1,6 @@
-import { Skeleton } from '@douyinfe/semi-ui';
 import React from 'react';
+
+import { Skeleton } from '@douyinfe/semi-ui';
 
 export const WorkspacePlaceholder = () => {
   const placeholder = (

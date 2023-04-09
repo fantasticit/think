@@ -1,6 +1,8 @@
-import { ITemplate, TemplateApiDefinition } from '@think/domains';
 import { useCallback, useState } from 'react';
 import { useQuery } from 'react-query';
+
+import { ITemplate, TemplateApiDefinition } from '@think/domains';
+
 import { HttpClient } from 'services/http-client';
 
 export const getPublicTemplates = (

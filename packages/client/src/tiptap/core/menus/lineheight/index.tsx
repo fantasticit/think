@@ -1,10 +1,13 @@
-import { Button, Dropdown, Tooltip } from '@douyinfe/semi-ui';
-import { IconLineHeight } from 'components/icons';
 import React, { useCallback } from 'react';
+
+import { Button, Dropdown, Tooltip } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
+
+import { IconLineHeight } from 'components/icons';
 
 export const LINE_HEIGHT = [null, 1, 1.15, 1.5, 2, 2.5, 3];
 

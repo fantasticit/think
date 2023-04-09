@@ -1,9 +1,11 @@
-import { AuthDto } from '@dtos/auth.dto';
-import { AuthEntity } from '@entities/auth.entity';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserService } from '@services/user.service';
+
 import { AuthEnum, IDocument, IOrganization, IPagination, IUser, IWiki } from '@think/domains';
+
+import { AuthDto } from '@dtos/auth.dto';
+import { AuthEntity } from '@entities/auth.entity';
+import { UserService } from '@services/user.service';
 import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 

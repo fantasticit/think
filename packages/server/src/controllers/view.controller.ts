@@ -1,4 +1,5 @@
 import { Controller } from '@nestjs/common';
+
 import { ViewService } from '@services/view.service';
 
 @Controller('view')

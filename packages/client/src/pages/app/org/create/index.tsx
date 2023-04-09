@@ -1,13 +1,16 @@
+import { useCallback, useRef, useState } from 'react';
+
 import { Avatar, Button, Form, Typography } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+
 import { ORGANIZATION_LOGOS } from '@think/constants';
+
 import { ImageUploader } from 'components/image-uploader';
 import { Seo } from 'components/seo';
 import { useCreateOrganization } from 'data/organization';
 import { useToggle } from 'hooks/use-toggle';
 import { SingleColumnLayout } from 'layouts/single-column';
 import Router from 'next/router';
-import { useCallback, useRef, useState } from 'react';
 
 import styles from './index.module.scss';
 

@@ -1,7 +1,3 @@
-import { RegisterUserDto, ResetPasswordDto } from '@dtos/create-user.dto';
-import { LoginUserDto } from '@dtos/login-user.dto';
-import { UpdateUserDto } from '@dtos/update-user.dto';
-import { JwtGuard } from '@guard/jwt.guard';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -17,8 +13,14 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { UserService } from '@services/user.service';
+
 import { UserApiDefinition } from '@think/domains';
+
+import { RegisterUserDto, ResetPasswordDto } from '@dtos/create-user.dto';
+import { LoginUserDto } from '@dtos/login-user.dto';
+import { UpdateUserDto } from '@dtos/update-user.dto';
+import { JwtGuard } from '@guard/jwt.guard';
+import { UserService } from '@services/user.service';
 import { Response as ExpressResponse } from 'express';
 
 @Controller('user')

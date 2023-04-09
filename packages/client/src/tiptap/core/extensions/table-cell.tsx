@@ -1,12 +1,15 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import { IconPlus } from '@douyinfe/semi-icons';
+
 import { mergeAttributes, Node } from '@tiptap/core';
+import { getCellsInColumn, isRowSelected, isTableSelected, selectRow, selectTable } from 'tiptap/prose-utils';
+
 import { Tooltip } from 'components/tooltip';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { addRowAfter } from 'prosemirror-tables';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { getCellsInColumn, isRowSelected, isTableSelected, selectRow, selectTable } from 'tiptap/prose-utils';
 
 export interface TableCellOptions {
   HTMLAttributes: Record<string, any>;

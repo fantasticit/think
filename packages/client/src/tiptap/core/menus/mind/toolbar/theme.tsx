@@ -1,8 +1,10 @@
 import { Button, Popover, Typography } from '@douyinfe/semi-ui';
+
 import cls from 'classnames';
 import { IconDrawBoard } from 'components/icons';
 
 import { THEMES } from '../constant';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;

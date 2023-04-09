@@ -1,20 +1,22 @@
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { ORGANIZATION_LOGOS } from '@think/constants';
+import { IUser, UserStatus } from '@think/domains';
+
 import { RegisterUserDto, ResetPasswordDto } from '@dtos/create-user.dto';
 import { LoginUserDto } from '@dtos/login-user.dto';
 import { UpdateUserDto } from '@dtos/update-user.dto';
 import { SystemEntity } from '@entities/system.entity';
 import { UserEntity } from '@entities/user.entity';
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
 import { MessageService } from '@services/message.service';
 import { OrganizationService } from '@services/organization.service';
 import { StarService } from '@services/star.service';
 import { SystemService } from '@services/system.service';
 import { VerifyService } from '@services/verify.service';
 import { WikiService } from '@services/wiki.service';
-import { ORGANIZATION_LOGOS } from '@think/constants';
-import { IUser, UserStatus } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import { Repository } from 'typeorm';
 

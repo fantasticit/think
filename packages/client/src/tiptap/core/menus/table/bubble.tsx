@@ -1,5 +1,12 @@
+import React, { useCallback } from 'react';
+
 import { IconCopy } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
+
+import { BubbleMenu } from 'tiptap/core/bubble-menu';
+import { Table } from 'tiptap/core/extensions/table';
+import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
 import { Divider } from 'components/divider';
 import {
   IconAddColumnAfter,
@@ -16,10 +23,6 @@ import {
   IconTableHeaderRow,
 } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
-import { BubbleMenu } from 'tiptap/core/bubble-menu';
-import { Table } from 'tiptap/core/extensions/table';
-import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 export const TableBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(() => {

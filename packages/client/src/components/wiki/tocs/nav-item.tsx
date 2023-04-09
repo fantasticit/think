@@ -1,6 +1,7 @@
+import React from 'react';
+
 import cls from 'classnames';
 import Link from 'next/link';
-import React from 'react';
 import type { UrlObject } from 'url';
 
 import styles from './index.module.scss';

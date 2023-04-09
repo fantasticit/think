@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Editor } from 'tiptap/core';
 
 import { MindBubbleMenu } from './bubble';

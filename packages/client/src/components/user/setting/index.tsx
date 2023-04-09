@@ -1,10 +1,12 @@
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+
 import { Avatar, Button, Col, Form, Modal, Row, Space, Toast } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+
 import { Upload } from 'components/upload';
 import { useSystemPublicConfig, useUser, useVerifyCode } from 'data/user';
 import { useInterval } from 'hooks/use-interval';
 import { useToggle } from 'hooks/use-toggle';
-import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 
 interface IProps {
   visible: boolean;

@@ -1,8 +1,10 @@
-import { DocumentApiDefinition, IAuthority, IDocument, IUser, IWiki } from '@think/domains';
-import { triggerRefreshTocs } from 'event';
-import { useAsyncLoading } from 'hooks/use-async-loading';
 import { useCallback, useState } from 'react';
 import { QueriesOptions, useQuery, UseQueryOptions } from 'react-query';
+
+import { DocumentApiDefinition, IAuthority, IDocument, IUser, IWiki } from '@think/domains';
+
+import { triggerRefreshTocs } from 'event';
+import { useAsyncLoading } from 'hooks/use-async-loading';
 import { HttpClient } from 'services/http-client';
 
 type IDocumentWithVisitedAt = IDocument & { visitedAt: string };

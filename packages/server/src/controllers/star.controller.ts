@@ -1,5 +1,3 @@
-import { StarDto } from '@dtos/star.dto';
-import { JwtGuard } from '@guard/jwt.guard';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -14,8 +12,12 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { StarService } from '@services/star.service';
+
 import { StarApiDefinition } from '@think/domains';
+
+import { StarDto } from '@dtos/star.dto';
+import { JwtGuard } from '@guard/jwt.guard';
+import { StarService } from '@services/star.service';
 
 @Controller('star')
 export class StarController {

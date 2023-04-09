@@ -1,16 +1,20 @@
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+
 import { Spin, Typography } from '@douyinfe/semi-ui';
+
+import { Editor } from 'tiptap/core';
+import { IndexeddbPersistence } from 'tiptap/core/thritypart/y-indexeddb';
+
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { DataRender } from 'components/data-render';
 import deepEqual from 'deep-equal';
 import { useToggle } from 'hooks/use-toggle';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import { Editor } from 'tiptap/core';
-import { IndexeddbPersistence } from 'tiptap/core/thritypart/y-indexeddb';
 
 import { EditorInstance } from './editor';
-import styles from './index.module.scss';
 import { ICollaborationEditorProps, ProviderStatus } from './type';
+
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 

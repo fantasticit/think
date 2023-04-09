@@ -1,5 +1,6 @@
-import cls from 'classnames';
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+
+import cls from 'classnames';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 import styles from './index.module.scss';

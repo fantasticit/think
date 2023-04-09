@@ -1,9 +1,12 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { Button, Toast, Typography, Upload } from '@douyinfe/semi-ui';
+
 import type { IWiki } from '@think/domains';
+
 import { useCreateDocument } from 'data/document';
 import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { createMarkdownParser, MarkdownParse } from './parser';
 

@@ -1,6 +1,10 @@
+import { useMemo } from 'react';
+
 import { IconPlus, IconSmallTriangleDown } from '@douyinfe/semi-icons';
 import { Avatar, Button, Dropdown, Skeleton, Typography } from '@douyinfe/semi-ui';
+
 import { IDocument } from '@think/domains';
+
 import cls from 'classnames';
 import { DataRender } from 'components/data-render';
 import { IconOverview, IconSetting } from 'components/icons';
@@ -9,10 +13,10 @@ import { useWikiDetail, useWikiTocs } from 'data/wiki';
 import { triggerCreateDocument } from 'event';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+
+import { Tree } from './tree';
 
 import styles from './index.module.scss';
-import { Tree } from './tree';
 
 interface IProps {
   wikiId: string;

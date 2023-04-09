@@ -1,9 +1,3 @@
-import { OperateUserAuthDto } from '@dtos/auth.dto';
-import { CreateWikiDto } from '@dtos/create-wiki.dto';
-import { ShareWikiDto } from '@dtos/share-wiki.dto';
-import { UpdateWikiDto } from '@dtos/update-wiki.dto';
-import { JwtGuard } from '@guard/jwt.guard';
-import { CheckWikiStatus, WikiStatusGuard } from '@guard/wiki-status.guard';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -20,8 +14,16 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { WikiService } from '@services/wiki.service';
+
 import { IPagination, WikiApiDefinition, WikiStatus } from '@think/domains';
+
+import { OperateUserAuthDto } from '@dtos/auth.dto';
+import { CreateWikiDto } from '@dtos/create-wiki.dto';
+import { ShareWikiDto } from '@dtos/share-wiki.dto';
+import { UpdateWikiDto } from '@dtos/update-wiki.dto';
+import { JwtGuard } from '@guard/jwt.guard';
+import { CheckWikiStatus, WikiStatusGuard } from '@guard/wiki-status.guard';
+import { WikiService } from '@services/wiki.service';
 
 @Controller('wiki')
 export class WikiController {

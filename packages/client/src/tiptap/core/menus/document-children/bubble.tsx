@@ -1,11 +1,14 @@
+import React, { useCallback } from 'react';
+
 import { IconCopy, IconDelete } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
-import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
+
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { DocumentChildren } from 'tiptap/core/extensions/document-children';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
+import { Divider } from 'components/divider';
+import { Tooltip } from 'components/tooltip';
 
 export const DocumentChildrenBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(() => editor.isActive(DocumentChildren.name), [editor]);

@@ -1,12 +1,16 @@
+import React from 'react';
+
 import { IconDelete, IconEdit } from '@douyinfe/semi-icons';
 import { Banner, Button, Popconfirm, Table, Typography } from '@douyinfe/semi-ui';
+
 import { AuthEnumTextMap } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
-import React from 'react';
 
 import { AddUser } from './add';
 import { EditUser } from './edit';
+
 import styles from './index.module.scss';
 
 interface IProps {

@@ -1,5 +1,6 @@
-import deepEqual from 'deep-equal';
 import React from 'react';
+
+import deepEqual from 'deep-equal';
 
 import { defaultEmpty, defaultLoading, defaultRenderError, Render } from './constant';
 import { LoadingWrap } from './loading';

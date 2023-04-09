@@ -1,6 +1,7 @@
+import React from 'react';
+
 import { Members } from 'components/members';
 import { useWikiMembers } from 'data/wiki';
-import React from 'react';
 
 interface IProps {
   wikiId: string;

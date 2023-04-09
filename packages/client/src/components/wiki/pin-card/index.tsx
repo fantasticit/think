@@ -1,5 +1,7 @@
 import { Avatar, Skeleton, Space, Typography } from '@douyinfe/semi-ui';
+
 import { IWiki } from '@think/domains';
+
 import { IconDocument } from 'components/icons/IconDocument';
 import { LocaleTime } from 'components/locale-time';
 import { WikiStar } from 'components/wiki/star';

@@ -1,6 +1,7 @@
-import { getStorage, setStorage } from 'helpers/storage';
 import { useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
+
+import { getStorage, setStorage } from 'helpers/storage';
 
 export enum Width {
   'standardWidth' = 'standardWidth',

@@ -1,6 +1,8 @@
-import { Spin, Typography } from '@douyinfe/semi-ui';
-import { Empty } from 'illustrations/empty';
 import React, { useMemo } from 'react';
+
+import { Spin, Typography } from '@douyinfe/semi-ui';
+
+import { Empty } from 'illustrations/empty';
 
 const { Text } = Typography;
 

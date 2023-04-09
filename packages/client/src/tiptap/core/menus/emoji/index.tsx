@@ -1,9 +1,12 @@
+import React, { useCallback } from 'react';
+
 import { Button } from '@douyinfe/semi-ui';
+
+import { Editor } from 'tiptap/core';
+
 import { EmojiPicker } from 'components/emoji-picker';
 import { IconEmoji } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
-import { Editor } from 'tiptap/core';
 
 export const Emoji: React.FC<{ editor: Editor }> = ({ editor }) => {
   const setEmoji = useCallback(

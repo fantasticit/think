@@ -1,7 +1,9 @@
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { Banner, Button, Toast, Tree, Typography } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { useWikiTocs } from 'data/wiki';
-import React, { useCallback, useEffect, useState } from 'react';
 
 import styles from './index.module.scss';
 

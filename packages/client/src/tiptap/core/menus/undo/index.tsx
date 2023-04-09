@@ -1,8 +1,11 @@
+import React, { useCallback } from 'react';
+
 import { IconUndo } from '@douyinfe/semi-icons';
 import { Button } from '@douyinfe/semi-ui';
-import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
+
 import { Editor } from 'tiptap/core';
+
+import { Tooltip } from 'components/tooltip';
 
 export const Undo: React.FC<{ editor: Editor }> = ({ editor }) => {
   const undo = useCallback(() => editor.chain().focus().undo().run(), [editor]);

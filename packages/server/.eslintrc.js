@@ -29,7 +29,12 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'simple-import-sort/imports': 'error',
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [['(@)?nestjs(.*)$'], ['(@)?think(.*)$'], ['^@?\\w'], ['@/(.*)'], ['^[./]']],
+      },
+    ],
     'simple-import-sort/exports': 'error',
   },
 };

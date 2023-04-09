@@ -1,7 +1,8 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { IconLink } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Form, Tooltip } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
-import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const Link = ({ disabled, link, setLink }) => {
   const $form = useRef<FormApi>();

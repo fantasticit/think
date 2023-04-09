@@ -6,6 +6,7 @@ import {
   yUndoPlugin,
   yUndoPluginKey,
 } from 'tiptap/core/thritypart/y-prosemirror/y-prosemirror';
+
 import { UndoManager } from 'yjs';
 
 declare module '@tiptap/core' {

@@ -1,5 +1,8 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
 import { IconPlus } from '@douyinfe/semi-icons';
 import { Button, Tree as SemiTree, Typography } from '@douyinfe/semi-ui';
+
 import { DocumentActions } from 'components/document/actions';
 import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
 import deepEqual from 'deep-equal';
@@ -7,11 +10,11 @@ import { CREATE_DOCUMENT, event, triggerCreateDocument } from 'event';
 import { useToggle } from 'hooks/use-toggle';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
-import styles from './index.module.scss';
 import { findParents } from './utils';
+
+import styles from './index.module.scss';
 
 const Actions = ({ node }) => {
   const createDocument = useCallback(

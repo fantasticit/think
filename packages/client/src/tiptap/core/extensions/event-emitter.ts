@@ -1,6 +1,7 @@
 import { Extension } from '@tiptap/core';
-import { EventEmitter as Em } from 'helpers/event-emitter';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
+
+import { EventEmitter as Em } from 'helpers/event-emitter';
 
 const event = new Em();
 

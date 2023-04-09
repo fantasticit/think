@@ -1,6 +1,8 @@
-import { Banner, Input, Popconfirm, Select, Space } from '@douyinfe/semi-ui';
-import { AuthEnum, AuthEnumArray } from '@think/domains';
 import React, { useCallback, useState } from 'react';
+
+import { Banner, Input, Popconfirm, Select, Space } from '@douyinfe/semi-ui';
+
+import { AuthEnum, AuthEnumArray } from '@think/domains';
 
 interface IProps {
   onOk: (arg) => any;

@@ -1,18 +1,23 @@
+import React, { useCallback, useEffect, useMemo } from 'react';
+
 import { Badge, Button, Dropdown, Modal, Space, Typography } from '@douyinfe/semi-ui';
+
 import { IDocument } from '@think/domains';
+
+import { createEditor } from 'tiptap/core';
+import { AllExtensions } from 'tiptap/core/all-kit';
+import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
+
 import { IconJSON, IconMarkdown, IconPDF, IconWord } from 'components/icons';
 import { useDocumentDetail } from 'data/document';
 import FileSaver from 'file-saver';
 import { safeJSONParse, safeJSONStringify } from 'helpers/json';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { createEditor } from 'tiptap/core';
-import { AllExtensions } from 'tiptap/core/all-kit';
-import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
+
+import { printEditorContent } from './pdf';
 
 import styles from './index.module.scss';
-import { printEditorContent } from './pdf';
 
 const { Text } = Typography;
 

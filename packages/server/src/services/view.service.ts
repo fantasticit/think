@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common';
+
+import { IDocument, IOrganization, IUser } from '@think/domains';
+
 import { RedisDBEnum } from '@constants/*';
 import { DocumentEntity } from '@entities/document.entity';
 import { buildRedis } from '@helpers/redis.helper';
-import { Injectable } from '@nestjs/common';
-import { IDocument, IOrganization, IUser } from '@think/domains';
 import Redis from 'ioredis';
 import * as lodash from 'lodash';
 

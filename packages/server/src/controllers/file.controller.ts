@@ -1,9 +1,11 @@
-import { JwtGuard } from '@guard/jwt.guard';
-import { FileQuery } from '@helpers/file.helper/oss.client';
 import { Controller, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileService } from '@services/file.service';
+
 import { FILE_CHUNK_SIZE, FileApiDefinition } from '@think/domains';
+
+import { JwtGuard } from '@guard/jwt.guard';
+import { FileQuery } from '@helpers/file.helper/oss.client';
+import { FileService } from '@services/file.service';
 
 @Controller('file')
 export class FileController {

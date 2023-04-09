@@ -1,6 +1,7 @@
 import { mergeAttributes, Node } from '@tiptap/core';
-import { TextSelection } from 'prosemirror-state';
 import { addOrDeleteCol, createColumns, gotoCol } from 'tiptap/prose-utils';
+
+import { TextSelection } from 'prosemirror-state';
 
 import { EXTENSION_PRIORITY_HIGHEST } from '../constants';
 

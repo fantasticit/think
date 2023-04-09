@@ -1,16 +1,19 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import VisibilitySensor from 'react-visibility-sensor';
+
 import { Button, Space, Spin, Typography } from '@douyinfe/semi-ui';
+
 import { NodeViewWrapper } from '@tiptap/react';
+import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from 'tiptap/core/menus/mind/constant';
+import { clamp, getEditorContainerDOMSize } from 'tiptap/prose-utils';
+
 import cls from 'classnames';
 import { IconMind, IconMindCenter, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
 import { Tooltip } from 'components/tooltip';
 import deepEqual from 'deep-equal';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import VisibilitySensor from 'react-visibility-sensor';
 import { load, renderMind } from 'thirtypart/kityminder';
-import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from 'tiptap/core/menus/mind/constant';
-import { clamp, getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import styles from './index.module.scss';
 

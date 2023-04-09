@@ -1,9 +1,12 @@
+import React, { useEffect, useRef } from 'react';
+
 import { IAuthority, ILoginUser } from '@think/domains';
+
+import { CollaborationEditor, ICollaborationRefProps } from 'tiptap/editor';
+
 import cls from 'classnames';
 import { event, triggerChangeDocumentTitle, triggerJoinUser, USE_DOCUMENT_VERSION } from 'event';
 import { useMount } from 'hooks/use-mount';
-import React, { useEffect, useRef } from 'react';
-import { CollaborationEditor, ICollaborationRefProps } from 'tiptap/editor';
 
 import styles from './index.module.scss';
 

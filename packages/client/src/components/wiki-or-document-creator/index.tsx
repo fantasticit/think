@@ -1,10 +1,12 @@
+import React from 'react';
+
 import { IconPlus } from '@douyinfe/semi-icons';
 import { Button, Dropdown } from '@douyinfe/semi-ui';
+
 import { DocumentCreator } from 'components/document/create';
 import { WikiCreator } from 'components/wiki/create';
 import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
-import React from 'react';
 
 interface IProps {
   onCreateDocument?: () => void;

@@ -1,13 +1,16 @@
+import { useCallback } from 'react';
+
 import { IconEdit, IconUser } from '@douyinfe/semi-icons';
 import { Avatar, Button, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
+
 import type { IDocument } from '@think/domains';
+
 import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
 import { IconDocument } from 'components/icons/IconDocument';
 import { LocaleTime } from 'components/locale-time';
 import Link from 'next/link';
 import Router from 'next/router';
-import { useCallback } from 'react';
 
 import styles from './index.module.scss';
 

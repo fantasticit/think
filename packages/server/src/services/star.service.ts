@@ -1,13 +1,15 @@
-import { StarDto } from '@dtos/star.dto';
-import { StarEntity } from '@entities/star.entity';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
+import { IDocument, IUser } from '@think/domains';
+
+import { StarDto } from '@dtos/star.dto';
+import { StarEntity } from '@entities/star.entity';
 import { AuthService } from '@services/auth.service';
 import { DocumentService } from '@services/document.service';
 import { OrganizationService } from '@services/organization.service';
 import { UserService } from '@services/user.service';
 import { WikiService } from '@services/wiki.service';
-import { IDocument, IUser } from '@think/domains';
 import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
 

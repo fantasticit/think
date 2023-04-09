@@ -1,5 +1,6 @@
-import { Typography } from '@douyinfe/semi-ui';
 import React, { useCallback, useMemo, useState } from 'react';
+
+import { Typography } from '@douyinfe/semi-ui';
 
 import { GridCell } from './grid-cell';
 

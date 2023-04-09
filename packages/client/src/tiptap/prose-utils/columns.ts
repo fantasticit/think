@@ -1,8 +1,9 @@
+import { Column } from 'tiptap/core/extensions/column';
+import { Columns } from 'tiptap/core/extensions/columns';
+
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorState, TextSelection } from 'prosemirror-state';
 import { findParentNode } from 'prosemirror-utils';
-import { Column } from 'tiptap/core/extensions/column';
-import { Columns } from 'tiptap/core/extensions/columns';
 
 export function createColumn(colType, index, colContent = null) {
   if (colContent) {

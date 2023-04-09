@@ -1,6 +1,8 @@
-import { CommentApiDefinition, IComment } from '@think/domains';
 import { useCallback, useState } from 'react';
 import { useQuery } from 'react-query';
+
+import { CommentApiDefinition, IComment } from '@think/domains';
+
 import { HttpClient } from 'services/http-client';
 
 export type CreateCommentDto = Pick<IComment, 'parentCommentId' | 'html' | 'replyUserId'>;

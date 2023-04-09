@@ -1,9 +1,10 @@
 import { Extension } from '@tiptap/core';
+import { Editor } from 'tiptap/core';
+
 import { Node as ProsemirrorNode } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { Editor } from 'tiptap/core';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

@@ -1,11 +1,12 @@
 import { Node } from '@tiptap/core';
 import { ReactRenderer } from '@tiptap/react';
 import Suggestion from '@tiptap/suggestion';
-import { Plugin, PluginKey } from 'prosemirror-state';
-import tippy from 'tippy.js';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import { insertMenuLRUCache, QUICK_INSERT_COMMANDS, transformToCommands } from 'tiptap/core/menus/commands';
 import { MenuList } from 'tiptap/core/wrappers/menu-list';
+
+import { Plugin, PluginKey } from 'prosemirror-state';
+import tippy from 'tippy.js';
 
 const createSlashExtension = (char: string) => {
   const extensionName = `quickInsert-${char}`;

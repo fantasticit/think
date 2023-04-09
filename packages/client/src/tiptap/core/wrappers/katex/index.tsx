@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
+
 import { NodeViewWrapper } from '@tiptap/react';
+
 import { convertColorToRGBA } from 'helpers/color';
 import { Theme, ThemeEnum } from 'hooks/use-theme';
 import katex from 'katex';
-import { useMemo } from 'react';
 
 import styles from './index.module.scss';
 

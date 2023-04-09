@@ -1,5 +1,8 @@
+import React, { useMemo } from 'react';
+
 import { IconMenu } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Layout as SemiLayout, Nav, Space } from '@douyinfe/semi-ui';
+
 import { Message } from 'components/message';
 import { OrganizationSwitcher } from 'components/organization/switcher';
 import { Search } from 'components/search';
@@ -10,7 +13,6 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useRouterQuery } from 'hooks/use-router-query';
 import { useToggle } from 'hooks/use-toggle';
 import Router, { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
 
 import { Recent, RecentModal } from './recent';
 import { Wiki, WikiModal } from './wiki';

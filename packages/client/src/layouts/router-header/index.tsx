@@ -1,4 +1,7 @@
+import React, { useCallback } from 'react';
+
 import { Button, Layout as SemiLayout, Nav, Space } from '@douyinfe/semi-ui';
+
 import { Message } from 'components/message';
 import { OrganizationPublicSwitcher } from 'components/organization/public-switcher';
 import { Theme } from 'components/theme';
@@ -6,7 +9,6 @@ import { User } from 'components/user';
 import { useUser } from 'data/user';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import Router, { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
 
 const { Header: SemiHeader } = SemiLayout;
 

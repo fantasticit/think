@@ -1,5 +1,6 @@
 import { IconFont } from '@douyinfe/semi-icons';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
+
 import { ColorPicker } from 'components/color-picker';
 
 export const FontColor = ({ selectedNode, setFontColor, textColor }) => {

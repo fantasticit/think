@@ -1,9 +1,11 @@
+import React, { useCallback } from 'react';
+
 import { IconDelete } from '@douyinfe/semi-icons';
 import { Modal, Space, Typography } from '@douyinfe/semi-ui';
+
 import { useOwnWikis } from 'data/wiki';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
-import React, { useCallback } from 'react';
 
 interface IProps {
   wikiId: string;

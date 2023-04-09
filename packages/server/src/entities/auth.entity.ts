@@ -1,4 +1,5 @@
 import { AuthEnum } from '@think/domains';
+
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('auth')

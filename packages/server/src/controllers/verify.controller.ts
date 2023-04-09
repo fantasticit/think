@@ -7,8 +7,10 @@ import {
   Query,
   UseInterceptors,
 } from '@nestjs/common';
-import { VerifyService } from '@services/verify.service';
+
 import { UserApiDefinition } from '@think/domains';
+
+import { VerifyService } from '@services/verify.service';
 
 @Controller('verify')
 export class VerifyController {
