@@ -39,8 +39,8 @@ export class WikiController {
   @Get(WikiApiDefinition.getAllWikis.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getAllWikis(@Request() req, @Param('organizationId') organizationId, @Query() pagination: IPagination) {
-    return await this.wikiService.getAllWikis(req.user, organizationId, pagination);
+  async getAllWikis(@Request() req, @Param('organizationId') organizationId) {
+    return await this.wikiService.getAllWikis(req.user, organizationId);
   }
 
   /**
@@ -53,8 +53,8 @@ export class WikiController {
   @Get(WikiApiDefinition.getOwnWikis.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getOwnWikis(@Request() req, @Param('organizationId') organizationId, @Query() pagination: IPagination) {
-    return await this.wikiService.getOwnWikis(req.user, organizationId, pagination);
+  async getOwnWikis(@Request() req, @Param('organizationId') organizationId) {
+    return await this.wikiService.getOwnWikis(req.user, organizationId);
   }
 
   /**
@@ -67,8 +67,8 @@ export class WikiController {
   @Get(WikiApiDefinition.getJoinWikis.server)
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtGuard)
-  async getJoinWikis(@Request() req, @Param('organizationId') organizationId, @Query() pagination: IPagination) {
-    return await this.wikiService.getJoinWikis(req.user, organizationId, pagination);
+  async getJoinWikis(@Request() req, @Param('organizationId') organizationId) {
+    return await this.wikiService.getJoinWikis(req.user, organizationId);
   }
 
   /**
