@@ -12,9 +12,10 @@ import Router, { useRouter } from 'next/router';
 import styles from './index.module.scss';
 
 const { Title } = Typography;
+const PAGE_SIZE = 9;
 
 const Page: NextPage = () => {
-  const { addTemplate } = useOwnTemplates();
+  const { addTemplate } = useOwnTemplates(PAGE_SIZE);
   const { query = {} } = useRouter();
   const { tab = 'public' } = query as {
     tab?: string;
@@ -45,10 +46,10 @@ const Page: NextPage = () => {
         </div>
         <Tabs type="button" style={{ marginTop: 16 }} activeKey={tab} onChange={(tab) => navigate(tab)}>
           <TabPane tab="公开模板" itemKey="public">
-            <TemplateList hook={usePublicTemplates} pageSize={9} />
+            <TemplateList hook={usePublicTemplates} pageSize={PAGE_SIZE} />
           </TabPane>
           <TabPane tab="我创建的" itemKey="own">
-            <TemplateList hook={useOwnTemplates} pageSize={9} />
+            <TemplateList hook={useOwnTemplates} pageSize={PAGE_SIZE} />
           </TabPane>
         </Tabs>
       </div>
