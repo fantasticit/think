@@ -27,7 +27,7 @@ const TitlePluginKey = new PluginKey(TitleExtensionName);
 export const Title = Node.create<TitleOptions>({
   name: TitleExtensionName,
   content: 'inline*',
-  group: 'block',
+  group: TitleExtensionName,
   defining: true,
   isolating: true,
   selectable: true,

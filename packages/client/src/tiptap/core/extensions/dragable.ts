@@ -26,12 +26,7 @@ export const Dragable = Extension.create({
     let activeNode: ActiveNode | null;
     let activeSelection: Selection | null;
     let dragging = false;
-    const isMenuVisible = false;
     let mouseleaveTimer = null;
-    const menuActions = { setVisible: (arg: boolean) => {}, update: () => {} };
-
-    const getEditorView = () => editorView;
-    const getActiveNode = () => activeNode;
 
     const createDragHandleDOM = () => {
       const dom = document.createElement('div');
@@ -44,11 +39,6 @@ export const Dragable = Extension.create({
 
     const showDragHandleDOM = () => {
       dragHandleDOM?.classList?.add('show');
-      dragHandleDOM?.classList?.remove('hide');
-    };
-
-    const activeDragHandleDOM = () => {
-      dragHandleDOM?.classList?.add('active');
       dragHandleDOM?.classList?.remove('hide');
     };
 
@@ -81,8 +71,6 @@ export const Dragable = Extension.create({
       dragHandleDOM.style.left = `${left + offsetLeft}px`;
       dragHandleDOM.style.top = `${top - 2}px`;
 
-      menuActions?.update?.();
-
       showDragHandleDOM();
     };
 
@@ -95,10 +83,7 @@ export const Dragable = Extension.create({
 
     const handleMouseLeave = () => {
       if (!activeNode) return null;
-
-      if (!isMenuVisible) {
-        hideDragHandleDOM();
-      }
+      hideDragHandleDOM();
     };
 
     const handleMouseDown = () => {
@@ -138,8 +123,6 @@ export const Dragable = Extension.create({
           slice,
           move: true,
         };
-
-        menuActions?.setVisible?.(false);
       }
     };
 
@@ -237,7 +220,6 @@ export const Dragable = Extension.create({
               return false;
             },
             mousemove: (view, event) => {
-              if (isMenuVisible) return false;
               if (!view.editable || !dragHandleDOM) return false;
 
               const coords = { left: event.clientX, top: event.clientY };
@@ -312,12 +294,6 @@ export const Dragable = Extension.create({
                 return false;
               }
 
-              // if (result.el.parentElement?.classList.contains('ProseMirror')) {
-              //   if (dragging) return false;
-              //   hideDragHandleDOM();
-              //   return false;
-              // }
-
               activeNode = result;
               renderDragHandleDOM(view, result.el);
               return false;
@@ -330,9 +306,7 @@ export const Dragable = Extension.create({
             mouseleave: () => {
               clearTimeout(mouseleaveTimer);
               mouseleaveTimer = setTimeout(() => {
-                if (!isMenuVisible) {
-                  hideDragHandleDOM();
-                }
+                hideDragHandleDOM();
               }, 400);
               return false;
             },
