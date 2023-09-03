@@ -30,4 +30,16 @@
       align-items: center;
     }
   }
+
+  .handlerWrap {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 2;
+    padding: 2px 4px;
+    background-color: var(--semi-color-bg-2);
+    border: 1px solid var(--node-border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
 }

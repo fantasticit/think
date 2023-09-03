@@ -10,7 +10,7 @@ export class UpdateWikiDto {
 
   @IsString({ message: '知识库描述类型错误（正确类型为：String）' })
   @IsNotEmpty({ message: '知识库描述不能为空' })
-  @MinLength(3, { message: '知识库描述至少3个字符' })
+  @MinLength(1, { message: '知识库描述至少1个字符' })
   @IsOptional()
   description: string;
 

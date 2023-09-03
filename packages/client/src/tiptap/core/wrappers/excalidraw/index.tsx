@@ -2,15 +2,17 @@ import React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
-import { Space, Spin, Typography } from '@douyinfe/semi-ui';
+import { Button, Space, Spin, Typography } from '@douyinfe/semi-ui';
 
 import { NodeViewWrapper } from '@tiptap/react';
 import { Excalidraw } from 'tiptap/core/extensions/excalidraw';
-import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
+import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from 'tiptap/core/menus/mind/constant';
+import { clamp, getEditorContainerDOMSize } from 'tiptap/prose-utils';
 
 import cls from 'classnames';
-import { IconMind } from 'components/icons';
+import { IconMind, IconZoomIn, IconZoomOut } from 'components/icons';
 import { Resizeable } from 'components/resizeable';
+import { Tooltip } from 'components/tooltip';
 import deepEqual from 'deep-equal';
 import { useToggle } from 'hooks/use-toggle';
 
@@ -30,6 +32,7 @@ export const _ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
   const [loading, toggleLoading] = useToggle(true);
   const [error, setError] = useState<Error | null>(null);
   const [visible, toggleVisible] = useToggle(false);
+  const [zoom, setZoomState] = useState(100);
 
   const onResize = useCallback(
     (size) => {
@@ -46,6 +49,14 @@ export const _ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
     },
     [toggleVisible]
   );
+
+  const setZoom = useCallback((type: 'minus' | 'plus') => {
+    return () => {
+      setZoomState((currentZoom) =>
+        clamp(type === 'minus' ? currentZoom - ZOOM_STEP : currentZoom + ZOOM_STEP, MIN_ZOOM, MAX_ZOOM)
+      );
+    };
+  }, []);
 
   useEffect(() => {
     let isUnmount = false;
@@ -114,6 +125,8 @@ export const _ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  transform: `scale(${zoom / 100})`,
+                  transition: `all ease-in-out .3s`,
                 }}
                 dangerouslySetInnerHTML={{ __html: Svg?.outerHTML ?? '' }}
               />
@@ -126,6 +139,27 @@ export const _ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
                 </span>
                 绘图
               </Space>
+            </div>
+
+            <div className={styles.handlerWrap}>
+              <Tooltip content="缩小">
+                <Button
+                  size="small"
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconZoomOut />}
+                  onClick={setZoom('minus')}
+                />
+              </Tooltip>
+              <Tooltip content="放大">
+                <Button
+                  size="small"
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconZoomIn />}
+                  onClick={setZoom('plus')}
+                />
+              </Tooltip>
             </div>
           </div>
         </Resizeable>
