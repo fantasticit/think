@@ -112,6 +112,7 @@
   "devDependencies": {
     "@types/node": "17.0.13",
     "@types/react": "17.0.38",
+    "@types/react-lazy-load-image-component": "^1.6.3",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
     "copy-webpack-plugin": "11.0.0",
