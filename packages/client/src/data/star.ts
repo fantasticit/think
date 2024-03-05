@@ -3,7 +3,7 @@ import { useQuery, UseQueryOptions } from 'react-query';
 
 import { IDocument, IWiki, StarApiDefinition } from '@think/domains';
 
-import { event, TOGGLE_STAR_DOUCMENT, TOGGLE_STAR_WIKI, triggerToggleStarDocument, triggerToggleStarWiki } from 'event';
+import { event, TOGGLE_STAR_DOCUMENT, TOGGLE_STAR_WIKI, triggerToggleStarDocument, triggerToggleStarWiki } from 'event';
 import { HttpClient } from 'services/http-client';
 
 export type IWikiWithIsMember = IWiki & { isMember?: boolean };
@@ -122,10 +122,10 @@ export const useStarDocumentsInOrganization = (organizationId) => {
     }
   );
   useEffect(() => {
-    event.on(TOGGLE_STAR_DOUCMENT, refetch);
+    event.on(TOGGLE_STAR_DOCUMENT, refetch);
 
     return () => {
-      event.off(TOGGLE_STAR_DOUCMENT, refetch);
+      event.off(TOGGLE_STAR_DOCUMENT, refetch);
     };
   }, [refetch]);
   return { data, error, loading: isLoading, refresh: refetch };
@@ -218,10 +218,10 @@ export const useStarDocumentsInWiki = (organizationId, wikiId) => {
   );
 
   useEffect(() => {
-    event.on(TOGGLE_STAR_DOUCMENT, refetch);
+    event.on(TOGGLE_STAR_DOCUMENT, refetch);
 
     return () => {
-      event.off(TOGGLE_STAR_DOUCMENT, refetch);
+      event.off(TOGGLE_STAR_DOCUMENT, refetch);
     };
   }, [refetch]);
 

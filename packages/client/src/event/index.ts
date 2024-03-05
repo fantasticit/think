@@ -8,7 +8,7 @@ export const REFRESH_ORGANIZATIONS = 'REFRESH_ORGANIZATIONS'; // 刷新组织列
 export const REFRESH_TOCS = `REFRESH_TOCS`; // 刷新知识库目录
 export const CREATE_DOCUMENT = `CREATE_DOCUMENT`;
 export const TOGGLE_STAR_WIKI = `TOGGLE_STAR_WIKI`; // 收藏或取消收藏知识库
-export const TOGGLE_STAR_DOUCMENT = `TOGGLE_STAR_DOUCMENT`; // 收藏或取消收藏文档
+export const TOGGLE_STAR_DOCUMENT = `TOGGLE_STAR_DOCUMENT`; // 收藏或取消收藏文档
 
 /**
  * 刷新知识库目录
@@ -60,7 +60,7 @@ export const triggerToggleStarWiki = () => {
 };
 
 export const triggerToggleStarDocument = () => {
-  event.emit(TOGGLE_STAR_DOUCMENT);
+  event.emit(TOGGLE_STAR_DOCUMENT);
 };
 
 export const triggerRefreshOrganizations = () => {
