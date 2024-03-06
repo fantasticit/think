@@ -89,7 +89,7 @@ export const getDocumentMembers = (
  * @param documentId
  * @returns
  */
-export const useDoumentMembers = (documentId, options?: UseQueryOptions<Array<{ user: IUser; auth: IAuthority }>>) => {
+export const useDocumentMembers = (documentId, options?: UseQueryOptions<Array<{ user: IUser; auth: IAuthority }>>) => {
   const [pageSize] = useState(12);
   const [page, setPage] = useState(1);
   const { data, error, isLoading, refetch } = useQuery(
