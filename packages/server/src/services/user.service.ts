@@ -136,10 +136,6 @@ export class UserService {
       throw new HttpException('该账户已被注册', HttpStatus.BAD_REQUEST);
     }
 
-    if (await this.userRepo.findOne({ name: user.name })) {
-      throw new HttpException('该账户已被注册', HttpStatus.BAD_REQUEST);
-    }
-
     if (user.email && (await this.userRepo.findOne({ email: user.email }))) {
       throw new HttpException('该邮箱已被注册', HttpStatus.BAD_REQUEST);
     }
