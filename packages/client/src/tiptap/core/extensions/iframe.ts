@@ -1,4 +1,5 @@
 import { IUser } from '@think/domains';
+
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { IframeWrapper } from 'tiptap/core/wrappers/iframe';
@@ -98,7 +99,7 @@ export const Iframe = Node.create({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$iframe $/,
+        find: /^\$iframe\$$/,
         type: this.type,
         getAttributes: () => {
           return { width: '100%' };

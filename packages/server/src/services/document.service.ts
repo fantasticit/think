@@ -1,11 +1,15 @@
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { EMPTY_DOCUMNENT } from '@think/constants';
+import { AuthEnum, buildMessageURL, DocumentStatus, IUser } from '@think/domains';
+
 import { OperateUserAuthDto } from '@dtos/auth.dto';
 import { CreateDocumentDto } from '@dtos/create-document.dto';
 import { ShareDocumentDto } from '@dtos/share-document.dto';
 import { UpdateDocumentDto } from '@dtos/update-document.dto';
 import { DocumentEntity } from '@entities/document.entity';
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from '@services/auth.service';
 import { CollaborationService } from '@services/collaboration.service';
 import { DocumentVersionService } from '@services/document-version.service';
@@ -14,8 +18,6 @@ import { TemplateService } from '@services/template.service';
 import { UserService } from '@services/user.service';
 import { ViewService } from '@services/view.service';
 import { WikiService } from '@services/wiki.service';
-import { EMPTY_DOCUMNENT } from '@think/constants';
-import { AuthEnum, buildMessageURL, DocumentStatus, IUser } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import * as HTMLtoDOCX from 'html-to-docx';
 import * as lodash from 'lodash';

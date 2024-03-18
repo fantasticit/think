@@ -1,10 +1,13 @@
+import { useCallback, useEffect } from 'react';
+import { useQuery } from 'react-query';
+
 import { Toast } from '@douyinfe/semi-ui';
+
 import { ILoginUser, ISystemConfig, IUser, SystemApiDefinition, UserApiDefinition } from '@think/domains';
+
 import { getStorage, setStorage } from 'helpers/storage';
 import { useAsyncLoading } from 'hooks/use-async-loading';
 import Router, { useRouter } from 'next/router';
-import { useCallback, useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { HttpClient } from 'services/http-client';
 
 /**

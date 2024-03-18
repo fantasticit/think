@@ -1,11 +1,14 @@
+import React, { useCallback } from 'react';
+
 import { IconCode } from '@douyinfe/semi-icons';
 import { Button } from '@douyinfe/semi-ui';
-import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
+
 import { Editor } from 'tiptap/core';
 import { Code as InlineCode } from 'tiptap/core/extensions/code';
 import { Title } from 'tiptap/core/extensions/title';
 import { useActive } from 'tiptap/core/hooks/use-active';
+
+import { Tooltip } from 'components/tooltip';
 
 export const Code: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isTitleActive = useActive(editor, Title.name);

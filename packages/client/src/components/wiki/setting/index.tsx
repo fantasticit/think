@@ -1,9 +1,12 @@
+import React from 'react';
+
 import { TabPane, Tabs } from '@douyinfe/semi-ui';
+
 import { IWiki } from '@think/domains';
+
 import { Seo } from 'components/seo';
 import { WikiTocsManager } from 'components/wiki/tocs/manager';
 import { useWikiDetail } from 'data/wiki';
-import React from 'react';
 
 import { Base } from './base';
 import { Import } from './import';

@@ -1,6 +1,8 @@
-import { IMessage, MessageApiDefinition } from '@think/domains';
 import { useCallback, useState } from 'react';
 import { useQuery } from 'react-query';
+
+import { IMessage, MessageApiDefinition } from '@think/domains';
+
 import { HttpClient } from 'services/http-client';
 
 const getMessagesApi =

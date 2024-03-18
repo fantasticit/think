@@ -30,7 +30,6 @@ import { OrderedList } from 'tiptap/core/extensions/ordered-list';
 import { Paragraph } from 'tiptap/core/extensions/paragraph';
 import { Paste } from 'tiptap/core/extensions/paste';
 import { Placeholder } from 'tiptap/core/extensions/placeholder';
-import { ScrollIntoView } from 'tiptap/core/extensions/scroll-into-view';
 import { Strike } from 'tiptap/core/extensions/strike';
 import { Subscript } from 'tiptap/core/extensions/subscript';
 import { Superscript } from 'tiptap/core/extensions/superscript';
@@ -93,7 +92,6 @@ export const CommentKit = [
     showOnlyWhenEditable: true,
   }),
   Strike,
-  ScrollIntoView,
   Subscript,
   Superscript,
   Table,

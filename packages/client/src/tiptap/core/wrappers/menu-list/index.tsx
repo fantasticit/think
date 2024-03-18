@@ -1,10 +1,13 @@
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+
 import { Space } from '@douyinfe/semi-ui';
+
 import { Editor } from '@tiptap/core';
+import { ILabelRenderCommand } from 'tiptap/core/menus/commands';
+
 import cls from 'classnames';
 import { useUser } from 'data/user';
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { ILabelRenderCommand } from 'tiptap/core/menus/commands';
 
 import styles from './index.module.scss';
 

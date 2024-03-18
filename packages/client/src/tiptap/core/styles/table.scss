@@ -1,165 +1,296 @@
+/* stylelint-disable */
 .ProseMirror {
-  .node-table {
+  $tableBorderColor: #d8d8d8;
+  $tableHeaderBgColor: var(--semi-color-fill-1);
+  $tableSelectedBorderColor: rgb(0 101 255);
+  $tableSelectedCellBgColor: transparent;
+  $tableSelectedControlBgColor: #2584ff;
+  $tableResizeHandleBgColor: #adf;
+
+  .tableWrapper {
     position: relative;
-    margin-top: 0.75em;
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-  }
+    margin: 0.5em 0px;
 
-  .scrollable {
-    padding-left: 1em;
-    margin-left: -1em;
-    overflow: auto hidden;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-    transition: border 250ms ease-in-out 0s;
-  }
-
-  .scrollable-shadow {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: -1em;
-    width: 16px;
-    transition: box-shadow 250ms ease-in-out 0s;
-    border-width: 0 0 0 1em;
-    border-style: solid;
-    border-color: transparent;
-    border-image: initial;
-    pointer-events: none;
-
-    &.left {
-      box-shadow: 16px 0 16px -16px inset rgb(0 0 0 / 25%);
-    }
-
-    &.right {
-      right: 0;
-      left: auto;
-      box-shadow: rgb(0 0 0 / 25%) -16px 0 16px -16px inset;
-
-      &.is-editable {
-        &::after {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 1em;
-          height: 1em;
-          background-color: var(--semi-color-nav-bg);
-          content: '';
-        }
+    &.has-focus {
+      .scrollWrapper {
+        margin-top: -20px;
       }
     }
   }
 
+  .scrollWrapper {
+    overflow-y: hidden;
+    overflow-x: auto;
+    padding-left: 28px;
+    padding-top: 28px;
+    padding-bottom: 8px;
+    margin-left: -28px;
+    margin-top: -20px;
+    margin-bottom: -8px;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    -webkit-transition: border 250ms ease-in-out 0s;
+    transition: border 250ms ease-in-out 0s;
+  }
+
   table {
     width: 100%;
-    margin-top: 1em;
-    border-radius: 4px;
     border-collapse: collapse;
-    box-sizing: border-box;
-    border-color: var(--semi-color-fill-2);
+    border-radius: 4px;
+    overflow: auto;
 
-    &.is-readonly {
-      margin-top: 0;
+    box-sizing: border-box;
+
+    * {
+      box-sizing: border-box;
+    }
+
+    tr {
+      position: relative;
+      border-bottom: 1px solid $tableBorderColor;
+    }
+
+    th {
+      background: $tableHeaderBgColor;
     }
 
     td,
     th {
       position: relative;
-      min-width: 100px;
+      vertical-align: top;
+      border: 1px solid $tableBorderColor;
+      position: relative;
       padding: 4px 8px;
       text-align: left;
-      vertical-align: top;
-      border: 1px solid rgb(232 235 237);
-      border-color: var(--semi-color-fill-2);
-
-      > * {
-        margin-bottom: 0;
-      }
-
-      > p {
-        margin-top: 0;
-      }
-    }
-
-    th {
-      font-weight: bold;
-      background-color: var(--semi-color-fill-0);
+      min-width: 100px;
     }
 
     .selectedCell {
-      border-style: double;
-      border-color: rgb(0 101 255);
-      background: var(--semi-color-info-light-hover);
+      position: relative;
+      border: 1px solid $tableSelectedBorderColor;
+      background-color: $tableSelectedCellBgColor;
+
+      &::after {
+        box-sizing: content-box;
+        height: 100%;
+        width: 100%;
+        border: 1px solid $tableSelectedBorderColor;
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: -1px;
+        bottom: 0px;
+        z-index: 12;
+        display: inline-block;
+        pointer-events: none;
+      }
     }
 
     .grip-column {
       position: absolute;
-      top: -1em;
-      left: 0;
-      z-index: 10;
-      display: block;
+      top: -12px;
+      left: -1px;
       width: 100%;
-      height: 0.7em;
-      margin-bottom: 3px;
-      cursor: pointer;
-      background: #ced4da;
 
-      &:hover,
-      &.selected {
-        background: var(--semi-color-info);
+      > span {
+        position: absolute;
+        top: -18px;
+        left: 100%;
+        transform: translateX(-8px);
+
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+
+        font-size: 0;
+        cursor: pointer;
+
+        .semi-icon-default {
+          font-size: inherit;
+        }
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 100%;
+        bottom: 4px;
+        transform: translateX(-1px);
+
+        width: 4px;
+        height: 4px;
+        background-color: $tableBorderColor;
+        border-radius: 50%;
+        display: block;
+      }
+
+      &::after {
+        box-sizing: content-box;
+        content: '';
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 10px;
+        background: $tableHeaderBgColor;
+        border: 1px solid $tableBorderColor;
+        display: block;
+      }
+
+      &:hover {
+        color: $tableSelectedBorderColor;
+
+        > span {
+          font-size: 14px;
+        }
+
+        &::before {
+          display: none;
+        }
+
+        &::after {
+          background: $tableSelectedControlBgColor;
+          border-color: $tableSelectedControlBgColor;
+        }
+      }
+
+      &.last::after {
+        border-top-right-radius: 3px;
+      }
+
+      &.selected::after {
+        background: $tableSelectedControlBgColor;
+        border-color: $tableSelectedControlBgColor;
       }
     }
 
     .grip-row {
       position: absolute;
-      top: 0;
-      left: -1em;
-      z-index: 10;
-      display: block;
-      width: 0.7em;
+      left: -12px;
+      top: -1px;
       height: 100%;
-      margin-right: 3px;
-      cursor: pointer;
-      background: #ced4da;
 
-      &:hover,
-      &.selected {
-        background: var(--semi-color-info);
+      > span {
+        transform: translateY(8px);
+        position: absolute;
+        left: -16px;
+        bottom: 4px;
+
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+
+        font-size: 0;
+        cursor: pointer;
+
+        .semi-icon-default {
+          font-size: inherit;
+        }
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: -10px;
+        bottom: -2px;
+        width: 4px;
+        height: 4px;
+        background-color: $tableBorderColor;
+        border-radius: 50%;
+        display: block;
+      }
+
+      &::after {
+        box-sizing: content-box;
+        content: '';
+        cursor: pointer;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 10px;
+        background: $tableHeaderBgColor;
+        border: 1px solid $tableBorderColor;
+        display: block;
+      }
+
+      &:hover {
+        color: $tableSelectedBorderColor;
+
+        > span {
+          font-size: 14px;
+        }
+
+        &::before {
+          display: none;
+        }
+
+        &::after {
+          background: $tableSelectedControlBgColor;
+          border-color: $tableSelectedBorderColor;
+        }
+      }
+
+      &.last::after {
+        border-bottom-left-radius: 3px;
+      }
+
+      &.selected::after {
+        background: $tableSelectedControlBgColor;
+        border-color: $tableSelectedBorderColor;
       }
     }
 
     .grip-table {
-      position: absolute;
-      top: -1em;
-      left: -1em;
-      z-index: 10;
-      display: block;
-      width: 0.8em;
-      height: 0.8em;
-      cursor: pointer;
-      background: #ced4da;
-      border-radius: 50%;
+      &::after {
+        box-sizing: content-box;
+        content: '';
+        cursor: pointer;
+        position: absolute;
+        top: -12px;
+        left: -12px;
+        display: block;
+        background: $tableHeaderBgColor;
+        width: 10px;
+        height: 10px;
+        border: 1px solid $tableBorderColor;
+        border-top-left-radius: 3px;
+      }
 
-      &:hover,
-      &.selected {
-        background: var(--semi-color-info);
+      &:hover::after {
+        background: $tableSelectedControlBgColor;
+        border-color: $tableSelectedBorderColor;
+      }
+
+      &.selected::after {
+        background: $tableSelectedControlBgColor;
+        border-color: $tableSelectedBorderColor;
       }
     }
+  }
 
-    .column-resize-handle {
-      position: absolute;
-      top: 0;
-      right: -2px;
-      bottom: -2px;
-      width: 4px;
-      pointer-events: none;
-      background-color: #adf;
-    }
+  .column-resize-handle {
+    position: absolute;
+    top: 0;
+    right: -2px;
+    bottom: -2px;
+    width: 4px;
+    pointer-events: none;
+    background-color: $tableResizeHandleBgColor;
+  }
+
+  .resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize; /* stylelint-disable declaration-block-no-duplicate-properties */
   }
 }
 
-.resize-cursor {
-  cursor: ew-resize;
-  cursor: col-resize; /* stylelint-disable declaration-block-no-duplicate-properties */
+@media print {
+  .ProseMirror {
+    table {
+      margin-top: 0.75em;
+      table-layout: fixed;
+    }
+  }
 }

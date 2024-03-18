@@ -85,3 +85,82 @@ export const selectRootNodeByDom = (dom: Element, view: EditorView): ActiveNode 
 
   return { node, $pos, el, offset: 1 };
 };
+
+export const selectAncestorNodeByDom = (dom: Element, view: EditorView): ActiveNode | null => {
+  const root = view.dom.parentElement;
+  if (!root) return null;
+
+  let pos = view.posAtDOM(dom, 0);
+
+  /**
+   * img 节点修正
+   */
+  if (dom.tagName === 'IMG') {
+    pos -= 1;
+  }
+
+  /**
+   * 自定义渲染节点修正
+   */
+  if (dom && dom.classList.contains('react-renderer')) {
+    const el = view.nodeDOM(pos) as HTMLElement;
+
+    if (el === dom) {
+      const $pos = view.state.doc.resolve(pos);
+      let node = $pos.node();
+
+      try {
+        const nodeName =
+          dom?.className
+            ?.match(/node-(.+)(\S)?/)?.[1]
+            ?.split(' ')
+            ?.shift() ?? '';
+
+        if (nodeName) {
+          if (node.type.name !== nodeName) {
+            if ($pos?.nodeAfter?.type?.name === nodeName) {
+              node = $pos.nodeAfter;
+            }
+          }
+        }
+      } catch (e) {
+        //
+      }
+
+      return {
+        node,
+        $pos,
+        el,
+        offset: 0,
+      };
+    }
+  }
+
+  if (pos <= 0) return null;
+
+  let $pos = view.state.doc.resolve(pos);
+  let node = $pos.node();
+
+  if (node.type.name === 'doc') {
+    const nodeAtPos = view.state.doc.nodeAt(pos);
+
+    if (nodeAtPos && nodeAtPos.type.name !== 'doc' && nodeAtPos.type.name !== 'text') {
+      node = nodeAtPos;
+      $pos = view.state.doc.resolve(pos);
+      const el = view.nodeDOM(pos) as HTMLElement;
+      return { node, $pos, el, offset: 0 };
+    }
+  }
+
+  if (node.type.name.includes('table')) {
+    while (node.type.name !== 'table') {
+      $pos = view.state.doc.resolve($pos.before());
+      node = $pos.node();
+    }
+  }
+
+  $pos = view.state.doc.resolve($pos.pos - $pos.parentOffset);
+  const el = getDOMByPos(view, root, $pos);
+
+  return { node, $pos, el, offset: 1 };
+};

@@ -1,4 +1,5 @@
 import { UserStatus } from '@think/domains';
+
 import * as bcrypt from 'bcryptjs';
 import { Exclude } from 'class-transformer';
 import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';

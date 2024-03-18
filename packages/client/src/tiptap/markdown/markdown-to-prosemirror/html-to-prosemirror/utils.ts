@@ -1,4 +1,4 @@
-import { AllExtensions } from 'tiptap/core/all-kit';
+import { Editor } from '@tiptap/core';
 
 /**
  * 通过 tiptap extension 的配置从 DOM 节点上获取属性值
@@ -28,8 +28,10 @@ const getAttribute = (
   }, ret);
 };
 
-export const getAttributes = (name: string, element: HTMLElement): Record<string, unknown> => {
-  const ext = AllExtensions.find((ext) => ext && ext.name === name);
+export const getAttributes = (editor: Editor, name: string, element: HTMLElement): Record<string, unknown> => {
+  if (!editor || !editor.extensionManager) return {};
+
+  const ext = Array.from(editor.extensionManager.extensions).find((ext) => ext && ext.name === name);
 
   if (!ext) return {};
 

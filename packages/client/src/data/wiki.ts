@@ -1,7 +1,9 @@
-import { IAuth, IDocument, IUser, IWiki, WikiApiDefinition } from '@think/domains';
-import { event, REFRESH_TOCS } from 'event';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+
+import { IAuth, IDocument, IUser, IWiki, WikiApiDefinition } from '@think/domains';
+
+import { event, REFRESH_TOCS } from 'event';
 import { HttpClient } from 'services/http-client';
 
 export type ICreateWiki = Pick<IWiki, 'name' | 'description'>;
@@ -319,7 +321,7 @@ export const useWikiDocuments = (wikiId) => {
 export const getWikiMembers = (
   wikiId,
   page,
-  pageSize,
+  pageSize = 12,
   cookie = null
 ): Promise<{ data: Array<{ auth: IAuth; user: IUser }>; total: number }> => {
   return HttpClient.request({

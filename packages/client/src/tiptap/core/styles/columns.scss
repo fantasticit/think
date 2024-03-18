@@ -2,19 +2,20 @@
   display: flex;
   width: 100%;
   gap: 8px;
-}
+  margin-top: 0.75em;
 
-.column {
-  min-width: 0;
-  padding: 12px;
-  border: 1px solid var(--semi-color-border);
-  border-radius: var(--border-radius);
-  flex: 1 1 0%;
-  box-sizing: border-box;
+  .column {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid var(--semi-color-border);
+    border-radius: 2px;
+    flex: 1 1 0%;
+    box-sizing: border-box;
 
-  p {
-    &:first-of-type {
-      margin-top: 0;
+    p {
+      &:first-of-type {
+        margin-top: 0;
+      }
     }
   }
 }

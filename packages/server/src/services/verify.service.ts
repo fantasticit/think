@@ -1,6 +1,7 @@
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+
 import { RedisDBEnum } from '@constants/*';
 import { buildRedis } from '@helpers/redis.helper';
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { SystemService } from '@services/system.service';
 import Redis from 'ioredis';
 import { randomInt } from 'node:crypto';

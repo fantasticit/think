@@ -1,5 +1,6 @@
-import type { IComment } from '@think/domains';
 import React from 'react';
+
+import type { IComment } from '@think/domains';
 
 import { CommentItem } from './item';
 

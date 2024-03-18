@@ -1,27 +1,88 @@
-import { Extension } from '@tiptap/core';
-import { safeJSONParse } from 'helpers/json';
-import { toggleMark } from 'prosemirror-commands';
-import { DOMParser, Fragment, Node, Schema } from 'prosemirror-model';
-import { Plugin, PluginKey, TextSelection } from 'prosemirror-state';
+import { Editor as CoreEditor, Extension, getSchema } from '@tiptap/core';
+import { Document } from '@tiptap/extension-document';
 import { EXTENSION_PRIORITY_HIGHEST } from 'tiptap/core/constants';
 import {
   debug,
+  fixHTML,
   handleFileEvent,
   isInCode,
+  isInTitle,
   isMarkdown,
-  isTitleNode,
   isValidURL,
   normalizeMarkdown,
+  safePos,
 } from 'tiptap/prose-utils';
 
-import { TitleExtensionName } from './title';
+import { safeJSONParse } from 'helpers/json';
+import { toggleMark } from 'prosemirror-commands';
+import { DOMParser as PMDOMParser, Fragment, Node, Schema } from 'prosemirror-model';
+import { EditorState, Plugin, PluginKey, TextSelection } from 'prosemirror-state';
+
+const htmlToProsemirror = (editor: CoreEditor, html, isPasteMarkdown = false) => {
+  const firstNode = editor.view.state.doc.content.firstChild;
+  const shouldInsertTitleText = !!(firstNode?.textContent?.length <= 0 ?? true);
+
+  if (!shouldInsertTitleText && !isPasteMarkdown) return false;
+
+  const parser = new window.DOMParser();
+  const { body } = parser.parseFromString(fixHTML(html), 'text/html');
+
+  const schema = getSchema(
+    [].concat(
+      Document,
+      editor.extensionManager.extensions.filter(
+        (ext) => ext.type === 'node' && !['title', 'doc', 'collaboration', 'collaborationCursor'].includes(ext.name)
+      )
+    )
+  );
+
+  const toPasteNode = PMDOMParser.fromSchema(schema).parse(body);
+  const doc = {
+    type: 'doc',
+    content: toPasteNode.content.toJSON(),
+  };
+
+  let toInsertAtTitleNode = null;
+
+  if (shouldInsertTitleText) {
+    toInsertAtTitleNode = doc.content.shift();
+  }
+
+  let tr = editor.view.state.tr;
+
+  const insertAt = isInTitle(editor.state)
+    ? safePos(editor.state, firstNode.nodeSize)
+    : safePos(editor.state, editor.state.selection.from - 1);
+
+  const node = editor.state.schema.nodeFromJSON(doc);
+  tr = tr.insert(insertAt, node);
+
+  if (shouldInsertTitleText) {
+    if (toInsertAtTitleNode) {
+      if (['heading', 'paragraph'].includes(toInsertAtTitleNode.type)) {
+        tr.insertText(toInsertAtTitleNode?.content?.[0]?.text, 1, 1);
+      } else {
+        tr.insert(insertAt, editor.state.schema.nodeFromJSON(toInsertAtTitleNode));
+      }
+    }
+  }
+
+  editor.view.dispatch(tr.scrollIntoView());
+  return true;
+};
 
 interface IPasteOptions {
   /**
    *
    * 将 html 转换为 prosemirror
    */
-  htmlToProsemirror: (arg: { schema: Schema; html: string; needTitle: boolean; defaultTitle?: string }) => Node;
+  htmlToProsemirror: (arg: {
+    editor: CoreEditor;
+    schema: Schema;
+    html: string;
+    needTitle: boolean;
+    defaultTitle?: string;
+  }) => Node;
 
   /**
    * 将 markdown 转换为 html
@@ -31,7 +92,7 @@ interface IPasteOptions {
   /**
    * 将 markdown 转换为 prosemirror 节点
    */
-  markdownToProsemirror: (arg: { schema: Schema; content: string; needTitle: boolean }) => Node;
+  markdownToProsemirror: (arg: { editor: CoreEditor; schema: Schema; content: string; needTitle: boolean }) => Node;
 
   /**
    * 将 prosemirror 转换为 markdown
@@ -78,7 +139,6 @@ export const Paste = Extension.create<IPasteOptions>({
             const node = event.clipboardData.getData('text/node');
             const markdownText = event.clipboardData.getData('text/markdown');
             const { state, dispatch } = view;
-            const { htmlToProsemirror, markdownToProsemirror } = extensionThis.options;
 
             debug(() => {
               console.group('paste');
@@ -93,52 +153,6 @@ export const Paste = Extension.create<IPasteOptions>({
               const tr = view.state.tr;
               const selection = tr.selection;
               view.dispatch(tr.insert(selection.from - 1, view.state.schema.nodeFromJSON(json)).scrollIntoView());
-              return true;
-            }
-
-            const firstNode = view.props.state.doc.content.firstChild;
-            const hasTitleExtension = !!editor.extensionManager.extensions.find(
-              (extension) => extension.name === TitleExtensionName
-            );
-            const hasTitle = isTitleNode(firstNode) && firstNode.content.size > 0;
-
-            // If the HTML on the clipboard is from Prosemirror then the best
-            // compatability is to just use the HTML parser, regardless of
-            // whether it "looks" like Markdown, see: outline/outline#2416
-            if (html?.includes('data-pm-slice')) {
-              let domNode = document.createElement('div');
-              domNode.innerHTML = html;
-              const slice = DOMParser.fromSchema(editor.schema).parseSlice(domNode);
-              let tr = view.state.tr;
-              tr = tr.replaceSelection(slice);
-              view.dispatch(tr.scrollIntoView());
-              domNode = null;
-              return true;
-            }
-
-            // FIXME：各家 office 套件标准不一样，是否需要做成用户自行选择粘贴 html 或者 图片？
-            if (html?.includes('urn:schemas-microsoft-com:office') || html?.includes('</table>')) {
-              const doc = htmlToProsemirror({
-                schema: editor.schema,
-                html,
-                needTitle: hasTitleExtension && !hasTitle,
-              });
-              let tr = view.state.tr;
-              const selection = tr.selection;
-              view.state.doc.nodesBetween(selection.from, selection.to, (node, position) => {
-                const startPosition = hasTitle ? Math.min(position, selection.from) : 0;
-                const endPosition = Math.min(position + node.nodeSize, selection.to);
-                tr = tr.replaceWith(startPosition, endPosition, view.state.schema.nodeFromJSON(doc));
-              });
-              view.dispatch(tr.scrollIntoView());
-              return true;
-            }
-
-            if (files.length) {
-              event.preventDefault();
-              files.forEach((file) => {
-                handleFileEvent({ editor, file });
-              });
               return true;
             }
 
@@ -170,40 +184,23 @@ export const Paste = Extension.create<IPasteOptions>({
             const vscodeMeta = vscode ? JSON.parse(vscode) : undefined;
             const pasteCodeLanguage = vscodeMeta?.mode;
 
-            if (pasteCodeLanguage && pasteCodeLanguage !== 'markdown') {
-              event.preventDefault();
-              const { tr } = view.state;
-              tr.replaceSelectionWith(view.state.schema.nodes.codeBlock.create({ language: pasteCodeLanguage }));
-              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))));
-              tr.insertText(text.replace(/\r\n?/g, '\n'));
-              tr.setMeta('paste', true);
-              view.dispatch(tr);
-              return true;
+            if (html.length > 0) {
+              return htmlToProsemirror(editor, html);
             }
 
-            // 处理 markdown
-            if (markdownText || isMarkdown(text) || html.length === 0 || pasteCodeLanguage === 'markdown') {
+            const { markdownToHTML } = extensionThis.options;
+
+            if ((markdownText || isMarkdown(text)) && markdownToHTML) {
               event.preventDefault();
-              const schema = view.props.state.schema;
-              const doc = markdownToProsemirror({
-                schema,
-                content: normalizeMarkdown(markdownText || text),
-                needTitle: hasTitleExtension && !hasTitle,
-              });
-              let tr = view.state.tr;
-              const selection = tr.selection;
-              view.state.doc.nodesBetween(selection.from, selection.to, (node, position) => {
-                const startPosition = hasTitle ? Math.min(position, selection.from) : 0;
-                const endPosition = Math.min(position + node.nodeSize, selection.to);
-                tr = tr.replaceWith(startPosition, endPosition, view.state.schema.nodeFromJSON(doc));
-              });
-              view.dispatch(tr.scrollIntoView());
-              return true;
+              const html = markdownToHTML(normalizeMarkdown(markdownText || text));
+              if (html && html.length) return htmlToProsemirror(editor, html, true);
             }
 
-            if (text.length !== 0) {
+            if (files.length) {
               event.preventDefault();
-              view.dispatch(view.state.tr.insertText(text));
+              files.forEach((file) => {
+                handleFileEvent({ editor, file });
+              });
               return true;
             }
 

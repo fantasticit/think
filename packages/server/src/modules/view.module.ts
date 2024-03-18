@@ -1,5 +1,6 @@
-import { ViewController } from '@controllers/view.controller';
 import { Module } from '@nestjs/common';
+
+import { ViewController } from '@controllers/view.controller';
 import { ViewService } from '@services/view.service';
 
 @Module({

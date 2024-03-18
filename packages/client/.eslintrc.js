@@ -54,7 +54,21 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    'simple-import-sort/imports': 'error',
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          ['react'],
+          ['@douyinfe(.*)$'],
+          ['(@)?think(.*)$'],
+          ['(@)?tiptap(.*)$'],
+          ['^@?\\w'],
+          ['@/(.*)'],
+          ['^[./]'],
+          ['(.*).module.scss'],
+        ],
+      },
+    ],
     'simple-import-sort/exports': 'error',
   },
   ignorePatterns: ['dist/', 'node_modules', 'scripts', 'examples'],

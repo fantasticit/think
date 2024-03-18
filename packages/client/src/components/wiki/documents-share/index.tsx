@@ -1,9 +1,12 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { IconClose } from '@douyinfe/semi-icons';
 import { Banner, Button, Checkbox, Toast, Transfer, Typography } from '@douyinfe/semi-ui';
+
 import { isPublicDocument } from '@think/domains';
+
 import { flattenTree2Array } from 'components/wiki/tocs/utils';
 import { useWikiDetail, useWikiTocs } from 'data/wiki';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import styles from './index.module.scss';
 

@@ -1,12 +1,15 @@
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import { IconLink } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Input, Modal, Space, Toast, Typography } from '@douyinfe/semi-ui';
+
 import { isPublicDocument } from '@think/domains';
+
 import { useDocumentDetail } from 'data/document';
 import { getDocumentShareURL } from 'helpers/url';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
 import { ShareIllustration } from 'illustrations/share';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 interface IProps {
   documentId: string;

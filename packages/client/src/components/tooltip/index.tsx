@@ -1,7 +1,9 @@
+import React from 'react';
+
 import { Tooltip as SemiTooltip } from '@douyinfe/semi-ui';
 import { Position } from '@douyinfe/semi-ui/tooltip';
+
 import { useToggle } from 'hooks/use-toggle';
-import React from 'react';
 
 interface IProps {
   content: React.ReactNode;

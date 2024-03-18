@@ -1,6 +1,7 @@
+import { forwardRef, Module } from '@nestjs/common';
+
 import { VerifyController } from '@controllers/verify.controller';
 import { SystemModule } from '@modules/system.module';
-import { forwardRef, Module } from '@nestjs/common';
 import { VerifyService } from '@services/verify.service';
 
 @Module({

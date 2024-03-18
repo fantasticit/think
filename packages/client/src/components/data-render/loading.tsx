@@ -1,5 +1,6 @@
-import { useToggle } from 'hooks/use-toggle';
 import React, { useEffect, useRef } from 'react';
+
+import { useToggle } from 'hooks/use-toggle';
 
 import { Render } from './constant';
 

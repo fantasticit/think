@@ -1,5 +1,12 @@
+import React, { useCallback } from 'react';
+
 import { IconCopy } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
+
+import { BubbleMenu } from 'tiptap/core/bubble-menu';
+import { Table } from 'tiptap/core/extensions/table';
+import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
 import { Divider } from 'components/divider';
 import {
   IconAddColumnAfter,
@@ -16,30 +23,28 @@ import {
   IconTableHeaderRow,
 } from 'components/icons';
 import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
-import { BubbleMenu } from 'tiptap/core/bubble-menu';
-import { Table } from 'tiptap/core/extensions/table';
-import { copyNode, deleteNode } from 'tiptap/prose-utils';
 
 export const TableBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(() => {
     return editor.isActive(Table.name);
   }, [editor]);
+
   const getRenderContainer = useCallback((node) => {
     let container = node;
     // 文本节点
-    if (!container.tag) {
+    if (container && !container.tag) {
       container = node.parentElement;
     }
-    while (container.tagName !== 'TABLE') {
+    while (container && !container.classList.contains('tableWrapper')) {
       container = container.parentElement;
     }
-    return container.parentElement;
+    return container;
   }, []);
   const copyMe = useCallback(() => copyNode(Table.name, editor), [editor]);
   const deleteMe = useCallback(() => {
     deleteNode(Table.name, editor);
   }, [editor]);
+
   const addColumnBefore = useCallback(() => editor.chain().focus().addColumnBefore().run(), [editor]);
   const addColumnAfter = useCallback(() => editor.chain().focus().addColumnAfter().run(), [editor]);
   const deleteColumn = useCallback(() => editor.chain().focus().deleteColumn().run(), [editor]);
@@ -59,7 +64,6 @@ export const TableBubbleMenu = ({ editor }) => {
       pluginKey="table-bubble-menu"
       tippyOptions={{
         maxWidth: 'calc(100vw - 100px)',
-        placement: 'bottom',
       }}
       shouldShow={shouldShow}
       getRenderContainer={getRenderContainer}

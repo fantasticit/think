@@ -1,8 +1,12 @@
+import { Editor } from '@tiptap/core';
+
 export class Mark {
+  editor: Editor;
   type: string;
   DOMNode: HTMLElement;
 
-  constructor(DomNode) {
+  constructor(editor, DomNode) {
+    this.editor = editor;
     this.type = 'mark';
     this.DOMNode = DomNode;
   }

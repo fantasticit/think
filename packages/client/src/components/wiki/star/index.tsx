@@ -1,8 +1,11 @@
+import React from 'react';
+
 import { IconStar } from '@douyinfe/semi-icons';
 import { Button, Tooltip } from '@douyinfe/semi-ui';
+
 import { IOrganization, IWiki } from '@think/domains';
+
 import { useWikiStarToggle } from 'data/star';
-import React from 'react';
 
 interface IProps {
   organizationId: IOrganization['id'];

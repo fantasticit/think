@@ -1,12 +1,15 @@
-import { IconChevronLeft, IconChevronRight } from '@douyinfe/semi-icons';
-import { Button, Layout as SemiLayout } from '@douyinfe/semi-ui';
-import cls from 'classnames';
-import { throttle } from 'helpers/throttle';
-import { useDragableWidth } from 'hooks/use-dragable-width';
 import React, { useMemo } from 'react';
 import SplitPane from 'react-split-pane';
 
+import { IconChevronLeft, IconChevronRight } from '@douyinfe/semi-icons';
+import { Button, Layout as SemiLayout } from '@douyinfe/semi-ui';
+
+import cls from 'classnames';
+import { throttle } from 'helpers/throttle';
+import { useDragableWidth } from 'hooks/use-dragable-width';
+
 import { AppRouterHeader } from '../app-router-header';
+
 import styles from './index.module.scss';
 
 const { Sider, Content } = SemiLayout;
@@ -15,6 +18,8 @@ interface IProps {
   leftNode: React.ReactNode;
   rightNode: React.ReactNode;
 }
+
+const style = { width: '100%', height: '100%' };
 
 export const AppDoubleColumnLayout: React.FC<IProps> = ({ leftNode, rightNode }) => {
   const { minWidth, maxWidth, width, isCollapsed, updateWidth, toggleCollapsed } = useDragableWidth();
@@ -25,7 +30,7 @@ export const AppDoubleColumnLayout: React.FC<IProps> = ({ leftNode, rightNode })
       <AppRouterHeader />
       <SemiLayout className={styles.contentWrap}>
         <SplitPane minSize={minWidth} maxSize={maxWidth} size={width} onChange={debounceUpdate}>
-          <Sider style={{ width: '100%', height: '100%' }} className={styles.leftWrap}>
+          <Sider style={style} className={styles.leftWrap}>
             <Button
               size="small"
               icon={isCollapsed ? <IconChevronRight /> : <IconChevronLeft />}

@@ -1,5 +1,6 @@
-import { Typography } from '@douyinfe/semi-ui';
 import React, { useCallback, useMemo, useState } from 'react';
+
+import { Typography } from '@douyinfe/semi-ui';
 
 import { GridCell } from './grid-cell';
 
@@ -44,10 +45,6 @@ export const GridSelect = ({
   cellSize = 16,
   styles,
 }: RegionSelectionProps) => {
-  const [activeCell, setActiveCell] = useState<CoordsType>({
-    x: -1,
-    y: -1,
-  });
   const [hoverCell, setHoverCell] = useState<CoordsType>(null);
 
   const onClick = useCallback(
@@ -60,6 +57,15 @@ export const GridSelect = ({
     [onSelect]
   );
 
+  const onClickPanel = useCallback(() => {
+    if (hoverCell.x + 1 > 0 && hoverCell.y + 1 > 0) {
+      onSelect({
+        rows: hoverCell.y + 1,
+        cols: hoverCell.x + 1,
+      });
+    }
+  }, [hoverCell, onSelect]);
+
   const onHover = useCallback(({ x, y, isCellDisabled }) => {
     if (isCellDisabled) {
       return setHoverCell(null);
@@ -71,16 +77,17 @@ export const GridSelect = ({
     const cells = [];
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
-        const isActive = x <= activeCell.x && y <= activeCell.y;
         const isHover = hoverCell && x <= hoverCell.x && y <= hoverCell.y;
         const isCellDisabled = disabled;
         cells.push(
           <GridCell
             id={x + '-' + y}
             key={x + '-' + y}
-            onClick={() => onClick({ x, y, isCellDisabled })}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              onClick({ x, y, isCellDisabled });
+            }}
             onMouseEnter={onHover.bind(null, { x, y, isCellDisabled })}
-            active={isActive}
             hover={isHover}
             disabled={isCellDisabled}
             styles={styles}
@@ -90,12 +97,12 @@ export const GridSelect = ({
       }
     }
     return cells;
-  }, [rows, cols, disabled, activeCell.x, activeCell.y, cellSize, hoverCell, styles, onClick, onHover]);
+  }, [rows, cols, disabled, cellSize, hoverCell, styles, onClick, onHover]);
 
   const baseStyles = useMemo(() => getBaseStyles(cols, cellSize), [cols, cellSize]);
 
   return (
-    <div>
+    <div onMouseDown={onClickPanel}>
       <div
         style={
           {

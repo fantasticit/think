@@ -31,3 +31,11 @@
     }
   }
 }
+
+@media print {
+  .ProseMirror {
+    .node-title {
+      border-bottom: 0;
+    }
+  }
+}

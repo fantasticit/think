@@ -1,9 +1,12 @@
+import React from 'react';
+
 import { IconUser } from '@douyinfe/semi-icons';
 import { Avatar, Popconfirm, Skeleton, Space, Typography } from '@douyinfe/semi-ui';
+
 import type { IComment, IUser } from '@think/domains';
+
 import { LocaleTime } from 'components/locale-time';
 import { useUser } from 'data/user';
-import React from 'react';
 
 import styles from './index.module.scss';
 

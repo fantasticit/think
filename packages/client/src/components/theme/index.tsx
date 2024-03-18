@@ -1,7 +1,9 @@
+import React, { useCallback } from 'react';
+
 import { IconDesktop, IconMoon, IconSun } from '@douyinfe/semi-icons';
 import { Button, Dropdown } from '@douyinfe/semi-ui';
+
 import { Theme as ThemeState, ThemeEnum } from 'hooks/use-theme';
-import React, { useCallback } from 'react';
 
 export const Theme = () => {
   const { userPrefer, theme, toggle } = ThemeState.useHook();

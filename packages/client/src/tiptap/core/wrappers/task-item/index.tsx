@@ -1,4 +1,5 @@
 import { Checkbox } from '@douyinfe/semi-ui';
+
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 
 import styles from './index.module.scss';

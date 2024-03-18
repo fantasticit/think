@@ -1,4 +1,5 @@
 import { FILE_CHUNK_SIZE, FileApiDefinition } from '@think/domains';
+
 import { string } from 'lib0';
 import SparkMD5 from 'spark-md5';
 

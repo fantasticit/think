@@ -1,3 +1,36 @@
+const getProgressTitle = (index) => {
+  switch (index) {
+    case 0:
+      return '移除进度';
+    case 1:
+      return '未开始';
+    case 9:
+      return '全部完成';
+    default:
+      return '完成' + (index - 1) + '/8';
+  }
+};
+
+export const PROGRESSES = Array.from({ length: 10 }, (_, i) => {
+  return {
+    text: getProgressTitle(i),
+    value: i,
+  };
+});
+
+export const PRIORITIES = [
+  {
+    text: '移除优先级',
+    value: 0,
+  },
+  ...Array.from({ length: 9 }, (_, i) => {
+    return {
+      text: `P${i + 1}`,
+      value: i + 1,
+    };
+  }),
+];
+
 export const TEMPLATES = [
   {
     label: '经典',

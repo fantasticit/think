@@ -1,5 +1,7 @@
 import React from 'react';
 
+import deepEqual from 'deep-equal';
+
 import { defaultEmpty, defaultLoading, defaultRenderError, Render } from './constant';
 import { LoadingWrap } from './loading';
 
@@ -15,7 +17,7 @@ interface IProps {
   normalContent: RenderProps;
 }
 
-export const DataRender: React.FC<IProps> = ({
+export const _DataRender: React.FC<IProps> = ({
   loading,
   error,
   empty,
@@ -36,3 +38,7 @@ export const DataRender: React.FC<IProps> = ({
     <LoadingWrap loading={loading} loadingContent={loadingContent} normalContent={loading ? null : normalContent} />
   );
 };
+
+export const DataRender = React.memo(_DataRender, (prevProps, nextProps) => {
+  return deepEqual(prevProps, nextProps);
+});

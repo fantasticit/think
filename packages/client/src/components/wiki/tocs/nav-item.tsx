@@ -1,6 +1,7 @@
+import React from 'react';
+
 import cls from 'classnames';
 import Link from 'next/link';
-import React from 'react';
 import type { UrlObject } from 'url';
 
 import styles from './index.module.scss';
@@ -17,6 +18,8 @@ interface IProps {
   hoverable?: boolean;
   openNewTab?: boolean;
 }
+
+const marginTopStyle = { marginTop: 4 };
 
 export const NavItem: React.FC<IProps> = ({
   icon,
@@ -38,7 +41,7 @@ export const NavItem: React.FC<IProps> = ({
   return (
     <div
       className={cls(styles.navItemWrap, isActive && styles.isActive, hoverable && styles.hoverable)}
-      style={{ marginTop: 4 }}
+      style={marginTopStyle}
     >
       {href ? (
         <Link href={href as UrlObject}>

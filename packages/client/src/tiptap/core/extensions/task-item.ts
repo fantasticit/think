@@ -12,7 +12,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
   addOptions() {
     return {
-      nested: false,
+      nested: true,
       HTMLAttributes: {},
     };
   },

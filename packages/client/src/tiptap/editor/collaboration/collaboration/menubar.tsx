@@ -1,6 +1,7 @@
-import { Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
 import React, { useMemo } from 'react';
+
+import { Space } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { Align } from 'tiptap/core/menus/align';
 import { Attachment } from 'tiptap/core/menus/attachment';
@@ -19,6 +20,7 @@ import { DocumentReference } from 'tiptap/core/menus/document-reference';
 import { Emoji } from 'tiptap/core/menus/emoji';
 import { Excalidraw } from 'tiptap/core/menus/excalidraw';
 import { Flow } from 'tiptap/core/menus/flow';
+import { FontFamily } from 'tiptap/core/menus/fontfamily';
 import { FontSize } from 'tiptap/core/menus/fontsize';
 import { Heading } from 'tiptap/core/menus/heading';
 import { HorizontalRule } from 'tiptap/core/menus/horizontal-rule';
@@ -28,6 +30,7 @@ import { Image } from 'tiptap/core/menus/image';
 import { Insert } from 'tiptap/core/menus/insert';
 import { Italic } from 'tiptap/core/menus/italic';
 import { Katex } from 'tiptap/core/menus/katex';
+import { LineHeight } from 'tiptap/core/menus/lineheight';
 import { Link } from 'tiptap/core/menus/link';
 import { Mind } from 'tiptap/core/menus/mind';
 import { OrderedList } from 'tiptap/core/menus/ordered-list';
@@ -38,9 +41,12 @@ import { Subscript } from 'tiptap/core/menus/subscript';
 import { Superscript } from 'tiptap/core/menus/superscript';
 import { Table } from 'tiptap/core/menus/table';
 import { TaskList } from 'tiptap/core/menus/task-list';
+import { Text } from 'tiptap/core/menus/text';
 import { TextColor } from 'tiptap/core/menus/text-color';
 import { Underline } from 'tiptap/core/menus/underline';
 import { Undo } from 'tiptap/core/menus/undo';
+
+import { Divider } from 'components/divider';
 
 const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
   const isEditable = useMemo(() => editor && editor.isEditable, [editor]);
@@ -67,6 +73,7 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <Divider />
 
         <Heading editor={editor} />
+        <FontFamily editor={editor} />
         <FontSize editor={editor} />
         <Bold editor={editor} />
         <Italic editor={editor} />
@@ -88,6 +95,7 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <OrderedList editor={editor} />
         <TaskList editor={editor} />
         <Ident editor={editor} />
+        <LineHeight editor={editor} />
 
         <Divider />
 
@@ -111,6 +119,8 @@ const _MenuBar: React.FC<{ editor: Editor }> = ({ editor }) => {
         <Mind editor={editor} />
         <Excalidraw editor={editor} />
         <Columns editor={editor} />
+
+        <Text editor={editor} />
       </Space>
     </div>
   );

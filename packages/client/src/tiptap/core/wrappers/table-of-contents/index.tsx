@@ -1,6 +1,8 @@
-import { NodeViewWrapper } from '@tiptap/react';
-import cls from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
+
+import { NodeViewWrapper } from '@tiptap/react';
+
+import cls from 'classnames';
 
 import styles from './index.module.scss';
 

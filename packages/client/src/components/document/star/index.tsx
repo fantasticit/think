@@ -1,10 +1,13 @@
-import { IconStar } from '@douyinfe/semi-icons';
-import { Button, Tooltip } from '@douyinfe/semi-ui';
-import { IDocument, IOrganization, IWiki } from '@think/domains';
-import { useDocumentStarToggle } from 'data/star';
-import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
+
+import { IconStar } from '@douyinfe/semi-icons';
+import { Button, Tooltip } from '@douyinfe/semi-ui';
+
+import { IDocument, IOrganization, IWiki } from '@think/domains';
+
+import { useDocumentStarToggle } from 'data/star';
+import { useToggle } from 'hooks/use-toggle';
 
 interface IProps {
   organizationId: IOrganization['id'];
@@ -33,6 +36,15 @@ export const DocumentStar: React.FC<IProps> = ({ organizationId, wikiId, documen
     [toggleVisible]
   );
 
+  const toggleStarAction = useCallback(
+    (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      toggleStar();
+    },
+    [toggleStar]
+  );
+
   return (
     <VisibilitySensor onChange={onViewportChange}>
       {render ? (
@@ -46,11 +58,7 @@ export const DocumentStar: React.FC<IProps> = ({ organizationId, wikiId, documen
               color: data ? 'rgba(var(--semi-amber-4), 1)' : 'rgba(var(--semi-grey-3), 1)',
             }}
             disabled={disabled}
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              toggleStar();
-            }}
+            onClick={toggleStarAction}
           />
         </Tooltip>
       )}

@@ -1,4 +1,5 @@
 import { Extension } from '@tiptap/core';
+
 import { EditorState } from 'prosemirror-state';
 
 import { yCursorPlugin } from './cursor-plugin';

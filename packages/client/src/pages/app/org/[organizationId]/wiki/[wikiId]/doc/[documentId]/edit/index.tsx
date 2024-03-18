@@ -1,8 +1,10 @@
+import React from 'react';
+
 import { DocumentApiDefinition, IDocument } from '@think/domains';
+
 import { DocumentEditor } from 'components/document/editor';
 import { getDocumentDetail } from 'data/document';
 import { NextPage } from 'next';
-import React from 'react';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 interface IProps {

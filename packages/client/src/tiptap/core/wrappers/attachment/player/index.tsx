@@ -1,6 +1,7 @@
-import { Typography } from '@douyinfe/semi-ui';
-import { ImageViewer } from 'components/image-viewer';
 import React, { useMemo, useRef } from 'react';
+
+import { Typography } from '@douyinfe/semi-ui';
+
 import {
   extractFileExtension,
   extractFilename,
@@ -9,8 +10,11 @@ import {
   normalizeFileType,
 } from 'tiptap/prose-utils';
 
-import styles from './index.module.scss';
+import { ImageViewer } from 'components/image-viewer';
+
 import { PDFPlayer } from './pdf-player';
+
+import styles from './index.module.scss';
 
 interface IProps {
   url: string;
@@ -32,6 +36,15 @@ export const Player: React.FC<IProps> = ({ url, fileType }) => {
       return <img style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: 300 }} src={url} />;
 
     if (type === 'pdf') return <PDFPlayer url={url} />;
+
+    if (type === 'word' || type === 'excel' || type === 'ppt') {
+      return (
+        <iframe
+          className={styles.iframeWrapper}
+          src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`}
+        />
+      );
+    }
 
     return <Text type="tertiary">暂不支持预览该类型文件</Text>;
   }, [type, url]);

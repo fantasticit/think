@@ -1,5 +1,8 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { Button, Nav, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { Divider } from 'components/divider';
 import { DocumentCollaboration } from 'components/document/collaboration';
@@ -16,10 +19,10 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
 import { SecureDocumentIllustration } from 'illustrations/secure-document';
 import Router from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { DocumentActions } from '../actions';
 import { Editor } from './editor';
+
 import styles from './index.module.scss';
 
 const { Text } = Typography;
@@ -27,6 +30,14 @@ const { Text } = Typography;
 interface IProps {
   documentId: string;
 }
+
+const ErrorContent = () => {
+  return (
+    <div style={{ margin: '10vh', textAlign: 'center' }}>
+      <SecureDocumentIllustration />
+    </div>
+  );
+};
 
 export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
   const { isMobile } = IsOnMobile.useHook();
@@ -62,7 +73,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         {document && (
           <DocumentActions organizationId={document.organizationId} wikiId={document.wikiId} documentId={documentId} />
         )}
-        <DocumentVersion documentId={documentId} onSelect={triggerUseDocumentVersion} />
+        <DocumentVersion key={'edit'} documentId={documentId} onSelect={triggerUseDocumentVersion} />
       </Space>
     ),
     [documentId, document, authority]
@@ -84,9 +95,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
           mode="horizontal"
           header={
             <>
-              <Tooltip content="返回" position="bottom">
-                <Button onMouseDown={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
-              </Tooltip>
+              <Button onMouseDown={goback} icon={<IconChevronLeft />} style={{ marginRight: 16 }} />
               <DataRender
                 loading={docAuthLoading}
                 error={docAuthError}
@@ -125,13 +134,7 @@ export const DocumentEditor: React.FC<IProps> = ({ documentId }) => {
         <DataRender
           loading={docAuthLoading}
           error={docAuthError}
-          errorContent={() => {
-            return (
-              <div style={{ margin: '10vh', textAlign: 'center' }}>
-                <SecureDocumentIllustration />
-              </div>
-            );
-          }}
+          errorContent={<ErrorContent />}
           normalContent={() => {
             return (
               <>

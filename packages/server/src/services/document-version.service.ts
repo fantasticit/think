@@ -1,8 +1,10 @@
-import { RedisDBEnum } from '@constants/*';
-import { buildRedis } from '@helpers/redis.helper';
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+
 import { getConfig } from '@think/config';
 import { IDocument, IUser } from '@think/domains';
+
+import { RedisDBEnum } from '@constants/*';
+import { buildRedis } from '@helpers/redis.helper';
 import Redis from 'ioredis';
 import * as lodash from 'lodash';
 

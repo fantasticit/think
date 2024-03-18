@@ -1,7 +1,8 @@
+import React, { useEffect, useRef } from 'react';
+
 import cls from 'classnames';
 import { useClickOutside } from 'hooks/use-click-outside';
 import interact from 'interactjs';
-import React, { useEffect, useRef } from 'react';
 
 import styles from './style.module.scss';
 

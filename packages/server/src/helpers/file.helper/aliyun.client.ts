@@ -1,4 +1,5 @@
 import { FILE_CHUNK_SIZE } from '@think/domains';
+
 import * as AliyunOSS from 'ali-oss';
 import * as fs from 'fs-extra';
 import * as os from 'os';

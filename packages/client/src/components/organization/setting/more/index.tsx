@@ -1,4 +1,5 @@
 import { Banner, Button, Typography } from '@douyinfe/semi-ui';
+
 import { OrganizationDeletor } from 'components/organization/delete';
 
 const { Paragraph } = Typography;

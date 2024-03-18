@@ -1,4 +1,5 @@
 import { Toast } from '@douyinfe/semi-ui';
+
 // 自定义节点扩展
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { BackgroundColor } from 'tiptap/core/extensions/background-color';
@@ -25,6 +26,7 @@ import { EventEmitter } from 'tiptap/core/extensions/event-emitter';
 import { Excalidraw } from 'tiptap/core/extensions/excalidraw';
 import { Flow } from 'tiptap/core/extensions/flow';
 import { Focus } from 'tiptap/core/extensions/focus';
+import { FontFamily } from 'tiptap/core/extensions/font-family';
 import { FontSize } from 'tiptap/core/extensions/font-size';
 import { Gapcursor } from 'tiptap/core/extensions/gapcursor';
 import { HardBreak } from 'tiptap/core/extensions/hard-break';
@@ -36,6 +38,7 @@ import { Image } from 'tiptap/core/extensions/image';
 import { Indent } from 'tiptap/core/extensions/indent';
 import { Italic } from 'tiptap/core/extensions/italic';
 import { Katex } from 'tiptap/core/extensions/katex';
+import { LineHeight } from 'tiptap/core/extensions/line-height';
 import { Link } from 'tiptap/core/extensions/link';
 import { ListItem } from 'tiptap/core/extensions/listItem';
 import { Loading } from 'tiptap/core/extensions/loading';
@@ -45,10 +48,9 @@ import { OrderedList } from 'tiptap/core/extensions/ordered-list';
 import { Paragraph } from 'tiptap/core/extensions/paragraph';
 import { Paste } from 'tiptap/core/extensions/paste';
 import { Placeholder } from 'tiptap/core/extensions/placeholder';
-import { QuickInsert } from 'tiptap/core/extensions/quick-insert';
-import { ScrollIntoView } from 'tiptap/core/extensions/scroll-into-view';
+import { Scroll2Cursor } from 'tiptap/core/extensions/scroll-to-cursor';
 import { SearchNReplace } from 'tiptap/core/extensions/search';
-import { SelectionExtension } from 'tiptap/core/extensions/selection';
+import { EnSlashExtension, ZhSlashExtension } from 'tiptap/core/extensions/slash';
 import { Status } from 'tiptap/core/extensions/status';
 import { Strike } from 'tiptap/core/extensions/strike';
 import { Subscript } from 'tiptap/core/extensions/subscript';
@@ -71,11 +73,23 @@ import { htmlToProsemirror } from 'tiptap/markdown/html-to-prosemirror';
 import { markdownToHTML, markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
 
+import { safeJSONParse } from 'helpers/json';
+
 const DocumentWithTitle = Document.extend({
-  content: 'title block+',
+  content: 'title{1} block+',
 });
 
 export { Document };
+
+const placeholders = [
+  '输入 / 唤起更多',
+  '使用 markdown 语法进行输入',
+  '输入 @ 来提及他人',
+  '输入 : 来插入表情',
+  '你知道吗？输入 $katex 然后在输入一个 $ 就可以快速插入数学公式，其他节点操作类似哦',
+];
+
+const getCreateUserId = () => safeJSONParse(window.localStorage.getItem('user')).id;
 
 export const CollaborationKit = [
   Paragraph,
@@ -87,7 +101,7 @@ export const CollaborationKit = [
 
       if (!editor.isEditable) return;
 
-      return '输入 / 唤起更多';
+      return placeholders[~~(Math.random() * placeholders.length)];
     },
     showOnlyCurrent: false,
     showOnlyWhenEditable: false,
@@ -106,11 +120,17 @@ export const CollaborationKit = [
   ColorHighlighter,
   Column,
   Columns,
-  Dropcursor,
+  Dropcursor.configure({
+    width: 2,
+    class: 'dropcursor',
+    color: 'skyblue',
+  }),
   Excalidraw,
   EventEmitter,
   Focus,
+  FontFamily,
   FontSize,
+  LineHeight,
   Gapcursor,
   HardBreak,
   Heading,
@@ -123,8 +143,6 @@ export const CollaborationKit = [
   ListItem,
   Loading,
   OrderedList,
-  SelectionExtension,
-  ScrollIntoView,
   Strike,
   Subscript,
   Superscript,
@@ -151,12 +169,19 @@ export const CollaborationKit = [
   DocumentChildren,
   DocumentReference,
   Emoji,
-  Flow,
+  Flow.configure({
+    getCreateUserId,
+  }),
   Iframe,
-  Katex,
+  Katex.configure({
+    getCreateUserId,
+  }),
   Mention,
-  Mind,
-  QuickInsert,
+  Mind.configure({
+    getCreateUserId,
+  }),
+  EnSlashExtension,
+  ZhSlashExtension,
   SearchNReplace,
   Status,
   TableOfContents.configure({
@@ -167,4 +192,5 @@ export const CollaborationKit = [
   Title,
   DocumentWithTitle,
   Dragable,
+  Scroll2Cursor,
 ];

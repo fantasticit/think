@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Injectable } from '@nestjs/common';
+
 import * as cluster from 'cluster';
 import * as os from 'os';
 

@@ -1,5 +1,9 @@
+import React, { useEffect, useMemo } from 'react';
+
 import { Avatar, Button, List, Table, Typography } from '@douyinfe/semi-ui';
+
 import { DocumentApiDefinition, IDocument, IOrganization, StarApiDefinition } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { DocumentActions } from 'components/document/actions';
 import { Empty } from 'components/empty';
@@ -14,7 +18,6 @@ import { useToggle } from 'hooks/use-toggle';
 import { AppSingleColumnLayout } from 'layouts/app-single-column';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import React, { useEffect, useMemo } from 'react';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 import styles from './index.module.scss';

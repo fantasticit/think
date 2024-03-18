@@ -1,14 +1,17 @@
+import { useCallback, useEffect } from 'react';
+
 import { IconCopy, IconDelete, IconEdit, IconLineHeight } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
-import { SizeSetter } from 'components/size-setter';
-import { Tooltip } from 'components/tooltip';
-import { useUser } from 'data/user';
-import { useCallback, useEffect } from 'react';
+
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { IMindAttrs, Mind } from 'tiptap/core/extensions/mind';
 import { useAttributes } from 'tiptap/core/hooks/use-attributes';
 import { copyNode, deleteNode, getEditorContainerDOMSize } from 'tiptap/prose-utils';
+
+import { Divider } from 'components/divider';
+import { SizeSetter } from 'components/size-setter';
+import { Tooltip } from 'components/tooltip';
+import { useUser } from 'data/user';
 
 import { triggerOpenMindSettingModal } from '../_event';
 

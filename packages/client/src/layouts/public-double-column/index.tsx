@@ -1,10 +1,12 @@
+import React, { useMemo } from 'react';
+import SplitPane from 'react-split-pane';
+
 import { IconChevronLeft, IconChevronRight } from '@douyinfe/semi-icons';
 import { Button, Layout as SemiLayout } from '@douyinfe/semi-ui';
+
 import cls from 'classnames';
 import { throttle } from 'helpers/throttle';
 import { useDragableWidth } from 'hooks/use-dragable-width';
-import React, { useMemo } from 'react';
-import SplitPane from 'react-split-pane';
 
 import styles from './index.module.scss';
 
@@ -15,6 +17,8 @@ interface IProps {
   rightNode: React.ReactNode;
 }
 
+const style = { width: '100%', height: '100%' };
+
 export const PublicDoubleColumnLayout: React.FC<IProps> = ({ leftNode, rightNode }) => {
   const { minWidth, maxWidth, width, isCollapsed, updateWidth, toggleCollapsed } = useDragableWidth();
   const debounceUpdate = useMemo(() => throttle(updateWidth, 200), [updateWidth]);
@@ -22,7 +26,7 @@ export const PublicDoubleColumnLayout: React.FC<IProps> = ({ leftNode, rightNode
   return (
     <SemiLayout className={styles.wrap}>
       <SplitPane minSize={minWidth} maxSize={maxWidth} size={width} onChange={debounceUpdate}>
-        <Sider style={{ width: '100%', height: '100%' }} className={styles.leftWrap}>
+        <Sider style={style} className={styles.leftWrap}>
           <Button
             size="small"
             icon={isCollapsed ? <IconChevronRight /> : <IconChevronLeft />}

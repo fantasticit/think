@@ -1,8 +1,10 @@
+import React, { useRef } from 'react';
+
+import { CollaborationEditor, ICollaborationEditorProps, ICollaborationRefProps } from 'tiptap/editor';
+
 import { useUser } from 'data/user';
 import { SingleColumnLayout } from 'layouts/single-column';
 import { useRouter } from 'next/router';
-import React, { useRef } from 'react';
-import { CollaborationEditor, ICollaborationEditorProps, ICollaborationRefProps } from 'tiptap/editor';
 
 const Page = () => {
   const $container = useRef<HTMLDivElement>();

@@ -1,10 +1,12 @@
+import React, { useMemo } from 'react';
+
 import { IconArticle } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Radio, RadioGroup, Slider, Typography } from '@douyinfe/semi-ui';
+
 import { throttle } from 'helpers/throttle';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useMemo } from 'react';
 
 import styles from './index.module.scss';
 
@@ -32,14 +34,8 @@ export const DocumentStyle: React.FC<IProps> = ({ render }) => {
       position={isMobile ? 'topRight' : 'bottomLeft'}
       visible={visible}
       onVisibleChange={toggleVisible}
-      onClickOutSide={toggleVisible}
       content={
-        <div
-          className={styles.wrap}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
+        <div className={styles.wrap}>
           <div className={styles.item}>
             <Text>正文大小</Text>
             <Text style={{ fontSize: '0.8em' }}> {fontSize}px</Text>

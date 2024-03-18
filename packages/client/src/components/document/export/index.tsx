@@ -1,18 +1,23 @@
-import { Badge, Button, Dropdown, Modal, Space, Typography } from '@douyinfe/semi-ui';
-import { IDocument } from '@think/domains';
-import { IconJSON, IconMarkdown, IconPDF, IconWord } from 'components/icons';
-import { useDocumentDetail } from 'data/document';
-import download from 'downloadjs';
-import { safeJSONParse, safeJSONStringify } from 'helpers/json';
-import { IsOnMobile } from 'hooks/use-on-mobile';
-import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useMemo } from 'react';
+
+import { Badge, Button, Dropdown, Modal, Space, Typography } from '@douyinfe/semi-ui';
+
+import { IDocument } from '@think/domains';
+
 import { createEditor } from 'tiptap/core';
 import { AllExtensions } from 'tiptap/core/all-kit';
 import { prosemirrorToMarkdown } from 'tiptap/markdown/prosemirror-to-markdown';
 
-import styles from './index.module.scss';
+import { IconJSON, IconMarkdown, IconPDF, IconWord } from 'components/icons';
+import { useDocumentDetail } from 'data/document';
+import FileSaver from 'file-saver';
+import { safeJSONParse, safeJSONStringify } from 'helpers/json';
+import { IsOnMobile } from 'hooks/use-on-mobile';
+import { useToggle } from 'hooks/use-toggle';
+
 import { printEditorContent } from './pdf';
+
+import styles from './index.module.scss';
 
 const { Text } = Typography;
 
@@ -40,18 +45,21 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
 
   const exportMarkdown = useCallback(() => {
     const md = prosemirrorToMarkdown({ content: editor.state.doc.slice(0).content });
-    download(md, `${document.title}.md`, 'text/plain');
+    const blob = new Blob([md], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(blob, `${document.title}.md`);
   }, [document, editor]);
 
   const exportJSON = useCallback(() => {
-    download(safeJSONStringify(editor.getJSON()), `${document.title}.json`, 'text/plain');
+    const blob = new Blob([safeJSONStringify(editor.getJSON())], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(blob, `${document.title}.json`);
   }, [document, editor]);
 
   const exportWord = useCallback(() => {
     const editorContent = editor.view.dom.closest('.ProseMirror');
     if (editorContent) {
       exportDocx(editorContent.outerHTML).then((res) => {
-        download(Buffer.from(res as Buffer), `${document.title}.docx`);
+        const blob = new Blob([Buffer.from(res as Buffer)], { type: 'text/plain;charset=utf-8' });
+        FileSaver.saveAs(blob, `${document.title}.docx`);
       });
     }
   }, [editor, exportDocx, document]);
@@ -70,7 +78,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
         }}
       >
         <Space>
-          <div className={styles.templateItem} onClick={exportMarkdown}>
+          <div className={styles.templateItem} onMouseDown={exportMarkdown}>
             <header>
               <IconMarkdown style={{ fontSize: 40 }} />
             </header>
@@ -82,7 +90,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
             </footer>
           </div>
 
-          <div className={styles.templateItem} onClick={exportJSON}>
+          <div className={styles.templateItem} onMouseDown={exportJSON}>
             <header>
               <IconJSON style={{ fontSize: 40 }} />
             </header>
@@ -94,7 +102,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
             </footer>
           </div>
 
-          <div className={styles.templateItem} onClick={exportWord}>
+          <div className={styles.templateItem} onMouseDown={exportWord}>
             <header>
               <Badge count="beta" type="danger">
                 <IconWord style={{ fontSize: 40 }} />
@@ -108,7 +116,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
             </footer>
           </div>
 
-          <div className={styles.templateItem} onClick={exportPDF}>
+          <div className={styles.templateItem} onMouseDown={exportPDF}>
             <header>
               <Badge count="beta" type="danger">
                 <IconPDF style={{ fontSize: 40 }} />
@@ -166,7 +174,7 @@ export const DocumentExporter: React.FC<IProps> = ({ document, render }) => {
         <Dropdown
           visible={visible}
           onVisibleChange={toggleVisible}
-          trigger="click"
+          trigger="custom"
           position="bottomRight"
           content={<div style={{ padding: '0 16px' }}>{content}</div>}
         >

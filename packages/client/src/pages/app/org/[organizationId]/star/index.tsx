@@ -1,5 +1,9 @@
+import React from 'react';
+
 import { List, Typography } from '@douyinfe/semi-ui';
+
 import { StarApiDefinition } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { DocumentCard, DocumentCardPlaceholder } from 'components/document/card';
 import { Empty } from 'components/empty';
@@ -14,7 +18,6 @@ import {
 import { useRouterQuery } from 'hooks/use-router-query';
 import { AppSingleColumnLayout } from 'layouts/app-single-column';
 import type { NextPage } from 'next';
-import React from 'react';
 import { serverPrefetcher } from 'services/server-prefetcher';
 
 import styles from './index.module.scss';

@@ -1,4 +1,5 @@
 import { findChildren } from '@tiptap/core';
+
 import { Node as ProsemirrorNode } from 'prosemirror-model';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';

@@ -1,13 +1,20 @@
-import { Button, Input, Popover, SideSheet, Space, Typography } from '@douyinfe/semi-ui';
-import { IconSearchReplace } from 'components/icons';
-import { Tooltip } from 'components/tooltip';
-import { IsOnMobile } from 'hooks/use-on-mobile';
-import { useToggle } from 'hooks/use-toggle';
 import React, { useCallback, useEffect, useState } from 'react';
+
+import { Button, Input, Popover, SideSheet, Space, Typography } from '@douyinfe/semi-ui';
+
 import { Editor } from 'tiptap/core';
 import { ON_SEARCH_RESULTS, SearchNReplace } from 'tiptap/core/extensions/search';
 
+import { IconSearchReplace } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
+import deepEqual from 'deep-equal';
+import { IsOnMobile } from 'hooks/use-on-mobile';
+import { useToggle } from 'hooks/use-toggle';
+
 const { Text } = Typography;
+
+const headerStyle: React.CSSProperties = { borderBottom: '1px solid var(--semi-color-border)' };
+const marginBottomStyle: React.CSSProperties = { marginBottom: 12 };
 
 export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
   const { isMobile } = IsOnMobile.useHook();
@@ -28,20 +35,25 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
       setReplaceValue('');
       setCurrentIndex(-1);
       setResults([]);
+
+      editor.commands.setSearchTerm('');
+      editor.commands.setReplaceTerm('');
     }
-  }, [visible]);
+  }, [editor, visible]);
 
   useEffect(() => {
+    if (!visible) return;
     if (editor && editor.commands && editor.commands.setSearchTerm) {
       editor.commands.setSearchTerm(searchValue);
     }
-  }, [searchValue, editor]);
+  }, [visible, searchValue, editor]);
 
   useEffect(() => {
+    if (!visible) return;
     if (editor && editor.commands && editor.commands.setReplaceTerm) {
       editor.commands.setReplaceTerm(replaceValue);
     }
-  }, [replaceValue, editor]);
+  }, [visible, replaceValue, editor]);
 
   useEffect(() => {
     if (!editor) return;
@@ -51,10 +63,12 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
     if (!searchExtension) return;
 
     const listener = () => {
-      const currentIndex = searchExtension ? searchExtension.options.currentIndex : -1;
-      const results = searchExtension ? searchExtension.options.results : [];
-      setCurrentIndex(currentIndex);
-      setResults(results);
+      if (!visible) return;
+
+      const currentIndex = searchExtension ? searchExtension.storage.currentIndex : -1;
+      const results = searchExtension ? searchExtension.storage.results : [];
+      setCurrentIndex((preIndex) => (preIndex !== currentIndex ? currentIndex : preIndex));
+      setResults((prevResults) => (deepEqual(prevResults, results) ? prevResults : results));
     };
 
     editor.eventEmitter && editor.eventEmitter.on(ON_SEARCH_RESULTS, listener);
@@ -63,11 +77,11 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
       if (!searchExtension) return;
       editor.eventEmitter && editor.eventEmitter.off(ON_SEARCH_RESULTS, listener);
     };
-  }, [editor]);
+  }, [visible, editor]);
 
   const content = (
     <div style={{ padding: isMobile ? '24px 0' : 0 }}>
-      <div style={{ marginBottom: 12 }}>
+      <div style={marginBottomStyle}>
         <Text type="tertiary">查找</Text>
         <Input
           autofocus
@@ -76,7 +90,7 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
           suffix={results.length ? `${currentIndex + 1}/${results.length}` : ''}
         />
       </div>
-      <div style={{ marginBottom: 12 }}>
+      <div style={marginBottomStyle}>
         <Text type="tertiary">替换为</Text>
         <Input value={replaceValue} onChange={setReplaceValue} />
       </div>
@@ -113,7 +127,7 @@ export const Search: React.FC<{ editor: Editor }> = ({ editor }) => {
       {isMobile ? (
         <>
           <SideSheet
-            headerStyle={{ borderBottom: '1px solid var(--semi-color-border)' }}
+            headerStyle={headerStyle}
             placement="bottom"
             title={'查找替换'}
             visible={visible}

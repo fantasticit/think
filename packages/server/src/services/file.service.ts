@@ -1,6 +1,7 @@
-import { getOssClient, OssClient } from '@helpers/file.helper';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+
+import { getOssClient, OssClient } from '@helpers/file.helper';
 
 @Injectable()
 export class FileService {

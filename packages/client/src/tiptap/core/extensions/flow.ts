@@ -1,4 +1,5 @@
 import { IUser } from '@think/domains';
+
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { FlowWrapper } from 'tiptap/core/wrappers/flow';
@@ -12,6 +13,11 @@ export interface IFlowAttrs {
   createUser?: IUser['id'];
 }
 
+interface IFlowOptions {
+  HTMLAttributes: Record<string, any>;
+  getCreateUserId: () => string | number;
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     flow: {
@@ -20,7 +26,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const Flow = Node.create({
+export const Flow = Node.create<IFlowOptions>({
   name: 'flow',
   group: 'block',
   selectable: true,
@@ -55,6 +61,7 @@ export const Flow = Node.create({
       HTMLAttributes: {
         class: 'flow',
       },
+      getCreateUserId: () => null,
     };
   },
 
@@ -102,10 +109,10 @@ export const Flow = Node.create({
   addInputRules() {
     return [
       nodeInputRule({
-        find: /^\$flow $/,
+        find: /^\$flow\$$/,
         type: this.type,
         getAttributes: () => {
-          return { width: '100%' };
+          return { width: '100%', defaultShowPicker: true, createUser: this.options.getCreateUserId() };
         },
       }),
     ];

@@ -1,7 +1,11 @@
+import React, { useCallback } from 'react';
+
 import { IconArticle, IconBranch, IconExport, IconHistory, IconMore, IconPlus, IconStar } from '@douyinfe/semi-icons';
 import { Button, Dropdown, Space, Typography } from '@douyinfe/semi-ui';
 import { ButtonProps } from '@douyinfe/semi-ui/button/Button';
+
 import { IDocument, IOrganization, IWiki } from '@think/domains';
+
 import cls from 'classnames';
 import { DocumentCreator } from 'components/document/create';
 import { DocumentDeletor } from 'components/document/delete';
@@ -12,7 +16,6 @@ import { DocumentStar } from 'components/document/star';
 import { DocumentStyle } from 'components/document/style';
 import { DocumentVersionTrigger } from 'components/document/version';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback } from 'react';
 
 import styles from './index.module.scss';
 
@@ -78,6 +81,7 @@ export const DocumentActions: React.FC<IProps> = ({
         position="bottomLeft"
         visible={popoverVisible}
         onVisibleChange={wrapOnVisibleChange}
+        stopPropagation={true}
         content={
           <Dropdown.Menu style={{ minWidth: 112 }}>
             {showCreateDocument && (
@@ -161,24 +165,6 @@ export const DocumentActions: React.FC<IProps> = ({
                         <Space>
                           <IconHistory />
                           历史记录
-                        </Space>
-                      </Text>
-                    </Dropdown.Item>
-                  );
-                }}
-              />
-            )}
-
-            {!hideDocumentVersion && (
-              <DocumentStyle
-                key="style"
-                render={({ onClick }) => {
-                  return (
-                    <Dropdown.Item onClick={onClick}>
-                      <Text>
-                        <Space>
-                          <IconArticle />
-                          文档排版
                         </Space>
                       </Text>
                     </Dropdown.Item>

@@ -1,4 +1,5 @@
 import { WikiStatus } from '@think/domains';
+
 import { IsOptional } from 'class-validator';
 
 export class ShareWikiDto {

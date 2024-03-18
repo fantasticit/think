@@ -1,9 +1,11 @@
+import { useCallback, useMemo } from 'react';
+
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
+
 import cls from 'classnames';
 import { EmojiPicker } from 'components/emoji-picker';
 import { convertColorToRGBA } from 'helpers/color';
 import { Theme, ThemeEnum } from 'hooks/use-theme';
-import { useCallback, useMemo } from 'react';
 
 import styles from './index.module.scss';
 

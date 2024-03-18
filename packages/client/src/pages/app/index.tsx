@@ -1,5 +1,9 @@
+import { useCallback, useEffect } from 'react';
+
 import { Avatar, Button, Table, Typography } from '@douyinfe/semi-ui';
+
 import { IOrganization } from '@think/domains';
+
 import { DataRender } from 'components/data-render';
 import { LocaleTime } from 'components/locale-time';
 import { Seo } from 'components/seo';
@@ -7,7 +11,6 @@ import { usePeronalOrganization, useUserOrganizations } from 'data/organization'
 import { SingleColumnLayout } from 'layouts/single-column';
 import Link from 'next/link';
 import Router from 'next/router';
-import { useCallback, useEffect } from 'react';
 
 const { Title, Paragraph } = Typography;
 const { Column } = Table;

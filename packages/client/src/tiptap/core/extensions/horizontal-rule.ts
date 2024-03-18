@@ -1,4 +1,5 @@
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
+
 import { TextSelection } from 'prosemirror-state';
 
 export interface HorizontalRuleOptions {

@@ -1,8 +1,11 @@
+import { DependencyList, useEffect, useState } from 'react';
+
 import { EditorOptions } from '@tiptap/core';
 import { Editor as BuiltInEditor } from '@tiptap/react';
 import { EditorContent, NodeViewContent, NodeViewWrapper } from '@tiptap/react';
+
 import { EventEmitter } from 'helpers/event-emitter';
-import { DependencyList, useEffect, useState } from 'react';
+import { throttle } from 'helpers/throttle';
 
 function useForceUpdate() {
   const [, setValue] = useState(0);
@@ -22,10 +25,16 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
+    let isUnmount = false;
+    let timer1: ReturnType<typeof requestAnimationFrame> = null;
+    let timer2: ReturnType<typeof requestAnimationFrame> = null;
+
     options.editorProps = options.editorProps || {};
 
     if (options.editable) {
-      options.editorProps.attributes = options.editorProps.attributes || {};
+      options.editorProps.attributes = options.editorProps.attributes || {
+        spellcheck: 'false',
+      };
       // @ts-ignore
       options.editorProps.attributes.class = options.editorProps.attributes.class || '';
       // @ts-ignore
@@ -36,15 +45,32 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
 
     setEditor(instance);
 
+    if (options.editable) {
+      instance.on(
+        'update',
+        throttle(() => {
+          // instance.chain().focus().scrollIntoView().run();
+        }, 200)
+      );
+    }
+
     instance.on('transaction', () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          forceUpdate();
+      if (!isUnmount) {
+        timer1 = requestAnimationFrame(() => {
+          timer2 = requestAnimationFrame(() => {
+            forceUpdate();
+          });
         });
-      });
+      } else {
+        cancelAnimationFrame(timer1);
+        cancelAnimationFrame(timer2);
+      }
     });
 
     return () => {
+      cancelAnimationFrame(timer1);
+      cancelAnimationFrame(timer2);
+      isUnmount = true;
       instance.destroy();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

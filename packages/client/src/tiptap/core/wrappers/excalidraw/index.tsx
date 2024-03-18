@@ -1,13 +1,20 @@
-import { Space, Spin, Typography } from '@douyinfe/semi-ui';
-import { NodeViewWrapper } from '@tiptap/react';
-import cls from 'classnames';
-import { IconMind } from 'components/icons';
-import { Resizeable } from 'components/resizeable';
-import { useToggle } from 'hooks/use-toggle';
+import React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
+
+import { Button, Space, Spin, Typography } from '@douyinfe/semi-ui';
+
+import { NodeViewWrapper } from '@tiptap/react';
 import { Excalidraw } from 'tiptap/core/extensions/excalidraw';
-import { getEditorContainerDOMSize } from 'tiptap/prose-utils';
+import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from 'tiptap/core/menus/mind/constant';
+import { clamp, getEditorContainerDOMSize } from 'tiptap/prose-utils';
+
+import cls from 'classnames';
+import { IconMind, IconZoomIn, IconZoomOut } from 'components/icons';
+import { Resizeable } from 'components/resizeable';
+import { Tooltip } from 'components/tooltip';
+import deepEqual from 'deep-equal';
+import { useToggle } from 'hooks/use-toggle';
 
 import styles from './index.module.scss';
 
@@ -15,7 +22,7 @@ const { Text } = Typography;
 
 const INHERIT_SIZE_STYLE = { width: '100%', height: '100%', maxWidth: '100%' };
 
-export const ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
+export const _ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
   const exportToSvgRef = useRef(null);
   const isEditable = editor.isEditable;
   const isActive = editor.isActive(Excalidraw.name);
@@ -25,6 +32,7 @@ export const ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
   const [loading, toggleLoading] = useToggle(true);
   const [error, setError] = useState<Error | null>(null);
   const [visible, toggleVisible] = useToggle(false);
+  const [zoom, setZoomState] = useState(100);
 
   const onResize = useCallback(
     (size) => {
@@ -42,20 +50,40 @@ export const ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
     [toggleVisible]
   );
 
+  const setZoom = useCallback((type: 'minus' | 'plus') => {
+    return () => {
+      setZoomState((currentZoom) =>
+        clamp(type === 'minus' ? currentZoom - ZOOM_STEP : currentZoom + ZOOM_STEP, MIN_ZOOM, MAX_ZOOM)
+      );
+    };
+  }, []);
+
   useEffect(() => {
+    let isUnmount = false;
+
     import('@excalidraw/excalidraw')
       .then((res) => {
-        exportToSvgRef.current = res.exportToSvg;
+        if (!isUnmount) {
+          exportToSvgRef.current = res.exportToSvg;
+        }
       })
-      .catch(setError)
-      .finally(() => toggleLoading(false));
+      .catch((err) => !isUnmount && setError(err))
+      .finally(() => !isUnmount && toggleLoading(false));
+
+    return () => {
+      isUnmount = true;
+    };
   }, [toggleLoading, data]);
 
   useEffect(() => {
+    let isUnmount = false;
+
     const setContent = async () => {
-      if (loading || error || !visible || !data) return;
+      if (isUnmount || loading || error || !visible || !data) return;
 
       const svg: SVGElement = await exportToSvgRef.current(data);
+
+      if (isUnmount) return;
 
       svg.setAttribute('width', '100%');
       svg.setAttribute('height', '100%');
@@ -63,7 +91,12 @@ export const ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
 
       setSvg(svg);
     };
+
     setContent();
+
+    return () => {
+      isUnmount = true;
+    };
   }, [data, loading, error, visible]);
 
   return (
@@ -92,6 +125,8 @@ export const ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  transform: `scale(${zoom / 100})`,
+                  transition: `all ease-in-out .3s`,
                 }}
                 dangerouslySetInnerHTML={{ __html: Svg?.outerHTML ?? '' }}
               />
@@ -105,9 +140,38 @@ export const ExcalidrawWrapper = ({ editor, node, updateAttributes }) => {
                 绘图
               </Space>
             </div>
+
+            <div className={styles.handlerWrap}>
+              <Tooltip content="缩小">
+                <Button
+                  size="small"
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconZoomOut />}
+                  onClick={setZoom('minus')}
+                />
+              </Tooltip>
+              <Tooltip content="放大">
+                <Button
+                  size="small"
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconZoomIn />}
+                  onClick={setZoom('plus')}
+                />
+              </Tooltip>
+            </div>
           </div>
         </Resizeable>
       </VisibilitySensor>
     </NodeViewWrapper>
   );
 };
+
+export const ExcalidrawWrapper = React.memo(_ExcalidrawWrapper, (prevProps, nextProps) => {
+  if (deepEqual(prevProps.node.attrs, nextProps.node.attrs)) {
+    return true;
+  }
+
+  return false;
+});

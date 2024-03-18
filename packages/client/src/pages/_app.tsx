@@ -1,7 +1,12 @@
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { Worker } from '@react-pdf-viewer/core';
+import React from 'react';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+
 import 'tiptap/fix-match-nodes';
-import 'viewerjs/dist/viewer.css';
-import 'styles/globals.scss';
 import 'tiptap/core/styles/index.scss';
+import { preloadTiptapResources } from 'tiptap/preload';
 
 import { isMobile } from 'helpers/env';
 import { DocumentVersionControl } from 'hooks/use-document-version';
@@ -9,9 +14,10 @@ import { IsOnMobile } from 'hooks/use-on-mobile';
 import { Theme } from 'hooks/use-theme';
 import App from 'next/app';
 import Head from 'next/head';
-import React from 'react';
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
-import { preloadTiptapResources } from 'tiptap/preload';
+
+import 'viewerjs/dist/viewer.css';
+import 'styles/globals.scss';
+import 'thirtypart/array-prototype-at';
 
 class MyApp extends App<{ isMobile: boolean }> {
   state = {
@@ -84,17 +90,19 @@ class MyApp extends App<{ isMobile: boolean }> {
             <link key={url} rel="dns-prefetch" href={url} />
           ))}
         </Head>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <Theme.Provider>
-              <IsOnMobile.Provider initialState={isMobile}>
-                <DocumentVersionControl.Provider initialState={false}>
-                  <Component {...pageProps} />
-                </DocumentVersionControl.Provider>
-              </IsOnMobile.Provider>
-            </Theme.Provider>
-          </Hydrate>
-        </QueryClientProvider>
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.1.81/build/pdf.worker.js">
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <Theme.Provider>
+                <IsOnMobile.Provider initialState={isMobile}>
+                  <DocumentVersionControl.Provider initialState={false}>
+                    <Component {...pageProps} />
+                  </DocumentVersionControl.Provider>
+                </IsOnMobile.Provider>
+              </Theme.Provider>
+            </Hydrate>
+          </QueryClientProvider>
+        </Worker>
       </>
     );
   }

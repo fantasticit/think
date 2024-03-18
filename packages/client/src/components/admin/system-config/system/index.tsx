@@ -1,9 +1,11 @@
+import React, { useCallback } from 'react';
+
 import { IconHelpCircle } from '@douyinfe/semi-icons';
 import { Banner, Button, Form, Toast, Tooltip } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { useSystemConfig } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback } from 'react';
 
 export const System = () => {
   const { data, loading, error, updateSystemConfig } = useSystemConfig();

@@ -1,4 +1,7 @@
+import React, { useCallback } from 'react';
+
 import { Layout, Modal, Space, Typography } from '@douyinfe/semi-ui';
+
 import { Author } from 'components/author';
 import { LogoImage, LogoText } from 'components/logo';
 import { Seo } from 'components/seo';
@@ -6,7 +9,6 @@ import { ResetPassword } from 'components/user/reset-password';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Link from 'next/link';
 import Router from 'next/router';
-import React, { useCallback } from 'react';
 
 import styles from './index.module.scss';
 

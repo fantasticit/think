@@ -1,20 +1,22 @@
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { ORGANIZATION_LOGOS } from '@think/constants';
+import { IUser, UserStatus } from '@think/domains';
+
 import { RegisterUserDto, ResetPasswordDto } from '@dtos/create-user.dto';
 import { LoginUserDto } from '@dtos/login-user.dto';
 import { UpdateUserDto } from '@dtos/update-user.dto';
 import { SystemEntity } from '@entities/system.entity';
 import { UserEntity } from '@entities/user.entity';
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
 import { MessageService } from '@services/message.service';
 import { OrganizationService } from '@services/organization.service';
 import { StarService } from '@services/star.service';
 import { SystemService } from '@services/system.service';
 import { VerifyService } from '@services/verify.service';
 import { WikiService } from '@services/wiki.service';
-import { ORGANIZATION_LOGOS } from '@think/constants';
-import { IUser, UserStatus } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import { Repository } from 'typeorm';
 
@@ -128,10 +130,6 @@ export class UserService {
 
     if (currentSystemConfig.isSystemLocked) {
       throw new HttpException('系统维护中，暂不可注册', HttpStatus.FORBIDDEN);
-    }
-
-    if (await this.userRepo.findOne({ name: user.name })) {
-      throw new HttpException('该账户已被注册', HttpStatus.BAD_REQUEST);
     }
 
     if (await this.userRepo.findOne({ name: user.name })) {
@@ -253,7 +251,7 @@ export class UserService {
     const currentSystemConfig = await this.systemService.getConfigFromDatabase();
     const oldData = await this.userRepo.findOne(user.id);
 
-    if (oldData.email !== dto.email) {
+    if (oldData && dto && oldData.email !== dto.email) {
       if (await this.userRepo.findOne({ where: { email: dto.email } })) {
         throw new HttpException('该邮箱已被注册', HttpStatus.BAD_REQUEST);
       }

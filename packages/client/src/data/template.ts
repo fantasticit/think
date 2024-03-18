@@ -1,10 +1,13 @@
-import { ITemplate, TemplateApiDefinition } from '@think/domains';
 import { useCallback, useState } from 'react';
 import { useQuery } from 'react-query';
+
+import { ITemplate, TemplateApiDefinition } from '@think/domains';
+
 import { HttpClient } from 'services/http-client';
 
 export const getPublicTemplates = (
   page = 1,
+  pageSize = 12,
   cookie = null
 ): Promise<{
   data: Array<ITemplate>;
@@ -16,20 +19,22 @@ export const getPublicTemplates = (
     cookie,
     params: {
       page,
+      pageSize,
     },
   });
 };
 
-export const usePublicTemplates = () => {
+export const usePublicTemplates = (pageSize = 12) => {
   const [page, setPage] = useState(1);
   const { data, error, isLoading, refetch } = useQuery([TemplateApiDefinition.public.client(), page], () =>
-    getPublicTemplates(page)
+    getPublicTemplates(page, pageSize)
   );
 
   return {
     data,
     loading: isLoading,
     error,
+    page,
     setPage,
     refresh: refetch,
   };
@@ -37,6 +42,7 @@ export const usePublicTemplates = () => {
 
 export const getOwnTemplates = (
   page = 1,
+  pageSize = 12,
   cookie = null
 ): Promise<{
   data: Array<ITemplate>;
@@ -48,6 +54,7 @@ export const getOwnTemplates = (
     cookie,
     params: {
       page,
+      pageSize,
     },
   });
 };
@@ -56,14 +63,14 @@ export const getOwnTemplates = (
  * 个人模板
  * @returns
  */
-export const useOwnTemplates = () => {
+export const useOwnTemplates = (pageSize = 12) => {
   const [page, setPage] = useState(1);
   const {
     data,
     error,
     isLoading,
     refetch: mutate,
-  } = useQuery([TemplateApiDefinition.own.client(), page], () => getOwnTemplates(page));
+  } = useQuery([TemplateApiDefinition.own.client(), page], () => getOwnTemplates(page, pageSize));
 
   const addTemplate = useCallback(
     async (data): Promise<ITemplate> => {
@@ -78,6 +85,7 @@ export const useOwnTemplates = () => {
     data,
     loading: isLoading,
     error,
+    page,
     setPage,
     addTemplate,
     refresh: mutate,

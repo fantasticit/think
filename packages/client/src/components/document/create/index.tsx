@@ -1,12 +1,15 @@
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+
 import { Checkbox, Modal, TabPane, Tabs } from '@douyinfe/semi-ui';
+
 import { IDocument, IWiki } from '@think/domains';
+
 import { TemplateCardEmpty } from 'components/template/card';
 import { TemplateList } from 'components/template/list';
 import { useCreateDocument } from 'data/document';
 import { useOwnTemplates, usePublicTemplates } from 'data/template';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 
 import styles from './index.module.scss';
 

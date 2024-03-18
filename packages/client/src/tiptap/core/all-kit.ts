@@ -8,12 +8,15 @@ import { Code } from 'tiptap/core/extensions/code';
 import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { Color } from 'tiptap/core/extensions/color';
 import { ColorHighlighter } from 'tiptap/core/extensions/color-highlighter';
+import { Column } from 'tiptap/core/extensions/column';
+import { Columns } from 'tiptap/core/extensions/columns';
 import { Countdown } from 'tiptap/core/extensions/countdown';
 import { Document } from 'tiptap/core/extensions/document';
 import { DocumentChildren } from 'tiptap/core/extensions/document-children';
 import { DocumentReference } from 'tiptap/core/extensions/document-reference';
 import { Dropcursor } from 'tiptap/core/extensions/dropcursor';
 import { Emoji } from 'tiptap/core/extensions/emoji';
+import { Excalidraw } from 'tiptap/core/extensions/excalidraw';
 import { Flow } from 'tiptap/core/extensions/flow';
 import { Focus } from 'tiptap/core/extensions/focus';
 import { FontSize } from 'tiptap/core/extensions/font-size';
@@ -27,6 +30,7 @@ import { Image } from 'tiptap/core/extensions/image';
 import { Indent } from 'tiptap/core/extensions/indent';
 import { Italic } from 'tiptap/core/extensions/italic';
 import { Katex } from 'tiptap/core/extensions/katex';
+import { LineHeight } from 'tiptap/core/extensions/line-height';
 import { Link } from 'tiptap/core/extensions/link';
 import { ListItem } from 'tiptap/core/extensions/listItem';
 import { Loading } from 'tiptap/core/extensions/loading';
@@ -36,7 +40,6 @@ import { OrderedList } from 'tiptap/core/extensions/ordered-list';
 import { Paragraph } from 'tiptap/core/extensions/paragraph';
 import { Paste } from 'tiptap/core/extensions/paste';
 import { Placeholder } from 'tiptap/core/extensions/placeholder';
-import { QuickInsert } from 'tiptap/core/extensions/quick-insert';
 import { SearchNReplace } from 'tiptap/core/extensions/search';
 import { SelectionExtension } from 'tiptap/core/extensions/selection';
 import { Status } from 'tiptap/core/extensions/status';
@@ -58,7 +61,7 @@ import { TrailingNode } from 'tiptap/core/extensions/trailing-node';
 import { Underline } from 'tiptap/core/extensions/underline';
 
 export const DocumentWithTitle = Document.extend({
-  content: 'title block+',
+  content: 'title{1} block+',
 });
 
 export const AllExtensions = [
@@ -70,11 +73,15 @@ export const AllExtensions = [
   BulletList,
   Code,
   CodeBlock,
+  Column,
+  Columns,
   Color,
   ColorHighlighter,
   Dropcursor,
+  Excalidraw,
   Focus,
   FontSize,
+  LineHeight,
   Gapcursor,
   HardBreak,
   Heading,
@@ -114,7 +121,6 @@ export const AllExtensions = [
   Katex,
   Mention,
   Mind,
-  QuickInsert,
   SearchNReplace,
   Status,
   DocumentWithTitle,

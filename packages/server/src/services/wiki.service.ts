@@ -1,18 +1,20 @@
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { AuthEnum, buildMessageURL, DocumentStatus, IPagination, IUser, WikiStatus } from '@think/domains';
+
 import { OperateUserAuthDto } from '@dtos/auth.dto';
 import { CreateWikiDto } from '@dtos/create-wiki.dto';
 import { ShareWikiDto } from '@dtos/share-wiki.dto';
 import { UpdateWikiDto } from '@dtos/update-wiki.dto';
 import { WikiEntity } from '@entities/wiki.entity';
 import { array2tree } from '@helpers/tree.helper';
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from '@services/auth.service';
 import { DocumentService } from '@services/document.service';
 import { MessageService } from '@services/message.service';
 import { StarService } from '@services/star.service';
 import { UserService } from '@services/user.service';
 import { ViewService } from '@services/view.service';
-import { AuthEnum, buildMessageURL, DocumentStatus, IPagination, IUser, WikiStatus } from '@think/domains';
 import { instanceToPlain } from 'class-transformer';
 import * as lodash from 'lodash';
 import { Repository } from 'typeorm';
@@ -326,14 +328,13 @@ export class WikiService {
    * @param pagination
    * @returns
    */
-  async getAllWikis(user: IUser, organizationId, pagination: IPagination) {
+  async getAllWikis(user: IUser, organizationId) {
     await this.authService.canView(user.id, {
       organizationId,
       wikiId: null,
       documentId: null,
     });
 
-    const { page = 1, pageSize = 12 } = pagination;
     const { data: userWikiAuths, total } = await this.authService.getUserCanViewWikisInOrganization(
       user.id,
       organizationId
@@ -357,14 +358,13 @@ export class WikiService {
    * @param pagination
    * @returns
    */
-  async getOwnWikis(user: IUser, organizationId, pagination: IPagination) {
+  async getOwnWikis(user: IUser, organizationId) {
     await this.authService.canView(user.id, {
       organizationId,
       wikiId: null,
       documentId: null,
     });
 
-    const { page = 1, pageSize = 12 } = pagination;
     const { data: userWikiAuths, total } = await this.authService.getUserCreateWikisInOrganization(
       user.id,
       organizationId
@@ -387,14 +387,13 @@ export class WikiService {
    * @param pagination
    * @returns
    */
-  async getJoinWikis(user: IUser, organizationId, pagination: IPagination) {
+  async getJoinWikis(user: IUser, organizationId) {
     await this.authService.canView(user.id, {
       organizationId,
       wikiId: null,
       documentId: null,
     });
 
-    const { page = 1, pageSize = 12 } = pagination;
     const { data: userWikiAuths, total } = await this.authService.getUserJoinWikisInOrganization(
       user.id,
       organizationId

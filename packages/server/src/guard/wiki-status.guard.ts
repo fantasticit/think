@@ -1,7 +1,9 @@
 import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, SetMetadata } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { WikiService } from '@services/wiki.service';
+
 import { WikiStatus } from '@think/domains';
+
+import { WikiService } from '@services/wiki.service';
 
 const KEY = 'WikiStatus';
 export const CheckWikiStatus = (status: WikiStatus) => SetMetadata(KEY, status);

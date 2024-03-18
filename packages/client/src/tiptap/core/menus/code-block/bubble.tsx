@@ -1,11 +1,14 @@
+import React, { useCallback } from 'react';
+
 import { IconCopy, IconDelete } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
-import { Tooltip } from 'components/tooltip';
-import React, { useCallback } from 'react';
+
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { CodeBlock } from 'tiptap/core/extensions/code-block';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
+import { Divider } from 'components/divider';
+import { Tooltip } from 'components/tooltip';
 
 export const CodeBlockBubbleMenu = ({ editor }) => {
   const shouldShow = useCallback(() => editor.isActive(CodeBlock.name), [editor]);

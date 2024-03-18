@@ -1,5 +1,6 @@
-import { ILoginUser, IUser } from '@think/domains';
 import React from 'react';
+
+import { ILoginUser, IUser } from '@think/domains';
 
 export interface ICollaborationEditorProps {
   /**

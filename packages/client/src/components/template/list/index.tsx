@@ -1,8 +1,10 @@
+import React, { useEffect } from 'react';
+
 import { List, Pagination } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { Empty } from 'components/empty';
 import { IProps as ITemplateCardProps, TemplateCard, TemplateCardPlaceholder } from 'components/template/card';
-import React, { useEffect, useMemo, useState } from 'react';
 
 const grid = {
   gutter: 16,
@@ -29,15 +31,9 @@ export const TemplateList: React.FC<IProps> = ({
   onClosePreview,
   pageSize = 5,
 }) => {
-  const { data, loading, error, refresh } = hook();
-  const [page, onPageChange] = useState(1);
-
-  const arr = useMemo(() => {
-    const arr = (data && data.data) || [];
-    const start = (page - 1) * pageSize;
-    const end = page * pageSize;
-    return arr.slice(start, end);
-  }, [data, page, pageSize]);
+  const { data, loading, error, page, setPage, refresh } = hook(pageSize);
+  const list = (data && data.data) || [];
+  const total = (data && data.total) || 0;
 
   useEffect(() => {
     refresh();
@@ -62,7 +58,7 @@ export const TemplateList: React.FC<IProps> = ({
         <>
           <List
             grid={grid}
-            dataSource={firstListItem ? [{}, ...arr] : arr}
+            dataSource={firstListItem ? [{}, ...list] : list}
             renderItem={(template, idx) => {
               if (idx === 0 && firstListItem) {
                 return <List.Item>{firstListItem}</List.Item>;
@@ -82,7 +78,7 @@ export const TemplateList: React.FC<IProps> = ({
             }}
             emptyContent={<Empty message={'暂无模板'} />}
           ></List>
-          {data.data.length > pageSize ? (
+          {total > pageSize ? (
             <Pagination
               size="small"
               style={{
@@ -91,9 +87,9 @@ export const TemplateList: React.FC<IProps> = ({
                 justifyContent: 'center',
               }}
               pageSize={pageSize}
-              total={data.data.length}
+              total={total}
               currentPage={page}
-              onChange={(cPage) => onPageChange(cPage)}
+              onChange={(cPage) => setPage(cPage)}
             />
           ) : null}
         </>

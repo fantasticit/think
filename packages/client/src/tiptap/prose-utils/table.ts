@@ -1,4 +1,5 @@
 import { findParentNode } from '@tiptap/core';
+
 import { Node, ResolvedPos } from 'prosemirror-model';
 import { Selection, Transaction } from 'prosemirror-state';
 import { CellSelection, TableMap } from 'prosemirror-tables';

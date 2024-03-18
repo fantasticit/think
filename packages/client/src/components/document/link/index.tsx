@@ -1,9 +1,12 @@
+import React, { useCallback } from 'react';
+
 import { IconLink } from '@douyinfe/semi-icons';
 import { Space, Typography } from '@douyinfe/semi-ui';
+
 import { IDocument, IOrganization, IWiki } from '@think/domains';
+
 import { copy } from 'helpers/copy';
 import { buildUrl } from 'helpers/url';
-import React, { useCallback } from 'react';
 
 interface IProps {
   organizationId: IOrganization['id'];
@@ -13,6 +16,8 @@ interface IProps {
 }
 
 const { Text } = Typography;
+
+const style = { cursor: 'pointer' };
 
 export const DocumentLinkCopyer: React.FC<IProps> = ({ organizationId, wikiId, documentId, render }) => {
   const handle = useCallback(() => {
@@ -29,7 +34,7 @@ export const DocumentLinkCopyer: React.FC<IProps> = ({ organizationId, wikiId, d
   return render ? (
     <>{render({ copy: handle, children: content })}</>
   ) : (
-    <Text onClick={handle} style={{ cursor: 'pointer' }}>
+    <Text onClick={handle} style={style}>
       {content}
     </Text>
   );

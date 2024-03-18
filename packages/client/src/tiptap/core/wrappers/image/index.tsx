@@ -1,16 +1,23 @@
-import { Spin, Typography } from '@douyinfe/semi-ui';
-import { NodeViewWrapper } from '@tiptap/react';
-import { Resizeable } from 'components/resizeable';
-import { useToggle } from 'hooks/use-toggle';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { uploadFile } from 'services/file';
+
+import { Button, Spin, Typography } from '@douyinfe/semi-ui';
+
+import { NodeViewWrapper } from '@tiptap/react';
+import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from 'tiptap/core/menus/mind/constant';
 import {
+  clamp,
   extractFileExtension,
   extractFilename,
   getEditorContainerDOMSize,
   getImageWidthHeight,
 } from 'tiptap/prose-utils';
+
+import { IconZoomIn, IconZoomOut } from 'components/icons';
+import { Resizeable } from 'components/resizeable';
+import { Tooltip } from 'components/tooltip';
+import { useToggle } from 'hooks/use-toggle';
+import { uploadFile } from 'services/file';
 
 import styles from './index.module.scss';
 
@@ -22,6 +29,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
   const { width: maxWidth } = getEditorContainerDOMSize(editor);
   const $upload = useRef<HTMLInputElement>();
   const [loading, toggleLoading] = useToggle(false);
+  const [zoom, setZoomState] = useState(100);
 
   const onResize = useCallback(
     (size) => {
@@ -61,6 +69,14 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
     [updateAttributes, toggleLoading]
   );
 
+  const setZoom = useCallback((type: 'minus' | 'plus') => {
+    return () => {
+      setZoomState((currentZoom) =>
+        clamp(type === 'minus' ? currentZoom - ZOOM_STEP : currentZoom + ZOOM_STEP, MIN_ZOOM, MAX_ZOOM)
+      );
+    };
+  }, []);
+
   useEffect(() => {
     if (!src && !hasTrigger) {
       selectFile();
@@ -90,7 +106,44 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
             </Spin>
           </div>
         ) : (
-          <LazyLoadImage src={src} alt={alt} width={'100%'} height={'100%'} />
+          <div className={styles.wrap}>
+            <div
+              style={{
+                height: '100%',
+                maxHeight: '100%',
+                padding: 24,
+                overflow: 'hidden',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                transform: `scale(${zoom / 100})`,
+                transition: `all ease-in-out .3s`,
+              }}
+            >
+              <LazyLoadImage src={src} alt={alt} width={'100%'} height={'100%'} />
+            </div>
+
+            <div className={styles.handlerWrap}>
+              <Tooltip content="缩小">
+                <Button
+                  size="small"
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconZoomOut />}
+                  onClick={setZoom('minus')}
+                />
+              </Tooltip>
+              <Tooltip content="放大">
+                <Button
+                  size="small"
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconZoomIn />}
+                  onClick={setZoom('plus')}
+                />
+              </Tooltip>
+            </div>
+          </div>
         )}
       </Resizeable>
     </NodeViewWrapper>

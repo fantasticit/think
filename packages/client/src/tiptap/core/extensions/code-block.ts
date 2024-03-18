@@ -1,11 +1,12 @@
 import { findChildren } from '@tiptap/core';
 import BuiltInCodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block';
 import { ReactNodeViewRenderer } from '@tiptap/react';
+import { CodeBlockWrapper } from 'tiptap/core/wrappers/code-block';
+
 import { lowlight } from 'lowlight/lib/all';
 import { Node as ProsemirrorNode } from 'prosemirror-model';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { CodeBlockWrapper } from 'tiptap/core/wrappers/code-block';
 
 function parseNodes(nodes: any[], className: string[] = []): { text: string; classes: string[] }[] {
   return nodes
@@ -34,37 +35,43 @@ function getDecorations({
   name,
   lowlight,
   defaultLanguage,
+  maxHighlightLineNumber,
 }: {
   doc: ProsemirrorNode;
   name: string;
   lowlight: any;
   defaultLanguage: string | null | undefined;
+  maxHighlightLineNumber: number;
 }) {
   const decorations: Decoration[] = [];
 
-  findChildren(doc, (node) => node.type.name === name).forEach((block) => {
-    let from = block.pos + 1;
-    const language = block.node.attrs.language || defaultLanguage;
-    const languages = lowlight.listLanguages();
-    const nodes =
-      language && languages.includes(language)
-        ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
-        : getHighlightNodes(lowlight.highlightAuto(block.node.textContent));
+  findChildren(doc, (node) => node.type.name === name)
+    .filter((block) => {
+      return block.node.textContent.split('\n').length <= maxHighlightLineNumber;
+    })
+    .forEach((block) => {
+      let from = block.pos + 1;
+      const language = block.node.attrs.language || defaultLanguage;
+      const languages = lowlight.listLanguages();
+      const nodes =
+        language && languages.includes(language)
+          ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
+          : getHighlightNodes(lowlight.highlightAuto(block.node.textContent));
 
-    parseNodes(nodes).forEach((node) => {
-      const to = from + node.text.length;
+      parseNodes(nodes).forEach((node) => {
+        const to = from + node.text.length;
 
-      if (node.classes.length) {
-        const decoration = Decoration.inline(from, to, {
-          class: node.classes.join(' '),
-        });
+        if (node.classes.length) {
+          const decoration = Decoration.inline(from, to, {
+            class: node.classes.join(' '),
+          });
 
-        decorations.push(decoration);
-      }
+          decorations.push(decoration);
+        }
 
-      from = to;
+        from = to;
+      });
     });
-  });
 
   return DecorationSet.create(doc, decorations);
 }
@@ -77,10 +84,12 @@ export function LowlightPlugin({
   name,
   lowlight,
   defaultLanguage,
+  maxHighlightLineNumber,
 }: {
   name: string;
   lowlight: any;
   defaultLanguage: string | null | undefined;
+  maxHighlightLineNumber: number;
 }) {
   if (!['highlight', 'highlightAuto', 'listLanguages'].every((api) => isFunction(lowlight[api]))) {
     throw Error('You should provide an instance of lowlight to use the code-block-lowlight extension');
@@ -96,6 +105,7 @@ export function LowlightPlugin({
           name,
           lowlight,
           defaultLanguage,
+          maxHighlightLineNumber,
         }),
       apply: (transaction, decorationSet, oldState, newState) => {
         const oldNodeName = oldState.selection.$head.parent.type.name;
@@ -135,6 +145,7 @@ export function LowlightPlugin({
             name,
             lowlight,
             defaultLanguage,
+            maxHighlightLineNumber,
           });
         }
 
@@ -155,6 +166,7 @@ export function LowlightPlugin({
 export interface CodeBlockLowlightOptions extends CodeBlockOptions {
   lowlight: any;
   defaultLanguage: string | null | undefined;
+  maxHighlightLineNumber?: number;
 }
 
 export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
@@ -165,6 +177,7 @@ export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
       ...this.parent?.(),
       lowlight: {},
       defaultLanguage: null,
+      maxHighlightLineNumber: 200,
     };
   },
 
@@ -179,6 +192,7 @@ export const CodeBlock = BuiltInCodeBlock.extend<CodeBlockLowlightOptions>({
         name: this.name,
         lowlight: this.options.lowlight,
         defaultLanguage: this.options.defaultLanguage,
+        maxHighlightLineNumber: this.options.maxHighlightLineNumber || 200,
       }),
     ];
   },

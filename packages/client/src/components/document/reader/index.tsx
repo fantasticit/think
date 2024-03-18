@@ -1,8 +1,13 @@
+import React, { useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
+
 import { IconEdit } from '@douyinfe/semi-icons';
 import { Button, Layout, Nav, Skeleton, Space, Spin, Tooltip, Typography } from '@douyinfe/semi-ui';
+
+import { CollaborationEditor } from 'tiptap/editor';
+
 import { DataRender } from 'components/data-render';
 import { DocumentCollaboration } from 'components/document/collaboration';
-import { DocumentShare } from 'components/document/share';
 import { DocumentStar } from 'components/document/star';
 import { DocumentStyle } from 'components/document/style';
 import { DocumentVersion } from 'components/document/version';
@@ -14,13 +19,11 @@ import { useMount } from 'hooks/use-mount';
 import { IsOnMobile } from 'hooks/use-on-mobile';
 import { useWindowSize } from 'hooks/use-window-size';
 import Router from 'next/router';
-import React, { useCallback, useMemo } from 'react';
-import { createPortal } from 'react-dom';
-import { CollaborationEditor } from 'tiptap/editor';
 
 import { DocumentActions } from '../actions';
 import { DocumentFullscreen } from '../fullscreen';
 import { Author } from './author';
+
 import styles from './index.module.scss';
 
 const { Header } = Layout;
@@ -30,6 +33,14 @@ interface IProps {
   documentId: string;
 }
 
+const loadingStyle = {
+  minHeight: 240,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  margin: 'auto',
+};
+
 export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   const { isMobile } = IsOnMobile.useHook();
   const mounted = useMount();
@@ -37,6 +48,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
   const { user } = useUser();
   const { data: documentAndAuth, loading: docAuthLoading, error: docAuthError } = useDocumentDetail(documentId);
   const { document, authority } = documentAndAuth || {};
+
   const [readable, editable] = useMemo(() => {
     if (!authority) return [false, false];
     return [authority.readable, authority.editable];
@@ -84,6 +96,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
             documentId={documentId}
           />
         )}
+        <DocumentStyle key="style" />
         <Tooltip key="edit" content="编辑" position="bottom">
           <Button disabled={!editable} icon={<IconEdit />} onMouseDown={gotoEdit} />
         </Tooltip>
@@ -131,15 +144,7 @@ export const DocumentReader: React.FC<IProps> = ({ documentId }) => {
         <DataRender
           loading={docAuthLoading}
           loadingContent={
-            <div
-              style={{
-                minHeight: 240,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: 'auto',
-              }}
-            >
+            <div style={loadingStyle}>
               <Spin />
             </div>
           }

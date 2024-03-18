@@ -1,7 +1,8 @@
 import { Extension } from '@tiptap/core';
 import BuiltInCode from '@tiptap/extension-code';
-import codemark from 'prosemirror-codemark';
 import { EXTENSION_PRIORITY_LOWER } from 'tiptap/core/constants';
+
+import codemark from 'prosemirror-codemark';
 
 export const Code = BuiltInCode.extend({
   excludes: null,

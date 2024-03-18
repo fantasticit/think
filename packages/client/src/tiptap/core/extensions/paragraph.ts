@@ -1,6 +1,62 @@
-import { mergeAttributes } from '@tiptap/core';
-import TitapParagraph from '@tiptap/extension-paragraph';
+import { mergeAttributes, Node } from '@tiptap/core';
 
-export const Paragraph = TitapParagraph.extend({
-  selectable: true,
+export interface ParagraphOptions {
+  HTMLAttributes: Record<string, any>;
+}
+
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    paragraph: {
+      /**
+       * Toggle a paragraph
+       */
+      setParagraph: () => ReturnType;
+    };
+  }
+}
+
+export const Paragraph = Node.create<ParagraphOptions>({
+  name: 'paragraph',
+
+  priority: 1000,
+
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    };
+  },
+
+  addAttributes() {
+    return {
+      lineHeight: { default: null },
+    };
+  },
+
+  group: 'block',
+
+  content: 'inline*',
+
+  parseHTML() {
+    return [{ tag: 'p' }];
+  },
+
+  renderHTML({ HTMLAttributes, node }) {
+    return ['p', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
+  },
+
+  addCommands() {
+    return {
+      setParagraph:
+        () =>
+        ({ commands }) => {
+          return commands.setNode(this.name);
+        },
+    };
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Alt-0': () => this.editor.commands.setParagraph(),
+    };
+  },
 });

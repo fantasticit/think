@@ -1,5 +1,6 @@
-import { Icon } from '@douyinfe/semi-ui';
 import React from 'react';
+
+import { Icon } from '@douyinfe/semi-ui';
 
 export const IconOverview: React.FC<{ style?: React.CSSProperties }> = ({ style = {} }) => {
   return (

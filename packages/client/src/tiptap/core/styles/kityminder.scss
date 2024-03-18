@@ -118,7 +118,6 @@
   width: auto;
   max-width: 300px;
   min-height: 1.4em;
-  padding: 3px 5px;
   margin-top: -5px;
   margin-left: -3px;
   overflow: hidden;
@@ -127,11 +126,9 @@
   word-break: break-all;
   word-wrap: break-word;
   pointer-events: none;
-  background: white;
   border: none;
   outline: none;
   opacity: 0;
-  box-shadow: 0 0 20px rgb(0 0 0 / 50%);
   box-sizing: border-box;
   user-select: text;
 }
@@ -146,7 +143,6 @@
 .km-editor > .receiver.input {
   z-index: 999;
   pointer-events: all;
-  background: white;
   outline: none;
   opacity: 1;
 }

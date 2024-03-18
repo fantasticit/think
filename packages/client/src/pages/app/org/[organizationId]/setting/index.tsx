@@ -1,10 +1,13 @@
+import React, { useCallback } from 'react';
+
 import { Typography } from '@douyinfe/semi-ui';
+
 import { IOrganization } from '@think/domains';
+
 import { OrganizationSetting } from 'components/organization/setting';
 import { AppSingleColumnLayout } from 'layouts/app-single-column';
 import { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
 
 interface IProps {
   organizationId: IOrganization['id'];

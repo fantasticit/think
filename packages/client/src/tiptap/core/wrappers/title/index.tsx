@@ -1,11 +1,14 @@
+import { useCallback, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+
 import { Button } from '@douyinfe/semi-ui';
+
 import { DOCUMENT_COVERS } from '@think/constants';
+
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
+
 import cls from 'classnames';
 import { ImageUploader } from 'components/image-uploader';
-import { useCallback, useMemo, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import styles from './index.module.scss';
 
@@ -41,7 +44,7 @@ export const TitleWrapper = ({ editor, node }) => {
     setCover(DOCUMENT_COVERS[~~(Math.random() * DOCUMENT_COVERS.length)]);
   }, [setCover]);
 
-  const portals = useMemo(() => {
+  const createAddCoverUIControl = useCallback(() => {
     if (!editor.isEditable) return null;
 
     if (!toolbarRef.current) {
@@ -55,20 +58,35 @@ export const TitleWrapper = ({ editor, node }) => {
     }
 
     return createPortal(
-      <div style={{ transform: `translateY(1.5em)`, zIndex: 100 }}>
+      <div style={{ transform: `translate(10px, 1.5em)`, zIndex: 100 }}>
         <Button onClick={addRandomCover} size={'small'} theme="light" type="tertiary">
-          {cover ? '随机封面' : '添加封面'}
+          添加封面
         </Button>
       </div>,
       toolbarRef.current
     );
-  }, [editor, addRandomCover, cover]);
+  }, [editor, addRandomCover]);
+
+  useEffect(() => {
+    const remove = () => {
+      if (cover && toolbarRef.current) {
+        toolbarRef.current?.remove();
+        toolbarRef.current = null;
+      }
+    };
+
+    remove();
+
+    return () => {
+      remove();
+    };
+  }, [cover, createAddCoverUIControl]);
 
   return (
     <NodeViewWrapper className={cls(styles.wrap, 'title')}>
       {cover ? (
         <div className={styles.coverWrap} contentEditable={false}>
-          <LazyLoadImage src={cover} alt="请选择或移除封面" />
+          <img src={cover} alt="请选择或移除封面" />
           {isEditable ? (
             <div className={styles.toolbar}>
               <ImageUploader images={images} selectImage={setCover}>
@@ -80,7 +98,7 @@ export const TitleWrapper = ({ editor, node }) => {
           ) : null}
         </div>
       ) : null}
-      {portals}
+      {isEditable ? createAddCoverUIControl() : null}
       <NodeViewContent></NodeViewContent>
     </NodeViewWrapper>
   );

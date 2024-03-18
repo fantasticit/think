@@ -1,6 +1,7 @@
-import { getShortId } from '@helpers/shortid.herlper';
 import { DEFAULT_WIKI_AVATAR } from '@think/constants';
 import { WikiStatus } from '@think/domains';
+
+import { getShortId } from '@helpers/shortid.herlper';
 import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('wiki')

@@ -1,5 +1,6 @@
-import { RedisDBEnum } from '@constants/*';
 import { getConfig } from '@think/config';
+
+import { RedisDBEnum } from '@constants/*';
 import Redis from 'ioredis';
 import * as lodash from 'lodash';
 

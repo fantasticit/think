@@ -1,7 +1,10 @@
-import { Space, Typography } from '@douyinfe/semi-ui';
-import { NodeViewWrapper } from '@tiptap/react';
-import cls from 'classnames';
 import ReactCountdown from 'react-countdown';
+
+import { Space, Typography } from '@douyinfe/semi-ui';
+
+import { NodeViewWrapper } from '@tiptap/react';
+
+import cls from 'classnames';
 
 import styles from './index.module.scss';
 

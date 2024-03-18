@@ -1,10 +1,13 @@
+import React, { useCallback } from 'react';
+
 import { IconDelete } from '@douyinfe/semi-icons';
 import { Modal, Space, Typography } from '@douyinfe/semi-ui';
+
 import { IOrganization } from '@think/domains';
+
 import { useOrganizationDetail } from 'data/organization';
 import { useRouterQuery } from 'hooks/use-router-query';
 import Router from 'next/router';
-import React, { useCallback } from 'react';
 
 interface IProps {
   organizationId: IOrganization['id'];

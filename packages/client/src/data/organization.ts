@@ -1,8 +1,10 @@
-import { IAuth, IOrganization, IUser, OrganizationApiDefinition } from '@think/domains';
-import { event, REFRESH_ORGANIZATIONS, triggerRefreshOrganizations } from 'event';
-import { useAsyncLoading } from 'hooks/use-async-loading';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+
+import { IAuth, IOrganization, IUser, OrganizationApiDefinition } from '@think/domains';
+
+import { event, REFRESH_ORGANIZATIONS, triggerRefreshOrganizations } from 'event';
+import { useAsyncLoading } from 'hooks/use-async-loading';
 import { HttpClient } from 'services/http-client';
 
 /**
@@ -11,7 +13,7 @@ import { HttpClient } from 'services/http-client';
  */
 export const useCreateOrganization = () => {
   const [apiWithLoading, loading] = useAsyncLoading((data) =>
-    HttpClient.request({
+    HttpClient.request<IOrganization>({
       method: OrganizationApiDefinition.createOrganization.method,
       url: OrganizationApiDefinition.createOrganization.client(),
       data,

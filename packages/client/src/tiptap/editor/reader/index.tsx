@@ -1,12 +1,16 @@
+import React, { useCallback, useMemo, useRef } from 'react';
+
 import { BackTop } from '@douyinfe/semi-ui';
+
+import { EditorContent, useEditor } from 'tiptap/core';
+
 import { ImageViewer } from 'components/image-viewer';
 import { isMobile } from 'helpers/env';
 import { safeJSONParse } from 'helpers/json';
-import React, { useCallback, useMemo, useRef } from 'react';
-import { EditorContent, useEditor } from 'tiptap/core';
 
 import { CollaborationKit } from '../collaboration/kit';
 import { Tocs } from '../tocs';
+
 import styles from './index.module.scss';
 
 interface IProps {

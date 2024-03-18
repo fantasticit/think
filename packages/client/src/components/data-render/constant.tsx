@@ -1,28 +1,34 @@
-import { Spin, Typography } from '@douyinfe/semi-ui';
-import { Empty } from 'illustrations/empty';
 import React, { useMemo } from 'react';
+
+import { Spin, Typography } from '@douyinfe/semi-ui';
+
+import { Empty } from 'illustrations/empty';
 
 const { Text } = Typography;
 
-export const defaultLoading = <Spin />;
+export const defaultLoading = (
+  <div style={{ margin: 'auto' }}>
+    <Spin />
+  </div>
+);
 
 export const defaultRenderError = (error) => {
   return <Text>{(error && error.message) || '未知错误'}</Text>;
 };
 
+const emptyStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  position: 'relative',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+};
+
 export const defaultEmpty = (
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      position: 'relative',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-    }}
-  >
+  <div style={emptyStyle}>
     <div>
       <Empty />
     </div>

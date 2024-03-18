@@ -1,10 +1,12 @@
 import { Toast } from '@douyinfe/semi-ui';
-import { safeJSONStringify } from 'helpers/json';
+
 import { createEditor } from 'tiptap/core';
 import { AllExtensions } from 'tiptap/core/all-kit';
 import { Collaboration } from 'tiptap/core/extensions/collaboration';
 import { prosemirrorJSONToYDoc } from 'tiptap/core/thritypart/y-prosemirror/y-prosemirror';
 import { markdownToProsemirror } from 'tiptap/markdown/markdown-to-prosemirror';
+
+import { safeJSONStringify } from 'helpers/json';
 import * as Y from 'yjs';
 
 export interface MarkdownParse {
@@ -23,6 +25,7 @@ export const createMarkdownParser = () => {
   const parse = (filename: string, markdown: string) => {
     try {
       const prosemirrorNode = markdownToProsemirror({
+        editor,
         schema: editor.schema,
         content: markdown,
         needTitle: true,

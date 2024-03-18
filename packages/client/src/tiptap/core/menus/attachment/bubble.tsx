@@ -1,11 +1,14 @@
+import { useCallback } from 'react';
+
 import { IconCopy, IconDelete } from '@douyinfe/semi-icons';
 import { Button, Space } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
-import { Tooltip } from 'components/tooltip';
-import { useCallback } from 'react';
+
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { Attachment } from 'tiptap/core/extensions/attachment';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
+import { Divider } from 'components/divider';
+import { Tooltip } from 'components/tooltip';
 
 export const AttachmentBubbleMenu = ({ editor }) => {
   const copyMe = useCallback(() => copyNode(Attachment.name, editor), [editor]);

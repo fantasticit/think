@@ -1,13 +1,16 @@
+import { useCallback } from 'react';
+
 import { IconCopy, IconDelete } from '@douyinfe/semi-icons';
 import { Button, Popover, Space, Typography } from '@douyinfe/semi-ui';
-import { Divider } from 'components/divider';
-import { IconDrawBoard } from 'components/icons';
-import { Tooltip } from 'components/tooltip';
-import { useCallback } from 'react';
+
 import { Editor } from 'tiptap/core';
 import { BubbleMenu } from 'tiptap/core/bubble-menu';
 import { Callout } from 'tiptap/core/extensions/callout';
 import { copyNode, deleteNode } from 'tiptap/prose-utils';
+
+import { Divider } from 'components/divider';
+import { IconDrawBoard } from 'components/icons';
+import { Tooltip } from 'components/tooltip';
 
 import styles from './bubble.module.scss';
 

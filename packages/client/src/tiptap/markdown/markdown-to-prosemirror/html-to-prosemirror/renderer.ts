@@ -1,4 +1,5 @@
-// 自定义节点
+import { Editor } from '@tiptap/core';
+
 // marks
 import { Bold } from './marks/bold';
 import { Code } from './marks/code';
@@ -45,12 +46,14 @@ import { Text } from './nodes/text';
 import { Title } from './nodes/title';
 
 export class Renderer {
+  editor: Editor;
   document: HTMLElement;
   nodes = [];
   marks = [];
   storedMarks = [];
 
-  constructor() {
+  constructor(editor) {
+    this.editor = editor;
     this.document = undefined;
     this.storedMarks = [];
 
@@ -187,7 +190,7 @@ export class Renderer {
   getMatchingClass(node, classes) {
     for (const i in classes) {
       const Class = classes[i];
-      const instance = new Class(node);
+      const instance = new Class(this.editor, node);
       if (instance.matching()) {
         return instance;
       }

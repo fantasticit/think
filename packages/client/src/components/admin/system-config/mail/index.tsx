@@ -1,8 +1,10 @@
+import React, { useCallback } from 'react';
+
 import { Banner, Button, Form, Toast } from '@douyinfe/semi-ui';
+
 import { DataRender } from 'components/data-render';
 import { useSystemConfig } from 'data/user';
 import { useToggle } from 'hooks/use-toggle';
-import React, { useCallback } from 'react';
 
 export const Mail = () => {
   const { data, loading, error, sendTestEmail, updateSystemConfig } = useSystemConfig();

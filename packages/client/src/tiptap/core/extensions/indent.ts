@@ -1,7 +1,8 @@
-import { Command, Extension } from '@tiptap/core';
+import { Extension } from '@tiptap/core';
+import { clamp, getNodeType, isListActive, isListNode } from 'tiptap/prose-utils';
+
 import { liftListItem, sinkListItem } from 'prosemirror-schema-list';
 import { AllSelection, TextSelection, Transaction } from 'prosemirror-state';
-import { clamp, getNodeType, isListActive, isListNode } from 'tiptap/prose-utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -92,7 +93,7 @@ export const Indent = Extension.create<IndentOptions>({
           indent: {
             default: this.options.defaultIndentLevel,
             renderHTML: (attributes) => ({
-              style: `margin-left: ${attributes.indent}px!important;`,
+              style: `margin-left: ${attributes.indent}px;`,
             }),
             parseHTML: (element) => parseInt(element.style.marginLeft) || this.options.defaultIndentLevel,
           },
