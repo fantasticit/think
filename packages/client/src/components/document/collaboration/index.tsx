@@ -4,7 +4,7 @@ import { IconUserAdd } from '@douyinfe/semi-icons';
 import { Avatar, AvatarGroup, Button, Dropdown, Modal, Popover, Toast, Tooltip, Typography } from '@douyinfe/semi-ui';
 
 import { Members } from 'components/members';
-import { useDoumentMembers } from 'data/document';
+import { useDocumentMembers } from 'data/document';
 import { useUser } from 'data/user';
 import { event, JOIN_USER } from 'event';
 import { IsOnMobile } from 'hooks/use-on-mobile';
@@ -41,7 +41,7 @@ export const DocumentCollaboration: React.FC<IProps> = ({ wikiId, documentId, di
         <div style={{ padding: '24px 0' }}>
           <Members
             id={documentId}
-            hook={useDoumentMembers}
+            hook={useDocumentMembers}
             descriptions={[
               '权限继承：默认继承知识库成员权限',
               '超级管理员：组织超级管理员、知识库超级管理员和文档创建者',

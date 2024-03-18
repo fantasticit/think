@@ -4,7 +4,7 @@ import { IconPlus } from '@douyinfe/semi-icons';
 import { Button, Tree as SemiTree, Typography } from '@douyinfe/semi-ui';
 
 import { DocumentActions } from 'components/document/actions';
-import { DocumentCreator as DocumenCreatorForm } from 'components/document/create';
+import { DocumentCreator as DocumentCreatorForm } from 'components/document/create';
 import deepEqual from 'deep-equal';
 import { CREATE_DOCUMENT, event, triggerCreateDocument } from 'event';
 import { useToggle } from 'hooks/use-toggle';
@@ -72,7 +72,12 @@ const AddDocument = () => {
   }, [toggleVisible]);
 
   return (
-    <DocumenCreatorForm wikiId={wikiId} parentDocumentId={documentId} visible={visible} toggleVisible={toggleVisible} />
+    <DocumentCreatorForm
+      wikiId={wikiId}
+      parentDocumentId={documentId}
+      visible={visible}
+      toggleVisible={toggleVisible}
+    />
   );
 };
 
