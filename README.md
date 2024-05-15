@@ -14,7 +14,7 @@
       4. 从 office 套件粘贴到编辑器，保留格式和图片（前端可独立完成，思路可参考 TinyCME 的 PowerPaste 和 RTF）
       5. 基于 yjs 的版本备份和恢复（部分同学提出增量保存 diff，个人还是建议全量 snapshot）
       6. 基于 yjs 的协同开发（比如结合 luckysheet）
-3. 如果有好的工作和想法，可以和作者联系（发送邮件）
+3. 如果希望参与编辑器开发，可以到[这个仓库](https://github.com/fantasticit/sailkit)参与。
 
 ## 简介
 
