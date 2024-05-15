@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
 import { useToggle } from './use-toggle';
-import { useIsomorphicLayoutEffect } from './user-isomorphic-layout-effect';
 
 export const useInterval = (callback: () => void, delay: number) => {
   const savedCallback = useRef(callback);
