@@ -17,8 +17,26 @@ import { safeJSONParse } from 'helpers/json';
 import { toggleMark } from 'prosemirror-commands';
 import { DOMParser as PMDOMParser, Fragment, Node, Schema } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey, TextSelection } from 'prosemirror-state';
+import { uploadFile } from 'services/file';
 
-const htmlToProsemirror = (editor: CoreEditor, html, isPasteMarkdown = false) => {
+const reuploadImageAndUpdateSrc = async (img: HTMLImageElement) => {
+  try {
+    const resp = await fetch(img.src);
+    if (!resp.ok) {
+      return false;
+    }
+
+    const blob = await resp.blob();
+    const url = await uploadFile?.(blob);
+
+    img.src = url;
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+const htmlToProsemirror = async (editor: CoreEditor, html, isPasteMarkdown = false) => {
   const firstNode = editor.view.state.doc.content.firstChild;
   const shouldInsertTitleText = !!(firstNode?.textContent?.length <= 0 ?? true);
 
@@ -26,6 +44,13 @@ const htmlToProsemirror = (editor: CoreEditor, html, isPasteMarkdown = false) =>
 
   const parser = new window.DOMParser();
   const { body } = parser.parseFromString(fixHTML(html), 'text/html');
+
+  try {
+    const imgs = body.querySelectorAll('img');
+    await Prosemise.all([...imgs].map(reuploadImageAndUpdateSrc)
+  } catch (e) {
+    // 
+  }
 
   const schema = getSchema(
     [].concat(
