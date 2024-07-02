@@ -47,9 +47,9 @@ const htmlToProsemirror = async (editor: CoreEditor, html, isPasteMarkdown = fal
 
   try {
     const imgs = body.querySelectorAll('img');
-    await Prosemise.all([...imgs].map(reuploadImageAndUpdateSrc)
+    await Promise.all([...imgs].map(reuploadImageAndUpdateSrc));
   } catch (e) {
-    // 
+    //
   }
 
   const schema = getSchema(
