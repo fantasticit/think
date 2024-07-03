@@ -3,18 +3,8 @@
 ## 声明
 
 1. 请先阅读[提问的智慧](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)
-2. 为什么停止开发了？
-   1. 对于文档类产品，无法做出独立的 library 或 framework 给不同需求的团队（或个人），这使得我不确定这件事的意义
-   2. 对于独立编辑器开发，无论最终以何种形态存在，其表现还是为应用，而非框架（或依赖），能做到的也许只是一种示范
-   3. 作者本身专攻前端，对高性能、扩展性良好的后端架构心有余而力不足，同时也缺乏专业的运维知识（欢迎赐教）
-   4. 对于 ProseMirror 和 yjs 本身还有许多玩法，但是精力不足
-      1. 类似金山文档的表格体验
-      2. 类似飞书文档的拖拽到节点前后生成分栏
-      3. markdown 、txt、office 文件的导入导出（office 方面可能需要后端协助，java poi 是一个可行的选择）
-      4. 从 office 套件粘贴到编辑器，保留格式和图片（前端可独立完成，思路可参考 TinyCME 的 PowerPaste 和 RTF）
-      5. 基于 yjs 的版本备份和恢复（部分同学提出增量保存 diff，个人还是建议全量 snapshot）
-      6. 基于 yjs 的协同开发（比如结合 luckysheet）
-3. 如果希望参与编辑器开发，可以到[这个仓库](https://github.com/fantasticit/sailkit)参与。
+2. 如果希望参与独立编辑器开发，可以到[这个仓库](https://github.com/fantasticit/sailkit)参与
+3. 由于服务器成本和免费的 SSL 证书也没了，网站不定期会挂，敬请谅解
 
 ## 简介
 
