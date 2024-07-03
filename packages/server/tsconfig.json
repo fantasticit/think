@@ -11,6 +11,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
+    "skipLibCheck": true,
     "paths": {
       "@helpers/*": ["src/helpers/*"],
       "@pipes/*": ["src/pipes/*"],

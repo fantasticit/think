@@ -1,9 +1,16 @@
 const semi = require('@douyinfe/semi-next').default({});
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const withPWA = require('next-pwa');
+
 const { getConfig } = require('@think/config');
 const config = getConfig();
+
 const pwaRuntimeCaching = require('./pwa-cache');
+const withPWA = require('next-pwa')({
+  disable: process.env.NODE_ENV !== 'production',
+  dest: 'public',
+  sw: 'service-worker.js',
+  runtimeCaching: pwaRuntimeCaching,
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = semi({
@@ -32,12 +39,6 @@ const nextConfig = semi({
   // FIXME: douyinfe 的第三方包存在 ts 类型错误！
   typescript: {
     ignoreBuildErrors: true,
-  },
-  pwa: {
-    disable: process.env.NODE_ENV !== 'production',
-    dest: 'public',
-    sw: 'service-worker.js',
-    runtimeCaching: pwaRuntimeCaching,
   },
 });
 
