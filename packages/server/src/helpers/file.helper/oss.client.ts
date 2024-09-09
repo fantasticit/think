@@ -1,5 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 
+import Redis from 'ioredis';
+
 export type FileQuery = {
   filename: string;
   md5: string;
@@ -7,6 +9,7 @@ export type FileQuery = {
 };
 
 export abstract class OssClient {
+  [x: string]: any;
   abstract uploadFile(file: Express.Multer.File, query: FileQuery): Promise<string>;
   abstract initChunk(query: FileQuery): Promise<void | string>;
   abstract uploadChunk(file: Express.Multer.File, query: FileQuery): Promise<void>;
@@ -37,6 +40,11 @@ export class BaseOssClient implements OssClient {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   mergeChunk(query: FileQuery): Promise<string> {
+    throw new Error('Method not implemented.');
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setRedis(redis: Redis): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }

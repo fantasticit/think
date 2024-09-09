@@ -35,4 +35,6 @@ exports.FileApiDefinition = {
         client: function () { return '/file/merge/chunk'; }
     }
 };
-exports.FILE_CHUNK_SIZE = 2 * 1024 * 1024;
+// 设置文件分片的大小 改成 8 M 
+// MINIO 等oss 有最小分片的限制
+exports.FILE_CHUNK_SIZE = 8 * 1024 * 1024;

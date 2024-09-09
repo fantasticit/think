@@ -48,6 +48,7 @@ db:
     host: '127.0.0.1'
     port: '6379'
     password: 'root'
+    db: 0
 
 # oss 文件存储服务
 oss:
@@ -55,22 +56,19 @@ oss:
     enable: true
     # 线上更改为服务端地址（如：https://api.codingit.cn）
     server: 'http://localhost:5002'
-  # 以下为各厂商 sdk 配置，不要修改字段，填入值即可
-  tencent:
-    enable: false
+  s3:
+    enable: true
     config:
-      SecretId: ''
-      SecretKey: ''
-      Bucket: ''
-      Region: ''
-  aliyun:
-    enable: false
-    config:
-      accessKeyId: ''
-      accessKeySecret: ''
-      bucket: ''
-      https: true
-      region: ''
+        # isp 提供商,可选 minio,s3,aliyun,tencent
+        cloudisp: 'minio'
+        accessKeyId: ''
+        secretAccessKey: ''
+        bucket: ''
+        region: ''
+        # 仅cloudisp 的值为 minio/s3 时配置，其它提供商为空
+        forcePathStyle: false
+        # 仅cloudisp 的值为 minio 时配置，其它提供商为空
+        endpoint: ''
 
 # jwt 配置
 jwt:
