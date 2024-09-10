@@ -33,6 +33,23 @@ exports.FileApiDefinition = {
         method: 'post',
         server: 'merge/chunk',
         client: function () { return '/file/merge/chunk'; }
-    }
+    },
+    ossSign:{
+        method: "post",
+        server: "upload/ossSign",
+        client: function () { return '/file/upload/ossSign'; }
+    },
+    ossChunk:{
+        method: "post",
+        server: "upload/ossChunk",
+        client: function () { return '/file/upload/ossChunk'; }
+    },
+    ossMerge:{
+        method: "post",
+        server: "upload/ossMerge",
+        client: function () { return '/file/upload/ossMerge'; }
+    },
 };
-exports.FILE_CHUNK_SIZE = 2 * 1024 * 1024;
+// 设置文件分片的大小 改成 8 M 
+// MINIO 等oss 有最小分片的限制
+exports.FILE_CHUNK_SIZE = 8 * 1024 * 1024;

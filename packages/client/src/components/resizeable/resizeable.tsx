@@ -9,8 +9,8 @@ import styles from './style.module.scss';
 type ISize = { width: number; height: number };
 
 interface IProps {
-  width: number;
-  height: number;
+  width: number | string;
+  height: number | string;
   maxWidth?: number;
   isEditable?: boolean;
   onChange?: (arg: ISize) => void;

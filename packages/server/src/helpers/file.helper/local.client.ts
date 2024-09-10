@@ -1,6 +1,7 @@
 import { FILE_CHUNK_SIZE } from '@think/domains';
 
 import * as fs from 'fs-extra';
+import Redis from 'ioredis';
 import * as path from 'path';
 
 import { BaseOssClient, FileQuery } from './oss.client';
@@ -20,6 +21,8 @@ export const pipeWriteStream = (filepath, writeStream): Promise<void> => {
 };
 
 export class LocalOssClient extends BaseOssClient {
+  private redis: Redis | null;
+
   /**
    * 文件存储路径
    * @param md5
@@ -32,6 +35,10 @@ export class LocalOssClient extends BaseOssClient {
     const filepath = path.join(FILE_ROOT_PATH, md5);
     fs.ensureDirSync(filepath);
     return { relative: filepath.replace(FILE_ROOT_PATH, FILE_DEST), absolute: filepath };
+  }
+
+  async setRedis(redis: Redis) {
+    this.redis = redis;
   }
 
   /**

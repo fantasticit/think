@@ -1,10 +1,10 @@
-import { Controller, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { FILE_CHUNK_SIZE, FileApiDefinition } from '@think/domains';
 
 import { JwtGuard } from '@guard/jwt.guard';
-import { FileQuery } from '@helpers/file.helper/oss.client';
+import { FileMerge, FileQuery } from '@helpers/file.helper/oss.client';
 import { FileService } from '@services/file.service';
 
 @Controller('file')
@@ -63,5 +63,32 @@ export class FileController {
   @UseGuards(JwtGuard)
   mergeChunk(@Query() query: FileQuery) {
     return this.fileService.mergeChunk(query);
+  }
+
+  /**
+   * 请求后端签名前端直传
+   */
+  @Post(FileApiDefinition.ossSign.server)
+  @UseGuards(JwtGuard)
+  ossSign(@Body() data: FileQuery) {
+    return this.fileService.ossSign(data);
+  }
+
+  /**
+   * 请求后端对分片上传的文件进行签名
+   */
+  @Post(FileApiDefinition.ossChunk.server)
+  @UseGuards(JwtGuard)
+  ossChunk(@Body() data: FileQuery) {
+    return this.fileService.ossChunk(data);
+  }
+
+  /**
+   * 请求后端合并分片上传的文件
+   */
+  @Post(FileApiDefinition.ossMerge.server)
+  @UseGuards(JwtGuard)
+  ossMerge(@Body() data: FileMerge) {
+    return this.fileService.ossMerge(data);
   }
 }

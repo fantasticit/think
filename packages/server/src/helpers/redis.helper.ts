@@ -18,7 +18,7 @@ export const buildRedis = (db: RedisDBEnum): Promise<Redis> => {
       ...redisConfig,
       showFriendlyErrorStack: true,
       lazyConnect: true,
-      db,
+      db: redisConfig.db,
     });
     redis.on('ready', () => {
       resolve(redis);
