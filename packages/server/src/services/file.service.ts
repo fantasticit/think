@@ -5,7 +5,7 @@
  * @Blog: https://blog.szhcloud.cn
  * @github: https://github.com/sang8052
  * @LastEditors: SudemQaQ
- * @LastEditTime: 2024-09-09 12:54:49
+ * @LastEditTime: 2024-09-10 07:46:50
  * @Description:
  */
 import { Injectable } from '@nestjs/common';
@@ -18,6 +18,7 @@ import Redis from 'ioredis';
 
 @Injectable()
 export class FileService {
+  [x: string]: any;
   private ossClient: OssClient;
   private redis: Redis;
 
@@ -50,5 +51,17 @@ export class FileService {
 
   async mergeChunk(query) {
     return this.ossClient.mergeChunk(query);
+  }
+
+  async ossSign(query) {
+    return this.ossClient.ossSign(query);
+  }
+
+  async ossChunk(query) {
+    return this.ossClient.ossChunk(query);
+  }
+
+  async ossMerge(query) {
+    return this.ossClient.ossMerge(query);
   }
 }

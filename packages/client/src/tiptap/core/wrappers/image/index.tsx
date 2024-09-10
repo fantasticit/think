@@ -88,9 +88,8 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
     <NodeViewWrapper style={{ textAlign, fontSize: 0, maxWidth: '100%' }}>
       <Resizeable
         className={'render-wrapper'}
-        width={width || maxWidth}
-        height={height}
-        maxWidth={maxWidth}
+        width="100%"
+        height="100%"
         isEditable={isEditable}
         onChangeEnd={onResize}
       >
@@ -106,11 +105,9 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
             </Spin>
           </div>
         ) : (
-          <div className={styles.wrap}>
+          <div className={styles.wrap} title="parent_image_div">
             <div
               style={{
-                height: '100%',
-                maxHeight: '100%',
                 padding: 24,
                 overflow: 'hidden',
                 display: 'flex',
@@ -120,7 +117,7 @@ export const ImageWrapper = ({ editor, node, updateAttributes }) => {
                 transition: `all ease-in-out .3s`,
               }}
             >
-              <LazyLoadImage src={src} alt={alt} width={'100%'} height={'100%'} />
+              <LazyLoadImage src={src} alt={alt} width={'100%'} />
             </div>
 
             <div className={styles.handlerWrap}>

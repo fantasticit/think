@@ -39,6 +39,7 @@ HttpClient.interceptors.response.use(
       isBrowser && Toast.error(data.data.message);
       return null;
     }
+    // 如果是 204 请求 那么直接返回 data.headers
 
     const res = data.data;
 

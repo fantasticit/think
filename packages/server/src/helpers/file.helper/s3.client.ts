@@ -1,3 +1,5 @@
+import { FILE_CHUNK_SIZE } from '@think/domains';
+
 import {
   CompleteMultipartUploadCommand,
   CreateMultipartUploadCommand,
@@ -10,7 +12,7 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import Redis from 'ioredis';
 
-import { BaseOssClient, FileQuery } from './oss.client';
+import { BaseOssClient, FileMerge, FileQuery, ossChunkResponse, ossSignReponse } from './oss.client';
 
 export class S3OssClient extends BaseOssClient {
   private client: S3Client | null;
@@ -103,7 +105,6 @@ export class S3OssClient extends BaseOssClient {
     this.ensureS3OssClient();
     const command = new GetObjectCommand({ Bucket: bucket, Key: key });
     const signUrl = await getSignedUrl(this.client, command);
-    console.log('signUrl:' + signUrl);
     return signUrl.split('?')[0];
   }
 
@@ -221,7 +222,6 @@ export class S3OssClient extends BaseOssClient {
       const obj = JSON.parse(await this.redis.get('think:oss:chunk:' + md5 + ':' + i));
       MultipartUpload.Parts.push(obj);
     }
-    console.log(MultipartUpload, upload_id);
     const command = new CompleteMultipartUploadCommand({
       Bucket: this.bucket,
       Key: inOssFileName,
@@ -232,6 +232,75 @@ export class S3OssClient extends BaseOssClient {
     await this.client.send(command);
     await this.redis.del('think:oss:chunk:' + md5);
     await this.redis.del('think:oss:chunk:' + md5 + '*');
+    return await this.getObjectUrl(this.bucket, inOssFileName);
+  }
+
+  async ossSign(query: FileQuery): Promise<ossSignReponse> {
+    const { filename, md5, fileSize } = query;
+    const inOssFileName = await this.getInOssFileName(md5, filename);
+    this.ensureS3OssClient();
+    const objectUrl = await this.checkIfAlreadyInOss(md5, filename);
+    if (objectUrl) {
+      return {
+        signUrl: null,
+        MultipartUpload: false,
+        uploadId: null,
+        objectKey: inOssFileName,
+        isExist: true,
+        objectUrl: objectUrl,
+      };
+    }
+    if (fileSize <= FILE_CHUNK_SIZE) {
+      const command = new PutObjectCommand({ Bucket: this.bucket, Key: inOssFileName });
+      const signUrl = await getSignedUrl(this.client, command);
+      return {
+        signUrl: signUrl,
+        MultipartUpload: false,
+        uploadId: null,
+        objectKey: inOssFileName,
+        isExist: false,
+        objectUrl: null,
+      };
+    } else {
+      const command = new CreateMultipartUploadCommand({ Bucket: this.bucket, Key: inOssFileName });
+      const response = await this.client.send(command);
+      const upload_id = response['UploadId'];
+      return {
+        signUrl: null,
+        MultipartUpload: true,
+        uploadId: upload_id,
+        objectKey: inOssFileName,
+        isExist: false,
+        objectUrl: null,
+      };
+    }
+  }
+
+  async ossChunk(query: FileQuery): Promise<ossChunkResponse> {
+    this.ensureS3OssClient();
+    const { filename, md5 } = query;
+    const inOssFileName = await this.getInOssFileName(md5, filename);
+    const command = new UploadPartCommand({
+      UploadId: query.uploadId,
+      Bucket: this.bucket,
+      Key: inOssFileName,
+      PartNumber: query.chunkIndex,
+    });
+    const signUrl = await getSignedUrl(this.client, command);
+    return { signUrl: signUrl, uploadId: query.uploadId, chunkIndex: query.chunkIndex };
+  }
+
+  async ossMerge(query: FileMerge): Promise<string> {
+    this.ensureS3OssClient();
+    const { filename, md5 } = query;
+    const inOssFileName = await this.getInOssFileName(md5, filename);
+    const command = new CompleteMultipartUploadCommand({
+      Bucket: this.bucket,
+      Key: inOssFileName,
+      UploadId: query.uploadId,
+      MultipartUpload: { Parts: query.MultipartUpload },
+    });
+    await this.client.send(command);
     return await this.getObjectUrl(this.bucket, inOssFileName);
   }
 }

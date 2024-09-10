@@ -23,7 +23,7 @@ const nextConfig = semi({
   env: {
     SERVER_API_URL: config.client.apiUrl,
     COLLABORATION_API_URL: config.client.collaborationUrl,
-    ENABLE_ALIYUN_OSS: !!config.oss.aliyun.accessKeyId,
+    ENABLE_OSS_S3: config.oss.s3.enable,
     DNS_PREFETCH: (config.client.dnsPrefetch || '').split(' '),
     SEO_APPNAME: config.client.seoAppName,
     SEO_DESCRIPTION: config.client.seoDescription,
