@@ -3,9 +3,6 @@ import { Toast } from '@douyinfe/semi-ui';
 import { FILE_CHUNK_SIZE, FileApiDefinition } from '@think/domains';
 
 import axios from 'axios';
-import { url } from 'inspector';
-import { string } from 'lib0';
-import { timeout } from 'lib0/eventloop';
 import SparkMD5 from 'spark-md5';
 
 import { HttpClient } from './http-client';
@@ -75,7 +72,7 @@ export const uploadFile = async (
   // 开启s3 文件上传支持
   if (!process.env.ENABLE_OSS_S3) {
     const filename = file.name;
-    console.debug('当前没有开启oss 对象存储,使用本地上传方案');
+
     if (file.size > FILE_CHUNK_SIZE) {
       onTooLarge && onTooLarge();
     }
@@ -142,9 +139,7 @@ export const uploadFile = async (
   // S3 后端签名 前端文件直传 方案
   else {
     // 前端计算文件的md5
-    console.log('计算待上传的文件{' + file.name + '}的md5...');
     const { chunks, md5 } = await splitBigFile(file);
-    console.log('文件{' + file.name + '}的md5:' + md5);
     const filename = file.name;
 
     // 请求后端检查指定的文件是不是已经存在
@@ -161,7 +156,6 @@ export const uploadFile = async (
       //console.log('文件不存在,需要上传文件');
       // 后端认为文件小,前端直接put 上传
       if (!res['MultipartUpload']) {
-        console.log('前端直接PUT上传文件');
         const signUrl = res['signUrl'];
         await axios.put(signUrl, file, {
           timeout: 120 * 1000,
@@ -182,7 +176,6 @@ export const uploadFile = async (
       // 前端进入分片上传流程
       else {
         const upload_id = res['uploadId'];
-        // console.log('分片文件上传,upload_id:' + upload_id);
         const MultipartUpload = [];
         for (let index = 0; index < chunks.length; index++) {
           const chunk = chunks[index];
@@ -199,14 +192,12 @@ export const uploadFile = async (
               const uploadLoaded = process.loaded + FILE_CHUNK_SIZE * index;
               const uploadTotal = file.size;
               const uploadPercent = uploadLoaded / uploadTotal;
-              //console.log(uploadLoaded, uploadTotal, uploadPercent);
               wraponUploadProgress(uploadPercent);
             },
           });
           const upload_etag = upload_res.headers['etag'];
           const response_part = { PartNumber: index + 1, ETag: upload_etag };
           MultipartUpload.push(response_part);
-          //console.log('文件分片｛' + (index + 1) + '上传成功，etag:' + upload_etag);
         }
         // 文件已经全部上传OK
         // 请求后端合并文件

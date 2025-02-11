@@ -146,4 +146,27 @@ export class LocalOssClient extends BaseOssClient {
 
     return this.serveFilePath(relativeFilePath);
   }
+
+  ossSign() {
+    return Promise.resolve({
+      signUrl: null,
+      MultipartUpload: true,
+      uploadId: null,
+      objectKey: null,
+      isExist: false,
+      objectUrl: null,
+    });
+  }
+
+  ossChunk() {
+    return Promise.resolve({
+      signUrl: null,
+      uploadId: null,
+      chunkIndex: null,
+    });
+  }
+
+  ossMerge() {
+    return Promise.resolve('');
+  }
 }

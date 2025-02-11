@@ -1,4 +1,3 @@
-
 export declare const FileApiDefinition: {
     /**
      * 上传文件
@@ -25,40 +24,36 @@ export declare const FileApiDefinition: {
         client: () => string;
     };
     /**
-     * 上传分块文件
+     * 合并分块文件
      */
     mergeChunk: {
         method: "post";
         server: "merge/chunk";
         client: () => string;
     };
-
     /**
-     * 后端签名生成需要上传的文件
+     * OSS 签名
      */
-    ossSign:{
+    ossSign: {
         method: "post";
-        server: "upload/ossSign";
+        server: "oss/sign";
         client: () => string;
     };
-
     /**
-     * 后端签名上传分片
+     * OSS 分块上传
      */
-    ossChunk:{
+    ossChunk: {
         method: "post";
-        server: "upload/ossChunk";
+        server: "oss/chunk";
         client: () => string;
     };
-
     /**
-     * 后端签名上传结束
+     * OSS 合并分块
      */
-    ossMerge:{
+    ossMerge: {
         method: "post";
-        server: "upload/ossMerge";
+        server: "oss/merge";
         client: () => string;
     };
-    
 };
 export declare const FILE_CHUNK_SIZE: number;

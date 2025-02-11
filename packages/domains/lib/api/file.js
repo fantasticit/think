@@ -27,29 +27,36 @@ exports.FileApiDefinition = {
         client: function () { return '/file/upload/chunk'; }
     },
     /**
-     * 上传分块文件
+     * 合并分块文件
      */
     mergeChunk: {
         method: 'post',
         server: 'merge/chunk',
         client: function () { return '/file/merge/chunk'; }
     },
-    ossSign:{
-        method: "post",
-        server: "upload/ossSign",
-        client: function () { return '/file/upload/ossSign'; }
+    /**
+     * OSS 签名
+     */
+    ossSign: {
+        method: 'post',
+        server: 'oss/sign',
+        client: function () { return '/file/oss/sign'; }
     },
-    ossChunk:{
-        method: "post",
-        server: "upload/ossChunk",
-        client: function () { return '/file/upload/ossChunk'; }
+    /**
+     * OSS 分块上传
+     */
+    ossChunk: {
+        method: 'post',
+        server: 'oss/chunk',
+        client: function () { return '/file/oss/chunk'; }
     },
-    ossMerge:{
-        method: "post",
-        server: "upload/ossMerge",
-        client: function () { return '/file/upload/ossMerge'; }
-    },
+    /**
+     * OSS 合并分块
+     */
+    ossMerge: {
+        method: 'post',
+        server: 'oss/merge',
+        client: function () { return '/file/oss/merge'; }
+    }
 };
-// 设置文件分片的大小 改成 8 M 
-// MINIO 等oss 有最小分片的限制
-exports.FILE_CHUNK_SIZE = 8 * 1024 * 1024;
+exports.FILE_CHUNK_SIZE = 2 * 1024 * 1024;
