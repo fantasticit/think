@@ -25,9 +25,7 @@ const nextConfig = semi({
     COLLABORATION_API_URL: config.client.collaborationUrl,
     ENABLE_OSS_S3: config.oss.s3.enable,
     DNS_PREFETCH: (config.client.dnsPrefetch || '').split(' '),
-    SEO_APPNAME: config.client.seoAppName,
-    SEO_DESCRIPTION: config.client.seoDescription,
-    SEO_KEYWORDS: config.client.seoKeywords,
+    SITE_URL: config.client.siteUrl,
   },
   webpack: (config, { dev, isServer }) => {
     config.resolve.plugins.push(new TsconfigPathsPlugin());

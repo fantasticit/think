@@ -11,6 +11,7 @@ import { preloadTiptapResources } from 'tiptap/preload';
 import { isMobile } from 'helpers/env';
 import { DocumentVersionControl } from 'hooks/use-document-version';
 import { IsOnMobile } from 'hooks/use-on-mobile';
+import { IRuntimeConfig, RuntimeConfig } from 'hooks/use-runtime-config';
 import { Theme } from 'hooks/use-theme';
 import App from 'next/app';
 import Head from 'next/head';
@@ -19,7 +20,7 @@ import 'viewerjs/dist/viewer.css';
 import 'styles/globals.scss';
 import 'thirtypart/array-prototype-at';
 
-class MyApp extends App<{ isMobile: boolean }> {
+class MyApp extends App<{ isMobile: boolean; runtimeConfig: IRuntimeConfig }> {
   state = {
     queryClient: new QueryClient({
       defaultOptions: {
@@ -36,13 +37,19 @@ class MyApp extends App<{ isMobile: boolean }> {
   static getInitialProps = async ({ Component, ctx }) => {
     const request = ctx?.req;
     const getPagePropsPromise = Component.getInitialProps ? Component.getInitialProps(ctx) : Promise.resolve({});
-    const [pageProps] = await Promise.all([getPagePropsPromise]).catch((err) => {
-      return [{}];
+    const [pageProps, runtimeConfig] = await Promise.all([
+      getPagePropsPromise,
+      fetch(`${process.env.SITE_URL}/api/config`).then((res) => {
+        return res.json();
+      }),
+    ]).catch((err) => {
+      return [{}, {}];
     });
 
     return {
       pageProps,
       isMobile: isMobile(request?.headers['user-agent']),
+      runtimeConfig,
     };
   };
 
@@ -57,7 +64,7 @@ class MyApp extends App<{ isMobile: boolean }> {
   }
 
   render() {
-    const { Component, pageProps, isMobile } = this.props;
+    const { Component, pageProps, isMobile, runtimeConfig } = this.props;
     const { queryClient } = this.state;
 
     return (
@@ -68,24 +75,23 @@ class MyApp extends App<{ isMobile: boolean }> {
             content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
           />
           <meta charSet="utf-8" />
-          <meta name="description" content={process.env.SEO_DESCRIPTION} />
-          <meta name="keywords" content={process.env.SEO_KEYWORDS}></meta>
-          <meta name="application-name" content={process.env.SEO_APPNAME} />
+          <meta name="description" content={runtimeConfig.appDescription} />
+          <meta name="keywords" content={runtimeConfig.appKeywords}></meta>
+          <meta name="application-name" content={runtimeConfig.appName} />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-          <meta name="apple-mobile-web-app-title" content={process.env.SEO_APPNAME} />
-          <meta name="description" content={process.env.SEO_DESCRIPTION} />
+          <meta name="apple-mobile-web-app-title" content={runtimeConfig.appName} />
+          <meta name="description" content={runtimeConfig.appDescription} />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta name="msapplication-tap-highlight" content="no" />
           <meta name="theme-color" content="#ffffff" />
           <meta property="og:type" content="website" />
-          <meta property="og:title" content={process.env.SEO_APPNAME} />
-          <meta property="og:description" content={process.env.SEO_DESCRIPTION} />
-          <meta property="og:site_name" content={process.env.SEO_APPNAME} />
+          <meta property="og:title" content={runtimeConfig.appName} />
+          <meta property="og:description" content={runtimeConfig.appDescription} />
+          <meta property="og:site_name" content={runtimeConfig.appName} />
           <link rel="manifest" href="/manifest.json" />
-          <link rel="apple-touch-icon" href="/icon192.png" />
           {((process.env.DNS_PREFETCH || []) as string[]).map((url) => (
             <link key={url} rel="dns-prefetch" href={url} />
           ))}
@@ -94,11 +100,13 @@ class MyApp extends App<{ isMobile: boolean }> {
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <Theme.Provider>
-                <IsOnMobile.Provider initialState={isMobile}>
-                  <DocumentVersionControl.Provider initialState={false}>
-                    <Component {...pageProps} />
-                  </DocumentVersionControl.Provider>
-                </IsOnMobile.Provider>
+                <RuntimeConfig.Provider initialState={runtimeConfig}>
+                  <IsOnMobile.Provider initialState={isMobile}>
+                    <DocumentVersionControl.Provider initialState={false}>
+                      <Component {...pageProps} />
+                    </DocumentVersionControl.Provider>
+                  </IsOnMobile.Provider>
+                </RuntimeConfig.Provider>
               </Theme.Provider>
             </Hydrate>
           </QueryClientProvider>
