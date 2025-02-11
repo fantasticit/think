@@ -55,6 +55,7 @@ docker run --name redis-for-think-dev -p 6379:6379 -d redis --appendonly yes --r
 git clone  https://github.com/fantasticit/think.git
 cd think
 pnpm install
+pnpm run build:dep
 pnpm run dev
 ```
 
