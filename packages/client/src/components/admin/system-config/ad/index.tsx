@@ -16,7 +16,7 @@ const AdTypeTextMap = {
   [AdType.shareDocAside]: '分享文档侧边位',
 };
 
-const columns = [
+const columns0 = [
   {
     title: '类型',
     dataIndex: 'type',
@@ -49,7 +49,7 @@ export const Ad = () => {
 
   const columns = useMemo(() => {
     return [
-      ...columns,
+      ...columns0,
       {
         title: '操作',
         dataIndex: 'id',
