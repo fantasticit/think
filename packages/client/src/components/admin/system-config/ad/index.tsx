@@ -47,6 +47,28 @@ export const Ad = () => {
   const $form = useRef<FormApi>();
   const [currentCover, setCurrentCover] = useState('');
 
+  const columns = useMemo(() => {
+    return [
+      ...columns,
+      {
+        title: '操作',
+        dataIndex: 'id',
+        render: (id) => {
+          return (
+            <Button
+              type="danger"
+              onClick={() => {
+                deleteAd(id);
+              }}
+            >
+              删除
+            </Button>
+          );
+        },
+      },
+    ];
+  }, [deleteAd]);
+
   const setCover = useCallback((url) => {
     $form.current.setValue('cover', url);
     setCurrentCover(url);
@@ -111,29 +133,7 @@ export const Ad = () => {
               <Form.Input label="链接" field="url" style={{ width: '100%' }} placeholder="请输入跳转链接"></Form.Input>
             </Form>
           </Modal>
-          <Table
-            columns={[
-              ...columns,
-              {
-                title: '操作',
-                dataIndex: 'id',
-                render: (id) => {
-                  return (
-                    <Button
-                      type="danger"
-                      onClick={() => {
-                        deleteAd(id);
-                      }}
-                    >
-                      删除
-                    </Button>
-                  );
-                },
-              },
-            ]}
-            dataSource={data}
-            pagination={false}
-          />
+          <Table columns={columns} dataSource={data} pagination={false} />
         </div>
       )}
     />
