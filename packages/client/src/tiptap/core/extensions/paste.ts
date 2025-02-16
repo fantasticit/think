@@ -27,7 +27,7 @@ const reuploadImageAndUpdateSrc = async (img: HTMLImageElement) => {
     }
 
     const blob = await resp.blob();
-    const url = await uploadFile?.(blob);
+    const url = await uploadFile?.(blob as File);
 
     img.src = url;
     return true;
@@ -150,87 +150,87 @@ export const Paste = Extension.create<IPasteOptions>({
       new Plugin({
         key: new PluginKey('paste'),
         props: {
-          handlePaste: (view, event: ClipboardEvent) => {
-            if (view.props.editable && !view.props.editable(view.state)) {
-              return false;
-            }
+          // handlePaste: (view, event: ClipboardEvent) => {
+          //   if (view.props.editable && !view.props.editable(view.state)) {
+          //     return false;
+          //   }
 
-            if (!event.clipboardData) return false;
+          //   if (!event.clipboardData) return false;
 
-            const files = Array.from(event.clipboardData.files);
-            const text = event.clipboardData.getData('text/plain');
-            const html = event.clipboardData.getData('text/html');
-            const vscode = event.clipboardData.getData('vscode-editor-data');
-            const node = event.clipboardData.getData('text/node');
-            const markdownText = event.clipboardData.getData('text/markdown');
-            const { state, dispatch } = view;
+          //   const files = Array.from(event.clipboardData.files);
+          //   const text = event.clipboardData.getData('text/plain');
+          //   const html = event.clipboardData.getData('text/html');
+          //   const vscode = event.clipboardData.getData('vscode-editor-data');
+          //   const node = event.clipboardData.getData('text/node');
+          //   const markdownText = event.clipboardData.getData('text/markdown');
+          //   const { state, dispatch } = view;
 
-            debug(() => {
-              console.group('paste');
-              console.log({ text, vscode, node, markdownText, files });
-              console.log(html);
-              console.groupEnd();
-            });
+          //   debug(() => {
+          //     console.group('paste');
+          //     console.log({ text, vscode, node, markdownText, files });
+          //     console.log(html);
+          //     console.groupEnd();
+          //   });
 
-            // 直接复制节点
-            if (node) {
-              const json = safeJSONParse(node);
-              const tr = view.state.tr;
-              const selection = tr.selection;
-              view.dispatch(tr.insert(selection.from - 1, view.state.schema.nodeFromJSON(json)).scrollIntoView());
-              return true;
-            }
+          //   // 直接复制节点
+          //   if (node) {
+          //     const json = safeJSONParse(node);
+          //     const tr = view.state.tr;
+          //     const selection = tr.selection;
+          //     view.dispatch(tr.insert(selection.from - 1, view.state.schema.nodeFromJSON(json)).scrollIntoView());
+          //     return true;
+          //   }
 
-            // 链接
-            if (isValidURL(text)) {
-              if (!state.selection.empty) {
-                toggleMark(this.editor.schema.marks.link, { href: text })(state, dispatch);
-                return true;
-              }
+          //   // 链接
+          //   if (isValidURL(text)) {
+          //     if (!state.selection.empty) {
+          //       toggleMark(this.editor.schema.marks.link, { href: text })(state, dispatch);
+          //       return true;
+          //     }
 
-              const transaction = view.state.tr
-                .insertText(text, state.selection.from, state.selection.to)
-                .addMark(
-                  state.selection.from,
-                  state.selection.to + text.length,
-                  state.schema.marks.link.create({ href: text })
-                );
-              view.dispatch(transaction);
-              return true;
-            }
+          //     const transaction = view.state.tr
+          //       .insertText(text, state.selection.from, state.selection.to)
+          //       .addMark(
+          //         state.selection.from,
+          //         state.selection.to + text.length,
+          //         state.schema.marks.link.create({ href: text })
+          //       );
+          //     view.dispatch(transaction);
+          //     return true;
+          //   }
 
-            // 粘贴代码
-            if (isInCode(view.state)) {
-              event.preventDefault();
-              view.dispatch(view.state.tr.insertText(text).scrollIntoView());
-              return true;
-            }
+          //   // 粘贴代码
+          //   if (isInCode(view.state)) {
+          //     event.preventDefault();
+          //     view.dispatch(view.state.tr.insertText(text).scrollIntoView());
+          //     return true;
+          //   }
 
-            const vscodeMeta = vscode ? JSON.parse(vscode) : undefined;
-            const pasteCodeLanguage = vscodeMeta?.mode;
+          //   const vscodeMeta = vscode ? JSON.parse(vscode) : undefined;
+          //   const pasteCodeLanguage = vscodeMeta?.mode;
 
-            if (html.length > 0) {
-              return htmlToProsemirror(editor, html);
-            }
+          //   if (html.length > 0) {
+          //     return htmlToProsemirror(editor, html);
+          //   }
 
-            const { markdownToHTML } = extensionThis.options;
+          //   const { markdownToHTML } = extensionThis.options;
 
-            if ((markdownText || isMarkdown(text)) && markdownToHTML) {
-              event.preventDefault();
-              const html = markdownToHTML(normalizeMarkdown(markdownText || text));
-              if (html && html.length) return htmlToProsemirror(editor, html, true);
-            }
+          //   if ((markdownText || isMarkdown(text)) && markdownToHTML) {
+          //     event.preventDefault();
+          //     const html = markdownToHTML(normalizeMarkdown(markdownText || text));
+          //     if (html && html.length) return htmlToProsemirror(editor, html, true);
+          //   }
 
-            if (files.length) {
-              event.preventDefault();
-              files.forEach((file) => {
-                handleFileEvent({ editor, file });
-              });
-              return true;
-            }
+          //   if (files.length) {
+          //     event.preventDefault();
+          //     files.forEach((file) => {
+          //       handleFileEvent({ editor, file });
+          //     });
+          //     return true;
+          //   }
 
-            return false;
-          },
+          //   return false;
+          // },
           handleDrop: (view, event: any) => {
             if (view.props.editable && !view.props.editable(view.state)) {
               return false;

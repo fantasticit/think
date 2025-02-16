@@ -23,7 +23,7 @@ const nextConfig = semi({
   env: {
     SERVER_API_URL: config.client.apiUrl,
     COLLABORATION_API_URL: config.client.collaborationUrl,
-    ENABLE_OSS_S3: config.oss.s3.enable,
+    ENABLE_OSS_S3: config.oss.s3?.enable,
     DNS_PREFETCH: (config.client.dnsPrefetch || '').split(' '),
     SITE_URL: config.client.siteUrl,
   },
