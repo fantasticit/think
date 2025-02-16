@@ -4,15 +4,12 @@ client:
   assetPrefix: '/'
   apiUrl: 'http://localhost:5002/api'
   collaborationUrl: 'ws://localhost:5003'
-  # 以下为页面 meta 配置
-  seoAppName: '云策文档'
-  seoDescription: '云策文档是一款开源知识管理工具。通过独立的知识库空间，结构化地组织在线协作文档，实现知识的积累与沉淀，促进知识的复用与流通。'
-  seoKeywords: '云策文档,协作,文档,fantasticit,https://github.com/fantasticit/think'
   # 预先连接的来源，空格分割（比如图片存储服务器）
   dnsPrefetch: '//wipi.oss-cn-shanghai.aliyuncs.com'
   # 站点地址（如：https://think.codingit.cn/），一定要设置，否则会出现 cookie、跨域等问题
-  siteUrl: 'http://localhost:5001'
-   # 一定要设置，否则会出现 cookie、跨域等问题，注意如果网页部署在 https://think.codingit.cn，那这里的值应当为 .codingit.cn（没有 think）
+  siteUrl:
+    'http://localhost:5001'
+    # 一定要设置，否则会出现 cookie、跨域等问题，注意如果网页部署在 https://think.codingit.cn，那这里的值应当为 .codingit.cn（没有 think）
   siteDomain: ''
 
 server:
@@ -58,18 +55,18 @@ oss:
     # 线上更改为服务端地址（如：https://api.codingit.cn）
     server: 'http://localhost:5002'
   s3:
-    enable: true
+    enable: false
     config:
-        # isp 提供商,可选 minio,s3,aliyun,tencent
-        cloudisp: 'minio'
-        accessKeyId: ''
-        secretAccessKey: ''
-        bucket: ''
-        region: ''
-        # 仅cloudisp 的值为 minio/s3 时配置，其它提供商为空
-        forcePathStyle: false
-        # 仅cloudisp 的值为 minio 时配置，其它提供商为空
-        endpoint: ''
+      # isp 提供商,可选 minio,s3,aliyun,tencent
+      cloudisp: 'minio'
+      accessKeyId: ''
+      secretAccessKey: ''
+      bucket: ''
+      region: ''
+      # 仅cloudisp 的值为 minio/s3 时配置，其它提供商为空
+      forcePathStyle: false
+      # 仅cloudisp 的值为 minio 时配置，其它提供商为空
+      endpoint: ''
 
 # jwt 配置
 jwt:

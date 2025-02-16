@@ -6,6 +6,7 @@ import { LoggerModule } from 'nestjs-pino';
 
 import { getConfig } from '@think/config';
 
+import { AdEntity } from '@entities/ad.entity';
 import { AuthEntity } from '@entities/auth.entity';
 import { CommentEntity } from '@entities/comment.entity';
 import { DocumentEntity } from '@entities/document.entity';
@@ -18,6 +19,7 @@ import { UserEntity } from '@entities/user.entity';
 import { WikiEntity } from '@entities/wiki.entity';
 import { IS_PRODUCTION } from '@helpers/env.helper';
 import { getLogFileName, ONE_DAY } from '@helpers/log.helper';
+import { AdModule } from '@modules/ad.module';
 import { AuthModule } from '@modules/auth.module';
 import { CommentModule } from '@modules/comment.module';
 import { DocumentModule } from '@modules/document.module';
@@ -46,6 +48,7 @@ const ENTITIES = [
   MessageEntity,
   TemplateEntity,
   SystemEntity,
+  AdEntity,
 ];
 
 const MODULES = [
@@ -62,6 +65,7 @@ const MODULES = [
   ViewModule,
   VerifyModule,
   SystemModule,
+  AdModule,
 ];
 
 @Module({

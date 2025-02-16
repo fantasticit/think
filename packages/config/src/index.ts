@@ -8,9 +8,9 @@ const FILE_ENV_NAME = {
   production: 'prod',
 };
 
-const env = process.env.NODE_ENV || 'development';
-
 export function getConfig() {
+  const env = process.env.NODE_ENV || 'development';
+
   const filePath = path.join(__dirname, '../../../config', `${FILE_ENV_NAME[env]}.yaml`);
 
   if (!fs.existsSync(filePath)) {
@@ -18,4 +18,20 @@ export function getConfig() {
   }
 
   return yaml.load(fs.readFileSync(filePath, 'utf8')) as Record<string, unknown>;
+}
+
+export function getRuntimeConfig() {
+  const env = process.env.NODE_ENV || 'development';
+
+  let filePath = path.join(__dirname, '../../../../../../', `dynamic.yaml`);
+
+  if (!fs.existsSync(filePath)) {
+    filePath = path.join(__dirname, '../../../config', `dynamic.yaml`);
+  }
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Can not find config file: ${filePath}`);
+  }
+
+  return (yaml.load(fs.readFileSync(filePath, 'utf8')).dynamic || {}) as Record<string, unknown>;
 }

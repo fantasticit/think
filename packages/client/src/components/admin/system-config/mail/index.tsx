@@ -35,6 +35,8 @@ export const Mail = () => {
             closeIcon={null}
           />
 
+          {/* 
+          // @ts-ignore */}
           <Form initValues={data} onChange={onFormChange} onSubmit={onFinish}>
             <Form.Input
               field="emailServiceHost"

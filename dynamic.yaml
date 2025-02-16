@@ -1,0 +1,12 @@
+# 以下为前台动态渲染的配置，修改后，无需打包，重启服务即可
+dynamic:
+  # 输入 logo 的图片地址
+  logo: ''
+  appName: '云策文档'
+  appDescription: '云策文档是一款开源知识管理工具。通过独立的知识库空间，结构化地组织在线协作文档，实现知识的积累与沉淀，促进知识的复用与流通。'
+  appKeywords: '云策文档,协作,文档,fantasticit,https://github.com/fantasticit/think'
+  # 版权信息，可以是 HTML
+  copyrightInformation: '<p>Develop by fantasticit</p>'
+  # 外部跳转按钮配置
+  externalButtonText: 'Github'
+  externalButtonURL: 'https://github.com/fantasticit/think'

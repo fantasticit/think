@@ -19,6 +19,6 @@
     "src"
   ],
   "devDependencies": {
-    "typescript": "^4.5.5"
+    "typescript": "^4.8.4"
   }
 }

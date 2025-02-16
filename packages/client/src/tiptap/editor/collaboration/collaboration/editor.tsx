@@ -12,12 +12,12 @@ import cls from 'classnames';
 import { Banner } from 'components/banner';
 import { CommentEditor } from 'components/document/comments';
 import { ImageViewer } from 'components/image-viewer';
-import { LogoName } from 'components/logo';
 import { getRandomColor } from 'helpers/color';
 import { isAndroid, isIOS } from 'helpers/env';
 import { useDocumentStyle } from 'hooks/use-document-style';
 import { useNetwork } from 'hooks/use-network';
 import { IsOnMobile } from 'hooks/use-on-mobile';
+import { RuntimeConfig } from 'hooks/use-runtime-config';
 import { useToggle } from 'hooks/use-toggle';
 
 import { CollaborationKit } from '../kit';
@@ -47,6 +47,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     renderInEditorPortal,
     onTitleUpdate,
   } = props;
+  const config = RuntimeConfig.useHook();
   const $headerContainer = useRef<HTMLDivElement>();
   const $mainContainer = useRef<HTMLDivElement>();
   const { isMobile } = IsOnMobile.useHook();
@@ -110,7 +111,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     const listener = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.keyCode == 83) {
         event.preventDefault();
-        Toast.info(`${LogoName}会实时保存你的数据，无需手动保存。`);
+        Toast.info(`${config.appName}会实时保存你的数据，无需手动保存。`);
         return false;
       }
     };
@@ -120,7 +121,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     return () => {
       window.document.removeEventListener('keydown', listener);
     };
-  }, []);
+  }, [config.appName]);
 
   // 监听键盘收起、打开
   useEffect(() => {
@@ -168,6 +169,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     <>
       {(!online || status === 'disconnected') && (
         <Banner
+          // @ts-ignore
           type="warning"
           description={
             editable
@@ -179,6 +181,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
 
       {/* FIXME：需要菜单栏但是无法编辑，则认为进入了编辑模式但是没有编辑权限，也许有更好的判断 */}
       {!editable && menubar && (
+        // @ts-ignore
         <Banner type="warning" description="您没有编辑权限，暂不能编辑该文档。" closeable={false} />
       )}
 

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { TabPane, Tabs } from '@douyinfe/semi-ui';
 
+import { Ad } from './ad';
 import { Mail } from './mail';
 import { System } from './system';
 
@@ -13,6 +14,7 @@ interface IProps {
 const TitleMap = {
   base: '系统管理',
   mail: '邮箱服务',
+  ad: '广告管理',
 };
 
 export const SystemConfig: React.FC<IProps> = ({ tab, onNavigate }) => {
@@ -24,6 +26,10 @@ export const SystemConfig: React.FC<IProps> = ({ tab, onNavigate }) => {
 
       <TabPane tab={TitleMap['mail']} itemKey="mail">
         <Mail />
+      </TabPane>
+
+      <TabPane tab={TitleMap['ad']} itemKey="ad">
+        <Ad />
       </TabPane>
     </Tabs>
   );
