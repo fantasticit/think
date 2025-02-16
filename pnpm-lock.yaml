@@ -424,18 +424,22 @@ importers:
       js-yaml:
         specifier: ^4.1.0
         version: 4.1.0
+    devDependencies:
+      typescript:
+        specifier: ^4.8.4
+        version: 4.8.4
 
   packages/constants:
     devDependencies:
       typescript:
-        specifier: ^4.5.5
-        version: 4.5.5
+        specifier: ^4.8.4
+        version: 4.8.4
 
   packages/domains:
     devDependencies:
       typescript:
-        specifier: ^4.5.5
-        version: 4.5.5
+        specifier: ^4.8.4
+        version: 4.8.4
 
   packages/server:
     dependencies:

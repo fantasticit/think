@@ -1,3 +1,4 @@
+export * from './ad';
 export * from './user';
 export * from './wiki';
 export * from './document';

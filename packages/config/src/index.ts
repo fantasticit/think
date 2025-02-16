@@ -23,10 +23,10 @@ export function getConfig() {
 export function getRuntimeConfig() {
   const env = process.env.NODE_ENV || 'development';
 
-  let filePath = path.join(__dirname, '../../../../../../config', `${FILE_ENV_NAME[env]}.yaml`);
+  let filePath = path.join(__dirname, '../../../../../../', `dynamic.yaml`);
 
   if (!fs.existsSync(filePath)) {
-    filePath = path.join(__dirname, '../../../config', `${FILE_ENV_NAME[env]}.yaml`);
+    filePath = path.join(__dirname, '../../../config', `dynamic.yaml`);
   }
 
   if (!fs.existsSync(filePath)) {

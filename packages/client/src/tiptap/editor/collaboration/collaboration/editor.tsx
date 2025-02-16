@@ -169,6 +169,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
     <>
       {(!online || status === 'disconnected') && (
         <Banner
+          // @ts-ignore
           type="warning"
           description={
             editable
@@ -180,6 +181,7 @@ export const EditorInstance = forwardRef((props: IProps, ref) => {
 
       {/* FIXME：需要菜单栏但是无法编辑，则认为进入了编辑模式但是没有编辑权限，也许有更好的判断 */}
       {!editable && menubar && (
+        // @ts-ignore
         <Banner type="warning" description="您没有编辑权限，暂不能编辑该文档。" closeable={false} />
       )}
 

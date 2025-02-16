@@ -21,5 +21,8 @@
   ],
   "dependencies": {
     "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4"
   }
 }

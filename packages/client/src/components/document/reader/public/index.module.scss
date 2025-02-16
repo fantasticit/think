@@ -1,4 +1,5 @@
 .wrap {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -6,6 +7,23 @@
 
   .headerWrap {
     position: sticky;
+  }
+
+  .adWrap {
+    max-height: 180px;
+    overflow: hidden;
+  }
+
+  .adAsideWrap {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    width: 180px;
+    height: 70px;
+
+    >div {
+      height: 100%;
+    }
   }
 
   .contentWrap {

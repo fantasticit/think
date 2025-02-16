@@ -20,9 +20,9 @@ function getConfig() {
 exports.getConfig = getConfig;
 function getRuntimeConfig() {
     var env = process.env.NODE_ENV || 'development';
-    var filePath = path.join(__dirname, '../../../../../../config', "".concat(FILE_ENV_NAME[env], ".yaml"));
+    var filePath = path.join(__dirname, '../../../../../../', "dynamic.yaml");
     if (!fs.existsSync(filePath)) {
-        filePath = path.join(__dirname, '../../../config', "".concat(FILE_ENV_NAME[env], ".yaml"));
+        filePath = path.join(__dirname, '../../../config', "dynamic.yaml");
     }
     if (!fs.existsSync(filePath)) {
         throw new Error("Can not find config file: ".concat(filePath));

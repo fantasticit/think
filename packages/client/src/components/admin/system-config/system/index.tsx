@@ -30,6 +30,8 @@ export const System = () => {
       error={error}
       normalContent={() => (
         <div style={{ marginTop: 16 }}>
+          {/* 
+          // @ts-ignore */}
           <Form labelPosition="left" initValues={data} onChange={onFormChange} onSubmit={onFinish}>
             <Form.Switch
               field="isSystemLocked"

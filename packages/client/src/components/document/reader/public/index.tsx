@@ -1,28 +1,40 @@
-import { Breadcrumb, Button, Form, Layout, Nav, Skeleton, Space, Tooltip, Typography } from '@douyinfe/semi-ui';
-import { IconRoute } from '@douyinfe/semi-icons';
-import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
-import { DataRender } from 'components/data-render';
-import { Divider } from 'components/divider';
-import { DocumentStyle } from 'components/document/style';
-import { LogoImage, LogoText } from 'components/logo';
-import { Seo } from 'components/seo';
-import { Theme } from 'components/theme';
-import { User } from 'components/user';
-import { usePublicDocumentDetail } from 'data/document';
-import { useMount } from 'hooks/use-mount';
-import { IsOnMobile } from 'hooks/use-on-mobile';
-import { SecureDocumentIllustration } from 'illustrations/secure-document';
-import Link from 'next/link';
-import React, { useCallback, useMemo, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { CollaborationEditor } from 'tiptap/editor';
+import {
+  Breadcrumb,
+  Button,
+  Form,
+  Layout,
+  Nav,
+  Skeleton,
+  Space,
+  Tooltip,
+  Typography,
+  Carousel,
+} from "@douyinfe/semi-ui";
+import { IconRoute } from "@douyinfe/semi-icons";
+import { FormApi } from "@douyinfe/semi-ui/lib/es/form";
+import { DataRender } from "components/data-render";
+import { Divider } from "components/divider";
+import { DocumentStyle } from "components/document/style";
+import { LogoImage, LogoText } from "components/logo";
+import { Seo } from "components/seo";
+import { Theme } from "components/theme";
+import { User } from "components/user";
+import { usePublicDocumentDetail } from "data/document";
+import { useMount } from "hooks/use-mount";
+import { IsOnMobile } from "hooks/use-on-mobile";
+import { SecureDocumentIllustration } from "illustrations/secure-document";
+import Link from "next/link";
+import React, { useCallback, useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
+import { CollaborationEditor } from "tiptap/editor";
 
-import { Author } from '../author';
-import styles from './index.module.scss';
-import Router from 'next/router';
-import { useRouterQuery } from 'hooks/use-router-query';
-import { IDocument, IWiki } from '@think/domains';
-import { DocumentFullscreen } from 'components/document/fullscreen';
+import { Author } from "../author";
+import styles from "./index.module.scss";
+import Router from "next/router";
+import { useRouterQuery } from "hooks/use-router-query";
+import { AdType, IDocument, IWiki } from "@think/domains";
+import { DocumentFullscreen } from "components/document/fullscreen";
+import { useAd } from "data/ad";
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -32,18 +44,25 @@ interface IProps {
   hideLogo?: boolean;
 }
 
-export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = false }) => {
+export const DocumentPublicReader: React.FC<IProps> = ({
+  documentId,
+  hideLogo = false,
+}) => {
   const $form = useRef<FormApi>();
   const mounted = useMount();
-  const { wikiId: currentWikiId } = useRouterQuery<{ wikiId: IWiki['id']; documentId: IDocument['id'] }>();
+  const { wikiId: currentWikiId } = useRouterQuery<{
+    wikiId: IWiki["id"];
+    documentId: IDocument["id"];
+  }>();
   const { data, loading, error, query } = usePublicDocumentDetail(documentId);
+  const { data: ads } = useAd();
   const { isMobile } = IsOnMobile.useHook();
- 
+
   const renderAuthor = useCallback(
     (element) => {
       if (!document) return null;
 
-      const target = element && element.querySelector('.ProseMirror .title');
+      const target = element && element.querySelector(".ProseMirror .title");
 
       if (target) {
         return createPortal(<Author document={data} />, target);
@@ -62,10 +81,16 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
 
   const toPublicWikiOrDocumentURL = useCallback(() => {
     Router.push({
-      pathname: currentWikiId ? '/share/document/[documentId]' : '/share/wiki/[wikiId]/document/[documentId]',
-      query: currentWikiId ? { documentId } : { wikiId: data.wikiId, documentId },
+      pathname: currentWikiId
+        ? "/share/document/[documentId]"
+        : "/share/wiki/[wikiId]/document/[documentId]",
+      query: currentWikiId
+        ? { documentId }
+        : { wikiId: data.wikiId, documentId },
     });
   }, [currentWikiId, documentId, data]);
+
+  console.log(ads || []);
 
   const content = useMemo(() => {
     if (error) {
@@ -73,16 +98,25 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
       if (error.statusCode === 400) {
         return (
           <div>
-            <Seo title={'输入密码后查看'} />
+            <Seo title={"输入密码后查看"} />
             <Form
-              style={{ width: 320, maxWidth: 'calc(100vw - 160px)', margin: '10vh auto' }}
-              initValues={{ password: '' }}
+              style={{
+                width: 320,
+                maxWidth: "calc(100vw - 160px)",
+                margin: "10vh auto",
+              }}
+              initValues={{ password: "" }}
               getFormApi={(formApi) => ($form.current = formApi)}
               labelPosition="left"
               onSubmit={handleOk}
               layout="horizontal"
             >
-              <Form.Input autofocus label="密码" field="password" placeholder="请输入密码" />
+              <Form.Input
+                autofocus
+                label="密码"
+                field="password"
+                placeholder="请输入密码"
+              />
               <Button type="primary" theme="solid" htmlType="submit">
                 提交
               </Button>
@@ -94,16 +128,16 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
       return (
         <div
           style={{
-            margin: '10%',
-            display: 'flex',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            alignItems: 'center',
+            margin: "10%",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <SecureDocumentIllustration />
           <Text style={{ marginTop: 12 }} type="danger">
-            {(error && (error as Error).message) || '未知错误'}
+            {(error && (error as Error).message) || "未知错误"}
           </Text>
         </div>
       );
@@ -144,9 +178,14 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           }
           footer={
             <Space>
-              {!isMobile && data && <DocumentFullscreen data={data}/>}
-              <Tooltip content={currentWikiId ? '独立模式' : '嵌入模式'}>
-                <Button theme="borderless" type="tertiary" icon={<IconRoute />} onClick={toPublicWikiOrDocumentURL} />
+              {!isMobile && data && <DocumentFullscreen data={data} />}
+              <Tooltip content={currentWikiId ? "独立模式" : "嵌入模式"}>
+                <Button
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconRoute />}
+                  onClick={toPublicWikiOrDocumentURL}
+                />
               </Tooltip>
 
               <DocumentStyle />
@@ -158,11 +197,20 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           <DataRender
             loading={loading}
             error={error}
-            loadingContent={<Skeleton active placeholder={<Skeleton.Title style={{ width: 80 }} />} loading={true} />}
+            loadingContent={
+              <Skeleton
+                active
+                placeholder={<Skeleton.Title style={{ width: 80 }} />}
+                loading={true}
+              />
+            }
             normalContent={() => (
               <Breadcrumb>
                 <Breadcrumb.Item>
-                  <Link href="/share/wiki/[wikiId]" as={`/share/wiki/${data.wikiId}`}>
+                  <Link
+                    href="/share/wiki/[wikiId]"
+                    as={`/share/wiki/${data.wikiId}`}
+                  >
                     <a>{data?.wiki?.name}</a>
                   </Link>
                 </Breadcrumb.Item>
@@ -172,8 +220,37 @@ export const DocumentPublicReader: React.FC<IProps> = ({ documentId, hideLogo = 
           />
         </Nav>
       </Header>
+      <div className={styles.adWrap}>
+        {(ads || [])
+          .filter((ad) => ad.type === AdType.shareDocCover)
+          .map((ad) => {
+            return (
+              <div>
+                <a href={ad.url} target="_blank">
+                  <img width={"100%"} height={"auto"} src={ad.cover} />
+                </a>
+              </div>
+            );
+          })}
+      </div>
       <div className={styles.contentWrap} id="js-tocs-container">
         {content}
+      </div>
+
+      <div className={styles.adAsideWrap}>
+        <Carousel autoPlay>
+          {(ads || [])
+            .filter((ad) => ad.type === AdType.shareDocAside)
+            .map((ad) => {
+              return (
+                <div>
+                  <a href={ad.url} target="_blank">
+                    <img width={"100%"} height={"auto"} src={ad.cover} />
+                  </a>
+                </div>
+              );
+            })}
+        </Carousel>
       </div>
     </Layout>
   );
