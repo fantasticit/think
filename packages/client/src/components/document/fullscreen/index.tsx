@@ -106,7 +106,7 @@ export const DocumentFullscreen: React.FC<IProps> = ({ data }) => {
     const docJSON = safeJSONParse(data.content, { default: {} }).default;
     const titleNode = docJSON.content.find((item) => item.type === 'title');
     docJSON.content = docJSON.content.filter((item) => item.type !== 'title');
-    setCover(titleNode.attrs.cover ?? '');
+    setCover(titleNode?.attrs?.cover ?? '');
     editor.commands.setContent(docJSON);
   }, [editor, data, visible]);
 
